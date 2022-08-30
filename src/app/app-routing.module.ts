@@ -1,0 +1,15 @@
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { AuthComponent } from './main/auth/auth.component';
+
+const routes: Routes = [
+
+  { path: '', pathMatch: 'full', redirectTo: '/event' },
+
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }

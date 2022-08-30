@@ -1,0 +1,110 @@
+<div class="wrapper flex flex-col min-h-full">
+  <div class="space-y-8 h-full">
+    <!-- title-holder  -->
+    <div class="flex justify-between items-center">
+      <div class="flex items-center">
+        <i routerLink=".." class="icon-left_arrow cursor-pointer mr-4 text-2xl"></i>
+        <h2>Create new event</h2>
+      </div>
+      <span [routerLink]="'/create-event'" class="secondary cursor-pointer px-7 py-3" (click)="isAddEvent = true"><i class="icon-plus mr-3"></i>Add event</span>
+    </div>
+    <!-- step-progress-bar  -->
+    <div class="w-full overflow-hidden overflow-x-auto capitalize">
+      <ul class="flex justify-between step-progress-holder">
+        <li>
+          <div>
+            <span>01</span>
+          </div>
+          <h6>Add Event</h6>
+        </li>
+        <li>
+          <div>
+            <span>02</span>
+          </div>
+          <h6>About Event</h6>
+        </li>
+        <li>
+          <div>
+            <span>03</span>
+          </div>
+          <h6>arrangement</h6>
+        </li>
+        <li>
+          <div>
+            <span>04</span>
+          </div>
+          <h6>Location</h6>
+        </li>
+        <li>
+          <div>
+            <span>05</span>
+          </div>
+          <h6>Photos & Videos</h6>
+        </li>
+        <li>
+          <div>
+            <span>06</span>
+          </div>
+          <h6>Permission</h6>
+        </li>
+        <li>
+          <div>
+            <span>07</span>
+          </div>
+          <h6>Discount</h6>
+        </li>
+        <li>
+          <div>
+            <span>08</span>
+          </div>
+          <h6>company details</h6>
+        </li>
+        <li>
+          <div>
+            <span>09</span>
+          </div>
+          <h6>personal details</h6>
+        </li>
+        <li>
+          <div>
+            <span>10</span>
+          </div>
+          <h6>Terms & Conditions</h6>
+        </li>
+      </ul>
+    </div>
+    <!-- main-content  -->
+    <div class="space-y-5 ">
+      <div class="w-full bg-white pl-5 py-4 flex justify-between shadow">
+        <div class="space-y-2">
+          <h4>Cooking Together</h4>
+          <span class="text-sm text-magicPotion font-bold">Conference</span>
+        </div>
+        <div class="flex items-start space-x-5">
+          <a href="#"><i class="icon-delete text-quicksilver"></i></a>
+          <a href="#"><i class="icon-edit text-quicksilver"></i></a>
+          <span class="bg-magicPotion text-xs font-bold px-2 py-1 text-white">B2B</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="mt-auto">
+    <!-- advisement -->
+    <div class="w-full mt-5">
+      <img src="../assets/images/ad-banner.png" alt="ring-ad" class="w-full object-cover" />
+    </div>
+    <!-- pre and next button -->
+    <div class="prw-next-btn">
+      <button type="button" class="flex items-center">
+        <i class="icon-left_arrow mr-3"></i>
+        <h5>Back</h5>
+      </button>
+      <button type="button" class="flex items-center active">
+        <h5>Next</h5>
+        <i class="icon-right_arrow ml-3"></i>
+      </button>
+    </div>
+  </div>
+</div>
+
+<app-add-event *ngIf="isAddEvent" (isAddEventChange)="isAddEvent = $event" [popClass]="popClass"></app-add-event>
