@@ -4,8 +4,6 @@ import { AuthModule } from './auth/auth.module';
 import { MainComponent } from './main.component';
 import { ContentModule } from './content/content.module';
 
-
-
 @NgModule({
   declarations: [
     MainComponent

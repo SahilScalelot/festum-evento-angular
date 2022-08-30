@@ -26,8 +26,11 @@ import { GlobalService } from './services/global.service';
   providers: [
     GlobalFunctions,
     GlobalService,
-    { provide: 'SnotifyToastConfig', useValue: ToastDefaults },
+    {provide: 'SnotifyToastConfig', useValue: ToastDefaults},
     SnotifyService
+  ],
+  exports: [
+    AppComponent
   ],
   bootstrap: [AppComponent]
 })

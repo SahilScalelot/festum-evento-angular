@@ -30,6 +30,9 @@
             "styles": [
               "src/assets/css/fonts.css",
               "src/assets/css/moon-icon.css",
+              "node_modules/primeng/resources/themes/lara-light-blue/theme.css",
+              "node_modules/primeng/resources/primeng.min.css",
+              "node_modules/primeicons/primeicons.css",
               "src/styles.scss"
             ],
             "scripts": []
@@ -98,6 +101,11 @@
               "src/assets"
             ],
             "styles": [
+              "src/assets/css/fonts.css",
+              "src/assets/css/moon-icon.css",
+              "node_modules/primeng/resources/themes/lara-light-blue/theme.css",
+              "node_modules/primeng/resources/primeng.min.css",
+              "node_modules/primeicons/primeicons.css",
               "src/styles.scss"
             ],
             "scripts": []
@@ -105,5 +113,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }

@@ -6,7 +6,8 @@
         <i routerLink=".." class="icon-left_arrow cursor-pointer mr-4 text-2xl"></i>
         <h2>Create new event</h2>
       </div>
-      <span [routerLink]="'/create-event'" class="secondary cursor-pointer px-7 py-3" (click)="isAddEvent = true"><i class="icon-plus mr-3"></i>Add event</span>
+      <span [routerLink]="'/create-event'" class="secondary cursor-pointer px-7 py-3" (click)="isAddEvent = true">
+        <i class="icon-plus mr-3"></i>Add event</span>
     </div>
     <!-- step-progress-bar  -->
     <div class="w-full overflow-hidden overflow-x-auto capitalize">
@@ -73,6 +74,8 @@
         </li>
       </ul>
     </div>
+    <p-steps [model]="items" [readonly]="false"></p-steps>
+
     <!-- main-content  -->
     <div class="space-y-5 ">
       <div class="w-full bg-white pl-5 py-4 flex justify-between shadow">
@@ -87,11 +90,15 @@
         </div>
       </div>
     </div>
+
+    <div>
+      <router-outlet></router-outlet>
+    </div>
   </div>
   <div class="mt-auto">
     <!-- advisement -->
     <div class="w-full mt-5">
-      <img src="../assets/images/ad-banner.png" alt="ring-ad" class="w-full object-cover" />
+      <img src="../assets/images/ad-banner.png" alt="ring-ad" class="w-full object-cover"/>
     </div>
     <!-- pre and next button -->
     <div class="prw-next-btn">

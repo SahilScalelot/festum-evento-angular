@@ -1,34 +1,39 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterModule, Routes } from '@angular/router';
-import { EventComponent } from './event/event.component';
-import { ContentComponent } from './content.component';
-import { AuthGuard } from '../auth/auth-guard/auth.guard';
-import { AddEventComponent } from './event/dialog/add-event/add-event.component';
-import { CreateNewEventComponent } from './event/create-new-event/create-new-event.component';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {RouterModule, Routes} from '@angular/router';
+import {ContentComponent} from './content.component';
+import {AuthGuard} from '../auth/auth-guard/auth.guard';
+import {EventModule} from "./event/event.module";
+import {CreateNewEventModule} from "./create-new-event/create-new-event.module";
 
 const routes: Routes = [
   {
-    path: "",
+    path: '',
     component: ContentComponent,
     canActivate: [AuthGuard],
     children: [
-      { path: "event", component: EventComponent },
-      { path: "create-event", component: CreateNewEventComponent },
+      {
+        path: 'event',
+        loadChildren: () => import('../content/event/event.module').then(m => m.EventModule)
+      },
+      {
+        path: 'create-event',
+        loadChildren: () => import('../content/create-new-event/create-new-event.module').then(m => m.CreateNewEventModule)
+      },
     ]
   }
 ];
 
 @NgModule({
   declarations: [
-    ContentComponent,
-    EventComponent,
-    AddEventComponent,
-    CreateNewEventComponent
+    ContentComponent
   ],
   imports: [
     RouterModule.forChild(routes),
-    CommonModule
+    CommonModule,
+    EventModule,
+    CreateNewEventModule,
   ]
 })
-export class ContentModule { }
+export class ContentModule {
+}
