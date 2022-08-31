@@ -43,6 +43,7 @@ export const CONSTANTS = {
   unitTypeArr:<any> {
     0:<any> {
       value:<any> 0,
+      label:<string> 'B2B',
       options:<any> [
         "Conference",
         "Seminar",
@@ -59,6 +60,7 @@ export const CONSTANTS = {
     },
     1:<any> {
       value:<any> 1,
+      label:<string> 'PP',
       options:<any> [
         "Conventions",
         "Carity Event",

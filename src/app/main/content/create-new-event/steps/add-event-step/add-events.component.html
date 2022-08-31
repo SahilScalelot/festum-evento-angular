@@ -1,5 +1,16 @@
 <div class="space-y-5">
-  <div class="w-full bg-white pl-5 py-4 flex justify-between shadow">
+  <div class="w-full bg-white pl-5 py-4 flex justify-between shadow" *ngFor="let event of events; let i = index" (click)="selectEvent(i)">
+    <div class="space-y-2">
+      <h4>{{event.title}}</h4>
+      <span class="text-sm text-magicPotion font-bold">{{event.description}}</span>
+    </div>
+    <div class="flex items-start space-x-5">
+      <a href="#"><i class="icon-delete text-quicksilver"></i></a>
+      <a href="#"><i class="icon-edit text-quicksilver"></i></a>
+      <span class="bg-magicPotion text-xs font-bold px-2 py-1 text-white">{{event.eventType}}</span>
+    </div>
+  </div>
+  <!--<div class="w-full bg-white pl-5 py-4 flex justify-between shadow">
     <div class="space-y-2">
       <h4>Cooking Together</h4>
       <span class="text-sm text-magicPotion font-bold">Conference</span>
@@ -31,18 +42,7 @@
       <a href="#"><i class="icon-edit text-quicksilver"></i></a>
       <span class="bg-magicPotion text-xs font-bold px-2 py-1 text-white">B2B</span>
     </div>
-  </div>
-  <div class="w-full bg-white pl-5 py-4 flex justify-between shadow">
-    <div class="space-y-2">
-      <h4>Cooking Together</h4>
-      <span class="text-sm text-magicPotion font-bold">Conference</span>
-    </div>
-    <div class="flex items-start space-x-5">
-      <a href="#"><i class="icon-delete text-quicksilver"></i></a>
-      <a href="#"><i class="icon-edit text-quicksilver"></i></a>
-      <span class="bg-magicPotion text-xs font-bold px-2 py-1 text-white">B2B</span>
-    </div>
-  </div>
+  </div>-->
 </div>
 
 
