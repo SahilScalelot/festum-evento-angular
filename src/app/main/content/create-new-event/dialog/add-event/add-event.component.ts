@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {CONSTANTS} from "../../../../common/constants";
 
 @Component({
   selector: 'app-add-event',
@@ -8,21 +9,17 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 export class AddEventComponent implements OnInit {
   @Input() popClass: any;
   @Output() isAddEventChange = new EventEmitter<boolean>();
+  eventType: any;
+  constants: any = CONSTANTS;
 
   constructor() { }
 
   ngOnInit(): void {
+    this.eventType = CONSTANTS.unitTypeArr[CONSTANTS.eventType.B2B].options;
   }
 
   closePopup(): void {
     this.isAddEventChange.emit(false);
   }
 
-  eventType = [
-    "Conference",
-    "Seminar",
-    "Company Meeting",
-    "Leadership Event",
-    "Products Lunch",
-  ]
 }

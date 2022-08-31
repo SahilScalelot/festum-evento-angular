@@ -20,7 +20,7 @@
           <div>
             <label class="input-titel">What’s the event type?</label>
             <div class="flex items-center space-x-5">
-              <label for="b2b" class="w-1/2 bg-white py-3 px-4 flex items-center rounded-md cursor-pointer">
+              <label for="b2b" class="w-1/2 bg-white py-3 px-4 flex items-center rounded-md cursor-pointer" (click)="eventType = constants.unitTypeArr[constants.eventType.B2B].options">
                 <div class="pr-3">
                   <input type="radio" name="select" id="b2b" class="w-6 h-6 rounded-full bg-brightGray appearance-none hidden" checked="">
                    <div class="w-6 h-6 flex items-center justify-center rounded-full bg-brightGray overflow-hidden check-language">
@@ -29,7 +29,7 @@
                 </div>
                 <span class="text-base font-bold text-black">B2B</span>
               </label>
-              <label for="pp" class="w-1/2 bg-white py-3 px-4 flex items-center rounded-md cursor-pointer">
+              <label for="pp" class="w-1/2 bg-white py-3 px-4 flex items-center rounded-md cursor-pointer" (click)="eventType = constants.unitTypeArr[constants.eventType.PUBLIC].options">
                 <div class="pr-3">
                   <input type="radio" name="select" id="pp" class="w-6 h-6 rounded-full bg-brightGray appearance-none hidden">
                    <div class="w-6 h-6 flex items-center justify-center rounded-full bg-brightGray overflow-hidden check-language">

@@ -1,4 +1,4 @@
-import { environment } from "src/environments/environment";
+import {environment} from "src/environments/environment";
 
 /* eslint-disable @typescript-eslint/naming-convention */
 export const CONSTANTS = {
@@ -35,6 +35,46 @@ export const CONSTANTS = {
   baseImageURL: environment.baseImageURL,
   appUrl: environment.appURL,
 
+  eventType: {
+    B2B: 0,
+    PUBLIC: 1,
+  },
+
+  unitTypeArr:<any> {
+    0:<any> {
+      value:<any> 0,
+      options:<any> [
+        "Conference",
+        "Seminar",
+        "VIP Event",
+        "Company Meeting",
+        "Bussiness Gathering",
+        "Trade Show/Expo",
+        "Leadership Event",
+        "Networking Event",
+        "Ceremonies/Galas",
+        "Job Fairs/ Recruting Events",
+        "Products Launch",
+      ]
+    },
+    1:<any> {
+      value:<any> 1,
+      options:<any> [
+        "Conventions",
+        "Carity Event",
+        "Opening Ceremonies",
+        "Sport Event",
+        "Award Ceremony",
+        "Fundraising Event",
+        "Music Event",
+        "Talks & Book Presentation",
+        "Local Shoppers Events",
+        "Nightlife Event",
+        "Food & Cooking Event",
+        "Festival Event"
+      ]
+    },
+  }
 };
 
 
