@@ -19,7 +19,7 @@ const routes: Routes = [
         path: 'add-event', component: AddEventsComponent
       },
       {
-        path: 'about-event', component: AddEventsComponent
+        path: 'about-event', component: AboutEventsComponent
       },
       {
         path: 'arrangement', component: AddEventsComponent

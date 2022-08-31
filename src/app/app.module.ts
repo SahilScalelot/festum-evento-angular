@@ -11,7 +11,7 @@ import { MainModule } from './main/main.module';
 import { GlobalService } from './services/global.service';
 
 @NgModule({
-  declarations: [
+  declarations: [ 
     AppComponent,
   ],
   imports: [

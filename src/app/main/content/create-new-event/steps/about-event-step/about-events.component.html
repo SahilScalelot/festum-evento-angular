@@ -1,1 +1,19 @@
 <div>about-event</div>
+
+<div class="mt-auto">
+  <!-- advisement -->
+  <div class="w-full mt-5">
+    <img src="assets/images/banner-ads.png" alt="ring-ad" class="w-full object-cover"/>
+  </div>
+  <!-- pre and next button -->
+  <div class="prw-next-btn">
+    <button type="button" class="flex items-center active" [routerLink]="'/create-event/add-event'">
+      <i class="icon-left_arrow mr-3"></i>
+      <h5>Back</h5>
+    </button>
+    <button type="button" class="flex items-center active"  [routerLink]="'/create-event/about-event'">
+      <h5>Next</h5>
+      <i class="icon-right_arrow ml-3"></i>
+    </button>
+  </div>
+</div>
