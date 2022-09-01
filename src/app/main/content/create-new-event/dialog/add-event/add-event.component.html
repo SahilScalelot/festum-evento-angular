@@ -12,17 +12,17 @@
             </svg>
           </span>
         </div>
-        <div class="space-y-3">
+        <form #newEventNgForm="ngForm" [formGroup]="newEventForm" class="space-y-3">
           <div class="w-full block">
             <label class="input-titel">What’s event name?</label>
-            <input class="input option rounded-lg w-full py-3 px-4 focus-visible:outline-none" type="text">
+            <input class="input option rounded-lg w-full py-3 px-4 focus-visible:outline-none" type="text" [formControlName]="'name'" />
           </div>
           <div>
             <label class="input-titel">What’s the event type?</label>
             <div class="flex items-center space-x-5">
               <label for="b2b" class="w-1/2 bg-white py-3 px-4 flex items-center rounded-md cursor-pointer" (click)="eventType = constants.unitTypeArr[constants.eventType.B2B].options">
                 <div class="pr-3">
-                  <input type="radio" name="select" id="b2b" class="w-6 h-6 rounded-full bg-brightGray appearance-none hidden" checked="">
+                  <input type="radio" name="event_type" [formControlName]="'event_type'" value="b2b" id="b2b" class="w-6 h-6 rounded-full bg-brightGray appearance-none hidden" checked="">
                    <div class="w-6 h-6 flex items-center justify-center rounded-full bg-brightGray overflow-hidden check-language">
                     <i class="icon-right  text-white text-[10px] scale-0 origin-center duration-300 transition-all"></i>
                   </div>
@@ -31,7 +31,7 @@
               </label>
               <label for="pp" class="w-1/2 bg-white py-3 px-4 flex items-center rounded-md cursor-pointer" (click)="eventType = constants.unitTypeArr[constants.eventType.PUBLIC].options">
                 <div class="pr-3">
-                  <input type="radio" name="select" id="pp" class="w-6 h-6 rounded-full bg-brightGray appearance-none hidden">
+                  <input type="radio" name="event_type" [formControlName]="'event_type'" value="public_party" id="pp" class="w-6 h-6 rounded-full bg-brightGray appearance-none hidden">
                    <div class="w-6 h-6 flex items-center justify-center rounded-full bg-brightGray overflow-hidden check-language">
                     <i class="icon-right  text-white text-[10px] scale-0 origin-center duration-300 transition-all"></i>
                   </div>
@@ -42,19 +42,17 @@
           </div>
           <div class="">
             <label class="input-titel">select category</label>
-            <select class="bg-white rounded-md flex w-full space-x-3 outline-0 px-6 py-3 relative arrow">
+            <select class="bg-white rounded-md flex w-full space-x-3 outline-0 px-6 py-3 relative arrow" [formControlName]="'event_category'">
               <option value=""></option>
               <option  *ngFor="let type  of eventType; let i = index" value="{{type}}">{{type}}</option>
             </select>
           </div>
           <div class="w-full block">
             <label class="input-titel">Other</label>
-            <input class="input option rounded-lg w-full py-3 px-4 focus-visible:outline-none" type="text">
+            <input class="input option rounded-lg w-full py-3 px-4 focus-visible:outline-none" type="text" [formControlName]="'other_category'" />
           </div>
-        </div>
-        <button class="secondary py-2 px-14 anim uppercase flex ml-auto">
-          <a href="#" class="">Submit</a>
-        </button>
+        </form>
+        <button class="secondary py-2 px-14 anim uppercase flex ml-auto" [ngClass]="{'opacity-0': newEventForm.disabled}" type="submit" (click)="addEvent()">Submit</button>
       </div>
     </div>
   </div>

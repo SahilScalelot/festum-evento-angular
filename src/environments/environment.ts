@@ -4,11 +4,11 @@
 
 export const environment = {
   production: false,
-  appURL: "http://192.168.29.223:8080/api/v1/",
-  baseImageURL: "http://192.168.29.223:8080/",
+  // appURL: "http://192.168.29.223:8080/api/v1/",
+  // baseImageURL: "http://192.168.29.223:8080/",
 
-  // appURL: "https://api.festumevento.com/api/v1/",
-  // appAssetsURL: "https://api.festumevento.com/",
+  appURL: "http://festum.dev.scalelot.com/api/v1/",
+  baseImageURL: "http://festum.dev.scalelot.com/",
 };
 
 /*

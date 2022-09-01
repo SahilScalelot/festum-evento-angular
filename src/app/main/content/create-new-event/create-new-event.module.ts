@@ -7,6 +7,9 @@ import {CreateNewEventComponent} from "./create-new-event.component";
 import {AddEventsComponent} from "./steps/add-event-step/add-events.component";
 import {AddEventComponent} from "./dialog/add-event/add-event.component";
 import {AboutEventsComponent} from "./steps/about-event-step/about-events.component";
+import {TooltipModule} from 'primeng/tooltip';
+import { ReactiveFormsModule } from '@angular/forms';
+
 
 const routes: Routes = [
   {path: '', redirectTo: 'add-event', pathMatch: 'full'},
@@ -62,7 +65,9 @@ const routes: Routes = [
   imports: [
     RouterModule.forChild(routes),
     CommonModule,
-    StepsModule
+    StepsModule,
+    TooltipModule,
+    ReactiveFormsModule
   ]
 })
 export class CreateNewEventModule {

@@ -15,8 +15,8 @@ export class RegisterComponent implements OnInit {
   @ViewChild('registerNgForm') registerNgForm: any;
   registerForm: any;
 
-  pwd : boolean = false;
-  confirmPwd : boolean = false;
+  pwd: boolean = false;
+  confirmPwd: boolean = false;
 
   constructor(
     private _authService: AuthService,
@@ -42,7 +42,7 @@ export class RegisterComponent implements OnInit {
     });
   }
 
-  
+
   validate(): boolean {
     if (!this.registerForm.value.name || this.registerForm.value.name === "") {
       this._sNotify.error('Name is required!', 'Oops!');
@@ -75,7 +75,7 @@ export class RegisterComponent implements OnInit {
     if (!this.validate()) {
       return;
     }
-    
+
     this.registerForm.disable();
     this._authService.register(this.registerForm.value).subscribe((result: any) => {
       if (result.flag) {

@@ -106,7 +106,7 @@ body{@apply font-primary text-japaneseIndigo bg-brightGray m-0 capitalize;}
   .prw-next-btn{@apply w-full mt-auto flex items-center justify-between pt-10;}
   .prw-next-btn button i, .prw-next-btn button h5{@apply text-quicksilver;}
   .prw-next-btn button.active i, .prw-next-btn button.active h5{@apply text-magicPotion;}
-  .prw-next-btn button:hover{@apply opacity-70;}
+  // .prw-next-btn button:hover{@apply opacity-70;}
 
   /* checkbox right */
   .checkbox {@apply relative flex justify-center items-center;}
