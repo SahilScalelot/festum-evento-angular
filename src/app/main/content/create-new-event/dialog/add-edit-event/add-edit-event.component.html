@@ -5,7 +5,7 @@
     <div class="popin max-w-2xl w-full mx-auto max-h-[calc(100vh-55px)] overflow-y-auto lg:px-9 relative" [ngClass]="popClass">
       <div class="bg-brightGray p-7 space-y-7">
         <div class="flex justify-between items-center">
-          <h2>Add Event</h2>
+          <h2>{{(eventObj && eventObj.id && eventObj.id != '') ? 'Edit' : 'Add'}} Event</h2>
           <span class="cursor-pointer hover:opacity-60" (click)="closePopup()">
             <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M20.2902 4.13628L13.9273 10.4999L20.2902 16.8631C21.2366 17.8099 21.2366 19.3437 20.2902 20.2905C19.8173 20.7634 19.1973 21 18.5776 21C17.9569 21 17.3368 20.7637 16.8643 20.2905L10.5 13.9265L4.13625 20.2904C3.66342 20.7633 3.04337 20.9999 2.42313 20.9999C1.80308 20.9999 1.18345 20.7637 0.710197 20.2904C-0.23625 19.344 -0.23625 17.8103 0.710197 16.8631L7.07289 10.4998L0.709835 4.13628C-0.236612 3.18982 -0.236612 1.65575 0.709835 0.709297C1.6561 -0.236432 3.18926 -0.236432 4.13589 0.709297L10.5 7.07288L16.8636 0.709297C17.8104 -0.236432 19.3437 -0.236432 20.2898 0.709297C21.2366 1.65575 21.2366 3.18982 20.2902 4.13628Z" fill="#2E363F"></path>

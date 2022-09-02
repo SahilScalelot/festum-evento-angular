@@ -3,14 +3,14 @@
   <!-- {{selectedEventIndex}} -->
   <div class="w-full bg-white pl-5 py-4 flex justify-between cursor-pointer border shadow hover:bg-red-50"
    [ngClass]="{'border-magicPotion bg-red-50': (i + 1) === selectedEventIndex}"
-    *ngFor="let event of events; let i = index" (click)="selectEvent(i + 1)">
+    *ngFor="let event of events; let i = index" (click)="selectEvent(event, i + 1)">
     <div class="space-y-2">
       <h4>{{event.title}}</h4>
       <span class="text-sm text-magicPotion font-bold">{{event.description}}</span>
     </div>
     <div class="flex items-start space-x-5">
-      <a href="#"><i class="icon-delete text-quicksilver"></i></a>
-      <a href="#"><i class="icon-edit text-quicksilver"></i></a>
+      <a href="javascript:void(0)" (click)="deleteEvent(event.id)"><i class="icon-delete text-quicksilver"></i></a>
+      <a href="javascript:void(0)" (click)="editEvent(event)"><i class="icon-edit text-quicksilver"></i></a>
       <span class="bg-magicPotion text-xs font-bold px-2 py-1 text-white">{{event.eventType}}</span>
     </div>
   </div>
@@ -28,10 +28,10 @@
       <i class="icon-left_arrow mr-3"></i>
       <h5>Back</h5>
     </button>
-    <button 
-      type="button" 
-      class="flex items-center" 
-      [ngClass]="{'active': selectedEventIndex}" 
+    <button
+      type="button"
+      class="flex items-center"
+      [ngClass]="{'active': selectedEventIndex}"
       (click)="next()"
       >
       <h5>Next</h5>
@@ -39,3 +39,5 @@
     </button>
   </div>
 </div>
+
+<app-add-edit-event *ngIf="isEditEvent" (isEditEventChange)="isEditEvent = $event" [eventObj]="selectedEventObj" [popClass]="'active'"></app-add-edit-event>

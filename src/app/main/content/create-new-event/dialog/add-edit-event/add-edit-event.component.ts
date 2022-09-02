@@ -1,38 +1,45 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { SnotifyService } from 'ng-snotify';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {FormBuilder, Validators} from '@angular/forms';
+import {Router} from '@angular/router';
+import {SnotifyService} from 'ng-snotify';
 import {CONSTANTS} from "../../../../common/constants";
 
 @Component({
-  selector: 'app-add-event',
-  templateUrl: './add-event.component.html',
-  styleUrls: ['./add-event.component.scss']
+  selector: 'app-add-edit-event',
+  templateUrl: './add-edit-event.component.html',
+  styleUrls: ['./add-edit-event.component.scss']
 })
-export class AddEventComponent implements OnInit {
+export class AddEditEventComponent implements OnInit {
   @Input() popClass: any;
+  @Input() eventObj: any;
   @Output() isAddEventChange = new EventEmitter<boolean>();
+  @Output() isEditEventChange = new EventEmitter<boolean>();
+  @ViewChild('newEventNgForm') newEventNgForm: any;
   eventType: any;
   constants: any = CONSTANTS;
-
-  
-  @ViewChild('newEventNgForm') newEventNgForm: any;
   newEventForm: any;
+  newEventObj: any = {};
 
   constructor(
     private _formBuilder: FormBuilder,
     private _router: Router,
     private _sNotify: SnotifyService,
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
-    this.eventType = CONSTANTS.unitTypeArr[CONSTANTS.eventType.B2B].options;
+    if (localStorage.getItem('newEventObj')) {
+      const eventString: any = localStorage.getItem('newEventObj');
+      this.newEventObj = JSON.parse(eventString);
+      console.log(this.newEventObj);
+    }
 
+    this.eventType = CONSTANTS.unitTypeArr[CONSTANTS.eventType.B2B].options;
     this.newEventForm = this._formBuilder.group({
-      name: ['', [Validators.required]],
-      event_type: ['b2b', Validators.required],
-      event_category: ['', Validators.required],
-      other_category: [''],
+      name: [this.eventObj?.name ? this.eventObj.name : '', [Validators.required]],
+      event_type: [this.eventObj?.event_type ? this.eventObj.event_type : 'b2b', Validators.required],
+      event_category: [this.eventObj?.event_category ? this.eventObj.event_category : '', Validators.required],
+      other_category: [this.eventObj?.other_category ? this.eventObj.other_category : ''],
     });
   }
 
@@ -60,8 +67,9 @@ export class AddEventComponent implements OnInit {
     if (preparedEventForm.other_category && preparedEventForm.other_category != '') {
       preparedEventForm.event_category = preparedEventForm.other_category;
     }
-    console.log(preparedEventForm);
-    
+    localStorage.setItem('newEventObj', JSON.stringify({add_event: preparedEventForm}));
+    this.closePopup();
+
     // this.newEventForm.disable();
     // this._authService.register(this.newEventForm.value).subscribe((result: any) => {
     //   if (result.flag) {
@@ -82,6 +90,7 @@ export class AddEventComponent implements OnInit {
 
   closePopup(): void {
     this.isAddEventChange.emit(false);
+    this.isEditEventChange.emit(false);
   }
 
 }

@@ -5,6 +5,7 @@ import {Subject} from "rxjs";
 @Injectable()
 export class GlobalService {
   public loginUser$: BehaviorSubject<any>;
+  public addEvent$: BehaviorSubject<any>;
 
   ticketInformation = {
     personalInformation: {
@@ -43,5 +44,6 @@ export class GlobalService {
   }
   constructor() {
     this.loginUser$ = new BehaviorSubject<any>(null);
+    this.addEvent$ = new BehaviorSubject<any>(null);
   }
 }

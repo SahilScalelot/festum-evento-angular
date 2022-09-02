@@ -5,7 +5,7 @@ import {AuthGuard} from "../../auth/auth-guard/auth.guard";
 import {StepsModule} from "primeng/steps";
 import {CreateNewEventComponent} from "./create-new-event.component";
 import {AddEventsComponent} from "./steps/add-event-step/add-events.component";
-import {AddEventComponent} from "./dialog/add-event/add-event.component";
+import {AddEditEventComponent} from "./dialog/add-edit-event/add-edit-event.component";
 import {AboutEventsComponent} from "./steps/about-event-step/about-events.component";
 import {TooltipModule} from 'primeng/tooltip';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -58,7 +58,7 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     CreateNewEventComponent,
-    AddEventComponent,
+    AddEditEventComponent,
     AddEventsComponent,
     AboutEventsComponent
   ],

@@ -3,6 +3,7 @@ import { SnotifyService } from 'ng-snotify';
 import { GlobalService } from 'src/app/services/global.service';
 import { CONSTANTS } from '../../common/constants';
 import { EventService } from './event.service';
+import {GlobalFunctions} from "../../common/global-functions";
 
 @Component({
   selector: 'app-event',
@@ -17,6 +18,7 @@ export class EventComponent implements OnInit {
     private _eventService: EventService,
     private _sNotify: SnotifyService,
     private _globalService: GlobalService,
+    private _globalFunctions: GlobalFunctions,
   ) { }
 
   ngOnInit(): void {
@@ -27,6 +29,8 @@ export class EventComponent implements OnInit {
     this._eventService.retrieveEvents().subscribe((result: any) => {
       this.events = result.events;
       console.log(this.events);
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
     });
   }
 

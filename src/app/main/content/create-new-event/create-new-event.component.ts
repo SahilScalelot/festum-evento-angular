@@ -9,7 +9,6 @@ import {GlobalService} from "../../../services/global.service";
   styleUrls: ['./create-new-event.component.scss']
 })
 export class CreateNewEventComponent implements OnInit {
-  popClass: string = 'active';
   isAddEvent: boolean = false;
   items: MenuItem[] | any;
   subscription: Subscription | any;

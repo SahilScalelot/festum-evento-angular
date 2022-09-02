@@ -9,32 +9,42 @@ import {CONSTANTS} from "../../../../common/constants";
   styleUrls: ['./add-events.component.scss']
 })
 export class AddEventsComponent implements OnInit {
+  isEditEvent: boolean = false;
   events: any = [];
   selectedEventIndex: number = 0;
+  selectedEventObj: any = {};
 
-  constructor(private _sNotifyService: SnotifyService, private _rovter: Router) {
+  constructor(private _sNotifyService: SnotifyService, private _router: Router) {
   }
 
   ngOnInit(): void {
-    this.events = [
-      {id: 1, title: 'Cooking Together', description: 'Conference', eventType: CONSTANTS.unitTypeArr[CONSTANTS.eventType.B2B].label},
-      {id: 2, title: 'Cooking Together', description: 'Conference', eventType: CONSTANTS.unitTypeArr[CONSTANTS.eventType.B2B].label},
-    ]
+    if (localStorage.getItem('newEventObj')) {
+      const eventString: any = localStorage.getItem('newEventObj');
+      const event = JSON.parse(eventString);
+      console.log(event);
+    }
   }
 
-  selectEvent(index: number): void {
-    // console.log(index);
+  selectEvent(eventObj: any, index: number): void {
     this.selectedEventIndex = index;
+    this.selectedEventObj = eventObj;
   }
 
   next(): any {
-    
     if (!this.selectedEventIndex) {
       this._sNotifyService.error('Please Select Event', 'Oops!');
     } else {
-      this._rovter.navigate(['/create-event/about-event']);
-    }    
-    // [routerLink]="'/create-event/about-event'"
+      this._router.navigate(['/create-event/about-event']);
+    }
+  }
+
+  editEvent(eventObj: any): void {
+    this.selectedEventObj = eventObj;
+    this.isEditEvent = true;
+  }
+
+  deleteEvent(eventId: number): void {
+    console.log(eventId);
   }
 
 }
