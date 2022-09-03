@@ -19,4 +19,4 @@
   </div>
 </div>
 
-<app-add-edit-event *ngIf="isAddEvent" (isAddEventChange)="isAddEvent = $event" [popClass]="'active'"></app-add-edit-event>
+<app-add-edit-event *ngIf="isAddEvent" (isAddEditEventChange)="closePop($event)" [popClass]="'active'"></app-add-edit-event>

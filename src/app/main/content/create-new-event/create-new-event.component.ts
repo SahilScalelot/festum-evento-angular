@@ -70,4 +70,14 @@ export class CreateNewEventComponent implements OnInit {
       this.subscription.unsubscribe();
     }
   }
+
+  closePop(flag: boolean): void {
+    if (localStorage.getItem('newEventObj')) {
+      const eventString: any = localStorage.getItem('newEventObj');
+      const eventObj = JSON.parse(eventString);
+      this._globalService.addEditEvent$.next(eventObj);
+    }
+    this.isAddEvent = flag;
+  }
+
 }

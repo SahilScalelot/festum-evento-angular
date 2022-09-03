@@ -22,7 +22,7 @@
             <div class="flex items-center space-x-5">
               <label for="b2b" class="w-1/2 bg-white py-3 px-4 flex items-center rounded-md cursor-pointer" (click)="eventType = constants.unitTypeArr[constants.eventType.B2B].options">
                 <div class="pr-3">
-                  <input type="radio" name="event_type" [formControlName]="'event_type'" value="b2b" id="b2b" class="w-6 h-6 rounded-full bg-brightGray appearance-none hidden" checked="">
+                  <input type="radio" name="event_type" [formControlName]="'event_type'" [value]="constants.eventType.B2B" id="b2b" class="w-6 h-6 rounded-full bg-brightGray appearance-none hidden" checked="">
                    <div class="w-6 h-6 flex items-center justify-center rounded-full bg-brightGray overflow-hidden check-language">
                     <i class="icon-right  text-white text-[10px] scale-0 origin-center duration-300 transition-all"></i>
                   </div>
@@ -31,7 +31,7 @@
               </label>
               <label for="pp" class="w-1/2 bg-white py-3 px-4 flex items-center rounded-md cursor-pointer" (click)="eventType = constants.unitTypeArr[constants.eventType.PUBLIC].options">
                 <div class="pr-3">
-                  <input type="radio" name="event_type" [formControlName]="'event_type'" value="public_party" id="pp" class="w-6 h-6 rounded-full bg-brightGray appearance-none hidden">
+                  <input type="radio" name="event_type" [formControlName]="'event_type'" [value]="constants.eventType.PUBLIC" id="pp" class="w-6 h-6 rounded-full bg-brightGray appearance-none hidden">
                    <div class="w-6 h-6 flex items-center justify-center rounded-full bg-brightGray overflow-hidden check-language">
                     <i class="icon-right  text-white text-[10px] scale-0 origin-center duration-300 transition-all"></i>
                   </div>

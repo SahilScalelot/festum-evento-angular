@@ -36,13 +36,13 @@ export const CONSTANTS = {
   appUrl: environment.appURL,
 
   eventType: {
-    B2B: 0,
-    PUBLIC: 1,
+    B2B: 'B2B',
+    PUBLIC: 'PP',
   },
 
   unitTypeArr:<any> {
-    0:<any> {
-      value:<any> 0,
+    'B2B':<any> {
+      value:<any> 'B2B',
       label:<string> 'B2B',
       options:<any> [
         "Conference",
@@ -58,8 +58,8 @@ export const CONSTANTS = {
         "Products Launch",
       ]
     },
-    1:<any> {
-      value:<any> 1,
+    'PP':<any> {
+      value:<any> 'PP',
       label:<string> 'PP',
       options:<any> [
         "Conventions",

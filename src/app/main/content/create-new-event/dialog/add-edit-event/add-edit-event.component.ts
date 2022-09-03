@@ -12,13 +12,12 @@ import {CONSTANTS} from "../../../../common/constants";
 export class AddEditEventComponent implements OnInit {
   @Input() popClass: any;
   @Input() eventObj: any;
-  @Output() isAddEventChange = new EventEmitter<boolean>();
-  @Output() isEditEventChange = new EventEmitter<boolean>();
+  @Output() isAddEditEventChange = new EventEmitter<boolean>();
   @ViewChild('newEventNgForm') newEventNgForm: any;
   eventType: any;
   constants: any = CONSTANTS;
   newEventForm: any;
-  newEventObj: any = {};
+  newEventArr: any = [];
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -29,15 +28,17 @@ export class AddEditEventComponent implements OnInit {
 
   ngOnInit(): void {
     if (localStorage.getItem('newEventObj')) {
-      const eventString: any = localStorage.getItem('newEventObj');
-      this.newEventObj = JSON.parse(eventString);
-      console.log(this.newEventObj);
+      let eventString: any = localStorage.getItem('newEventObj');
+      const newEventObj = JSON.parse(eventString);
+      if (newEventObj && newEventObj.add_event && newEventObj.add_event.length) {
+        this.newEventArr = newEventObj.add_event;
+      }
     }
 
     this.eventType = CONSTANTS.unitTypeArr[CONSTANTS.eventType.B2B].options;
     this.newEventForm = this._formBuilder.group({
       name: [this.eventObj?.name ? this.eventObj.name : '', [Validators.required]],
-      event_type: [this.eventObj?.event_type ? this.eventObj.event_type : 'b2b', Validators.required],
+      event_type: [this.eventObj?.event_type ? this.eventObj.event_type : CONSTANTS.eventType.B2B, Validators.required],
       event_category: [this.eventObj?.event_category ? this.eventObj.event_category : '', Validators.required],
       other_category: [this.eventObj?.other_category ? this.eventObj.other_category : ''],
     });
@@ -67,30 +68,13 @@ export class AddEditEventComponent implements OnInit {
     if (preparedEventForm.other_category && preparedEventForm.other_category != '') {
       preparedEventForm.event_category = preparedEventForm.other_category;
     }
-    localStorage.setItem('newEventObj', JSON.stringify({add_event: preparedEventForm}));
+    this.newEventArr.push(preparedEventForm);
+    localStorage.setItem('newEventObj', JSON.stringify({add_event: this.newEventArr}));
     this.closePopup();
-
-    // this.newEventForm.disable();
-    // this._authService.register(this.newEventForm.value).subscribe((result: any) => {
-    //   if (result.flag) {
-    //     this._sNotify.success(result.message, 'Success');
-    //     this._router.navigate(['login']);
-    //   } else {
-    //     this._sNotify.success(result.message, 'error');
-    //     this.newEventForm.enable();
-    //     this._globalFunctions.successErrorHandling(result, this, true);
-    //   }
-    // }, (error: any) => {
-    //   this.newEventForm.enable();
-    //   // this.registerNgForm.resetForm();
-    //   this._globalFunctions.errorHanding(error, this, true);
-    //   // this._sNotify.success(result.message, 'error');
-    // });
   }
 
   closePopup(): void {
-    this.isAddEventChange.emit(false);
-    this.isEditEventChange.emit(false);
+    this.isAddEditEventChange.emit(false);
   }
 
 }
