@@ -1,0 +1,38 @@
+<div class="space-y-5">
+  <!--<div class="w-full bg-white pl-5 py-4 flex justify-between cursor-pointer border shadow hover:bg-red-50"
+   [ngClass]="{'border-magicPotion bg-red-50': (i + 1) === selectedEventIndex}"
+    *ngFor="let event of events; let i = index" (click)="selectEvent(event, i + 1)">-->
+  <div *ngIf="eventObj.add_event" class="w-full bg-white pl-5 py-4 flex justify-between cursor-pointer border shadow hover:bg-red-50
+   border-magicPotion bg-red-50">
+    <div class="space-y-2">
+      <h4>{{eventObj.add_event.name}}</h4>
+      <span class="text-sm text-magicPotion font-bold">{{eventObj.add_event.event_category}}</span>
+    </div>
+    <div class="flex items-start space-x-5">
+      <a (click)="deleteEvent()" href="javascript:void(0)"><i class="icon-delete text-quicksilver"></i></a>
+      <a (click)="isEditEvent = true" href="javascript:void(0)"><i class="icon-edit text-quicksilver"></i></a>
+      <span class="bg-magicPotion text-xs font-bold px-2 py-1 text-white">{{eventObj.add_event.event_type}}</span>
+    </div>
+  </div>
+</div>
+
+<div class="mt-auto">
+  <!-- advisement -->
+  <div class="w-full mt-5">
+    <img alt="ring-ad" class="w-full object-cover" src="assets/images/banner-ads.png"/>
+  </div>
+  <!-- pre and next button -->
+  <div class="prw-next-btn">
+    <button [routerLink]="'/create-event/add-event'" class="flex items-center" disabled type="button">
+      <i class="icon-left_arrow mr-3"></i>
+      <h5>Back</h5>
+    </button>
+    <button (click)="next()" [ngClass]="{'active': selectedEventIndex}" class="flex items-center" type="button">
+      <h5>Next</h5>
+      <i class="icon-right_arrow ml-3"></i>
+    </button>
+  </div>
+</div>
+
+<app-add-edit-event-dialog (isEditEventChange)="closePop($event)" *ngIf="isEditEvent" [eventObj]="eventObj.add_event"
+                           [popClass]="'active'"></app-add-edit-event-dialog>

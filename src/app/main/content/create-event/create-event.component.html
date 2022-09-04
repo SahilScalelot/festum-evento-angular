@@ -6,8 +6,8 @@
         <i routerLink=".." class="icon-left_arrow cursor-pointer mr-4 text-2xl"></i>
         <h2>Create new event</h2>
       </div>
-      <span [routerLink]="'/create-event'" class="secondary cursor-pointer px-7 py-3" (click)="isAddEvent = true">
-        <i class="icon-plus mr-3"></i>Add event</span>
+      <!--<span [routerLink]="'/create-event'" class="secondary cursor-pointer px-7 py-3" (click)="isAddEvent = true">
+        <i class="icon-plus mr-3"></i>Add event</span>-->
     </div>
     <div class="w-full overflow-hidden overflow-x-auto capitalize">
       <p-steps [model]="items" [readonly]="true"></p-steps>
@@ -18,5 +18,3 @@
     <router-outlet></router-outlet>
   </div>
 </div>
-
-<app-add-edit-event *ngIf="isAddEvent" (isAddEditEventChange)="closePop($event)" [popClass]="'active'"></app-add-edit-event>

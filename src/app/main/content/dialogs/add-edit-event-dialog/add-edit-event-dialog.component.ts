@@ -2,22 +2,23 @@ import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angula
 import {FormBuilder, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {SnotifyService} from 'ng-snotify';
-import {CONSTANTS} from "../../../../common/constants";
+import {CONSTANTS} from "../../../common/constants";
 
 @Component({
-  selector: 'app-add-edit-event',
-  templateUrl: './add-edit-event.component.html',
-  styleUrls: ['./add-edit-event.component.scss']
+  selector: 'app-add-edit-event-dialog',
+  templateUrl: './add-edit-event-dialog.component.html',
+  styleUrls: ['./add-edit-event-dialog.component.scss']
 })
-export class AddEditEventComponent implements OnInit {
+export class AddEditEventDialogComponent implements OnInit {
   @Input() popClass: any;
   @Input() eventObj: any;
-  @Output() isAddEditEventChange = new EventEmitter<boolean>();
+  @Output() isAddEventChange = new EventEmitter<boolean>();
+  @Output() isEditEventChange = new EventEmitter<boolean>();
   @ViewChild('newEventNgForm') newEventNgForm: any;
   eventType: any;
   constants: any = CONSTANTS;
   newEventForm: any;
-  newEventArr: any = [];
+  newEventObj: any = {};
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -30,8 +31,8 @@ export class AddEditEventComponent implements OnInit {
     if (localStorage.getItem('newEventObj')) {
       let eventString: any = localStorage.getItem('newEventObj');
       const newEventObj = JSON.parse(eventString);
-      if (newEventObj && newEventObj.add_event && newEventObj.add_event.length) {
-        this.newEventArr = newEventObj.add_event;
+      if (newEventObj && newEventObj.add_event) {
+        this.newEventObj = newEventObj.add_event;
       }
     }
 
@@ -68,13 +69,18 @@ export class AddEditEventComponent implements OnInit {
     if (preparedEventForm.other_category && preparedEventForm.other_category != '') {
       preparedEventForm.event_category = preparedEventForm.other_category;
     }
-    this.newEventArr.push(preparedEventForm);
-    localStorage.setItem('newEventObj', JSON.stringify({add_event: this.newEventArr}));
+    this.newEventObj = preparedEventForm;
+    localStorage.setItem('newEventObj', JSON.stringify({add_event: this.newEventObj}));
     this.closePopup();
   }
 
   closePopup(): void {
-    this.isAddEditEventChange.emit(false);
+    if (localStorage.getItem('newEventObj')) {
+      this.isEditEventChange.emit(false);
+      this.isAddEventChange.emit(false);
+    } else {
+      this.isAddEventChange.emit(false);
+    }
   }
 
 }

@@ -2,25 +2,13 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {RouterModule, Routes} from '@angular/router';
 import {ContentComponent} from './content.component';
-import {AuthGuard} from '../auth/auth-guard/auth.guard';
 import {EventModule} from "./event/event.module";
-import {CreateNewEventModule} from "./create-new-event/create-new-event.module";
+import {CreateEventModule} from "./create-event/create-event.module";
 
 const routes: Routes = [
   {
     path: '',
-    component: ContentComponent,
-    canActivate: [AuthGuard],
-    children: [
-      {
-        path: 'event',
-        loadChildren: () => import('../content/event/event.module').then(m => m.EventModule)
-      },
-      {
-        path: 'create-event',
-        loadChildren: () => import('../content/create-new-event/create-new-event.module').then(m => m.CreateNewEventModule)
-      },
-    ]
+    component: ContentComponent
   }
 ];
 
@@ -32,7 +20,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     CommonModule,
     EventModule,
-    CreateNewEventModule,
+    CreateEventModule,
   ]
 })
 export class ContentModule {

@@ -6,7 +6,7 @@ import { GlobalFunctions } from '../../common/global-functions';
 @Injectable({
   providedIn: 'root'
 })
-export class CreateNewEventService {
+export class CreateEventService {
 
   constructor(private http: HttpClient,private _globalFunctions: GlobalFunctions) { }
 

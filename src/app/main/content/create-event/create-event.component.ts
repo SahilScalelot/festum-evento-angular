@@ -4,12 +4,11 @@ import {Subscription} from "rxjs";
 import {GlobalService} from "../../../services/global.service";
 
 @Component({
-  selector: 'app-create-new-event',
-  templateUrl: './create-new-event.component.html',
-  styleUrls: ['./create-new-event.component.scss']
+  selector: 'app-create-event',
+  templateUrl: './create-event.component.html',
+  styleUrls: ['./create-event.component.scss']
 })
-export class CreateNewEventComponent implements OnInit {
-  isAddEvent: boolean = false;
+export class CreateEventComponent implements OnInit {
   items: MenuItem[] | any;
   subscription: Subscription | any;
 
@@ -69,15 +68,6 @@ export class CreateNewEventComponent implements OnInit {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
-  }
-
-  closePop(flag: boolean): void {
-    if (localStorage.getItem('newEventObj')) {
-      const eventString: any = localStorage.getItem('newEventObj');
-      const eventObj = JSON.parse(eventString);
-      this._globalService.addEditEvent$.next(eventObj);
-    }
-    this.isAddEvent = flag;
   }
 
 }
