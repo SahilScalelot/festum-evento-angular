@@ -21,5 +21,22 @@
   .ui-steps.steps-custom .ui-steps-item .ui-steps-title {
     color: #555555;
   }
-  
+  .outletPortal {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 288px);
+  }
+  .innerContent {
+    max-height: calc(100vh - 510px);
+    overflow-y: auto;
+  }
+  app-add-events,
+  app-about-events,
+  app-arrangement-step,
+  app-permission-step,
+  app-discount-step {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 316px);
+  }
 }
