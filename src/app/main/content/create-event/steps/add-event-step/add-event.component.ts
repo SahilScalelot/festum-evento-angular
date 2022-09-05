@@ -8,7 +8,7 @@ import { GlobalService } from 'src/app/services/global.service';
   templateUrl: './add-event.component.html',
   styleUrls: ['./add-event.component.scss']
 })
-export class AddEventComponent implements OnInit {
+export class AddEventStepComponent implements OnInit {
   isEditEvent: boolean = false;
   selectedEventIndex: number = 0;
   eventObj: any = {};
@@ -26,11 +26,7 @@ export class AddEventComponent implements OnInit {
   }
 
   next(): any {
-    if (!this.selectedEventIndex) {
-      this._sNotifyService.error('Please Select Event', 'Oops!');
-    } else {
-      this._router.navigate(['/create-event/about-event']);
-    }
+    this._router.navigate(['/create-event/about-event']);
   }
 
   prepareEvent(): void {

@@ -2,8 +2,8 @@
   <!--<div class="w-full bg-white pl-5 py-4 flex justify-between cursor-pointer border shadow hover:bg-red-50"
    [ngClass]="{'border-magicPotion bg-red-50': (i + 1) === selectedEventIndex}"
     *ngFor="let event of events; let i = index" (click)="selectEvent(event, i + 1)">-->
-  <div *ngIf="eventObj.add_event" class="w-full bg-white pl-5 py-4 flex justify-between cursor-pointer border shadow hover:bg-red-50
-   border-magicPotion bg-red-50">
+    <!-- hover:bg-red-50 border-magicPotion bg-red-50 -->
+  <div *ngIf="eventObj.add_event" class="w-full bg-white pl-5 py-4 flex justify-between border shadow">
     <div class="space-y-2">
       <h4>{{eventObj.add_event.name}}</h4>
       <span class="text-sm text-magicPotion font-bold">{{eventObj.add_event.event_category}}</span>
@@ -27,12 +27,11 @@
       <i class="icon-left_arrow mr-3"></i>
       <h5>Back</h5>
     </button>
-    <button (click)="next()" [ngClass]="{'active': selectedEventIndex}" class="flex items-center" type="button">
+    <button class="flex items-center active" type="button" (click)="next()">
       <h5>Next</h5>
       <i class="icon-right_arrow ml-3"></i>
     </button>
   </div>
 </div>
 
-<app-add-edit-event-dialog (isEditEventChange)="closePop($event)" *ngIf="isEditEvent" [eventObj]="eventObj.add_event"
-                           [popClass]="'active'"></app-add-edit-event-dialog>
+<app-add-edit-event-dialog (isEditEventChange)="closePop($event)" *ngIf="isEditEvent" [eventObj]="eventObj.add_event" [popClass]="'active'"></app-add-edit-event-dialog>
