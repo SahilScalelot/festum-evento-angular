@@ -4,9 +4,9 @@ import { SnotifyService } from 'ng-snotify';
 import { GlobalService } from 'src/app/services/global.service';
 
 @Component({
-  selector: 'app-add-events',
-  templateUrl: './add-event.component.html',
-  styleUrls: ['./add-event.component.scss']
+  selector: 'app-add-event-step',
+  templateUrl: './add-event-step.component.html',
+  styleUrls: ['./add-event-step.component.scss']
 })
 export class AddEventStepComponent implements OnInit {
   isEditEvent: boolean = false;

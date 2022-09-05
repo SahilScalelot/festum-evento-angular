@@ -2,10 +2,39 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {AuthGuard} from "./main/auth/auth-guard/auth.guard";
 import {ContentComponent} from "./main/content/content.component";
+import {NoAuthGuard} from "./main/auth/auth-guard/noAuth.guard";
+import {AuthComponent} from "./main/auth/auth.component";
 
 const routes: Routes = [
 
   { path: '', redirectTo: 'event', pathMatch: 'full' },
+  {
+    path: '',
+    canActivate: [NoAuthGuard],
+    component: AuthComponent,
+    children: [
+      {
+        path: 'login',
+        loadChildren: () => import('../app/main/auth/login/login.module').then(m => m.LoginModule)
+      },
+      {
+        path: 'register',
+        loadChildren: () => import('../app/main/auth/register/register.module').then(m => m.RegisterModule)
+      },
+      {
+        path: 'otp',
+        loadChildren: () => import('../app/main/auth/otp/otp.module').then(m => m.OtpModule)
+      },
+      {
+        path: 'forgot-password',
+        loadChildren: () => import('../app/main/auth/forgot-password/forgot-password.module').then(m => m.ForgotPasswordModule)
+      },
+      {
+        path: 'set-new-password',
+        loadChildren: () => import('../app/main/auth/set-new-password/set-new-password.module').then(m => m.SetNewPasswordModule)
+      }
+    ]
+  },
   {
     path: '',
     canActivate: [AuthGuard],
@@ -21,7 +50,7 @@ const routes: Routes = [
       }
     ]
   },
-  // { path: '**', redirectTo: '/event' },
+  { path: '**', redirectTo: '/event' },
 
 ];
 

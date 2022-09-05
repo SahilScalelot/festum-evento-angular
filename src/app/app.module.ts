@@ -9,6 +9,7 @@ import {AppComponent} from './app.component';
 import {GlobalFunctions} from './main/common/global-functions';
 import {MainModule} from './main/main.module';
 import {GlobalService} from './services/global.service';
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import {GlobalService} from './services/global.service';
     SnotifyModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule
   ],
   providers: [
     GlobalFunctions,

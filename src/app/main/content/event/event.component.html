@@ -10,7 +10,7 @@
   </div>
   <div class="space-y-5 pt-10">
 
-    <div class="w-full flex items-center" *ngFor="let event of events">
+    <div class="w-full flex items-center cursor-pointer" *ngFor="let event of events" (click)="gotoEventOverview($event, event)">
       <div>
         <label class="checkbox mr-4">
           <input type="checkbox" class="bg-white"/>
@@ -65,7 +65,7 @@
                     <input type="checkbox" class="switch mr-1.5 lg:mx-3 order-2" checked/>
                     <span class="text-base font-bold anim order-3">Live</span>
                   </div>
-                  <h3 class="text-right">250 INR</h3>
+<!--                  <h3 class="text-right">250 INR</h3>-->
                 </div>
               </div>
               <div class="flex flex-wrap justify-between">
@@ -85,19 +85,19 @@
                   <span class="text-xs font-bold text-quicksilver">521 UnSold</span>
                 </div>
                 <div class="flex space-x-2 pt-4">
-                  <a href="#"
+                  <a href="javascript:void(0)" (click)="editEvent($event, event)"
                      class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i
                     class="icon-edit text-sm leading-0 text-japaneseIndigo"></i></a>
-                  <a href="#"
+                  <a href="javascript:void(0)" (click)="gotoEventOverview($event, event)"
                      class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i
                     class="icon-show text-xs leading-0 text-japaneseIndigo"></i></a>
-                  <a href="#"
+                  <a href="javascript:void(0)"
                      class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i
                     class="icon-fill_megaphone text-sm leading-0 text-japaneseIndigo"></i></a>
-                  <a href="#"
+                  <a href="javascript:void(0)"
                      class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i
                     class="icon-online_offer text-xl leading-0 text-japaneseIndigo"></i></a>
-                  <a href="#"
+                  <a href="javascript:void(0)"
                      class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i
                     class="icon-share text-sm leading-0 text-japaneseIndigo"></i></a>
                 </div>

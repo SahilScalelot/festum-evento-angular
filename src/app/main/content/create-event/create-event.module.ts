@@ -1,11 +1,10 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {RouterModule, Routes} from '@angular/router';
-import {AuthGuard} from "../../auth/auth-guard/auth.guard";
 import {StepsModule} from "primeng/steps";
 import {CreateEventComponent} from "./create-event.component";
-import {AddEventStepComponent} from "./steps/add-event-step/add-event.component";
-import {AboutEventsStepComponent} from "./steps/about-event-step/about-events.component";
+import {AddEventStepComponent} from "./steps/add-event-step/add-event-step.component";
+import {AboutEventStepComponent} from "./steps/about-event-step/about-event-step.component";
 import {TooltipModule} from 'primeng/tooltip';
 import {SharedModule} from "../../../shared/shared.module";
 import {ArrangementStepComponent} from './steps/arrangement-step/arrangement-step.component';
@@ -23,13 +22,12 @@ const routes: Routes = [
   {
     path: '',
     component: CreateEventComponent,
-    canActivate: [AuthGuard],
     children: [
       {
         path: 'add-event', component: AddEventStepComponent
       },
       {
-        path: 'about-event', component: AboutEventsStepComponent
+        path: 'about-event', component: AboutEventStepComponent
       },
       {
         path: 'arrangement', component: ArrangementStepComponent
@@ -63,7 +61,7 @@ const routes: Routes = [
   declarations: [
     CreateEventComponent,
     AddEventStepComponent,
-    AboutEventsStepComponent,
+    AboutEventStepComponent,
     ArrangementStepComponent,
     LocationStepComponent,
     PhotosVideosStepComponent,

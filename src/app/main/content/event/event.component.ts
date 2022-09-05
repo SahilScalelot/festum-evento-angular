@@ -26,6 +26,7 @@ export class EventComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    localStorage.removeItem('newEventObj');
     this.getEvent();
   }
 
@@ -38,11 +39,7 @@ export class EventComponent implements OnInit {
   }
 
   openAddEventDialog(): void {
-    if (localStorage.getItem('newEventObj')) {
-      this._router.navigate(['/create-event']);
-    } else {
-      this.isAddEvent = true;
-    }
+    this.isAddEvent = true;
   }
 
   closePop(flag: boolean): void {
@@ -50,6 +47,16 @@ export class EventComponent implements OnInit {
     if (localStorage.getItem('newEventObj')) {
       this._router.navigate(['/create-event']);
     }
+  }
+
+  editEvent(event: any, eventObj: any): void {
+    event.stopPropagation();
+    console.log(eventObj);
+  }
+
+  gotoEventOverview(event: any, eventObj: any): void {
+    event.stopPropagation();
+    console.log(eventObj);
   }
 
 }

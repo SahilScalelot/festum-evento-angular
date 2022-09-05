@@ -1,9 +1,10 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { AuthModule } from './auth/auth.module';
-import { MainComponent } from './main.component';
-import { ContentModule } from './content/content.module';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {AuthModule} from './auth/auth.module';
+import {MainComponent} from './main.component';
+import {ContentModule} from './content/content.module';
 import {SharedModule} from "../shared/shared.module";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 @NgModule({
   declarations: [
@@ -13,7 +14,9 @@ import {SharedModule} from "../shared/shared.module";
     CommonModule,
     AuthModule,
     ContentModule,
-    SharedModule
+    SharedModule,
+    BrowserAnimationsModule
   ]
 })
-export class MainModule { }
+export class MainModule {
+}

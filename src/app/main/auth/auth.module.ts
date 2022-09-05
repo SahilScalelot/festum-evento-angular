@@ -1,50 +1,44 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { AuthComponent } from './auth.component';
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
-import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
-import { OtpComponent } from './otp/otp.component';
-import { SetNewPasswordComponent } from './set-new-password/set-new-password.component';
-import { NoAuthGuard } from './auth-guard/noAuth.guard';
-import { AuthService } from './auth.service';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {CommonModule} from '@angular/common';
+import {AuthComponent} from './auth.component';
+import {SetNewPasswordComponent} from './set-new-password/set-new-password.component';
+import {AuthService} from './auth.service';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {LoginModule} from "./login/login.module";
+import {RegisterModule} from "./register/register.module";
+import {OtpModule} from "./otp/otp.module";
+import {ForgotPasswordModule} from "./forgot-password/forgot-password.module";
+import {SetNewPasswordModule} from "./set-new-password/set-new-password.module";
 
 const routes: Routes = [
   {
     path: "",
-    component: AuthComponent,
-    canActivate: [NoAuthGuard],
-    children: [
-      { path: "login", component: LoginComponent },
-      { path: "register", component: RegisterComponent },
-      { path: "forgot-password", component: ForgotPasswordComponent },
-      { path: "otp", component: OtpComponent },
-      { path: "set-new-password", component: SetNewPasswordComponent },
-    ]
+    component: AuthComponent
   }
 ];
 
 @NgModule({
   declarations: [
-    AuthComponent,
-    LoginComponent,
-    RegisterComponent,
-    ForgotPasswordComponent,
-    OtpComponent,
-    SetNewPasswordComponent
+    AuthComponent
   ],
   imports: [
     RouterModule.forChild(routes),
     MatProgressSpinnerModule,
     CommonModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+
+    LoginModule,
+    RegisterModule,
+    OtpModule,
+    ForgotPasswordModule,
+    SetNewPasswordModule
   ],
   providers: [
     AuthService
   ]
 })
-export class AuthModule { }
+export class AuthModule {
+}
