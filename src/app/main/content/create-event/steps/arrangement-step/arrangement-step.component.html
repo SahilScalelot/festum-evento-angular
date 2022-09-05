@@ -1,5 +1,24 @@
-
 <div class="space-y-5 px-2">
+  <div class="Accordions w-full space-y-5">
+    <p-accordion [multiple]="true">
+      <p-accordionTab header="Header 1">
+        <ng-template pTemplate="content">
+          Content 1
+        </ng-template>
+      </p-accordionTab>
+      <p-accordionTab header="Header 2">
+        <ng-template pTemplate="content">
+          Complex Content to Lazy Load
+        </ng-template>
+      </p-accordionTab>
+      <p-accordionTab header="Header 3">
+        <ng-template pTemplate="content">
+          Complex Content to Lazy Load
+        </ng-template>
+      </p-accordionTab>
+    </p-accordion>
+  </div>
+
   <div class="Accordions w-full space-y-5">
     <div class="Accordion_item h-full p-0 relative">
       <div class="flex items-center space-x-7 absolute right-20 inset-y-0 h-20">
@@ -8,7 +27,7 @@
       </div>
       <div class="title_tab flex justify-between items-center px-5 py-6 max-h-[78px] active">
         <div class="space-x-7 flex items-center">
-          <img src="../assets/images/table.png" alt="table" class="w-10" />
+          <img alt="table" class="w-10" src="../assets/images/table.png"/>
           <h4>Table</h4>
         </div>
         <div class="flex items-center space-x-7">
@@ -21,13 +40,13 @@
       <div class="inner_content i_c space-y-6 border-t px-5 py-6">
         <div class="flex">
           <div class="pr-5">
-            <img src="../assets/images/select-item.png" alt="select-item" />
+            <img alt="select-item" src="../assets/images/select-item.png"/>
           </div>
           <div class="w-full space-y-2">
             <div class="flex items-center justify-between">
               <h6 class="text-lg text-japaneseIndigo font-bold">Select Item</h6>
               <div class="flex items-center">
-                <input type="checkbox" id="on" class="switch mx-3 order-2" />
+                <input class="switch mx-3 order-2" id="on" type="checkbox"/>
                 <span class="off text-base font-bold anim order-1 text-caribbeanGreen">per table</span>
                 <span class="on text-base font-bold anim order-3">per person</span>
               </div>
@@ -64,28 +83,33 @@
             </div>
             <div>
               <p>Description</p>
-              <span class="text-base text-quicksilver font-bold">Lorem Ipsum is simply dummy text of the printing.</span>
+              <span
+                class="text-base text-quicksilver font-bold">Lorem Ipsum is simply dummy text of the printing.</span>
             </div>
           </div>
         </div>
         <div class="flex">
           <div class="pr-5">
-            <img src="../assets/images/non-veg.png" alt="non-veg" />
+            <img alt="non-veg" src="../assets/images/non-veg.png"/>
           </div>
           <div class="w-full space-y-2">
             <p>Food</p>
             <span class="text-lg font-bold text-japaneseIndigo">Non Veg</span>
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+              industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+              scrambled it to make a type specimen book.</p>
           </div>
         </div>
         <div class="flex">
           <div class="pr-5">
-            <img src="../assets/images/not-include.png" alt="not-include" />
+            <img alt="not-include" src="../assets/images/not-include.png"/>
           </div>
           <div class="w-full space-y-2">
             <p>Equipment</p>
             <span class="text-lg font-bold text-japaneseIndigo">Not Include</span>
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+              industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+              scrambled it to make a type specimen book.</p>
           </div>
         </div>
       </div>
@@ -97,7 +121,7 @@
       </div>
       <div class="title_tab flex justify-between items-center px-5 py-6 max-h-[78px]">
         <div class="space-x-7 flex items-center">
-          <img src="../assets/images/sofa.png" alt="sofa" />
+          <img alt="sofa" src="../assets/images/sofa.png"/>
           <h4>Sofa</h4>
         </div>
         <div class="flex items-center space-x-7">
@@ -110,13 +134,13 @@
       <div class="inner_content i_c space-y-6 border-t px-5 py-6">
         <div class="flex">
           <div class="pr-5">
-            <img src="../assets/images/select-item.png" alt="select-item" />
+            <img alt="select-item" src="../assets/images/select-item.png"/>
           </div>
           <div class="w-full space-y-2">
             <div class="flex items-center justify-between">
               <h6 class="text-lg text-japaneseIndigo font-bold">Select Item</h6>
               <div class="flex items-center">
-                <input type="checkbox" id="on" class="switch mx-3 order-2" />
+                <input class="switch mx-3 order-2" id="on" type="checkbox"/>
                 <span class="off text-base font-bold anim order-1 text-caribbeanGreen">per table</span>
                 <span class="on text-base font-bold anim order-3">per person</span>
               </div>
@@ -153,28 +177,33 @@
             </div>
             <div>
               <p>Description</p>
-              <span class="text-base text-quicksilver font-bold">Lorem Ipsum is simply dummy text of the printing.</span>
+              <span
+                class="text-base text-quicksilver font-bold">Lorem Ipsum is simply dummy text of the printing.</span>
             </div>
           </div>
         </div>
         <div class="flex">
           <div class="pr-5">
-            <img src="../assets/images/non-veg.png" alt="non-veg" />
+            <img alt="non-veg" src="../assets/images/non-veg.png"/>
           </div>
           <div class="w-full space-y-2">
             <p>Food</p>
             <span class="text-lg font-bold text-japaneseIndigo">Non Veg</span>
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+              industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+              scrambled it to make a type specimen book.</p>
           </div>
         </div>
         <div class="flex">
           <div class="pr-5">
-            <img src="../assets/images/not-include.png" alt="not-include" />
+            <img alt="not-include" src="../assets/images/not-include.png"/>
           </div>
           <div class="w-full space-y-2">
             <p>Equipment</p>
             <span class="text-lg font-bold text-japaneseIndigo">Not Include</span>
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+              industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+              scrambled it to make a type specimen book.</p>
           </div>
         </div>
       </div>
@@ -186,7 +215,7 @@
       </div>
       <div class="title_tab flex justify-between items-center px-5 py-6 max-h-[78px] active">
         <div class="space-x-7 flex items-center">
-          <img src="../assets/images/chair.png" alt="chair" />
+          <img alt="chair" src="../assets/images/chair.png"/>
           <h4>Chair</h4>
         </div>
         <div class="flex items-center space-x-7">
@@ -199,7 +228,7 @@
       <div class="inner_content i_c space-y-6 border-t px-5 py-6">
         <div class="flex">
           <div class="pr-5">
-            <img src="../assets/images/select-item.png" alt="select-item" />
+            <img alt="select-item" src="../assets/images/select-item.png"/>
           </div>
           <div class="w-full space-y-2">
             <div class="flex items-center justify-between">
@@ -229,40 +258,45 @@
             </div>
             <div>
               <p>Description</p>
-              <span class="text-base text-quicksilver font-bold">Lorem Ipsum is simply dummy text of the printing.</span>
+              <span
+                class="text-base text-quicksilver font-bold">Lorem Ipsum is simply dummy text of the printing.</span>
             </div>
           </div>
         </div>
         <div class="flex">
           <div class="pr-5">
-            <img src="../assets/images/non-veg.png" alt="non-veg" />
+            <img alt="non-veg" src="../assets/images/non-veg.png"/>
           </div>
           <div class="w-full space-y-2">
             <p>Food</p>
             <span class="text-lg font-bold text-japaneseIndigo">Non Veg</span>
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+              industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+              scrambled it to make a type specimen book.</p>
           </div>
         </div>
         <div class="flex">
           <div class="pr-5">
-            <img src="../assets/images/not-include.png" alt="not-include" />
+            <img alt="not-include" src="../assets/images/not-include.png"/>
           </div>
           <div class="w-full space-y-2">
             <p>Equipment</p>
             <span class="text-lg font-bold text-japaneseIndigo">Not Include</span>
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+              industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+              scrambled it to make a type specimen book.</p>
           </div>
         </div>
       </div>
     </div>
-    <div class="Accordion_item h-full p-0 relative">                    
+    <div class="Accordion_item h-full p-0 relative">
       <div class="flex items-center space-x-7 absolute right-20 inset-y-0 h-20">
         <a href="#"><i class="icon-delete text-lg text-quicksilver"></i></a>
         <a href="#"><i class="icon-edit text-lg text-quicksilver"></i></a>
       </div>
       <div class="title_tab flex justify-between items-center px-5 py-6 max-h-[78px]">
         <div class="space-x-7 flex items-center">
-          <img src="../assets/images/booth.png" alt="booth" />
+          <img alt="booth" src="../assets/images/booth.png"/>
           <h4>Booth</h4>
         </div>
         <div class="flex items-center space-x-7">
@@ -275,7 +309,7 @@
       <div class="inner_content i_c space-y-6 border-t px-5 py-6">
         <div class="flex">
           <div class="pr-5">
-            <img src="../assets/images/select-item.png" alt="select-item" />
+            <img alt="select-item" src="../assets/images/select-item.png"/>
           </div>
           <div class="w-full space-y-2">
             <div class="flex items-center justify-between">
@@ -305,28 +339,33 @@
             </div>
             <div>
               <p>Description</p>
-              <span class="text-base text-quicksilver font-bold">Lorem Ipsum is simply dummy text of the printing.</span>
+              <span
+                class="text-base text-quicksilver font-bold">Lorem Ipsum is simply dummy text of the printing.</span>
             </div>
           </div>
         </div>
         <div class="flex">
           <div class="pr-5">
-            <img src="../assets/images/non-veg.png" alt="non-veg" />
+            <img alt="non-veg" src="../assets/images/non-veg.png"/>
           </div>
           <div class="w-full space-y-2">
             <p>Food</p>
             <span class="text-lg font-bold text-japaneseIndigo">Non Veg</span>
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+              industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+              scrambled it to make a type specimen book.</p>
           </div>
         </div>
         <div class="flex">
           <div class="pr-5">
-            <img src="../assets/images/not-include.png" alt="not-include" />
+            <img alt="not-include" src="../assets/images/not-include.png"/>
           </div>
           <div class="w-full space-y-2">
             <p>Equipment</p>
             <span class="text-lg font-bold text-japaneseIndigo">Not Include</span>
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+              industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+              scrambled it to make a type specimen book.</p>
           </div>
         </div>
       </div>
@@ -338,7 +377,7 @@
       </div>
       <div class="title_tab flex justify-between items-center px-5 py-6 max-h-[78px]">
         <div class="space-x-7 flex items-center">
-          <img src="../assets/images/stand.png" alt="stand" />
+          <img alt="stand" src="../assets/images/stand.png"/>
           <h4>Stand</h4>
         </div>
         <div class="flex items-center space-x-7">
@@ -351,7 +390,7 @@
       <div class="inner_content i_c space-y-6 border-t px-5 py-6">
         <div class="flex">
           <div class="pr-5">
-            <img src="../assets/images/select-item.png" alt="select-item" />
+            <img alt="select-item" src="../assets/images/select-item.png"/>
           </div>
           <div class="w-full space-y-2">
             <div class="flex items-center justify-between">
@@ -381,28 +420,33 @@
             </div>
             <div>
               <p>Description</p>
-              <span class="text-base text-quicksilver font-bold">Lorem Ipsum is simply dummy text of the printing.</span>
+              <span
+                class="text-base text-quicksilver font-bold">Lorem Ipsum is simply dummy text of the printing.</span>
             </div>
           </div>
         </div>
         <div class="flex">
           <div class="pr-5">
-            <img src="../assets/images/non-veg.png" alt="non-veg" />
+            <img alt="non-veg" src="../assets/images/non-veg.png"/>
           </div>
           <div class="w-full space-y-2">
             <p>Food</p>
             <span class="text-lg font-bold text-japaneseIndigo">Non Veg</span>
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+              industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+              scrambled it to make a type specimen book.</p>
           </div>
         </div>
         <div class="flex">
           <div class="pr-5">
-            <img src="../assets/images/not-include.png" alt="not-include" />
+            <img alt="not-include" src="../assets/images/not-include.png"/>
           </div>
           <div class="w-full space-y-2">
             <p>Equipment</p>
             <span class="text-lg font-bold text-japaneseIndigo">Not Include</span>
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+              industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+              scrambled it to make a type specimen book.</p>
           </div>
         </div>
       </div>
@@ -413,15 +457,15 @@
 <div class="mt-auto">
   <!-- advisement -->
   <div class="w-full mt-5">
-    <img src="assets/images/banner-ads.png" alt="ring-ad" class="w-full object-cover"/>
+    <img alt="ring-ad" class="w-full object-cover" src="assets/images/banner-ads.png"/>
   </div>
   <!-- pre and next button -->
   <div class="prw-next-btn">
-    <button type="button" class="flex items-center active" [routerLink]="'/create-event/about-event'">
+    <button [routerLink]="'/create-event/about-event'" class="flex items-center active" type="button">
       <i class="icon-left_arrow mr-3"></i>
       <h5>Back</h5>
     </button>
-    <button type="button" class="flex items-center active"  [routerLink]="'/create-event/location'">
+    <button [routerLink]="'/create-event/location'" class="flex items-center active" type="button">
       <h5>Next</h5>
       <i class="icon-right_arrow ml-3"></i>
     </button>
