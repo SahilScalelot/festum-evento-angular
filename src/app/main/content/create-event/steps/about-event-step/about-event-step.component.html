@@ -5,7 +5,7 @@
       <label class="bg-white rounded-md flex space-x-3 relative">
         <i class="icon-calendar-2 text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0"></i>
         <p-calendar class="w-full"
-        [formControlName]="'date'" name="date" selectionMode="range" [readonlyInput]="true" inputId="range"></p-calendar>
+        [formControlName]="'date'" name="date" [minDate]="minDateValue" selectionMode="range" [readonlyInput]="true" inputId="range"></p-calendar>
       </label>
     </div>
     <div class="w-full xl:w-1/2 px-2 pt-5 flex space-x-4">
@@ -27,9 +27,9 @@
   </div>
   <div class="w-full">
     <span class="input-titel">About Event</span>
-    <textarea 
-    cols="30" 
-    rows="4" 
+    <textarea
+    cols="30"
+    rows="4"
     [formControlName]="'about_event'" name="about_event"
     class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md placeholder:text-sm placeholder:text-[#a6a6a6] placeholder:font-bold"></textarea>
   </div>

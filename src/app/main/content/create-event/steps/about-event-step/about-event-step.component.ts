@@ -1,8 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import { FormBuilder, FormControl , FormGroup, Validators} from '@angular/forms';
-import { Router } from '@angular/router';
-import { SnotifyService } from 'ng-snotify';
-import { CONSTANTS } from 'src/app/main/common/constants';
+import {FormBuilder, Validators} from '@angular/forms';
+import {Router} from '@angular/router';
+import {SnotifyService} from 'ng-snotify';
 
 @Component({
   selector: 'app-about-event-step',
@@ -10,14 +9,14 @@ import { CONSTANTS } from 'src/app/main/common/constants';
   styleUrls: ['./about-event-step.component.scss']
 })
 export class AboutEventStepComponent implements OnInit {
-
+  minDateValue: any = new Date();
   aboutEventForm: any;
 
   constructor(
     private _formBuilder: FormBuilder,
     private _router: Router,
     private _sNotify: SnotifyService,
-    ) {
+  ) {
   }
 
   ngOnInit(): void {
@@ -28,11 +27,14 @@ export class AboutEventStepComponent implements OnInit {
       about_event: [''],
     });
   }
-  
+
   validate(): any {
-    console.log(this.aboutEventForm.value.date);
-    if (!this.aboutEventForm.value.date || this.aboutEventForm.value.date === "") {
+    if (!this.aboutEventForm.value.date || !this.aboutEventForm.value.date.length) {
       this._sNotify.error('Date is required!', 'Oops!');
+      return false;
+    }
+    if (!this.aboutEventForm.value.date[1] || this.aboutEventForm.value.date[1] == '') {
+      this._sNotify.error('End date is required!', 'Oops!');
       return false;
     }
     if (!this.aboutEventForm.value.start_time || this.aboutEventForm.value.start_time === "") {
@@ -43,6 +45,10 @@ export class AboutEventStepComponent implements OnInit {
       this._sNotify.error('End Time is required!', 'Oops!');
       return false;
     }
+    if (this.aboutEventForm.value.end_time <= this.aboutEventForm.value.start_time) {
+      this._sNotify.error('End time should always greater than Start time!', 'Oops!');
+      return false;
+    }
     return true;
   }
 
@@ -50,7 +56,23 @@ export class AboutEventStepComponent implements OnInit {
     if (!this.validate()) {
       return;
     }
+    const preparedAboutEventObj = this.prepareAboutEventObj(this.aboutEventForm.value);
+    console.log(preparedAboutEventObj);
     this._router.navigate(['/create-event/arrangement']);
+  }
+
+  prepareAboutEventObj(aboutEventObj: any): any {
+    const preparedAboutEventObj: any = {};
+    preparedAboutEventObj.event_start_date = aboutEventObj.date[0];
+    preparedAboutEventObj.event_end_date = aboutEventObj.date[1];
+    preparedAboutEventObj.event_start_time = this.prepareTime(aboutEventObj.start_time);
+    preparedAboutEventObj.event_end_time = this.prepareTime(aboutEventObj.end_time);
+    preparedAboutEventObj.about_event = aboutEventObj.about_event;
+    return preparedAboutEventObj;
+  }
+
+  prepareTime(dateWithTime: any): any {
+    return dateWithTime.getHours() + ':' + dateWithTime.getMinutes();
   }
 
 }
