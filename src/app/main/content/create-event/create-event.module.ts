@@ -16,6 +16,8 @@ import {CompanyDetailsStepComponent} from './steps/company-details-step/company-
 import {PersonalDetailsStepComponent} from './steps/personal-details-step/personal-details-step.component';
 import {TermsAndConditionsStepComponent} from './steps/terms-and-conditions-step/terms-and-conditions-step.component';
 import {AccordionModule} from 'primeng/accordion';
+import {CalendarModule} from 'primeng/calendar';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 const routes: Routes = [
   {path: '', redirectTo: 'add-event', pathMatch: 'full'},
@@ -77,7 +79,10 @@ const routes: Routes = [
     StepsModule,
     TooltipModule,
     SharedModule,
-    AccordionModule
+    AccordionModule,
+    CalendarModule,
+    ReactiveFormsModule,
+    FormsModule
   ]
 })
 export class CreateEventModule {

@@ -133,4 +133,27 @@ export class GlobalFunctions {
     }
   }
 
+  loadAccordion(): void {
+    if ($('.title_tab')) {
+      $('.title_tab.active').next('.inner_content').slideDown();
+      $('.title_tab').on('click', (e: any) => {
+        if (e && e.target) {
+          e.preventDefault();
+          if ($(e.target).hasClass('active')) {
+            $(e.target).removeClass('active');
+            $(e.target).next().stop().slideUp(500);
+            $(e.target).next().find('p').removeClass('show');
+          } else {
+            $(e.target).addClass('active');
+            $(e.target).next().stop().slideDown(500);
+            $(e.target).parent().siblings().children('.title_tab').removeClass('active');
+            $(e.target).parent().siblings().children('.inner_content').slideUp(500);
+            $(e.target).parent().siblings().children('.inner_content').find('p').removeClass('show');
+            $(e.target).next().find('p').addClass('show');
+          }
+        }
+      });
+    }
+  }
+
 }

@@ -20,6 +20,7 @@
     "@angular/platform-browser": "^14.1.0",
     "@angular/platform-browser-dynamic": "^14.1.0",
     "@angular/router": "^14.1.0",
+    "jquery": "^3.6.1",
     "lodash": "^4.17.21",
     "ng-snotify": "^9.0.1",
     "primeicons": "^5.0.0",

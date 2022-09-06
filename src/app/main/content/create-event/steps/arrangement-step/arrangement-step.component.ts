@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { GlobalFunctions } from 'src/app/main/common/global-functions';
+
+declare var $: any;
 
 @Component({
   selector: 'app-arrangement-step',
@@ -7,9 +10,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ArrangementStepComponent implements OnInit {
 
-  constructor() { }
+  constructor(public _globalFunctions: GlobalFunctions) { }
 
   ngOnInit(): void {
+    this._globalFunctions.loadAccordion();
   }
 
 }

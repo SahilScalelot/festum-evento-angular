@@ -1,34 +1,39 @@
-<div class="space-y-5 px-2">
+<form #newEventNgForm="ngForm" [formGroup]="aboutEventForm" class="p-ngCss space-y-5 px-2" id="about-event">
   <div class="flex flex-wrap -mx-2">
     <div class="w-full xl:w-1/2 px-2 pt-5">
       <span class="input-titel">Start Date</span>
       <label class="bg-white rounded-md flex space-x-3 relative">
         <i class="icon-calendar-2 text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0"></i>
-        <input type="date" class="w-full rounded-md outline-none py-3" />
+        <p-calendar class="w-full"
+        [formControlName]="'date'" name="date" selectionMode="range" [readonlyInput]="true" inputId="range"></p-calendar>
       </label>
     </div>
     <div class="w-full xl:w-1/2 px-2 pt-5 flex space-x-4">
       <div class="w-full lg:w-1/2">
-        <span class="input-titel">Start Date</span>
+        <span class="input-titel">Start Time</span>
         <label class="bg-white rounded-md flex space-x-3 relative">
           <i class="icon-time text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0"></i>
-          <input type="time" class="w-full rounded-md outline-none py-3" />
+          <p-calendar class="w-4/5" [formControlName]="'start_time'" name="start_time" [showTime]="true" [timeOnly]="true" inputId="start_time"></p-calendar>
         </label>
       </div>
       <div class="w-full lg:w-1/2">
-        <span class="input-titel">End Date</span>
+        <span class="input-titel">End Time</span>
         <label class="bg-white rounded-md flex space-x-3 relative">
           <i class="icon-time text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0"></i>
-          <input type="time" class="w-full rounded-md outline-none py-3" />
+          <p-calendar class="w-4/5" [formControlName]="'end_time'" name="end_time" [showTime]="true" [timeOnly]="true" inputId="end_time"></p-calendar>
         </label>
       </div>
     </div>
   </div>
   <div class="w-full">
-    <span class="input-titel">About Even</span>
-    <textarea  cols="30" rows="4" class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md placeholder:text-sm placeholder:text-[#a6a6a6] placeholder:font-bold"></textarea>
+    <span class="input-titel">About Event</span>
+    <textarea 
+    cols="30" 
+    rows="4" 
+    [formControlName]="'about_event'" name="about_event"
+    class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md placeholder:text-sm placeholder:text-[#a6a6a6] placeholder:font-bold"></textarea>
   </div>
-</div>
+</form>
 
 <div class="mt-auto">
   <!-- advisement -->
@@ -41,7 +46,7 @@
       <i class="icon-left_arrow mr-3"></i>
       <h5>Back</h5>
     </button>
-    <button type="button" class="flex items-center active"  [routerLink]="'/create-event/arrangement'">
+    <button (click)="next()" type="button" class="flex items-center active">
       <h5>Next</h5>
       <i class="icon-right_arrow ml-3"></i>
     </button>
