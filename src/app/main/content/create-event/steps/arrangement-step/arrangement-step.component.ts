@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { GlobalFunctions } from 'src/app/main/common/global-functions';
 
 declare var $: any;
@@ -9,11 +10,20 @@ declare var $: any;
   styleUrls: ['./arrangement-step.component.scss']
 })
 export class ArrangementStepComponent implements OnInit {
+  isArrangement: boolean = false;
 
-  constructor(public _globalFunctions: GlobalFunctions) { }
+  constructor(public _globalFunctions: GlobalFunctions,public _router: Router) { }
 
   ngOnInit(): void {
     this._globalFunctions.loadAccordion();
+  }
+
+  openAddEventDialog(): void {
+    this.isArrangement = true;
+  }
+
+  closePop(flag: boolean): void {
+    this.isArrangement = flag;
   }
 
 }

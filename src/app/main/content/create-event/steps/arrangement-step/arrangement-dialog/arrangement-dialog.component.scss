@@ -1,0 +1,12 @@
+.pluseBox {
+  .addDeleteBtn {
+    .minus {@apply flex;}
+    .pluse {@apply hidden;}
+  }
+  ul:last-child {
+    .addDeleteBtn {
+      .minus {@apply hidden;}
+      .pluse {@apply flex;}
+    }
+  }
+}

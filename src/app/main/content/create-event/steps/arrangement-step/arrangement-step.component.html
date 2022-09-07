@@ -434,6 +434,8 @@
   </div>
 </div>
 
+<button (click)="openAddEventDialog()">Open</button>
+
 <div class="mt-auto">
   <!-- advisement -->
   <div class="w-full mt-5">
@@ -451,3 +453,5 @@
     </button>
   </div>
 </div>
+
+<app-arrangement-dialog *ngIf="isArrangement" (isAddEventChange)="closePop($event)" [popClass]="'active'"></app-arrangement-dialog>

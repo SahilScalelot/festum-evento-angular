@@ -70,9 +70,9 @@ body{@apply font-primary text-japaneseIndigo bg-brightGray m-0 capitalize;}
   .p-steps .p-steps-item .p-menuitem-link .p-steps-number {@apply text-xs text-quicksilver font-semibold min-w-0 w-6 h-6 p-0 rounded-full bg-[#dddddd] shadow-xl flex items-center justify-center mx-auto transition-all duration-300;}
   .step-progress-holder li h3{@apply text-xs xl:text-sm whitespace-nowrap;}
   .step-progress-holder li div::after {@apply content-[''] w-full h-0.5 absolute top-3 inset-x-0 -z-10 bg-[#dddddd] transition-all duration-300;}
-  .step-progress-holder li div::before{@apply content-[''] w-0 h-0.5 absolute top-3 inset-x-0 bg-japaneseIndigo z-[-1] transition-all duration-300;}
+  .step-progress-holder li div::before{@apply content-[''] w-0 h-0.5 absolute top-3 inset-x-0 bg-magicPotion z-[-1] transition-all duration-300;}
   .step-progress-holder li.active div::before{@apply w-full;}
-  .step-progress-holder li.active div span{@apply bg-japaneseIndigo text-white;}
+  .step-progress-holder li.active div span{@apply bg-magicPotion text-white;}
   .p-steps .p-steps-item:before {margin-top: -10px;}
   .p-steps .p-steps-item .p-menuitem-link {@apply font-bold text-xs;}
   .p-steps .p-steps-item .p-steps-title {margin-top: 4px !important;}
@@ -103,7 +103,7 @@ body{@apply font-primary text-japaneseIndigo bg-brightGray m-0 capitalize;}
   }
 
   /* prw-next-btn */
-  .prw-next-btn{@apply w-full mt-auto flex items-center justify-between pt-10;}
+  .prw-next-btn{@apply w-full mt-auto flex items-center justify-between pt-4;}
   .prw-next-btn button i, .prw-next-btn button h5{@apply text-quicksilver;}
   .prw-next-btn button.active i, .prw-next-btn button.active h5{@apply text-magicPotion;}
   // .prw-next-btn button:hover{@apply opacity-70;}

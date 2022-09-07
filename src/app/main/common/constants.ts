@@ -40,6 +40,14 @@ export const CONSTANTS = {
     PUBLIC: 'PP',
   },
 
+  seatingItems: [
+    {value: 1, label: 'Table'},
+    {value: 2, label: 'Sofa'},
+    {value: 3, label: 'Chair'},
+    {value: 4, label: 'Booth'},
+    {value: 5, label: 'Stand'}
+  ],
+
   unitTypeArr:<any> {
     'B2B':<any> {
       value:<any> 'B2B',

@@ -18,6 +18,7 @@ import {TermsAndConditionsStepComponent} from './steps/terms-and-conditions-step
 import {AccordionModule} from 'primeng/accordion';
 import {CalendarModule} from 'primeng/calendar';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ArrangementDialogComponent } from './steps/arrangement-step/arrangement-dialog/arrangement-dialog.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'add-event', pathMatch: 'full'},
@@ -71,7 +72,8 @@ const routes: Routes = [
     DiscountStepComponent,
     CompanyDetailsStepComponent,
     PersonalDetailsStepComponent,
-    TermsAndConditionsStepComponent
+    TermsAndConditionsStepComponent,
+    ArrangementDialogComponent
   ],
   imports: [
     RouterModule.forChild(routes),
