@@ -11,6 +11,7 @@ import {SnotifyService} from 'ng-snotify';
 export class AboutEventStepComponent implements OnInit {
   minDateValue: any = new Date();
   aboutEventForm: any;
+  eventObj: any = {about_event: {}};
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -20,11 +21,16 @@ export class AboutEventStepComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (localStorage.getItem('newEventObj')) {
+      const eventString: any = localStorage.getItem('newEventObj');
+      this.eventObj = JSON.parse(eventString);
+    }
     this.aboutEventForm = this._formBuilder.group({
-      date: ['', [Validators.required]],
-      start_time: ['', [Validators.required]],
-      end_time: ['', [Validators.required]],
-      about_event: [''],
+      date: [this.eventObj && this.eventObj.about_event && this.eventObj.about_event.event_start_date ?
+        [new Date(this.eventObj?.about_event?.event_start_date), new Date(this.eventObj?.about_event?.event_end_date)] : '', [Validators.required]],
+      start_time: [this.eventObj?.about_event?.event_start_time, [Validators.required]],
+      end_time: [this.eventObj?.about_event?.event_end_time, [Validators.required]],
+      about_event: [this.eventObj?.about_event?.about_event],
     });
   }
 
@@ -57,7 +63,10 @@ export class AboutEventStepComponent implements OnInit {
       return;
     }
     const preparedAboutEventObj = this.prepareAboutEventObj(this.aboutEventForm.value);
-    console.log(preparedAboutEventObj);
+    this.eventObj.about_event = preparedAboutEventObj;
+
+    JSON.stringify({about_event: preparedAboutEventObj});
+    localStorage.setItem('newEventObj', JSON.stringify(this.eventObj));
     this._router.navigate(['/create-event/arrangement']);
   }
 
@@ -72,7 +81,10 @@ export class AboutEventStepComponent implements OnInit {
   }
 
   prepareTime(dateWithTime: any): any {
-    return dateWithTime.getHours() + ':' + dateWithTime.getMinutes();
+    const date: any = new Date(dateWithTime);
+    if (date != 'Invalid Date') {
+      return dateWithTime.getHours() + ':' + dateWithTime.getMinutes();
+    }
   }
 
 }
