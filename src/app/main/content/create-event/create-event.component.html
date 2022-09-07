@@ -8,6 +8,8 @@
       </div>
       <!--<span [routerLink]="'/create-event'" class="secondary cursor-pointer px-7 py-3" (click)="isAddEvent = true">
         <i class="icon-plus mr-3"></i>Add event</span>-->
+      <span class="secondary cursor-pointer px-7 py-3" *ngIf="isAddArrangement" (click)="openAddArrangementDialog()">
+        <i class="icon-plus mr-3"></i>Add</span>
     </div>
     <div class="w-full overflow-hidden overflow-x-auto capitalize">
       <p-steps [model]="items" [readonly]="true"></p-steps>

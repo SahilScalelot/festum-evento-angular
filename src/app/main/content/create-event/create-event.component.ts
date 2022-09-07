@@ -1,7 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {MenuItem} from "primeng/api";
 import {Subscription} from "rxjs";
 import {GlobalService} from "../../../services/global.service";
+import {Router} from "@angular/router";
+import {CreateEventService} from "./create-event.service";
 
 @Component({
   selector: 'app-create-event',
@@ -11,8 +13,12 @@ import {GlobalService} from "../../../services/global.service";
 export class CreateEventComponent implements OnInit {
   items: MenuItem[] | any;
   subscription: Subscription | any;
+  isAddArrangement: boolean = false;
 
-  constructor(public _globalService: GlobalService) {
+  constructor(public _globalService: GlobalService, private _router: Router, private _createEventService: CreateEventService) {
+    _router.events.subscribe((event: any) => {
+      this.isAddArrangement = (!this.isAddArrangement && event.url && event.url.includes('/create-event/arrangement'));
+    });
   }
 
   ngOnInit(): void {
@@ -68,6 +74,10 @@ export class CreateEventComponent implements OnInit {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+  }
+
+  openAddArrangementDialog(): void {
+    this._createEventService.isOpenAddEditArrangementDialog$.next(true);
   }
 
 }

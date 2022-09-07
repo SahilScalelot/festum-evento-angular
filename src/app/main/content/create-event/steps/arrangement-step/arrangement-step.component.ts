@@ -1,8 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { GlobalFunctions } from 'src/app/main/common/global-functions';
-
-declare var $: any;
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {GlobalFunctions} from 'src/app/main/common/global-functions';
+import {CreateEventService} from "../../create-event.service";
 
 @Component({
   selector: 'app-arrangement-step',
@@ -12,10 +11,14 @@ declare var $: any;
 export class ArrangementStepComponent implements OnInit {
   isArrangement: boolean = false;
 
-  constructor(public _globalFunctions: GlobalFunctions,public _router: Router) { }
+  constructor(public _globalFunctions: GlobalFunctions, public _router: Router, private _createEventService: CreateEventService) {
+  }
 
   ngOnInit(): void {
     this._globalFunctions.loadAccordion();
+    this._createEventService.isOpenAddEditArrangementDialog$.subscribe((isOpenAddEditArrangementDialog: boolean) => {
+      this.isArrangement = isOpenAddEditArrangementDialog;
+    })
   }
 
   openAddEventDialog(): void {
@@ -25,5 +28,4 @@ export class ArrangementStepComponent implements OnInit {
   closePop(flag: boolean): void {
     this.isArrangement = flag;
   }
-
 }
