@@ -84,7 +84,12 @@ export const CONSTANTS = {
         "Festival Event"
       ]
     },
-  }
+  },
+
+  defaultMapZoom: 12,
+  latitude: 21.1702,
+  longitude: 72.8311,
+  googleMapApiKey: 'AIzaSyDLgr8YB5IK8dBIEWClexZGzXaB7UlVm7Q'
 };
 
 
