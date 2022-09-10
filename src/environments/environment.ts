@@ -7,8 +7,8 @@ export const environment = {
   // appURL: "http://192.168.29.223:8080/api/v1/",
   // baseImageURL: "http://192.168.29.223:8080/",
 
-  appURL: "http://festum.dev.scalelot.com/api/v1/",
-  baseImageURL: "http://festum.dev.scalelot.com/",
+  appURL: "https://festum.dev.scalelot.com/api/v1/",
+  baseImageURL: "https://festum.dev.scalelot.com/",
 };
 
 /*

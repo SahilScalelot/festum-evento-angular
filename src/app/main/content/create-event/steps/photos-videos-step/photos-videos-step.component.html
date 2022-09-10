@@ -1,34 +1,34 @@
-<div class="space-y-5">
-  <div class="upload-holder w-full">
-    <span class="text-sm text-quicksilver font-semibold">Add Poster<span class="font-normal"> (Max size 10MB)</span></span>
-    <label for="event-upload" class="upload upload-popup py-9">
-      <input type="file" name="images" id="event-upload" class="appearance-none hidden" />
-      <span class="input-titel mt-1 text-base"><i class="icon-img_upload mr-2"></i>Add Image</span>
+<div [formGroup]="photosAndVideosForm" class="space-y-5">
+  <div class="upload-holder w-full h-auto">
+    <span class="text-sm text-quicksilver font-semibold">Add Poster <span class="font-normal">(Max size 10MB)</span></span>
+    <label id="posterUpload" class="upload upload-popup p-0 relative group">
+      <input type="file" id="poster" (change)="onFileChange($event,'poster')" #poster class="poster hidden" formControlName="poster" accept="image/png, image/jpeg, image/gif" />
+      <img *ngIf="cropImgPreview" [src]="cropImgPreview" class="absolute inset-0 w-full h-full object-cover z-10 group-hover:-z-10" />
     </label>
   </div>
   <div class="media-upload-holder pt-5">
     <span class="text-sm text-quicksilver font-semibold">Add Photos <span class="font-normal">(5 Images - up to 5MB/Image)</span></span>
       <div class="flex space-x-2.5 h-full pt-2">
-          <div class="upload-box">
-              <div class="rounded relative overflow-hidden">
-                <img src="../assets/images/add-photo-1.png" alt="add-photo-1" />
-                <button>Remove</button>
-              </div>
+        <div class="upload-box" *ngFor="let photo of photoArr; let i = index">
+          <div class="rounded relative overflow-hidden">
+            <img [src]="photo[i]" [alt]="'add-photo-' + i" />
+            <button>Remove</button>
           </div>
-          <div class="upload-box">
-              <div class="rounded relative overflow-hidden">
-                <img src="../assets/images/add-photo-2.png" alt="add-photo-2" />
-                <button>Remove</button>
-              </div>
+        </div>
+        <div class="upload-box">
+          <div class="rounded relative overflow-hidden">
+            <img src="../assets/images/add-photo-2.png" alt="add-photo-2" />
+            <button>Remove</button>
           </div>
-        <div class="upload-holder">
-          <label for="event-upload1" class="upload-photo">
-            <input type="file" name="images" id="event-upload1" class="appearance-none hidden" />
-            <i class="icon-img_upload text-base text-quicksilver"></i>
-            <div class="mt-1 flex items-baseline justify-center"><span class="input-titel pt-1">Add Photos</span></div>
-          </label>
+        </div>
+      <div class="upload-holder" (click)="onFileChange($event, 'photo')">
+        <label for="event-upload1" class="upload-photo">
+          <!-- <input type="file" id="photo" name="photo" (change)="onFileChange($event, 'photo')" id="event-upload1" class="appearance-none hidden" accept="image/png, image/jpeg, image/gif" /> -->
+          <i class="icon-img_upload text-base text-quicksilver"></i>
+          <div class="mt-1 flex items-baseline justify-center"><span class="input-titel pt-1">Add Photos</span></div>
+        </label>
       </div>
-      </div>
+    </div>
   </div>
   <div class="media-upload-holder pt-5">
     <span class="text-sm text-quicksilver font-semibold">Add Video<span class="font-normal">(2 videos - up to 512MB/video)</span></span>
@@ -66,7 +66,7 @@
   </div>
   <!-- pre and next button -->
   <div class="prw-next-btn">
-    <button type="button" class="flex items-center active" [routerLink]="'/create-event/location'">
+    <button type="button" class="flex items-center active" [routerLink]="'/createe-event/location'">
       <i class="icon-left_arrow mr-3"></i>
       <h5>Back</h5>
     </button>
@@ -76,3 +76,37 @@
     </button>
   </div>
 </div>
+
+<!-- Poster crop -->
+<modal id="imgCropper" class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" title="Poster">
+  <div class="flex flex-wrap -mx-4 py-5">
+    <div class="w-full lg:w-1/2 px-4">
+      <image-cropper [imageChangedEvent]="imgChangeEvt" [maintainAspectRatio]="true" [aspectRatio]="2 / 1 " format="png" (imageCropped)="cropImg($event)"></image-cropper>
+    </div>
+    <div class="w-full lg:w-1/2 px-4">
+      <h6 class="text-lg pb-4">{{ 'Image Preview' }}</h6>
+      <img [src]="cropImgPreview" class="responsive-img" />
+    </div>
+  </div>
+
+  <button class="secondary w-full uppercase py-2 anim" (click)="savePoster(cropImgPreview)">{{ 'Save Poster' }}</button>
+</modal>
+
+<!-- Photo -->
+<modal id="photo" class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" title="Upload Photo">
+  <form class="py-6 space-y-5">
+    <div class="upload-holder w-full h-[74px]">
+      <h6 class="input-titel text-sm font-bold text-quicksilver flex items-center">Select Photo <p class="text-10 ml-2">5 Images (up to 5MB/Image)</p></h6>
+      <label for="create-photo-upload" class="upload upload-popup py-3">
+        <input type="file" name="images" id="create-photo-upload" class="appearance-none hidden" accept="image/png, image/jpeg, image/gif"/>
+        <span class="input-titel flex justify-center items-center"><i class="icon-img_upload text-lg mr-2 leading-none"></i>Choose Images</span>
+      </label>
+    </div>
+    <div class="w-full">
+      <span class="input-titel">Details</span>
+      <textarea cols="30" rows="5" class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md"></textarea>
+    </div>
+  </form>
+
+  <button class="secondary w-full uppercase py-2 anim" (click)="uploadImage()">{{ 'Submit' }}</button>
+</modal>

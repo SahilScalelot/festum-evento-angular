@@ -280,3 +280,28 @@ body{@apply font-primary text-japaneseIndigo bg-brightGray m-0 capitalize;}
       @apply w-5 h-5;
     }
   }
+
+
+  .dropify-font-upload:before, .dropify-wrapper .dropify-message span.file-icon:before {
+    content: "\e92f";
+    font-family: 'icomoon' !important;
+    font-size: 24px;
+    margin-right: 10px;
+  }
+  .dropify-wrapper .dropify-message span.file-icon {
+    @apply flex items-center justify-center;
+  }
+  .dropify-wrapper .dropify-message p {@apply font-bold text-sm text-gray-500 m-0;}
+
+  
+  .dropify-wrapper .dropify-preview .dropify-render img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    transform: unset;
+  }

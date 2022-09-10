@@ -19,6 +19,8 @@ import {AccordionModule} from 'primeng/accordion';
 import {CalendarModule} from 'primeng/calendar';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ArrangementDialogComponent } from './steps/arrangement-step/arrangement-dialog/arrangement-dialog.component';
+import { ModalModule } from '../../_modal';
+import { ImageCropperModule } from 'ngx-image-cropper';
 
 const routes: Routes = [
   {path: '', redirectTo: 'add-event', pathMatch: 'full'},
@@ -84,7 +86,9 @@ const routes: Routes = [
     AccordionModule,
     CalendarModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    ImageCropperModule,
+    ModalModule
   ]
 })
 export class CreateEventModule {
