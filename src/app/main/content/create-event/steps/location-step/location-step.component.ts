@@ -144,8 +144,11 @@ export class LocationStepComponent implements OnInit {
             if (type == "administrative_area_level_2") {
               this.locationForm.get('city').setValue(address.long_name);
             }
-            if (type == "administrative_area_level_3") {
+            /*if (type == "administrative_area_level_3") {
               this.locationForm.get('address').setValue(address.long_name);
+            }*/
+            if (type == "plus_code" || type == "locality" || type == "political") {
+              this.locationForm.get('address').setValue(address[0].long_name + ", " + address[1].long_name);
             }
             if (type == "postal_code") {
               this.locationForm.get('pincode').setValue(address.long_name);
