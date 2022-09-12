@@ -61,7 +61,7 @@ body{@apply font-primary text-japaneseIndigo bg-brightGray m-0 capitalize;}
   .upload-photo{@apply h-full flex justify-center items-center text-center bg-white flex-col w-full rounded-md border-2 border-dashed border-quicksilver cursor-pointer;}
   .upload-box{@apply p-1.5 bg-white rounded-md w-28 h-28;}
   .upload-box button{@apply h-5 w-full text-center bg-magicPotion text-xs font-bold text-white absolute bottom-0 inset-x-0 translate-y-8 transition-all duration-300 cursor-pointer;}
-  .upload-box:hover button{@apply translate-y-0;} 
+  .upload-box:hover button{@apply translate-y-0;}
 
   /* stap-prosses-bar */
   .step-progress-holder li,
@@ -293,7 +293,6 @@ body{@apply font-primary text-japaneseIndigo bg-brightGray m-0 capitalize;}
   }
   .dropify-wrapper .dropify-message p {@apply font-bold text-sm text-gray-500 m-0;}
 
-  
   .dropify-wrapper .dropify-preview .dropify-render img {
     position: absolute;
     width: 100%;
