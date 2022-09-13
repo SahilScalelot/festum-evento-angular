@@ -1,12 +1,14 @@
-<div class="">
-  <div class="-mt-12 relative -z-10" *ngIf="(events && events.length && events[0]) ? events[0] : ''">
+<p-progressSpinner *ngIf="isLoading" [style]="{width: '50px', height: '50px'}"
+                   animationDuration=".5s" fill="#EEEEEE" strokeWidth="8"
+                   styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
+<div *ngIf="events && events.length && events[0] && !isLoading" class="">
+  <div class="-mt-12 relative -z-10">
     <!-- src="../assets/images/cooking-together-big.png"  -->
-    <img 
-    [src]="constants.baseImageURL + events[0].event[0].poster"
-    alt="cooking-together-bg" class="w-full object-cover max-h-80"/>
+    <img [src]="constants.baseImageURL + events[0].event[0].poster" alt="cooking-together-bg"
+         class="w-full object-cover max-h-80"/>
   </div>
   <div class="wrapper min-h-full -mt-14 z-10">
-    <div class="flex items-center justify-between bg-white py-5 px-7 rounded-md" *ngIf="(events && events.length && events[0]) ? events[0] : ''">
+    <div class="flex items-center justify-between bg-white py-5 px-7 rounded-md">
       <div class="w-full md:w-1/2 space-y-3">
         <div class="flex items-center space-x-3">
           <span class="px-3 py-1 rounded-sm text-xs text-white font-bold bg-magicPotion">Unverified</span>
@@ -25,25 +27,33 @@
       <div class="w-full md:w-1/2 space-y-3">
         <h3 class="text-right">250 INR</h3>
         <div class="flex space-x-2 justify-end">
-          <a href="javascript:void(0);" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-edit text-sm leading-0 text-japaneseIndigo"></i></a>
-          <a href="javascript:void(0);" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-fill_megaphone text-sm leading-0 text-japaneseIndigo"></i></a>
-          <a href="javascript:void(0);" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-share text-sm leading-0 text-japaneseIndigo"></i></a>
+          <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"
+             href="javascript:void(0);"><i
+              class="icon-edit text-sm leading-0 text-japaneseIndigo"></i></a>
+          <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"
+             href="javascript:void(0);"><i
+              class="icon-fill_megaphone text-sm leading-0 text-japaneseIndigo"></i></a>
+          <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"
+             href="javascript:void(0);"><i
+              class="icon-share text-sm leading-0 text-japaneseIndigo"></i></a>
         </div>
         <div class="flex items-center justify-end space-x-3">
           <div class="flex items-center justify-end">
-            <input type="checkbox" class="switch mr-1.5 lg:mx-3 order-2" checked="">
+            <input checked="" class="switch mr-1.5 lg:mx-3 order-2" type="checkbox">
             <span class="text-base font-bold anim order-3">Live</span>
           </div>
-          <span class="px-3 py-1 rounded-sm text-xs text-white font-bold bg-magicPotion">{{ events[0].event_category }}</span>
-          <span class="px-3 py-1 rounded-sm text-xs text-white font-bold bg-japaneseIndigo">{{ events[0].event_type }}</span>
+          <span
+              class="px-3 py-1 rounded-sm text-xs text-white font-bold bg-magicPotion">{{ events[0].event_category }}</span>
+          <span
+              class="px-3 py-1 rounded-sm text-xs text-white font-bold bg-japaneseIndigo">{{ events[0].event_type }}</span>
         </div>
       </div>
     </div>
     <!-- tab-holder  -->
     <div class="teb-holder">
-      <button type="button" data-tab="overview" class="active">Overview</button>
-      <button type="button" data-tab="attendee">Attendee</button>
-      <button type="button" data-tab="reviews">Reviews</button>
+      <button class="active" data-tab="overview" type="button">Overview</button>
+      <button data-tab="attendee" type="button">Attendee</button>
+      <button data-tab="reviews" type="button">Reviews</button>
     </div>
     <!-- tab-contents-holder -->
     <div class="pt-7 lg:pt-10">
@@ -52,57 +62,62 @@
         <div class="flex flex-wrap">
           <!-- left-bar -->
           <div class="w-full lg:w-8/12 lg:pr-5 space-y-7">
-            <div class="p-7 bg-white rounded-md space-y-1" *ngIf="(events && events.length && events[0]) ? events[0].event[0].description : ''">
+            <div *ngIf="events[0].event[0].description" class="p-7 bg-white rounded-md space-y-1">
               <h5>About Event</h5>
               <p class="text-quicksilver text-sm leading-6 font-normal">{{ events[0].event[0].description }}</p>
             </div>
             <!-- Photo-holder -->
-            <div class="media-upload-holder" *ngIf="(events && events.length && events[0]) ? events[0].event[0].image : ''">
+            <div *ngIf="events[0].event[0].image" class="media-upload-holder">
               <!-- media title  -->
               <div class="flex justify-between items-center">
                 <h3 class="text-lg">Photo</h3>
-                <a href="javascript:void(0);" class="text-spiroDiscoBall text-sm font-bold opacity-60">View All</a>
+                <a class="text-spiroDiscoBall text-sm font-bold opacity-60" href="javascript:void(0);">View
+                  All</a>
               </div>
               <!-- photo-holder -->
               <div class="w-full">
                 <div class="flex flex-wrap -mx-2">
-                  <div class="w-full lg:w-2/12 p-2 ov-p" *ngFor="let img of events[0].event[0].image">
+                  <div *ngFor="let img of events[0].event[0].image" class="w-full lg:w-2/12 p-2 ov-p">
                     <div class="rounded relative overflow-hidden bg-white h-24">
-                      <img [src]="constants.baseImageURL + img.image" alt="upload-1" class="w-full h-full object-cover"/>
+                      <img [src]="constants.baseImageURL + img.image" alt="upload-1"
+                           class="w-full h-full object-cover"/>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
             <!-- videos-holder -->
-            <div class="media-upload-holder" *ngIf="(events && events.length && events[0]) ? events[0].event[0].video : ''">
+            <div *ngIf="events[0].event[0].video" class="media-upload-holder">
               <!-- media title  -->
               <div class="flex justify-between items-center">
                 <h3 class="text-lg">Videos</h3>
-                <a href="javascript:void(0);" class="text-spiroDiscoBall text-sm font-bold opacity-60">View All</a>
+                <a class="text-spiroDiscoBall text-sm font-bold opacity-60" href="javascript:void(0);">View
+                  All</a>
               </div>
               <!-- media-holder -->
               <div class="w-full">
                 <div class="flex flex-wrap -mx-2">
-                  <div class="w-full lg:w-1/5 p-2 ov-p" *ngFor="let video of events[0].event[0].video">
+                  <div *ngFor="let video of events[0].event[0].video" class="w-full lg:w-1/5 p-2 ov-p">
                     <div class="rounded relative overflow-hidden h-28">
-                      <img [src]="constants.baseImageURL + video.thumbnail" alt="upload-1" class="w-full h-full object-cover bg-white"/>
+                      <img [src]="constants.baseImageURL + video.thumbnail" alt="upload-1"
+                           class="w-full h-full object-cover bg-white"/>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
             <!-- Accordion -->
-            <div class="space-y-1.5">
+            <div *ngIf="events[0].event[0].occasion && events[0].event[0].occasion.length" class="space-y-1.5">
               <h5 class="text-lg font-bold">Arrangement</h5>
               <div class="Accordions w-full space-y-5">
-                <div class="Accordion_item h-full p-0 relative">
+                <div *ngFor="let seating of events[0].event[0].occasion" class="Accordion_item cursor-pointer h-full p-0 relative">
                   <div class="title_tab flex justify-between items-center px-5 py-6 max-h-[78px]">
                     <div class="space-x-7 flex items-center">
                       <div class="w-10 text-center">
-                        <img alt="table" class="mx-auto max-w-full object-contain" src="../assets/images/table.png"/>
+                        <img alt="table" class="mx-auto max-w-full object-contain"
+                             src="../assets/images/table.png"/>
                       </div>
-                      <h4>Table</h4>
+                      <h4>{{seating?.seat?.name}}</h4>
                     </div>
                     <div class="flex items-center space-x-7">
                       <span class="uper-down flex items-center cursor-pointer">
@@ -128,27 +143,27 @@
                         <div class="flex flex-wrap items-center">
                           <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
                             <span class="block text-xs xl:text-sm text-quicksilver">No of Table</span>
-                            <span class="block text-base font-bold text-quicksilver">5</span>
+                            <span class="block text-base font-bold text-quicksilver">{{seating?.no_of_seat}}</span>
                           </div>
                           <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
                             <span class="block text-xs xl:text-sm text-quicksilver">Location</span>
-                            <span class="block text-base font-bold text-quicksilver">T - L</span>
+                            <span class="block text-base font-bold text-quicksilver">{{seating?.seat_location}}</span>
                           </div>
                           <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
                             <span class="block text-xs xl:text-sm text-quicksilver">Table Person Capacity</span>
-                            <span class="block text-base font-bold text-quicksilver">15</span>
+                            <span class="block text-base font-bold text-quicksilver">{{seating?.table_person_capacity}}</span>
                           </div>
                           <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
                             <span class="block text-xs xl:text-sm text-quicksilver">Total Person Capacity</span>
-                            <span class="block text-base font-bold text-quicksilver">15</span>
+                            <span class="block text-base font-bold text-quicksilver">{{seating?.table_person_capacity}}</span>
                           </div>
                           <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
                             <span class="block text-xs xl:text-sm text-quicksilver">Per Table Price</span>
-                            <span class="block text-base font-bold text-quicksilver">100</span>
+                            <span class="block text-base font-bold text-quicksilver">{{seating?.table_price}}</span>
                           </div>
                           <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
                             <span class="block text-xs xl:text-sm text-quicksilver">per person price</span>
-                            <span class="block text-base font-bold text-quicksilver">100 INR</span>
+                            <span class="block text-base font-bold text-quicksilver">{{seating?.price_per_seat}} INR</span>
                           </div>
                           <div class="space-y-1 pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
                             <span class="block text-xs xl:text-sm text-quicksilver">Total Amount</span>
@@ -158,7 +173,7 @@
                         <div>
                           <p>Description</p>
                           <span
-                            class="text-base text-quicksilver font-bold">Lorem Ipsum is simply dummy text of the printing.</span>
+                              class="text-base text-quicksilver font-bold">{{seating?.description}}</span>
                         </div>
                       </div>
                     </div>
@@ -168,31 +183,29 @@
                       </div>
                       <div class="w-full space-y-2">
                         <p>Food</p>
-                        <span class="text-lg font-bold text-japaneseIndigo">Non Veg</span>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-                          industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
-                          scrambled it to make a type specimen book.</p>
+                        <span class="text-lg font-bold text-japaneseIndigo">{{seating?.seat_food}}</span>
+                        <p>{{seating?.seat_food_description}}</p>
                       </div>
                     </div>
-                    <div class="flex">
+                    <div class="flex" *ngIf="seating.seat_equipment">
                       <div class="pr-5">
                         <img alt="not-include" src="../assets/images/not-include.png"/>
                       </div>
                       <div class="w-full space-y-2">
                         <p>Equipment</p>
                         <span class="text-lg font-bold text-japaneseIndigo">Not Include</span>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-                          industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
-                          scrambled it to make a type specimen book.</p>
+                        <p>{{seating?.seat_equipment_description}}</p>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="Accordion_item h-full p-0 relative">
+
+                <!--<div class="Accordion_item h-full p-0 relative">
                   <div class="title_tab flex justify-between items-center px-5 py-6 max-h-[78px]">
                     <div class="space-x-7 flex items-center">
                       <div class="w-10 text-center">
-                        <img alt="sofa" class="mx-auto max-w-full object-contain" src="../assets/images/sofa.png"/>
+                        <img alt="sofa" class="mx-auto max-w-full object-contain"
+                             src="../assets/images/sofa.png"/>
                       </div>
                       <h4>Sofa</h4>
                     </div>
@@ -250,7 +263,7 @@
                         <div>
                           <p>Description</p>
                           <span
-                            class="text-base text-quicksilver font-bold">Lorem Ipsum is simply dummy text of the printing.</span>
+                              class="text-base text-quicksilver font-bold">Lorem Ipsum is simply dummy text of the printing.</span>
                         </div>
                       </div>
                     </div>
@@ -261,8 +274,10 @@
                       <div class="w-full space-y-2">
                         <p>Food</p>
                         <span class="text-lg font-bold text-japaneseIndigo">Non Veg</span>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-                          industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting
+                          industry. Lorem Ipsum has been the
+                          industry's standard dummy text ever since the 1500s, when an unknown
+                          printer took a galley of type and
                           scrambled it to make a type specimen book.</p>
                       </div>
                     </div>
@@ -273,8 +288,10 @@
                       <div class="w-full space-y-2">
                         <p>Equipment</p>
                         <span class="text-lg font-bold text-japaneseIndigo">Not Include</span>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-                          industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting
+                          industry. Lorem Ipsum has been the
+                          industry's standard dummy text ever since the 1500s, when an unknown
+                          printer took a galley of type and
                           scrambled it to make a type specimen book.</p>
                       </div>
                     </div>
@@ -284,7 +301,8 @@
                   <div class="title_tab flex justify-between items-center px-5 py-6 max-h-[78px]">
                     <div class="space-x-7 flex items-center">
                       <div class="w-10 text-center">
-                        <img alt="chair" class="mx-auto max-w-full object-contain" src="../assets/images/chair.png"/>
+                        <img alt="chair" class="mx-auto max-w-full object-contain"
+                             src="../assets/images/chair.png"/>
                       </div>
                       <h4>Chair</h4>
                     </div>
@@ -329,7 +347,7 @@
                         <div>
                           <p>Description</p>
                           <span
-                            class="text-base text-quicksilver font-bold">Lorem Ipsum is simply dummy text of the printing.</span>
+                              class="text-base text-quicksilver font-bold">Lorem Ipsum is simply dummy text of the printing.</span>
                         </div>
                       </div>
                     </div>
@@ -340,8 +358,10 @@
                       <div class="w-full space-y-2">
                         <p>Food</p>
                         <span class="text-lg font-bold text-japaneseIndigo">Non Veg</span>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-                          industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting
+                          industry. Lorem Ipsum has been the
+                          industry's standard dummy text ever since the 1500s, when an unknown
+                          printer took a galley of type and
                           scrambled it to make a type specimen book.</p>
                       </div>
                     </div>
@@ -352,8 +372,10 @@
                       <div class="w-full space-y-2">
                         <p>Equipment</p>
                         <span class="text-lg font-bold text-japaneseIndigo">Not Include</span>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-                          industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting
+                          industry. Lorem Ipsum has been the
+                          industry's standard dummy text ever since the 1500s, when an unknown
+                          printer took a galley of type and
                           scrambled it to make a type specimen book.</p>
                       </div>
                     </div>
@@ -363,7 +385,8 @@
                   <div class="title_tab flex justify-between items-center px-5 py-6 max-h-[78px]">
                     <div class="space-x-7 flex items-center">
                       <div class="w-10 text-center">
-                        <img alt="booth" class="mx-auto max-w-full object-contain" src="../assets/images/booth.png"/>
+                        <img alt="booth" class="mx-auto max-w-full object-contain"
+                             src="../assets/images/booth.png"/>
                       </div>
                       <h4>Booth</h4>
                     </div>
@@ -408,7 +431,7 @@
                         <div>
                           <p>Description</p>
                           <span
-                            class="text-base text-quicksilver font-bold">Lorem Ipsum is simply dummy text of the printing.</span>
+                              class="text-base text-quicksilver font-bold">Lorem Ipsum is simply dummy text of the printing.</span>
                         </div>
                       </div>
                     </div>
@@ -419,8 +442,10 @@
                       <div class="w-full space-y-2">
                         <p>Food</p>
                         <span class="text-lg font-bold text-japaneseIndigo">Non Veg</span>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-                          industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting
+                          industry. Lorem Ipsum has been the
+                          industry's standard dummy text ever since the 1500s, when an unknown
+                          printer took a galley of type and
                           scrambled it to make a type specimen book.</p>
                       </div>
                     </div>
@@ -431,8 +456,10 @@
                       <div class="w-full space-y-2">
                         <p>Equipment</p>
                         <span class="text-lg font-bold text-japaneseIndigo">Not Include</span>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-                          industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting
+                          industry. Lorem Ipsum has been the
+                          industry's standard dummy text ever since the 1500s, when an unknown
+                          printer took a galley of type and
                           scrambled it to make a type specimen book.</p>
                       </div>
                     </div>
@@ -442,7 +469,8 @@
                   <div class="title_tab flex justify-between items-center px-5 py-6 max-h-[78px]">
                     <div class="space-x-7 flex items-center">
                       <div class="w-10 text-center">
-                        <img alt="stand" class="mx-auto max-w-full object-contain" src="../assets/images/stand.png"/>
+                        <img alt="stand" class="mx-auto max-w-full object-contain"
+                             src="../assets/images/stand.png"/>
                       </div>
                       <h4>Stand</h4>
                     </div>
@@ -487,7 +515,7 @@
                         <div>
                           <p>Description</p>
                           <span
-                            class="text-base text-quicksilver font-bold">Lorem Ipsum is simply dummy text of the printing.</span>
+                              class="text-base text-quicksilver font-bold">Lorem Ipsum is simply dummy text of the printing.</span>
                         </div>
                       </div>
                     </div>
@@ -498,8 +526,10 @@
                       <div class="w-full space-y-2">
                         <p>Food</p>
                         <span class="text-lg font-bold text-japaneseIndigo">Non Veg</span>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-                          industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting
+                          industry. Lorem Ipsum has been the
+                          industry's standard dummy text ever since the 1500s, when an unknown
+                          printer took a galley of type and
                           scrambled it to make a type specimen book.</p>
                       </div>
                     </div>
@@ -510,13 +540,15 @@
                       <div class="w-full space-y-2">
                         <p>Equipment</p>
                         <span class="text-lg font-bold text-japaneseIndigo">Not Include</span>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-                          industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting
+                          industry. Lorem Ipsum has been the
+                          industry's standard dummy text ever since the 1500s, when an unknown
+                          printer took a galley of type and
                           scrambled it to make a type specimen book.</p>
                       </div>
                     </div>
                   </div>
-                </div>
+                </div>-->
               </div>
             </div>
             <!-- Company Details -->
@@ -524,7 +556,10 @@
               <h5 class="text-lg font-bold">Company Details</h5>
               <div class="p-7 bg-white rounded-md space-y-1">
                 <span class="block text-base lg:text-lg font-bold">Company Name</span>
-                <p class="text-quicksilver text-sm leading-6 font-normal">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+                <p class="text-quicksilver text-sm leading-6 font-normal">Lorem Ipsum is simply dummy
+                  text of the printing and typesetting industry. Lorem Ipsum has been the industry's
+                  standard dummy text ever since the 1500s, when an unknown printer took a galley of
+                  type and scrambled it to make a type specimen book.</p>
               </div>
             </div>
             <!-- Photo-holder -->
@@ -532,39 +567,40 @@
               <!-- media title  -->
               <div class="flex justify-between items-center">
                 <h3 class="text-lg">Photo</h3>
-                <a href="javascript:void(0);" class="text-spiroDiscoBall text-sm font-bold opacity-60">View All</a>
+                <a class="text-spiroDiscoBall text-sm font-bold opacity-60" href="javascript:void(0);">View
+                  All</a>
               </div>
               <!-- photo-holder -->
               <div class="w-full">
                 <div class="flex flex-wrap -mx-2">
                   <div class="w-full lg:w-2/12 p-2 ov-p">
                     <div class="rounded relative overflow-hidden bg-white">
-                      <img src="../assets/images/dish-1.png" alt="upload-1" class="w-full"/>
+                      <img alt="upload-1" class="w-full" src="../assets/images/dish-1.png"/>
                     </div>
                   </div>
                   <div class="w-full lg:w-2/12 p-2 ov-p">
                     <div class="rounded relative overflow-hidden bg-white">
-                      <img src="../assets/images/dish-2.png" alt="upload-1" class="w-full"/>
+                      <img alt="upload-1" class="w-full" src="../assets/images/dish-2.png"/>
                     </div>
                   </div>
                   <div class="w-full lg:w-2/12 p-2 ov-p">
                     <div class="rounded relative overflow-hidden bg-white">
-                      <img src="../assets/images/dish-3.png" alt="upload-1" class="w-full"/>
+                      <img alt="upload-1" class="w-full" src="../assets/images/dish-3.png"/>
                     </div>
                   </div>
                   <div class="w-full lg:w-2/12 p-2 ov-p">
                     <div class="rounded relative overflow-hidden bg-white">
-                      <img src="../assets/images/dish-4.png" alt="upload-1" class="w-full"/>
+                      <img alt="upload-1" class="w-full" src="../assets/images/dish-4.png"/>
                     </div>
                   </div>
                   <div class="w-full lg:w-2/12 p-2 ov-p">
                     <div class="rounded relative overflow-hidden bg-white">
-                      <img src="../assets/images/dish-5.png" alt="upload-1" class="w-full"/>
+                      <img alt="upload-1" class="w-full" src="../assets/images/dish-5.png"/>
                     </div>
                   </div>
                   <div class="w-full lg:w-2/12 p-2 ov-p">
                     <div class="rounded relative overflow-hidden bg-white">
-                      <img src="../assets/images/dish-6.png" alt="upload-1" class="w-full"/>
+                      <img alt="upload-1" class="w-full" src="../assets/images/dish-6.png"/>
                     </div>
                   </div>
                 </div>
@@ -575,34 +611,40 @@
               <!-- media titel  -->
               <div class="flex justify-between items-center">
                 <h3 class="text-lg">Videos</h3>
-                <a href="javascript:void(0);" class="text-spiroDiscoBall text-sm font-bold opacity-60">View All</a>
+                <a class="text-spiroDiscoBall text-sm font-bold opacity-60" href="javascript:void(0);">View
+                  All</a>
               </div>
               <!-- media-holder -->
               <div class="w-full">
                 <div class="flex flex-wrap -mx-2">
                   <div class="w-full lg:w-1/5 p-2 ov-p">
                     <div class="rounded relative overflow-hidden">
-                      <img src="../assets/images/dish-6.png" alt="upload-1" class="w-full bg-white"/>
+                      <img alt="upload-1" class="w-full bg-white"
+                           src="../assets/images/dish-6.png"/>
                     </div>
                   </div>
                   <div class="w-full lg:w-1/5 p-2 ov-p">
                     <div class="rounded relative overflow-hidden">
-                      <img src="../assets/images/dish-7.png" alt="upload-1" class="w-full bg-white"/>
+                      <img alt="upload-1" class="w-full bg-white"
+                           src="../assets/images/dish-7.png"/>
                     </div>
                   </div>
                   <div class="w-full lg:w-1/5 p-2 ov-p">
                     <div class="rounded relative overflow-hidden">
-                      <img src="../assets/images/dish-9.png" alt="upload-1" class="w-full bg-white"/>
+                      <img alt="upload-1" class="w-full bg-white"
+                           src="../assets/images/dish-9.png"/>
                     </div>
                   </div>
                   <div class="w-full lg:w-1/5 p-2 ov-p">
                     <div class="rounded relative overflow-hidden">
-                      <img src="../assets/images/dish-10.png" alt="upload-1" class="w-full bg-white"/>
+                      <img alt="upload-1" class="w-full bg-white"
+                           src="../assets/images/dish-10.png"/>
                     </div>
                   </div>
                   <div class="w-full lg:w-1/5 p-2 ov-p">
                     <div class="rounded relative overflow-hidden">
-                      <img src="../assets/images/dish-11.png" alt="upload-1" class="w-full bg-white"/>
+                      <img alt="upload-1" class="w-full bg-white"
+                           src="../assets/images/dish-11.png"/>
                     </div>
                   </div>
                 </div>
@@ -614,27 +656,37 @@
               <div class="p-3.5 xl:p-5 bg-white rounded-md">
                 <div class="flex items-start text-quicksilver font-normal">
                   <div class="pt-0.5">*</div>
-                  <p class="text-sm font-normal pl-3">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been  the industry's</p>
+                  <p class="text-sm font-normal pl-3">Lorem Ipsum is simply dummy text of the printing
+                    and typesetting industry. Lorem Ipsum has been the industry's</p>
                 </div>
                 <div class="flex items-start text-quicksilver font-normal">
                   <div class="pt-0.5">*</div>
-                  <p class="text-sm font-normal pl-3">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,</p>
+                  <p class="text-sm font-normal pl-3">Lorem Ipsum is simply dummy text of the printing
+                    and typesetting industry. Lorem Ipsum has been the industry's standard dummy
+                    text ever since the 1500s,</p>
                 </div>
                 <div class="flex items-start text-quicksilver font-normal">
                   <div class="pt-0.5">*</div>
-                  <p class="text-sm font-normal pl-3">when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,</p>
+                  <p class="text-sm font-normal pl-3">when an unknown printer took a galley of type
+                    and scrambled it to make a type specimen book. It has survived not only five
+                    centuries,</p>
                 </div>
                 <div class="flex items-start text-quicksilver font-normal">
                   <div class="pt-0.5">*</div>
-                  <p class="text-sm font-normal pl-3">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been  the industry's</p>
+                  <p class="text-sm font-normal pl-3">Lorem Ipsum is simply dummy text of the printing
+                    and typesetting industry. Lorem Ipsum has been the industry's</p>
                 </div>
                 <div class="flex items-start text-quicksilver font-normal">
                   <div class="pt-0.5">*</div>
-                  <p class="text-sm font-normal pl-3">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,</p>
+                  <p class="text-sm font-normal pl-3">Lorem Ipsum is simply dummy text of the printing
+                    and typesetting industry. Lorem Ipsum has been the industry's standard dummy
+                    text ever since the 1500s,</p>
                 </div>
                 <div class="flex items-start text-quicksilver font-normal">
                   <div class="pt-0.5">*</div>
-                  <p class="text-sm font-normal pl-3">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,</p>
+                  <p class="text-sm font-normal pl-3">Lorem Ipsum is simply dummy text of the printing
+                    and typesetting industry. Lorem Ipsum has been the industry's standard dummy
+                    text ever since the 1500s,</p>
                 </div>
               </div>
             </div>
@@ -643,25 +695,25 @@
               <span class="block text-base lg:text-xl font-bold">Social Media</span>
               <div class="flex items-center space-x-5 p-5 lg:p-7 bg-white rounded-lg">
                 <a href="javascript:void(0);">
-                <img src="../assets/images/twiiter.png" alt="twiiter.png"/>
+                  <img alt="twiiter.png" src="../assets/images/twiiter.png"/>
                 </a>
                 <a href="javascript:void(0);">
-                <img src="../assets/images/linked.png" alt="linkdin.png"/>
+                  <img alt="linkdin.png" src="../assets/images/linked.png"/>
                 </a>
                 <a href="javascript:void(0);">
-                <img src="../assets/images/facebook.png" alt="facebook.png"/>
+                  <img alt="facebook.png" src="../assets/images/facebook.png"/>
                 </a>
                 <a href="javascript:void(0);">
-                <img src="../assets/images/whatapp.png" alt="whatapp.png"/>
+                  <img alt="whatapp.png" src="../assets/images/whatapp.png"/>
                 </a>
                 <a href="javascript:void(0);">
-                <img src="../assets/images/instagram.png" alt="instagram.png"/>
+                  <img alt="instagram.png" src="../assets/images/instagram.png"/>
                 </a>
               </div>
             </div>
             <!-- product_ad -->
             <div class="w-full">
-              <img src="../assets/images/banner-ads.png" alt="add-Banner" class="w-full"/>
+              <img alt="add-Banner" class="w-full" src="../assets/images/banner-ads.png"/>
             </div>
           </div>
           <!-- right-bar  -->
@@ -669,8 +721,15 @@
             <!-- map-content  -->
             <div class="w-full p-2.5 bg-white rounded-md">
               <div class="relative">
-                <iframe class="min-h-[170px] xl:min-h-[220px]" src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d14875.88775631223!2d72.81608609999999!3d21.2329613!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1655442825672!5m2!1sen!2sin" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                <a href="javascript:void(0);" class="w-10 h-10 flex items-center justify-center text-xl bg-white shadow-sm absolute right-4 bottom-4 text-magicPotion"><i class="icon-map"></i></a>
+                <iframe allowfullscreen=""
+                        class="min-h-[170px] xl:min-h-[220px]"
+                        height="100%" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+                        src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d14875.88775631223!2d72.81608609999999!3d21.2329613!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1655442825672!5m2!1sen!2sin"
+                        style="border:0;"
+                        width="100%"></iframe>
+                <a class="w-10 h-10 flex items-center justify-center text-xl bg-white shadow-sm absolute right-4 bottom-4 text-magicPotion"
+                   href="javascript:void(0);"><i
+                    class="icon-map"></i></a>
               </div>
               <div class="p-3.5 xl:p-5">
                 <span class="input-titel"><i class="icon-location-1 mr-1"></i> Location</span>
@@ -680,23 +739,30 @@
             <!-- date-content  -->
             <div class="w-full p-5 xl:p-7 bg-white rounded-md space-y-3">
               <div class="w-full">
-                <div class="text-xs lg:text-sm font-medium text-quicksilver flex items-center"><i class="icon-calendar mr-1.5 text-base"></i>Date</div>
+                <div class="text-xs lg:text-sm font-medium text-quicksilver flex items-center"><i
+                    class="icon-calendar mr-1.5 text-base"></i>Date
+                </div>
                 <span class="text-japaneseIndigo text-xs lg:text-sm font-bold">July 23, 2021 - July 30, 2021</span>
               </div>
               <div class="w-full">
-                <div class="text-xs lg:text-sm font-medium text-quicksilver flex items-center"><i class="icon-time mr-1.5 text-sm"></i>Time</div>
+                <div class="text-xs lg:text-sm font-medium text-quicksilver flex items-center"><i
+                    class="icon-time mr-1.5 text-sm"></i>Time
+                </div>
                 <span class="text-japaneseIndigo text-xs lg:text-sm font-bold">04:00PM - 05:00AM</span>
               </div>
             </div>
             <!-- Discount On Total Bill  -->
-            <div class="bg-gradient-to-r from-[#13e1b094] to-[#13E1B0] p-3.5 xl:p-5 rounded-lg relative overflow-hidden">
+            <div
+                class="bg-gradient-to-r from-[#13e1b094] to-[#13E1B0] p-3.5 xl:p-5 rounded-lg relative overflow-hidden">
               <div class="w-full  space-y-4">
                 <h4 class="text-white">Discount On Total Bill</h4>
                 <h1 class="text-black font-bold">10%</h1>
                 <div class="space-y-2">
-                  <span class="text-xs text-white font-normal block">4 Event can be posted or one event with max 30 day</span>                            
+                  <span
+                      class="text-xs text-white font-normal block">4 Event can be posted or one event with max 30 day</span>
                 </div>
-                <img src="../assets/images/event-subscription.png" alt="celebration" class="absolute -right-3 -bottom-3 opacity-80"/>
+                <img alt="celebration" class="absolute -right-3 -bottom-3 opacity-80"
+                     src="../assets/images/event-subscription.png"/>
               </div>
             </div>
             <!-- Book_ticket_detils -->
@@ -792,7 +858,7 @@
               </div>
             </div>
             <div class="w-full">
-              <img src="../assets/images/banner-ads.png" alt="ring-ad" class="w-full object-cover"/>
+              <img alt="ring-ad" class="w-full object-cover" src="../assets/images/banner-ads.png"/>
             </div>
             <div class="bg-white px-5 py-2.5 flex justify-between items-center rounded-md">
               <div class="space-y-2">
@@ -826,8 +892,15 @@
             <!-- map-content  -->
             <div class="w-full p-2.5 bg-white rounded-md">
               <div class="relative">
-                <iframe class="min-h-[170px] xl:min-h-[220px]" src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d14875.88775631223!2d72.81608609999999!3d21.2329613!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1655442825672!5m2!1sen!2sin" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                <a href="javascript:void(0);" class="w-10 h-10 flex items-center justify-center text-xl bg-white shadow-sm absolute right-4 bottom-4 text-magicPotion"><i class="icon-map"></i></a>
+                <iframe allowfullscreen=""
+                        class="min-h-[170px] xl:min-h-[220px]"
+                        height="100%" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+                        src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d14875.88775631223!2d72.81608609999999!3d21.2329613!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1655442825672!5m2!1sen!2sin"
+                        style="border:0;"
+                        width="100%"></iframe>
+                <a class="w-10 h-10 flex items-center justify-center text-xl bg-white shadow-sm absolute right-4 bottom-4 text-magicPotion"
+                   href="javascript:void(0);"><i
+                    class="icon-map"></i></a>
               </div>
               <div class="p-3.5 xl:p-5">
                 <span class="input-titel"><i class="icon-location-1 mr-1"></i> Location</span>
@@ -837,23 +910,30 @@
             <!-- date-content  -->
             <div class="w-full p-5 xl:p-7 bg-white rounded-md space-y-3">
               <div class="w-full">
-                <div class="text-xs lg:text-sm font-medium text-quicksilver flex items-center"><i class="icon-calendar mr-1.5 text-base"></i>Date</div>
+                <div class="text-xs lg:text-sm font-medium text-quicksilver flex items-center"><i
+                    class="icon-calendar mr-1.5 text-base"></i>Date
+                </div>
                 <span class="text-japaneseIndigo text-xs lg:text-sm font-bold">July 23, 2021 - July 30, 2021</span>
               </div>
               <div class="w-full">
-                <div class="text-xs lg:text-sm font-medium text-quicksilver flex items-center"><i class="icon-time mr-1.5 text-sm"></i>Time</div>
+                <div class="text-xs lg:text-sm font-medium text-quicksilver flex items-center"><i
+                    class="icon-time mr-1.5 text-sm"></i>Time
+                </div>
                 <span class="text-japaneseIndigo text-xs lg:text-sm font-bold">04:00PM - 05:00AM</span>
               </div>
             </div>
             <!-- Discount On Total Bill  -->
-            <div class="bg-gradient-to-r from-[#13e1b094] to-[#13E1B0] p-3.5 xl:p-5 rounded-lg relative overflow-hidden">
+            <div
+                class="bg-gradient-to-r from-[#13e1b094] to-[#13E1B0] p-3.5 xl:p-5 rounded-lg relative overflow-hidden">
               <div class="w-full  space-y-4">
                 <h4 class="text-white">Discount On Total Bill</h4>
                 <h1 class="text-black font-bold">10%</h1>
                 <div class="space-y-2">
-                  <span class="text-xs text-white font-normal block">4 Event can be posted or one event with max 30 day</span>                            
+                  <span
+                      class="text-xs text-white font-normal block">4 Event can be posted or one event with max 30 day</span>
                 </div>
-                <img src="../assets/images/event-subscription.png" alt="celebration" class="absolute -right-3 -bottom-3 opacity-80"/>
+                <img alt="celebration" class="absolute -right-3 -bottom-3 opacity-80"
+                     src="../assets/images/event-subscription.png"/>
               </div>
             </div>
             <!-- Book_ticket_detils -->
@@ -884,7 +964,8 @@
           <div class="flex justify-between p-7 bg-white rounded-md">
             <div class="">
               <div class="w-28 h-28 border-2 border-brightGray rounded-full overflow-hidden bg-white">
-                <img src="../assets/images/profile-2.png" alt="cutting-board" class="w-full h-full object-cover"/>
+                <img alt="cutting-board" class="w-full h-full object-cover"
+                     src="../assets/images/profile-2.png"/>
               </div>
             </div>
             <div class="w-full pl-5">
@@ -901,13 +982,20 @@
                   </div>
                 </div>
               </div>
-              <p class="text-japaneseIndigo text-sm font-normal leading-6 pt-2">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodoligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient  montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.</p>
+              <p class="text-japaneseIndigo text-sm font-normal leading-6 pt-2">Lorem ipsum dolor sit
+                amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum
+                sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec
+                quam felis, ultricies nec, pellentesque eu, pretium quis, sem.Lorem ipsum dolor sit
+                amet, consectetuer adipiscing elit. Aenean commodoligula eget dolor. Aenean massa. Cum
+                sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec
+                quam felis, ultricies nec, pellentesque eu, pretium quis, sem.</p>
             </div>
           </div>
           <div class="flex justify-between p-7 bg-white rounded-md">
             <div class="">
               <div class="w-28 h-28 border-2 border-brightGray rounded-full overflow-hidden bg-white">
-                <img src="../assets/images/profile-2.png" alt="cutting-board" class="w-full h-full object-cover"/>
+                <img alt="cutting-board" class="w-full h-full object-cover"
+                     src="../assets/images/profile-2.png"/>
               </div>
             </div>
             <div class="w-full pl-5">
@@ -924,16 +1012,23 @@
                   </div>
                 </div>
               </div>
-              <p class="text-japaneseIndigo text-sm font-normal leading-6 pt-2">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodoligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient  montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.</p>
+              <p class="text-japaneseIndigo text-sm font-normal leading-6 pt-2">Lorem ipsum dolor sit
+                amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum
+                sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec
+                quam felis, ultricies nec, pellentesque eu, pretium quis, sem.Lorem ipsum dolor sit
+                amet, consectetuer adipiscing elit. Aenean commodoligula eget dolor. Aenean massa. Cum
+                sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec
+                quam felis, ultricies nec, pellentesque eu, pretium quis, sem.</p>
             </div>
           </div>
           <div class="w-full py-2.5">
-            <img src="../assets/images/banner-ads.png" alt="add"/>
+            <img alt="add" src="../assets/images/banner-ads.png"/>
           </div>
           <div class="flex justify-between p-7 bg-white rounded-md">
             <div class="">
               <div class="w-28 h-28 border-2 border-brightGray rounded-full overflow-hidden bg-white">
-                <img src="../assets/images/profile-2.png" alt="cutting-board" class="w-full h-full object-cover"/>
+                <img alt="cutting-board" class="w-full h-full object-cover"
+                     src="../assets/images/profile-2.png"/>
               </div>
             </div>
             <div class="w-full pl-5">
@@ -945,13 +1040,19 @@
                     <i class="icon-rating text-[#ECA926] text-sm"></i>
                     <i class="icon-rating text-[#ECA926] text-sm"></i>
                     <i class="icon-rating text-[#ECA926] text-sm"></i>
-  
+
                     <i class="icon-rating text-[#ECA926] text-sm"></i>
                     <i class="icon-rating text-[#999] text-sm"></i>
                   </div>
                 </div>
               </div>
-              <p class="text-japaneseIndigo text-sm font-normal leading-6 pt-2">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodoligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient  montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.</p>
+              <p class="text-japaneseIndigo text-sm font-normal leading-6 pt-2">Lorem ipsum dolor sit
+                amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum
+                sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec
+                quam felis, ultricies nec, pellentesque eu, pretium quis, sem.Lorem ipsum dolor sit
+                amet, consectetuer adipiscing elit. Aenean commodoligula eget dolor. Aenean massa. Cum
+                sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec
+                quam felis, ultricies nec, pellentesque eu, pretium quis, sem.</p>
             </div>
           </div>
         </div>
@@ -962,7 +1063,8 @@
   <div class="-mb-14 mt-14 bg-white pb-4">
     <div class="flex flex-wrap items-center justify-between max-w-7xl mx-auto px-5 xl:px-8">
       <div class="flex items-center space-x-2 pt-4">
-        <h4 class="pr-5 border-r border-brightGray"><span class="text-quicksilver font-normal">Sold :</span> 2556</h4>
+        <h4 class="pr-5 border-r border-brightGray"><span class="text-quicksilver font-normal">Sold :</span>
+          2556</h4>
         <h4 class="px-5"><span class="text-quicksilver font-normal">Unsold  :</span> 235</h4>
       </div>
       <div class="flex items-center space-x-2 pt-4">
@@ -973,7 +1075,8 @@
         <span class="text-xs font-bold text-quicksilver whitespace-nowrap">521 UnSold</span>
       </div>
       <div class="pt-4">
-        <a href="javascript:void(0);" class="secondary px-5 py-2 flex items-end rounded-sm max-w-max mx-auto"><i class="icon-scanner mr-3 text-lg"></i>SCAN QR</a>
+        <a class="secondary px-5 py-2 flex items-end rounded-sm max-w-max mx-auto" href="javascript:void(0);"><i
+            class="icon-scanner mr-3 text-lg"></i>SCAN QR</a>
       </div>
     </div>
   </div>

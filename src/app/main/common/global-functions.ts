@@ -156,4 +156,14 @@ export class GlobalFunctions {
     }
   }
 
+  loadTabsJs(): void {
+    $('.teb-holder button').click(function (e: any) {
+      const tab_id: any = $(e.target).attr('data-tab');
+      $('.teb-holder button').removeClass('active');
+      $('.tab-main').removeClass('active');
+      $(e.target).addClass('active');
+      $("#" + tab_id).addClass('active');
+    });
+  }
+
 }
