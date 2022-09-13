@@ -11,7 +11,10 @@ import {CreateEventService} from "../../create-event.service";
 export class ArrangementStepComponent implements OnInit {
   isArrangement: boolean = false;
 
-  constructor(public _globalFunctions: GlobalFunctions, public _router: Router, private _createEventService: CreateEventService) {
+  constructor(
+    public _globalFunctions: GlobalFunctions, 
+    public _router: Router, 
+    private _createEventService: CreateEventService) {
   }
 
   ngOnInit(): void {

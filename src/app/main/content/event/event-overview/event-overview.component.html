@@ -1,991 +1,965 @@
-<div class="rightInContent">
-  <div class="-mt-12 relative -z-10">
-    <img src="../assets/images/cooking-together-big.png" alt="cooking-together-bg" class="w-full object-cover"/>
+<div class="">
+  <div class="-mt-12 relative -z-10" *ngIf="(events && events.length && events[0]) ? events[0] : ''">
+    <!-- src="../assets/images/cooking-together-big.png"  -->
+    <img 
+    [src]="constants.baseImageURL + events[0].event[0].poster"
+    alt="cooking-together-bg" class="w-full object-cover max-h-80"/>
   </div>
-  <div class="wrapper min-h-full -mt-14 z-10">            
-    <div class="flex items-center justify-between bg-white py-5 px-7 rounded-md">
-        <div class="w-full md:w-1/2 space-y-3">
-          <div class="flex items-center space-x-3">
-            <span class="px-3 py-1 rounded-sm text-xs text-white font-bold bg-magicPotion">Unverified</span>
-            <span class="px-3 py-1 rounded-sm text-xs text-white font-bold bg-caribbeanGreen">Booking Accepting</span>
-          </div>
-          <h2>Cooking Together</h2>
-          <div class="flex items-center space-x-1">
-            <i class="icon-rating text-[#ECA926] text-sm"></i>
-            <i class="icon-rating text-[#ECA926] text-sm"></i>
-            <i class="icon-rating text-[#ECA926] text-sm"></i>
-            <i class="icon-rating text-[#999] text-sm"></i>
-            <i class="icon-rating text-[#999] text-sm"></i>
-            <span class="text-quicksilver text-xs font-bold pl-2"> 19,981 ratings</span>
-          </div>
+  <div class="wrapper min-h-full -mt-14 z-10">
+    <div class="flex items-center justify-between bg-white py-5 px-7 rounded-md" *ngIf="(events && events.length && events[0]) ? events[0] : ''">
+      <div class="w-full md:w-1/2 space-y-3">
+        <div class="flex items-center space-x-3">
+          <span class="px-3 py-1 rounded-sm text-xs text-white font-bold bg-magicPotion">Unverified</span>
+          <span class="px-3 py-1 rounded-sm text-xs text-white font-bold bg-caribbeanGreen">Booking Accepting</span>
         </div>
-        <div class="w-full md:w-1/2 space-y-3">
-          <h3 class="text-right">250 INR</h3>
-          <div class="flex space-x-2 justify-end">
-            <a href="#" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-edit text-sm leading-0 text-japaneseIndigo"></i></a>
-            <a href="#" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-fill_megaphone text-sm leading-0 text-japaneseIndigo"></i></a>
-            <a href="#" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-share text-sm leading-0 text-japaneseIndigo"></i></a>
-          </div>
-          <div class="flex items-center justify-end space-x-3">
-            <div class="flex items-center justify-end">
-              <input type="checkbox" class="switch mr-1.5 lg:mx-3 order-2" checked="">
-              <span class="text-base font-bold anim order-3">Live</span>
-            </div>
-            <span class="px-3 py-1 rounded-sm text-xs text-white font-bold bg-magicPotion">Music</span>
-            <span class="px-3 py-1 rounded-sm text-xs text-white font-bold bg-japaneseIndigo">B2B</span>
-          </div>                  
+        <h2>{{ events[0].name }}</h2>
+        <div class="flex items-center space-x-1">
+          <i class="icon-rating text-[#ECA926] text-sm"></i>
+          <i class="icon-rating text-[#ECA926] text-sm"></i>
+          <i class="icon-rating text-[#ECA926] text-sm"></i>
+          <i class="icon-rating text-[#999] text-sm"></i>
+          <i class="icon-rating text-[#999] text-sm"></i>
+          <span class="text-quicksilver text-xs font-bold pl-2"> 19,981 ratings</span>
         </div>
+      </div>
+      <div class="w-full md:w-1/2 space-y-3">
+        <h3 class="text-right">250 INR</h3>
+        <div class="flex space-x-2 justify-end">
+          <a href="javascript:void(0);" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-edit text-sm leading-0 text-japaneseIndigo"></i></a>
+          <a href="javascript:void(0);" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-fill_megaphone text-sm leading-0 text-japaneseIndigo"></i></a>
+          <a href="javascript:void(0);" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-share text-sm leading-0 text-japaneseIndigo"></i></a>
+        </div>
+        <div class="flex items-center justify-end space-x-3">
+          <div class="flex items-center justify-end">
+            <input type="checkbox" class="switch mr-1.5 lg:mx-3 order-2" checked="">
+            <span class="text-base font-bold anim order-3">Live</span>
+          </div>
+          <span class="px-3 py-1 rounded-sm text-xs text-white font-bold bg-magicPotion">{{ events[0].event_category }}</span>
+          <span class="px-3 py-1 rounded-sm text-xs text-white font-bold bg-japaneseIndigo">{{ events[0].event_type }}</span>
+        </div>
+      </div>
     </div>
     <!-- tab-holder  -->
     <div class="teb-holder">
-        <button type="button" data-tab="overview" class="active">Overview</button>
-        <button type="button" data-tab="attendee">Attendee</button>
-        <button type="button" data-tab="reviews">Reviews</button>
-    </div>   
+      <button type="button" data-tab="overview" class="active">Overview</button>
+      <button type="button" data-tab="attendee">Attendee</button>
+      <button type="button" data-tab="reviews">Reviews</button>
+    </div>
     <!-- tab-contents-holder -->
     <div class="pt-7 lg:pt-10">
-        <!--overview-tab-contents -->
-        <div class="relative tab-main active" id="overview">
-          <div class="flex flex-wrap">
-            <!-- left-bar -->
-            <div class="w-full lg:w-8/12 lg:pr-5 space-y-7">
-                <div class="p-7 bg-white rounded-md space-y-1">
-                  <h5>About Event</h5>
-                  <p class="text-quicksilver text-sm leading-6 font-normal">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-                </div>
-                <!-- Photo-holder -->
-                <div class="media-upload-holder">
-                  <!-- media title  -->
-                  <div class="flex justify-between items-center">
-                      <h3 class="text-lg">Photo</h3>
-                      <a href="#" class="text-spiroDiscoBall text-sm font-bold opacity-60">View All</a>
-                  </div>
-                  <!-- photo-holder -->
-                  <div class="w-full">
-                    <div class="flex flex-wrap -mx-2">
-                        <div class="w-full lg:w-2/12 p-2 ov-p">
-                            <div class="rounded relative overflow-hidden bg-white">
-                              <img src="../assets/images/dish-1.png" alt="upload-1" class="w-full"/>
-                            </div>
-                        </div>
-                        <div class="w-full lg:w-2/12 p-2 ov-p">
-                            <div class="rounded relative overflow-hidden bg-white">
-                              <img src="../assets/images/dish-2.png" alt="upload-1" class="w-full"/>
-                            </div>
-                        </div>
-                        <div class="w-full lg:w-2/12 p-2 ov-p">
-                            <div class="rounded relative overflow-hidden bg-white">
-                              <img src="../assets/images/dish-3.png" alt="upload-1" class="w-full"/>
-                            </div>
-                        </div>
-                        <div class="w-full lg:w-2/12 p-2 ov-p">
-                            <div class="rounded relative overflow-hidden bg-white">
-                              <img src="../assets/images/dish-4.png" alt="upload-1" class="w-full"/>
-                            </div>
-                        </div>
-                        <div class="w-full lg:w-2/12 p-2 ov-p">
-                            <div class="rounded relative overflow-hidden bg-white">
-                              <img src="../assets/images/dish-5.png" alt="upload-1" class="w-full"/>
-                            </div>
-                        </div>
-                        <div class="w-full lg:w-2/12 p-2 ov-p">
-                            <div class="rounded relative overflow-hidden bg-white">
-                              <img src="../assets/images/dish-6.png" alt="upload-1" class="w-full"/>
-                            </div>
-                        </div>
-                    </div>
-                  </div>  
-                </div>
-                <!-- videos-holder -->
-                <div class="media-upload-holder">
-                  <!-- media title  -->
-                  <div class="flex justify-between items-center">
-                      <h3 class="text-lg">Videos</h3>
-                      <a href="#" class="text-spiroDiscoBall text-sm font-bold opacity-60">View All</a>
-                  </div>
-                  <!-- media-holder -->
-                  <div class="w-full">
-                    <div class="flex flex-wrap -mx-2">
-                        <div class="w-full lg:w-1/5 p-2 ov-p">
-                            <div class="rounded relative overflow-hidden">
-                              <img src="../assets/images/dish-6.png" alt="upload-1" class="w-full bg-white"/>
-                            </div>
-                        </div>
-                        <div class="w-full lg:w-1/5 p-2 ov-p">
-                            <div class="rounded relative overflow-hidden">
-                              <img src="../assets/images/dish-7.png" alt="upload-1" class="w-full bg-white"/>
-                            </div>
-                        </div>
-                        <div class="w-full lg:w-1/5 p-2 ov-p">
-                            <div class="rounded relative overflow-hidden">
-                              <img src="../assets/images/dish-9.png" alt="upload-1" class="w-full bg-white"/>
-                            </div>
-                        </div>
-                        <div class="w-full lg:w-1/5 p-2 ov-p">
-                            <div class="rounded relative overflow-hidden">
-                              <img src="../assets/images/dish-10.png" alt="upload-1" class="w-full bg-white"/>
-                            </div>
-                        </div>
-                        <div class="w-full lg:w-1/5 p-2 ov-p">
-                            <div class="rounded relative overflow-hidden">
-                              <img src="../assets/images/dish-11.png" alt="upload-1" class="w-full bg-white"/>
-                            </div>
-                        </div>
-                    </div>
-                  </div>
-                </div>                           
-                 <!-- Accordion -->
-                 <div class="space-y-1.5">
-                  <h5 class="text-lg font-bold">Arrangement</h5>
-                  <div class="Accordions w-full space-y-5">
-                    <div class="Accordion_item h-full p-0 relative">
-                      <div class="flex items-center space-x-7 absolute right-20 inset-y-0 h-20">
-                        <a href="#"><i class="icon-delete text-lg text-quicksilver"></i></a>
-                        <a href="#"><i class="icon-edit text-lg text-quicksilver"></i></a>
-                      </div>
-                      <div class="title_tab flex justify-between items-center px-5 py-6 active">
-                        <div class="space-x-7 flex items-center">
-                          <img src="../assets/images/table.png" alt="table" />
-                          <h4>Table</h4>
-                        </div>
-                        <div class="flex items-center space-x-7">
-                          <span class="uper-down flex items-center ">
-                            <i class="icon-top_Arrow hidden"></i>
-                            <i class="icon-drop_arrow"></i>
-                          </span>
-                        </div>
-                      </div>
-                      <div class="inner_content i_c space-y-6 border-t px-5 py-6">
-                        <div class="flex">
-                          <div class="pr-5">
-                            <img src="../assets/images/select-item.png" alt="select-item" />
-                          </div>
-                          <div class="w-full space-y-2">
-                            <div class="flex items-center justify-between">
-                              <h6 class="text-lg text-japaneseIndigo font-bold">Select Item</h6>
-                              <div class="flex items-center">
-                                <input type="checkbox" id="on" class="switch mx-3 order-2">
-                                <span class="off text-base font-bold anim order-1 text-caribbeanGreen">per table</span>
-                                <span class="on text-base font-bold anim order-3">per person</span>
-                              </div>
-                            </div>
-                            <div class="flex flex-wrap items-center">
-                              <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
-                                <span class="block text-xs xl:text-sm text-quicksilver">No of Table</span>
-                                <span class="block text-base font-bold text-quicksilver">5</span>
-                              </div>
-                              <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
-                                <span class="block text-xs xl:text-sm text-quicksilver">Location</span>
-                                <span class="block text-base font-bold text-quicksilver">T - L</span>
-                              </div>
-                              <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
-                                <span class="block text-xs xl:text-sm text-quicksilver">Table Person Capacity</span>
-                                <span class="block text-base font-bold text-quicksilver">15</span>
-                              </div>
-                              <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
-                                <span class="block text-xs xl:text-sm text-quicksilver">Total Person Capacity</span>
-                                <span class="block text-base font-bold text-quicksilver">15</span>
-                              </div>
-                              <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
-                                <span class="block text-xs xl:text-sm text-quicksilver">Per Table Price</span>
-                                <span class="block text-base font-bold text-quicksilver">100</span>
-                              </div>
-                              <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
-                                <span class="block text-xs xl:text-sm text-quicksilver">per person price</span>
-                                <span class="block text-base font-bold text-quicksilver">100 INR</span>
-                              </div>
-                              <div class="space-y-1 pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
-                                <span class="block text-xs xl:text-sm text-quicksilver">Total Amount</span>
-                                <span class="block text-base font-bold text-japaneseIndigo">1000 INR</span>
-                              </div>
-                            </div>
-                            <div>
-                              <p>Description</p>
-                              <span class="text-base text-quicksilver font-bold">Lorem Ipsum is simply dummy text of the printing.</span>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="flex">
-                          <div class="pr-5">
-                            <img src="../assets/images/non-veg.png" alt="non-veg" />
-                          </div>
-                          <div class="w-full space-y-2">
-                            <p>Food</p>
-                            <span class="text-lg font-bold text-japaneseIndigo">Non Veg</span>
-                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-                          </div>
-                        </div>
-                        <div class="flex">
-                          <div class="pr-5">
-                            <img src="../assets/images/not-include.png" alt="not-include" />
-                          </div>
-                          <div class="w-full space-y-2">
-                            <p>Equipment</p>
-                            <span class="text-lg font-bold text-japaneseIndigo">Not Include</span>
-                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="Accordion_item h-full p-0 relative">
-                      <div class="flex items-center space-x-7 absolute right-20 inset-y-0 h-20">
-                        <a href="#"><i class="icon-delete text-lg text-quicksilver"></i></a>
-                        <a href="#"><i class="icon-edit text-lg text-quicksilver"></i></a>
-                      </div>
-                      <div class="title_tab flex justify-between items-center px-5 py-6">
-                        <div class="space-x-7 flex items-center">
-                          <img src="../assets/images/sofa.png" alt="sofa" />
-                          <h4>Sofa</h4>
-                        </div>
-                        <div class="flex items-center space-x-7">
-                          <span class="uper-down flex items-center">
-                            <i class="icon-top_Arrow hidden"></i>
-                            <i class="icon-drop_arrow"></i>
-                          </span>
-                        </div>
-                      </div>
-                      <div class="inner_content i_c space-y-6 border-t px-5 py-6">
-                        <div class="flex">
-                          <div class="pr-5">
-                            <img src="../assets/images/select-item.png" alt="select-item" />
-                          </div>
-                          <div class="w-full space-y-2">
-                            <div class="flex items-center justify-between">
-                              <h6 class="text-lg text-japaneseIndigo font-bold">Select Item</h6>
-                              <div class="flex items-center">
-                                <input type="checkbox" id="on" class="switch mx-3 order-2">
-                                <span class="off text-base font-bold anim order-1 text-caribbeanGreen">per table</span>
-                                <span class="on text-base font-bold anim order-3">per person</span>
-                              </div>
-                            </div>
-                            <div class="flex flex-wrap items-center">
-                              <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
-                                <span class="block text-xs xl:text-sm text-quicksilver">No of Table</span>
-                                <span class="block text-base font-bold text-quicksilver">5</span>
-                              </div>
-                              <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
-                                <span class="block text-xs xl:text-sm text-quicksilver">Location</span>
-                                <span class="block text-base font-bold text-quicksilver">T - L</span>
-                              </div>
-                              <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
-                                <span class="block text-xs xl:text-sm text-quicksilver">Table Person Capacity</span>
-                                <span class="block text-base font-bold text-quicksilver">15</span>
-                              </div>
-                              <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
-                                <span class="block text-xs xl:text-sm text-quicksilver">Total Person Capacity</span>
-                                <span class="block text-base font-bold text-quicksilver">15</span>
-                              </div>
-                              <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
-                                <span class="block text-xs xl:text-sm text-quicksilver">Per Table Price</span>
-                                <span class="block text-base font-bold text-quicksilver">100</span>
-                              </div>
-                              <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
-                                <span class="block text-xs xl:text-sm text-quicksilver">per person price</span>
-                                <span class="block text-base font-bold text-quicksilver">100 INR</span>
-                              </div>
-                              <div class="space-y-1 pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
-                                <span class="block text-xs xl:text-sm text-quicksilver">Total Amount</span>
-                                <span class="block text-base font-bold text-japaneseIndigo">1000 INR</span>
-                              </div>
-                            </div>
-                            <div>
-                              <p>Description</p>
-                              <span class="text-base text-quicksilver font-bold">Lorem Ipsum is simply dummy text of the printing.</span>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="flex">
-                          <div class="pr-5">
-                            <img src="../assets/images/non-veg.png" alt="non-veg" />
-                          </div>
-                          <div class="w-full space-y-2">
-                            <p>Food</p>
-                            <span class="text-lg font-bold text-japaneseIndigo">Non Veg</span>
-                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-                          </div>
-                        </div>
-                        <div class="flex">
-                          <div class="pr-5">
-                            <img src="../assets/images/not-include.png" alt="not-include" />
-                          </div>
-                          <div class="w-full space-y-2">
-                            <p>Equipment</p>
-                            <span class="text-lg font-bold text-japaneseIndigo">Not Include</span>
-                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="Accordion_item h-full p-0 relative"> 
-                      <div class="flex items-center space-x-7 absolute right-20 inset-y-0 h-20">
-                        <a href="#"><i class="icon-delete text-lg text-quicksilver"></i></a>
-                        <a href="#"><i class="icon-edit text-lg text-quicksilver"></i></a>
-                      </div>
-                      <div class="title_tab flex justify-between items-center px-5 py-6">
-                        <div class="space-x-7 flex items-center">
-                          <img src="../assets/images/chair.png" alt="chair" />
-                          <h4>Chair</h4>
-                        </div>
-                        <div class="flex items-center space-x-7">
-                          <span class="uper-down flex items-center">
-                            <i class="icon-top_Arrow hidden"></i>
-                            <i class="icon-drop_arrow"></i>
-                          </span>
-                        </div>
-                      </div>
-                      <div class="inner_content i_c space-y-6 border-t px-5 py-6">
-                        <div class="flex">
-                          <div class="pr-5">
-                            <img src="../assets/images/select-item.png" alt="select-item" />
-                          </div>
-                          <div class="w-full space-y-2">
-                            <div class="flex items-center justify-between">
-                              <h6 class="text-lg text-japaneseIndigo font-bold">Select Item</h6>
-                            </div>
-                            <div class="flex flex-wrap items-center">
-                              <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
-                                <span class="block text-xs xl:text-sm text-quicksilver">No of Table</span>
-                                <span class="block text-base font-bold text-quicksilver">5</span>
-                              </div>
-                              <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
-                                <span class="block text-xs xl:text-sm text-quicksilver">Location</span>
-                                <span class="block text-base font-bold text-quicksilver">T - L</span>
-                              </div>
-                              <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
-                                <span class="block text-xs xl:text-sm text-quicksilver">Table Person Capacity</span>
-                                <span class="block text-base font-bold text-quicksilver">1</span>
-                              </div>
-                              <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
-                                <span class="block text-xs xl:text-sm text-quicksilver">per person price</span>
-                                <span class="block text-base font-bold text-quicksilver">100 INR</span>
-                              </div>
-                              <div class="space-y-1 pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
-                                <span class="block text-xs xl:text-sm text-quicksilver">Total Amount</span>
-                                <span class="block text-base font-bold text-japaneseIndigo">1000 INR</span>
-                              </div>
-                            </div>
-                            <div>
-                              <p>Description</p>
-                              <span class="text-base text-quicksilver font-bold">Lorem Ipsum is simply dummy text of the printing.</span>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="flex">
-                          <div class="pr-5">
-                            <img src="../assets/images/non-veg.png" alt="non-veg" />
-                          </div>
-                          <div class="w-full space-y-2">
-                            <p>Food</p>
-                            <span class="text-lg font-bold text-japaneseIndigo">Non Veg</span>
-                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-                          </div>
-                        </div>
-                        <div class="flex">
-                          <div class="pr-5">
-                            <img src="../assets/images/not-include.png" alt="not-include" />
-                          </div>
-                          <div class="w-full space-y-2">
-                            <p>Equipment</p>
-                            <span class="text-lg font-bold text-japaneseIndigo">Not Include</span>
-                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="Accordion_item h-full p-0 relative">                    
-                      <div class="flex items-center space-x-7 absolute right-20 inset-y-0 h-20">
-                        <a href="#"><i class="icon-delete text-lg text-quicksilver"></i></a>
-                        <a href="#"><i class="icon-edit text-lg text-quicksilver"></i></a>
-                      </div>
-                      <div class="title_tab flex justify-between items-center px-5 py-6">
-                        <div class="space-x-7 flex items-center">
-                          <img src="../assets/images/booth.png" alt="booth" />
-                          <h4>Booth</h4>
-                        </div>
-                        <div class="flex items-center space-x-7">
-                          <span class="uper-down flex items-center">
-                            <i class="icon-top_Arrow hidden"></i>
-                            <i class="icon-drop_arrow"></i>
-                          </span>
-                        </div>
-                      </div>
-                      <div class="inner_content i_c space-y-6 border-t px-5 py-6">
-                        <div class="flex">
-                          <div class="pr-5">
-                            <img src="../assets/images/select-item.png" alt="select-item" />
-                          </div>
-                          <div class="w-full space-y-2">
-                            <div class="flex items-center justify-between">
-                              <h6 class="text-lg text-japaneseIndigo font-bold">Select Item</h6>
-                            </div>
-                            <div class="flex flex-wrap items-center">
-                              <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
-                                <span class="block text-xs xl:text-sm text-quicksilver">No of Table</span>
-                                <span class="block text-base font-bold text-quicksilver">5</span>
-                              </div>
-                              <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
-                                <span class="block text-xs xl:text-sm text-quicksilver">Location</span>
-                                <span class="block text-base font-bold text-quicksilver">T - L</span>
-                              </div>
-                              <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
-                                <span class="block text-xs xl:text-sm text-quicksilver">Table Person Capacity</span>
-                                <span class="block text-base font-bold text-quicksilver">1</span>
-                              </div>
-                              <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
-                                <span class="block text-xs xl:text-sm text-quicksilver">per person price</span>
-                                <span class="block text-base font-bold text-quicksilver">100 INR</span>
-                              </div>
-                              <div class="space-y-1 pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
-                                <span class="block text-xs xl:text-sm text-quicksilver">Total Amount</span>
-                                <span class="block text-base font-bold text-japaneseIndigo">1000 INR</span>
-                              </div>
-                            </div>
-                            <div>
-                              <p>Description</p>
-                              <span class="text-base text-quicksilver font-bold">Lorem Ipsum is simply dummy text of the printing.</span>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="flex">
-                          <div class="pr-5">
-                            <img src="../assets/images/non-veg.png" alt="non-veg" />
-                          </div>
-                          <div class="w-full space-y-2">
-                            <p>Food</p>
-                            <span class="text-lg font-bold text-japaneseIndigo">Non Veg</span>
-                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-                          </div>
-                        </div>
-                        <div class="flex">
-                          <div class="pr-5">
-                            <img src="../assets/images/not-include.png" alt="not-include" />
-                          </div>
-                          <div class="w-full space-y-2">
-                            <p>Equipment</p>
-                            <span class="text-lg font-bold text-japaneseIndigo">Not Include</span>
-                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="Accordion_item h-full p-0 relative">
-                      <div class="flex items-center space-x-7 absolute right-20 inset-y-0 h-20">
-                        <a href="#"><i class="icon-delete text-lg text-quicksilver"></i></a>
-                        <a href="#"><i class="icon-edit text-lg text-quicksilver"></i></a>
-                      </div>
-                      <div class="title_tab flex justify-between items-center px-5 py-6">
-                        <div class="space-x-7 flex items-center">
-                          <img src="../assets/images/stand.png" alt="stand" />
-                          <h4>Stand</h4>
-                        </div>
-                        <div class="flex items-center space-x-7">
-                          <span class="uper-down flex items-center">
-                            <i class="icon-top_Arrow hidden"></i>
-                            <i class="icon-drop_arrow"></i>
-                          </span>
-                        </div>
-                      </div>
-                      <div class="inner_content i_c space-y-6 border-t px-5 py-6">
-                        <div class="flex">
-                          <div class="pr-5">
-                            <img src="../assets/images/select-item.png" alt="select-item" />
-                          </div>
-                          <div class="w-full space-y-2">
-                            <div class="flex items-center justify-between">
-                              <h6 class="text-lg text-japaneseIndigo font-bold">Select Item</h6>
-                            </div>
-                            <div class="flex flex-wrap items-center">
-                              <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
-                                <span class="block text-xs xl:text-sm text-quicksilver">No of Table</span>
-                                <span class="block text-base font-bold text-quicksilver">5</span>
-                              </div>
-                              <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
-                                <span class="block text-xs xl:text-sm text-quicksilver">Location</span>
-                                <span class="block text-base font-bold text-quicksilver">T - L</span>
-                              </div>
-                              <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
-                                <span class="block text-xs xl:text-sm text-quicksilver">Table Person Capacity</span>
-                                <span class="block text-base font-bold text-quicksilver">1</span>
-                              </div>
-                              <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
-                                <span class="block text-xs xl:text-sm text-quicksilver">per person price</span>
-                                <span class="block text-base font-bold text-quicksilver">100 INR</span>
-                              </div>
-                              <div class="space-y-1 pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
-                                <span class="block text-xs xl:text-sm text-quicksilver">Total Amount</span>
-                                <span class="block text-base font-bold text-japaneseIndigo">1000 INR</span>
-                              </div>
-                            </div>
-                            <div>
-                              <p>Description</p>
-                              <span class="text-base text-quicksilver font-bold">Lorem Ipsum is simply dummy text of the printing.</span>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="flex">
-                          <div class="pr-5">
-                            <img src="../assets/images/non-veg.png" alt="non-veg" />
-                          </div>
-                          <div class="w-full space-y-2">
-                            <p>Food</p>
-                            <span class="text-lg font-bold text-japaneseIndigo">Non Veg</span>
-                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-                          </div>
-                        </div>
-                        <div class="flex">
-                          <div class="pr-5">
-                            <img src="../assets/images/not-include.png" alt="not-include" />
-                          </div>
-                          <div class="w-full space-y-2">
-                            <p>Equipment</p>
-                            <span class="text-lg font-bold text-japaneseIndigo">Not Include</span>
-                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <!-- Company Details -->
-                <div class="space-y-1.5">
-                    <h5 class="text-lg font-bold">Company Details</h5>
-                    <div class="p-7 bg-white rounded-md space-y-1">
-                      <span class="block text-base lg:text-lg font-bold">Company Name</span>
-                      <p class="text-quicksilver text-sm leading-6 font-normal">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-                    </div>
-                </div>                       
-                <!-- Photo-holder -->
-                <div class="media-upload-holder">
-                  <!-- media title  -->
-                  <div class="flex justify-between items-center">
-                      <h3 class="text-lg">Photo</h3>
-                      <a href="#" class="text-spiroDiscoBall text-sm font-bold opacity-60">View All</a>
-                  </div>
-                  <!-- photo-holder -->
-                  <div class="w-full">
-                    <div class="flex flex-wrap -mx-2">
-                        <div class="w-full lg:w-2/12 p-2 ov-p">
-                            <div class="rounded relative overflow-hidden bg-white">
-                              <img src="../assets/images/dish-1.png" alt="upload-1" class="w-full"/>
-                            </div>
-                        </div>
-                        <div class="w-full lg:w-2/12 p-2 ov-p">
-                            <div class="rounded relative overflow-hidden bg-white">
-                              <img src="../assets/images/dish-2.png" alt="upload-1" class="w-full"/>
-                            </div>
-                        </div>
-                        <div class="w-full lg:w-2/12 p-2 ov-p">
-                            <div class="rounded relative overflow-hidden bg-white">
-                              <img src="../assets/images/dish-3.png" alt="upload-1" class="w-full"/>
-                            </div>
-                        </div>
-                        <div class="w-full lg:w-2/12 p-2 ov-p">
-                            <div class="rounded relative overflow-hidden bg-white">
-                              <img src="../assets/images/dish-4.png" alt="upload-1" class="w-full"/>
-                            </div>
-                        </div>
-                        <div class="w-full lg:w-2/12 p-2 ov-p">
-                            <div class="rounded relative overflow-hidden bg-white">
-                              <img src="../assets/images/dish-5.png" alt="upload-1" class="w-full"/>
-                            </div>
-                        </div>
-                        <div class="w-full lg:w-2/12 p-2 ov-p">
-                            <div class="rounded relative overflow-hidden bg-white">
-                              <img src="../assets/images/dish-6.png" alt="upload-1" class="w-full"/>
-                            </div>
-                        </div>
-                    </div>
-                  </div>  
-                </div>
-                  <!-- videos-holder -->
-                <div class="media-upload-holder">
-                  <!-- media titel  -->
-                  <div class="flex justify-between items-center">
-                      <h3 class="text-lg">Videos</h3>
-                      <a href="#" class="text-spiroDiscoBall text-sm font-bold opacity-60">View All</a>
-                  </div>
-                  <!-- media-holder -->
-                  <div class="w-full">
-                    <div class="flex flex-wrap -mx-2">
-                        <div class="w-full lg:w-1/5 p-2 ov-p">
-                            <div class="rounded relative overflow-hidden">
-                              <img src="../assets/images/dish-6.png" alt="upload-1" class="w-full bg-white"/>
-                            </div>
-                        </div>
-                        <div class="w-full lg:w-1/5 p-2 ov-p">
-                            <div class="rounded relative overflow-hidden">
-                              <img src="../assets/images/dish-7.png" alt="upload-1" class="w-full bg-white"/>
-                            </div>
-                        </div>
-                        <div class="w-full lg:w-1/5 p-2 ov-p">
-                            <div class="rounded relative overflow-hidden">
-                              <img src="../assets/images/dish-9.png" alt="upload-1" class="w-full bg-white"/>
-                            </div>
-                        </div>
-                        <div class="w-full lg:w-1/5 p-2 ov-p">
-                            <div class="rounded relative overflow-hidden">
-                              <img src="../assets/images/dish-10.png" alt="upload-1" class="w-full bg-white"/>
-                            </div>
-                        </div>
-                        <div class="w-full lg:w-1/5 p-2 ov-p">
-                            <div class="rounded relative overflow-hidden">
-                              <img src="../assets/images/dish-11.png" alt="upload-1" class="w-full bg-white"/>
-                            </div>
-                        </div>
-                    </div>
-                  </div>
-                </div>
-                  <!-- Company Details -->
-                <div class="space-y-1.5">
-                    <h3 class="text-lg">Terms & Conditions</h3>
-                    <div class="p-3.5 xl:p-5 bg-white rounded-md">
-                        <div class="flex items-start text-quicksilver font-normal">
-                          <div class="pt-0.5">*</div>
-                          <p class="text-sm font-normal pl-3">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been  the industry's</p>
-                        </div>
-                        <div class="flex items-start text-quicksilver font-normal">
-                          <div class="pt-0.5">*</div>
-                          <p class="text-sm font-normal pl-3">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,</p>
-                        </div>
-                        <div class="flex items-start text-quicksilver font-normal">
-                            <div class="pt-0.5">*</div>
-                            <p class="text-sm font-normal pl-3">when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,</p>
-                        </div>
-                        <div class="flex items-start text-quicksilver font-normal">
-                            <div class="pt-0.5">*</div>
-                            <p class="text-sm font-normal pl-3">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been  the industry's</p>
-                        </div>
-                        <div class="flex items-start text-quicksilver font-normal">
-                            <div class="pt-0.5">*</div>
-                            <p class="text-sm font-normal pl-3">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,</p>
-                        </div>
-                        <div class="flex items-start text-quicksilver font-normal">
-                            <div class="pt-0.5">*</div>
-                            <p class="text-sm font-normal pl-3">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- Social-Media -->
-                <div class="w-full space-y-3">
-                  <span class="block text-base lg:text-xl font-bold">Social Media</span>
-                  <div class="flex items-center space-x-5 p-5 lg:p-7 bg-white rounded-lg">
-                    <a href="#">
-                      <img src="../assets/images/twiiter.png" alt="twiiter.png"/>
-                    </a>
-                    <a href="#">
-                      <img src="../assets/images/linked.png" alt="linkdin.png"/>
-                    </a>
-                    <a href="#">
-                      <img src="../assets/images/facebook.png" alt="facebook.png"/>
-                    </a>
-                    <a href="#">
-                      <img src="../assets/images/whatapp.png" alt="whatapp.png"/>
-                    </a>
-                    <a href="#">
-                      <img src="../assets/images/instagram.png" alt="instagram.png"/>
-                    </a>
-                  </div>
-                </div>
-                <!-- product_ad -->
-                <div class="w-full">
-                  <img src="../assets/images/ad-banner.png" alt="add-Banner" class="w-full"/>
-                </div>
+      <!--overview-tab-contents -->
+      <div class="relative tab-main active" id="overview">
+        <div class="flex flex-wrap">
+          <!-- left-bar -->
+          <div class="w-full lg:w-8/12 lg:pr-5 space-y-7">
+            <div class="p-7 bg-white rounded-md space-y-1" *ngIf="(events && events.length && events[0]) ? events[0].event[0].description : ''">
+              <h5>About Event</h5>
+              <p class="text-quicksilver text-sm leading-6 font-normal">{{ events[0].event[0].description }}</p>
             </div>
-            <!-- right-bar  -->
-            <div class="w-full lg:w-4/12 lg:pl-5 space-y-7 sticky top-0">
-              <!-- map-content  -->
-                <div class="w-full p-2.5 bg-white rounded-md">
-                    <div class="relative">
-                      <iframe class="min-h-[170px] xl:min-h-[220px]" src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d14875.88775631223!2d72.81608609999999!3d21.2329613!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1655442825672!5m2!1sen!2sin" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                      <a href="#" class="w-10 h-10 flex items-center justify-center text-xl bg-white shadow-sm absolute right-4 bottom-4 text-magicPotion"><i class="icon-map"></i></a>
+            <!-- Photo-holder -->
+            <div class="media-upload-holder" *ngIf="(events && events.length && events[0]) ? events[0].event[0].image : ''">
+              <!-- media title  -->
+              <div class="flex justify-between items-center">
+                <h3 class="text-lg">Photo</h3>
+                <a href="javascript:void(0);" class="text-spiroDiscoBall text-sm font-bold opacity-60">View All</a>
+              </div>
+              <!-- photo-holder -->
+              <div class="w-full">
+                <div class="flex flex-wrap -mx-2">
+                  <div class="w-full lg:w-2/12 p-2 ov-p" *ngFor="let img of events[0].event[0].image">
+                    <div class="rounded relative overflow-hidden bg-white h-24">
+                      <img [src]="constants.baseImageURL + img.image" alt="upload-1" class="w-full h-full object-cover"/>
                     </div>
-                    <div class="p-3.5 xl:p-5">
-                        <span class="input-titel"><i class="icon-location-1 mr-1"></i> Location</span>
-                        <h3 class="text-sm xl:text-base">309 Ridgeview St. Carleton Place, ON K7C 3Y6</h3>
-                    </div>
-                </div>  
-                <!-- date-content  -->
-                <div class="w-full p-5 xl:p-7 bg-white rounded-md space-y-3">
-                  <div class="w-full">
-                    <div class="text-xs lg:text-sm font-medium text-quicksilver flex items-center"><i class="icon-calendar mr-1.5 text-base"></i>Date</div>
-                    <span class="text-japaneseIndigo text-xs lg:text-sm font-bold">July 23, 2021 - July 30, 2021</span>
-                  </div>
-                  <div class="w-full">
-                    <div class="text-xs lg:text-sm font-medium text-quicksilver flex items-center"><i class="icon-time mr-1.5 text-sm"></i>Time</div>
-                    <span class="text-japaneseIndigo text-xs lg:text-sm font-bold">04:00PM - 05:00AM</span>
                   </div>
                 </div>
-                <!-- Discount On Total Bill  -->
-                <div class="bg-gradient-to-r from-[#13e1b094] to-[#13E1B0] p-3.5 xl:p-5 rounded-lg relative overflow-hidden">
-                    <div class="w-full  space-y-4">
-                      <h4 class="text-white">Discount On Total Bill</h4>
-                      <h1 class="text-black font-bold">10%</h1>
-                      <div class="space-y-2">
-                        <span class="text-xs text-white font-normal block">4 Event can be posted or one event with max 30 day</span>                            
-                      </div>
-                      <img src="../assets/images/event-subscription.png" alt="celebration" class="absolute -right-3 -bottom-3 opacity-80"/>
-                    </div>
-                </div>
-                <!-- Book_ticket_detils -->
-                <div class="bg-white rounded-md overflow-hidden">
-                  <div class="flex justify-between px-5 py-2 bg-japaneseIndigo">
-                    <span class="text-sm font-bold text-white">Book Ticket</span>
-                    <span class="text-sm font-bold text-white">Total Amount</span>
-                  </div>
-                  <div class="flex justify-between px-5 py-2 bg-white border-b border-brightGray">
-                    <span class="text-sm font-bold text-japaneseIndigo">15 T - L</span>
-                    <span class="text-sm font-bold text-japaneseIndigo">$2500.00</span>
-                  </div>
-                  <div class="flex justify-between px-5 py-2 bg-white border-b border-brightGray">
-                    <span class="text-sm font-bold text-japaneseIndigo">15 C - C</span>
-                    <span class="text-sm font-bold text-japaneseIndigo">$5000.00</span>
-                  </div>
-                  <div class="flex justify-between px-5 py-2 bg-white">
-                    <span class="text-sm font-bold text-japaneseIndigo">26 B - R</span>
-                    <span class="text-sm font-bold text-japaneseIndigo">$7500.00</span>
-                  </div>
-                </div>
+              </div>
             </div>
-          </div>                 
-        </div>
-        <!-- Attendee-Teb-Content   -->
-        <div class="w-full space-y-7 tab-main" id="attendee">
-          <div class="w-full flex">
-            <!-- left-bar -->
-            <div class="w-full lg:w-8/12 space-y-2.5">
-                <div class="bg-white px-5 py-2.5 flex justify-between items-center rounded-md">
-                    <div class="space-y-2">
-                        <div class="flex items-center space-x-3">
-                          <h3 class="text-base">Reynaldo Franklin</h3>
-                          <span class="input-titel font-bold text-caribbeanGreen" style="padding-bottom: 0;">#55841251</span>
-                        </div>                              
-                        <p class="text-quicksilver text-xs font-bold flex items-center">July 13, 2021</p>
+            <!-- videos-holder -->
+            <div class="media-upload-holder" *ngIf="(events && events.length && events[0]) ? events[0].event[0].video : ''">
+              <!-- media title  -->
+              <div class="flex justify-between items-center">
+                <h3 class="text-lg">Videos</h3>
+                <a href="javascript:void(0);" class="text-spiroDiscoBall text-sm font-bold opacity-60">View All</a>
+              </div>
+              <!-- media-holder -->
+              <div class="w-full">
+                <div class="flex flex-wrap -mx-2">
+                  <div class="w-full lg:w-1/5 p-2 ov-p" *ngFor="let video of events[0].event[0].video">
+                    <div class="rounded relative overflow-hidden h-28">
+                      <img [src]="constants.baseImageURL + video.thumbnail" alt="upload-1" class="w-full h-full object-cover bg-white"/>
                     </div>
-                    <div class="space-y-1">
-                      <h3 class="text-lg">$560.00</h3>
-                      <span class="block input-titel text-magicPotion text-right">15 Ticket</span>
-                    </div>
-                </div>
-                <div class="bg-white px-5 py-2.5 flex justify-between items-center rounded-md">
-                    <div class="space-y-2">
-                        <div class="flex items-center space-x-3">
-                          <h3 class="text-base">Mark Jecno</h3>
-                          <span class="input-titel font-bold text-caribbeanGreen" style="padding-bottom: 0;">#23541251</span>
-                        </div>                              
-                        <p class="text-quicksilver text-xs font-bold flex items-center">July 13, 2021</p>
-                    </div>
-                    <div class="space-y-1">
-                      <h3 class="text-lg">$2100.00</h3>
-                      <span class="block input-titel text-magicPotion text-right">100 Ticket</span>
-                    </div>
-                </div>
-                <div class="bg-white px-5 py-2.5 flex justify-between items-center rounded-md">
-                  <div class="space-y-2">
-                      <div class="flex items-center space-x-3">
-                        <h3 class="text-base">Joila balia</h3>
-                        <span class="input-titel font-bold text-caribbeanGreen" style="padding-bottom: 0;">#55841251</span>
-                      </div>                              
-                      <p class="text-quicksilver text-xs font-bold flex items-center">July 13, 2021</p>
-                  </div>
-                  <div class="space-y-1">
-                    <h3 class="text-lg">$900.00</h3>
-                    <span class="block input-titel text-magicPotion text-right">10 Ticket</span>
                   </div>
                 </div>
-                <div class="bg-white px-5 py-2.5 flex justify-between items-center rounded-md">
-                  <div class="space-y-2">
-                      <div class="flex items-center space-x-3">
-                        <h3 class="text-base">Mackenzie Holder</h3>
-                        <span class="input-titel font-bold text-caribbeanGreen" style="padding-bottom: 0;">#55841251</span>
-                      </div>                              
-                      <p class="text-quicksilver text-xs font-bold flex items-center">July 13, 2021</p>
-                  </div>
-                  <div class="space-y-1">
-                    <h3 class="text-lg">$900.00</h3>
-                    <span class="block input-titel text-magicPotion text-right">10 Ticket</span>
-                  </div>
-                </div>
-                <div class="bg-white px-5 py-2.5 flex justify-between items-center rounded-md">
-                  <div class="space-y-2">
-                      <div class="flex items-center space-x-3">
-                        <h3 class="text-base">Mackenzie Holder</h3>
-                        <span class="input-titel font-bold text-caribbeanGreen" style="padding-bottom: 0;">#55841251</span>
-                      </div>                              
-                      <p class="text-quicksilver text-xs font-bold flex items-center">July 13, 2021</p>
-                  </div>
-                  <div class="space-y-1">
-                    <h3 class="text-lg">$900.00</h3>
-                    <span class="block input-titel text-magicPotion text-right">10 Ticket</span>
-                  </div>
-                </div>
-                <div class="w-full">
-                  <img src="../assets/images/ad-banner.png" alt="ring-ad" class="w-full object-cover"/>
-                </div>
-                <div class="bg-white px-5 py-2.5 flex justify-between items-center rounded-md">
-                  <div class="space-y-2">
-                      <div class="flex items-center space-x-3">
-                        <h3 class="text-base">Mackenzie Holder</h3>
-                        <span class="input-titel font-bold text-caribbeanGreen" style="padding-bottom: 0;">#55841251</span>
-                      </div>                              
-                      <p class="text-quicksilver text-xs font-bold flex items-center">July 13, 2021</p>
-                  </div>
-                  <div class="space-y-1">
-                    <h3 class="text-lg">$900.00</h3>
-                    <span class="block input-titel text-magicPotion text-right">10 Ticket</span>
-                  </div>
-                </div>
-                <div class="bg-white px-5 py-2.5 flex justify-between items-center rounded-md">
-                  <div class="space-y-2">
-                      <div class="flex items-center space-x-3">
-                        <h3 class="text-base">Mackenzie Holder</h3>
-                        <span class="input-titel font-bold text-caribbeanGreen" style="padding-bottom: 0;">#55841251</span>
-                      </div>                              
-                      <p class="text-quicksilver text-xs font-bold flex items-center">July 13, 2021</p>
-                  </div>
-                  <div class="space-y-1">
-                    <h3 class="text-lg">$900.00</h3>
-                    <span class="block input-titel text-magicPotion text-right">10 Ticket</span>
-                  </div>
-                </div>
+              </div>
             </div>
-            <!-- right-bar  -->
-            <div class="w-full lg:w-4/12 lg:pl-5 space-y-7 sticky top-0">
-              <!-- map-content  -->
-                <div class="w-full p-2.5 bg-white rounded-md">
-                    <div class="relative">
-                      <iframe class="min-h-[170px] xl:min-h-[220px]" src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d14875.88775631223!2d72.81608609999999!3d21.2329613!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1655442825672!5m2!1sen!2sin" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                      <a href="#" class="w-10 h-10 flex items-center justify-center text-xl bg-white shadow-sm absolute right-4 bottom-4 text-magicPotion"><i class="icon-map"></i></a>
-                    </div>
-                    <div class="p-3.5 xl:p-5">
-                        <span class="input-titel"><i class="icon-location-1 mr-1"></i> Location</span>
-                        <h3 class="text-sm xl:text-base">309 Ridgeview St. Carleton Place, ON K7C 3Y6</h3>
-                    </div>
-                </div>  
-                <!-- date-content  -->
-                <div class="w-full p-5 xl:p-7 bg-white rounded-md space-y-3">
-                  <div class="w-full">
-                    <div class="text-xs lg:text-sm font-medium text-quicksilver flex items-center"><i class="icon-calendar mr-1.5 text-base"></i>Date</div>
-                    <span class="text-japaneseIndigo text-xs lg:text-sm font-bold">July 23, 2021 - July 30, 2021</span>
-                  </div>
-                  <div class="w-full">
-                    <div class="text-xs lg:text-sm font-medium text-quicksilver flex items-center"><i class="icon-time mr-1.5 text-sm"></i>Time</div>
-                    <span class="text-japaneseIndigo text-xs lg:text-sm font-bold">04:00PM - 05:00AM</span>
-                  </div>
-                </div>
-                <!-- Discount On Total Bill  -->
-                <div class="bg-gradient-to-r from-[#13e1b094] to-[#13E1B0] p-3.5 xl:p-5 rounded-lg relative overflow-hidden">
-                    <div class="w-full  space-y-4">
-                      <h4 class="text-white">Discount On Total Bill</h4>
-                      <h1 class="text-black font-bold">10%</h1>
-                      <div class="space-y-2">
-                        <span class="text-xs text-white font-normal block">4 Event can be posted or one event with max 30 day</span>                            
+            <!-- Accordion -->
+            <div class="space-y-1.5">
+              <h5 class="text-lg font-bold">Arrangement</h5>
+              <div class="Accordions w-full space-y-5">
+                <div class="Accordion_item h-full p-0 relative">
+                  <div class="title_tab flex justify-between items-center px-5 py-6 max-h-[78px]">
+                    <div class="space-x-7 flex items-center">
+                      <div class="w-10 text-center">
+                        <img alt="table" class="mx-auto max-w-full object-contain" src="../assets/images/table.png"/>
                       </div>
-                      <img src="../assets/images/event-subscription.png" alt="celebration" class="absolute -right-3 -bottom-3 opacity-80"/>
+                      <h4>Table</h4>
                     </div>
+                    <div class="flex items-center space-x-7">
+                      <span class="uper-down flex items-center cursor-pointer">
+                        <i class="icon-top_Arrow hidden"></i>
+                        <i class="icon-drop_arrow"></i>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="inner_content i_c space-y-6 border-t px-5 py-6">
+                    <div class="flex">
+                      <div class="pr-5">
+                        <img alt="select-item" src="../assets/images/select-item.png"/>
+                      </div>
+                      <div class="w-full space-y-2">
+                        <div class="flex items-center justify-between">
+                          <h6 class="text-lg text-japaneseIndigo font-bold">Select Item</h6>
+                          <div class="flex items-center">
+                            <input class="switch mx-3 order-2" id="on" type="checkbox"/>
+                            <span class="off text-base font-bold anim order-1 text-caribbeanGreen">per table</span>
+                            <span class="on text-base font-bold anim order-3">per person</span>
+                          </div>
+                        </div>
+                        <div class="flex flex-wrap items-center">
+                          <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
+                            <span class="block text-xs xl:text-sm text-quicksilver">No of Table</span>
+                            <span class="block text-base font-bold text-quicksilver">5</span>
+                          </div>
+                          <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
+                            <span class="block text-xs xl:text-sm text-quicksilver">Location</span>
+                            <span class="block text-base font-bold text-quicksilver">T - L</span>
+                          </div>
+                          <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
+                            <span class="block text-xs xl:text-sm text-quicksilver">Table Person Capacity</span>
+                            <span class="block text-base font-bold text-quicksilver">15</span>
+                          </div>
+                          <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
+                            <span class="block text-xs xl:text-sm text-quicksilver">Total Person Capacity</span>
+                            <span class="block text-base font-bold text-quicksilver">15</span>
+                          </div>
+                          <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
+                            <span class="block text-xs xl:text-sm text-quicksilver">Per Table Price</span>
+                            <span class="block text-base font-bold text-quicksilver">100</span>
+                          </div>
+                          <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
+                            <span class="block text-xs xl:text-sm text-quicksilver">per person price</span>
+                            <span class="block text-base font-bold text-quicksilver">100 INR</span>
+                          </div>
+                          <div class="space-y-1 pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
+                            <span class="block text-xs xl:text-sm text-quicksilver">Total Amount</span>
+                            <span class="block text-base font-bold text-japaneseIndigo">1000 INR</span>
+                          </div>
+                        </div>
+                        <div>
+                          <p>Description</p>
+                          <span
+                            class="text-base text-quicksilver font-bold">Lorem Ipsum is simply dummy text of the printing.</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="flex">
+                      <div class="pr-5">
+                        <img alt="non-veg" src="../assets/images/non-veg.png"/>
+                      </div>
+                      <div class="w-full space-y-2">
+                        <p>Food</p>
+                        <span class="text-lg font-bold text-japaneseIndigo">Non Veg</span>
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+                          industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+                          scrambled it to make a type specimen book.</p>
+                      </div>
+                    </div>
+                    <div class="flex">
+                      <div class="pr-5">
+                        <img alt="not-include" src="../assets/images/not-include.png"/>
+                      </div>
+                      <div class="w-full space-y-2">
+                        <p>Equipment</p>
+                        <span class="text-lg font-bold text-japaneseIndigo">Not Include</span>
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+                          industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+                          scrambled it to make a type specimen book.</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <!-- Book_ticket_detils -->
-                <div class="bg-white rounded-md overflow-hidden">
-                  <div class="flex justify-between px-5 py-2 bg-japaneseIndigo">
-                    <span class="text-sm font-bold text-white">Book Ticket</span>
-                    <span class="text-sm font-bold text-white">Total Amount</span>
+                <div class="Accordion_item h-full p-0 relative">
+                  <div class="title_tab flex justify-between items-center px-5 py-6 max-h-[78px]">
+                    <div class="space-x-7 flex items-center">
+                      <div class="w-10 text-center">
+                        <img alt="sofa" class="mx-auto max-w-full object-contain" src="../assets/images/sofa.png"/>
+                      </div>
+                      <h4>Sofa</h4>
+                    </div>
+                    <div class="flex items-center space-x-7">
+                      <span class="uper-down flex items-center cursor-pointer">
+                        <i class="icon-top_Arrow hidden"></i>
+                        <i class="icon-drop_arrow"></i>
+                      </span>
+                    </div>
                   </div>
-                  <div class="flex justify-between px-5 py-2 bg-white border-b border-brightGray">
-                    <span class="text-sm font-bold text-japaneseIndigo">15 T - L</span>
-                    <span class="text-sm font-bold text-japaneseIndigo">$2500.00</span>
-                  </div>
-                  <div class="flex justify-between px-5 py-2 bg-white border-b border-brightGray">
-                    <span class="text-sm font-bold text-japaneseIndigo">15 C - C</span>
-                    <span class="text-sm font-bold text-japaneseIndigo">$5000.00</span>
-                  </div>
-                  <div class="flex justify-between px-5 py-2 bg-white">
-                    <span class="text-sm font-bold text-japaneseIndigo">26 B - R</span>
-                    <span class="text-sm font-bold text-japaneseIndigo">$7500.00</span>
+                  <div class="inner_content i_c space-y-6 border-t px-5 py-6">
+                    <div class="flex">
+                      <div class="pr-5">
+                        <img alt="select-item" src="../assets/images/select-item.png"/>
+                      </div>
+                      <div class="w-full space-y-2">
+                        <div class="flex items-center justify-between">
+                          <h6 class="text-lg text-japaneseIndigo font-bold">Select Item</h6>
+                          <div class="flex items-center">
+                            <input class="switch mx-3 order-2" id="on" type="checkbox"/>
+                            <span class="off text-base font-bold anim order-1 text-caribbeanGreen">per table</span>
+                            <span class="on text-base font-bold anim order-3">per person</span>
+                          </div>
+                        </div>
+                        <div class="flex flex-wrap items-center">
+                          <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
+                            <span class="block text-xs xl:text-sm text-quicksilver">No of Table</span>
+                            <span class="block text-base font-bold text-quicksilver">5</span>
+                          </div>
+                          <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
+                            <span class="block text-xs xl:text-sm text-quicksilver">Location</span>
+                            <span class="block text-base font-bold text-quicksilver">T - L</span>
+                          </div>
+                          <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
+                            <span class="block text-xs xl:text-sm text-quicksilver">Table Person Capacity</span>
+                            <span class="block text-base font-bold text-quicksilver">15</span>
+                          </div>
+                          <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
+                            <span class="block text-xs xl:text-sm text-quicksilver">Total Person Capacity</span>
+                            <span class="block text-base font-bold text-quicksilver">15</span>
+                          </div>
+                          <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
+                            <span class="block text-xs xl:text-sm text-quicksilver">Per Table Price</span>
+                            <span class="block text-base font-bold text-quicksilver">100</span>
+                          </div>
+                          <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
+                            <span class="block text-xs xl:text-sm text-quicksilver">per person price</span>
+                            <span class="block text-base font-bold text-quicksilver">100 INR</span>
+                          </div>
+                          <div class="space-y-1 pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
+                            <span class="block text-xs xl:text-sm text-quicksilver">Total Amount</span>
+                            <span class="block text-base font-bold text-japaneseIndigo">1000 INR</span>
+                          </div>
+                        </div>
+                        <div>
+                          <p>Description</p>
+                          <span
+                            class="text-base text-quicksilver font-bold">Lorem Ipsum is simply dummy text of the printing.</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="flex">
+                      <div class="pr-5">
+                        <img alt="non-veg" src="../assets/images/non-veg.png"/>
+                      </div>
+                      <div class="w-full space-y-2">
+                        <p>Food</p>
+                        <span class="text-lg font-bold text-japaneseIndigo">Non Veg</span>
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+                          industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+                          scrambled it to make a type specimen book.</p>
+                      </div>
+                    </div>
+                    <div class="flex">
+                      <div class="pr-5">
+                        <img alt="not-include" src="../assets/images/not-include.png"/>
+                      </div>
+                      <div class="w-full space-y-2">
+                        <p>Equipment</p>
+                        <span class="text-lg font-bold text-japaneseIndigo">Not Include</span>
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+                          industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+                          scrambled it to make a type specimen book.</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
+                <div class="Accordion_item h-full p-0 relative">
+                  <div class="title_tab flex justify-between items-center px-5 py-6 max-h-[78px]">
+                    <div class="space-x-7 flex items-center">
+                      <div class="w-10 text-center">
+                        <img alt="chair" class="mx-auto max-w-full object-contain" src="../assets/images/chair.png"/>
+                      </div>
+                      <h4>Chair</h4>
+                    </div>
+                    <div class="flex items-center space-x-7">
+                      <span class="uper-down flex items-center cursor-pointer">
+                        <i class="icon-top_Arrow hidden"></i>
+                        <i class="icon-drop_arrow"></i>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="inner_content i_c space-y-6 border-t px-5 py-6">
+                    <div class="flex">
+                      <div class="pr-5">
+                        <img alt="select-item" src="../assets/images/select-item.png"/>
+                      </div>
+                      <div class="w-full space-y-2">
+                        <div class="flex items-center justify-between">
+                          <h6 class="text-lg text-japaneseIndigo font-bold">Select Item</h6>
+                        </div>
+                        <div class="flex flex-wrap items-center">
+                          <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
+                            <span class="block text-xs xl:text-sm text-quicksilver">No of Table</span>
+                            <span class="block text-base font-bold text-quicksilver">5</span>
+                          </div>
+                          <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
+                            <span class="block text-xs xl:text-sm text-quicksilver">Location</span>
+                            <span class="block text-base font-bold text-quicksilver">T - L</span>
+                          </div>
+                          <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
+                            <span class="block text-xs xl:text-sm text-quicksilver">Table Person Capacity</span>
+                            <span class="block text-base font-bold text-quicksilver">1</span>
+                          </div>
+                          <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
+                            <span class="block text-xs xl:text-sm text-quicksilver">per person price</span>
+                            <span class="block text-base font-bold text-quicksilver">100 INR</span>
+                          </div>
+                          <div class="space-y-1 pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
+                            <span class="block text-xs xl:text-sm text-quicksilver">Total Amount</span>
+                            <span class="block text-base font-bold text-japaneseIndigo">1000 INR</span>
+                          </div>
+                        </div>
+                        <div>
+                          <p>Description</p>
+                          <span
+                            class="text-base text-quicksilver font-bold">Lorem Ipsum is simply dummy text of the printing.</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="flex">
+                      <div class="pr-5">
+                        <img alt="non-veg" src="../assets/images/non-veg.png"/>
+                      </div>
+                      <div class="w-full space-y-2">
+                        <p>Food</p>
+                        <span class="text-lg font-bold text-japaneseIndigo">Non Veg</span>
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+                          industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+                          scrambled it to make a type specimen book.</p>
+                      </div>
+                    </div>
+                    <div class="flex">
+                      <div class="pr-5">
+                        <img alt="not-include" src="../assets/images/not-include.png"/>
+                      </div>
+                      <div class="w-full space-y-2">
+                        <p>Equipment</p>
+                        <span class="text-lg font-bold text-japaneseIndigo">Not Include</span>
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+                          industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+                          scrambled it to make a type specimen book.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="Accordion_item h-full p-0 relative">
+                  <div class="title_tab flex justify-between items-center px-5 py-6 max-h-[78px]">
+                    <div class="space-x-7 flex items-center">
+                      <div class="w-10 text-center">
+                        <img alt="booth" class="mx-auto max-w-full object-contain" src="../assets/images/booth.png"/>
+                      </div>
+                      <h4>Booth</h4>
+                    </div>
+                    <div class="flex items-center space-x-7">
+                      <span class="uper-down flex items-center cursor-pointer">
+                        <i class="icon-top_Arrow hidden"></i>
+                        <i class="icon-drop_arrow"></i>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="inner_content i_c space-y-6 border-t px-5 py-6">
+                    <div class="flex">
+                      <div class="pr-5">
+                        <img alt="select-item" src="../assets/images/select-item.png"/>
+                      </div>
+                      <div class="w-full space-y-2">
+                        <div class="flex items-center justify-between">
+                          <h6 class="text-lg text-japaneseIndigo font-bold">Select Item</h6>
+                        </div>
+                        <div class="flex flex-wrap items-center">
+                          <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
+                            <span class="block text-xs xl:text-sm text-quicksilver">No of Table</span>
+                            <span class="block text-base font-bold text-quicksilver">5</span>
+                          </div>
+                          <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
+                            <span class="block text-xs xl:text-sm text-quicksilver">Location</span>
+                            <span class="block text-base font-bold text-quicksilver">T - L</span>
+                          </div>
+                          <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
+                            <span class="block text-xs xl:text-sm text-quicksilver">Table Person Capacity</span>
+                            <span class="block text-base font-bold text-quicksilver">1</span>
+                          </div>
+                          <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
+                            <span class="block text-xs xl:text-sm text-quicksilver">per person price</span>
+                            <span class="block text-base font-bold text-quicksilver">100 INR</span>
+                          </div>
+                          <div class="space-y-1 pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
+                            <span class="block text-xs xl:text-sm text-quicksilver">Total Amount</span>
+                            <span class="block text-base font-bold text-japaneseIndigo">1000 INR</span>
+                          </div>
+                        </div>
+                        <div>
+                          <p>Description</p>
+                          <span
+                            class="text-base text-quicksilver font-bold">Lorem Ipsum is simply dummy text of the printing.</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="flex">
+                      <div class="pr-5">
+                        <img alt="non-veg" src="../assets/images/non-veg.png"/>
+                      </div>
+                      <div class="w-full space-y-2">
+                        <p>Food</p>
+                        <span class="text-lg font-bold text-japaneseIndigo">Non Veg</span>
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+                          industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+                          scrambled it to make a type specimen book.</p>
+                      </div>
+                    </div>
+                    <div class="flex">
+                      <div class="pr-5">
+                        <img alt="not-include" src="../assets/images/not-include.png"/>
+                      </div>
+                      <div class="w-full space-y-2">
+                        <p>Equipment</p>
+                        <span class="text-lg font-bold text-japaneseIndigo">Not Include</span>
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+                          industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+                          scrambled it to make a type specimen book.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="Accordion_item h-full p-0 relative">
+                  <div class="title_tab flex justify-between items-center px-5 py-6 max-h-[78px]">
+                    <div class="space-x-7 flex items-center">
+                      <div class="w-10 text-center">
+                        <img alt="stand" class="mx-auto max-w-full object-contain" src="../assets/images/stand.png"/>
+                      </div>
+                      <h4>Stand</h4>
+                    </div>
+                    <div class="flex items-center space-x-7">
+                      <span class="uper-down flex items-center cursor-pointer">
+                        <i class="icon-top_Arrow hidden"></i>
+                        <i class="icon-drop_arrow"></i>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="inner_content i_c space-y-6 border-t px-5 py-6">
+                    <div class="flex">
+                      <div class="pr-5">
+                        <img alt="select-item" src="../assets/images/select-item.png"/>
+                      </div>
+                      <div class="w-full space-y-2">
+                        <div class="flex items-center justify-between">
+                          <h6 class="text-lg text-japaneseIndigo font-bold">Select Item</h6>
+                        </div>
+                        <div class="flex flex-wrap items-center">
+                          <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
+                            <span class="block text-xs xl:text-sm text-quicksilver">No of Table</span>
+                            <span class="block text-base font-bold text-quicksilver">5</span>
+                          </div>
+                          <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
+                            <span class="block text-xs xl:text-sm text-quicksilver">Location</span>
+                            <span class="block text-base font-bold text-quicksilver">T - L</span>
+                          </div>
+                          <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
+                            <span class="block text-xs xl:text-sm text-quicksilver">Table Person Capacity</span>
+                            <span class="block text-base font-bold text-quicksilver">1</span>
+                          </div>
+                          <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
+                            <span class="block text-xs xl:text-sm text-quicksilver">per person price</span>
+                            <span class="block text-base font-bold text-quicksilver">100 INR</span>
+                          </div>
+                          <div class="space-y-1 pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
+                            <span class="block text-xs xl:text-sm text-quicksilver">Total Amount</span>
+                            <span class="block text-base font-bold text-japaneseIndigo">1000 INR</span>
+                          </div>
+                        </div>
+                        <div>
+                          <p>Description</p>
+                          <span
+                            class="text-base text-quicksilver font-bold">Lorem Ipsum is simply dummy text of the printing.</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="flex">
+                      <div class="pr-5">
+                        <img alt="non-veg" src="../assets/images/non-veg.png"/>
+                      </div>
+                      <div class="w-full space-y-2">
+                        <p>Food</p>
+                        <span class="text-lg font-bold text-japaneseIndigo">Non Veg</span>
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+                          industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+                          scrambled it to make a type specimen book.</p>
+                      </div>
+                    </div>
+                    <div class="flex">
+                      <div class="pr-5">
+                        <img alt="not-include" src="../assets/images/not-include.png"/>
+                      </div>
+                      <div class="w-full space-y-2">
+                        <p>Equipment</p>
+                        <span class="text-lg font-bold text-japaneseIndigo">Not Include</span>
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+                          industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+                          scrambled it to make a type specimen book.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Company Details -->
+            <div class="space-y-1.5">
+              <h5 class="text-lg font-bold">Company Details</h5>
+              <div class="p-7 bg-white rounded-md space-y-1">
+                <span class="block text-base lg:text-lg font-bold">Company Name</span>
+                <p class="text-quicksilver text-sm leading-6 font-normal">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+              </div>
+            </div>
+            <!-- Photo-holder -->
+            <div class="media-upload-holder">
+              <!-- media title  -->
+              <div class="flex justify-between items-center">
+                <h3 class="text-lg">Photo</h3>
+                <a href="javascript:void(0);" class="text-spiroDiscoBall text-sm font-bold opacity-60">View All</a>
+              </div>
+              <!-- photo-holder -->
+              <div class="w-full">
+                <div class="flex flex-wrap -mx-2">
+                  <div class="w-full lg:w-2/12 p-2 ov-p">
+                    <div class="rounded relative overflow-hidden bg-white">
+                      <img src="../assets/images/dish-1.png" alt="upload-1" class="w-full"/>
+                    </div>
+                  </div>
+                  <div class="w-full lg:w-2/12 p-2 ov-p">
+                    <div class="rounded relative overflow-hidden bg-white">
+                      <img src="../assets/images/dish-2.png" alt="upload-1" class="w-full"/>
+                    </div>
+                  </div>
+                  <div class="w-full lg:w-2/12 p-2 ov-p">
+                    <div class="rounded relative overflow-hidden bg-white">
+                      <img src="../assets/images/dish-3.png" alt="upload-1" class="w-full"/>
+                    </div>
+                  </div>
+                  <div class="w-full lg:w-2/12 p-2 ov-p">
+                    <div class="rounded relative overflow-hidden bg-white">
+                      <img src="../assets/images/dish-4.png" alt="upload-1" class="w-full"/>
+                    </div>
+                  </div>
+                  <div class="w-full lg:w-2/12 p-2 ov-p">
+                    <div class="rounded relative overflow-hidden bg-white">
+                      <img src="../assets/images/dish-5.png" alt="upload-1" class="w-full"/>
+                    </div>
+                  </div>
+                  <div class="w-full lg:w-2/12 p-2 ov-p">
+                    <div class="rounded relative overflow-hidden bg-white">
+                      <img src="../assets/images/dish-6.png" alt="upload-1" class="w-full"/>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- videos-holder -->
+            <div class="media-upload-holder">
+              <!-- media titel  -->
+              <div class="flex justify-between items-center">
+                <h3 class="text-lg">Videos</h3>
+                <a href="javascript:void(0);" class="text-spiroDiscoBall text-sm font-bold opacity-60">View All</a>
+              </div>
+              <!-- media-holder -->
+              <div class="w-full">
+                <div class="flex flex-wrap -mx-2">
+                  <div class="w-full lg:w-1/5 p-2 ov-p">
+                    <div class="rounded relative overflow-hidden">
+                      <img src="../assets/images/dish-6.png" alt="upload-1" class="w-full bg-white"/>
+                    </div>
+                  </div>
+                  <div class="w-full lg:w-1/5 p-2 ov-p">
+                    <div class="rounded relative overflow-hidden">
+                      <img src="../assets/images/dish-7.png" alt="upload-1" class="w-full bg-white"/>
+                    </div>
+                  </div>
+                  <div class="w-full lg:w-1/5 p-2 ov-p">
+                    <div class="rounded relative overflow-hidden">
+                      <img src="../assets/images/dish-9.png" alt="upload-1" class="w-full bg-white"/>
+                    </div>
+                  </div>
+                  <div class="w-full lg:w-1/5 p-2 ov-p">
+                    <div class="rounded relative overflow-hidden">
+                      <img src="../assets/images/dish-10.png" alt="upload-1" class="w-full bg-white"/>
+                    </div>
+                  </div>
+                  <div class="w-full lg:w-1/5 p-2 ov-p">
+                    <div class="rounded relative overflow-hidden">
+                      <img src="../assets/images/dish-11.png" alt="upload-1" class="w-full bg-white"/>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Company Details -->
+            <div class="space-y-1.5">
+              <h3 class="text-lg">Terms & Conditions</h3>
+              <div class="p-3.5 xl:p-5 bg-white rounded-md">
+                <div class="flex items-start text-quicksilver font-normal">
+                  <div class="pt-0.5">*</div>
+                  <p class="text-sm font-normal pl-3">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been  the industry's</p>
+                </div>
+                <div class="flex items-start text-quicksilver font-normal">
+                  <div class="pt-0.5">*</div>
+                  <p class="text-sm font-normal pl-3">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,</p>
+                </div>
+                <div class="flex items-start text-quicksilver font-normal">
+                  <div class="pt-0.5">*</div>
+                  <p class="text-sm font-normal pl-3">when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,</p>
+                </div>
+                <div class="flex items-start text-quicksilver font-normal">
+                  <div class="pt-0.5">*</div>
+                  <p class="text-sm font-normal pl-3">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been  the industry's</p>
+                </div>
+                <div class="flex items-start text-quicksilver font-normal">
+                  <div class="pt-0.5">*</div>
+                  <p class="text-sm font-normal pl-3">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,</p>
+                </div>
+                <div class="flex items-start text-quicksilver font-normal">
+                  <div class="pt-0.5">*</div>
+                  <p class="text-sm font-normal pl-3">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,</p>
+                </div>
+              </div>
+            </div>
+            <!-- Social-Media -->
+            <div class="w-full space-y-3">
+              <span class="block text-base lg:text-xl font-bold">Social Media</span>
+              <div class="flex items-center space-x-5 p-5 lg:p-7 bg-white rounded-lg">
+                <a href="javascript:void(0);">
+                <img src="../assets/images/twiiter.png" alt="twiiter.png"/>
+                </a>
+                <a href="javascript:void(0);">
+                <img src="../assets/images/linked.png" alt="linkdin.png"/>
+                </a>
+                <a href="javascript:void(0);">
+                <img src="../assets/images/facebook.png" alt="facebook.png"/>
+                </a>
+                <a href="javascript:void(0);">
+                <img src="../assets/images/whatapp.png" alt="whatapp.png"/>
+                </a>
+                <a href="javascript:void(0);">
+                <img src="../assets/images/instagram.png" alt="instagram.png"/>
+                </a>
+              </div>
+            </div>
+            <!-- product_ad -->
+            <div class="w-full">
+              <img src="../assets/images/banner-ads.png" alt="add-Banner" class="w-full"/>
+            </div>
+          </div>
+          <!-- right-bar  -->
+          <div class="w-full lg:w-4/12 lg:pl-5 space-y-7 sticky top-0">
+            <!-- map-content  -->
+            <div class="w-full p-2.5 bg-white rounded-md">
+              <div class="relative">
+                <iframe class="min-h-[170px] xl:min-h-[220px]" src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d14875.88775631223!2d72.81608609999999!3d21.2329613!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1655442825672!5m2!1sen!2sin" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <a href="javascript:void(0);" class="w-10 h-10 flex items-center justify-center text-xl bg-white shadow-sm absolute right-4 bottom-4 text-magicPotion"><i class="icon-map"></i></a>
+              </div>
+              <div class="p-3.5 xl:p-5">
+                <span class="input-titel"><i class="icon-location-1 mr-1"></i> Location</span>
+                <h3 class="text-sm xl:text-base">309 Ridgeview St. Carleton Place, ON K7C 3Y6</h3>
+              </div>
+            </div>
+            <!-- date-content  -->
+            <div class="w-full p-5 xl:p-7 bg-white rounded-md space-y-3">
+              <div class="w-full">
+                <div class="text-xs lg:text-sm font-medium text-quicksilver flex items-center"><i class="icon-calendar mr-1.5 text-base"></i>Date</div>
+                <span class="text-japaneseIndigo text-xs lg:text-sm font-bold">July 23, 2021 - July 30, 2021</span>
+              </div>
+              <div class="w-full">
+                <div class="text-xs lg:text-sm font-medium text-quicksilver flex items-center"><i class="icon-time mr-1.5 text-sm"></i>Time</div>
+                <span class="text-japaneseIndigo text-xs lg:text-sm font-bold">04:00PM - 05:00AM</span>
+              </div>
+            </div>
+            <!-- Discount On Total Bill  -->
+            <div class="bg-gradient-to-r from-[#13e1b094] to-[#13E1B0] p-3.5 xl:p-5 rounded-lg relative overflow-hidden">
+              <div class="w-full  space-y-4">
+                <h4 class="text-white">Discount On Total Bill</h4>
+                <h1 class="text-black font-bold">10%</h1>
+                <div class="space-y-2">
+                  <span class="text-xs text-white font-normal block">4 Event can be posted or one event with max 30 day</span>                            
+                </div>
+                <img src="../assets/images/event-subscription.png" alt="celebration" class="absolute -right-3 -bottom-3 opacity-80"/>
+              </div>
+            </div>
+            <!-- Book_ticket_detils -->
+            <div class="bg-white rounded-md overflow-hidden">
+              <div class="flex justify-between px-5 py-2 bg-japaneseIndigo">
+                <span class="text-sm font-bold text-white">Book Ticket</span>
+                <span class="text-sm font-bold text-white">Total Amount</span>
+              </div>
+              <div class="flex justify-between px-5 py-2 bg-white border-b border-brightGray">
+                <span class="text-sm font-bold text-japaneseIndigo">15 T - L</span>
+                <span class="text-sm font-bold text-japaneseIndigo">$2500.00</span>
+              </div>
+              <div class="flex justify-between px-5 py-2 bg-white border-b border-brightGray">
+                <span class="text-sm font-bold text-japaneseIndigo">15 C - C</span>
+                <span class="text-sm font-bold text-japaneseIndigo">$5000.00</span>
+              </div>
+              <div class="flex justify-between px-5 py-2 bg-white">
+                <span class="text-sm font-bold text-japaneseIndigo">26 B - R</span>
+                <span class="text-sm font-bold text-japaneseIndigo">$7500.00</span>
+              </div>
             </div>
           </div>
         </div>
-        <!-- Reviews-Teb-Content   -->
-        <div class="w-full space-y-7 tab-main" id="reviews">
-            <div class="w-full space-y-2">
-              <div class="flex justify-between p-7 bg-white rounded-md">
-                <div class="">
-                  <div class="w-28 h-28 border-2 border-brightGray rounded-full overflow-hidden bg-white">
-                    <img src="../assets/images/profile-2.png" alt="cutting-board" class="w-full h-full object-cover"/>
-                  </div>
+      </div>
+      <!-- Attendee-Teb-Content   -->
+      <div class="w-full space-y-7 tab-main" id="attendee">
+        <div class="w-full flex">
+          <!-- left-bar -->
+          <div class="w-full lg:w-8/12 space-y-2.5">
+            <div class="bg-white px-5 py-2.5 flex justify-between items-center rounded-md">
+              <div class="space-y-2">
+                <div class="flex items-center space-x-3">
+                  <h3 class="text-base">Reynaldo Franklin</h3>
+                  <span class="input-titel font-bold text-caribbeanGreen" style="padding-bottom: 0;">#55841251</span>
                 </div>
-                <div class="w-full pl-5">
-                  <div class="flex justify-between">
-                    <h3>Charlotte</h3>
-                    <div class="flex items-center space-x-2">
-                      <span class="text-xs text-quicksilver">19 Jan, 2022</span>
-                      <div class="flex items-center text-xs space-x-1">
-                        <i class="icon-rating text-[#ECA926] text-sm"></i>
-                        <i class="icon-rating text-[#ECA926] text-sm"></i>
-                        <i class="icon-rating text-[#ECA926] text-sm"></i>
-                        <i class="icon-rating text-[#ECA926] text-sm"></i>
-                        <i class="icon-rating text-[#999] text-sm"></i>
-                      </div>
-                    </div>
-                  </div>
-                  <p class="text-japaneseIndigo text-sm font-normal leading-6 pt-2">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodoligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient  montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.</p>
-                </div>
+                <p class="text-quicksilver text-xs font-bold flex items-center">July 13, 2021</p>
               </div>
-              <div class="flex justify-between p-7 bg-white rounded-md">
-                <div class="">
-                  <div class="w-28 h-28 border-2 border-brightGray rounded-full overflow-hidden bg-white">
-                    <img src="../assets/images/profile-2.png" alt="cutting-board" class="w-full h-full object-cover"/>
-                  </div>
-                </div>
-                <div class="w-full pl-5">
-                  <div class="flex justify-between">
-                    <h3>Charlotte</h3>
-                    <div class="flex items-center space-x-2">
-                      <span class="text-xs text-quicksilver">19 Jan, 2022</span>
-                      <div class="flex items-center text-xs space-x-1">
-                        <i class="icon-rating text-[#ECA926] text-sm"></i>
-                        <i class="icon-rating text-[#ECA926] text-sm"></i>
-                        <i class="icon-rating text-[#ECA926] text-sm"></i>
-                        <i class="icon-rating text-[#ECA926] text-sm"></i>
-                        <i class="icon-rating text-[#999] text-sm"></i>
-                      </div>
-                    </div>
-                  </div>
-                  <p class="text-japaneseIndigo text-sm font-normal leading-6 pt-2">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodoligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient  montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.</p>
-                </div>
-              </div>
-              <div class="w-full py-2.5">
-                <img src="../assets/images/ad-banner.png" alt="add"/>
-              </div>
-              <div class="flex justify-between p-7 bg-white rounded-md">
-                <div class="">
-                  <div class="w-28 h-28 border-2 border-brightGray rounded-full overflow-hidden bg-white">
-                    <img src="../assets/images/profile-2.png" alt="cutting-board" class="w-full h-full object-cover"/>
-                  </div>
-                </div>
-                <div class="w-full pl-5">
-                  <div class="flex justify-between">
-                    <h3>Charlotte</h3>
-                    <div class="flex items-center space-x-2">
-                      <span class="text-xs text-quicksilver">19 Jan, 2022</span>
-                      <div class="flex items-center text-xs space-x-1">
-                        <i class="icon-rating text-[#ECA926] text-sm"></i>
-                        <i class="icon-rating text-[#ECA926] text-sm"></i>
-                        <i class="icon-rating text-[#ECA926] text-sm"></i>
-                        <i class="icon-rating text-[#ECA926] text-sm"></i>
-                        <i class="icon-rating text-[#999] text-sm"></i>
-                      </div>
-                    </div>
-                  </div>
-                  <p class="text-japaneseIndigo text-sm font-normal leading-6 pt-2">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodoligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient  montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.</p>
-                </div>
+              <div class="space-y-1">
+                <h3 class="text-lg">$560.00</h3>
+                <span class="block input-titel text-magicPotion text-right">15 Ticket</span>
               </div>
             </div>
-        </div>                   
+            <div class="bg-white px-5 py-2.5 flex justify-between items-center rounded-md">
+              <div class="space-y-2">
+                <div class="flex items-center space-x-3">
+                  <h3 class="text-base">Mark Jecno</h3>
+                  <span class="input-titel font-bold text-caribbeanGreen" style="padding-bottom: 0;">#23541251</span>
+                </div>
+                <p class="text-quicksilver text-xs font-bold flex items-center">July 13, 2021</p>
+              </div>
+              <div class="space-y-1">
+                <h3 class="text-lg">$2100.00</h3>
+                <span class="block input-titel text-magicPotion text-right">100 Ticket</span>
+              </div>
+            </div>
+            <div class="bg-white px-5 py-2.5 flex justify-between items-center rounded-md">
+              <div class="space-y-2">
+                <div class="flex items-center space-x-3">
+                  <h3 class="text-base">Joila balia</h3>
+                  <span class="input-titel font-bold text-caribbeanGreen" style="padding-bottom: 0;">#55841251</span>
+                </div>
+                <p class="text-quicksilver text-xs font-bold flex items-center">July 13, 2021</p>
+              </div>
+              <div class="space-y-1">
+                <h3 class="text-lg">$900.00</h3>
+                <span class="block input-titel text-magicPotion text-right">10 Ticket</span>
+              </div>
+            </div>
+            <div class="bg-white px-5 py-2.5 flex justify-between items-center rounded-md">
+              <div class="space-y-2">
+                <div class="flex items-center space-x-3">
+                  <h3 class="text-base">Mackenzie Holder</h3>
+                  <span class="input-titel font-bold text-caribbeanGreen" style="padding-bottom: 0;">#55841251</span>
+                </div>
+                <p class="text-quicksilver text-xs font-bold flex items-center">July 13, 2021</p>
+              </div>
+              <div class="space-y-1">
+                <h3 class="text-lg">$900.00</h3>
+                <span class="block input-titel text-magicPotion text-right">10 Ticket</span>
+              </div>
+            </div>
+            <div class="bg-white px-5 py-2.5 flex justify-between items-center rounded-md">
+              <div class="space-y-2">
+                <div class="flex items-center space-x-3">
+                  <h3 class="text-base">Mackenzie Holder</h3>
+                  <span class="input-titel font-bold text-caribbeanGreen" style="padding-bottom: 0;">#55841251</span>
+                </div>
+                <p class="text-quicksilver text-xs font-bold flex items-center">July 13, 2021</p>
+              </div>
+              <div class="space-y-1">
+                <h3 class="text-lg">$900.00</h3>
+                <span class="block input-titel text-magicPotion text-right">10 Ticket</span>
+              </div>
+            </div>
+            <div class="w-full">
+              <img src="../assets/images/banner-ads.png" alt="ring-ad" class="w-full object-cover"/>
+            </div>
+            <div class="bg-white px-5 py-2.5 flex justify-between items-center rounded-md">
+              <div class="space-y-2">
+                <div class="flex items-center space-x-3">
+                  <h3 class="text-base">Mackenzie Holder</h3>
+                  <span class="input-titel font-bold text-caribbeanGreen" style="padding-bottom: 0;">#55841251</span>
+                </div>
+                <p class="text-quicksilver text-xs font-bold flex items-center">July 13, 2021</p>
+              </div>
+              <div class="space-y-1">
+                <h3 class="text-lg">$900.00</h3>
+                <span class="block input-titel text-magicPotion text-right">10 Ticket</span>
+              </div>
+            </div>
+            <div class="bg-white px-5 py-2.5 flex justify-between items-center rounded-md">
+              <div class="space-y-2">
+                <div class="flex items-center space-x-3">
+                  <h3 class="text-base">Mackenzie Holder</h3>
+                  <span class="input-titel font-bold text-caribbeanGreen" style="padding-bottom: 0;">#55841251</span>
+                </div>
+                <p class="text-quicksilver text-xs font-bold flex items-center">July 13, 2021</p>
+              </div>
+              <div class="space-y-1">
+                <h3 class="text-lg">$900.00</h3>
+                <span class="block input-titel text-magicPotion text-right">10 Ticket</span>
+              </div>
+            </div>
+          </div>
+          <!-- right-bar  -->
+          <div class="w-full lg:w-4/12 lg:pl-5 space-y-7 sticky top-0">
+            <!-- map-content  -->
+            <div class="w-full p-2.5 bg-white rounded-md">
+              <div class="relative">
+                <iframe class="min-h-[170px] xl:min-h-[220px]" src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d14875.88775631223!2d72.81608609999999!3d21.2329613!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1655442825672!5m2!1sen!2sin" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <a href="javascript:void(0);" class="w-10 h-10 flex items-center justify-center text-xl bg-white shadow-sm absolute right-4 bottom-4 text-magicPotion"><i class="icon-map"></i></a>
+              </div>
+              <div class="p-3.5 xl:p-5">
+                <span class="input-titel"><i class="icon-location-1 mr-1"></i> Location</span>
+                <h3 class="text-sm xl:text-base">309 Ridgeview St. Carleton Place, ON K7C 3Y6</h3>
+              </div>
+            </div>
+            <!-- date-content  -->
+            <div class="w-full p-5 xl:p-7 bg-white rounded-md space-y-3">
+              <div class="w-full">
+                <div class="text-xs lg:text-sm font-medium text-quicksilver flex items-center"><i class="icon-calendar mr-1.5 text-base"></i>Date</div>
+                <span class="text-japaneseIndigo text-xs lg:text-sm font-bold">July 23, 2021 - July 30, 2021</span>
+              </div>
+              <div class="w-full">
+                <div class="text-xs lg:text-sm font-medium text-quicksilver flex items-center"><i class="icon-time mr-1.5 text-sm"></i>Time</div>
+                <span class="text-japaneseIndigo text-xs lg:text-sm font-bold">04:00PM - 05:00AM</span>
+              </div>
+            </div>
+            <!-- Discount On Total Bill  -->
+            <div class="bg-gradient-to-r from-[#13e1b094] to-[#13E1B0] p-3.5 xl:p-5 rounded-lg relative overflow-hidden">
+              <div class="w-full  space-y-4">
+                <h4 class="text-white">Discount On Total Bill</h4>
+                <h1 class="text-black font-bold">10%</h1>
+                <div class="space-y-2">
+                  <span class="text-xs text-white font-normal block">4 Event can be posted or one event with max 30 day</span>                            
+                </div>
+                <img src="../assets/images/event-subscription.png" alt="celebration" class="absolute -right-3 -bottom-3 opacity-80"/>
+              </div>
+            </div>
+            <!-- Book_ticket_detils -->
+            <div class="bg-white rounded-md overflow-hidden">
+              <div class="flex justify-between px-5 py-2 bg-japaneseIndigo">
+                <span class="text-sm font-bold text-white">Book Ticket</span>
+                <span class="text-sm font-bold text-white">Total Amount</span>
+              </div>
+              <div class="flex justify-between px-5 py-2 bg-white border-b border-brightGray">
+                <span class="text-sm font-bold text-japaneseIndigo">15 T - L</span>
+                <span class="text-sm font-bold text-japaneseIndigo">$2500.00</span>
+              </div>
+              <div class="flex justify-between px-5 py-2 bg-white border-b border-brightGray">
+                <span class="text-sm font-bold text-japaneseIndigo">15 C - C</span>
+                <span class="text-sm font-bold text-japaneseIndigo">$5000.00</span>
+              </div>
+              <div class="flex justify-between px-5 py-2 bg-white">
+                <span class="text-sm font-bold text-japaneseIndigo">26 B - R</span>
+                <span class="text-sm font-bold text-japaneseIndigo">$7500.00</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Reviews-Teb-Content   -->
+      <div class="w-full space-y-7 tab-main" id="reviews">
+        <div class="w-full space-y-2">
+          <div class="flex justify-between p-7 bg-white rounded-md">
+            <div class="">
+              <div class="w-28 h-28 border-2 border-brightGray rounded-full overflow-hidden bg-white">
+                <img src="../assets/images/profile-2.png" alt="cutting-board" class="w-full h-full object-cover"/>
+              </div>
+            </div>
+            <div class="w-full pl-5">
+              <div class="flex justify-between">
+                <h3>Charlotte</h3>
+                <div class="flex items-center space-x-2">
+                  <span class="text-xs text-quicksilver">19 Jan, 2022</span>
+                  <div class="flex items-center text-xs space-x-1">
+                    <i class="icon-rating text-[#ECA926] text-sm"></i>
+                    <i class="icon-rating text-[#ECA926] text-sm"></i>
+                    <i class="icon-rating text-[#ECA926] text-sm"></i>
+                    <i class="icon-rating text-[#ECA926] text-sm"></i>
+                    <i class="icon-rating text-[#999] text-sm"></i>
+                  </div>
+                </div>
+              </div>
+              <p class="text-japaneseIndigo text-sm font-normal leading-6 pt-2">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodoligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient  montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.</p>
+            </div>
+          </div>
+          <div class="flex justify-between p-7 bg-white rounded-md">
+            <div class="">
+              <div class="w-28 h-28 border-2 border-brightGray rounded-full overflow-hidden bg-white">
+                <img src="../assets/images/profile-2.png" alt="cutting-board" class="w-full h-full object-cover"/>
+              </div>
+            </div>
+            <div class="w-full pl-5">
+              <div class="flex justify-between">
+                <h3>Charlotte</h3>
+                <div class="flex items-center space-x-2">
+                  <span class="text-xs text-quicksilver">19 Jan, 2022</span>
+                  <div class="flex items-center text-xs space-x-1">
+                    <i class="icon-rating text-[#ECA926] text-sm"></i>
+                    <i class="icon-rating text-[#ECA926] text-sm"></i>
+                    <i class="icon-rating text-[#ECA926] text-sm"></i>
+                    <i class="icon-rating text-[#ECA926] text-sm"></i>
+                    <i class="icon-rating text-[#999] text-sm"></i>
+                  </div>
+                </div>
+              </div>
+              <p class="text-japaneseIndigo text-sm font-normal leading-6 pt-2">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodoligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient  montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.</p>
+            </div>
+          </div>
+          <div class="w-full py-2.5">
+            <img src="../assets/images/banner-ads.png" alt="add"/>
+          </div>
+          <div class="flex justify-between p-7 bg-white rounded-md">
+            <div class="">
+              <div class="w-28 h-28 border-2 border-brightGray rounded-full overflow-hidden bg-white">
+                <img src="../assets/images/profile-2.png" alt="cutting-board" class="w-full h-full object-cover"/>
+              </div>
+            </div>
+            <div class="w-full pl-5">
+              <div class="flex justify-between">
+                <h3>Charlotte</h3>
+                <div class="flex items-center space-x-2">
+                  <span class="text-xs text-quicksilver">19 Jan, 2022</span>
+                  <div class="flex items-center text-xs space-x-1">
+                    <i class="icon-rating text-[#ECA926] text-sm"></i>
+                    <i class="icon-rating text-[#ECA926] text-sm"></i>
+                    <i class="icon-rating text-[#ECA926] text-sm"></i>
+  
+                    <i class="icon-rating text-[#ECA926] text-sm"></i>
+                    <i class="icon-rating text-[#999] text-sm"></i>
+                  </div>
+                </div>
+              </div>
+              <p class="text-japaneseIndigo text-sm font-normal leading-6 pt-2">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodoligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient  montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-   <!-- bottom-bar -->
-   <div class="-mb-14 mt-14 bg-white pb-4">
+  <!-- bottom-bar -->
+  <div class="-mb-14 mt-14 bg-white pb-4">
     <div class="flex flex-wrap items-center justify-between max-w-7xl mx-auto px-5 xl:px-8">
       <div class="flex items-center space-x-2 pt-4">
         <h4 class="pr-5 border-r border-brightGray"><span class="text-quicksilver font-normal">Sold :</span> 2556</h4>
@@ -999,7 +973,7 @@
         <span class="text-xs font-bold text-quicksilver whitespace-nowrap">521 UnSold</span>
       </div>
       <div class="pt-4">
-        <a href="#" class="secondary px-5 py-2 flex items-end rounded-sm max-w-max mx-auto"><i class="icon-scanner mr-3 text-lg"></i>SCAN QR</a>
+        <a href="javascript:void(0);" class="secondary px-5 py-2 flex items-end rounded-sm max-w-max mx-auto"><i class="icon-scanner mr-3 text-lg"></i>SCAN QR</a>
       </div>
     </div>
   </div>

@@ -13,8 +13,8 @@
     <span class="text-sm text-quicksilver font-semibold">Add Photos <span class="font-normal">(5 Images - up to 5MB/Image)</span></span>
     <div class="flex space-x-2.5 h-full pt-2">
       <div *ngFor="let photo of photoArr; let i = index" class="upload-box">
-        <div class="rounded relative overflow-hidden">
-          <img [alt]="'add-photo-' + i" [src]="photo.image"/>
+        <div class="rounded relative overflow-hidden h-full w-full">
+          <img [alt]="'add-photo-' + i" [src]="photo.image" class="object-cover w-full h-full"/>
           <button (click)="removeImage(i)">Remove</button>
         </div>
       </div>
@@ -52,8 +52,7 @@
     </div>
   </div>
   <div class="flex justify-end">
-    <button><a class="secondary float-right btn-primary small leading-10 px-5 uppercase anim" href="#">Buy Space</a>
-    </button>
+    <a class="secondary float-right btn-primary small leading-10 px-5 uppercase anim cursor-pointer" [routerLink]="'/buy-space-plans'">Buy Space</a>
   </div>
 </div>
 

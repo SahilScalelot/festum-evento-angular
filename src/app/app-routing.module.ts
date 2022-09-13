@@ -4,6 +4,8 @@ import {AuthGuard} from "./main/auth/auth-guard/auth.guard";
 import {ContentComponent} from "./main/content/content.component";
 import {NoAuthGuard} from "./main/auth/auth-guard/noAuth.guard";
 import {AuthComponent} from "./main/auth/auth.component";
+import { EventOverviewComponent } from './main/content/event/event-overview/event-overview.component';
+import { BuySpacePlansComponent } from './main/content/buy-space-plans/buy-space-plans.component';
 
 const routes: Routes = [
 
@@ -45,8 +47,16 @@ const routes: Routes = [
         loadChildren: () => import('../app/main/content/event/event.module').then(m => m.EventModule)
       },
       {
+        path: 'event/:id',
+        component: EventOverviewComponent
+      },
+      {
         path: 'create-event',
         loadChildren: () => import('../app/main/content/create-event/create-event.module').then(m => m.CreateEventModule)
+      },
+      {
+        path: 'buy-space-plans',
+        component: BuySpacePlansComponent
       }
     ]
   },
