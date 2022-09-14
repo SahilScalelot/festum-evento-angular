@@ -17,11 +17,13 @@ export class PhotosVideosStepComponent implements OnInit {
   cropImgPreview: any = '';
   photosAndVideosForm: any;
   photosForm: any;
+  videoForm: any;
 
   posterObj: any;
   photoArr: any = [];
   photoObj: any = [];
   videoObj: any = [];
+  videoArr: any = [];
   permissionObj: any = [];
 
   constructor(private _modalService: ModalService, private _formBuilder: FormBuilder) {
@@ -36,6 +38,11 @@ export class PhotosVideosStepComponent implements OnInit {
 
     this.photosForm = this._formBuilder.group({
       image: [null, [Validators.required]],
+      details: [null]
+    });
+
+    this.videoForm = this._formBuilder.group({
+      video: [null, [Validators.required]],
       details: [null]
     });
 
@@ -72,10 +79,12 @@ export class PhotosVideosStepComponent implements OnInit {
           // }
           break;
         case 'video':
-          if (event.target.files.length > 0) {
-            const file = event.target.files[0];
-            this.videoObj[key] = file;
-          }
+          this.photosNgForm.resetForm();
+          this._modalService.open("video");
+          // if (event.target.files.length > 0) {
+          //   const file = event.target.files[0];
+          //   this.videoObj[key] = file;
+          // }
           break;
         case 'permission':
           const file = event.target.files[0];
@@ -109,9 +118,25 @@ export class PhotosVideosStepComponent implements OnInit {
     this._modalService.close("photo");
   }
 
+  uploadVideo() {
+    const video = $('#create-video-upload')[0].files[0];
+
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      this.videoArr.push({video: e.target.result, details: this.videoForm.value.details});
+    };
+    reader.readAsDataURL(video);
+    this._modalService.close("video");
+  }
+
   removeImage(index: number) {
     this.photoArr.splice(index, 1);
     console.log(this.photoArr);
+  }
+
+  removeVideo(index: number) {
+    this.videoArr.splice(index, 1);
+    console.log(this.videoArr);
   }
 
 }
