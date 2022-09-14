@@ -86,8 +86,6 @@ const routes: Routes = [
     SharedModule,
     AccordionModule,
     CalendarModule,
-    ReactiveFormsModule,
-    FormsModule,
     ImageCropperModule,
     ModalModule,
     AgmCoreModule.forRoot({

@@ -40,6 +40,14 @@ export const CONSTANTS = {
     PUBLIC: 'PP',
   },
 
+  seatingType: {
+    TABLE: 1,
+    SOFA: 2,
+    CHAIR: 3,
+    BOOTH: 4,
+    STAND: 5
+  },
+
   seatingItems: [
     {value: 1, label: 'Table'},
     {value: 2, label: 'Sofa'},
@@ -86,6 +94,22 @@ export const CONSTANTS = {
     },
   },
 
+  locationsObj: {
+    TOP: 0,
+    RIGHT: 1,
+    BOTTOM: 2,
+    LEFT: 3
+  },
+
+  locationsArr: [
+    {value: 0, label: 'Top'},
+    {value: 1, label: 'Right'},
+    {value: 2, label: 'Down'},
+    {value: 3, label: 'Left'}
+  ],
+
+  maxImageSizeInMB: 5,
+  maxVideoSizeInMB: 512,
   defaultMapZoom: 12,
   latitude: 21.1702,
   longitude: 72.8311,

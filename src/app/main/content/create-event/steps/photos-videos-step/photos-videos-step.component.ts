@@ -2,6 +2,8 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, Validators} from '@angular/forms';
 import {ImageCroppedEvent} from 'ngx-image-cropper';
 import {ModalService} from 'src/app/main/_modal';
+import {SnotifyService} from "ng-snotify";
+import {CONSTANTS} from "../../../../common/constants";
 
 declare var $: any;
 
@@ -26,7 +28,11 @@ export class PhotosVideosStepComponent implements OnInit {
   videoArr: any = [];
   permissionObj: any = [];
 
-  constructor(private _modalService: ModalService, private _formBuilder: FormBuilder) {
+  constructor(
+    private _modalService: ModalService,
+    private _formBuilder: FormBuilder,
+    private _sNotify: SnotifyService
+  ) {
   }
 
   ngOnInit(): void {
@@ -68,7 +74,11 @@ export class PhotosVideosStepComponent implements OnInit {
           break;
         case 'photo':
           this.photosNgForm.resetForm();
-          this._modalService.open("photo");
+          if (this.photoArr && this.photoArr.length && this.photoArr.length >= 5) {
+            this._sNotify.error('Maximum 5 images can upload!', 'Oops!');
+          } else {
+            this._modalService.open("photo");
+          }
           // if (event.target && event.target.files && event.target.files.length > 0) {
           //   for (let i = 0; i < event.target.files.length; i++) {
           //     const file = event.target.files[i];
@@ -80,7 +90,12 @@ export class PhotosVideosStepComponent implements OnInit {
           break;
         case 'video':
           this.photosNgForm.resetForm();
-          this._modalService.open("video");
+
+          if (this.videoArr && this.videoArr.length && this.videoArr.length >= 2) {
+            this._sNotify.error('Maximum 2 videos can upload!', 'Oops!');
+          } else {
+            this._modalService.open("video");
+          }
           // if (event.target.files.length > 0) {
           //   const file = event.target.files[0];
           //   this.videoObj[key] = file;
@@ -107,36 +122,76 @@ export class PhotosVideosStepComponent implements OnInit {
     this.cropImgPreview = blob;
   }
 
-  uploadImage() {
+  uploadImage(): any {
     const image = $('#create-photo-upload')[0].files[0];
 
-    const reader = new FileReader();
-    reader.onload = (e: any) => {
-      this.photoArr.push({image: e.target.result, details: this.photosForm.value.details});
-    };
-    reader.readAsDataURL(image);
-    this._modalService.close("photo");
+    if (image != undefined) {
+      if (image.type != 'image/jpeg' && image.type != 'image/jpg' && image.type != 'image/png') {
+        this._sNotify.error('Image type is Invalid.', 'Oops!');
+        $('#create-photo-upload').focus();
+        return false;
+      }
+
+      const image_size = image.size / 1024 / 1024;
+      if (image_size > CONSTANTS.maxImageSizeInMB) {
+        this._sNotify.error('Maximum Image Size is ' + CONSTANTS.maxImageSizeInMB + 'MB.', 'Oops!');
+        $('#create-photo-upload').focus();
+        return false;
+      }
+
+      if (this.photoArr && this.photoArr.length && this.photoArr.length >= 5) {
+        this._sNotify.error('Maximum 5 images can upload!', 'Oops!');
+        this._modalService.close("photo");
+        return false;
+      }
+
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.photoArr.push({image: e.target.result, details: this.photosForm.value.details});
+      };
+      reader.readAsDataURL(image);
+      this._modalService.close("photo");
+    }
   }
 
-  uploadVideo() {
+  uploadVideo(): any {
     const video = $('#create-video-upload')[0].files[0];
 
-    const reader = new FileReader();
-    reader.onload = (e: any) => {
-      this.videoArr.push({video: e.target.result, details: this.videoForm.value.details});
-    };
-    reader.readAsDataURL(video);
-    this._modalService.close("video");
+    if (video != undefined) {
+      if (video.type != 'video/mp4') {
+        this._sNotify.error('Video type should only mp4.', 'Oops!');
+        $('#create-video-upload').focus();
+        return false;
+      }
+
+      const video_size = video.size / 1024 / 1024;
+      if (video_size > CONSTANTS.maxVideoSizeInMB) {
+        this._sNotify.error('Maximum Video Size is ' + CONSTANTS.maxVideoSizeInMB + 'MB.', 'Oops!');
+        $('#create-video-upload').focus();
+        return false;
+      }
+
+      if (this.videoArr && this.videoArr.length && this.videoArr.length >= 2) {
+        this._sNotify.error('Maximum 2 videos can upload!', 'Oops!');
+        this._modalService.close("video");
+        return false;
+      }
+
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.videoArr.push({video: e.target.result, details: this.videoForm.value.details});
+      };
+      reader.readAsDataURL(video);
+      this._modalService.close("video");
+    }
   }
 
   removeImage(index: number) {
     this.photoArr.splice(index, 1);
-    console.log(this.photoArr);
   }
 
   removeVideo(index: number) {
     this.videoArr.splice(index, 1);
-    console.log(this.videoArr);
   }
 
 }
