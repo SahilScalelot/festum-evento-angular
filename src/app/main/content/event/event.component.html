@@ -21,7 +21,7 @@
         <div class="w-full p-4 bg-white rounded">
           <div class="flex items-center flex-wrap xl:flex-nowrap xl:space-x-5">
             <div class="relative w-full lg:max-w-[288px]">
-              <img [src]="constants.baseImageURL + event.event[0].poster" alt="event" class="w-full"/>
+              <img [src]="constants.baseImageURL + event.poster" alt="{{event.event.name}}" class="w-full"/>
               <span class="text-base text-white font-bold px-2 py-1 absolute top-2 left-0 bg-magicPotion">
                 {{event.event_type}}
               </span>
@@ -30,7 +30,7 @@
               <div class="flex flex-wrap justify-between border-b-2 pb-4">
                 <div class="w-full lg:w-auto">
                   <div class="flex items-center space-x-2 lg:space-x-4">
-                    <h4 class="text-japaneseIndigo">{{event.name}}</h4>
+                    <h4 class="text-japaneseIndigo">{{event.event.name}}</h4>
                     <span class="text-xs text-white font-bold bg-magicPotion px-3 rounded-xl py-1">Unverified</span>
                     <span
                       class="text-xs text-white font-bold bg-caribbeanGreen px-3 rounded-xl py-1">Booking Accepting</span>
@@ -41,21 +41,21 @@
                         <i class="icon-calendar mr-1.5"></i>Date
                       </div>
                       <span class="text-japaneseIndigo text-xs lg:text-sm font-bold">
-                        {{event.event[0].start_date}} - {{event.event[0].end_date}}</span>
+                        {{event.start_date}} - {{event.end_date}}</span>
                     </div>
                     <div class="border-l-2 border-brightGray px-2 lg:px-4">
                       <div class="text-xs lg:text-sm font-semibold text-quicksilver pt-3"><i
                         class="icon-time mr-1.5"></i>Time
                       </div>
                       <span class="text-japaneseIndigo text-xs lg:text-sm font-bold">
-                        {{event.event[0].start_time}} - {{event.event[0].end_time}}</span>
+                        {{event.start_time}} - {{event.end_time}}</span>
                     </div>
                     <div class="border-l-2 border-brightGray px-2 lg:px-4">
                       <div class="text-xs lg:text-sm font-semibold text-quicksilver pt-3">
                         <i class="icon-location-1 mr-1.5"></i>Location
                       </div>
                       <span class="text-japaneseIndigo text-xs lg:text-sm font-bold">
-                        {{event.event[0].city[0].city}}, {{event.event[0].state[0].state}}</span>
+                        {{event.city}}, {{event.state}}</span>
                     </div>
                   </div>
                 </div>

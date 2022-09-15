@@ -1,11 +1,8 @@
-<p-progressSpinner *ngIf="isLoading" [style]="{width: '50px', height: '50px'}"
-                   animationDuration=".5s" fill="#EEEEEE" strokeWidth="8"
-                   styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
+<p-progressSpinner *ngIf="isLoading" [style]="{width: '50px', height: '50px'}" animationDuration=".5s" fill="#EEEEEE" strokeWidth="8" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
 <div *ngIf="events && events.length && events[0] && !isLoading" class="">
   <div class="-mt-12 relative -z-10">
     <!-- src="../assets/images/cooking-together-big.png"  -->
-    <img [src]="constants.baseImageURL + events[0].event[0].poster" alt="cooking-together-bg"
-         class="w-full object-cover max-h-80"/>
+    <img [src]="constants.baseImageURL + events[0].poster" alt="cooking-together-bg" class="w-full object-cover max-h-80"/>
   </div>
   <div class="wrapper min-h-full -mt-14 z-10">
     <div class="flex items-center justify-between bg-white py-5 px-7 rounded-md">
@@ -14,7 +11,7 @@
           <span class="px-3 py-1 rounded-sm text-xs text-white font-bold bg-magicPotion">Unverified</span>
           <span class="px-3 py-1 rounded-sm text-xs text-white font-bold bg-caribbeanGreen">Booking Accepting</span>
         </div>
-        <h2>{{ events[0].name }}</h2>
+        <h2>{{ events[0].event.name }}</h2>
         <div class="flex items-center space-x-1">
           <i class="icon-rating text-[#ECA926] text-sm"></i>
           <i class="icon-rating text-[#ECA926] text-sm"></i>
@@ -27,25 +24,17 @@
       <div class="w-full md:w-1/2 space-y-3">
         <h3 class="text-right">250 INR</h3>
         <div class="flex space-x-2 justify-end">
-          <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"
-             href="javascript:void(0);"><i
-              class="icon-edit text-sm leading-0 text-japaneseIndigo"></i></a>
-          <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"
-             href="javascript:void(0);"><i
-              class="icon-fill_megaphone text-sm leading-0 text-japaneseIndigo"></i></a>
-          <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"
-             href="javascript:void(0);"><i
-              class="icon-share text-sm leading-0 text-japaneseIndigo"></i></a>
+          <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" href="javascript:void(0);"><i class="icon-edit text-sm leading-0 text-japaneseIndigo"></i></a>
+          <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" href="javascript:void(0);"><i class="icon-fill_megaphone text-sm leading-0 text-japaneseIndigo"></i></a>
+          <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" href="javascript:void(0);"><i class="icon-share text-sm leading-0 text-japaneseIndigo"></i></a>
         </div>
         <div class="flex items-center justify-end space-x-3">
           <div class="flex items-center justify-end">
             <input checked="" class="switch mr-1.5 lg:mx-3 order-2" type="checkbox">
             <span class="text-base font-bold anim order-3">Live</span>
           </div>
-          <span
-              class="px-3 py-1 rounded-sm text-xs text-white font-bold bg-magicPotion">{{ events[0].event_category }}</span>
-          <span
-              class="px-3 py-1 rounded-sm text-xs text-white font-bold bg-japaneseIndigo">{{ events[0].event_type }}</span>
+          <span class="px-3 py-1 rounded-sm text-xs text-white font-bold bg-magicPotion">{{ events[0].event_category }}</span>
+          <span class="px-3 py-1 rounded-sm text-xs text-white font-bold bg-japaneseIndigo">{{ events[0].event_type }}</span>
         </div>
       </div>
     </div>
@@ -62,37 +51,34 @@
         <div class="flex flex-wrap">
           <!-- left-bar -->
           <div class="w-full lg:w-8/12 lg:pr-5 space-y-7">
-            <div *ngIf="events[0].event[0].description" class="p-7 bg-white rounded-md space-y-1">
+            <div *ngIf="events[0].event[0].description != ''" class="p-7 bg-white rounded-md space-y-1">
               <h5>About Event</h5>
               <p class="text-quicksilver text-sm leading-6 font-normal">{{ events[0].event[0].description }}</p>
             </div>
             <!-- Photo-holder -->
-            <div *ngIf="events[0].event[0].image" class="media-upload-holder">
+            <div *ngIf="events[0].event[0].image != ''" class="media-upload-holder">
               <!-- media title  -->
               <div class="flex justify-between items-center">
                 <h3 class="text-lg">Photo</h3>
-                <a class="text-spiroDiscoBall text-sm font-bold opacity-60" href="javascript:void(0);">View
-                  All</a>
+                <a class="text-spiroDiscoBall text-sm font-bold opacity-60" href="javascript:void(0);">View All</a>
               </div>
               <!-- photo-holder -->
               <div class="w-full">
                 <div class="flex flex-wrap -mx-2">
                   <div *ngFor="let img of events[0].event[0].image" class="w-full lg:w-2/12 p-2 ov-p">
                     <div class="rounded relative overflow-hidden bg-white h-24">
-                      <img [src]="constants.baseImageURL + img.image" alt="upload-1"
-                           class="w-full h-full object-cover"/>
+                      <img [src]="constants.baseImageURL + img.image" alt="upload-1" class="w-full h-full object-cover"/>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
             <!-- videos-holder -->
-            <div *ngIf="events[0].event[0].video" class="media-upload-holder">
+            <div *ngIf="events[0].event[0].video != ''" class="media-upload-holder">
               <!-- media title  -->
               <div class="flex justify-between items-center">
                 <h3 class="text-lg">Videos</h3>
-                <a class="text-spiroDiscoBall text-sm font-bold opacity-60" href="javascript:void(0);">View
-                  All</a>
+                <a class="text-spiroDiscoBall text-sm font-bold opacity-60" href="javascript:void(0);">View All</a>
               </div>
               <!-- media-holder -->
               <div class="w-full">
@@ -552,135 +538,57 @@
               </div>
             </div>
             <!-- Company Details -->
-            <div class="space-y-1.5">
+            <div *ngIf="events[0].event[0].companydetails[0]" class="space-y-1.5">
               <h5 class="text-lg font-bold">Company Details</h5>
               <div class="p-7 bg-white rounded-md space-y-1">
-                <span class="block text-base lg:text-lg font-bold">Company Name</span>
-                <p class="text-quicksilver text-sm leading-6 font-normal">Lorem Ipsum is simply dummy
-                  text of the printing and typesetting industry. Lorem Ipsum has been the industry's
-                  standard dummy text ever since the 1500s, when an unknown printer took a galley of
-                  type and scrambled it to make a type specimen book.</p>
+                <span class="block text-base lg:text-lg font-bold">{{ events[0].event[0].companydetails[0].name }}</span>
+                <p class="text-quicksilver text-sm leading-6 font-normal">{{ events[0].event[0].companydetails[0].about }}</p>
               </div>
-            </div>
+            </div>            
             <!-- Photo-holder -->
-            <div class="media-upload-holder">
+            <div *ngIf="events[0].event[0].companydetails[0].image != ''" class="media-upload-holder">
               <!-- media title  -->
               <div class="flex justify-between items-center">
                 <h3 class="text-lg">Photo</h3>
-                <a class="text-spiroDiscoBall text-sm font-bold opacity-60" href="javascript:void(0);">View
-                  All</a>
+                <a class="text-spiroDiscoBall text-sm font-bold opacity-60" href="javascript:void(0);">View All</a>
               </div>
               <!-- photo-holder -->
               <div class="w-full">
                 <div class="flex flex-wrap -mx-2">
-                  <div class="w-full lg:w-2/12 p-2 ov-p">
-                    <div class="rounded relative overflow-hidden bg-white">
-                      <img alt="upload-1" class="w-full" src="../assets/images/dish-1.png"/>
-                    </div>
-                  </div>
-                  <div class="w-full lg:w-2/12 p-2 ov-p">
-                    <div class="rounded relative overflow-hidden bg-white">
-                      <img alt="upload-1" class="w-full" src="../assets/images/dish-2.png"/>
-                    </div>
-                  </div>
-                  <div class="w-full lg:w-2/12 p-2 ov-p">
-                    <div class="rounded relative overflow-hidden bg-white">
-                      <img alt="upload-1" class="w-full" src="../assets/images/dish-3.png"/>
-                    </div>
-                  </div>
-                  <div class="w-full lg:w-2/12 p-2 ov-p">
-                    <div class="rounded relative overflow-hidden bg-white">
-                      <img alt="upload-1" class="w-full" src="../assets/images/dish-4.png"/>
-                    </div>
-                  </div>
-                  <div class="w-full lg:w-2/12 p-2 ov-p">
-                    <div class="rounded relative overflow-hidden bg-white">
-                      <img alt="upload-1" class="w-full" src="../assets/images/dish-5.png"/>
-                    </div>
-                  </div>
-                  <div class="w-full lg:w-2/12 p-2 ov-p">
-                    <div class="rounded relative overflow-hidden bg-white">
-                      <img alt="upload-1" class="w-full" src="../assets/images/dish-6.png"/>
+                  <div *ngFor="let img of events[0].event[0].companydetails[0].image" class="w-full lg:w-2/12 p-2 ov-p">
+                    <div class="rounded relative overflow-hidden bg-white h-24">
+                      <img [src]="constants.baseImageURL + img.image" alt="upload-1" class="w-full h-full object-cover"/>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
             <!-- videos-holder -->
-            <div class="media-upload-holder">
-              <!-- media titel  -->
+            <div *ngIf="events[0].event[0].companydetails[0].video != ''" class="media-upload-holder">
+              <!-- media title  -->
               <div class="flex justify-between items-center">
                 <h3 class="text-lg">Videos</h3>
-                <a class="text-spiroDiscoBall text-sm font-bold opacity-60" href="javascript:void(0);">View
-                  All</a>
+                <a class="text-spiroDiscoBall text-sm font-bold opacity-60" href="javascript:void(0);">View All</a>
               </div>
               <!-- media-holder -->
               <div class="w-full">
                 <div class="flex flex-wrap -mx-2">
-                  <div class="w-full lg:w-1/5 p-2 ov-p">
-                    <div class="rounded relative overflow-hidden">
-                      <img alt="upload-1" class="w-full bg-white"
-                           src="../assets/images/dish-6.png"/>
-                    </div>
-                  </div>
-                  <div class="w-full lg:w-1/5 p-2 ov-p">
-                    <div class="rounded relative overflow-hidden">
-                      <img alt="upload-1" class="w-full bg-white"
-                           src="../assets/images/dish-7.png"/>
-                    </div>
-                  </div>
-                  <div class="w-full lg:w-1/5 p-2 ov-p">
-                    <div class="rounded relative overflow-hidden">
-                      <img alt="upload-1" class="w-full bg-white"
-                           src="../assets/images/dish-9.png"/>
-                    </div>
-                  </div>
-                  <div class="w-full lg:w-1/5 p-2 ov-p">
-                    <div class="rounded relative overflow-hidden">
-                      <img alt="upload-1" class="w-full bg-white"
-                           src="../assets/images/dish-10.png"/>
-                    </div>
-                  </div>
-                  <div class="w-full lg:w-1/5 p-2 ov-p">
-                    <div class="rounded relative overflow-hidden">
-                      <img alt="upload-1" class="w-full bg-white"
-                           src="../assets/images/dish-11.png"/>
+                  <div *ngFor="let video of events[0].event[0].companydetails[0].video" class="w-full lg:w-1/5 p-2 ov-p">
+                    <div class="rounded relative overflow-hidden h-28">
+                      <img [src]="constants.baseImageURL + video.thumbnail" alt="upload-1"
+                           class="w-full h-full object-cover bg-white"/>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
             <!-- Company Details -->
-            <div class="space-y-1.5">
+            <div *ngIf="events[0].event[0].t_and_c != ''" class="space-y-1.5">
               <h3 class="text-lg">Terms & Conditions</h3>
               <div class="p-3.5 xl:p-5 bg-white rounded-md">
                 <div class="flex items-start text-quicksilver font-normal">
                   <div class="pt-0.5">*</div>
-                  <p class="text-sm font-normal pl-3">Lorem Ipsum is simply dummy text of the printing
-                    and typesetting industry. Lorem Ipsum has been the industry's</p>
-                </div>
-                <div class="flex items-start text-quicksilver font-normal">
-                  <div class="pt-0.5">*</div>
-                  <p class="text-sm font-normal pl-3">Lorem Ipsum is simply dummy text of the printing
-                    and typesetting industry. Lorem Ipsum has been the industry's standard dummy
-                    text ever since the 1500s,</p>
-                </div>
-                <div class="flex items-start text-quicksilver font-normal">
-                  <div class="pt-0.5">*</div>
-                  <p class="text-sm font-normal pl-3">when an unknown printer took a galley of type
-                    and scrambled it to make a type specimen book. It has survived not only five
-                    centuries,</p>
-                </div>
-                <div class="flex items-start text-quicksilver font-normal">
-                  <div class="pt-0.5">*</div>
-                  <p class="text-sm font-normal pl-3">Lorem Ipsum is simply dummy text of the printing
-                    and typesetting industry. Lorem Ipsum has been the industry's</p>
-                </div>
-                <div class="flex items-start text-quicksilver font-normal">
-                  <div class="pt-0.5">*</div>
-                  <p class="text-sm font-normal pl-3">Lorem Ipsum is simply dummy text of the printing
-                    and typesetting industry. Lorem Ipsum has been the industry's standard dummy
-                    text ever since the 1500s,</p>
+                  <p class="text-sm font-normal pl-3">{{ events[0].event[0].t_and_c }}</p>
                 </div>
                 <div class="flex items-start text-quicksilver font-normal">
                   <div class="pt-0.5">*</div>
@@ -691,23 +599,29 @@
               </div>
             </div>
             <!-- Social-Media -->
-            <div class="w-full space-y-3">
+            <div class="w-full space-y-3"
+            *ngIf="events[0].event[0].twitter != '' && null ||
+            events[0].event[0].linkedin != '' && null ||
+            events[0].event[0].facebook != '' && null ||
+            events[0].event[0].whatapp != '' && null ||
+            events[0].event[0].instagram != '' && null"
+            >
               <span class="block text-base lg:text-xl font-bold">Social Media</span>
               <div class="flex items-center space-x-5 p-5 lg:p-7 bg-white rounded-lg">
-                <a href="javascript:void(0);">
-                  <img alt="twiiter.png" src="../assets/images/twiiter.png"/>
+                <a *ngIf="events[0].event[0].twitter != '' && null" href="{{ events[0].event[0].twitter }}">
+                  <img alt="twiiter.png" src="../assets/images/twiiter.png" />
                 </a>
-                <a href="javascript:void(0);">
-                  <img alt="linkdin.png" src="../assets/images/linked.png"/>
+                <a *ngIf="events[0].event[0].linkedin != '' && null" href="{{ events[0].event[0].linkedin }}">
+                  <img alt="linkdin.png" src="../assets/images/linked.png" />
                 </a>
-                <a href="javascript:void(0);">
-                  <img alt="facebook.png" src="../assets/images/facebook.png"/>
+                <a *ngIf="events[0].event[0].facebook != '' && null" href="{{ events[0].event[0].facebook }}">
+                  <img alt="facebook.png" src="../assets/images/facebook.png" />
                 </a>
-                <a href="javascript:void(0);">
-                  <img alt="whatapp.png" src="../assets/images/whatapp.png"/>
+                <a *ngIf="events[0].event[0].whatapp != '' && null" href="{{ events[0].event[0].whatapp }}">
+                  <img alt="whatapp.png" src="../assets/images/whatapp.png" />
                 </a>
-                <a href="javascript:void(0);">
-                  <img alt="instagram.png" src="../assets/images/instagram.png"/>
+                <a *ngIf="events[0].event[0].instagram != '' && null" href="{{ events[0].event[0].instagram }}">
+                  <img alt="instagram.png" src="../assets/images/instagram.png" />
                 </a>
               </div>
             </div>
