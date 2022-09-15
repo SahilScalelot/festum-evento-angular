@@ -50,9 +50,9 @@
                       <div class="overflow-auto max-h-[430px] relative">
                         <div *ngIf="seatingForm.value.seating_item == constants.seatingType.TABLE ||
                          seatingForm.value.seating_item == constants.seatingType.SOFA ||
-                         seatingForm.value.seating_item == constants.seatingType.BOOTH" formGroupName="arrangements" class="">
-                          <div class="pluseBox" *ngFor="let child of seatingForm.get('arrangements')['controls']; let i = index">
-                            <ul class="flex items-center space-x-2 py-2">
+                         seatingForm.value.seating_item == constants.seatingType.BOOTH" formArrayName="arrangements" class="">
+                          <div class="pluseBox" *ngFor="let child of arrangements.controls; let i = index">
+                            <ul class="flex items-center space-x-2 py-2" [formGroupName]="i">
                               <li>
                                 <div class="w-[151px]">
                                   <span class="input-titel text-xs">No of Table</span>
@@ -144,11 +144,14 @@
                                       <span class="on text-xs font-bold anim whitespace-nowrap order-3">per person</span>
                                     </div>
                                     <div class="addDeleteBtn">
-                                      <button class="minus border-2 border-magicPotion w-7 h-7 rounded-full flex justify-center items-center">
-                                        <span class="border border-magicPotion flex border-x-8 border-y-5 bg-magicPotion rounded"></span>
-                                      </button>
-                                      <button class="pluse border-2 border-japaneseIndigo w-7 h-7 rounded-full flex justify-center items-center">
+                                      <button (click)="addArrangements()" *ngIf="i == (arrangements.controls.length - 1)"
+                                              class="pluse border-2 border-japaneseIndigo w-7 h-7 rounded-full flex justify-center items-center">
                                         <i class="icon-plus_round leading-0"></i>
+                                      </button>
+                                      <button (click)="removeArrangement(i)" *ngIf="i != (arrangements.controls.length - 1)"
+                                              class="minus border-2 border-magicPotion w-7 h-7 rounded-full flex justify-center items-center">
+                                        <span
+                                            class="border border-magicPotion flex border-x-8 border-y-5 bg-magicPotion rounded"></span>
                                       </button>
                                     </div>
                                   </div>
@@ -216,8 +219,8 @@
 
                         <div *ngIf="seatingForm.value.seating_item == constants.seatingType.CHAIR ||
                          seatingForm.value.seating_item == constants.seatingType.STAND">
-                          <div class="pluseBox">
-                            <ul class="flex items-center justify-between py-2">
+                          <div class="pluseBox" *ngFor="let child of arrangements.controls; let i = index">
+                            <ul class="flex items-center justify-between py-2" [formGroupName]="i">
                               <li>
                                 <ul class="flex items-center space-x-2">
                                   <li>
@@ -295,10 +298,10 @@
                               <li>
                                 <div class="border-l-2 px-5 ml-5 py-3">
                                   <div class="addDeleteBtn">
-                                    <button class="minus border-2 border-magicPotion w-7 h-7 rounded-full flex justify-center items-center">
+                                    <button class="minus border-2 border-magicPotion w-7 h-7 rounded-full flex justify-center items-center" (click)="removeArrangement(i)">
                                       <span class="border border-magicPotion flex border-x-8 border-y-5 bg-magicPotion rounded"></span>
                                     </button>
-                                    <button class="pluse border-2 border-japaneseIndigo w-7 h-7 rounded-full flex justify-center items-center">
+                                    <button class="pluse border-2 border-japaneseIndigo w-7 h-7 rounded-full flex justify-center items-center" (click)="addArrangements()">
                                       <i class="icon-plus_round leading-0"></i>
                                     </button>
                                   </div>
