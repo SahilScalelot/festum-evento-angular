@@ -1,0 +1,12 @@
+::ng-deep {
+  .p-rating .p-rating-icon {
+    color: #999;
+    font-size: 14px;
+  }
+  .pi-star:before {
+    content: "\e936";
+  }
+  .p-rating .p-rating-icon.pi-star-fill {
+    color: #ECA926;
+  }
+}
