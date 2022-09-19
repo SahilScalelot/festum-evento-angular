@@ -5,6 +5,7 @@ import {ContentComponent} from './content.component';
 import {EventModule} from "./event/event.module";
 import {CreateEventModule} from "./create-event/create-event.module";
 import { BuySpacePlansComponent } from './buy-space-plans/buy-space-plans.component';
+import { ProfileComponent } from './profile/profile.component';
 
 const routes: Routes = [
   {
@@ -16,7 +17,8 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     ContentComponent,
-    BuySpacePlansComponent
+    BuySpacePlansComponent,
+    ProfileComponent
   ],
   imports: [
     RouterModule.forChild(routes),

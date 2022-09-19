@@ -6,6 +6,7 @@ import {NoAuthGuard} from "./main/auth/auth-guard/noAuth.guard";
 import {AuthComponent} from "./main/auth/auth.component";
 import { EventOverviewComponent } from './main/content/event/event-overview/event-overview.component';
 import { BuySpacePlansComponent } from './main/content/buy-space-plans/buy-space-plans.component';
+import { ProfileComponent } from './main/content/profile/profile.component';
 
 const routes: Routes = [
 
@@ -57,6 +58,10 @@ const routes: Routes = [
       {
         path: 'buy-space-plans',
         component: BuySpacePlansComponent
+      },
+      {
+        path: 'profile',
+        component: ProfileComponent
       }
     ]
   },

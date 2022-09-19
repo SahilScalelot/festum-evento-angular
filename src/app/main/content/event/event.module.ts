@@ -5,6 +5,7 @@ import {EventComponent} from "./event.component";
 import {ReactiveFormsModule} from "@angular/forms";
 import {SharedModule} from "../../../shared/shared.module";
 import { EventOverviewComponent } from './event-overview/event-overview.component';
+import {RatingModule} from 'primeng/rating';
 
 const routes: Routes = [
   {
@@ -24,7 +25,8 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     CommonModule,
     ReactiveFormsModule,
-    SharedModule
+    SharedModule,
+    RatingModule
   ]
 })
 export class EventModule {
