@@ -37,10 +37,11 @@
                   <label class="input-titel">select item</label>
                   <select [formControlName]="'seating_item'"
                           class="bg-white rounded-md flex space-x-3 outline-0 px-4 py-3 relative arrow w-full"
-                          name="seating_item">
+                          name="seating_item" (change)="onSeatingItemChange()">
                     <option [value]=""></option>
-                    <option *ngFor="let seatingItem of preparedSeatingItems"
-                            [value]="seatingItem.value">{{seatingItem.label}}</option>
+                    <option *ngFor="let seatingItem of preparedSeatingItems" [value]="seatingItem.value">
+                      {{seatingItem.label}}
+                    </option>
                   </select>
                 </div>
                 <div *ngIf="seatingForm?.value?.seating_item" class="">
@@ -50,16 +51,18 @@
                       <div class="overflow-auto max-h-[430px] relative">
                         <div *ngIf="seatingForm.value.seating_item == constants.seatingType.TABLE ||
                          seatingForm.value.seating_item == constants.seatingType.SOFA ||
-                         seatingForm.value.seating_item == constants.seatingType.BOOTH" formArrayName="arrangements" class="">
-                          <div class="pluseBox" *ngFor="let child of arrangements.controls; let i = index">
-                            <ul class="flex items-center space-x-2 py-2" [formGroupName]="i">
+                         seatingForm.value.seating_item == constants.seatingType.BOOTH" formArrayName="arrangements">
+                          <div *ngFor="let child of arrangements.controls; let i = index" class="pluseBox">
+                            <ul [formGroupName]="i" class="flex items-center space-x-2 py-2">
                               <li>
                                 <div class="w-[151px]">
                                   <span class="input-titel text-xs">No of Table</span>
                                   <div class="w-full flex items-center space-x-5">
                                     <div class="w-full inputHolder">
-                                      <input [formControlName]="'number_of_seating_item'" class="bgquicksilver"
-                                             name="number_of_seating_item" type="text">
+                                      <input (input)="updateCalculatedValue()"
+                                             [formControlName]="'number_of_seating_item'"
+                                             [min]="0" [name]="'number_of_seating_item' + i" class="bgquicksilver"
+                                             fuseValidNumber type="number">
                                     </div>
                                   </div>
                                 </div>
@@ -67,22 +70,24 @@
                               <li>
                                 <div class="w-[151px] inputHolder">
                                   <span class="input-titel text-xs">Vertical Location</span>
-                                  <select [formControlName]="'vertical_location'"
-                                      class="arrow bgquicksilver py-3 text-japaneseIndigo font-bold rounded-md tracking-wider appearance-none focus-visible:outline-none"
-                                      name="vertical_location">
-                                    <option *ngFor="let location of constants.locationsArr"
-                                            [value]="location.value">{{location.label}}</option>
+                                  <select (input)="updateCalculatedValue()" [formControlName]="'vertical_location'"
+                                          [name]="'vertical_location' + i"
+                                          class="arrow bgquicksilver py-3 text-japaneseIndigo font-bold rounded-md tracking-wider appearance-none focus-visible:outline-none">
+                                    <option *ngFor="let location of constants.locationsArr" [value]="location.value">
+                                      {{location.label}}
+                                    </option>
                                   </select>
                                 </div>
                               </li>
                               <li>
                                 <div class="w-[151px] inputHolder">
                                   <span class="input-titel text-xs">Horizontal Location</span>
-                                  <select [formControlName]="'horizontal_location'"
-                                      class="arrow bgquicksilver py-3 text-japaneseIndigo font-bold rounded-md tracking-wider appearance-none focus-visible:outline-none"
-                                      name="horizontal_location">
-                                    <option *ngFor="let location of constants.locationsArr"
-                                            [value]="location.value">{{location.label}}</option>
+                                  <select (input)="updateCalculatedValue()" [formControlName]="'horizontal_location'"
+                                          [name]="'horizontal_location' + i"
+                                          class="arrow bgquicksilver py-3 text-japaneseIndigo font-bold rounded-md tracking-wider appearance-none focus-visible:outline-none">
+                                    <option *ngFor="let location of constants.locationsArr" [value]="location.value">
+                                      {{location.label}}
+                                    </option>
                                   </select>
                                 </div>
                               </li>
@@ -90,7 +95,11 @@
                                 <div class="w-[151px]">
                                   <span class="input-titel text-xs">per table person capacity</span>
                                   <div class="w-full flex items-center space-x-5">
-                                    <div class="w-full inputHolder"><input [formControlName]="'per_table_person'" name="per_table_person" class="bgquicksilver" type="text"></div>
+                                    <div class="w-full inputHolder">
+                                      <input (input)="updateCalculatedValue()" [formControlName]="'per_table_person'"
+                                             [min]="0" [name]="'per_table_person' + i" class="bgquicksilver"
+                                             fuseValidNumber type="number">
+                                    </div>
                                   </div>
                                 </div>
                               </li>
@@ -98,7 +107,11 @@
                                 <div class="w-[151px]">
                                   <span class="input-titel text-xs">Total person capacity</span>
                                   <div class="w-full flex items-center space-x-5">
-                                    <div class="w-full inputHolder"><input [formControlName]="'total_person'" name="total_person" class="bgquicksilver" type="text"></div>
+                                    <div class="w-full inputHolder">
+                                      <input (input)="updateCalculatedValue()" [formControlName]="'total_person'"
+                                             [min]="0" [name]="'total_person' + i" class="bgquicksilver"
+                                             fuseValidNumber type="number">
+                                    </div>
                                   </div>
                                 </div>
                               </li>
@@ -106,7 +119,11 @@
                                 <div class="w-[151px]">
                                   <span class="input-titel text-xs">Per Table Price</span>
                                   <div class="w-full flex items-center space-x-5">
-                                    <div class="w-full inputHolder"><input [formControlName]="'per_table_price'" name="per_table_price" class="bgquicksilver" type="text"></div>
+                                    <div class="w-full inputHolder">
+                                      <input (input)="updateCalculatedValue()" [formControlName]="'per_table_price'"
+                                             [min]="0" [name]="'per_table_price' + i" class="bgquicksilver"
+                                             fuseValidNumber type="number">
+                                    </div>
                                   </div>
                                 </div>
                               </li>
@@ -114,7 +131,11 @@
                                 <div class="w-[151px]">
                                   <span class="input-titel text-xs">per person price</span>
                                   <div class="w-full flex items-center space-x-5">
-                                    <div class="w-full inputHolder"><input [formControlName]="'per_person_price'" name="per_person_price" class="bgquicksilver" type="text"></div>
+                                    <div class="w-full inputHolder">
+                                      <input (input)="updateCalculatedValue()" [formControlName]="'per_person_price'"
+                                             [min]="0" [name]="'per_person_price' + i" class="bgquicksilver"
+                                             fuseValidNumber type="number">
+                                    </div>
                                   </div>
                                 </div>
                               </li>
@@ -122,7 +143,11 @@
                                 <div class="w-[151px]">
                                   <span class="input-titel text-xs">Total Amount</span>
                                   <div class="w-full flex items-center space-x-5">
-                                    <div class="w-full inputHolder"><input [formControlName]="'total_amount'" name="total_amount" class="bgquicksilver" type="text"></div>
+                                    <div class="w-full inputHolder">
+                                      <input (input)="updateCalculatedValue()" [formControlName]="'total_amount'"
+                                             [min]="0" [name]="'total_amount' + i" class="bgquicksilver"
+                                             fuseValidNumber type="number">
+                                    </div>
                                   </div>
                                 </div>
                               </li>
@@ -130,7 +155,10 @@
                                 <div class="w-[151px]">
                                   <span class="input-titel text-xs">description</span>
                                   <div class="w-full flex items-center space-x-5">
-                                    <div class="w-full inputHolder"><input [formControlName]="'description'" name="description" class="bgquicksilver" type="text"></div>
+                                    <div class="w-full inputHolder">
+                                      <input [formControlName]="'description'" [name]="'description' + i"
+                                             class="bgquicksilver" type="text">
+                                    </div>
                                   </div>
                                 </div>
                               </li>
@@ -139,16 +167,21 @@
                                   <span class="input-titel text-xs whitespace-nowrap">booking acceptance</span>
                                   <div class="flex 2xl:justify-between items-center">
                                     <div class="flex items-center pr-5 border-r-2 mr-5 py-4">
-                                      <input class="switch mx-3 order-2" id="on" type="checkbox">
-                                      <span class="off text-xs font-bold anim whitespace-nowrap order-1 text-caribbeanGreen">per table</span>
-                                      <span class="on text-xs font-bold anim whitespace-nowrap order-3">per person</span>
+                                      <input [formControlName]="'booking_acceptance'" [name]="'booking_acceptance' + i"
+                                             class="switch mx-3 order-2" id="on" type="checkbox">
+                                      <span
+                                          class="off text-xs font-bold anim whitespace-nowrap order-1 text-caribbeanGreen">per table</span>
+                                      <span
+                                          class="on text-xs font-bold anim whitespace-nowrap order-3">per person</span>
                                     </div>
                                     <div class="addDeleteBtn">
-                                      <button (click)="addArrangements()" *ngIf="i == (arrangements.controls.length - 1)"
+                                      <button (click)="addArrangements()"
+                                              *ngIf="i == (arrangements.controls.length - 1)"
                                               class="pluse border-2 border-japaneseIndigo w-7 h-7 rounded-full flex justify-center items-center">
                                         <i class="icon-plus_round leading-0"></i>
                                       </button>
-                                      <button (click)="removeArrangement(i)" *ngIf="i != (arrangements.controls.length - 1)"
+                                      <button (click)="removeArrangement(i)"
+                                              *ngIf="i != (arrangements.controls.length - 1)"
                                               class="minus border-2 border-magicPotion w-7 h-7 rounded-full flex justify-center items-center">
                                         <span
                                             class="border border-magicPotion flex border-x-8 border-y-5 bg-magicPotion rounded"></span>
@@ -168,7 +201,8 @@
                                 <ul class="flex items-center space-x-2">
                                   <li>
                                     <div class="inputHolder w-[151px]">
-                                      <span class="bgmagicpotion text-magicPotion">25</span>
+                                      <span
+                                          class="bgmagicpotion text-magicPotion">{{totalArrangementsObj.totalNumberOfSeatingItems || 0}}</span>
                                     </div>
                                   </li>
                                   <li>
@@ -183,27 +217,32 @@
                                   </li>
                                   <li>
                                     <div class="inputHolder w-[151px]">
-                                      <span class="bgmagicpotion text-magicPotion">100</span>
+                                      <span
+                                          class="bgmagicpotion text-magicPotion">{{totalArrangementsObj.totalPerTablePersons || 0}}</span>
                                     </div>
                                   </li>
                                   <li>
                                     <div class="inputHolder w-[151px]">
-                                      <span class="bgmagicpotion text-magicPotion">40</span>
+                                      <span
+                                          class="bgmagicpotion text-magicPotion">{{totalArrangementsObj.totalPersons || 0}}</span>
                                     </div>
                                   </li>
                                   <li>
                                     <div class="inputHolder w-[151px]">
-                                      <span class="bgmagicpotion text-magicPotion">200</span>
+                                      <span
+                                          class="bgmagicpotion text-magicPotion">{{totalArrangementsObj.per_table_price || 0}}</span>
                                     </div>
                                   </li>
                                   <li>
                                     <div class="inputHolder w-[151px]">
-                                      <span class="bgmagicpotion text-magicPotion">1200</span>
+                                      <span
+                                          class="bgmagicpotion text-magicPotion">{{totalArrangementsObj.per_person_price || 0}}</span>
                                     </div>
                                   </li>
                                   <li>
                                     <div class="inputHolder w-[151px]">
-                                      <span class="bgmagicpotion text-magicPotion">3200</span>
+                                      <span
+                                          class="bgmagicpotion text-magicPotion">{{totalArrangementsObj.total_amount || 0}}</span>
                                     </div>
                                   </li>
                                   <li>
@@ -219,8 +258,8 @@
 
                         <div *ngIf="seatingForm.value.seating_item == constants.seatingType.CHAIR ||
                          seatingForm.value.seating_item == constants.seatingType.STAND">
-                          <div class="pluseBox" *ngFor="let child of arrangements.controls; let i = index">
-                            <ul class="flex items-center justify-between py-2" [formGroupName]="i">
+                          <div *ngFor="let child of arrangements.controls; let i = index" class="pluseBox">
+                            <ul [formGroupName]="i" class="flex items-center justify-between py-2">
                               <li>
                                 <ul class="flex items-center space-x-2">
                                   <li>
@@ -228,7 +267,10 @@
                                       <span class="input-titel text-xs">No of Table</span>
                                       <div class="w-full flex items-center space-x-5">
                                         <div class="w-full inputHolder">
-                                          <input [formControlName]="'number_of_seating_item'" name="number_of_seating_item" class="bgquicksilver" type="text"/>
+                                          <input (input)="updateCalculatedValue()"
+                                                 [formControlName]="'number_of_seating_item'"
+                                                 [min]="0" [name]="'number_of_seating_item' + i"
+                                                 class="bgquicksilver" fuseValidNumber type="number"/>
                                         </div>
                                       </div>
                                     </div>
@@ -236,8 +278,9 @@
                                   <li>
                                     <div class="w-[151px] inputHolder">
                                       <span class="input-titel text-xs">Vertical Location</span>
-                                      <select [formControlName]="'vertical_location'" name="vertical_location"
-                                          class="arrow bgquicksilver py-3 text-japaneseIndigo font-bold rounded-md tracking-wider appearance-none focus-visible:outline-none">
+                                      <select [formControlName]="'vertical_location'"
+                                              [name]="'vertical_location' + i"
+                                              class="arrow bgquicksilver py-3 text-japaneseIndigo font-bold rounded-md tracking-wider appearance-none focus-visible:outline-none">
                                         <option *ngFor="let location of constants.locationsArr"
                                                 [value]="location.value">{{location.label}}</option>
                                       </select>
@@ -246,8 +289,9 @@
                                   <li>
                                     <div class="w-[151px] inputHolder">
                                       <span class="input-titel text-xs">Horizontal Location</span>
-                                      <select [formControlName]="'horizontal_location'" name="horizontal_location"
-                                          class="arrow bgquicksilver py-3 text-japaneseIndigo font-bold rounded-md tracking-wider appearance-none focus-visible:outline-none">
+                                      <select [formControlName]="'horizontal_location'"
+                                              [name]="'horizontal_location' + i"
+                                              class="arrow bgquicksilver py-3 text-japaneseIndigo font-bold rounded-md tracking-wider appearance-none focus-visible:outline-none">
                                         <option *ngFor="let location of constants.locationsArr"
                                                 [value]="location.value">{{location.label}}</option>
                                       </select>
@@ -258,7 +302,9 @@
                                       <span class="input-titel text-xs">Total person capacity</span>
                                       <div class="w-full flex items-center space-x-5">
                                         <div class="w-full inputHolder">
-                                          <input [formControlName]="'total_person'" name="total_person" class="bgquicksilver" type="text"/>
+                                          <input (input)="updateCalculatedValue()" [formControlName]="'total_person'"
+                                                 [min]="0" [name]="'total_person' + i" class="bgquicksilver"
+                                                 fuseValidNumber type="number"/>
                                         </div>
                                       </div>
                                     </div>
@@ -268,7 +314,10 @@
                                       <span class="input-titel text-xs">per person price</span>
                                       <div class="w-full flex items-center space-x-5">
                                         <div class="w-full inputHolder">
-                                          <input [formControlName]="'per_person_price'" name="per_person_price" class="bgquicksilver" type="text"/>
+                                          <input (input)="updateCalculatedValue()"
+                                                 [formControlName]="'per_person_price'" [min]="0"
+                                                 [name]="'per_person_price' + i" class="bgquicksilver" fuseValidNumber
+                                                 type="number"/>
                                         </div>
                                       </div>
                                     </div>
@@ -278,7 +327,9 @@
                                       <span class="input-titel text-xs">Total Amount</span>
                                       <div class="w-full flex items-center space-x-5">
                                         <div class="w-full inputHolder">
-                                          <input [formControlName]="'total_amount'" name="total_amount" class="bgquicksilver" type="text"/>
+                                          <input (input)="updateCalculatedValue()" [formControlName]="'total_amount'"
+                                                 [min]="0" [name]="'total_amount' + i" class="bgquicksilver"
+                                                 fuseValidNumber type="number"/>
                                         </div>
                                       </div>
                                     </div>
@@ -288,7 +339,8 @@
                                       <span class="input-titel text-xs">description</span>
                                       <div class="w-full flex items-center space-x-5">
                                         <div class="w-full inputHolder">
-                                          <input [formControlName]="'description'" name="description" class="bgquicksilver" type="text"/>
+                                          <input (input)="updateCalculatedValue()" [formControlName]="'description'"
+                                                 [name]="'description' + i" class="bgquicksilver"/>
                                         </div>
                                       </div>
                                     </div>
@@ -298,10 +350,13 @@
                               <li>
                                 <div class="border-l-2 px-5 ml-5 py-3">
                                   <div class="addDeleteBtn">
-                                    <button class="minus border-2 border-magicPotion w-7 h-7 rounded-full flex justify-center items-center" (click)="removeArrangement(i)">
-                                      <span class="border border-magicPotion flex border-x-8 border-y-5 bg-magicPotion rounded"></span>
+                                    <button (click)="removeArrangement(i)"
+                                            class="minus border-2 border-magicPotion w-7 h-7 rounded-full flex justify-center items-center">
+                                      <span
+                                          class="border border-magicPotion flex border-x-8 border-y-5 bg-magicPotion rounded"></span>
                                     </button>
-                                    <button class="pluse border-2 border-japaneseIndigo w-7 h-7 rounded-full flex justify-center items-center" (click)="addArrangements()">
+                                    <button (click)="addArrangements()"
+                                            class="pluse border-2 border-japaneseIndigo w-7 h-7 rounded-full flex justify-center items-center">
                                       <i class="icon-plus_round leading-0"></i>
                                     </button>
                                   </div>
@@ -390,8 +445,8 @@
                           </div>
                         </div>
                         <div class="w-full flex items-center justify-between"><span
-                            class="text-base font-bold text-black">Veg</span><img alt="veg"
-                                                                                  src="../../assets/images/veg.png">
+                            class="text-base font-bold text-black">Veg</span>
+                          <img alt="veg" src="../../assets/images/veg.png">
                         </div>
                       </label>
                     </div>
@@ -399,24 +454,23 @@
                       <label class="bg-white h-full py-4 px-5 flex items-center rounded-md cursor-pointer" for="nonveg">
                         <div class="pr-3">
                           <input class="w-6 h-6 rounded-full bg-brightGray appearance-none hidden" id="nonveg"
-                                 name="select"
-                                 type="radio">
+                                 name="select" type="radio">
                           <div
                               class="w-6 h-6 flex items-center justify-center rounded-full bg-brightGray overflow-hidden check-language">
                             <i class="icon-right text-white text-[10px] scale-0 origin-center duration-300 transition-all"></i>
                           </div>
                         </div>
-                        <div class="w-full flex items-center justify-between"><span
-                            class="text-base font-bold text-black">non Veg</span><img
-                            alt="veg" src="../../assets/images/chicken-leg1.png"></div>
+                        <div class="w-full flex items-center justify-between">
+                          <span class="text-base font-bold text-black">non Veg</span>
+                          <img alt="veg" src="../../assets/images/chicken-leg1.png">
+                        </div>
                       </label>
                     </div>
                     <div class="w-1/2 xl:w-1/4 px-2 pt-2 xl:pt-0">
                       <label class="bg-white h-full py-4 px-5 flex items-center rounded-md cursor-pointer" for="both">
                         <div class="pr-3">
                           <input class="w-6 h-6 rounded-full bg-brightGray appearance-none hidden" id="both"
-                                 name="select"
-                                 type="radio">
+                                 name="select" type="radio">
                           <div
                               class="w-6 h-6 flex items-center justify-center rounded-full bg-brightGray overflow-hidden check-language">
                             <i class="icon-right text-white text-[10px] scale-0 origin-center duration-300 transition-all"></i>
@@ -424,9 +478,10 @@
                         </div>
                         <div class="w-full flex items-center justify-between">
                           <span class="text-base font-bold text-black">both</span>
-                          <div class="flex items-center space-x-4"><img alt="chicken-leg1"
-                                                                        src="../../assets/images/chicken-leg1.png"> <img
-                              alt="veg" src="../../assets/images/veg.png"></div>
+                          <div class="flex items-center space-x-4">
+                            <img alt="chicken-leg1" src="../../assets/images/chicken-leg1.png">
+                            <img alt="veg" src="../../assets/images/veg.png">
+                          </div>
                         </div>
                       </label>
                     </div>
@@ -435,8 +490,7 @@
                              for="foodnotinclude">
                         <div class="pr-3">
                           <input class="w-6 h-6 rounded-full bg-brightGray appearance-none hidden" id="foodnotinclude"
-                                 name="select"
-                                 type="radio">
+                                 name="select" type="radio">
                           <div
                               class="w-6 h-6 flex items-center justify-center rounded-full bg-brightGray overflow-hidden check-language">
                             <i class="icon-right text-white text-[10px] scale-0 origin-center duration-300 transition-all"></i>
@@ -451,8 +505,7 @@
                   <span class="input-titel">Food description?</span>
                   <textarea
                       class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-tl-md rounded-tr-md placeholder:text-sm placeholder:text-[#a6a6a6] placeholder:font-bold"
-                      cols="30"
-                      rows="4"></textarea>
+                      cols="30" rows="4"></textarea>
                   <div class="flex items-center space-x-3 bg-white justify-end pr-4 pb-2 rounded-bl-md rounded-br-md">
                     <a href="javascript:void(0);">
                       <svg fill="none" height="13" viewBox="0 0 20 13" width="20" xmlns="http://www.w3.org/2000/svg">
@@ -496,16 +549,16 @@
                              for="include-equipment">
                         <div class="pr-3">
                           <input checked="" class="w-6 h-6 rounded-full bg-brightGray appearance-none hidden"
-                                 id="include-equipment"
-                                 name="select" type="radio">
+                                 id="include-equipment" name="select" type="radio">
                           <div
                               class="w-6 h-6 flex items-center justify-center rounded-full bg-brightGray overflow-hidden check-language">
                             <i class="icon-right text-white text-[10px] scale-0 origin-center duration-300 transition-all"></i>
                           </div>
                         </div>
-                        <div class="w-full flex items-center justify-between"><span
-                            class="text-base font-bold text-black">Include Equipment</span><img
-                            alt="contruction" src="../../assets/images/contruction1.png"></div>
+                        <div class="w-full flex items-center justify-between">
+                          <span class="text-base font-bold text-black">Include Equipment</span>
+                          <img alt="contruction" src="../../assets/images/contruction1.png">
+                        </div>
                       </label>
                     </div>
                     <div class="w-1/2 px-2 pt-2 xl:pt-0">
@@ -513,8 +566,7 @@
                              for="notinclude">
                         <div class="pr-3">
                           <input class="w-6 h-6 rounded-full bg-brightGray appearance-none hidden" id="notinclude"
-                                 name="select"
-                                 type="radio">
+                                 name="select" type="radio">
                           <div
                               class="w-6 h-6 flex items-center justify-center rounded-full bg-brightGray overflow-hidden check-language">
                             <i class="icon-right text-white text-[10px] scale-0 origin-center duration-300 transition-all"></i>
@@ -529,8 +581,7 @@
                   <span class="input-titel">Equipment description?</span>
                   <textarea
                       class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-tl-md rounded-tr-md placeholder:text-sm placeholder:text-[#a6a6a6] placeholder:font-bold"
-                      cols="30"
-                      rows="4"></textarea>
+                      cols="30" rows="4"></textarea>
                   <div class="flex items-center space-x-3 bg-white justify-end pr-4 pb-2 rounded-bl-md rounded-br-md">
                     <a href="javascript:void(0);">
                       <svg fill="none" height="13" viewBox="0 0 20 13" width="20" xmlns="http://www.w3.org/2000/svg">

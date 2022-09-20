@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {CONSTANTS} from 'src/app/main/common/constants';
-import {FormArray, FormBuilder, Validators} from "@angular/forms";
+import {FormArray, FormBuilder} from "@angular/forms";
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-arrangement-dialog',
@@ -14,6 +15,7 @@ export class ArrangementDialogComponent implements OnInit {
   preparedSeatingItems: any = [];
   seatingForm: any;
   selectedTab = 0;
+  totalArrangementsObj: any = {};
 
   constructor(
     private _formBuilder: FormBuilder
@@ -23,22 +25,11 @@ export class ArrangementDialogComponent implements OnInit {
   ngOnInit(): void {
     this.preparedSeatingItems = CONSTANTS.seatingItems;
     this.seatingForm = this._formBuilder.group({
-      seating_item: [''],
-      arrangements: this._formBuilder.array([
-        this._formBuilder.group({
-          number_of_seating_item: ['', [Validators.required]],
-          vertical_location: [0, [Validators.required]],
-          horizontal_location: [0, [Validators.required]],
-          per_table_person: ['', [Validators.required]],
-          total_person: ['', [Validators.required]],
-          per_table_price: ['', [Validators.required]],
-          per_person_price: ['', [Validators.required]],
-          total_amount: ['', [Validators.required]],
-          description: ['', [Validators.required]],
-          booking_acceptance: [false],
-        })
-      ])
+      // seating_item: [''],
+      seating_item: [1],
+      arrangements: this._formBuilder.array([])
     });
+    this.addArrangements();
   }
 
   get arrangements() {
@@ -48,13 +39,13 @@ export class ArrangementDialogComponent implements OnInit {
   addArrangements(tempArrangementObj: any = {}): void {
     if (Object.keys(tempArrangementObj).length === 0) {
       tempArrangementObj = {
-        number_of_seating_item: '',
+        number_of_seating_item: 1,
         vertical_location: 0,
         horizontal_location: 0,
-        per_table_person: '',
+        per_table_person: 10,
         total_person: '',
-        per_table_price: '',
-        per_person_price: '',
+        per_table_price: 100,
+        per_person_price: 100,
         total_amount: '',
         description: '',
         booking_acceptance: false,
@@ -74,6 +65,8 @@ export class ArrangementDialogComponent implements OnInit {
       booking_acceptance: [tempArrangementObj.booking_acceptance],
     });
     this.arrangements.push(arrangementsObj);
+
+    this.updateCalculatedValue();
   }
 
   removeArrangement(index: any): void {
@@ -81,6 +74,29 @@ export class ArrangementDialogComponent implements OnInit {
       this.arrangements.removeAt(index.toString());
       this.arrangements.updateValueAndValidity();
     }
+  }
+
+  updateCalculatedValue(): void {
+    _.each(this.arrangements.value, (arrangement: any, index: number) => {
+      if (arrangement.number_of_seating_item && arrangement.per_table_person) {
+        // if (this.seatingForm.value && this.seatingForm.value.seating_item &&
+        //   this.seatingForm.value.seating_item !== CONSTANTS.seatingType.CHAIR && this.seatingForm.value.seating_item !== CONSTANTS.seatingType.STAND) {
+        // }
+        this.arrangements.controls[index].get('total_person')?.setValue((arrangement.number_of_seating_item * arrangement.per_table_person));
+        this.arrangements.controls[index].get('per_person_price')?.setValue((arrangement.number_of_seating_item / arrangement.per_table_person));
+        this.arrangements.controls[index].get('total_amount')?.setValue((arrangement.per_table_price * arrangement.per_person_price));
+      }
+    });
+    this.totalArrangementsObj.totalNumberOfSeatingItems = _.sumBy(this.arrangements.value, 'number_of_seating_item');
+    this.totalArrangementsObj.totalPerTablePersons = _.sumBy(this.arrangements.value, 'per_table_person');
+    this.totalArrangementsObj.totalPersons = _.sumBy(this.arrangements.value, 'total_person');
+    this.totalArrangementsObj.per_table_price = _.sumBy(this.arrangements.value, 'per_table_price');
+    this.totalArrangementsObj.per_person_price = _.sumBy(this.arrangements.value, 'per_person_price');
+    this.totalArrangementsObj.total_amount = _.sumBy(this.arrangements.value, 'total_amount');
+  }
+
+  onSeatingItemChange(): void {
+    console.log('test');
   }
 
   closePopup(): void {

@@ -21,7 +21,8 @@ export class ArrangementStepComponent implements OnInit {
     this._globalFunctions.loadAccordion();
     this._createEventService.isOpenAddEditArrangementDialog$.subscribe((isOpenAddEditArrangementDialog: boolean) => {
       this.isArrangement = isOpenAddEditArrangementDialog;
-    })
+    });
+    this.isArrangement = true;
   }
 
   openAddEventDialog(): void {

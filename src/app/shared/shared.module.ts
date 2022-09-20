@@ -3,10 +3,14 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
 import {AddEditEventDialogComponent} from "../main/content/dialogs/add-edit-event-dialog/add-edit-event-dialog.component";
 import {ProgressSpinnerModule} from "primeng/progressspinner";
+import {ValidNumberDirective} from "../directives/valid-number.directive";
+import {ValidNumberWithDecimalDirective} from "../directives/valid-number-with-decimal.directive";
 
 @NgModule({
   declarations: [
-    AddEditEventDialogComponent
+    AddEditEventDialogComponent,
+    ValidNumberDirective,
+    ValidNumberWithDecimalDirective
   ],
   imports: [
     CommonModule,
@@ -20,6 +24,8 @@ import {ProgressSpinnerModule} from "primeng/progressspinner";
     ReactiveFormsModule,
     AddEditEventDialogComponent,
     ProgressSpinnerModule,
+    ValidNumberDirective,
+    ValidNumberWithDecimalDirective,
   ]
 })
 export class SharedModule {
