@@ -1,6 +1,6 @@
 <div (click)="close()" class="modal-background -z-30"></div>
-<div class="table-cell align-middle relative z-50"  [@fade]="state">
-  <div class="popin max-w-2xl w-full mx-auto max-h-[calc(100vh-55px)] overflow-y-auto lg:px-9">
+<div class="table-cell align-middle relative z-50" [@fade]="state">
+  <div class="popin max-w-2xl w-full mx-auto max-h-[calc(100vh-55px)] overflow-y-auto lg:px-9 {{maxWidth}}">
     <div class="bg-brightGray p-12">
       <div class="flex justify-between items-center">
         <h2>{{title}}</h2>
