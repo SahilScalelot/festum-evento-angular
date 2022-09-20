@@ -25,6 +25,7 @@ import { trigger, transition, style, animate, state } from '@angular/animations'
 export class ModalComponent implements OnInit, OnDestroy {
     @Input() id: any;
     @Input() title: any;
+    @Input() maxWidth: any;
     // @Input() title: string;
     @Input() class: any;
     // @Input() class: string;

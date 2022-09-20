@@ -23,6 +23,7 @@
     "@angular/router": "^14.1.0",
     "@types/google.maps": "^3.50.0",
     "dropify": "^0.2.2",
+    "html2canvas": "^1.4.1",
     "jquery": "^3.6.1",
     "lodash": "^4.17.21",
     "ng-snotify": "^9.0.1",
@@ -30,6 +31,7 @@
     "primeicons": "^5.0.0",
     "primeng": "^14.0.2",
     "rxjs": "~7.5.0",
+    "swiper": "^8.4.2",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
   },

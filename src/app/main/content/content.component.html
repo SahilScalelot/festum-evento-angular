@@ -69,7 +69,7 @@
           <a href="javascript:void(0);" class="block hover:text-spiroDiscoBall anim" title="language"><span class="icon-language text-2xl block"></span></a>
           <a href="javascript:void(0);" class="block hover:text-spiroDiscoBall anim" title="massage"><span class="icon-massage text-2xl block"></span></a>
           <a href="javascript:void(0);" class="block hover:text-spiroDiscoBall anim" title="megaphone"><span class="icon-megaphone text-2xl block"></span></a>
-          <a href="javascript:void(0);" class="block hover:text-spiroDiscoBall anim" title="qr_scanner"><span class="icon-qr_scanner text-2xl block"></span></a>
+          <a href="javascript:void(0);" class="block hover:text-spiroDiscoBall anim" title="qr_scanner" (click)="openBarcode()"><span class="icon-qr_scanner text-2xl block"></span></a>
           <div class="relative group">
             <span class="block cursor-pointer"><img src="/assets/images/profile.png" alt="user name" class="w-12 h-12 object-cover rounded-2xl" /></span>
             <div class="absolute top-full right-0 pt-3 hidden group-hover:block">
@@ -96,4 +96,25 @@
       <router-outlet></router-outlet>
     </div>
   </div>
+
+  
+  <modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="Barcode" title="Scan QR Code" maxWidth="lg:max-w-3xl">
+    <div class="bg-brightGray text-center space-y-7 mt-2 lg:mt-4 py-4" #screenShort>
+      <h4 class="text-center">Mobina Mirbagheri</h4>
+      <div class="space-y-3 w-full max-w-xs xl:max-w-[400px] mx-auto">
+        <svg width="100%" height="100%" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg"> <rect width="400" height="400" rx="20" fill="white"/> <g clip-path="url(#clip0_5078_16187)"> <path d="M138.125 41.9994H40V140.124H138.125V41.9994ZM118.5 120.499H59.625V61.6244H118.5V120.499Z" fill="#022D61"/> <path d="M98.8789 81.2527H79.2539V100.878H98.8789V81.2527Z" fill="#022D61"/> <path d="M255.877 41.9993V140.124H354.002V41.9993H255.877ZM334.377 120.499H275.502V61.6243H334.377V120.499Z" fill="#022D61"/> <path d="M314.755 81.2527H295.13V100.878H314.755V81.2527Z" fill="#022D61"/> <path d="M40 355.998H138.125V257.873H40V355.998ZM59.625 277.498H118.5V336.373H59.625V277.498Z" fill="#022D61"/> <path d="M98.8789 297.126H79.2539V316.751H98.8789V297.126Z" fill="#022D61"/> <path d="M236.255 41.9993H197.005V61.6243H236.255V41.9993Z" fill="#022D61"/> <path d="M197.005 120.504H216.63V100.879H236.255V81.2539H177.38V61.6289H157.755V81.2539V91.0664V100.879H197.005V120.504Z" fill="#022D61"/> <path d="M177.38 120.5H157.755V140.125H177.38V120.5Z" fill="#022D61"/> <path d="M236.255 140.127H216.63V159.752H157.755V179.377H236.255V140.127Z" fill="#022D61"/> <path d="M59.625 218.629H79.25V199.004H59.625V159.754H40V238.254H59.625V218.629Z" fill="#022D61"/> <path d="M98.8789 159.754H79.2539V179.379H98.8789V159.754Z" fill="#022D61"/> <path d="M157.752 238.254H197.002V218.629H177.377V199.004H138.127V159.754H118.502V199.004H98.877V238.254H118.502V218.629H128.314H138.127H157.752V238.254Z" fill="#022D61"/> <path d="M236.251 198.999H216.626V238.249H236.251V198.999Z" fill="#022D61"/> <path d="M216.63 257.873H157.755V277.498H197.005V336.373H157.755V355.998H216.63V336.373H255.88V316.748H216.63V257.873Z" fill="#022D61"/> <path d="M177.38 297.126H157.755V316.751H177.38V297.126Z" fill="#022D61"/> <path d="M255.878 257.873H236.253V297.123H255.878V257.873Z" fill="#022D61"/> <path d="M334.378 297.126H275.503V356.001H295.128V316.751H334.378V297.126Z" fill="#022D61"/> <path d="M354.001 336.377H314.751V356.002H354.001V336.377Z" fill="#022D61"/> <path d="M354.003 257.873H334.378V277.498H354.003V257.873Z" fill="#022D61"/> <path d="M275.502 277.503H295.127V218.628H255.877V238.253H275.502V277.503Z" fill="#022D61"/> <path d="M314.752 179.379H295.127V159.754H275.502V179.379H255.877V199.004H334.377V179.379H354.002V159.754H314.752V179.379Z" fill="#022D61"/> <path d="M354.001 218.628H314.751V238.253H354.001V218.628Z" fill="#022D61"/> </g> <defs> <clipPath id="clip0_5078_16187"> <rect x="40" y="42" width="314" height="314" rx="12" fill="white"/> </clipPath> </defs> </svg>
+      </div>
+      <span class="block text-sm md:text-base font-bold">User Id : <span class="font-light">aminahganim1586</span></span>
+      <span class="block font-bold opacity-60">Scan this code to pay me</span>
+    </div>
+    <div class="pt-7 text-center">
+      <button class="secondary py-2 px-5 mx-auto" (click)="screenCapture()">{{'Download QR'}}</button>
+    </div>
+    <div id="download" class="hidden">
+      <img #canvas>
+      <a #downloadLink></a>
+    </div>
+  </modal>
+
+
 </div>
