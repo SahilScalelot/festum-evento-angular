@@ -15,6 +15,9 @@ export class EventOverviewComponent implements OnInit {
   events: any = [];
   constants: any = CONSTANTS;
   isLoading: boolean = false;
+  isOpenPopup: boolean = false;
+  isImage: boolean = false;
+  imagesOrVideosArr: Array<any> = [];
 
   constructor(
     private _eventService: EventService,
@@ -42,6 +45,16 @@ export class EventOverviewComponent implements OnInit {
       this._globalFunctions.errorHanding(error, this, true);
       this.isLoading = false;
     });
+  }
+
+  openImageAndVideoDialog(imagesOrVideosArr: Array<any>, isImage: boolean): void {
+    this.imagesOrVideosArr = imagesOrVideosArr;
+    this.isImage = isImage;
+    this.isOpenPopup = true;
+  }
+
+  closePop(flag: boolean): void {
+    this.isOpenPopup = flag;
   }
 
 }

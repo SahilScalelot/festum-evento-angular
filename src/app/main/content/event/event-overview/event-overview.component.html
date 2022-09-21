@@ -60,7 +60,7 @@
               <!-- media title  -->
               <div class="flex justify-between items-center">
                 <h3 class="text-lg">Photo</h3>
-                <a class="text-spiroDiscoBall text-sm font-bold opacity-60" href="javascript:void(0);">View All</a>
+                <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(events[0].image, true)">View All</a>
               </div>
               <!-- photo-holder -->
               <div class="w-full">
@@ -78,15 +78,14 @@
               <!-- media title  -->
               <div class="flex justify-between items-center">
                 <h3 class="text-lg">Videos</h3>
-                <a class="text-spiroDiscoBall text-sm font-bold opacity-60" href="javascript:void(0);">View All</a>
+                <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(events[0].video, false)">View All</a>
               </div>
               <!-- media-holder -->
               <div class="w-full">
                 <div class="flex flex-wrap -mx-2">
                   <div *ngFor="let video of events[0].video" class="w-full lg:w-1/5 p-2 ov-p">
                     <div class="rounded relative overflow-hidden h-28">
-                      <img [src]="constants.baseImageURL + video.thumbnail" alt="upload-1"
-                           class="w-full h-full object-cover bg-white"/>
+                      <img [src]="constants.baseImageURL + video.thumbnail" alt="upload-1" class="w-full h-full object-cover bg-white"/>
                     </div>
                   </div>
                 </div>
@@ -201,7 +200,7 @@
               <!-- media title  -->
               <div class="flex justify-between items-center">
                 <h3 class="text-lg">Photo</h3>
-                <a class="text-spiroDiscoBall text-sm font-bold opacity-60" href="javascript:void(0);">View All</a>
+                <a class="text-spiroDiscoBall text-sm font-bold opacity-60" href="javascript:void(0);" (click)="openImageAndVideoDialog(events[0].companydetails[0].image, true)">View All</a>
               </div>
               <!-- photo-holder -->
               <div class="w-full">
@@ -219,7 +218,7 @@
               <!-- media title  -->
               <div class="flex justify-between items-center">
                 <h3 class="text-lg">Videos</h3>
-                <a class="text-spiroDiscoBall text-sm font-bold opacity-60" href="javascript:void(0);">View All</a>
+                <a class="text-spiroDiscoBall text-sm font-bold opacity-60" href="javascript:void(0);" (click)="openImageAndVideoDialog(events[0].companydetails[0].video, false)">View All</a>
               </div>
               <!-- media-holder -->
               <div class="w-full">
@@ -553,7 +552,7 @@
     <div class="flex flex-wrap items-center justify-between max-w-7xl mx-auto px-5 xl:px-8">
       <div class="flex items-center space-x-2 pt-4">
         <h4 class="pr-5 border-r border-brightGray"><span class="text-quicksilver font-normal">Sold :</span>
-          2556</h4>
+          {{ events[0].sold }}</h4>
         <h4 class="px-5"><span class="text-quicksilver font-normal">Unsold  :</span> 235</h4>
       </div>
       <div class="flex items-center space-x-2 pt-4">
@@ -569,4 +568,6 @@
       </div>
     </div>
   </div>
+  
+  <app-image-and-video-preview *ngIf="isOpenPopup" (openClosePopup)="closePop($event)" [isImageOrVideoFlag]="isImage" [expectedProp]="imagesOrVideosArr"></app-image-and-video-preview>
 </div>

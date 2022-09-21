@@ -31,6 +31,7 @@
               "src/assets/css/fonts.css",
               "node_modules/dropify/dist/css/dropify.min.css",
               "src/assets/css/moon-icon.css",
+              "src/assets/css/swiper-bundle.min.css",
               "node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
               "node_modules/primeng/resources/themes/tailwind-light/theme.css",
               "node_modules/primeng/resources/primeng.min.css",
@@ -39,6 +40,7 @@
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
+              "src/assets/js/swiper-bundle.min.js",
               "node_modules/dropify/dist/js/dropify.min.js",
               "src/assets/js/dropify.js"
             ],

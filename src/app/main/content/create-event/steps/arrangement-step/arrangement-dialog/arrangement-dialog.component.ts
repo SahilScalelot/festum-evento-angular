@@ -83,8 +83,8 @@ export class ArrangementDialogComponent implements OnInit {
         //   this.seatingForm.value.seating_item !== CONSTANTS.seatingType.CHAIR && this.seatingForm.value.seating_item !== CONSTANTS.seatingType.STAND) {
         // }
         this.arrangements.controls[index].get('total_person')?.setValue((arrangement.number_of_seating_item * arrangement.per_table_person));
-        this.arrangements.controls[index].get('per_person_price')?.setValue((arrangement.number_of_seating_item / arrangement.per_table_person));
-        this.arrangements.controls[index].get('total_amount')?.setValue((arrangement.per_table_price * arrangement.per_person_price));
+        this.arrangements.controls[index].get('per_person_price')?.setValue((arrangement.per_table_price / arrangement.per_table_person));
+        this.arrangements.controls[index].get('total_amount')?.setValue((arrangement.per_table_price * arrangement.number_of_seating_item));
       }
     });
     this.totalArrangementsObj.totalNumberOfSeatingItems = _.sumBy(this.arrangements.value, 'number_of_seating_item');
