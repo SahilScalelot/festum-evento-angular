@@ -48,6 +48,14 @@ export const CONSTANTS = {
     STAND: 5
   },
 
+  seatingTypesObj: {
+    1: {value: 1, label: 'Table'},
+    2: {value: 2, label: 'Sofa'},
+    3: {value: 3, label: 'Chair'},
+    4: {value: 4, label: 'Booth'},
+    5: {value: 5, label: 'Stand'}
+  },
+
   seatingItems: [
     {value: 1, label: 'Table'},
     {value: 2, label: 'Sofa'},
@@ -56,11 +64,11 @@ export const CONSTANTS = {
     {value: 5, label: 'Stand'}
   ],
 
-  unitTypeArr:<any> {
-    'B2B':<any> {
-      value:<any> 'B2B',
-      label:<string> 'B2B',
-      options:<any> [
+  unitTypeArr: <any>{
+    'B2B': <any>{
+      value: <any>'B2B',
+      label: <string>'B2B',
+      options: <any>[
         "Conference",
         "Seminar",
         "VIP Event",
@@ -74,10 +82,10 @@ export const CONSTANTS = {
         "Products Launch",
       ]
     },
-    'PP':<any> {
-      value:<any> 'PP',
-      label:<string> 'PP',
-      options:<any> [
+    'PP': <any>{
+      value: <any>'PP',
+      label: <string>'PP',
+      options: <any>[
         "Conventions",
         "Carity Event",
         "Opening Ceremonies",

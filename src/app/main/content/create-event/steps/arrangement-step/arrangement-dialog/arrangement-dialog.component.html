@@ -35,9 +35,9 @@
               <div class="space-y-7">
                 <div class="w-full">
                   <label class="input-titel">select item</label>
-                  <select [formControlName]="'seating_item'"
+                  <select (change)="onSeatingItemChange()" [formControlName]="'seating_item'"
                           class="bg-white rounded-md flex space-x-3 outline-0 px-4 py-3 relative arrow w-full"
-                          name="seating_item" (change)="onSeatingItemChange()">
+                          name="seating_item">
                     <option [value]=""></option>
                     <option *ngFor="let seatingItem of preparedSeatingItems" [value]="seatingItem.value">
                       {{seatingItem.label}}
@@ -49,14 +49,14 @@
                   <div class="w-full">
                     <div class="bg-white p-7 rounded-md">
                       <div class="overflow-auto max-h-[430px] relative">
-                        <div *ngIf="seatingForm.value.seating_item == constants.seatingType.TABLE ||
-                         seatingForm.value.seating_item == constants.seatingType.SOFA ||
-                         seatingForm.value.seating_item == constants.seatingType.BOOTH" formArrayName="arrangements">
+                        <div formArrayName="arrangements">
                           <div *ngFor="let child of arrangements.controls; let i = index" class="pluseBox">
                             <ul [formGroupName]="i" class="flex items-center space-x-2 py-2">
                               <li>
                                 <div class="w-[151px]">
-                                  <span class="input-titel text-xs">No of Table</span>
+                                  <span class="input-titel text-xs">
+                                    No of {{constants.seatingTypesObj[seatingForm.value.seating_item]?.label}}
+                                  </span>
                                   <div class="w-full flex items-center space-x-5">
                                     <div class="w-full inputHolder">
                                       <input (input)="updateCalculatedValue()"
@@ -91,13 +91,15 @@
                                   </select>
                                 </div>
                               </li>
-                              <li>
+                              <li *ngIf="seatingForm.value.seating_item != constants.seatingType.CHAIR && seatingForm.value.seating_item != constants.seatingType.STAND">
                                 <div class="w-[151px]">
-                                  <span class="input-titel text-xs">per table person capacity</span>
+                                  <span class="input-titel text-xs">
+                                    per {{constants.seatingTypesObj[seatingForm.value.seating_item]?.label}} person capacity
+                                  </span>
                                   <div class="w-full flex items-center space-x-5">
                                     <div class="w-full inputHolder">
-                                      <input (input)="updateCalculatedValue()" [formControlName]="'per_table_person'"
-                                             [min]="0" [name]="'per_table_person' + i" class="bgquicksilver"
+                                      <input (input)="updateCalculatedValue()" [formControlName]="'per_seating_person'"
+                                             [min]="0" [name]="'per_seating_person' + i" class="bgquicksilver"
                                              fuseValidNumber type="number">
                                     </div>
                                   </div>
@@ -115,13 +117,15 @@
                                   </div>
                                 </div>
                               </li>
-                              <li>
+                              <li *ngIf="seatingForm.value.seating_item != constants.seatingType.CHAIR && seatingForm.value.seating_item != constants.seatingType.STAND">
                                 <div class="w-[151px]">
-                                  <span class="input-titel text-xs">Per Table Price</span>
+                                  <span class="input-titel text-xs">
+                                    Per {{constants.seatingTypesObj[seatingForm.value.seating_item]?.label}} Price
+                                  </span>
                                   <div class="w-full flex items-center space-x-5">
                                     <div class="w-full inputHolder">
-                                      <input (input)="updateCalculatedValue()" [formControlName]="'per_table_price'"
-                                             [min]="0" [name]="'per_table_price' + i" class="bgquicksilver"
+                                      <input (input)="updateCalculatedValue()" [formControlName]="'per_seating_price'"
+                                             [min]="0" [name]="'per_seating_price' + i" class="bgquicksilver"
                                              fuseValidNumber type="number">
                                     </div>
                                   </div>
@@ -164,27 +168,26 @@
                               </li>
                               <li>
                                 <div class="w-full 2xl:w-1/6 2xl:pl-5">
-                                  <span class="input-titel text-xs whitespace-nowrap">booking acceptance</span>
+                                  <span *ngIf="seatingForm.value.seating_item != constants.seatingType.CHAIR && seatingForm.value.seating_item != constants.seatingType.STAND"
+                                        class="input-titel text-xs whitespace-nowrap">booking acceptance</span>
                                   <div class="flex 2xl:justify-between items-center">
-                                    <div class="flex items-center pr-5 border-r-2 mr-5 py-4">
+                                    <div *ngIf="seatingForm.value.seating_item != constants.seatingType.CHAIR && seatingForm.value.seating_item != constants.seatingType.STAND"
+                                         class="flex items-center pr-5 border-r-2 mr-5 py-4">
                                       <input [formControlName]="'booking_acceptance'" [name]="'booking_acceptance' + i"
                                              class="switch mx-3 order-2" id="on" type="checkbox">
-                                      <span
-                                          class="off text-xs font-bold anim whitespace-nowrap order-1 text-caribbeanGreen">per table</span>
-                                      <span
-                                          class="on text-xs font-bold anim whitespace-nowrap order-3">per person</span>
+                                      <span class="off text-xs font-bold anim whitespace-nowrap order-1 text-caribbeanGreen">
+                                        per {{constants.seatingTypesObj[seatingForm.value.seating_item]?.label}}
+                                      </span>
+                                      <span class="on text-xs font-bold anim whitespace-nowrap order-3">per person</span>
                                     </div>
                                     <div class="addDeleteBtn">
-                                      <button (click)="addArrangements()"
-                                              *ngIf="i == (arrangements.controls.length - 1)"
+                                      <button (click)="addArrangements()" *ngIf="i == (arrangements.controls.length - 1)"
                                               class="pluse border-2 border-japaneseIndigo w-7 h-7 rounded-full flex justify-center items-center">
                                         <i class="icon-plus_round leading-0"></i>
                                       </button>
-                                      <button (click)="removeArrangement(i)"
-                                              *ngIf="i != (arrangements.controls.length - 1)"
+                                      <button (click)="removeArrangement(i)" *ngIf="i != (arrangements.controls.length - 1)"
                                               class="minus border-2 border-magicPotion w-7 h-7 rounded-full flex justify-center items-center">
-                                        <span
-                                            class="border border-magicPotion flex border-x-8 border-y-5 bg-magicPotion rounded"></span>
+                                        <span class="border border-magicPotion flex border-x-8 border-y-5 bg-magicPotion rounded"></span>
                                       </button>
                                     </div>
                                   </div>
@@ -201,8 +204,9 @@
                                 <ul class="flex items-center space-x-2">
                                   <li>
                                     <div class="inputHolder w-[151px]">
-                                      <span
-                                          class="bgmagicpotion text-magicPotion">{{totalArrangementsObj.totalNumberOfSeatingItems || 0}}</span>
+                                      <span class="bgmagicpotion text-magicPotion">
+                                        {{totalArrangementsObj.totalNumberOfSeatingItems || 0}}
+                                      </span>
                                     </div>
                                   </li>
                                   <li>
@@ -215,34 +219,39 @@
                                       <span class="bgmagicpotion text-magicPotion">-</span>
                                     </div>
                                   </li>
-                                  <li>
+                                  <li *ngIf="seatingForm.value.seating_item != constants.seatingType.CHAIR && seatingForm.value.seating_item != constants.seatingType.STAND">
                                     <div class="inputHolder w-[151px]">
-                                      <span
-                                          class="bgmagicpotion text-magicPotion">{{totalArrangementsObj.totalPerTablePersons || 0}}</span>
+                                      <span class="bgmagicpotion text-magicPotion">
+                                        {{totalArrangementsObj.totalPerSeatingPersons || 0}}
+                                      </span>
                                     </div>
                                   </li>
                                   <li>
                                     <div class="inputHolder w-[151px]">
-                                      <span
-                                          class="bgmagicpotion text-magicPotion">{{totalArrangementsObj.totalPersons || 0}}</span>
+                                      <span class="bgmagicpotion text-magicPotion">
+                                        {{totalArrangementsObj.totalPersons || 0}}
+                                      </span>
+                                    </div>
+                                  </li>
+                                  <li *ngIf="seatingForm.value.seating_item != constants.seatingType.CHAIR && seatingForm.value.seating_item != constants.seatingType.STAND">
+                                    <div class="inputHolder w-[151px]">
+                                      <span class="bgmagicpotion text-magicPotion">
+                                        {{totalArrangementsObj.per_seating_price || 0 | number:'1.2-2'}}
+                                      </span>
                                     </div>
                                   </li>
                                   <li>
                                     <div class="inputHolder w-[151px]">
-                                      <span
-                                          class="bgmagicpotion text-magicPotion">{{totalArrangementsObj.per_table_price || 0}}</span>
+                                      <span class="bgmagicpotion text-magicPotion">
+                                        {{totalArrangementsObj.per_person_price || 0 | number:'1.2-2'}}
+                                      </span>
                                     </div>
                                   </li>
                                   <li>
                                     <div class="inputHolder w-[151px]">
-                                      <span
-                                          class="bgmagicpotion text-magicPotion">{{totalArrangementsObj.per_person_price || 0}}</span>
-                                    </div>
-                                  </li>
-                                  <li>
-                                    <div class="inputHolder w-[151px]">
-                                      <span
-                                          class="bgmagicpotion text-magicPotion">{{totalArrangementsObj.total_amount || 0}}</span>
+                                      <span class="bgmagicpotion text-magicPotion">
+                                        {{totalArrangementsObj.total_amount || 0 | number:'1.2-2'}}
+                                      </span>
                                     </div>
                                   </li>
                                   <li>
@@ -256,15 +265,16 @@
                           </div>
                         </div>
 
-                        <div *ngIf="seatingForm.value.seating_item == constants.seatingType.CHAIR ||
-                         seatingForm.value.seating_item == constants.seatingType.STAND">
+                        <!--<div *ngIf="seatingForm.value.seating_item == constants.seatingType.CHAIR ||
+                         seatingForm.value.seating_item == constants.seatingType.STAND" formArrayName="arrangements">
                           <div *ngFor="let child of arrangements.controls; let i = index" class="pluseBox">
                             <ul [formGroupName]="i" class="flex items-center justify-between py-2">
                               <li>
                                 <ul class="flex items-center space-x-2">
                                   <li>
                                     <div class="w-[151px]">
-                                      <span class="input-titel text-xs">No of Table</span>
+                                      <span
+                                          class="input-titel text-xs">No of {{constants.seatingTypesObj[seatingForm.value.seating_item]?.label}}</span>
                                       <div class="w-full flex items-center space-x-5">
                                         <div class="w-full inputHolder">
                                           <input (input)="updateCalculatedValue()"
@@ -410,7 +420,7 @@
                               </li>
                             </ul>
                           </div>
-                        </div>
+                        </div>-->
 
                       </div>
                     </div>

@@ -24,12 +24,7 @@ export class ArrangementDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.preparedSeatingItems = CONSTANTS.seatingItems;
-    this.seatingForm = this._formBuilder.group({
-      // seating_item: [''],
-      seating_item: [1],
-      arrangements: this._formBuilder.array([])
-    });
-    this.addArrangements();
+    this._prepareArrangementForm();
   }
 
   get arrangements() {
@@ -39,14 +34,14 @@ export class ArrangementDialogComponent implements OnInit {
   addArrangements(tempArrangementObj: any = {}): void {
     if (Object.keys(tempArrangementObj).length === 0) {
       tempArrangementObj = {
-        number_of_seating_item: 1,
+        number_of_seating_item: 0,
         vertical_location: 0,
         horizontal_location: 0,
-        per_table_person: 10,
-        total_person: '',
-        per_table_price: 100,
-        per_person_price: 100,
-        total_amount: '',
+        per_seating_person: 0,
+        total_person: 0,
+        per_seating_price: 0,
+        per_person_price: 0,
+        total_amount: 0,
         description: '',
         booking_acceptance: false,
       };
@@ -56,9 +51,9 @@ export class ArrangementDialogComponent implements OnInit {
       number_of_seating_item: [tempArrangementObj.number_of_seating_item],
       vertical_location: [tempArrangementObj.vertical_location],
       horizontal_location: [tempArrangementObj.horizontal_location],
-      per_table_person: [tempArrangementObj.per_table_person],
+      per_seating_person: [tempArrangementObj.per_seating_person],
       total_person: [tempArrangementObj.total_person],
-      per_table_price: [tempArrangementObj.per_table_price],
+      per_seating_price: [tempArrangementObj.per_seating_price],
       per_person_price: [tempArrangementObj.per_person_price],
       total_amount: [tempArrangementObj.total_amount],
       description: [tempArrangementObj.description],
@@ -73,34 +68,46 @@ export class ArrangementDialogComponent implements OnInit {
     if (this.arrangements.get(index.toString())) {
       this.arrangements.removeAt(index.toString());
       this.arrangements.updateValueAndValidity();
+      this.updateCalculatedValue();
     }
   }
 
   updateCalculatedValue(): void {
     _.each(this.arrangements.value, (arrangement: any, index: number) => {
-      if (arrangement.number_of_seating_item && arrangement.per_table_person) {
+      if (arrangement.number_of_seating_item && arrangement.per_seating_person) {
         // if (this.seatingForm.value && this.seatingForm.value.seating_item &&
         //   this.seatingForm.value.seating_item !== CONSTANTS.seatingType.CHAIR && this.seatingForm.value.seating_item !== CONSTANTS.seatingType.STAND) {
+        //
+        // } else {
+          this.arrangements.controls[index].get('total_person')?.setValue((arrangement.number_of_seating_item * arrangement.per_seating_person));
+          this.arrangements.controls[index].get('per_person_price')?.setValue(Number((arrangement.per_seating_price / arrangement.per_seating_person).toFixed(2)));
+          this.arrangements.controls[index].get('total_amount')?.setValue((arrangement.per_seating_price * arrangement.number_of_seating_item));
         // }
-        this.arrangements.controls[index].get('total_person')?.setValue((arrangement.number_of_seating_item * arrangement.per_table_person));
-        this.arrangements.controls[index].get('per_person_price')?.setValue((arrangement.per_table_price / arrangement.per_table_person));
-        this.arrangements.controls[index].get('total_amount')?.setValue((arrangement.per_table_price * arrangement.number_of_seating_item));
       }
     });
     this.totalArrangementsObj.totalNumberOfSeatingItems = _.sumBy(this.arrangements.value, 'number_of_seating_item');
-    this.totalArrangementsObj.totalPerTablePersons = _.sumBy(this.arrangements.value, 'per_table_person');
+    this.totalArrangementsObj.totalPerSeatingPersons = _.sumBy(this.arrangements.value, 'per_seating_person');
     this.totalArrangementsObj.totalPersons = _.sumBy(this.arrangements.value, 'total_person');
-    this.totalArrangementsObj.per_table_price = _.sumBy(this.arrangements.value, 'per_table_price');
+    this.totalArrangementsObj.per_seating_price = _.sumBy(this.arrangements.value, 'per_seating_price');
     this.totalArrangementsObj.per_person_price = _.sumBy(this.arrangements.value, 'per_person_price');
     this.totalArrangementsObj.total_amount = _.sumBy(this.arrangements.value, 'total_amount');
   }
 
   onSeatingItemChange(): void {
-    console.log('test');
+    this.arrangements.controls = [];
+    this.addArrangements();
   }
 
   closePopup(): void {
     this.isAddEventChange.emit(false);
+  }
+
+  private _prepareArrangementForm(): void {
+    this.seatingForm = this._formBuilder.group({
+      seating_item: [''],
+      arrangements: this._formBuilder.array([])
+    });
+    this.addArrangements();
   }
 
 }
