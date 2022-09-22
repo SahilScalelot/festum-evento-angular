@@ -17,11 +17,11 @@ import {PersonalDetailsStepComponent} from './steps/personal-details-step/person
 import {TermsAndConditionsStepComponent} from './steps/terms-and-conditions-step/terms-and-conditions-step.component';
 import {AccordionModule} from 'primeng/accordion';
 import {CalendarModule} from 'primeng/calendar';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ArrangementDialogComponent} from './steps/arrangement-step/arrangement-dialog/arrangement-dialog.component';
 import {ModalModule} from '../../_modal';
 import {ImageCropperModule} from 'ngx-image-cropper';
 import {AgmCoreModule} from "@agm/core";
+import {CKEditorModule} from "@ckeditor/ckeditor5-angular";
 
 const routes: Routes = [
   {path: '', redirectTo: 'add-event', pathMatch: 'full'},
@@ -88,6 +88,7 @@ const routes: Routes = [
     CalendarModule,
     ImageCropperModule,
     ModalModule,
+    CKEditorModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyDLgr8YB5IK8dBIEWClexZGzXaB7UlVm7Q',
       libraries: ['places']
