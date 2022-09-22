@@ -1,76 +1,84 @@
-<div class="space-y-5">
+<div [formGroup]="personalDetailForm" class="space-y-5">
   <div class="w-full flex items-end flex-wrap">
     <div class="w-full px-2 inputHolder">
-        <span class="input-titel">Full Name (Mr / Mrs / Ms) <span>*</span></span>
-        <input type="text" class="input" required />
+      <span class="input-titel">Full Name (Mr / Mrs / Ms) <span>*</span></span>
+      <input [formControlName]="'full_name'" class="input" name="full_name" required type="text"/>
     </div>
-  </div> 
+  </div>
   <div class="w-full flex items-end flex-wrap">
     <div class="w-full md:w-1/2 lg:w-1/3 px-2 py-2 lg:py-0 inputHolder">
-        <div class="input-label-holder">
-          <label class="input-titel">Mobile Number <span>*</span></label>
-          <div class="input-checkd anim"><input type="checkbox" class="mr-2 cursor-pointer" />Hidden</div>
+      <div class="input-label-holder">
+        <label class="input-titel">Mobile Number <span>*</span></label>
+        <div class="input-checkd anim"><input [formControlName]="'mobile_hidden'" class="mr-2 cursor-pointer"
+                                              name="mobile_hidden" type="checkbox"/>Hidden
         </div>
-        <input type="text" class="input" required />
+      </div>
+      <input [formControlName]="'mobile'" class="input" name="mobile" required type="text" fuseValidNumber/>
     </div>
     <div class="w-full md:w-1/2 lg:w-1/3 px-2 py-2 lg:py-0 inputHolder">
       <div class="input-label-holder">
         <label class="input-titel">Alternative Mobile Number(optional)</label>
-        <div class="input-checkd anim"><input type="checkbox" class="mr-2 cursor-pointer" />Hidden</div>
+        <div class="input-checkd anim">
+          <input [formControlName]="'alternate_mobile_hidden'" class="mr-2 cursor-pointer"
+                 name="alternate_mobile_hidden" type="checkbox"/>Hidden
+        </div>
       </div>
-        <input type="text" class="input" />
+      <input [formControlName]="'alternate_mobile'" class="input" name="alternate_mobile" type="text" fuseValidNumber/>
     </div>
     <div class="w-full md:w-1/2 lg:w-1/3 px-2 py-2 lg:py-0 inputHolder">
-        <div class="input-label-holder">
-          <label class="input-titel">Email Address <span>*</span></label>
-          <div class="input-checkd anim"><input type="checkbox" class="mr-2 cursor-pointer" />Hidden</div>
+      <div class="input-label-holder">
+        <label class="input-titel">Email Address <span>*</span></label>
+        <div class="input-checkd anim">
+          <input [formControlName]="'email_hidden'" class="mr-2 cursor-pointer" name="email_hidden" type="checkbox"/>
+          Hidden
         </div>
-        <input type="text" class="input" required />
+      </div>
+      <input [formControlName]="'email'" class="input" name="email" required type="text"/>
     </div>
   </div>
   <div class="space-y-5">
-      <h5 class="px-2">Address</h5>
-      <div class="w-full flex flex-wrap">
-        <div class="w-full md:w-1/2 lg:w-1/3 px-2 py-2 inputHolder">
-            <span class="input-titel">Flat No.</span>
-            <input type="text" class="input" required />
-        </div>
-        <div class="w-full md:w-1/2 lg:w-1/3 px-2 py-2 inputHolder">
-            <span class="input-titel">Street Name.</span>
-            <input type="text" class="input" />
-        </div>
-        <div class="w-full md:w-1/2 lg:w-1/3 px-2 py-2 inputHolder">
-            <span class="input-titel">Area Name.</span>
-            <input type="text" class="input" required />
-        </div>
-        <div class="w-full md:w-1/2 lg:w-1/3 px-2 py-2 inputHolder">
-            <label class="input-titel">City <span>*</span></label>
-            <input type="text" class="input" required />
-        </div>
-        <div class="w-full md:w-1/2 lg:w-1/3 px-2 py-2 inputHolder">
-            <label class="input-titel">State <span>*</span></label>
-            <input type="text" class="input" required />
-        </div>
-        <div class="w-full md:w-1/2 lg:w-1/3 px-2 py-2 inputHolder">
-            <label class="input-titel">Pincode <span>*</span></label>
-            <input type="text" class="input" required />
-        </div>
+    <h5 class="px-2">Address</h5>
+    <div class="w-full flex flex-wrap">
+      <div class="w-full md:w-1/2 lg:w-1/3 px-2 py-2 inputHolder">
+        <span class="input-titel">Flat No.</span>
+        <input [formControlName]="'flat_number'" class="input" name="flat_number" required type="text" fuseValidNumber/>
       </div>
+      <div class="w-full md:w-1/2 lg:w-1/3 px-2 py-2 inputHolder">
+        <span class="input-titel">Street Name.</span>
+        <input [formControlName]="'street_name'" class="input" name="street_name" type="text"/>
+      </div>
+      <div class="w-full md:w-1/2 lg:w-1/3 px-2 py-2 inputHolder">
+        <span class="input-titel">Area Name.</span>
+        <input [formControlName]="'area_name'" class="input" name="area_name" required type="text"/>
+      </div>
+      <div class="w-full md:w-1/2 lg:w-1/3 px-2 py-2 inputHolder">
+        <label class="input-titel">City <span>*</span></label>
+        <input [formControlName]="'city'" class="input" name="city" required type="text"/>
+      </div>
+      <div class="w-full md:w-1/2 lg:w-1/3 px-2 py-2 inputHolder">
+        <label class="input-titel">State <span>*</span></label>
+        <input [formControlName]="'state'" class="input" name="state" required type="text"/>
+      </div>
+      <div class="w-full md:w-1/2 lg:w-1/3 px-2 py-2 inputHolder">
+        <label class="input-titel">Pincode <span>*</span></label>
+        <input [formControlName]="'pincode'" class="input" name="pincode" required type="text" fuseValidNumber/>
+      </div>
+    </div>
   </div>
 </div>
 
 <div class="mt-auto">
   <!-- advisement -->
   <div class="w-full mt-5">
-    <img src="assets/images/banner-ads.png" alt="ring-ad" class="w-full object-cover"/>
+    <img alt="ring-ad" class="w-full object-cover" src="assets/images/banner-ads.png"/>
   </div>
   <!-- pre and next button -->
   <div class="prw-next-btn">
-    <button type="button" class="flex items-center active" [routerLink]="'/create-event/company-details'">
+    <button [routerLink]="'/create-event/company-details'" class="flex items-center active" type="button">
       <i class="icon-left_arrow mr-3"></i>
       <h5>Back</h5>
     </button>
-    <button type="button" class="flex items-center active"  [routerLink]="'/create-event/terms-and-conditions'">
+    <button [routerLink]="'/create-event/terms-and-conditions'" class="flex items-center active" type="button">
       <h5>Next</h5>
       <i class="icon-right_arrow ml-3"></i>
     </button>
