@@ -97,10 +97,11 @@
       <h6 class="input-titel text-sm font-bold text-quicksilver flex items-center">Select Photo <p class="text-10 ml-2">
         5 Images (up to 5MB/Image)</p></h6>
       <label class="upload upload-popup py-3" for="create-photo-upload">
-        <input accept="image/png, image/jpeg, image/gif" class="appearance-none hidden" id="create-photo-upload"
-               name="images" type="file"/>
+        <input accept="image/png, image/jpeg, image/gif"
+                class="appearance-none hidden" id="create-photo-upload"
+                name="images" type="file" (change)="readURL($event);"/>
         <span class="input-titel flex justify-center items-center"><i
-          class="icon-img_upload text-lg mr-2 leading-none"></i>Choose Images</span>
+          class="icon-img_upload text-lg mr-2 leading-none"></i> {{inputText ? inputText : 'Choose Images'}}</span>
       </label>
     </div>
     <div class="w-full">
@@ -118,8 +119,8 @@
       <h6 class="input-titel text-sm font-bold text-quicksilver flex items-center">Select video <p class="text-10 ml-2">
         (2 videos - up to 512MB/Video)</p></h6>
       <label class="upload upload-popup py-3" for="create-video-upload">
-        <input accept="video/mp4" class="appearance-none hidden" id="create-video-upload" name="images" type="file"/>
-        <span class="input-titel flex justify-center items-center"><i class="icon-video_upload text-lg mr-2 leading-none"></i>Choose Video</span>
+        <input accept="video/mp4" class="appearance-none hidden" id="create-video-upload" name="images" type="file" (change)="readURL($event);"/>
+        <span class="input-titel flex justify-center items-center"><i class="icon-video_upload text-lg mr-2 leading-none"></i> {{inputText ? inputText : 'Choose Video'}}</span>
       </label>
     </div>
     <div class="w-full">
