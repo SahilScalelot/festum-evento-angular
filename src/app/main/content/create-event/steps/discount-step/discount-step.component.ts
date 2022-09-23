@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { SnotifyService } from 'ng-snotify';
 import { ModalService } from 'src/app/main/_modal';
+import { CreateEventService } from '../../create-event.service';
 
 @Component({
   selector: 'app-discount-step',
@@ -15,7 +16,8 @@ export class DiscountStepComponent implements OnInit {
   constructor(
     private _modalService: ModalService,
     private _formBuilder: FormBuilder,
-    private _sNotify: SnotifyService
+    private _createEventService: CreateEventService,
+    private _sNotify: SnotifyService, 
   ) {
   }
 
@@ -28,8 +30,12 @@ export class DiscountStepComponent implements OnInit {
 
   }
 
-  async onFileChange(event: any, imageFor: string, key = 0) {
+  onFileChange(): void {
     this._modalService.open("Discount");
+  }
+  
+  multipleLiveEvent(event: any): void {
+    event.stopPropagation();
   }
 
   submitDiscount(): any {

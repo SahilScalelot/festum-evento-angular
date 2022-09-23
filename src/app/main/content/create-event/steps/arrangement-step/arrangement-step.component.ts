@@ -22,7 +22,6 @@ export class ArrangementStepComponent implements OnInit {
     this._createEventService.isOpenAddEditArrangementDialog$.subscribe((isOpenAddEditArrangementDialog: boolean) => {
       this.isArrangement = isOpenAddEditArrangementDialog;
     });
-    this.isArrangement = true;
   }
 
   openAddEventDialog(): void {

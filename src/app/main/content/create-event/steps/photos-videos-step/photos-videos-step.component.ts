@@ -34,8 +34,7 @@ export class PhotosVideosStepComponent implements OnInit {
     private _modalService: ModalService,
     private _formBuilder: FormBuilder,
     private _sNotify: SnotifyService
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
     this.photosAndVideosForm = this._formBuilder.group({

@@ -54,6 +54,14 @@ export class EventComponent implements OnInit {
     console.log(eventObj);
   }
 
+  liveEvent(event: any, eventObj: any): void {
+    event.stopPropagation();
+  }
+  
+  multipleLiveEvent(event: any, eventObj: any): void {
+    event.stopPropagation();
+  }
+
   gotoEventOverview(event: any, eventObj: any): void {
     event.stopPropagation();
     this._router.navigate(['/event/' + eventObj.id]);
