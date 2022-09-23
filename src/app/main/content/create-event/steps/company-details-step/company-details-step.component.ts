@@ -94,6 +94,7 @@ export class CompanyDetailsStepComponent implements OnInit {
 
   uploadImage(): any {
     const image = $('#create-photo-upload')[0].files[0];
+
     if (image != undefined) {
       if (image.type != 'image/jpeg' && image.type != 'image/jpg' && image.type != 'image/png') {
         this._sNotify.error('Image type is Invalid.', 'Oops!');
