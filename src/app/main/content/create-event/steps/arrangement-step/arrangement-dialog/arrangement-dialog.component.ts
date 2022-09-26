@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {CONSTANTS} from 'src/app/main/common/constants';
-import {FormArray, FormBuilder} from "@angular/forms";
+import {FormArray, FormBuilder, Validators} from "@angular/forms";
 import * as _ from 'lodash';
 
 @Component({
@@ -102,10 +102,18 @@ export class ArrangementDialogComponent implements OnInit {
     this.isAddEventChange.emit(false);
   }
 
+  addFormData(): void {
+    console.log(this.seatingForm.value);
+  }
+
   private _prepareArrangementForm(): void {
     this.seatingForm = this._formBuilder.group({
       seating_item: [''],
-      arrangements: this._formBuilder.array([])
+      arrangements: this._formBuilder.array([]),
+      food: ['', [Validators.required]],
+      food_description: [''],
+      equipment: ['', [Validators.required]],
+      equipment_description: [''],
     });
     this.addArrangements();
   }

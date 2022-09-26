@@ -448,7 +448,7 @@
                       <label class="bg-white h-full py-4 px-5 flex items-center rounded-md cursor-pointer" for="veg">
                         <div class="pr-3">
                           <input checked="" class="w-6 h-6 rounded-full bg-brightGray appearance-none hidden" id="veg"
-                                 name="select" type="radio">
+                                 name="food" type="radio" [value]="0" [formControlName]="'food'">
                           <div
                               class="w-6 h-6 flex items-center justify-center rounded-full bg-brightGray overflow-hidden check-language">
                             <i class="icon-right text-white text-[10px] scale-0 origin-center duration-300 transition-all"></i>
@@ -464,7 +464,7 @@
                       <label class="bg-white h-full py-4 px-5 flex items-center rounded-md cursor-pointer" for="nonveg">
                         <div class="pr-3">
                           <input class="w-6 h-6 rounded-full bg-brightGray appearance-none hidden" id="nonveg"
-                                 name="select" type="radio">
+                                 name="food" type="radio" [value]="1" [formControlName]="'food'">
                           <div
                               class="w-6 h-6 flex items-center justify-center rounded-full bg-brightGray overflow-hidden check-language">
                             <i class="icon-right text-white text-[10px] scale-0 origin-center duration-300 transition-all"></i>
@@ -480,7 +480,7 @@
                       <label class="bg-white h-full py-4 px-5 flex items-center rounded-md cursor-pointer" for="both">
                         <div class="pr-3">
                           <input class="w-6 h-6 rounded-full bg-brightGray appearance-none hidden" id="both"
-                                 name="select" type="radio">
+                                 name="food" type="radio" [value]="2" [formControlName]="'food'">
                           <div
                               class="w-6 h-6 flex items-center justify-center rounded-full bg-brightGray overflow-hidden check-language">
                             <i class="icon-right text-white text-[10px] scale-0 origin-center duration-300 transition-all"></i>
@@ -500,7 +500,7 @@
                              for="foodnotinclude">
                         <div class="pr-3">
                           <input class="w-6 h-6 rounded-full bg-brightGray appearance-none hidden" id="foodnotinclude"
-                                 name="select" type="radio">
+                                 name="food" type="radio" [value]="3" [formControlName]="'food'">
                           <div
                               class="w-6 h-6 flex items-center justify-center rounded-full bg-brightGray overflow-hidden check-language">
                             <i class="icon-right text-white text-[10px] scale-0 origin-center duration-300 transition-all"></i>
@@ -515,7 +515,7 @@
                   <span class="input-titel">Food description?</span>
                   <textarea
                       class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-tl-md rounded-tr-md placeholder:text-sm placeholder:text-[#a6a6a6] placeholder:font-bold"
-                      cols="30" rows="4"></textarea>
+                      cols="30" rows="4" [formControlName]="'food_description'"></textarea>
                   <div class="flex items-center space-x-3 bg-white justify-end pr-4 pb-2 rounded-bl-md rounded-br-md">
                     <a href="javascript:void(0);">
                       <svg fill="none" height="13" viewBox="0 0 20 13" width="20" xmlns="http://www.w3.org/2000/svg">
@@ -559,7 +559,7 @@
                              for="include-equipment">
                         <div class="pr-3">
                           <input checked="" class="w-6 h-6 rounded-full bg-brightGray appearance-none hidden"
-                                 id="include-equipment" name="select" type="radio">
+                                 id="include-equipment" name="equipment" type="radio" [value]="0" [formControlName]="'equipment'">
                           <div
                               class="w-6 h-6 flex items-center justify-center rounded-full bg-brightGray overflow-hidden check-language">
                             <i class="icon-right text-white text-[10px] scale-0 origin-center duration-300 transition-all"></i>
@@ -576,7 +576,7 @@
                              for="notinclude">
                         <div class="pr-3">
                           <input class="w-6 h-6 rounded-full bg-brightGray appearance-none hidden" id="notinclude"
-                                 name="select" type="radio">
+                                 name="equipment" type="radio" [value]="1" [formControlName]="'equipment'">
                           <div
                               class="w-6 h-6 flex items-center justify-center rounded-full bg-brightGray overflow-hidden check-language">
                             <i class="icon-right text-white text-[10px] scale-0 origin-center duration-300 transition-all"></i>
@@ -591,7 +591,7 @@
                   <span class="input-titel">Equipment description?</span>
                   <textarea
                       class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-tl-md rounded-tr-md placeholder:text-sm placeholder:text-[#a6a6a6] placeholder:font-bold"
-                      cols="30" rows="4"></textarea>
+                      cols="30" rows="4" [formControlName]="'equipment_description'"></textarea>
                   <div class="flex items-center space-x-3 bg-white justify-end pr-4 pb-2 rounded-bl-md rounded-br-md">
                     <a href="javascript:void(0);">
                       <svg fill="none" height="13" viewBox="0 0 20 13" width="20" xmlns="http://www.w3.org/2000/svg">
@@ -616,9 +616,9 @@
               <div class="prw-next-btn">
                 <button (click)="selectedTab = 1" class="flex items-center active" type="button">
                   <i class="icon-left_arrow mr-3"></i>
-                  <h3>Back</h3>
+                  <h5>Back</h5>
                 </button>
-                <button class="secondary py-3 px-8 uppercase" type="button">Add New</button>
+                <button class="secondary py-3 px-8 uppercase" type="button" (click)="addFormData()" [disabled]="seatingForm.isValid()">Add New</button>
               </div>
             </div>
           </div>
