@@ -14,9 +14,9 @@
           <span class="text-xs text-white font-normal">4 Event can be posted or one with max 30 day</span>
         </div>
         <div>
-          <button class="flex items-center justify-center text-xs font-bold bg-white rounded-sm px-3 py-2 space-x-2 ml-auto">
+          <button class="flex items-center justify-center text-xs font-bold bg-white rounded-sm px-3 py-2 space-x-2 ml-auto" (click)="popupOpen('discountDTBpop')">
             <span><svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.41016 2.01465L0.80759 8.6177C0.774373 8.65101 0.750388 8.69308 0.738966 8.73829L0.00713451 11.6757C-0.0147567 11.7641 0.0112272 11.8582 0.0757586 11.9227C0.124585 11.9715 0.191116 11.9986 0.259169 11.9986C0.280013 11.9986 0.301333 11.996 0.322082 11.9907L3.2595 11.2588C3.30528 11.2474 3.34687 11.2235 3.38009 11.1903L9.98323 4.58772L7.41016 2.01465Z" fill="#2E363F"/><path d="M11.6195 1.11493L10.8845 0.379955C10.3933 -0.111264 9.53718 -0.110789 9.04654 0.379955L8.14624 1.28025L10.7192 3.85323L11.6195 2.95293C11.8649 2.70765 12 2.38119 12 2.03398C12 1.68676 11.8649 1.3603 11.6195 1.11493Z" fill="#2E363F"/></svg></span>
-            <span (click)="onFileChange()">Edit</span>
+            <span>Edit</span>
           </button>
           <img src="/assets/images/event-subscription.png" alt="Event Subscription" class="mt-9 -mb-12 scale-125 origin-right" />
         </div>
@@ -38,9 +38,9 @@
           <span class="text-xs text-white font-normal">4 Event can be posted or one event with max 30 day</span>
         </div>
         <div>
-          <button class="flex items-center justify-center text-xs font-bold bg-white rounded-sm px-3 py-2 space-x-2 ml-auto">
+          <button class="flex items-center justify-center text-xs font-bold bg-white rounded-sm px-3 py-2 space-x-2 ml-auto" (click)="popupOpen('discountDEIpop')">
             <span><svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.41016 2.01465L0.80759 8.6177C0.774373 8.65101 0.750388 8.69308 0.738966 8.73829L0.00713451 11.6757C-0.0147567 11.7641 0.0112272 11.8582 0.0757586 11.9227C0.124585 11.9715 0.191116 11.9986 0.259169 11.9986C0.280013 11.9986 0.301333 11.996 0.322082 11.9907L3.2595 11.2588C3.30528 11.2474 3.34687 11.2235 3.38009 11.1903L9.98323 4.58772L7.41016 2.01465Z" fill="#2E363F"/><path d="M11.6195 1.11493L10.8845 0.379955C10.3933 -0.111264 9.53718 -0.110789 9.04654 0.379955L8.14624 1.28025L10.7192 3.85323L11.6195 2.95293C11.8649 2.70765 12 2.38119 12 2.03398C12 1.68676 11.8649 1.3603 11.6195 1.11493Z" fill="#2E363F"/></svg></span>
-            <span (click)="onFileChange()">Edit</span>
+            <span>Edit</span>
           </button>
           <img src="/assets/images/event-subscription.png" alt="Event Subscription" class="mt-9 -mb-12 scale-125 origin-right" />
         </div>
@@ -62,9 +62,9 @@
           <span class="text-xs text-white font-normal">4 Event can be posted or one event with max 30 day</span>
         </div>
         <div>
-          <button class="flex items-center justify-center text-xs font-bold bg-white rounded-sm px-3 py-2 space-x-2 ml-auto">
+          <button class="flex items-center justify-center text-xs font-bold bg-white rounded-sm px-3 py-2 space-x-2 ml-auto" (click)="popupOpen('discountADCpop')">
             <span><svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.41016 2.01465L0.80759 8.6177C0.774373 8.65101 0.750388 8.69308 0.738966 8.73829L0.00713451 11.6757C-0.0147567 11.7641 0.0112272 11.8582 0.0757586 11.9227C0.124585 11.9715 0.191116 11.9986 0.259169 11.9986C0.280013 11.9986 0.301333 11.996 0.322082 11.9907L3.2595 11.2588C3.30528 11.2474 3.34687 11.2235 3.38009 11.1903L9.98323 4.58772L7.41016 2.01465Z" fill="#2E363F"/><path d="M11.6195 1.11493L10.8845 0.379955C10.3933 -0.111264 9.53718 -0.110789 9.04654 0.379955L8.14624 1.28025L10.7192 3.85323L11.6195 2.95293C11.8649 2.70765 12 2.38119 12 2.03398C12 1.68676 11.8649 1.3603 11.6195 1.11493Z" fill="#2E363F"/></svg></span>
-            <span (click)="onFileChange()">Edit</span>
+            <span>Edit</span>
           </button>
           <img src="/assets/images/event-subscription.png" alt="Event Subscription" class="mt-9 -mb-12 scale-125 origin-right" />
         </div>
@@ -92,8 +92,8 @@
 </div>
 
 
-<!-- Discount -->
-<modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="Discount" title="Discount On Total Bill" *ngIf="discountForm">
+<!-- Discount On Total Bill -->
+<modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="discountDTBpop" title="Discount On Total Bill" maxWidth="lg:max-w-3xl" *ngIf="discountForm">
   <div class="pt-6 space-y-5">
     <form #photosNgForm="ngForm" [formGroup]="discountForm">
       <div class="w-full inputHolder">
@@ -107,7 +107,51 @@
       <li class="text-10 leading-5 font-medium text-japaneseIndigo pl-3">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</li>
     </ul>
     <div class="flex items-center space-x-5">
-      <button class="secondary w-full py-2 anim" accesskey="alt+tab" (click)="closePop()">CANCEL</button>
+      <button class="secondary w-full py-2 anim" accesskey="alt+tab" (click)="closePop('discountDTBpop')">CANCEL</button>
+      <button class="primary w-full py-2 anim" (click)="submitDiscount()">APPLY</button>
+    </div>
+  </div>
+</modal>
+<!-- Discount On Equipment Or Item -->
+<modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="discountDEIpop" title="Discount On Equipment Or Item" maxWidth="lg:max-w-3xl" *ngIf="discountForm">
+  <div class="pt-6 space-y-5">
+    <form #photosNgForm="ngForm" [formGroup]="discountForm" class="flex flex-wrap -mx-2.5">
+      <div class="w-full lg:w-1/2 inputHolder px-2.5">
+        <label class="input-titel">Equipment Or Item</label>
+        <p-multiSelect [options]="cities" optionLabel="name" display="chip" class="w-full input"></p-multiSelect>
+      </div>
+      <div class="w-full lg:w-1/2 inputHolder px-2.5">
+        <label class="input-titel">Discount</label>
+        <input class="input option" type="text" />
+      </div>
+    </form>
+    <ul class="space-y-2.5">
+      <li class="text-xs font-medium">* Terms & Conditions</li>
+      <li class="text-10 leading-5 font-medium text-japaneseIndigo pl-3">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</li>
+      <li class="text-10 leading-5 font-medium text-japaneseIndigo pl-3">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</li>
+    </ul>
+    <div class="flex items-center space-x-5">
+      <button class="secondary w-full py-2 anim" accesskey="alt+tab" (click)="closePop('discountDEIpop')">CANCEL</button>
+      <button class="primary w-full py-2 anim" (click)="submitDiscount()">APPLY</button>
+    </div>
+  </div>
+</modal>
+<!-- Advance And Discount Confirmation -->
+<modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="discountADCpop" title="Advance And Discount Confirmation" maxWidth="lg:max-w-3xl" *ngIf="discountForm">
+  <div class="pt-6 space-y-5">
+    <form #photosNgForm="ngForm" [formGroup]="discountForm">
+      <div class="w-full inputHolder">
+        <label class="input-titel">Discount On Total Bill</label>
+        <input class="input option" type="text" />
+      </div>
+    </form>
+    <ul class="space-y-2.5">
+      <li class="text-xs font-medium">* Terms & Conditions</li>
+      <li class="text-10 leading-5 font-medium text-japaneseIndigo pl-3">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</li>
+      <li class="text-10 leading-5 font-medium text-japaneseIndigo pl-3">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</li>
+    </ul>
+    <div class="flex items-center space-x-5">
+      <button class="secondary w-full py-2 anim" accesskey="alt+tab" (click)="closePop('discountADCpop')">CANCEL</button>
       <button class="primary w-full py-2 anim" (click)="submitDiscount()">APPLY</button>
     </div>
   </div>

@@ -12,6 +12,7 @@ import { CreateEventService } from '../../create-event.service';
 export class DiscountStepComponent implements OnInit {
 
   discountForm: any;
+  cities: any[];
 
   constructor(
     private _modalService: ModalService,
@@ -19,6 +20,15 @@ export class DiscountStepComponent implements OnInit {
     private _createEventService: CreateEventService,
     private _sNotify: SnotifyService, 
   ) {
+
+    
+    this.cities = [
+      { name: "New York", code: "NY" },
+      { name: "Rome", code: "RM" },
+      { name: "London", code: "LDN" },
+      { name: "Istanbul", code: "IST" },
+      { name: "Paris", code: "PRS" }
+    ];
   }
 
   ngOnInit(): void {
@@ -30,8 +40,12 @@ export class DiscountStepComponent implements OnInit {
 
   }
 
-  onFileChange(): void {
-    this._modalService.open("Discount");
+  // discountDTBpop
+  // discountDEIpop
+  // discountADCpop
+
+  popupOpen(popId: string): void {
+    this._modalService.open(popId);
   }
   
   multipleLiveEvent(event: any): void {
@@ -39,10 +53,10 @@ export class DiscountStepComponent implements OnInit {
   }
 
   submitDiscount(): any {
-    this._modalService.close("Discount");
+    this._modalService.close("discountDTBpop");
   }
   
-  closePop(): any {
-    this._modalService.close("Discount");
+  closePop(popCId: string): any {
+    this._modalService.close(popCId);
   }
 }

@@ -4,6 +4,7 @@ import {ImageCroppedEvent} from 'ngx-image-cropper';
 import {ModalService} from 'src/app/main/_modal';
 import {SnotifyService} from "ng-snotify";
 import {CONSTANTS} from "../../../../common/constants";
+import { Router } from '@angular/router';
 
 declare var $: any;
 
@@ -33,14 +34,15 @@ export class PhotosVideosStepComponent implements OnInit {
   constructor(
     private _modalService: ModalService,
     private _formBuilder: FormBuilder,
-    private _sNotify: SnotifyService
+    private _sNotify: SnotifyService,
+    private _router: Router
   ) {}
 
   ngOnInit(): void {
     this.photosAndVideosForm = this._formBuilder.group({
       poster: [null, [Validators.required]],
-      photo: [null, [Validators.required]],
-      video: [null, [Validators.required]],
+      photo: [this.photoArr],
+      video: [this.videoArr],
     });
 
     this.photosForm = this._formBuilder.group({
@@ -159,6 +161,8 @@ export class PhotosVideosStepComponent implements OnInit {
         this.photoArr.push({image: e.target.result, details: this.photosForm.value.details});
       };
       reader.readAsDataURL(image);
+      $('#create-photo-upload').val(null);
+      this.inputText = '';
       this._modalService.close("photo");
     }
   }
@@ -191,6 +195,8 @@ export class PhotosVideosStepComponent implements OnInit {
         this.videoArr.push({video: e.target.result, details: this.videoForm.value.details});
       };
       reader.readAsDataURL(video);
+      $('#create-video-upload').val(null);
+      this.inputText = '';
       this._modalService.close("video");
     }
   }
@@ -201,6 +207,31 @@ export class PhotosVideosStepComponent implements OnInit {
 
   removeVideo(index: number) {
     this.videoArr.splice(index, 1);
+  }
+
+  validate(): boolean {
+    if (!this.photosAndVideosForm.value.poster || this.photosAndVideosForm.value.poster === "") {
+      this._sNotify.error('Poster is required!', 'Oops!');
+      return false;
+    }
+    if (!this.photosAndVideosForm.value.photo || this.photosAndVideosForm.value.photo === "") {
+      this._sNotify.error('Photo is required!', 'Oops!');
+      return false;
+    }
+    if (!this.photosAndVideosForm.value.video || this.photosAndVideosForm.value.video === "") {
+      this._sNotify.error('Video is required!', 'Oops!');
+      return false;
+    }
+    return true;
+  }
+
+  submitPhotosAndVideosForm() {
+    if (!this.validate()) {
+      return;
+    }
+    console.log(this.photosAndVideosForm.value);
+    // localStorage.setItem('newEventObj', JSON.stringify(this.photosAndVideosForm.value))
+    // this._router.navigate(['/create-event/permission']);
   }
 
 }

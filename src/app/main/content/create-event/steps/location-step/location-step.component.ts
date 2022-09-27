@@ -6,6 +6,7 @@ import {CONSTANTS} from "../../../../common/constants";
 import {FormBuilder, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import * as _ from 'lodash';
+import { SnotifyService } from 'ng-snotify';
 
 @Component({
   selector: 'app-location-step',
@@ -36,6 +37,7 @@ export class LocationStepComponent implements OnInit {
     private _modalService: ModalService,
     private router: Router,
     private _http: HttpClient,
+    private _sNotify: SnotifyService
   ) {
   }
 
@@ -44,9 +46,8 @@ export class LocationStepComponent implements OnInit {
       flat_number: [null],
       street_name: [null],
       area_name: [null],
-      address: [null, [Validators.required]],
-      state: [null, [Validators.required]],
       city: [null, [Validators.required]],
+      state: [null, [Validators.required]],
       pincode: [null, [Validators.required, Validators.maxLength(6)]],
     });
 
@@ -177,6 +178,29 @@ export class LocationStepComponent implements OnInit {
     //   lng: $event.coords.lng,
     //   draggable: true
     // });
+  }
+
+  validate(): boolean {
+    if (!this.locationForm.value.city || this.locationForm.value.city === "") {
+      this._sNotify.error('City is required!', 'Oops!');
+      return false;
+    }
+    if (!this.locationForm.value.state || this.locationForm.value.state === "") {
+      this._sNotify.error('State is required!', 'Oops!');
+      return false;
+    }
+    if (!this.locationForm.value.pincode || this.locationForm.value.pincode === "") {
+      this._sNotify.error('Pincode is required!', 'Oops!');
+      return false;
+    }
+    return true;
+  }
+
+  submitLocation() {
+    if (!this.validate()) {
+      return;
+    }
+    console.log(this.locationForm.value);
   }
 
   // mapDragged($event: any) {

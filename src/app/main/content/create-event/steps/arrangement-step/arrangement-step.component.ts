@@ -17,12 +17,89 @@ export class ArrangementStepComponent implements OnInit {
     private _createEventService: CreateEventService) {
   }
 
+  occasion: any = [
+    {
+        "id": 1,
+        "seat": {
+            "id": 1,
+            "name": "Chair",
+            "svg": "/media/image/events/seating_arrangement/chair.svg",
+            "timestamp": "2021-08-15T06:22:41.229676Z",
+            "sequence": 1,
+            "is_active": true
+        },
+        "name": "Best Chair",
+        "no_of_seat": 50,
+        "seat_location": "FRONT",
+        "seat_side": "LEFT",
+        "table_person_capacity": 12,
+        "person_capacity": 1,
+        "table_price": 250,
+        "price_per_seat": "350.50",
+        "total_booking_count": 6,
+        "description": "this is logn description for seat",
+        "booking_acceptance": "",
+        "seat_food": "VEG",
+        "seat_food_description": "this is logn description for Food",
+        "seat_equipment": true,
+        "seat_equipment_description": "this is logn description for equipment",
+        "occasion": 43
+    },
+    {
+        "id": 2,
+        "seat": {
+            "id": 1,
+            "name": "Chair",
+            "svg": "/media/image/events/seating_arrangement/chair.svg",
+            "timestamp": "2021-08-15T06:22:41.229676Z",
+            "sequence": 1,
+            "is_active": true
+        },
+        "name": "Good Chair",
+        "no_of_seat": 100,
+        "seat_location": "CENTER",
+        "seat_side": "NONE",
+        "table_person_capacity": 12,
+        "person_capacity": 1,
+        "table_price": 250,
+        "price_per_seat": "250.50",
+        "total_booking_count": 12,
+        "description": "this is logn description for seat",
+        "booking_acceptance": "",
+        "seat_food": "VEG",
+        "seat_food_description": "this is logn description for Food",
+        "seat_equipment": true,
+        "seat_equipment_description": "this is logn description for equipment",
+        "occasion": 43
+    },
+]
+
   ngOnInit(): void {
-    this._globalFunctions.loadAccordion();
+    // this._globalFunctions.loadAccordion();
     this._createEventService.isOpenAddEditArrangementDialog$.subscribe((isOpenAddEditArrangementDialog: boolean) => {
       this.isArrangement = isOpenAddEditArrangementDialog;
     });
   }
+
+  
+  toggleAccordian(event:any, index:any) {
+    var element = event.target;
+    var panel = element.nextElementSibling;
+    
+    if (panel && panel.style) {
+    element.classList.toggle("active");
+    if(this.occasion[index].isActive) {
+      this.occasion[index].isActive = false;
+    } else {
+      this.occasion[index].isActive = true;
+    }
+      if (panel.style.maxHeight) {
+        panel.style.maxHeight = null;
+      } else {
+        panel.style.maxHeight = panel.scrollHeight + "px";
+      }
+    }
+}
 
   openAddEventDialog(): void {
     this.isArrangement = true;
