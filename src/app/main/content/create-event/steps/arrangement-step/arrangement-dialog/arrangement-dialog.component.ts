@@ -103,16 +103,16 @@ export class ArrangementDialogComponent implements OnInit {
   }
 
   addFormData(): void {
-    console.log(this.seatingForm.value);
+    console.log(this.seatingForm);
   }
 
   private _prepareArrangementForm(): void {
     this.seatingForm = this._formBuilder.group({
-      seating_item: [''],
+      seating_item: ['', [Validators.required]],
       arrangements: this._formBuilder.array([]),
-      food: ['', [Validators.required]],
+      food: [0, [Validators.required]],
       food_description: [''],
-      equipment: ['', [Validators.required]],
+      equipment: [0, [Validators.required]],
       equipment_description: [''],
     });
     this.addArrangements();

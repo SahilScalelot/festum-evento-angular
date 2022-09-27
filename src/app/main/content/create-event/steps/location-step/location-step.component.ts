@@ -31,11 +31,11 @@ export class LocationStepComponent implements OnInit {
 
   constructor(
     private _formBuilder: FormBuilder,
-    private renderer: Renderer2,
-    private mapsAPILoader: MapsAPILoader,
-    private ngZone: NgZone,
+    private _renderer: Renderer2,
+    private _mapsAPILoader: MapsAPILoader,
+    private _ngZone: NgZone,
     private _modalService: ModalService,
-    private router: Router,
+    private _router: Router,
     private _http: HttpClient,
     private _sNotify: SnotifyService
   ) {
@@ -53,12 +53,12 @@ export class LocationStepComponent implements OnInit {
 
     // this.customJs('assets/js/form-wizard.js').onload = () => {
     // };
-    this.mapsAPILoader.load().then(() => {
+    this._mapsAPILoader.load().then(() => {
       this._setCurrentLocation();
       this.geoCoder = new google.maps.Geocoder;
       this.autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement);
       this.autocomplete.addListener("place_changed", () => {
-        this.ngZone.run(() => {
+        this._ngZone.run(() => {
           //get the place result
           let place: any = this.autocomplete.getPlace();
 
@@ -84,7 +84,7 @@ export class LocationStepComponent implements OnInit {
     script.src = src;
     script.async = true;
     script.defer = true;
-    this.renderer.appendChild(document.body, script);
+    this._renderer.appendChild(document.body, script);
     return script;
   }
 
@@ -201,6 +201,7 @@ export class LocationStepComponent implements OnInit {
       return;
     }
     console.log(this.locationForm.value);
+    this._router.navigate(['create-event/photos-and-videos']);
   }
 
   // mapDragged($event: any) {

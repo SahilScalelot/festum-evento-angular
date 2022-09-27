@@ -4,29 +4,32 @@
     <div class="flex items-end flex-wrap -mx-2">
       <div class="w-full md:w-1/2 px-2 pt-5 inputHolder">
         <span class="input-titel">Company name</span>
-        <input type="text" class="input" [formControlName]="'name'" />
+        <input [formControlName]="'name'" class="input" type="text"/>
       </div>
       <div class="w-full md:w-1/2 px-2 pt-5 inputHolder">
         <span class="input-titel">Company GST (Optional)</span>
-        <label for="creat-event-company-gst" class="upload upload-popup py-3">
-          <input type="file" name="images" id="creat-event-company-gst" accept="application/pdf" class="appearance-none hidden" [formControlName]="'gst'" (change)="onChangePDF($event)" />
-          <span class="input-titel text-base p-0"><i class="icon-pdf_upload mr-2"></i> {{inputText ? inputText : 'Upload PDF'}}</span>
+        <label class="upload upload-popup py-3" for="creat-event-company-gst">
+          <input (change)="onChangePDF($event)" [formControlName]="'gst'" accept="application/pdf"
+                 class="appearance-none hidden" id="creat-event-company-gst" name="images" type="file"/>
+          <span class="input-titel text-base p-0"><i
+              class="icon-pdf_upload mr-2"></i> {{inputText ? inputText : 'Upload PDF'}}</span>
         </label>
       </div>
     </div>
     <div class="flex items-end flex-wrap -mx-2">
       <div class="w-full md:w-1/2 px-2 pt-5 inputHolder">
         <span class="input-titel">Company Contact No</span>
-        <input type="text" class="input" [formControlName]="'contact_no'" />
+        <input [formControlName]="'contact_no'" class="input" type="text"/>
       </div>
       <div class="w-full md:w-1/2 px-2 pt-5 inputHolder">
         <span class="input-titel">Company Email</span>
-        <input type="text" class="input" [formControlName]="'email'" />
+        <input [formControlName]="'email'" class="input" type="text"/>
       </div>
     </div>
     <div class="w-full pt-5">
       <span class="input-titel">About Our Company</span>
-      <textarea  cols="30" rows="4" class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md" [formControlName]="'about'"></textarea>
+      <textarea [formControlName]="'about'" class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md"
+                cols="30" rows="4"></textarea>
     </div>
     <!-- Address  -->
     <div class="pt-5 -mx-2">
@@ -34,27 +37,27 @@
       <div class="w-full flex flex-wrap">
         <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-5 inputHolder">
           <span class="input-titel">Flat No.</span>
-          <input type="text" class="input" [formControlName]="'flat_no'" />
+          <input [formControlName]="'flat_no'" class="input" type="text"/>
         </div>
         <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-5 inputHolder">
           <span class="input-titel">Street Name.</span>
-          <input type="text" class="input" [formControlName]="'street'" />
+          <input [formControlName]="'street'" class="input" type="text"/>
         </div>
         <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-5 inputHolder">
           <span class="input-titel">Area Name.</span>
-          <input type="text" class="input" [formControlName]="'area'" />
+          <input [formControlName]="'area'" class="input" type="text"/>
         </div>
         <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-5 inputHolder">
           <label class="input-titel">City<span class="text-magicPotion">*</span></label>
-          <input type="text" class="input" [formControlName]="'city'" />
+          <input [formControlName]="'city'" class="input" type="text"/>
         </div>
         <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-5 inputHolder">
           <label class="input-titel">State<span class="text-magicPotion">*</span></label>
-          <input type="text" class="input" [formControlName]="'state'" />
+          <input [formControlName]="'state'" class="input" type="text"/>
         </div>
         <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-5 inputHolder">
           <label class="input-titel">Pincode<span class="text-magicPotion">*</span></label>
-          <input type="text" class="input" [formControlName]="'pincode'" />
+          <input [formControlName]="'pincode'" class="input" type="text"/>
         </div>
       </div>
     </div>
@@ -72,9 +75,11 @@
             </div>
             <div class="upload-holder">
               <label class="upload-photo">
-                <input accept="image/png, image/jpeg, image/gif" class="appearance-none hidden" id="create-photo-upload" name="images" type="file" (change)="uploadImage()" multiple />
+                <input (change)="uploadImage()" accept="image/png, image/jpeg, image/gif" class="appearance-none hidden"
+                       id="create-photo-upload" multiple name="images" type="file"/>
                 <i class="icon-img_upload text-base text-quicksilver"></i>
-                <div class="mt-1 flex items-baseline justify-center"><span class="input-titel pt-1">Add Photos</span></div>
+                <div class="mt-1 flex items-baseline justify-center"><span class="input-titel pt-1">Add Photos</span>
+                </div>
               </label>
             </div>
           </div>
@@ -86,7 +91,7 @@
           <div class="flex flex-wrap h-full pt-2">
             <div *ngFor="let video of videoArr; let i = index" class="upload-box mr-2.5 mb-2.5">
               <div class="rounded relative overflow-hidden h-full w-full">
-                <video width="100%" height="100%" class="w-full h-full object-cover">
+                <video class="w-full h-full object-cover" height="100%" width="100%">
                   <source [src]="video.video" type="video/mp4">
                 </video>
                 <button (click)="removeVideo(i)">Remove</button>
@@ -94,31 +99,34 @@
             </div>
             <div class="upload-holder">
               <label class="upload-photo">
-                <input accept="video/mp4" class="appearance-none hidden" id="create-video-upload" name="videos" type="file" (change)="uploadVideo()"/>
+                <input (change)="uploadVideo()" accept="video/mp4" class="appearance-none hidden"
+                       id="create-video-upload" name="videos" type="file"/>
                 <i class="icon-video_upload text-base text-quicksilver"></i>
-                <div class="mt-1 flex items-baseline justify-center"><span class="input-titel pt-1">Add video</span></div>
+                <div class="mt-1 flex items-baseline justify-center">
+                  <span class="input-titel pt-1">Add video</span>
+                </div>
               </label>
             </div>
           </div>
         </div>
       </div>
     </div>
-  
-    <button type="submit" (click)="companyDetails()">Submit</button>
+
+    <button (click)="companyDetails()" type="submit">Submit</button>
   </form>
 </div>
 <div class="mt-auto">
   <!-- advisement -->
   <div class="w-full mt-5">
-    <img src="assets/images/banner-ads.png" alt="ring-ad" class="w-full object-cover"/>
+    <img alt="ring-ad" class="w-full object-cover" src="assets/images/banner-ads.png"/>
   </div>
   <!-- pre and next button -->
   <div class="prw-next-btn">
-    <button type="button" class="flex items-center active" [routerLink]="'/create-event/discount'">
+    <button [routerLink]="'/create-event/discount'" class="flex items-center active" type="button">
       <i class="icon-left_arrow mr-3"></i>
       <h5>Back</h5>
     </button>
-    <button type="button" class="flex items-center active"  [routerLink]="'/create-event/personal-details'">
+    <button [routerLink]="'/create-event/personal-details'" class="flex items-center active" type="button">
       <h5>Next</h5>
       <i class="icon-right_arrow ml-3"></i>
     </button>

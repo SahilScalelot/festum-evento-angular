@@ -1,27 +1,31 @@
-<div class="space-y-5">
+<div [formGroup]="permissionForm" class="space-y-5">
   <div class="upload-holder w-full h-full">
     <span class="text-sm text-quicksilver font-semibold">Add Permission Letter</span>
-    <label for="event-upload" class="upload upload-popup py-9">
-      <input type="file" name="images" id="event-upload" class="appearance-none hidden" />
+    <label class="upload upload-popup py-9" for="permission_letter">
+      <input (change)="onChangePDF($event)" [formControlName]="'permission_letter'" accept="application/pdf"
+             class="appearance-none hidden" id="permission_letter" name="permission_letter" type="file"/>
       <div class="flex justify-center text-left items-start">
         <i class="icon-pdf_upload mr-2 pt-2 text-quicksilver"></i>
-        <span class="input-titel mt-1 font-bold text-sm">Permission Letter for verification <br/>Attached pdf only</span>
+        <span *ngIf="inputText" class="input-titel mt-1 font-bold text-sm">{{inputText}}</span>
+        <span *ngIf="!inputText" class="input-titel mt-1 font-bold text-sm">
+          Permission Letter for verification <br/>Attached pdf only
+        </span>
       </div>
     </label>
   </div>
   <div class="flex items-end">
     <label class="checkbox rounded bg-white">
-        <input type="checkbox" />
-        <i class="icon-right text-white"></i>                  
+      <input [formControlName]="'accept_booking'" name="accept_booking" type="checkbox"/>
+      <i class="icon-right text-white"></i>
     </label>
     <span class="input-titel text-lg text-japaneseIndigo ml-4">Accept Booking <span class="textLow-red ml-5">Deselect it if you want to only show event and not allow user to book it</span></span>
   </div>
   <div class="ml-12 flex">
-    <i class="icon-info text-quicksilver pr-3"></i> 
+    <i class="icon-info text-quicksilver pr-3"></i>
     <span class="text-xs font-bold text-quicksilver max-w-[288px] inline-block">For each ticket sold 5% Commission + GST will be Charged</span>
   </div>
   <div class="ml-12 flex">
-    <i class="icon-info text-quicksilver pr-3"></i> 
+    <i class="icon-info text-quicksilver pr-3"></i>
     <span class="text-xs font-bold text-quicksilver max-w-[288px] inline-block">If the price of the ticket is 0 no commission will be Charged</span>
   </div>
 </div>
@@ -29,15 +33,16 @@
 <div class="mt-auto">
   <!-- advisement -->
   <div class="w-full mt-5">
-    <img src="assets/images/banner-ads.png" alt="ring-ad" class="w-full object-cover"/>
+    <img alt="ring-ad" class="w-full object-cover" src="assets/images/banner-ads.png"/>
   </div>
   <!-- pre and next button -->
   <div class="prw-next-btn">
-    <button type="button" class="flex items-center active" [routerLink]="'/create-event/photos-and-videos'">
+    <button [routerLink]="'/create-event/photos-and-videos'" class="flex items-center active" type="button">
       <i class="icon-left_arrow mr-3"></i>
       <h5>Back</h5>
     </button>
-    <button type="button" class="flex items-center active"  [routerLink]="'/create-event/discount'">
+    <button (click)="submitPermissionForm()" [disabled]="!permissionForm.valid" class="flex items-center active"
+            type="button">
       <h5>Next</h5>
       <i class="icon-right_arrow ml-3"></i>
     </button>

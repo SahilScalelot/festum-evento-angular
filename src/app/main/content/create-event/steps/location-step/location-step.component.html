@@ -38,20 +38,21 @@
           placeholder="Type here Address..."
           rows="4">
         </textarea> -->
-        <input #search (keydown.enter)="$event.preventDefault()" autocapitalize="off" autocorrect="off" class="form-control absolute top-1 left-1 right-1 z-10 px-3 py-1.5 text-base rounded" placeholder="Search Nearest Location" spellcheck="off" type="text" type="text" />
-        <agm-map (mapClick)="mapClicked($event)" [disableDefaultUI]="false" [latitude]="lat" [longitude]="lng" [zoomControl]="false" [zoom]="zoom">
-          <agm-marker (dragEnd)="markerDragEnd(markers, $event)" (markerClick)="clickedMarker(markers.label)" [label]="markers.label" [latitude]="lat" [longitude]="lng" [markerDraggable]="true"></agm-marker>
+        <input #search (keydown.enter)="$event.preventDefault()" autocapitalize="off" autocorrect="off"
+               class="form-control absolute top-1 left-1 right-1 z-10 px-3 py-1.5 text-base rounded"
+               placeholder="Search Nearest Location" spellcheck="off" type="text" type="text"/>
+        <agm-map (mapClick)="mapClicked($event)" [disableDefaultUI]="false" [latitude]="lat" [longitude]="lng"
+                 [zoomControl]="false" [zoom]="zoom">
+          <agm-marker (dragEnd)="markerDragEnd(markers, $event)" (markerClick)="clickedMarker(markers.label)"
+                      [label]="markers.label" [latitude]="lat" [longitude]="lng" [markerDraggable]="true"></agm-marker>
         </agm-map>
         <!-- (click)="googleMap()" -->
-        <button 
-          (click)="addMapLocation()"
-          class="secondary flex justify-end ml-auto px-5 py-2 anim uppercase mt-2 absolute bottom-1 right-1">
+        <button (click)="addMapLocation()"
+            class="secondary flex justify-end ml-auto px-5 py-2 anim uppercase mt-2 absolute bottom-1 right-1">
           Location from Google map
         </button>
       </div>
     </div>
-    
-    <button type="submit" (click)="submitLocation()">Submit</button>
   </form>
 </div>
 <div class="mt-auto">
@@ -65,22 +66,27 @@
       <i class="icon-left_arrow mr-3"></i>
       <h5>Back</h5>
     </button>
-    <button [routerLink]="'/create-event/photos-and-videos'" class="flex items-center active" type="button">
+    <button [disabled]="!locationForm.valid" (click)="submitLocation()"
+            class="flex items-center active" type="button">
       <h5>Next</h5>
       <i class="icon-right_arrow ml-3"></i>
     </button>
   </div>
 </div>
 
-<modal class="location popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="google-map" title="Choose location">
+<modal class="location popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="google-map"
+       title="Choose location">
   <div>
     <div class="form-group mb-4">
       <label>{{ 'Enter address' }}</label>
-      <input #search (keydown.enter)="$event.preventDefault()" autocapitalize="off" autocorrect="off" class="form-control" placeholder="Search Nearest Location" spellcheck="off" type="text" type="text" />
+      <input (keydown.enter)="$event.preventDefault()" autocapitalize="off" autocorrect="off"
+             class="form-control" placeholder="Search Nearest Location" spellcheck="off" type="text" type="text"/>
     </div>
     <!-- (centerChange)="mapDraged($event)" -->
-    <agm-map (mapClick)="mapClicked($event)" [disableDefaultUI]="false" [latitude]="lat" [longitude]="lng" [zoomControl]="false" [zoom]="zoom">
-      <agm-marker (dragEnd)="markerDragEnd(markers, $event)" (markerClick)="clickedMarker(markers.label)" [label]="markers.label" [latitude]="lat" [longitude]="lng" [markerDraggable]="true"></agm-marker>
+    <agm-map (mapClick)="mapClicked($event)" [disableDefaultUI]="false" [latitude]="lat" [longitude]="lng"
+             [zoomControl]="false" [zoom]="zoom">
+      <agm-marker (dragEnd)="markerDragEnd(markers, $event)" (markerClick)="clickedMarker(markers.label)"
+                  [label]="markers.label" [latitude]="lat" [longitude]="lng" [markerDraggable]="true"></agm-marker>
     </agm-map>
   </div>
 

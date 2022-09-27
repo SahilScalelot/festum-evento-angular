@@ -10,23 +10,30 @@ import {CreateEventService} from "../../create-event.service";
 })
 export class ArrangementStepComponent implements OnInit {
   isArrangement: boolean = false;
+  occasion: any = [];
 
   constructor(
-    public _globalFunctions: GlobalFunctions, 
-    public _router: Router, 
+    public _globalFunctions: GlobalFunctions,
+    public _router: Router,
     private _createEventService: CreateEventService) {
   }
 
-  occasion: any = [
-    {
+  ngOnInit(): void {
+    // this._globalFunctions.loadAccordion();
+    this._createEventService.isOpenAddEditArrangementDialog$.subscribe((isOpenAddEditArrangementDialog: boolean) => {
+      this.isArrangement = isOpenAddEditArrangementDialog;
+    });
+
+    this.occasion = [
+      {
         "id": 1,
         "seat": {
-            "id": 1,
-            "name": "Chair",
-            "svg": "/media/image/events/seating_arrangement/chair.svg",
-            "timestamp": "2021-08-15T06:22:41.229676Z",
-            "sequence": 1,
-            "is_active": true
+          "id": 1,
+          "name": "Chair",
+          "svg": "/media/image/events/seating_arrangement/chair.svg",
+          "timestamp": "2021-08-15T06:22:41.229676Z",
+          "sequence": 1,
+          "is_active": true
         },
         "name": "Best Chair",
         "no_of_seat": 50,
@@ -44,16 +51,16 @@ export class ArrangementStepComponent implements OnInit {
         "seat_equipment": true,
         "seat_equipment_description": "this is logn description for equipment",
         "occasion": 43
-    },
-    {
+      },
+      {
         "id": 2,
         "seat": {
-            "id": 1,
-            "name": "Chair",
-            "svg": "/media/image/events/seating_arrangement/chair.svg",
-            "timestamp": "2021-08-15T06:22:41.229676Z",
-            "sequence": 1,
-            "is_active": true
+          "id": 1,
+          "name": "Chair",
+          "svg": "/media/image/events/seating_arrangement/chair.svg",
+          "timestamp": "2021-08-15T06:22:41.229676Z",
+          "sequence": 1,
+          "is_active": true
         },
         "name": "Good Chair",
         "no_of_seat": 100,
@@ -71,35 +78,24 @@ export class ArrangementStepComponent implements OnInit {
         "seat_equipment": true,
         "seat_equipment_description": "this is logn description for equipment",
         "occasion": 43
-    },
-]
-
-  ngOnInit(): void {
-    // this._globalFunctions.loadAccordion();
-    this._createEventService.isOpenAddEditArrangementDialog$.subscribe((isOpenAddEditArrangementDialog: boolean) => {
-      this.isArrangement = isOpenAddEditArrangementDialog;
-    });
+      },
+    ]
   }
 
-  
-  toggleAccordian(event:any, index:any) {
-    var element = event.target;
-    var panel = element.nextElementSibling;
-    
+  toggleAccordion(event: any, index: any): void {
+    const element: any = event.target;
+    const panel: any = element.nextElementSibling;
+
     if (panel && panel.style) {
-    element.classList.toggle("active");
-    if(this.occasion[index].isActive) {
-      this.occasion[index].isActive = false;
-    } else {
-      this.occasion[index].isActive = true;
-    }
+      element.classList.toggle("active");
+      this.occasion[index].isActive = !this.occasion[index].isActive;
       if (panel.style.maxHeight) {
         panel.style.maxHeight = null;
       } else {
         panel.style.maxHeight = panel.scrollHeight + "px";
       }
     }
-}
+  }
 
   openAddEventDialog(): void {
     this.isArrangement = true;

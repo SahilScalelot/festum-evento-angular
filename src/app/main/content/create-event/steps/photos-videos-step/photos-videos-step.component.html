@@ -67,7 +67,7 @@
       <i class="icon-left_arrow mr-3"></i>
       <h5>Back</h5>
     </button>
-    <button [routerLink]="'/create-event/permission'" class="flex items-center active" type="button">
+    <button [disabled]="!photosAndVideosForm.valid" [routerLink]="'/create-event/permission'" class="flex items-center active" type="button">
       <h5>Next</h5>
       <i class="icon-right_arrow ml-3"></i>
     </button>

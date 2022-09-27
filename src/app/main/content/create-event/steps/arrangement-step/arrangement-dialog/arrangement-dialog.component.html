@@ -618,7 +618,7 @@
                   <i class="icon-left_arrow mr-3"></i>
                   <h5>Back</h5>
                 </button>
-                <button class="secondary py-3 px-8 uppercase" type="button" (click)="addFormData()">Add New</button>
+                <button class="secondary py-3 px-8 uppercase" type="button" [disabled]="!seatingForm.valid" (click)="addFormData()">Add New</button>
               </div>
             </div>
           </div>
