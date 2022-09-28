@@ -2,22 +2,32 @@
   <!-- company details  -->
   <form [formGroup]="companyForm">
     <div class="flex items-end flex-wrap -mx-2">
-      <div class="w-full md:w-1/2 px-2 pt-5 inputHolder">
+      <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative">
         <span class="input-titel">Company name</span>
-        <input [formControlName]="'name'" class="input" type="text"/>
+        <input class="input" type="text" id="name" name="name" formControlName="name" required minlength="2" maxlength="120" />
+        <span class="absolute top-full text-red-500 text-xs" *ngIf="companyForm.get('name')?.invalid && (companyForm.get('name')?.dirty || companyForm.get('name')?.touched)">
+          <span *ngIf="companyForm.get('name')?.errors?.['required']">
+            This field is required.
+          </span>
+          <span *ngIf="companyForm.get('name')?.errors?.['minlength']">
+            This field must have at least 2 character.
+          </span>
+          <span *ngIf="companyForm.get('name')?.errors?.['maxlength']">
+            This field must have at most 20 characters.
+          </span>
+        </span>
+        <!-- <input [formControlName]="'name'" type="text"/> -->
       </div>
       <div class="w-full md:w-1/2 px-2 pt-5 inputHolder">
         <span class="input-titel">Company GST (Optional)</span>
         <label class="upload upload-popup py-3" for="creat-event-company-gst">
-          <input (change)="onChangePDF($event)" [formControlName]="'gst'" accept="application/pdf"
-                 class="appearance-none hidden" id="creat-event-company-gst" name="images" type="file"/>
-          <span class="input-titel text-base p-0"><i
-              class="icon-pdf_upload mr-2"></i> {{inputText ? inputText : 'Upload PDF'}}</span>
+          <input (change)="onChangePDF($event)" [formControlName]="'gst'" accept="application/pdf" class="appearance-none hidden" id="creat-event-company-gst" name="images" type="file"/>
+          <span class="input-titel text-base p-0"><i class="icon-pdf_upload mr-2"></i> {{inputText ? inputText : 'Upload PDF'}}</span>
         </label>
       </div>
     </div>
     <div class="flex items-end flex-wrap -mx-2">
-      <div class="w-full md:w-1/2 px-2 pt-5 inputHolder">
+      <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative">
         <span class="input-titel">Company Contact No</span>
         <input [formControlName]="'contact_no'" class="input" type="text"/>
       </div>
@@ -28,8 +38,7 @@
     </div>
     <div class="w-full pt-5">
       <span class="input-titel">About Our Company</span>
-      <textarea [formControlName]="'about'" class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md"
-                cols="30" rows="4"></textarea>
+      <textarea [formControlName]="'about'" class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md" cols="30" rows="4"></textarea>
     </div>
     <!-- Address  -->
     <div class="pt-5 -mx-2">
@@ -75,11 +84,9 @@
             </div>
             <div class="upload-holder">
               <label class="upload-photo">
-                <input (change)="uploadImage()" accept="image/png, image/jpeg, image/gif" class="appearance-none hidden"
-                       id="create-photo-upload" multiple name="images" type="file"/>
+                <input (change)="uploadImage()" accept="image/png, image/jpeg, image/gif" class="appearance-none hidden" id="create-photo-upload" multiple name="images" type="file"/>
                 <i class="icon-img_upload text-base text-quicksilver"></i>
-                <div class="mt-1 flex items-baseline justify-center"><span class="input-titel pt-1">Add Photos</span>
-                </div>
+                <div class="mt-1 flex items-baseline justify-center"><span class="input-titel pt-1">Add Photos</span></div>
               </label>
             </div>
           </div>
@@ -99,8 +106,7 @@
             </div>
             <div class="upload-holder">
               <label class="upload-photo">
-                <input (change)="uploadVideo()" accept="video/mp4" class="appearance-none hidden"
-                       id="create-video-upload" name="videos" type="file"/>
+                <input (change)="uploadVideo()" accept="video/mp4" class="appearance-none hidden" id="create-video-upload" name="videos" type="file"/>
                 <i class="icon-video_upload text-base text-quicksilver"></i>
                 <div class="mt-1 flex items-baseline justify-center">
                   <span class="input-titel pt-1">Add video</span>

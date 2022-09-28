@@ -12,7 +12,7 @@ import { CreateEventService } from '../../create-event.service';
 export class DiscountStepComponent implements OnInit {
 
   discountForm: any;
-  cities: any[];
+  equipmentOrItemSelect: any[];
 
   constructor(
     private _modalService: ModalService,
@@ -21,14 +21,14 @@ export class DiscountStepComponent implements OnInit {
     private _sNotify: SnotifyService, 
   ) {
 
-    
-    this.cities = [
-      { name: "New York", code: "NY" },
-      { name: "Rome", code: "RM" },
-      { name: "London", code: "LDN" },
-      { name: "Istanbul", code: "IST" },
-      { name: "Paris", code: "PRS" }
+    this.equipmentOrItemSelect = [
+      { name: "Table", code: "1" },
+      { name: "Sofa", code: "2" },
+      { name: "Chair", code: "3" },
+      { name: "Booth", code: "4" },
+      { name: "Stand", code: "5" }
     ];
+
   }
 
   ngOnInit(): void {

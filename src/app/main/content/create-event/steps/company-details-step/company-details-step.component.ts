@@ -1,16 +1,22 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SnotifyService } from 'ng-snotify';
 import { CONSTANTS } from 'src/app/main/common/constants';
 import { GlobalFunctions } from 'src/app/main/common/global-functions';
 
 declare var $: any;
+
+interface CDetails {
+  name: string;
+}
+
 @Component({
   selector: 'app-company-details-step',
   templateUrl: './company-details-step.component.html',
   styleUrls: ['./company-details-step.component.scss']
 })
+
 export class CompanyDetailsStepComponent implements OnInit {
   imgChangeEvt: any = '';
 
@@ -23,18 +29,28 @@ export class CompanyDetailsStepComponent implements OnInit {
   videoArr: any = [];
   permissionObj: any = [];
 
+  reactiveForm!: FormGroup;
+  cDetails: CDetails;
+
   constructor(
     private _formBuilder: FormBuilder,
     private _router: Router,
     private _globalFunctions: GlobalFunctions,
     private _sNotify: SnotifyService
-  ) { }
+  ) {
+    this.cDetails = {} as CDetails;
+  }
 
   ngOnInit(): void {
     this.companyForm = this._formBuilder.group({
-      name: ['', Validators.required],
+      // name: ['', Validators.required],
+      name: [this.cDetails.name, [
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(20),
+      ]],
       gst: [''],
-      contact_no: ['', Validators.required],
+      contact_no: ['', [Validators.required,Validators.minLength(10),Validators.maxLength(10)]],
       email: ['', Validators.required],
       about: [''],
       flat_no: [''],
@@ -47,34 +63,48 @@ export class CompanyDetailsStepComponent implements OnInit {
       videos: [this.videoArr],
     });
   }
-
-  validate(): boolean {
-    if (!this.companyForm.value.name || this.companyForm.value.name === "") {
-      this._sNotify.error('Name is required!', 'Oops!');
-      return false;
+  
+  public validate(): void {
+    if (this.companyForm.invalid) {
+      for (const control of Object.keys(this.companyForm.controls)) {
+        this.companyForm.controls[control].markAsTouched();
+      }
+      return;
     }
-    if (!this.companyForm.value.contact_no || this.companyForm.value.contact_no === "") {
-      this._sNotify.error('Contact No is required!', 'Oops!');
-      return false;
-    }
-    if (!this.companyForm.value.email || this.companyForm.value.email === "") {
-      this._sNotify.error('Email is required!', 'Oops!');
-      return false;
-    }
-    if (!this.companyForm.value.city || this.companyForm.value.city === "") {
-      this._sNotify.error('City is required!', 'Oops!');
-      return false;
-    }
-    if (!this.companyForm.value.state || this.companyForm.value.state === "") {
-      this._sNotify.error('State is required!', 'Oops!');
-      return false;
-    }
-    if (!this.companyForm.value.pincode || this.companyForm.value.pincode === "") {
-      this._sNotify.error('Pincode is required!', 'Oops!');
-      return false;
-    }
-    return true;
+    
+    this.cDetails = this.companyForm.value;
+    
+    console.info('Name:', this.cDetails.name);
   }
+
+
+  // validate(): boolean {
+  //   if (!this.companyForm.value.name || this.companyForm.value.name === "") {
+  //     this._sNotify.error('Name is required!', 'Oops!');
+  //     return false;
+  //   }
+  //   if (!this.companyForm.value.contact_no || this.companyForm.value.contact_no === "") {
+  //     this._sNotify.error('Contact No is required!', 'Oops!');
+  //     return false;
+  //   }
+  //   if (!this.companyForm.value.email || this.companyForm.value.email === "") {
+  //     this._sNotify.error('Email is required!', 'Oops!');
+  //     return false;
+  //   }
+  //   if (!this.companyForm.value.city || this.companyForm.value.city === "") {
+  //     this._sNotify.error('City is required!', 'Oops!');
+  //     return false;
+  //   }
+  //   if (!this.companyForm.value.state || this.companyForm.value.state === "") {
+  //     this._sNotify.error('State is required!', 'Oops!');
+  //     return false;
+  //   }
+  //   if (!this.companyForm.value.pincode || this.companyForm.value.pincode === "") {
+  //     this._sNotify.error('Pincode is required!', 'Oops!');
+  //     return false;
+  //   }
+  //   return true;
+  // }
 
   companyDetails(): void {
     // console.log(this.companyForm.value);
@@ -85,7 +115,9 @@ export class CompanyDetailsStepComponent implements OnInit {
     // if (!this.validate()) {
     //   return;
     // }
-    console.log(this.companyForm.value);
+    // console.log(this.companyForm.value);
+    
+    console.log(this.companyForm.get('name').errors.required);
   }
 
   onChangePDF(event: any): void {
