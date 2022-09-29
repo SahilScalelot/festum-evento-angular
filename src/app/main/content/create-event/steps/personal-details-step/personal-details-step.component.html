@@ -1,31 +1,40 @@
 <div [formGroup]="personalDetailForm" class="space-y-5">
   <div class="w-full flex items-end flex-wrap">
-    <div class="w-full px-2 inputHolder">
+    <div class="w-full px-2 inputHolder relative">
       <span class="input-titel">Full Name (Mr / Mrs / Ms) <span>*</span></span>
-      <input [formControlName]="'full_name'" class="input" name="full_name" required type="text"/>
+      <input [formControlName]="'full_name'" class="input" autocomplete="disabled" name="full_name" required type="text"/>
+      <span class="absolute top-full text-red-500 text-xs" *ngIf="this.personalDetailForm.get('full_name').invalid && this.personalDetailForm.get('full_name').touched">Name is required</span>
     </div>
   </div>
+
   <div class="w-full flex items-end flex-wrap">
-    <div class="w-full md:w-1/2 lg:w-1/3 px-2 py-2 lg:py-0 inputHolder">
+    <div class="w-full md:w-1/2 lg:w-1/3 px-2 py-2 lg:py-0 inputHolder relative">
       <div class="input-label-holder">
         <label class="input-titel">Mobile Number <span>*</span></label>
         <div class="input-checkd anim"><input [formControlName]="'mobile_hidden'" class="mr-2 cursor-pointer"
                                               name="mobile_hidden" type="checkbox"/>Hidden
+                                              
         </div>
+        
       </div>
       <input [formControlName]="'mobile'" class="input" name="mobile" required type="text" fuseValidNumber/>
+      <span class="absolute top-full text-red-500 text-xs" *ngIf="this.personalDetailForm.get('mobile').value == '' && this.personalDetailForm.get('mobile').touched else mobile">Mobile Number is required</span>
+
+      <ng-template #mobile>
+      <span class="absolute top-full text-red-500 text-xs" *ngIf="this.personalDetailForm.get('mobile').invalid && this.personalDetailForm.get('mobile').value ">Mobile Number is not valid</span>
+      </ng-template>
     </div>
+
     <div class="w-full md:w-1/2 lg:w-1/3 px-2 py-2 lg:py-0 inputHolder">
       <div class="input-label-holder">
         <label class="input-titel">Alternative Mobile Number(optional)</label>
         <div class="input-checkd anim">
-          <input [formControlName]="'alternate_mobile_hidden'" class="mr-2 cursor-pointer"
-                 name="alternate_mobile_hidden" type="checkbox"/>Hidden
+          <input [formControlName]="'alternate_mobile_hidden'" class="mr-2 cursor-pointer" name="alternate_mobile_hidden" type="checkbox"/>Hidden
         </div>
       </div>
       <input [formControlName]="'alternate_mobile'" class="input" name="alternate_mobile" type="text" fuseValidNumber/>
     </div>
-    <div class="w-full md:w-1/2 lg:w-1/3 px-2 py-2 lg:py-0 inputHolder">
+    <div class="w-full md:w-1/2 lg:w-1/3 px-2 py-2 lg:py-0 inputHolder relative">
       <div class="input-label-holder">
         <label class="input-titel">Email Address <span>*</span></label>
         <div class="input-checkd anim">
@@ -34,6 +43,7 @@
         </div>
       </div>
       <input [formControlName]="'email'" class="input" name="email" required type="text"/>
+      <span class="absolute top-full text-red-500 text-xs" *ngIf="this.personalDetailForm.get('email').invalid && this.personalDetailForm.get('email').touched">Please enter valid email</span>
     </div>
   </div>
   <div class="space-y-5">
@@ -41,7 +51,7 @@
     <div class="w-full flex flex-wrap">
       <div class="w-full md:w-1/2 lg:w-1/3 px-2 py-2 inputHolder">
         <span class="input-titel">Flat No.</span>
-        <input [formControlName]="'flat_number'" class="input" name="flat_number" required type="text" fuseValidNumber/>
+        <input [formControlName]="'flat_number'" class="input" name="flat_number" type="text" fuseValidNumber/>
       </div>
       <div class="w-full md:w-1/2 lg:w-1/3 px-2 py-2 inputHolder">
         <span class="input-titel">Street Name.</span>
@@ -49,19 +59,22 @@
       </div>
       <div class="w-full md:w-1/2 lg:w-1/3 px-2 py-2 inputHolder">
         <span class="input-titel">Area Name.</span>
-        <input [formControlName]="'area_name'" class="input" name="area_name" required type="text"/>
+        <input [formControlName]="'area_name'" class="input" name="area_name" type="text"/>
       </div>
-      <div class="w-full md:w-1/2 lg:w-1/3 px-2 py-2 inputHolder">
+      <div class="w-full md:w-1/2 lg:w-1/3 px-2 py-2 inputHolder relative">
         <label class="input-titel">City <span>*</span></label>
         <input [formControlName]="'city'" class="input" name="city" required type="text"/>
+        <span class="absolute top-full -mt-2 text-red-500 text-xs" *ngIf="this.personalDetailForm.get('city').invalid && this.personalDetailForm.get('city').touched">City is required</span>
       </div>
-      <div class="w-full md:w-1/2 lg:w-1/3 px-2 py-2 inputHolder">
+      <div class="w-full md:w-1/2 lg:w-1/3 px-2 py-2 inputHolder relative">
         <label class="input-titel">State <span>*</span></label>
         <input [formControlName]="'state'" class="input" name="state" required type="text"/>
+        <span class="absolute top-full -mt-2 text-red-500 text-xs" *ngIf="this.personalDetailForm.get('state').invalid && this.personalDetailForm.get('state').touched">State is required</span>
       </div>
-      <div class="w-full md:w-1/2 lg:w-1/3 px-2 py-2 inputHolder">
+      <div class="w-full md:w-1/2 lg:w-1/3 px-2 py-2 inputHolder relative">
         <label class="input-titel">Pincode <span>*</span></label>
         <input [formControlName]="'pincode'" class="input" name="pincode" required type="text" fuseValidNumber/>
+        <span class="absolute top-full -mt-2 text-red-500 text-xs" *ngIf="personalDetailForm.get('pincode').invalid && personalDetailForm.get('pincode').touched">Pincode is required</span>
       </div>
     </div>
   </div>
@@ -78,9 +91,11 @@
       <i class="icon-left_arrow mr-3"></i>
       <h5>Back</h5>
     </button>
-    <button [routerLink]="'/create-event/terms-and-conditions'" class="flex items-center active" type="button">
+    <button (click)="personalDetail()" class="flex items-center active" type="button">
       <h5>Next</h5>
       <i class="icon-right_arrow ml-3"></i>
     </button>
   </div>
 </div>
+
+<!-- [routerLink]="'/create-event/terms-and-conditions'" -->

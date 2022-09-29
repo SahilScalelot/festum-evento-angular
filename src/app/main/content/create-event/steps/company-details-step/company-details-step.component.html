@@ -4,36 +4,42 @@
     <div class="flex items-end flex-wrap -mx-2">
       <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative">
         <span class="input-titel">Company name</span>
-        <input class="input" type="text" id="name" name="name" formControlName="name" required minlength="2" maxlength="120" />
-        <span class="absolute top-full text-red-500 text-xs" *ngIf="companyForm.get('name')?.invalid && (companyForm.get('name')?.dirty || companyForm.get('name')?.touched)">
-          <span *ngIf="companyForm.get('name')?.errors?.['required']">
-            This field is required.
-          </span>
+        <input class="input" type="text" id="name" name="name" [formControlName]="'name'" required />
+        <span class="absolute top-full text-red-500 text-xs" *ngIf="companyForm.get('name')?.invalid && (companyForm.get('name')?.dirty && companyForm.get('name')?.touched)">
           <span *ngIf="companyForm.get('name')?.errors?.['minlength']">
             This field must have at least 2 character.
           </span>
-          <span *ngIf="companyForm.get('name')?.errors?.['maxlength']">
-            This field must have at most 20 characters.
-          </span>
         </span>
-        <!-- <input [formControlName]="'name'" type="text"/> -->
       </div>
-      <div class="w-full md:w-1/2 px-2 pt-5 inputHolder">
+      <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative">
         <span class="input-titel">Company GST (Optional)</span>
-        <label class="upload upload-popup py-3" for="creat-event-company-gst">
-          <input (change)="onChangePDF($event)" [formControlName]="'gst'" accept="application/pdf" class="appearance-none hidden" id="creat-event-company-gst" name="images" type="file"/>
+        <label class="upload upload-popup py-3">
+          <input (change)="onChangePDF($event)" [formControlName]="'gst'" accept="application/pdf" class="appearance-none hidden" id="company-gst" name="images" type="file"/>
           <span class="input-titel text-base p-0"><i class="icon-pdf_upload mr-2"></i> {{inputText ? inputText : 'Upload PDF'}}</span>
         </label>
+        <span class="absolute top-full text-red-500 text-xs" *ngIf="isInValidPDF">
+          This field must have at least 2 character.
+        </span>
       </div>
     </div>
     <div class="flex items-end flex-wrap -mx-2">
       <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative">
         <span class="input-titel">Company Contact No</span>
         <input [formControlName]="'contact_no'" class="input" type="text"/>
+        <span class="absolute top-full text-red-500 text-xs" *ngIf="companyForm.get('contact_no')?.invalid && (companyForm.get('contact_no')?.dirty && companyForm.get('contact_no')?.touched)">
+          <span *ngIf="companyForm.get('contact_no')?.errors?.['pattern']">
+            Please enter valid Contact Number.
+          </span>
+        </span>
       </div>
-      <div class="w-full md:w-1/2 px-2 pt-5 inputHolder">
+      <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative">
         <span class="input-titel">Company Email</span>
         <input [formControlName]="'email'" class="input" type="text"/>
+        <span class="absolute top-full text-red-500 text-xs" *ngIf="companyForm.get('email')?.invalid && (companyForm.get('email')?.dirty && companyForm.get('email')?.touched)">
+          <span *ngIf="companyForm.get('email')?.errors?.['pattern']">
+            Please enter valid Email.
+          </span>
+        </span>
       </div>
     </div>
     <div class="w-full pt-5">
@@ -56,17 +62,35 @@
           <span class="input-titel">Area Name.</span>
           <input [formControlName]="'area'" class="input" type="text"/>
         </div>
-        <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-5 inputHolder">
+        <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-5 inputHolder relative">
           <label class="input-titel">City<span class="text-magicPotion">*</span></label>
           <input [formControlName]="'city'" class="input" type="text"/>
+          <span class="absolute top-full text-red-500 text-xs" *ngIf="companyForm.get('city')?.invalid && (companyForm.get('city')?.dirty && companyForm.get('city')?.touched)">
+            <span *ngIf="companyForm.get('city')?.errors?.['required']">
+              City is required.
+            </span>
+          </span>
         </div>
-        <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-5 inputHolder">
+        <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-5 inputHolder relative">
           <label class="input-titel">State<span class="text-magicPotion">*</span></label>
           <input [formControlName]="'state'" class="input" type="text"/>
+          <span class="absolute top-full text-red-500 text-xs" *ngIf="companyForm.get('state')?.invalid && (companyForm.get('state')?.dirty && companyForm.get('state')?.touched)">
+            <span *ngIf="companyForm.get('state')?.errors?.['required']">
+              State is required.
+            </span>
+          </span>
         </div>
-        <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-5 inputHolder">
+        <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-5 inputHolder relative">
           <label class="input-titel">Pincode<span class="text-magicPotion">*</span></label>
           <input [formControlName]="'pincode'" class="input" type="text"/>
+          <span class="absolute top-full text-red-500 text-xs" *ngIf="companyForm.get('pincode')?.invalid && (companyForm.get('pincode')?.dirty && companyForm.get('pincode')?.touched)">
+            <span *ngIf="companyForm.get('pincode')?.errors?.['required']">
+              Pincode is required.
+            </span>
+            <span *ngIf="companyForm.get('pincode')?.errors?.['pattern']">
+              Please enter valid Pincode.
+            </span>
+          </span>
         </div>
       </div>
     </div>
@@ -82,7 +106,7 @@
                 <button (click)="removeImage(i)">Remove</button>
               </div>
             </div>
-            <div class="upload-holder">
+            <div class="upload-holder" *ngIf="photoArr.length < 5">
               <label class="upload-photo">
                 <input (change)="uploadImage()" accept="image/png, image/jpeg, image/gif" class="appearance-none hidden" id="create-photo-upload" multiple name="images" type="file"/>
                 <i class="icon-img_upload text-base text-quicksilver"></i>
@@ -104,7 +128,7 @@
                 <button (click)="removeVideo(i)">Remove</button>
               </div>
             </div>
-            <div class="upload-holder">
+            <div class="upload-holder" *ngIf="videoArr.length < 1">
               <label class="upload-photo">
                 <input (change)="uploadVideo()" accept="video/mp4" class="appearance-none hidden" id="create-video-upload" name="videos" type="file"/>
                 <i class="icon-video_upload text-base text-quicksilver"></i>

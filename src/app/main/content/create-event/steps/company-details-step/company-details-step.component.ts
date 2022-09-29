@@ -7,10 +7,6 @@ import { GlobalFunctions } from 'src/app/main/common/global-functions';
 
 declare var $: any;
 
-interface CDetails {
-  name: string;
-}
-
 @Component({
   selector: 'app-company-details-step',
   templateUrl: './company-details-step.component.html',
@@ -29,52 +25,34 @@ export class CompanyDetailsStepComponent implements OnInit {
   videoArr: any = [];
   permissionObj: any = [];
 
+  isInValidPDF: boolean = false;
+
   reactiveForm!: FormGroup;
-  cDetails: CDetails;
+
 
   constructor(
     private _formBuilder: FormBuilder,
     private _router: Router,
     private _globalFunctions: GlobalFunctions,
     private _sNotify: SnotifyService
-  ) {
-    this.cDetails = {} as CDetails;
-  }
+  ) {}
 
   ngOnInit(): void {
     this.companyForm = this._formBuilder.group({
-      // name: ['', Validators.required],
-      name: [this.cDetails.name, [
-        Validators.required,
-        Validators.minLength(2),
-        Validators.maxLength(20),
-      ]],
+      name: ['', [Validators.minLength(2)]],
       gst: [''],
-      contact_no: ['', [Validators.required,Validators.minLength(10),Validators.maxLength(10)]],
-      email: ['', Validators.required],
+      contact_no: ['', [Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
+      email: ['', [Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
       about: [''],
       flat_no: [''],
       street: [''],
       area: [''],
       city: ['', Validators.required],
       state: ['', Validators.required],
-      pincode: ['', Validators.required],
+      pincode: ['', [Validators.required, Validators.pattern('^[1-9]{1}[0-9]{2}\\s{0,1}[0-9]{3}$')]],
       images: [this.photoArr],
       videos: [this.videoArr],
     });
-  }
-  
-  public validate(): void {
-    if (this.companyForm.invalid) {
-      for (const control of Object.keys(this.companyForm.controls)) {
-        this.companyForm.controls[control].markAsTouched();
-      }
-      return;
-    }
-    
-    this.cDetails = this.companyForm.value;
-    
-    console.info('Name:', this.cDetails.name);
   }
 
 
@@ -112,15 +90,29 @@ export class CompanyDetailsStepComponent implements OnInit {
     //   return;
     // }
 
-    // if (!this.validate()) {
-    //   return;
-    // }
-    // console.log(this.companyForm.value);
+    if (this.companyForm.invalid) {
+      // this.companyForm.controls.markAsDirty();
+      Object.keys(this.companyForm.controls).forEach((key) => {
+        this.companyForm.controls[key].touched = true;
+        this.companyForm.controls[key].markAsDirty();
+      });
+      // console.log(this.companyForm);
+      return;
+    }
     
-    console.log(this.companyForm.get('name').errors.required);
+    // console.log(this.companyForm.get('name').errors.required);
+    // console.log(this.companyForm.get('gst'));
   }
 
-  onChangePDF(event: any): void {
+  onChangePDF(event: any): any {
+    const pdfUpload = $('#company-gst')[0].files[0];
+    this.isInValidPDF = false;
+    if (pdfUpload != undefined && pdfUpload.type != 'application/pdf') {
+      this._sNotify.error('File type is Invalid.', 'Oops!');
+      $('#company-gst').focus();
+      this.isInValidPDF = true;
+      return false;
+    }
     this.inputText = event?.target?.files[0]?.name;
   }
 
@@ -163,15 +155,15 @@ export class CompanyDetailsStepComponent implements OnInit {
         return false;
       }
 
-      const video_size = video.size / 1024 / 1024;
-      if (video_size > CONSTANTS.maxVideoSizeInMB) {
-        this._sNotify.error('Maximum Video Size is ' + CONSTANTS.maxVideoSizeInMB + 'MB.', 'Oops!');
+      const video_size = video.size / 1024 / 1024 / 1024;
+      if (video_size > CONSTANTS.maxCompanyVideoSizeInMB) {
+        this._sNotify.error('Maximum Company Video Size is ' + CONSTANTS.maxCompanyVideoSizeInMB + 'GB.', 'Oops!');
         $('#create-video-upload').focus();
         return false;
       }
-
-      if (this.videoArr && this.videoArr.length && this.videoArr.length >= 2) {
-        this._sNotify.error('Maximum 2 videos can upload!', 'Oops!');
+      
+      if (this.videoArr && this.videoArr.length && this.videoArr.length >= 1) {
+        this._sNotify.error('Maximum 1 videos can upload!', 'Oops!');
         return false;
       }
 

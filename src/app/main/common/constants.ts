@@ -118,6 +118,7 @@ export const CONSTANTS = {
 
   maxImageSizeInMB: 5,
   maxVideoSizeInMB: 512,
+  maxCompanyVideoSizeInMB: 2,
   defaultMapZoom: 12,
   latitude: 21.1702,
   longitude: 72.8311,
