@@ -28,6 +28,8 @@ export class LocationStepComponent implements OnInit {
   finaLatLong: any = {lat: CONSTANTS.latitude, lng: CONSTANTS.longitude};
   map: google.maps.Map | any;
   @ViewChild('search') public searchElementRef: ElementRef | any;
+  
+  locationObj: any = {event_location: {}};
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -42,14 +44,22 @@ export class LocationStepComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.locationForm = this._formBuilder.group({
-      flat_number: [null],
-      street_name: [null],
-      area_name: [null],
-      city: ['', Validators.required],
-      state: ['', Validators.required],
-      pincode: ['', [Validators.required, Validators.pattern('^[1-9]{1}[0-9]{2}\\s{0,1}[0-9]{3}$')]],
+    if (localStorage.getItem('newEventObj')) {
+      const eventString: any = localStorage.getItem('newEventObj');
+      this.locationObj = JSON.parse(eventString);
+    }
+    this.locationForm = this._formBuilder.group({      
+      flat_number: [this.locationObj?.event_location?.flat_number],
+      street_name: [this.locationObj?.event_location?.street_name],
+      area_name: [this.locationObj?.event_location?.area_name],
+      longitude: [this.locationObj?.event_location?.longitude],
+      latitude: [this.locationObj?.event_location?.latitude],
+      city: [this.locationObj?.event_location?.city, [Validators.required]],
+      state: [this.locationObj?.event_location?.state, [Validators.required]],
+      pincode: [this.locationObj?.event_location?.pincode, [Validators.required, Validators.pattern('^[1-9]{1}[0-9]{2}\\s{0,1}[0-9]{3}$')]],
     });
+    this.lat = this.locationObj?.event_location?.latitude || CONSTANTS.latitude;
+    this.lng = this.locationObj?.event_location?.longitude || CONSTANTS.longitude;
 
     // this.customJs('assets/js/form-wizard.js').onload = () => {
     // };
@@ -103,6 +113,11 @@ export class LocationStepComponent implements OnInit {
     this.finaLatLong = {lat: $event.coords.lat, lng: $event.coords.lng};
     this.lat = $event.coords.lat;
     this.lng = $event.coords.lng;
+    this.locationForm.patchValue({
+      latitude: $event.coords.lat,
+      longitude: $event.coords.lng
+    });
+    
     this.getAddress(this.lat, this.lng);
   }
 
@@ -122,8 +137,6 @@ export class LocationStepComponent implements OnInit {
   }
 
   addMapLocation() {
-    console.log(this.finaLatLong);
-    
     this._http.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.finaLatLong.lat},${this.finaLatLong.lng}&key=${CONSTANTS.googleMapApiKey}`).subscribe(async (res: any) => {
       let selectedState: any = {};
       if (selectedState) {
@@ -160,13 +173,7 @@ export class LocationStepComponent implements OnInit {
       if (selectedState) {
         this.getCity = selectedState.citys;
       }
-      this._modalService.close("google-map");
     });
-    this._modalService.close("google-map");
-  }
-
-  googleMap() {
-    this._modalService.open('google-map');
   }
 
   clickedMarker(label: string) {
@@ -186,8 +193,28 @@ export class LocationStepComponent implements OnInit {
     // if (!this.validate()) {
     //   return;
     // }
-    console.log(this.locationForm);
-    // this._router.navigate(['create-event/photos-and-videos']);
+    
+    if (this.locationForm.invalid) {
+      Object.keys(this.locationForm.controls).forEach((key) => {
+        this.locationForm.controls[key].touched = true;
+        this.locationForm.controls[key].markAsDirty();
+      });
+      return;
+    }
+
+    const preparedLocationEventObj = this.prepareLocationEventObj(this.locationForm.value);
+    this.locationObj.event_location = preparedLocationEventObj;
+    
+    JSON.stringify({event_location: preparedLocationEventObj});
+    localStorage.setItem('newEventObj', JSON.stringify(this.locationObj));
+    this._router.navigate(['/create-event/photos-and-videos']);
+  }
+
+  prepareLocationEventObj(locationObj: any = {}): any {
+    const preparedLocationEventObj: any = locationObj;
+    preparedLocationEventObj.longitude = locationObj.longitude;
+    preparedLocationEventObj.latitude = locationObj.latitude;
+    return preparedLocationEventObj;
   }
 
   // mapDragged($event: any) {

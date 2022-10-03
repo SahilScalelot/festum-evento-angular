@@ -32,11 +32,13 @@ export class AddEditEventDialogComponent implements OnInit {
       let eventString: any = localStorage.getItem('newEventObj');
       const newEventObj = JSON.parse(eventString);
       if (newEventObj && newEventObj.add_event) {
-        this.newEventObj = newEventObj.add_event;
+        this.newEventObj = newEventObj;
       }
     }
 
-    this.eventType = CONSTANTS.unitTypeArr[CONSTANTS.eventType.B2B].options;
+    this.eventObj = this.newEventObj.add_event;
+    const eventType: any = (this.eventObj && this.eventObj.event_type) ? this.eventObj.event_type : CONSTANTS.eventType.B2B
+    this.eventType = CONSTANTS.unitTypeArr[eventType].options;
     this.newEventForm = this._formBuilder.group({
       name: [this.eventObj?.name ? this.eventObj.name : '', [Validators.required]],
       event_type: [this.eventObj?.event_type ? this.eventObj.event_type : CONSTANTS.eventType.B2B, Validators.required],
@@ -69,8 +71,11 @@ export class AddEditEventDialogComponent implements OnInit {
     if (preparedEventForm.other_category && preparedEventForm.other_category != '') {
       preparedEventForm.event_category = preparedEventForm.other_category;
     }
-    this.newEventObj = preparedEventForm;
-    localStorage.setItem('newEventObj', JSON.stringify({add_event: this.newEventObj}));
+    // if (!this.newEventObj.add_event) {
+    //   this.newEventObj.add_event = {};
+    // }
+    this.newEventObj.add_event = preparedEventForm;
+    localStorage.setItem('newEventObj', JSON.stringify(this.newEventObj));
     this.closePopup();
   }
 

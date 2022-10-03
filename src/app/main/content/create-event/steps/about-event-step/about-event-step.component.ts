@@ -11,7 +11,7 @@ import {SnotifyService} from 'ng-snotify';
 export class AboutEventStepComponent implements OnInit {
   minDateValue: any = new Date();
   aboutEventForm: any;
-  eventObj: any = {about_event: {}};
+  eventObj: any = {};
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -53,7 +53,7 @@ export class AboutEventStepComponent implements OnInit {
     localStorage.setItem('newEventObj', JSON.stringify(this.eventObj));
     this._router.navigate(['/create-event/arrangement']);
 
-    console.log(this.aboutEventForm);
+    // console.log(this.aboutEventForm);
   }
 
   prepareAboutEventObj(aboutEventObj: any): any {
