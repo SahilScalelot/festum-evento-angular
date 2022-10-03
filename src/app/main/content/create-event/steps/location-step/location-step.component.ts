@@ -46,9 +46,9 @@ export class LocationStepComponent implements OnInit {
       flat_number: [null],
       street_name: [null],
       area_name: [null],
-      city: [null, [Validators.required]],
-      state: [null, [Validators.required]],
-      pincode: [null, [Validators.required, Validators.maxLength(6)]],
+      city: ['', Validators.required],
+      state: ['', Validators.required],
+      pincode: ['', [Validators.required, Validators.pattern('^[1-9]{1}[0-9]{2}\\s{0,1}[0-9]{3}$')]],
     });
 
     // this.customJs('assets/js/form-wizard.js').onload = () => {
@@ -122,6 +122,8 @@ export class LocationStepComponent implements OnInit {
   }
 
   addMapLocation() {
+    console.log(this.finaLatLong);
+    
     this._http.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.finaLatLong.lat},${this.finaLatLong.lng}&key=${CONSTANTS.googleMapApiKey}`).subscribe(async (res: any) => {
       let selectedState: any = {};
       if (selectedState) {
@@ -179,29 +181,13 @@ export class LocationStepComponent implements OnInit {
     //   draggable: true
     // });
   }
-
-  validate(): boolean {
-    if (!this.locationForm.value.city || this.locationForm.value.city === "") {
-      this._sNotify.error('City is required!', 'Oops!');
-      return false;
-    }
-    if (!this.locationForm.value.state || this.locationForm.value.state === "") {
-      this._sNotify.error('State is required!', 'Oops!');
-      return false;
-    }
-    if (!this.locationForm.value.pincode || this.locationForm.value.pincode === "") {
-      this._sNotify.error('Pincode is required!', 'Oops!');
-      return false;
-    }
-    return true;
-  }
-
+  
   submitLocation() {
-    if (!this.validate()) {
-      return;
-    }
-    console.log(this.locationForm.value);
-    this._router.navigate(['create-event/photos-and-videos']);
+    // if (!this.validate()) {
+    //   return;
+    // }
+    console.log(this.locationForm);
+    // this._router.navigate(['create-event/photos-and-videos']);
   }
 
   // mapDragged($event: any) {

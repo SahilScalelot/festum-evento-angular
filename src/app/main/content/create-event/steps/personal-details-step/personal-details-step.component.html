@@ -11,36 +11,26 @@
     <div class="w-full md:w-1/2 lg:w-1/3 px-2 py-2 lg:py-0 inputHolder relative">
       <div class="input-label-holder">
         <label class="input-titel">Mobile Number <span>*</span></label>
-        <div class="input-checkd anim"><input [formControlName]="'mobile_hidden'" class="mr-2 cursor-pointer"
-                                              name="mobile_hidden" type="checkbox"/>Hidden
-                                              
-        </div>
-        
+        <label class="input-checkd anim cursor-pointer"><input [formControlName]="'mobile_hidden'" class="mr-2 cursor-pointer" name="mobile_hidden" type="checkbox"/> Hidden</label>
       </div>
       <input [formControlName]="'mobile'" class="input" name="mobile" required type="text" fuseValidNumber/>
       <span class="absolute top-full text-red-500 text-xs" *ngIf="this.personalDetailForm.get('mobile').value == '' && this.personalDetailForm.get('mobile').touched else mobile">Mobile Number is required</span>
-
       <ng-template #mobile>
-      <span class="absolute top-full text-red-500 text-xs" *ngIf="this.personalDetailForm.get('mobile').invalid && this.personalDetailForm.get('mobile').value ">Mobile Number is not valid</span>
+        <span class="absolute top-full text-red-500 text-xs" *ngIf="this.personalDetailForm.get('mobile').invalid && this.personalDetailForm.get('mobile').value ">Mobile Number is not valid</span>
       </ng-template>
     </div>
 
     <div class="w-full md:w-1/2 lg:w-1/3 px-2 py-2 lg:py-0 inputHolder">
       <div class="input-label-holder">
         <label class="input-titel">Alternative Mobile Number(optional)</label>
-        <div class="input-checkd anim">
-          <input [formControlName]="'alternate_mobile_hidden'" class="mr-2 cursor-pointer" name="alternate_mobile_hidden" type="checkbox"/>Hidden
-        </div>
+        <label class="input-checkd anim cursor-pointer"><input [formControlName]="'alternate_mobile_hidden'" class="mr-2 cursor-pointer" name="alternate_mobile_hidden" type="checkbox"/> Hidden</label>
       </div>
       <input [formControlName]="'alternate_mobile'" class="input" name="alternate_mobile" type="text" fuseValidNumber/>
     </div>
     <div class="w-full md:w-1/2 lg:w-1/3 px-2 py-2 lg:py-0 inputHolder relative">
       <div class="input-label-holder">
         <label class="input-titel">Email Address <span>*</span></label>
-        <div class="input-checkd anim">
-          <input [formControlName]="'email_hidden'" class="mr-2 cursor-pointer" name="email_hidden" type="checkbox"/>
-          Hidden
-        </div>
+        <label class="input-checkd anim cursor-pointer"><input [formControlName]="'email_hidden'" class="mr-2 cursor-pointer" name="email_hidden" type="checkbox"/> Hidden</label>
       </div>
       <input [formControlName]="'email'" class="input" name="email" required type="text"/>
       <span class="absolute top-full text-red-500 text-xs" *ngIf="this.personalDetailForm.get('email').invalid && this.personalDetailForm.get('email').touched">Please enter valid email</span>

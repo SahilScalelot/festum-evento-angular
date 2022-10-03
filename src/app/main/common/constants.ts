@@ -120,8 +120,8 @@ export const CONSTANTS = {
   maxVideoSizeInMB: 512,
   maxCompanyVideoSizeInMB: 2,
   defaultMapZoom: 12,
-  latitude: 21.1702,
-  longitude: 72.8311,
+  latitude: 21.228125,
+  longitude: 72.833771,
   googleMapApiKey: 'AIzaSyDLgr8YB5IK8dBIEWClexZGzXaB7UlVm7Q'
 };
 

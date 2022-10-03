@@ -55,60 +55,23 @@ export class CompanyDetailsStepComponent implements OnInit {
     });
   }
 
-
-  // validate(): boolean {
-  //   if (!this.companyForm.value.name || this.companyForm.value.name === "") {
-  //     this._sNotify.error('Name is required!', 'Oops!');
-  //     return false;
-  //   }
-  //   if (!this.companyForm.value.contact_no || this.companyForm.value.contact_no === "") {
-  //     this._sNotify.error('Contact No is required!', 'Oops!');
-  //     return false;
-  //   }
-  //   if (!this.companyForm.value.email || this.companyForm.value.email === "") {
-  //     this._sNotify.error('Email is required!', 'Oops!');
-  //     return false;
-  //   }
-  //   if (!this.companyForm.value.city || this.companyForm.value.city === "") {
-  //     this._sNotify.error('City is required!', 'Oops!');
-  //     return false;
-  //   }
-  //   if (!this.companyForm.value.state || this.companyForm.value.state === "") {
-  //     this._sNotify.error('State is required!', 'Oops!');
-  //     return false;
-  //   }
-  //   if (!this.companyForm.value.pincode || this.companyForm.value.pincode === "") {
-  //     this._sNotify.error('Pincode is required!', 'Oops!');
-  //     return false;
-  //   }
-  //   return true;
-  // }
-
   companyDetails(): void {
-    // console.log(this.companyForm.value);
-    // if (this.companyForm.invalid) {
-    //   return;
-    // }
-
     if (this.companyForm.invalid) {
       // this.companyForm.controls.markAsDirty();
       Object.keys(this.companyForm.controls).forEach((key) => {
         this.companyForm.controls[key].touched = true;
         this.companyForm.controls[key].markAsDirty();
       });
-      // console.log(this.companyForm);
       return;
     }
-    
-    // console.log(this.companyForm.get('name').errors.required);
-    // console.log(this.companyForm.get('gst'));
+    console.log(this.companyForm);
   }
 
   onChangePDF(event: any): any {
     const pdfUpload = $('#company-gst')[0].files[0];
     this.isInValidPDF = false;
     if (pdfUpload != undefined && pdfUpload.type != 'application/pdf') {
-      this._sNotify.error('File type is Invalid.', 'Oops!');
+      // this._sNotify.error('File type is Invalid.', 'Oops!');
       $('#company-gst').focus();
       this.isInValidPDF = true;
       return false;
