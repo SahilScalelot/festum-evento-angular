@@ -65,11 +65,7 @@ export class PhotosVideosStepComponent implements OnInit {
   }
   
   readURL(event: any):void {
-    // if(event && event.target && event.target.files && event.target.files.length && event.target.files[0].name){
-      this.inputText = event?.target?.files[0]?.name;
-    // } else {
-      // this.inputText = "";
-    // }
+    this.inputText = event?.target?.files[0]?.name;
   }
 
   async onFileChange(event: any, imageFor: string, key = 0) {
@@ -90,14 +86,6 @@ export class PhotosVideosStepComponent implements OnInit {
           } else {
             this._modalService.open("photo");
           }
-          // if (event.target && event.target.files && event.target.files.length > 0) {
-          //   for (let i = 0; i < event.target.files.length; i++) {
-          //     const file = event.target.files[i];
-          //     // this.photoObj[key] = file;
-          //     this.photoObj[i] = file;
-          //   }
-          //   this._modalService.open("photo");
-          // }
           break;
         case 'video':
           this.photosNgForm.resetForm();
@@ -107,10 +95,6 @@ export class PhotosVideosStepComponent implements OnInit {
           } else {
             this._modalService.open("video");
           }
-          // if (event.target.files.length > 0) {
-          //   const file = event.target.files[0];
-          //   this.videoObj[key] = file;
-          // }
           break;
         case 'permission':
           const file = event.target.files[0];

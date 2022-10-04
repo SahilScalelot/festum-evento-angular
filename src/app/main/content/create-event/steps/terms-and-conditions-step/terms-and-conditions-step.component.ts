@@ -15,12 +15,18 @@ export class TermsAndConditionsStepComponent implements OnInit {
   editorConfig: any = {};
   agreeTAndC: boolean = false;
 
+  termsAndConditionsObj: any = {terms_and_conditions: {}};
+
   constructor(
     private _formBuilder: FormBuilder,
     private _modalService: ModalService
   ) {}
 
   ngOnInit(): void {
+    if (localStorage.getItem('newEventObj')) {
+      const eventString: any = localStorage.getItem('newEventObj');
+      this.termsAndConditionsObj = JSON.parse(eventString);
+    }
     this.editorConfig = {
       toolbar: [
         'heading', '|',
@@ -96,7 +102,7 @@ export class TermsAndConditionsStepComponent implements OnInit {
     this._preparePersonalDetailForm();
   }
 
-  onTextEditorReady(editor: any, fieldForSetData: any) {
+  onTextEditorReady(editor: any, fieldForSetData: any): void {
     editor.ui.getEditableElement().parentElement.insertBefore(
       editor.ui.view.toolbar.element,
       editor.ui.getEditableElement()
@@ -104,23 +110,6 @@ export class TermsAndConditionsStepComponent implements OnInit {
     // if (this.productObj[fieldForSetData]) {
     //   editor.setData(this.productObj[fieldForSetData]);
     // }
-  }
-
-  saveFullEvent(): void {
-    console.log(this.termsAndConditionsForm.value);
-  }
-
-  private _preparePersonalDetailForm(): void {
-    this.termsAndConditionsForm = this._formBuilder.group({
-      event_terms_and_conditions: [null, [Validators.required]],
-      facebook_url: [null],
-      youtube_url: [null],
-      twitter_url: [null],
-      pinterest_url: [null],
-      instagram_url: [null],
-      linkedin_url: [null],
-      terms_and_conditions: [false, {disabled: true}],
-    });
   }
 
   tAndCPop(): void {
@@ -138,5 +127,42 @@ export class TermsAndConditionsStepComponent implements OnInit {
   applyTAndC(): void {
     this.termsAndConditionsForm.get('terms_and_conditions').setValue(true);
     this._modalService.close("tandc");
+  }
+
+  saveFullEvent(): void {
+    console.log(this.termsAndConditionsForm.value);
+
+    if (this.termsAndConditionsForm.invalid) {
+      // this.termsAndConditionsForm.controls.markAsDirty();
+      Object.keys(this.termsAndConditionsForm.controls).forEach((key) => {
+        this.termsAndConditionsForm.controls[key].touched = true;
+        this.termsAndConditionsForm.controls[key].markAsDirty();
+      });
+      return;
+    }
+    
+    const preparedObj = this.prepareObj(this.termsAndConditionsForm.value);
+    this.termsAndConditionsObj.terms_and_conditions = preparedObj;
+    
+    JSON.stringify({terms_and_conditions: preparedObj});
+    localStorage.setItem('newEventObj', JSON.stringify(this.termsAndConditionsObj));
+  }
+  
+  prepareObj(companyObj: any = {}): any {
+    const preparedObj: any = companyObj;
+    return preparedObj;
+  }
+  
+  private _preparePersonalDetailForm(): void {
+    this.termsAndConditionsForm = this._formBuilder.group({
+      event_terms_and_conditions: [this.termsAndConditionsObj?.terms_and_conditions?.event_terms_and_conditions, [Validators.required]],
+      facebook_url: [this.termsAndConditionsObj?.terms_and_conditions?.facebook_url],
+      youtube_url: [this.termsAndConditionsObj?.terms_and_conditions?.youtube_url],
+      twitter_url: [this.termsAndConditionsObj?.terms_and_conditions?.twitter_url],
+      pinterest_url: [this.termsAndConditionsObj?.terms_and_conditions?.pinterest_url],
+      instagram_url: [this.termsAndConditionsObj?.terms_and_conditions?.instagram_url],
+      linkedin_url: [this.termsAndConditionsObj?.terms_and_conditions?.linkedin_url],
+      terms_and_conditions: [false, {disabled: true}],
+    });
   }
 }

@@ -11,6 +11,8 @@ import { SnotifyService } from 'ng-snotify';
 export class PersonalDetailsStepComponent implements OnInit {
   personalDetailForm: any;
   submit: boolean = false;
+  
+  personalObj: any = {personal_details: {}};
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -19,108 +21,52 @@ export class PersonalDetailsStepComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this._preparePersonalDetailForm();
-  }
+    if (localStorage.getItem('newEventObj')) {
+      const eventString: any = localStorage.getItem('newEventObj');
+      this.personalObj = JSON.parse(eventString);
+    }
+    console.log();
 
-  private _preparePersonalDetailForm(): void {
     this.personalDetailForm = this._formBuilder.group({
-      full_name: [null, [Validators.required]],
-      mobile: [
-        '',
-        [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')],
-      ],
-      mobile_hidden: [false],
-      alternate_mobile: [null],
-      alternate_mobile_hidden: [false],
-      email: [
-        '',
-        [
-          Validators.required,
-          Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'),
-        ],
-      ],
-      email_hidden: [false],
-      flat_number: [null],
-      street_name: [null],
-      area_name: [null],
-      state: [null, [Validators.required]],
-      city: [null, [Validators.required]],
-      pincode: [null, [Validators.required, Validators.maxLength(6)]],
+      full_name: [this.personalObj?.personal_details?.full_name, [Validators.required]],
+      mobile: [this.personalObj?.personal_details?.mobile, [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
+      mobile_hidden: [this.personalObj?.personal_details?.mobile_hidden],
+      alternate_mobile: [this.personalObj?.personal_details?.alternate_mobile, [Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
+      alternate_mobile_hidden: [this.personalObj?.personal_details?.alternate_mobile_hidden],
+      email: [this.personalObj?.personal_details?.email, [Validators.required,Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
+      email_hidden: [this.personalObj?.personal_details?.email_hidden],
+      flat_number: [this.personalObj?.personal_details?.flat_number],
+      street_name: [this.personalObj?.personal_details?.street_name],
+      area_name: [this.personalObj?.personal_details?.area_name],
+      state: [this.personalObj?.personal_details?.state, [Validators.required]],
+      city: [this.personalObj?.personal_details?.city, [Validators.required]],
+      pincode: [this.personalObj?.personal_details?.pincode, [Validators.required, Validators.pattern('^[1-9]{1}[0-9]{2}\\s{0,1}[0-9]{3}$')]],
     });
   }
-
-  // get full_name() {
-  //   return this.personalDetailForm.get('full_name');
-  // }
-  // get mobile() {
-  //   return this.personalDetailForm.get('mobile');
-  // }
-  // get email() {
-  //   return this.personalDetailForm.get('email');
-  // }
-  // get state() {
-  //   return this.personalDetailForm.get('state');
-  // }
-  // get city() {
-  //   return this.personalDetailForm.get('city');
-  // }
-  // get pincode() {
-  //   return this.personalDetailForm.get('pincode');
-  // }
 
   personalDetail(): any {
     console.log(this.personalDetailForm.valid)
     console.log(this.personalDetailForm)
-      if (!this.personalDetailForm.valid) {
-        return;
-      }
-      this._router.navigate(['create-event/terms-and-conditions']);
+
+    if (this.personalDetailForm.invalid) {
+      // this.personalDetailForm.controls.markAsDirty();
+      Object.keys(this.personalDetailForm.controls).forEach((key) => {
+        this.personalDetailForm.controls[key].touched = true;
+        this.personalDetailForm.controls[key].markAsDirty();
+      });
+      return;
+    }
+
+    const preparedObj = this.prepareObj(this.personalDetailForm.value);
+    this.personalObj.personal_details = preparedObj;
+    
+    JSON.stringify({personal_details: preparedObj});
+    localStorage.setItem('newEventObj', JSON.stringify(this.personalObj));
+    this._router.navigate(['create-event/terms-and-conditions']);
+  }
+
+  prepareObj(personalObj: any = {}): any {
+    const preparedObj: any = personalObj;
+    return preparedObj;
+  }
 }
-}
-
-// validate(): any {
-//   if (!this.personalDetailForm.get('full_name').valid) {
-//     // console.log(this.personalDetailForm.controls.full_name.status)
-//     this._sNotify.error('Please enter valid name', 'Oops!');
-//     return false;
-//     // this._router.navigate(['create-event/personal-details'])
-//   }
-
-//   if (!this.personalDetailForm.get('full_name').valid) {
-//     this._sNotify.error('Please enter valid Number', 'Oops!');
-//     return false;
-//   }
-
-//   if (!this.personalDetailForm.get('email').valid) {
-//     this._sNotify.error('please enter valid email', 'Oops!');
-//     return false;
-//   }
-
-//   if (!this.personalDetailForm.get('city').valid) {
-//     this._sNotify.error('city Not valid', 'Oops!');
-//     return false;
-//   }
-
-//   if (!this.personalDetailForm.get('state').valid) {
-//     this._sNotify.error('state Not valid', 'Oops!');
-//     return false;
-//   }
-
-//   if (!this.personalDetailForm.get('pincode').valid) {
-//     this._sNotify.error('pincode Not valid', 'Oops!');
-//     return false;
-//   }
-//   return true;
-// }
-
-// personalDetail(): any {
-//   if (!this.validate()) {
-//     return;
-//   }
-//   this._router.navigate(['create-event/terms-and-conditions']);
-
-//   // if(this.personalDetailForm.full_name.invalid){
-//   //   this._sNotify.error('Name is requred', 'Oops!');
-//   //   return false;
-//   // }
-// }

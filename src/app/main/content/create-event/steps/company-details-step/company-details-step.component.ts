@@ -29,6 +29,7 @@ export class CompanyDetailsStepComponent implements OnInit {
 
   reactiveForm!: FormGroup;
 
+  companyObj: any = {company_details: {}};
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -38,33 +39,28 @@ export class CompanyDetailsStepComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    if (localStorage.getItem('newEventObj')) {
+      const eventString: any = localStorage.getItem('newEventObj');
+      this.companyObj = JSON.parse(eventString);
+    }
+    
     this.companyForm = this._formBuilder.group({
-      name: ['', [Validators.minLength(2)]],
+      name: [this.companyObj?.company_details?.name, [Validators.minLength(2)]],
       gst: [''],
-      contact_no: ['', [Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
-      email: ['', [Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
-      about: [''],
-      flat_no: [''],
-      street: [''],
-      area: [''],
-      city: ['', Validators.required],
-      state: ['', Validators.required],
-      pincode: ['', [Validators.required, Validators.pattern('^[1-9]{1}[0-9]{2}\\s{0,1}[0-9]{3}$')]],
+      contact_no: [this.companyObj?.company_details?.contact_no, [Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
+      email: [this.companyObj?.company_details?.email, [Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
+      about: [this.companyObj?.company_details?.about],
+      flat_no: [this.companyObj?.company_details?.flat_no],
+      street: [this.companyObj?.company_details?.street],
+      area: [this.companyObj?.company_details?.area],
+      city: [this.companyObj?.company_details?.city, Validators.required],
+      state: [this.companyObj?.company_details?.state, Validators.required],
+      pincode: [this.companyObj?.company_details?.pincode, [Validators.required, Validators.pattern('^[1-9]{1}[0-9]{2}\\s{0,1}[0-9]{3}$')]],
       images: [this.photoArr],
       videos: [this.videoArr],
+      // images: [this.photoArr],
+      // videos: [this.videoArr],
     });
-  }
-
-  companyDetails(): void {
-    if (this.companyForm.invalid) {
-      // this.companyForm.controls.markAsDirty();
-      Object.keys(this.companyForm.controls).forEach((key) => {
-        this.companyForm.controls[key].touched = true;
-        this.companyForm.controls[key].markAsDirty();
-      });
-      return;
-    }
-    console.log(this.companyForm);
   }
 
   onChangePDF(event: any): any {
@@ -144,5 +140,30 @@ export class CompanyDetailsStepComponent implements OnInit {
 
   removeVideo(index: number) {
     this.videoArr.splice(index, 1);
+  }
+
+  companyDetails(): void {
+    console.log(this.companyForm.value);
+
+    if (this.companyForm.invalid) {
+      // this.companyForm.controls.markAsDirty();
+      Object.keys(this.companyForm.controls).forEach((key) => {
+        this.companyForm.controls[key].touched = true;
+        this.companyForm.controls[key].markAsDirty();
+      });
+      return;
+    }
+
+    const preparedObj = this.prepareObj(this.companyForm.value);
+    this.companyObj.company_details = preparedObj;
+    
+    JSON.stringify({company_details: preparedObj});
+    localStorage.setItem('newEventObj', JSON.stringify(this.companyObj));
+    // this._router.navigate(['/create-event/personal-details']);
+  }
+  
+  prepareObj(companyObj: any = {}): any {
+    const preparedObj: any = companyObj;
+    return preparedObj;
   }
 }
