@@ -46,12 +46,12 @@ export class PhotosVideosStepComponent implements OnInit {
     });
 
     this.photosForm = this._formBuilder.group({
-      image: [null, [Validators.required]],
+      image: [null],
       details: [null]
     });
 
     this.videoForm = this._formBuilder.group({
-      video: [null, [Validators.required]],
+      video: [null],
       details: [null]
     });
 
@@ -213,9 +213,8 @@ export class PhotosVideosStepComponent implements OnInit {
     if (!this.validate()) {
       return;
     }
-    console.log(this.photosAndVideosForm.value);
     // localStorage.setItem('newEventObj', JSON.stringify(this.photosAndVideosForm.value))
-    // this._router.navigate(['/create-event/permission']);
+    this._router.navigate(['/create-event/permission']);
   }
 
 }

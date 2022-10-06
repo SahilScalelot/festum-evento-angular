@@ -11,14 +11,10 @@
           <span class="px-3 py-1 rounded-sm text-xs text-white font-bold bg-magicPotion">Unverified</span>
           <span class="px-3 py-1 rounded-sm text-xs text-white font-bold bg-caribbeanGreen">Booking Accepting</span>
         </div>
-        <h2>{{ events[0].name }}</h2>
+        <h2>{{ events[0].event.name }}</h2>
         <div class="flex items-center space-x-1">
-          <i class="icon-rating text-[#ECA926] text-sm"></i>
-          <i class="icon-rating text-[#ECA926] text-sm"></i>
-          <i class="icon-rating text-[#ECA926] text-sm"></i>
-          <i class="icon-rating text-[#999] text-sm"></i>
-          <i class="icon-rating text-[#999] text-sm"></i>
-          <span class="text-quicksilver text-xs font-bold pl-2"> 19,981 ratings</span>
+          <p-rating [(ngModel)]="events[0].user_rating" [readonly]="true" [cancel]="false"></p-rating>
+          <span class="text-quicksilver text-xs font-bold pl-2"> {{events[0].user_rating}} 19,981 ratings</span>
         </div>
       </div>
       <div class="w-full md:w-1/2 space-y-3">
@@ -99,8 +95,7 @@
                   <div class="title_tab flex justify-between items-center px-5 py-6 max-h-[78px]">
                     <div class="space-x-7 flex items-center">
                       <div class="w-10 text-center">
-                        <img alt="table" class="mx-auto max-w-full object-contain"
-                             src="../assets/images/table.png"/>
+                        <img alt="table" class="mx-auto max-w-full object-contain" src="../assets/images/table.png"/>
                       </div>
                       <h4>{{seating?.seat?.name}}</h4>
                     </div>
@@ -157,8 +152,7 @@
                         </div>
                         <div>
                           <p>Description</p>
-                          <span
-                              class="text-base text-quicksilver font-bold">{{seating?.description}}</span>
+                          <span class="text-base text-quicksilver font-bold">{{seating?.description}}</span>
                         </div>
                       </div>
                     </div>
@@ -225,8 +219,7 @@
                 <div class="flex flex-wrap -mx-2">
                   <div *ngFor="let video of events[0].companydetails[0].video" class="w-full lg:w-1/5 p-2 ov-p">
                     <div class="rounded relative overflow-hidden h-28">
-                      <img [src]="constants.baseImageURL + video.thumbnail" alt="upload-1"
-                           class="w-full h-full object-cover bg-white"/>
+                      <img [src]="constants.baseImageURL + video.thumbnail" alt="upload-1" class="w-full h-full object-cover bg-white"/>
                     </div>
                   </div>
                 </div>
@@ -313,17 +306,14 @@
               </div>
             </div>
             <!-- Discount On Total Bill  -->
-            <div
-                class="bg-gradient-to-r from-[#13e1b094] to-[#13E1B0] p-3.5 xl:p-5 rounded-lg relative overflow-hidden">
+            <div class="bg-gradient-to-r from-[#13e1b094] to-[#13E1B0] p-3.5 xl:p-5 rounded-lg relative overflow-hidden">
               <div class="w-full  space-y-4">
                 <h4 class="text-white">Discount On Total Bill</h4>
                 <h1 class="text-black font-bold">10%</h1>
                 <div class="space-y-2">
-                  <span
-                      class="text-xs text-white font-normal block">4 Event can be posted or one event with max 30 day</span>
+                  <span class="text-xs text-white font-normal block">4 Event can be posted or one event with max 30 day</span>
                 </div>
-                <img alt="celebration" class="absolute -right-3 -bottom-3 opacity-80"
-                     src="../assets/images/event-subscription.png"/>
+                <img alt="celebration" class="absolute -right-3 -bottom-3 opacity-80" src="../assets/images/event-subscription.png"/>
               </div>
             </div>
             <!-- Book_ticket_detils -->
@@ -484,17 +474,14 @@
               </div>
             </div>
             <!-- Discount On Total Bill  -->
-            <div
-                class="bg-gradient-to-r from-[#13e1b094] to-[#13E1B0] p-3.5 xl:p-5 rounded-lg relative overflow-hidden">
+            <div class="bg-gradient-to-r from-[#13e1b094] to-[#13E1B0] p-3.5 xl:p-5 rounded-lg relative overflow-hidden">
               <div class="w-full  space-y-4">
                 <h4 class="text-white">Discount On Total Bill</h4>
                 <h1 class="text-black font-bold">10%</h1>
                 <div class="space-y-2">
-                  <span
-                      class="text-xs text-white font-normal block">4 Event can be posted or one event with max 30 day</span>
+                  <span class="text-xs text-white font-normal block">4 Event can be posted or one event with max 30 day</span>
                 </div>
-                <img alt="celebration" class="absolute -right-3 -bottom-3 opacity-80"
-                     src="../assets/images/event-subscription.png"/>
+                <img alt="celebration" class="absolute -right-3 -bottom-3 opacity-80" src="../assets/images/event-subscription.png"/>
               </div>
             </div>
             <!-- Book_ticket_detils -->
@@ -563,8 +550,7 @@
         <span class="text-xs font-bold text-quicksilver whitespace-nowrap">521 UnSold</span>
       </div>
       <div class="pt-4">
-        <a class="secondary px-5 py-2 flex items-end rounded-sm max-w-max mx-auto" href="javascript:void(0);"><i
-            class="icon-scanner mr-3 text-lg"></i>SCAN QR</a>
+        <a class="secondary px-5 py-2 flex items-end rounded-sm max-w-max mx-auto" href="javascript:void(0);"><i class="icon-scanner mr-3 text-lg"></i>SCAN QR</a>
       </div>
     </div>
   </div>

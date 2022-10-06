@@ -19,6 +19,7 @@ export class CompanyDetailsStepComponent implements OnInit {
   companyForm: any;
   inputText: any;
 
+  pdfObj: any = [];
   photoArr: any = [];
   photoObj: any = [];
   videoObj: any = [];
@@ -66,13 +67,25 @@ export class CompanyDetailsStepComponent implements OnInit {
   onChangePDF(event: any): any {
     const pdfUpload = $('#company-gst')[0].files[0];
     this.isInValidPDF = false;
-    if (pdfUpload != undefined && pdfUpload.type != 'application/pdf') {
-      // this._sNotify.error('File type is Invalid.', 'Oops!');
-      $('#company-gst').focus();
-      this.isInValidPDF = true;
-      return false;
+    if (pdfUpload != undefined) {
+      if (pdfUpload != undefined && pdfUpload.type != 'application/pdf') {
+        // this._sNotify.error('File type is Invalid.', 'Oops!');
+        $('#company-gst').focus();
+        this.isInValidPDF = true;
+        return false;
+      }
+      
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.pdfObj.push({ pdfUpload: e.target.result });
+      };
+      reader.readAsDataURL(pdfUpload);
+      
+      this.inputText = event?.target?.files[0]?.name;
+      console.log(this.inputText);
+
+      this.companyForm.get('gst').setValue(this.inputText);
     }
-    this.inputText = event?.target?.files[0]?.name;
   }
 
   uploadImage(): any {
@@ -143,8 +156,6 @@ export class CompanyDetailsStepComponent implements OnInit {
   }
 
   companyDetails(): void {
-    console.log(this.companyForm.value);
-
     if (this.companyForm.invalid) {
       // this.companyForm.controls.markAsDirty();
       Object.keys(this.companyForm.controls).forEach((key) => {

@@ -2,8 +2,7 @@
   <div class="upload-holder w-full h-full">
     <span class="text-sm text-quicksilver font-semibold">Add Permission Letter</span>
     <label class="upload upload-popup py-9" for="permission_letter">
-      <input (change)="onChangePDF($event)" [formControlName]="'permission_letter'" accept="application/pdf"
-             class="appearance-none hidden" id="permission_letter" name="permission_letter" type="file"/>
+      <input (change)="onChangePDF($event)" [formControlName]="'permission_letter'" accept="application/pdf" class="appearance-none hidden" id="permission_letter" name="permission_letter" type="file"/>
       <div class="flex justify-center text-left items-start">
         <i class="icon-pdf_upload mr-2 pt-2 text-quicksilver"></i>
         <span *ngIf="inputText" class="input-titel mt-1 font-bold text-sm">{{inputText}}</span>
@@ -41,8 +40,7 @@
       <i class="icon-left_arrow mr-3"></i>
       <h5>Back</h5>
     </button>
-    <button (click)="submitPermissionForm()" [disabled]="!permissionForm.valid" class="flex items-center active"
-            type="button">
+    <button (click)="submitPermissionForm()" class="flex items-center active" type="button">
       <h5>Next</h5>
       <i class="icon-right_arrow ml-3"></i>
     </button>

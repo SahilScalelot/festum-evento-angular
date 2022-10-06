@@ -44,7 +44,7 @@ const routes: Routes = [
     component: ContentComponent,
     children: [
       {
-        path: 'event',
+        path: 'events',
         loadChildren: () => import('../app/main/content/event/event.module').then(m => m.EventModule)
       },
       {
@@ -53,6 +53,10 @@ const routes: Routes = [
       },
       {
         path: 'create-event',
+        loadChildren: () => import('../app/main/content/create-event/create-event.module').then(m => m.CreateEventModule)
+      },
+      {
+        path: 'edit-event/:id',
         loadChildren: () => import('../app/main/content/create-event/create-event.module').then(m => m.CreateEventModule)
       },
       {

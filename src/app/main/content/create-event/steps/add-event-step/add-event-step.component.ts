@@ -34,14 +34,14 @@ export class AddEventStepComponent implements OnInit {
       const eventString: any = localStorage.getItem('newEventObj');
       this.eventObj = JSON.parse(eventString);
     } else {
-      this._router.navigate(['/event']);
+      this._router.navigate(['/events']);
     }
   }
 
   deleteEvent(): void {
     // Open delete confirmation popup
     localStorage.removeItem('newEventObj');
-    this._router.navigate(['/event']);
+    this._router.navigate(['/events']);
   }
 
   closePop(flag: boolean): void {

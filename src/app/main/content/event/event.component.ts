@@ -14,7 +14,8 @@ import {Router} from "@angular/router";
 export class EventComponent implements OnInit {
   isAddEvent: boolean = false;
   events: any = [];
-  constants: any = CONSTANTS;
+  constants: any = CONSTANTS;  
+  isLoading: boolean = false;
 
   constructor(
     private _eventService: EventService,
@@ -30,11 +31,14 @@ export class EventComponent implements OnInit {
     this.getEvent();
   }
 
-  getEvent(): void {
+  getEvent(): void {    
+    this.isLoading = true;
     this._eventService.retrieveEvents().subscribe((result: any) => {
       this.events = result.events;
+      this.isLoading = false;
     }, (error: any) => {
       this._globalFunctions.errorHanding(error, this, true);
+      this.isLoading = false;
     });
   }
 
@@ -51,7 +55,7 @@ export class EventComponent implements OnInit {
 
   editEvent(event: any, eventObj: any): void {
     event.stopPropagation();
-    console.log(eventObj);
+    this._router.navigate(['/edit-event/' + eventObj.id]);
   }
 
   liveEvent(event: any, eventObj: any): void {

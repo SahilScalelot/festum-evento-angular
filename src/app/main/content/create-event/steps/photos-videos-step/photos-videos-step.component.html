@@ -1,12 +1,9 @@
 <form [formGroup]="photosAndVideosForm" class="space-y-5">
   <div class="upload-holder w-full h-auto">
-    <span class="text-sm text-quicksilver font-semibold">Add Poster <span
-      class="font-normal">(Max size 10MB)</span></span>
+    <span class="text-sm text-quicksilver font-semibold">Add Poster <span class="font-normal">(Max size 10MB)</span></span>
     <label class="upload upload-popup p-0 relative group" id="posterUpload">
-      <input #poster (change)="onFileChange($event,'poster')" accept="image/png, image/jpeg, image/gif"
-             class="poster hidden" formControlName="poster" id="poster" type="file"/>
-      <img *ngIf="cropImgPreview" [src]="cropImgPreview"
-           class="absolute inset-0 w-full h-full object-cover z-10 group-hover:-z-10"/>
+      <input #poster (change)="onFileChange($event,'poster')" accept="image/png, image/jpeg, image/gif" class="poster hidden" formControlName="poster" id="poster" type="file"/>
+      <img *ngIf="cropImgPreview" [src]="cropImgPreview" class="absolute inset-0 w-full h-full object-cover z-10 group-hover:-z-10"/>
     </label>
   </div>
   <div class="media-upload-holder pt-5">
@@ -67,7 +64,7 @@
       <i class="icon-left_arrow mr-3"></i>
       <h5>Back</h5>
     </button>
-    <button [disabled]="!photosAndVideosForm.valid" [routerLink]="'/create-event/permission'" class="flex items-center active" type="button">
+    <button [routerLink]="'/create-event/permission'" class="flex items-center active" type="button">
       <h5>Next</h5>
       <i class="icon-right_arrow ml-3"></i>
     </button>
