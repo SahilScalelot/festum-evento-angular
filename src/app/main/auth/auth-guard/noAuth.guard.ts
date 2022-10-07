@@ -32,7 +32,8 @@ export class NoAuthGuard implements CanActivate {
     const otpToken = localStorage.getItem('otpToken');
 
     if (accessToken) {
-      this._location.back();
+      // this._location.back();
+      this._router.navigate(['/events']);
       return false;
     } else {
       if (!state.url || state.url == '/') {

@@ -44,6 +44,10 @@ export class OtpComponent implements OnInit {
   }
 
   verifyOtp(): void {
+    localStorage.removeItem('reMob');
+    localStorage.removeItem('fPMob');
+    this._router.navigate(['/set-new-password']);
+
     // if (!this.otp.invalid) {
     //   const otpObj: any = {
     //     mobile: this.phone,
