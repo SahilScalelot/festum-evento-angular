@@ -19,7 +19,7 @@
     </div>
     <div class="relative">
       <label class="input-titel">Phone Number <span class="text-red-500">*</span></label>
-      <input type="text" name="Phone Number" class="input_box" [formControlName]="'mobile'" id="mobile"/>
+      <input type="text" name="Phone Number" class="input_box" [formControlName]="'mobile'" id="mobile" fuseValidNumber/>
       <!-- <span class="text-caribbeanGreen text-sm font-semibold absolute right-4 bottom-4">Verify</span> -->
       <span class="absolute top-full text-red-500 text-xs" *ngIf="registerForm.get('mobile')?.invalid && registerForm.get('mobile')?.dirty && registerForm.get('mobile')?.touched">
         <span *ngIf="registerForm.get('mobile')?.errors?.['required']">Phone Number is required.</span>
@@ -41,6 +41,14 @@
         <label class="input-titel">Confirm Password <span class="text-red-500">*</span></label>
         <input [type]="confirmPwd ? 'text' : 'password'" name="Phone Number" class="input_box pr-10" [formControlName]="'confirm_password'" id="confirm_password"/>
         <span class="text-xl opacity-50 absolute right-3 bottom-3 cursor-pointer" (click)="confirmPwd = !confirmPwd" [ngClass]="confirmPwd ? 'icon-hide_pass' : 'icon-pass_show'"></span>
+        <span class="absolute top-full text-red-500 text-xs"
+              *ngIf="confirmPassword?.invalid && confirmPassword?.dirty && confirmPassword?.touched">
+        <span *ngIf="confirmPassword?.errors?.['required']">Password is required.</span>
+        <span *ngIf="!confirmPassword?.errors?.['required'] && !confirmPassword?.errors?.['minlength'] &&
+         !confirmPassword?.errors?.['maxlength'] && confirmPassword?.errors?.['mustMatch']">
+          Confirm passwords must match
+        </span>
+      </span>
       </div>
     </div>
     <div class="relative">

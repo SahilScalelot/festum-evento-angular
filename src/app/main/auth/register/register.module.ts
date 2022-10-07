@@ -4,6 +4,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {CommonModule} from "@angular/common";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {RegisterComponent} from "./register.component";
+import {SharedModule} from "../../../shared/shared.module";
 
 const routes: Routes = [
   {path: '', component: RegisterComponent},
@@ -18,7 +19,8 @@ const routes: Routes = [
     MatProgressSpinnerModule,
     CommonModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SharedModule
   ]
 })
 export class RegisterModule {

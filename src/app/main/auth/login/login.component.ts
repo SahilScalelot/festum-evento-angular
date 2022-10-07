@@ -68,7 +68,7 @@ export class LoginComponent implements OnInit {
     }
     this.logInForm.disable();
     this._authService.logIn(this.logInForm.value).subscribe((result: any) => {
-      if (result.detail) {
+      if (result && result.detail) {
         localStorage.setItem('accessToken', result.detail.key);
         this._sNotify.success('Logged in Successfully!', 'Success');
         this._router.navigate(['event']);

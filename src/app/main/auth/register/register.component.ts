@@ -1,11 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { SnotifyService } from 'ng-snotify';
-import { GlobalService } from 'src/app/services/global.service';
-import { GlobalFunctions } from '../../common/global-functions';
-import { AuthService } from '../auth.service';
-import { FuseValidators } from '../validators';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {FormBuilder, Validators} from '@angular/forms';
+import {Router} from '@angular/router';
+import {SnotifyService} from 'ng-snotify';
+import {GlobalService} from 'src/app/services/global.service';
+import {GlobalFunctions} from '../../common/global-functions';
+import {AuthService} from '../auth.service';
+import {FuseValidators} from '../validators';
 
 @Component({
   selector: 'app-register',
@@ -18,6 +18,10 @@ export class RegisterComponent implements OnInit {
 
   pwd: boolean = false;
   confirmPwd: boolean = false;
+
+  get confirmPassword(): any {
+    return this.registerForm.get('confirm_password');
+  }
 
   constructor(
     private _authService: AuthService,
@@ -40,8 +44,7 @@ export class RegisterComponent implements OnInit {
       refer_code: [''],
       country_code: ['+91'],
       role: ['Organiser'],
-    },
-    {
+    }, {
       validators: FuseValidators.mustMatch('password', 'confirm_password')
     });
   }

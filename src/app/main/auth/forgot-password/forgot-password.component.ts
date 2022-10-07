@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {FormControl, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-forgot-password',
@@ -7,14 +8,22 @@ import { Router } from '@angular/router';
   styleUrls: ['./forgot-password.component.scss']
 })
 export class ForgotPasswordComponent implements OnInit {
+  phone: FormControl | any;
 
   constructor(
-    private _router: Router,
-  ) { }
+    private _router: Router
+  ) {
+  }
 
   ngOnInit(): void {
+    this.phone = new FormControl('');
+    this.phone.addValidators([Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]);
   }
+
   sendVerificationCode(): any {
-    this._router.navigate(['/otp']);
+    if (!this.phone.invalid) {
+      localStorage.setItem('fPMob', this.phone.value);
+      this._router.navigate(['/otp']);
+    }
   }
 }

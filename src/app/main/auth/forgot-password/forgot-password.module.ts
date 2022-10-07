@@ -4,6 +4,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {CommonModule} from "@angular/common";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ForgotPasswordComponent} from "./forgot-password.component";
+import {SharedModule} from "../../../shared/shared.module";
 
 const routes: Routes = [
   {path: '', component: ForgotPasswordComponent},
@@ -18,7 +19,8 @@ const routes: Routes = [
     MatProgressSpinnerModule,
     CommonModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SharedModule
   ]
 })
 export class ForgotPasswordModule {

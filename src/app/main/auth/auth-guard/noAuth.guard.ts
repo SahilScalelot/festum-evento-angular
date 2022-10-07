@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot} from '@angular/router';
+import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
 import {Observable} from 'rxjs';
 import {Location} from '@angular/common';
 import {AuthService} from '../auth.service';
@@ -11,7 +11,8 @@ export class NoAuthGuard implements CanActivate {
 
   constructor(
     private _authService: AuthService,
-    private _location: Location
+    private _location: Location,
+    private _router: Router
   ) {
   }
 
@@ -34,6 +35,9 @@ export class NoAuthGuard implements CanActivate {
       this._location.back();
       return false;
     } else {
+      if (!state.url || state.url == '/') {
+        this._router.navigate(['login']);
+      }
       return true;
     }
   }
