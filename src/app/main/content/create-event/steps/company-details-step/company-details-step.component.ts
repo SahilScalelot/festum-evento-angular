@@ -170,7 +170,7 @@ export class CompanyDetailsStepComponent implements OnInit {
     
     JSON.stringify({company_details: preparedObj});
     localStorage.setItem('newEventObj', JSON.stringify(this.companyObj));
-    // this._router.navigate(['/create-event/personal-details']);
+    this._router.navigate(['/create-event/personal-details']);
   }
   
   prepareObj(companyObj: any = {}): any {

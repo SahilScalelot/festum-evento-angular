@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChildren, ElementRef } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-otp',
@@ -8,43 +8,26 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 })
 
 export class OtpComponent implements OnInit {
-  form: FormGroup;
-  formInput = ['input1', 'input2', 'input3', 'input4', 'input5', 'input6'];
-  @ViewChildren('formRow') rows: any;
+
+  otp = new FormControl('');
 
   ngOnInit() {
+    this.otp.addValidators([Validators.required, Validators.minLength(6)])
   }
 
   constructor(
-    private _formBuilder: FormBuilder
-    ) {
-    this.form = this.toFormGroup(this.formInput);
+  ) {
   }
 
-  toFormGroup(elements: any) {
-    const group: any = {};
-
-    elements.forEach((key : any) => {
-      group[key] = new FormControl('', Validators.required);
-    });
-    return new FormGroup(group);
+  verifyOtp(): void {
+    console.log(this.otp);
   }
 
-  keyUpEvent(event: any, index: any) {
-    let pos = index;
-    if (event.keyCode === 8 && event.which === 8) {
-      pos = index - 1 ;
-    } else {
-      pos = index + 1 ;
+  onOtpChange(event: any) {
+    if (event.length == 6) {
+      this.otp.markAsDirty();
+      this.otp.markAsTouched();
     }
-    if (pos > -1 && pos < this.formInput.length ) {
-      this.rows._results[pos].nativeElement.focus();
-    }
-
-  }
-
-  onSubmit() {
-    console.log(this.form.value);
   }
 
 }

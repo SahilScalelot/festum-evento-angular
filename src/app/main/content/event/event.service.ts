@@ -13,8 +13,12 @@ export class EventService {
   retrieveEvents(): any {
     return this.http.get(environment.appURL + 'events/', this._globalFunctions.getAuthorizationHeader());
   }
-
+  
   retrieveEventsId(id: any): any {
     return this.http.get(environment.appURL + 'events/'+id, this._globalFunctions.getAuthorizationHeader());
   }
+
+  // retrieveUser(): any {
+  //   return this.http.get(environment.appURL + 'events/', this._globalFunctions.getAuthorizationHeader());
+  // }
 }

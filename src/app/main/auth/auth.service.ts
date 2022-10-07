@@ -19,4 +19,8 @@ export class AuthService {
     return this._httpClient.post(CONSTANTS.appUrl + 'authentication/register/', credentials, this._globalFunctions.getHeader());
   }
 
+  forgotPassword(mobileObj: any): Observable<any> {
+    return this._httpClient.post(CONSTANTS.appUrl + 'authentication/sendOtp/?forgot_password=true', mobileObj, this._globalFunctions.getHeader());
+  }
+
 }

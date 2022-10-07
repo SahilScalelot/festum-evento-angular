@@ -5,6 +5,7 @@ import { SnotifyService } from 'ng-snotify';
 import { GlobalService } from 'src/app/services/global.service';
 import { GlobalFunctions } from '../../common/global-functions';
 import { AuthService } from '../auth.service';
+import { FuseValidators } from '../validators';
 
 @Component({
   selector: 'app-register',
@@ -32,47 +33,27 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
     this.registerForm = this._formBuilder.group({
       name: ['', [Validators.required]],
-      email: ['', Validators.required],
-      mobile: ['', Validators.required],
-      password: ['', Validators.required],
-      confirm_password: ['', Validators.required],
-      refer_code: ['', Validators.required],
+      email: ['', [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
+      mobile: ['', [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
+      password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(16)]],
+      confirm_password: ['', [Validators.required]],
+      refer_code: [''],
       country_code: ['+91'],
       role: ['Organiser'],
+    },
+    {
+      validators: FuseValidators.mustMatch('password', 'confirm_password')
     });
-  }
-
-
-  validate(): boolean {
-    if (!this.registerForm.value.name || this.registerForm.value.name === "") {
-      this._sNotify.error('Name is required!', 'Oops!');
-      return false;
-    }
-    if (!this.registerForm.value.email || this.registerForm.value.email === "") {
-      this._sNotify.error('Email is required!', 'Oops!');
-      return false;
-    }
-    if (!this.registerForm.value.mobile || this.registerForm.value.mobile === "") {
-      this._sNotify.error('Mobile is required!', 'Oops!');
-      return false;
-    }
-    if (!this.registerForm.value.password || this.registerForm.value.password === "") {
-      this._sNotify.error('Password is required!', 'Oops!');
-      return false;
-    }
-    if (!this.registerForm.value.confirm_password || this.registerForm.value.confirm_password === "") {
-      this._sNotify.error('Confirm Password is required!', 'Oops!');
-      return false;
-    }
-    return true;
   }
 
   register(): void {
     // console.log(this.registerForm.value);
-    // if (this.registerForm.invalid) {
-    //   return;
-    // }
-    if (!this.validate()) {
+    if (this.registerForm.invalid) {
+      // this.registerForm.controls.markAsDirty();
+      Object.keys(this.registerForm.controls).forEach((key) => {
+        this.registerForm.controls[key].touched = true;
+        this.registerForm.controls[key].markAsDirty();
+      });
       return;
     }
 

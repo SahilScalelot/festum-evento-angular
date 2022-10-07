@@ -130,7 +130,7 @@ export class TermsAndConditionsStepComponent implements OnInit {
   }
 
   saveFullEvent(): void {
-    console.log(this.termsAndConditionsForm.value);
+    // console.log(this.termsAndConditionsForm.value);
 
     if (this.termsAndConditionsForm.invalid) {
       // this.termsAndConditionsForm.controls.markAsDirty();

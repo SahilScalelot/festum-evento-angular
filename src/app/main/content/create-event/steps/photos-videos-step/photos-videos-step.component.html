@@ -11,8 +11,8 @@
     <div class="flex space-x-2.5 h-full pt-2">
       <div *ngFor="let photo of photoArr; let i = index" class="upload-box">
         <div class="rounded relative overflow-hidden h-full w-full">
-          <img [alt]="'add-photo-' + i" [src]="photo.image" class="object-cover w-full h-full"/>
-          <button (click)="removeImage(i)">Remove</button>
+          <img [alt]="'add-photo-' + i" [src]="photo.image" class="object-cover w-full h-full cursor-pointer" title="Edit" (click)="editPhoto(photo)"/>
+          <button (click)="removeImage(i)" title="Delete">Remove</button>
         </div>
       </div>
       <div (click)="onFileChange($event, 'photo')" class="upload-holder">
@@ -96,7 +96,7 @@
     </div>
     <div class="w-full">
       <span class="input-titel">Details</span>
-      <textarea class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md" cols="30" rows="5" formControlName="details"></textarea>
+      <textarea class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md" cols="30" rows="5" formControlName="details" [value]="editPhotoObj?.details"></textarea>
     </div>
   </form>
   <button (click)="uploadImage()" class="secondary w-full uppercase py-2 anim">{{ 'Submit' }}</button>

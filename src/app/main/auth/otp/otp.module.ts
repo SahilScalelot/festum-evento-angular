@@ -4,6 +4,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {CommonModule} from "@angular/common";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {OtpComponent} from "./otp.component";
+import { NgOtpInputModule } from  'ng-otp-input';
 
 const routes: Routes = [
   {path: '', component: OtpComponent},
@@ -18,7 +19,8 @@ const routes: Routes = [
     MatProgressSpinnerModule,
     CommonModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgOtpInputModule
   ]
 })
 export class OtpModule {
