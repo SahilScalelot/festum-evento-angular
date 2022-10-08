@@ -58,11 +58,13 @@ export class PhotosVideosStepComponent implements OnInit {
 
     this.photosForm = this._formBuilder.group({
       image: [null],
+      imageName: [''],
       details: [null]
     });
 
     this.videoForm = this._formBuilder.group({
       video: [null],
+      videoName: [null],
       details: [null]
     });
 
@@ -73,7 +75,9 @@ export class PhotosVideosStepComponent implements OnInit {
       }
     });
     // this.preImg = this.imagesAndVideoObj?.photos_and_videos?.photo[0].image.split(',', 2)[1]
-    this.photoArr = this.imagesAndVideoObj?.photos_and_videos?.photo
+    if (this.imagesAndVideoObj && this.imagesAndVideoObj.photos_and_videos && this.imagesAndVideoObj.photos_and_videos.photo) { 
+      this.photoArr = this.imagesAndVideoObj?.photos_and_videos?.photo
+    }
     // this.imageSource = this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/png;base64, ${this.preImg}`);
     // console.log(this.imagesAndVideoObj?.photos_and_videos?.photo);
     
@@ -96,6 +100,17 @@ export class PhotosVideosStepComponent implements OnInit {
           break;
         case 'photo':
           this.photosNgForm.resetForm();
+          if (this.editPhotoObj) {
+            if (this.editPhotoObj.image) {
+              this.editPhotoObj.image = '';
+            }
+            if (this.editPhotoObj.details) {
+              this.editPhotoObj.details = '';
+            }
+            if (this.editPhotoObj.name) {
+              this.editPhotoObj.name = '';
+            }
+          }
           if (this.photoArr && this.photoArr.length && this.photoArr.length >= 5) {
             this._sNotify.error('Maximum 5 images can upload!', 'Oops!');
           } else {
@@ -154,16 +169,18 @@ export class PhotosVideosStepComponent implements OnInit {
         this._modalService.close("photo");
         return false;
       }
-
+      
+      this.photosForm.get('imageName').setValue(image.name);
+      
       const reader = new FileReader();
       reader.onload = (e: any) => {
-        this.photoArr.push({image: e.target.result, details: this.photosForm.value.details});
+        this.photoArr.push({image: e.target.result, details: this.photosForm.value.details, name: this.photosForm.value.imageName});
       };
       reader.readAsDataURL(image);
       $('#create-photo-upload').val(null);
       this.inputText = '';
       this._modalService.close("photo");
-    }
+    }    
   }
 
   uploadVideo(): any {
@@ -200,10 +217,11 @@ export class PhotosVideosStepComponent implements OnInit {
     }
   }
 
-  editPhoto(editPhoto: number) {
+  editPhoto(editPhoto: any, id: number) {
     this.editPhotoObj = editPhoto;
-    console.log(this.editPhotoObj);
+    console.log(this.editPhotoObj, id);
     this._modalService.open("photo");
+    
   }
 
   removeImage(index: number) {
@@ -245,6 +263,7 @@ export class PhotosVideosStepComponent implements OnInit {
     JSON.stringify({photos_and_videos: preparedObj});
     localStorage.setItem('newEventObj', JSON.stringify(this.imagesAndVideoObj));
     // this._router.navigate(['/create-event/permission']);
+    // console.log(this.photosAndVideosForm.value);
   }
 
   prepareObj(imagesAndVideoObj: any = {}): any {
