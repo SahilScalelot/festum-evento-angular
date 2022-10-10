@@ -71,7 +71,7 @@ export class LoginComponent implements OnInit {
       if (result && result.detail) {
         localStorage.setItem('accessToken', result.detail.key);
         this._sNotify.success('Logged in Successfully!', 'Success');
-        this._router.navigate(['event']);
+        this._router.navigate(['events']);
       } else {
         this.logInForm.enable();
         this._globalFunctions.successErrorHandling(result, this, true);

@@ -16,6 +16,8 @@ export class PermissionStepComponent implements OnInit {
   inputText: any;
   constants: any = CONSTANTS;
 
+  permissionObj: any = {permission: {}};
+
   constructor(
     private _formBuilder: FormBuilder,
     private _sNotify: SnotifyService,
@@ -24,9 +26,17 @@ export class PermissionStepComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (localStorage.getItem('newEventObj')) {
+      const eventString: any = localStorage.getItem('newEventObj');
+      this.permissionObj = JSON.parse(eventString);
+      this.inputText = this.permissionObj.permission.permission_letter.split('\\', 3)[2];
+    } else {
+      this._router.navigate(['/events']);
+    }
+    
     this.permissionForm = this._formBuilder.group({
       permission_letter: [null, [Validators.required]],
-      accept_booking: [false]
+      accept_booking: [this.permissionObj.permission.accept_booking]
     });
   }
 
@@ -42,9 +52,17 @@ export class PermissionStepComponent implements OnInit {
       // formData.append('permission_letter', pdf, pdf.name);
       // this.permissionForm.get('permission_letter').setValue(pdf);
     }
-
-    console.log(this.permissionForm.value);
+    localStorage.setItem('newEventObj', JSON.stringify(this.permissionForm.value))
+    const preparedObj = this.prepareObj(this.permissionForm.value);
+    this.permissionObj.permission = preparedObj;
+    JSON.stringify({ permission: preparedObj });
+    localStorage.setItem('newEventObj', JSON.stringify(this.permissionObj));
     this._router.navigate(['create-event/discount']);
+    
+  }
+  prepareObj(permissionObj: any = {}): any {
+    const preparedObj: any = permissionObj;
+    return preparedObj; 
   }
 
 }

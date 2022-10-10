@@ -11,8 +11,8 @@
     <div class="flex space-x-2.5 h-full pt-2">
       <div *ngFor="let photo of photoArr; let i = index" class="upload-box">
         <div class="rounded relative overflow-hidden h-full w-full">
-          <img [alt]="'add-photo-' + i" [src]="photo.image" class="object-cover w-full h-full cursor-pointer" title="Edit" (click)="editPhoto(photo, i)"/>
-          <button (click)="removeImage(i)" title="Delete">Remove</button>
+          <img [alt]="'add-photo-' + i" [src]="photo.image" class="object-cover w-full h-full"/>
+          <button (click)="removeImage(i)">Remove</button>
         </div>
       </div>
       <div (click)="onFileChange($event, 'photo')" class="upload-holder">
@@ -49,8 +49,6 @@
   <div class="flex justify-end">
     <a class="secondary float-right btn-primary small leading-10 px-5 uppercase anim cursor-pointer" [routerLink]="'/buy-space-plans'">Buy Space</a>
   </div>
-
-  <button type="submit" (click)="submitPhotosAndVideosForm()">Submit</button>
 </form>
 
 <div class="mt-auto">
@@ -64,7 +62,7 @@
       <i class="icon-left_arrow mr-3"></i>
       <h5>Back</h5>
     </button>
-    <button [routerLink]="'/create-event/permission'" class="flex items-center active" type="button">
+    <button [disabled]="!photosAndVideosForm.valid" (click)="submitPhotosAndVideosForm()" class="flex items-center active" type="button">
       <h5>Next</h5>
       <i class="icon-right_arrow ml-3"></i>
     </button>
@@ -85,19 +83,18 @@
   <button (click)="savePoster(cropImgPreview)" class="secondary w-full uppercase py-2 anim">{{ 'Save Poster' }}</button>
 </modal>
 <!-- Photo -->
-<modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="photo" title="{{(editPhotoObj?.name) ? 'Edit' : 'Upload'}} Photo" *ngIf="photosForm">
-  --{{editPhotoObj|json}}--
+<modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="photo" title="Upload Photo" *ngIf="photosForm">
   <form #photosNgForm="ngForm" [formGroup]="photosForm" class="py-6 space-y-5">
     <div class="upload-holder w-full h-[74px]">
       <h6 class="input-titel text-sm font-bold text-quicksilver flex items-center">Select Photo <p class="text-10 ml-2"> 5 Images (up to 5MB/Image)</p></h6>
       <label class="upload upload-popup py-3" for="create-photo-upload">
         <input accept="image/png, image/jpeg, image/gif" class="appearance-none hidden" id="create-photo-upload" name="images" type="file" (change)="readURL($event);"/>
-        <span class="input-titel flex justify-center items-center"><i class="icon-img_upload text-lg mr-2 leading-none"></i> {{(inputText || (editPhotoObj && editPhotoObj.name)) ? (inputText ? inputText : editPhotoObj.name) : 'Choose Images'}}</span>
+        <span class="input-titel flex justify-center items-center"><i class="icon-img_upload text-lg mr-2 leading-none"></i> {{inputText ? inputText : 'Choose Images'}}</span>
       </label>
     </div>
     <div class="w-full">
       <span class="input-titel">Details</span>
-      <textarea class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md" cols="30" rows="5" formControlName="details" [value]="editPhotoObj?.details"></textarea>
+      <textarea class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md" cols="30" rows="5" formControlName="details"></textarea>
     </div>
   </form>
   <button (click)="uploadImage()" class="secondary w-full uppercase py-2 anim">{{ 'Submit' }}</button>

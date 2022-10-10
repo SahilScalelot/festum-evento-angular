@@ -1,8 +1,7 @@
 <div [formGroup]="termsAndConditionsForm" class="space-y-5 px-2">
   <div class="w-full space-y-2.5">
     <h5>Terms And Conditions</h5>
-    <div class="w-full bg-white rounded">
-      
+    <div class="w-full bg-white rounded">      
       <ckeditor (ready)="onTextEditorReady($event, 'event_terms_and_conditions')" [config]="editorConfig"
                 [editor]="detailEditor" [formControlName]="'event_terms_and_conditions'"
                 class="h-44 text-editor" id="event_terms_and_conditions" name="event_terms_and_conditions"></ckeditor>
@@ -133,7 +132,7 @@
   <div class="block w-full">
     <label class="inline-flex items-end cursor-pointer" (click)="tAndCPop()">
       <div class="checkbox rounded bg-white">
-        <input type="checkbox" [formControlName]="'terms_and_conditions'" name="terms_and_conditions"/>
+        <input type="checkbox" [formControlName]="'terms_and_conditions'" name="terms_and_conditions" [checked]="'terms_and_conditions'"/>
         <i class="icon-right text-white"></i>
       </div>
       <span class="input-titel text-base ml-4">Accept Your Terms and Conditions</span>

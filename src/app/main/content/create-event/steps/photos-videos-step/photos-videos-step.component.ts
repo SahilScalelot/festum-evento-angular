@@ -1,9 +1,9 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {FormBuilder, Validators} from '@angular/forms';
-import {ImageCroppedEvent} from 'ngx-image-cropper';
-import {ModalService} from 'src/app/main/_modal';
-import {SnotifyService} from "ng-snotify";
-import {CONSTANTS} from "../../../../common/constants";
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
+import { ImageCroppedEvent } from 'ngx-image-cropper';
+import { ModalService } from 'src/app/main/_modal';
+import { SnotifyService } from "ng-snotify";
+import { CONSTANTS } from "../../../../common/constants";
 import { Router } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
 
@@ -31,10 +31,10 @@ export class PhotosVideosStepComponent implements OnInit {
   permissionObj: any = [];
 
   editPhotoObj: any;
-  
-  imagesAndVideoObj: any = {photos_and_videos: {}};
 
-  inputText:any;
+  imagesAndVideoObj: any = { photos_and_videos: {} };
+
+  inputText: any;
 
   constructor(
     private _modalService: ModalService,
@@ -42,12 +42,18 @@ export class PhotosVideosStepComponent implements OnInit {
     private _sNotify: SnotifyService,
     private _router: Router,
     private sanitizer: DomSanitizer
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     if (localStorage.getItem('newEventObj')) {
       const eventString: any = localStorage.getItem('newEventObj');
       this.imagesAndVideoObj = JSON.parse(eventString);
+      if (this.imagesAndVideoObj) {
+        this.photoArr = this.imagesAndVideoObj?.photos_and_videos?.photo || [];
+        this.videoArr = this.imagesAndVideoObj?.photos_and_videos?.video || [];
+      }
+    } else {
+      this._router.navigate(['/events']);
     }
 
     this.photosAndVideosForm = this._formBuilder.group({
@@ -75,15 +81,14 @@ export class PhotosVideosStepComponent implements OnInit {
       }
     });
     // this.preImg = this.imagesAndVideoObj?.photos_and_videos?.photo[0].image.split(',', 2)[1]
-    if (this.imagesAndVideoObj && this.imagesAndVideoObj.photos_and_videos && this.imagesAndVideoObj.photos_and_videos.photo) { 
-      this.photoArr = this.imagesAndVideoObj?.photos_and_videos?.photo
-    }
+
+
     // this.imageSource = this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/png;base64, ${this.preImg}`);
     // console.log(this.imagesAndVideoObj?.photos_and_videos?.photo);
-    
+
   }
-  
-  readURL(event: any):void {
+
+  readURL(event: any): void {
     this.inputText = event?.target?.files[0]?.name;
   }
 
@@ -148,7 +153,7 @@ export class PhotosVideosStepComponent implements OnInit {
   }
 
   uploadImage(): any {
-    const image = $('#create-photo-upload')[0].files[0];
+    let image = $('#create-photo-upload')[0].files[0];
 
     if (image != undefined) {
       if (image.type != 'image/jpeg' && image.type != 'image/jpg' && image.type != 'image/png') {
@@ -169,18 +174,18 @@ export class PhotosVideosStepComponent implements OnInit {
         this._modalService.close("photo");
         return false;
       }
-      
+
       this.photosForm.get('imageName').setValue(image.name);
-      
+
       const reader = new FileReader();
       reader.onload = (e: any) => {
-        this.photoArr.push({image: e.target.result, details: this.photosForm.value.details, name: this.photosForm.value.imageName});
+        this.photoArr.push({ image: e.target.result, details: this.photosForm.value.details, name: this.photosForm.value.imageName });
       };
       reader.readAsDataURL(image);
       $('#create-photo-upload').val(null);
       this.inputText = '';
       this._modalService.close("photo");
-    }    
+    }
   }
 
   uploadVideo(): any {
@@ -208,20 +213,13 @@ export class PhotosVideosStepComponent implements OnInit {
 
       const reader = new FileReader();
       reader.onload = (e: any) => {
-        this.videoArr.push({video: e.target.result, details: this.videoForm.value.details});
+        this.videoArr.push({ video: e.target.result, details: this.videoForm.value.details });
       };
       reader.readAsDataURL(video);
       $('#create-video-upload').val(null);
       this.inputText = '';
       this._modalService.close("video");
     }
-  }
-
-  editPhoto(editPhoto: any, id: number) {
-    this.editPhotoObj = editPhoto;
-    console.log(this.editPhotoObj, id);
-    this._modalService.open("photo");
-    
   }
 
   removeImage(index: number) {
@@ -232,37 +230,14 @@ export class PhotosVideosStepComponent implements OnInit {
     this.videoArr.splice(index, 1);
   }
 
-  // validate(): boolean {
-  //   if (!this.photosAndVideosForm.value.poster || this.photosAndVideosForm.value.poster === "") {
-  //     this._sNotify.error('Poster is required!', 'Oops!');
-  //     return false;
-  //   }
-  //   if (!this.photosAndVideosForm.value.photo || this.photosAndVideosForm.value.photo === "") {
-  //     this._sNotify.error('Photo is required!', 'Oops!');
-  //     return false;
-  //   }
-  //   if (!this.photosAndVideosForm.value.video || this.photosAndVideosForm.value.video === "") {
-  //     this._sNotify.error('Video is required!', 'Oops!');
-  //     return false;
-  //   }
-  //   return true;
-  // }
-
   submitPhotosAndVideosForm() {
-    // if (!this.validate()) {
-    //   return;
-    // }
-    // console.log(this.photosAndVideosForm.value);
-    // const preImg = this.photosAndVideosForm.value.photo[0].image.split(',', 2)[1];
-    // console.log(this.photosAndVideosForm.value.photo[0].image);
-    // console.log(preImg);
     localStorage.setItem('newEventObj', JSON.stringify(this.photosAndVideosForm.value))
     const preparedObj = this.prepareObj(this.photosAndVideosForm.value);
+    // console.log(this.photosAndVideosForm.value);
     this.imagesAndVideoObj.photos_and_videos = preparedObj;
-    
-    JSON.stringify({photos_and_videos: preparedObj});
+    JSON.stringify({ photos_and_videos: preparedObj });
     localStorage.setItem('newEventObj', JSON.stringify(this.imagesAndVideoObj));
-    // this._router.navigate(['/create-event/permission']);
+    this._router.navigate(['/create-event/permission']);
     // console.log(this.photosAndVideosForm.value);
   }
 

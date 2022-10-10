@@ -24,8 +24,9 @@ export class PersonalDetailsStepComponent implements OnInit {
     if (localStorage.getItem('newEventObj')) {
       const eventString: any = localStorage.getItem('newEventObj');
       this.personalObj = JSON.parse(eventString);
+    } else {
+      this._router.navigate(['/events']);
     }
-    console.log();
 
     this.personalDetailForm = this._formBuilder.group({
       full_name: [this.personalObj?.personal_details?.full_name, [Validators.required]],

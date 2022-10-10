@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, Validators} from "@angular/forms";
+import { Router } from '@angular/router';
 // @ts-ignore
 import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
 import { ModalService } from 'src/app/main/_modal';
@@ -19,13 +20,16 @@ export class TermsAndConditionsStepComponent implements OnInit {
 
   constructor(
     private _formBuilder: FormBuilder,
-    private _modalService: ModalService
+    private _modalService: ModalService,
+    private _router: Router 
   ) {}
 
   ngOnInit(): void {
     if (localStorage.getItem('newEventObj')) {
       const eventString: any = localStorage.getItem('newEventObj');
       this.termsAndConditionsObj = JSON.parse(eventString);
+    } else {
+      this._router.navigate(['/events']);
     }
     this.editorConfig = {
       toolbar: [
@@ -146,6 +150,68 @@ export class TermsAndConditionsStepComponent implements OnInit {
     
     JSON.stringify({terms_and_conditions: preparedObj});
     localStorage.setItem('newEventObj', JSON.stringify(this.termsAndConditionsObj));
+    
+    const preparedEventObj: any = this.prepareEventObj(this.termsAndConditionsObj);
+    // console.log(preparedEventObj);
+    const preparedEventImagesObj: any = this.prepareImagesEventObj(this.termsAndConditionsObj);
+    console.log(preparedEventImagesObj);
+    
+    this.termsAndConditionsObj?.photos_and_videos.photo.forEach((photo: any) => {
+      const preparedEventImagesObj: any = photo;
+      preparedEventImagesObj.description = photo.details;
+      // console.log(preparedEventImagesObj);
+    });
+    this.termsAndConditionsObj?.photos_and_videos.video.forEach((video: any) => {
+      const preparedEventImagesObj: any = video;
+      preparedEventImagesObj.description = video.details;
+      console.log(preparedEventImagesObj);
+    });
+  }
+  
+  prepareEventObj(eventObj: any = {}): any {
+    const preparedEventObj: any = {};
+
+    const aboutEventObj: any = eventObj?.about_event;
+    preparedEventObj.start_date = aboutEventObj?.event_start_date;
+    preparedEventObj.end_date = aboutEventObj?.event_end_date;
+    preparedEventObj.start_time = aboutEventObj?.event_start_time;
+    preparedEventObj.end_time = aboutEventObj?.event_end_time;
+    preparedEventObj.description = aboutEventObj?.about_event;
+
+    const locationEventObj: any = eventObj?.event_location;
+    preparedEventObj.flat_no = locationEventObj?.flat_number;
+    preparedEventObj.street_name = locationEventObj?.street_name;
+    preparedEventObj.area_name = locationEventObj?.area_name;
+    // 
+    preparedEventObj.location_address = locationEventObj?.city + ' ' +  locationEventObj?.state;
+    preparedEventObj.address = locationEventObj?.city + ' ' +  locationEventObj?.state;
+    // 
+    preparedEventObj.city = locationEventObj?.city;
+    preparedEventObj.state = locationEventObj?.state;
+    preparedEventObj.pincode = locationEventObj?.pincode;
+    preparedEventObj.longitude = locationEventObj?.longitude;
+    preparedEventObj.latitude = locationEventObj?.latitude;
+    
+    const posterEventObj: any = eventObj?.photos_and_videos;
+    preparedEventObj.poster = posterEventObj?.poster;
+
+    const permissionEventObj: any = eventObj?.event_permission;
+    preparedEventObj.permission_letter = permissionEventObj?.permission_letter;
+    preparedEventObj.accept_booking = permissionEventObj?.accept_booking;
+    
+    const tAndCEventObj: any = eventObj?.terms_and_conditions;
+    preparedEventObj.t_and_c = tAndCEventObj?.event_terms_and_conditions;
+    preparedEventObj.facebook = tAndCEventObj?.facebook_url;
+    preparedEventObj.instagram = tAndCEventObj?.instagram_url;
+    preparedEventObj.linkedin = tAndCEventObj?.linkedin_url;
+    preparedEventObj.pinterest = tAndCEventObj?.pinterest_url;
+    preparedEventObj.twitter = tAndCEventObj?.twitter_url;
+    preparedEventObj.youtube = tAndCEventObj?.youtube_url;
+
+    return preparedEventObj;
+  }
+
+  prepareImagesEventObj(eventObj: any = {}): any {
   }
   
   prepareObj(companyObj: any = {}): any {
@@ -162,7 +228,7 @@ export class TermsAndConditionsStepComponent implements OnInit {
       pinterest_url: [this.termsAndConditionsObj?.terms_and_conditions?.pinterest_url],
       instagram_url: [this.termsAndConditionsObj?.terms_and_conditions?.instagram_url],
       linkedin_url: [this.termsAndConditionsObj?.terms_and_conditions?.linkedin_url],
-      terms_and_conditions: [false, {disabled: true}],
+      terms_and_conditions: [this.termsAndConditionsObj?.terms_and_conditions?.terms_and_conditions, {disabled: true}],
     });
   }
 }

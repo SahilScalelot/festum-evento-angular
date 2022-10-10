@@ -17,6 +17,7 @@ export class GlobalFunctions {
   }
 
   //Header Functions
+  // lOGIN NO HOI TYARE
   getHeader(): any {
     return {
       headers: new HttpHeaders({
@@ -25,6 +26,7 @@ export class GlobalFunctions {
     };
   }
 
+  // INPUT TYPE FILE HOI TYARE
   getFileAuthorizationHeader(): any {
     return {
       headers: new HttpHeaders({
@@ -33,6 +35,7 @@ export class GlobalFunctions {
     };
   }
 
+  // INPUT TYPE FILE VAGAR NU HOI TYARE
   getAuthorizationHeader(): any {
     return {
       headers: new HttpHeaders({

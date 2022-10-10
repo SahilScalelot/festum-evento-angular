@@ -24,6 +24,8 @@ export class AboutEventStepComponent implements OnInit {
     if (localStorage.getItem('newEventObj')) {
       const eventString: any = localStorage.getItem('newEventObj');
       this.eventObj = JSON.parse(eventString);
+    } else {
+      this._router.navigate(['/events']);
     }
     this.aboutEventForm = this._formBuilder.group({
       date: [this.eventObj && this.eventObj.about_event && this.eventObj.about_event.event_start_date ? 
