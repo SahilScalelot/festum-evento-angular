@@ -5,23 +5,29 @@
     <form [formGroup]="profileForm">
       <div class="flex justify-between items-center pt-4">
         <h1>Personal profile</h1>
-        <button type="submit" *ngIf="submit==false" class="secondary px-5 py-2" (click)="editProfile()">Edit Profile</button>
+        <button type="submit" *ngIf="submit==false" class="secondary px-5 py-2" (click)="editProfile()">
+          Edit Profile
+        </button>
         <button type="submit" *ngIf="submit==true" class="secondary px-5 py-2" (click)="changeProfile()">Submit</button>
       </div>
       <!-- profile image-->
       <div class="flex items-center">
         <div>
           <div class="w-44 h-44 rounded-full border-8 border-magicPotion relative mr-9">
-            <img [src]="imageSrc" alt="" class="w-full h-full object-cover rounded-full overflow-hidden" />
-            <div class="absolute bottom-0 right-0 flex justify-center items-center w-10 h-10 rounded-full bg-magicPotion z-10">
-              <label for="file"><img src="../assets/images/cameraProfile.png" alt="cameraProfile" (change)="profile($event)" style="cursor:pointer" /></label>
+            <img [src]="imageSrc" alt="" class="w-full h-full object-cover rounded-full overflow-hidden"/>
+            <div
+              class="absolute bottom-0 right-0 flex justify-center items-center w-10 h-10 rounded-full bg-magicPotion z-10">
+              <label for="file"><img src="../assets/images/cameraProfile.png" alt="cameraProfile"
+                                     (change)="profile($event)" class="cursor-pointer"/></label>
             </div>
           </div>
         </div>
-        <input type='file' id="file" accept="image/png, image/jpeg, image/gif" *ngIf="submit==true" (change)="profile($event);" style="display:none" />
+        <input type='file' id="file" accept="image/png, image/jpeg, image/gif" *ngIf="submit==true"
+               (change)="profile($event);" style="display:none"/>
         <div>
           <h4>Mobina Mirbagheri</h4>
-          <h5 class="text-xl font-bold text-japaneseIndigo pt-2.5">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h5>
+          <h5 class="text-xl font-bold text-japaneseIndigo pt-2.5">Lorem Ipsum is simply dummy text of the printing and
+            typesetting industry.</h5>
         </div>
       </div>
 
@@ -30,12 +36,14 @@
         <div class="flex flex-wrap justify-between -mx-2">
           <div class="w-full lg:w-1/2 px-2 inputHolder pt-3">
             <span class="input-titel">Name</span>
-            <input type="text" class="input font-bold" formControlName='firstName' [readonly]='submit==false' />
-            <span *ngIf="firstName && firstName.invalid && firstName.touched && submit" [style.color]="'red'">Name is required</span>
+            <input type="text" class="input font-bold" formControlName='firstName' [readonly]='submit==false'/>
+            <span *ngIf="profileFirstName && profileFirstName.invalid && profileFirstName.touched && submit"
+                  [style.color]="'red'">Name is required</span>
           </div>
           <div class="w-full lg:w-1/2 px-2 inputHolder pt-3">
             <span class="input-titel">Email</span>
-            <input type="text" class="input font-bold" value="mobinamirbagheri@gmail.com" formControlName='email' [readonly]='true' />
+            <input type="text" class="input font-bold" value="mobinamirbagheri@gmail.com" formControlName='email'
+                   [readonly]='true'/>
           </div>
         </div>
         <div class="flex flex-wrap justify-between -mx-2">
@@ -44,24 +52,26 @@
             <div class="flex items-center h-auto space-x-3 mt-1">
               <div class="">
                 <select disabled
-                  class="text-base text-japaneseIndigo bg-white rounded-md flex space-x-3 profile-arrow outline-0 whitespace-nowrap pl-5 pr-5 xl:pr-10 py-3.5 relative w-20 xl:w-28">
+                        class="text-base text-japaneseIndigo bg-white rounded-md flex space-x-3 profile-arrow outline-0 whitespace-nowrap pl-5 pr-5 xl:pr-10 py-3.5 relative w-20 xl:w-28">
                   <option>+91</option>
                   <option>+625</option>
                   <option>+001</option>
                 </select>
               </div>
               <div class="max-w-full w-full inputHolder">
-                <input type="text" class="input font-bold" value="96325 85214" formControlName='mobile' [readonly]='true'/>
+                <input type="text" class="input font-bold" value="96325 85214" formControlName='mobile'
+                       [readonly]='true'/>
               </div>
             </div>
           </div>
           <div class="w-full lg:w-1/2 px-2 inputHolder pt-3">
             <span class="input-titel">Date Of Birth</span>
-            <p-calendar [(ngModel)]="date4" class="input font-bold" [showIcon]="false" inputId="icon" formControlName='dob' [disabled]='submit==false'></p-calendar>
+            <p-calendar class="input font-bold" [showIcon]="false" inputId="icon" formControlName='dob'
+                        [disabled]='submit==false'></p-calendar>
             <!-- <span *ngIf="dob && dob.invalid && dob.touched && submit" [style.color]="'red'">DOB is required</span> -->
-            <span *ngIf="dob && dob.invalid && dob.touched && submit" [style.color]="'red'">
-              <span *ngIf="profileForm.get('dob')?.errors?.['required']">
-                Dob is required
+            <span *ngIf="profileDob && profileDob.invalid && profileDob.touched && submit" [style.color]="'red'">
+              <span *ngIf="profileDob?.errors?.required">
+                Date Of Birth is required
               </span>
             </span>
 
@@ -70,22 +80,23 @@
         <div class="flex flex-wrap justify-between -mx-2">
           <div class="w-full lg:w-1/2 px-2 inputHolder pt-3">
             <span class="input-titel">City</span>
-            <input type="text" class="input font-bold" value="" formControlName='city' [readonly]='submit==false' />
-            <span *ngIf="city && city.invalid && city.touched && submit" [style.color]="'red'">
-              <span *ngIf="profileForm.get('city')?.errors?.['required']">
+            <input type="text" class="input font-bold" value="" formControlName='city' [readonly]='submit==false'/>
+            <span *ngIf="profileCity && profileCity.invalid && profileCity.touched && submit" [style.color]="'red'">
+              <span *ngIf="profileCity?.errors?.required">
                 City is required
               </span>
             </span>
           </div>
           <div class="w-full lg:w-1/2 px-2 inputHolder pt-3">
             <span class="input-titel">pincode</span>
-            <input type="text" class="input font-bold" value="" formControlName='pincode' [readonly]='submit==false' />
-            <span *ngIf="pincode && pincode.invalid && pincode.touched && submit" [style.color]="'red'">
-              <span *ngIf="profileForm.get('pincode')?.errors?.['maxlength']">
+            <input type="text" class="input font-bold" value="" formControlName='pincode' [readonly]='submit==false'/>
+            <span *ngIf="profilePincode && profilePincode.invalid && profilePincode.touched && submit"
+                  [style.color]="'red'">
+              <span *ngIf="profilePincode?.errors?.maxlength">
                 pincode must be 6 characters.
               </span>
 
-              <span *ngIf="profileForm.get('pincode')?.errors?.['required']">
+              <span *ngIf="profilePincode?.errors?.required">
                 Pincode is required
               </span>
             </span>
@@ -94,18 +105,19 @@
         <div class="flex flex-wrap justify-between -mx-2">
           <div class="w-full lg:w-1/2 px-2 inputHolder pt-3">
             <span class="input-titel">State</span>
-            <input type="text" class="input font-bold" value="" formControlName='state' [readonly]='submit==false' />
-            <span *ngIf="state && state.invalid && state.touched && submit" [style.color]="'red'">
-              <span *ngIf="profileForm.get('state')?.errors?.['required']">
+            <input type="text" class="input font-bold" value="" formControlName='state' [readonly]='submit==false'/>
+            <span *ngIf="profileState && profileState.invalid && profileState.touched && submit" [style.color]="'red'">
+              <span *ngIf="profileState?.errors?.required">
                 State is required
               </span>
             </span>
           </div>
           <div class="w-full lg:w-1/2 px-2 inputHolder pt-3">
             <span class="input-titel">Country</span>
-            <input type="text" class="input font-bold" value="" formControlName='country' [readonly]='submit==false' />
-            <span *ngIf="country && country.invalid && country.touched && submit" [style.color]="'red'">
-              <span *ngIf="profileForm.get('country')?.errors?.['required']">
+            <input type="text" class="input font-bold" value="" formControlName='country' [readonly]='submit==false'/>
+            <span *ngIf="profileCountry && profileCountry.invalid && profileCountry.touched && submit"
+                  [style.color]="'red'">
+              <span *ngIf="profileCountry?.errors?.required">
                 Country is required
               </span>
             </span>
@@ -113,12 +125,9 @@
         </div>
         <div class="w-full pt-3">
           <span class="input-titel">About Me</span>
-          <textarea cols="30" rows="5" style="font-weight:bold;" class="outline-none flex items-center w-full bg-white resize-none p-2 px-3.5 rounded-md placeholder:text-base placeholder:leading-6 placeholder:font-bold placeholder:text-japaneseIndigo" placeholder="Type here..." formControlName="about" [readonly]='submit==false'></textarea>
-          <span *ngIf="about && about.invalid && about.touched && submit" [style.color]="'red'">
-            <span *ngIf="profileForm.get('about')?.errors?.['required']">
-              About is required
-            </span>
-          </span>
+          <textarea cols="30" rows="5" style="font-weight:bold;"
+                    class="outline-none flex items-center w-full bg-white resize-none p-2 px-3.5 rounded-md placeholder:text-base placeholder:leading-6 placeholder:font-bold placeholder:text-japaneseIndigo"
+                    placeholder="Type here..." formControlName="about" [readonly]='submit==false'></textarea>
         </div>
       </div>
     </form>
@@ -128,23 +137,28 @@
     <form [formGroup]="businessForm">
       <div class="flex justify-between items-center pt-4">
         <h1>Business profile </h1>
-        <button type="submit" *ngIf="submit1==false" class="secondary px-5 py-2" (click)="editProfile1()">Edit Profile</button>
-        <button type="submit" *ngIf="submit1==true" class="secondary px-5 py-2" (click)="changeProfile1()">Submit</button>
+        <button type="submit" *ngIf="submit1==false" class="secondary px-5 py-2" (click)="editProfile1()">Edit Profile
+        </button>
+        <button type="submit" *ngIf="submit1==true" class="secondary px-5 py-2" (click)="changeProfile1()">Submit
+        </button>
       </div>
       <!-- profile image-->
       <div class="flex items-center">
         <div>
           <div class="w-44 h-44 rounded-full border-8 border-magicPotion relative mr-9">
-            <img [src]="imageSrc1" alt="" class="w-full h-full object-cover rounded-full overflow-hidden" />
-            <div class="absolute bottom-0 right-0 flex justify-center items-center w-10 h-10 rounded-full bg-magicPotion z-10">
-              <label for="file1"><img src="../assets/images/cameraProfile.png" style="cursor:pointer" /></label>
+            <img [src]="imageSrc1" alt="" class="w-full h-full object-cover rounded-full overflow-hidden"/>
+            <div
+              class="absolute bottom-0 right-0 flex justify-center items-center w-10 h-10 rounded-full bg-magicPotion z-10">
+              <label for="file1"><img src="../assets/images/cameraProfile.png" class="cursor-pointer"/></label>
             </div>
           </div>
         </div>
-        <input type='file' id="file1" accept="image/png, image/jpeg, image/gif" *ngIf="submit1==true" (change)="profile1($event);" style="display:none" />
+        <input type='file' id="file1" accept="image/png, image/jpeg, image/gif" *ngIf="submit1==true"
+               (change)="profile1($event);" style="display:none"/>
         <div>
           <h4>Mobina Mirbagheri</h4>
-          <h5 class="text-xl font-bold text-japaneseIndigo pt-2.5">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h5>
+          <h5 class="text-xl font-bold text-japaneseIndigo pt-2.5">Lorem Ipsum is simply dummy text of the printing and
+            typesetting industry.</h5>
         </div>
       </div>
       <!-- form Edit  -->
@@ -152,12 +166,14 @@
         <div class="flex flex-wrap justify-between -mx-2">
           <div class="w-full lg:w-1/2 px-2 pt-3 inputHolder">
             <span class="input-titel">Name</span>
-            <input type="text" class="input font-bold" formControlName='firstName1' [readonly]='submit1==false' />
-            <span *ngIf="firstName1 && firstName1.invalid && firstName1.touched && submit1" [style.color]="'red'">Name is required</span>
+            <input type="text" class="input font-bold" formControlName='firstName' [readonly]='submit1==false'/>
+            <span *ngIf="businessFirstName && businessFirstName.invalid && businessFirstName.touched && submit1"
+                  [style.color]="'red'">Name is required</span>
           </div>
           <div class="w-full lg:w-1/2 px-2 pt-3 inputHolder">
             <span class="input-titel">Email</span>
-            <input type="text" class="input font-bold" value="mobinamirbagheri@gmail.com" formControlName='email1' [readonly]='true' />
+            <input type="text" class="input font-bold" value="mobinamirbagheri@gmail.com" formControlName='email'
+                   [readonly]='true'/>
           </div>
         </div>
         <div class="flex flex-wrap justify-between pt-3 -mx-2">
@@ -165,22 +181,26 @@
             <span class="input-titel">Phone Number</span>
             <div class="flex items-center h-auto space-x-3 mt-1">
               <div class="">
-                <select disabled class="text-base text-japaneseIndigo bg-white rounded-md flex space-x-3 profile-arrow outline-0 whitespace-nowrap pl-5 pr-5 xl:pr-10 py-3.5 relative w-20 xl:w-28">
+                <select disabled
+                        class="text-base text-japaneseIndigo bg-white rounded-md flex space-x-3 profile-arrow outline-0 whitespace-nowrap pl-5 pr-5 xl:pr-10 py-3.5 relative w-20 xl:w-28">
                   <option>+91</option>
                   <option>+625</option>
                   <option>+001</option>
                 </select>
               </div>
               <div class="max-w-full w-full inputHolder">
-                <input type="text" class="input font-bold" value="96325 85214" formControlName='mobile1' [readonly]='true' />
+                <input type="text" class="input font-bold" value="96325 85214" formControlName='mobile'
+                       [readonly]='true'/>
               </div>
             </div>
           </div>
           <div class="w-full lg:w-1/2 px-2 pt-3 inputHolder">
             <span class="input-titel">Address</span>
-            <input type="text" class="input font-bold" formControlName='address' value="Akshya Nagar 1st Block 1st Cross, Rammurthy nagar," [readonly]='submit1==false' />
-            <span *ngIf="address && address.invalid && address.touched && submit1" [style.color]="'red'">
-              <span *ngIf="businessForm.get('address')?.errors?.['required']">
+            <input type="text" class="input font-bold" formControlName='address'
+                   value="Akshya Nagar 1st Block 1st Cross, Rammurthy nagar," [readonly]='submit1==false'/>
+            <span *ngIf="businessAddress && businessAddress.invalid && businessAddress.touched && submit1"
+                  [style.color]="'red'">
+              <span *ngIf="businessAddress.errors?.required">
                 Address is required
               </span>
             </span>
@@ -189,15 +209,17 @@
         <div class="flex flex-wrap justify-between pt-3 -mx-2">
           <div class="w-full lg:w-1/2 px-2 pt-3 inputHolder">
             <span class="input-titel">Date Of Birth</span>
-            <!-- <input type="date" class="input font-bold" value="22 January 1975" formControlName='dob1'  [readonly]='submit==false'/> -->
-            <p-calendar [(ngModel)]="date3" class="input font-bold" [showIcon]="false" inputId="icon" formControlName='dob1' [disabled]='submit1==false'></p-calendar>
-            <span *ngIf="dob1 && dob1.invalid && dob1.touched && submit1" [style.color]="'red'">DOB is required</span>
+            <!-- <input type="date" class="input font-bold" value="22 January 1975" formControlName='dob'  [readonly]='submit==false'/> -->
+            <p-calendar class="input font-bold" [showIcon]="false" inputId="icon" formControlName='dob'
+                        [disabled]='submit1==false'></p-calendar>
+            <span *ngIf="businessDob && businessDob.invalid && businessDob.touched && submit1" [style.color]="'red'">DOB is required</span>
           </div>
           <div class="w-full lg:w-1/2 px-2 pt-3 inputHolder">
             <span class="input-titel">Country</span>
-            <input type="text" class="input font-bold" value="" formControlName='country1' [readonly]='submit1==false' />
-            <span *ngIf="country1 && country1.invalid && country1.touched && submit1" [style.color]="'red'">
-              <span *ngIf="businessForm.get('country1')?.errors?.['required']">
+            <input type="text" class="input font-bold" value="" formControlName='country' [readonly]='submit1==false'/>
+            <span *ngIf="businessCountry && businessCountry.invalid && businessCountry.touched && submit1"
+                  [style.color]="'red'">
+              <span *ngIf="businessCountry?.errors?.required">
                 Country is required
               </span>
             </span>
@@ -205,12 +227,9 @@
         </div>
         <div class="w-full pt-3">
           <span class="input-titel">About Me</span>
-          <textarea cols="30" rows="5" style="font-weight:bold;" class="outline-none flex items-center w-full bg-white resize-none p-2 px-3.5 rounded-md placeholder:text-base placeholder:leading-6 placeholder:font-bold placeholder:text-japaneseIndigo" placeholder="Type here..." formControlName="about1" [readonly]='submit1==false'></textarea>
-          <span *ngIf="about1 && about1.invalid && about1.touched && submit1" [style.color]="'red'">
-            <span *ngIf="businessForm.get('about1')?.errors?.['required']">
-              About is required
-            </span>
-          </span>
+          <textarea cols="30" rows="5" style="font-weight:bold;"
+                    class="outline-none flex items-center w-full bg-white resize-none p-2 px-3.5 rounded-md placeholder:text-base placeholder:leading-6 placeholder:font-bold placeholder:text-japaneseIndigo"
+                    placeholder="Type here..." formControlName="about" [readonly]='submit1==false'></textarea>
         </div>
       </div>
     </form>
