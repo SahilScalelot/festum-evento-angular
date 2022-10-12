@@ -73,7 +73,7 @@
                                   <select (input)="updateCalculatedValue()" [formControlName]="'vertical_location'"
                                           [name]="'vertical_location' + i"
                                           class="arrow bgquicksilver py-3 text-japaneseIndigo font-bold rounded-md tracking-wider appearance-none focus-visible:outline-none">
-                                    <option *ngFor="let location of constants.locationsArr" [value]="location.value">
+                                    <option *ngFor="let location of constants.verticalLocationsArr" [value]="location.value">
                                       {{location.label}}
                                     </option>
                                   </select>
@@ -85,7 +85,7 @@
                                   <select (input)="updateCalculatedValue()" [formControlName]="'horizontal_location'"
                                           [name]="'horizontal_location' + i"
                                           class="arrow bgquicksilver py-3 text-japaneseIndigo font-bold rounded-md tracking-wider appearance-none focus-visible:outline-none">
-                                    <option *ngFor="let location of constants.locationsArr" [value]="location.value">
+                                    <option *ngFor="let location of constants.horizontalLocationsArr" [value]="location.value">
                                       {{location.label}}
                                     </option>
                                   </select>
@@ -448,7 +448,7 @@
                       <label class="bg-white h-full py-4 px-5 flex items-center rounded-md cursor-pointer" for="veg">
                         <div class="pr-3">
                           <input checked="" class="w-6 h-6 rounded-full bg-brightGray appearance-none hidden" id="veg"
-                                 name="food" type="radio" [value]="0" [formControlName]="'food'">
+                                 name="food" type="radio" [value]="'VEG'" [formControlName]="'food'">
                           <div
                               class="w-6 h-6 flex items-center justify-center rounded-full bg-brightGray overflow-hidden check-language">
                             <i class="icon-right text-white text-[10px] scale-0 origin-center duration-300 transition-all"></i>
@@ -464,7 +464,7 @@
                       <label class="bg-white h-full py-4 px-5 flex items-center rounded-md cursor-pointer" for="nonveg">
                         <div class="pr-3">
                           <input class="w-6 h-6 rounded-full bg-brightGray appearance-none hidden" id="nonveg"
-                                 name="food" type="radio" [value]="1" [formControlName]="'food'">
+                                 name="food" type="radio" [value]="'NONVEG'" [formControlName]="'food'">
                           <div
                               class="w-6 h-6 flex items-center justify-center rounded-full bg-brightGray overflow-hidden check-language">
                             <i class="icon-right text-white text-[10px] scale-0 origin-center duration-300 transition-all"></i>
@@ -480,7 +480,7 @@
                       <label class="bg-white h-full py-4 px-5 flex items-center rounded-md cursor-pointer" for="both">
                         <div class="pr-3">
                           <input class="w-6 h-6 rounded-full bg-brightGray appearance-none hidden" id="both"
-                                 name="food" type="radio" [value]="2" [formControlName]="'food'">
+                                 name="food" type="radio" [value]="'BOTH'" [formControlName]="'food'">
                           <div
                               class="w-6 h-6 flex items-center justify-center rounded-full bg-brightGray overflow-hidden check-language">
                             <i class="icon-right text-white text-[10px] scale-0 origin-center duration-300 transition-all"></i>
@@ -500,7 +500,7 @@
                              for="foodnotinclude">
                         <div class="pr-3">
                           <input class="w-6 h-6 rounded-full bg-brightGray appearance-none hidden" id="foodnotinclude"
-                                 name="food" type="radio" [value]="3" [formControlName]="'food'">
+                                 name="food" type="radio" [value]="'NONE'" [formControlName]="'food'">
                           <div
                               class="w-6 h-6 flex items-center justify-center rounded-full bg-brightGray overflow-hidden check-language">
                             <i class="icon-right text-white text-[10px] scale-0 origin-center duration-300 transition-all"></i>
@@ -559,7 +559,7 @@
                              for="include-equipment">
                         <div class="pr-3">
                           <input checked="" class="w-6 h-6 rounded-full bg-brightGray appearance-none hidden"
-                                 id="include-equipment" name="equipment" type="radio" [value]="0" [formControlName]="'equipment'">
+                                 id="include-equipment" name="equipment" type="radio" [value]="false" [formControlName]="'equipment'">
                           <div
                               class="w-6 h-6 flex items-center justify-center rounded-full bg-brightGray overflow-hidden check-language">
                             <i class="icon-right text-white text-[10px] scale-0 origin-center duration-300 transition-all"></i>
@@ -576,7 +576,7 @@
                              for="notinclude">
                         <div class="pr-3">
                           <input class="w-6 h-6 rounded-full bg-brightGray appearance-none hidden" id="notinclude"
-                                 name="equipment" type="radio" [value]="1" [formControlName]="'equipment'">
+                                 name="equipment" type="radio" [value]="true" [formControlName]="'equipment'">
                           <div
                               class="w-6 h-6 flex items-center justify-center rounded-full bg-brightGray overflow-hidden check-language">
                             <i class="icon-right text-white text-[10px] scale-0 origin-center duration-300 transition-all"></i>

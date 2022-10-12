@@ -11,6 +11,7 @@ import {CreateEventService} from "../../create-event.service";
 export class ArrangementStepComponent implements OnInit {
   isArrangement: boolean = false;
   occasion: any = [];
+  eventObj: any = {};
 
   constructor(
     public _globalFunctions: GlobalFunctions,
@@ -19,6 +20,7 @@ export class ArrangementStepComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // this.prepareArrangementObj();
     // this._globalFunctions.loadAccordion();
     this._createEventService.isOpenAddEditArrangementDialog$.subscribe((isOpenAddEditArrangementDialog: boolean) => {
       this.isArrangement = isOpenAddEditArrangementDialog;
@@ -103,5 +105,16 @@ export class ArrangementStepComponent implements OnInit {
 
   closePop(flag: boolean): void {
     this.isArrangement = flag;
+    this.prepareArrangementObj();
+  }
+
+  prepareArrangementObj(): void {
+    if (localStorage.getItem('newEventObj')) {
+      const eventString: any = localStorage.getItem('newEventObj');
+      this.eventObj = JSON.parse(eventString);
+      this.occasion = this.eventObj.arrangements;
+    } else {
+      this._router.navigate(['/events']);
+    }
   }
 }

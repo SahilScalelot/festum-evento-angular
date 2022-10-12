@@ -48,7 +48,7 @@ export const CONSTANTS = {
     STAND: 5
   },
 
-  seatingTypesObj: {
+  seatingTypesObj: <any> {
     1: {value: 1, label: 'Table'},
     2: {value: 2, label: 'Sofa'},
     3: {value: 3, label: 'Chair'},
@@ -64,7 +64,7 @@ export const CONSTANTS = {
     {value: 5, label: 'Stand'}
   ],
 
-  unitTypeArr: <any>{
+  unitTypeArr: <any> {
     'B2B': <any>{
       value: <any>'B2B',
       label: <string>'B2B',
@@ -102,18 +102,28 @@ export const CONSTANTS = {
     },
   },
 
-  locationsObj: {
+  verticalLocationsObj: {
     TOP: 0,
-    RIGHT: 1,
-    BOTTOM: 2,
-    LEFT: 3
+    CENTER: 1,
+    BOTTOM: 2
   },
 
-  locationsArr: [
-    {value: 0, label: 'Top'},
-    {value: 1, label: 'Right'},
-    {value: 2, label: 'Down'},
-    {value: 3, label: 'Left'}
+  verticalLocationsArr: [
+    {value: 'TOP', label: 'Top'},
+    {value: 'CENTER', label: 'Center'},
+    {value: 'BOTTOM', label: 'Bottom'}
+  ],
+
+  horizontalLocationsObj: {
+    NONE: 0,
+    LEFT: 1,
+    RIGHT: 2,
+  },
+
+  horizontalLocationsArr: [
+    {value: 'NONE', label: 'None'},
+    {value: 'LEFT', label: 'Left'},
+    {value: 'RIGHT', label: 'Right'},
   ],
 
   maxImageSizeInMB: 5,
