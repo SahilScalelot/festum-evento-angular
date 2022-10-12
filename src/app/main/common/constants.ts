@@ -83,7 +83,7 @@ export const CONSTANTS = {
       ]
     },
     'PP': <any>{
-      value: <any>'PP',
+      value: <any>'PUBLIC PARTY',
       label: <string>'PP',
       options: <any>[
         "Conventions",

@@ -1,8 +1,7 @@
 <div class="space-y-5 px-2">
   <div class="accordions w-full space-y-5">
     <div *ngFor="let item of occasion;let i = index;" class="accordion_item h-full p-0 relative">
-      <div #accordionClick (click)="toggleAccordion($event, i)"
-           class="title_tab flex justify-between items-center px-5 py-6 max-h-[78px] accordion">
+      <div #accordionClick (click)="toggleAccordion($event, i)" class="title_tab flex justify-between items-center px-5 py-6 max-h-[78px] accordion">
         <div (click)="accordionClick.click()" class="space-x-7 flex items-center">
           <img alt="table" class="w-10" src="../assets/images/table.png"/>
           <h4>{{item.seat.name}}</h4>
@@ -11,7 +10,7 @@
           <a href="javascript:void(0);"><i class="icon-delete text-lg text-quicksilver"></i></a>
           <a href="javascript:void(0);"><i class="icon-edit text-lg text-quicksilver"></i></a>
           <span (click)="accordionClick.click()" class="uper-down flex items-center cursor-pointer">
-            <i class="icon-drop_arrow"></i>
+          <i class="icon-drop_arrow"></i>
           </span>
         </div>
       </div>
@@ -25,46 +24,47 @@
             <div class="w-full space-y-2">
               <div class="flex items-center justify-between">
                 <h6 class="text-lg text-japaneseIndigo font-bold">Select Item</h6>
-                <div class="flex items-center">
-                  <input class="switch mx-3 order-2" id="on" type="checkbox"/>
-                  <span class="off text-base font-bold anim order-1 text-caribbeanGreen">per table</span>
-                  <span class="on text-base font-bold anim order-3">per person</span>
-                </div>
               </div>
               <div class="flex flex-wrap items-center">
                 <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
                   <span class="block text-xs xl:text-sm text-quicksilver">No of Table</span>
-                  <span class="block text-base font-bold text-quicksilver">5</span>
+                  <span class="block text-base font-bold text-quicksilver">{{item.no_of_seat}}</span>
                 </div>
                 <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
                   <span class="block text-xs xl:text-sm text-quicksilver">Location</span>
-                  <span class="block text-base font-bold text-quicksilver">T - L</span>
+                  <span class="block text-base font-bold text-quicksilver">{{((item.seat_location == 'TOP') ? 'T' : (item.seat_location == 'CENTER' ? 'C' : 'B'))}} - {{((item.seat_side == 'LEFT') ? 'L' : (item.seat_side == 'RIGHT' ? 'R' : 'N'))}}</span>
                 </div>
                 <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
-                  <span class="block text-xs xl:text-sm text-quicksilver">Table Person Capacity</span>
-                  <span class="block text-base font-bold text-quicksilver">15</span>
+                  <span class="block text-xs xl:text-sm text-quicksilver">per table person capacity</span>
+                  <span class="block text-base font-bold text-quicksilver">{{item.table_person_capacity}}</span>
                 </div>
                 <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
-                  <span class="block text-xs xl:text-sm text-quicksilver">Total Person Capacity</span>
-                  <span class="block text-base font-bold text-quicksilver">15</span>
+                  <span class="block text-xs xl:text-sm text-quicksilver">Total person capacity</span>
+                  <span class="block text-base font-bold text-quicksilver">{{item.person_capacity}}</span>
                 </div>
                 <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
                   <span class="block text-xs xl:text-sm text-quicksilver">Per Table Price</span>
-                  <span class="block text-base font-bold text-quicksilver">100</span>
+                  <span class="block text-base font-bold text-quicksilver">{{item.table_price}}</span>
                 </div>
                 <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
                   <span class="block text-xs xl:text-sm text-quicksilver">per person price</span>
-                  <span class="block text-base font-bold text-quicksilver">100 INR</span>
+                  <span class="block text-base font-bold text-quicksilver">{{item.price_per_seat}} INR</span>
                 </div>
                 <div class="space-y-1 pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
                   <span class="block text-xs xl:text-sm text-quicksilver">Total Amount</span>
-                  <span class="block text-base font-bold text-japaneseIndigo">1000 INR</span>
+                  <span class="block text-base font-bold text-japaneseIndigo">{{item.table_person_capacity}} INR</span>
                 </div>
               </div>
-              <div>
-                <p>Description</p>
-                <span
-                    class="text-base text-quicksilver font-bold">Lorem Ipsum is simply dummy text of the printing.</span>
+              <div class="flex items-start justify-between">
+                <div>
+                  <p>Description</p>
+                  <span class="text-base text-quicksilver font-bold">{{item.description}}</span>
+                </div>
+                <div class="flex items-center pt-4">
+                  <input class="switch mx-3 order-2" id="on" type="checkbox"/>
+                  <span class="off text-base font-bold anim order-1 text-caribbeanGreen">per table</span>
+                  <span class="on text-base font-bold anim order-3">per person</span>
+                </div>
               </div>
             </div>
           </div>
@@ -74,10 +74,8 @@
             </div>
             <div class="w-full space-y-2">
               <p>Food</p>
-              <span class="text-lg font-bold text-japaneseIndigo">Non Veg</span>
-              <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-                industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
-                scrambled it to make a type specimen book.</p>
+              <span class="text-lg font-bold text-japaneseIndigo capitalize">{{item.seat_food}}</span>
+              <p>{{item.seat_food_description}}</p>
             </div>
           </div>
           <div class="flex">
@@ -86,18 +84,16 @@
             </div>
             <div class="w-full space-y-2">
               <p>Equipment</p>
-              <span class="text-lg font-bold text-japaneseIndigo">Not Include</span>
-              <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-                industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
-                scrambled it to make a type specimen book.</p>
+              <span class="text-lg font-bold text-japaneseIndigo capitalize">{{item.seat_equipment}}Not Include</span>
+              <p>{{item.seat_equipment_description}}</p>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!--
-     <div class="accordion_item h-full p-0 relative">
+    
+     <!-- <div class="accordion_item h-full p-0 relative">
        <div class="flex items-center space-x-7 absolute right-20 inset-y-0 h-20">
          <a href="javascript:void(0);"><i class="icon-delete text-lg text-quicksilver"></i></a>
          <a href="javascript:void(0);"><i class="icon-edit text-lg text-quicksilver"></i></a>
@@ -190,8 +186,8 @@
            </div>
          </div>
        </div>
-     </div>
-     <div class="accordion_item h-full p-0 relative">
+     </div> -->
+     <!-- <div class="accordion_item h-full p-0 relative">
        <div class="flex items-center space-x-7 absolute right-20 inset-y-0 h-20">
          <a href="javascript:void(0);"><i class="icon-delete text-lg text-quicksilver"></i></a>
          <a href="javascript:void(0);"><i class="icon-edit text-lg text-quicksilver"></i></a>
@@ -527,8 +523,8 @@
            </div>
          </div>
        </div>
-     </div>
-    -->
+     </div> -->
+   
   </div>
 </div>
 
@@ -543,14 +539,11 @@
       <i class="icon-left_arrow mr-3"></i>
       <h5>Back</h5>
     </button>
-    <button [disabled]="!occasion || !occasion.length" [routerLink]="'/create-event/location'"
-            class="flex items-center active"
-            type="button">
+    <button [disabled]="!occasion || !occasion.length" [routerLink]="'/create-event/location'" class="flex items-center active" type="button">
       <h5>Next</h5>
       <i class="icon-right_arrow ml-3"></i>
     </button>
   </div>
 </div>
 
-<app-arrangement-dialog (isAddEventChange)="closePop($event)" *ngIf="isArrangement"
-                        [popClass]="'active'"></app-arrangement-dialog>
+<app-arrangement-dialog (isAddEventChange)="closePop($event)" *ngIf="isArrangement" [popClass]="'active'"></app-arrangement-dialog>

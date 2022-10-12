@@ -43,6 +43,10 @@ export class CompanyDetailsStepComponent implements OnInit {
     if (localStorage.getItem('newEventObj')) {
       const eventString: any = localStorage.getItem('newEventObj');
       this.companyObj = JSON.parse(eventString);
+      if (this.companyObj) {
+        this.photoArr = this.companyObj?.company_details?.photo || [];
+        this.videoArr = this.companyObj?.company_details?.video || [];
+      }
     }
     
     this.companyForm = this._formBuilder.group({

@@ -7,6 +7,8 @@ import {CreateEventModule} from "./create-event/create-event.module";
 import { BuySpacePlansComponent } from './buy-space-plans/buy-space-plans.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ModalModule } from '../_modal';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CalendarModule } from 'primeng/calendar';
 
 const routes: Routes = [
   {
@@ -27,6 +29,9 @@ const routes: Routes = [
     EventModule,
     CreateEventModule,
     ModalModule,
+    FormsModule,
+    ReactiveFormsModule,
+    CalendarModule
   ]
 })
 export class ContentModule {

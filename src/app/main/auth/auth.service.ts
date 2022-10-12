@@ -11,6 +11,10 @@ export class AuthService {
 
   constructor(private _httpClient: HttpClient, private _globalFunctions: GlobalFunctions) { }
 
+  getLoginUser(): Observable<any> {
+    return this._httpClient.get(CONSTANTS.appUrl + 'authentication/user/', this._globalFunctions.getAuthorizationHeader());
+  }
+
   logIn(credentials: any): Observable<any> {
     return this._httpClient.post(CONSTANTS.appUrl + 'authentication/login/', credentials, this._globalFunctions.getHeader());
   }

@@ -29,7 +29,9 @@ export class PermissionStepComponent implements OnInit {
     if (localStorage.getItem('newEventObj')) {
       const eventString: any = localStorage.getItem('newEventObj');
       this.permissionObj = JSON.parse(eventString);
-      this.inputText = this.permissionObj.permission.permission_letter.split('\\', 3)[2];
+      if (this.permissionObj && this.permissionObj.permission && this.permissionObj.permission.permission_letter) {
+        this.inputText = this.permissionObj.permission.permission_letter.split('\\', 3)[2];
+      }
     } else {
       this._router.navigate(['/events']);
     }
@@ -58,8 +60,8 @@ export class PermissionStepComponent implements OnInit {
     JSON.stringify({ permission: preparedObj });
     localStorage.setItem('newEventObj', JSON.stringify(this.permissionObj));
     this._router.navigate(['create-event/discount']);
-    
   }
+
   prepareObj(permissionObj: any = {}): any {
     const preparedObj: any = permissionObj;
     return preparedObj; 

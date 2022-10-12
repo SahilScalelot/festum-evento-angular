@@ -19,8 +19,16 @@ export class CreateEventService {
   }
 
   // Add Event First Step
-  eventAdd(): any {
-    return this.http.post(environment.appURL + 'org/event/add', this._globalFunctions.getAuthorizationHeader());
+  addEvent(eventObj: any): any {
+    return this.http.post(environment.appURL + 'org/event/add', eventObj, this._globalFunctions.getAuthorizationHeader());
+  }
+  
+  editEvent(eventId: any, eventObj: any): any {
+    return this.http.post(environment.appURL + 'org/event/' + eventId + '/', eventObj, this._globalFunctions.getAuthorizationHeader());
+  }
+  
+  deleteEvent(eventId: any): any {
+    return this.http.delete(environment.appURL + 'org/event/delete/' + eventId + '/', this._globalFunctions.getAuthorizationHeader());
   }
 
   // Images And Video Api

@@ -1,8 +1,10 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {FormBuilder, Validators} from '@angular/forms';
-import {Router} from '@angular/router';
-import {SnotifyService} from 'ng-snotify';
-import {CONSTANTS} from "../../../common/constants";
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { SnotifyService } from 'ng-snotify';
+import { GlobalFunctions } from 'src/app/main/common/global-functions';
+import { CONSTANTS } from "../../../common/constants";
+import { CreateEventService } from '../../create-event/create-event.service';
 
 @Component({
   selector: 'app-add-edit-event-dialog',
@@ -19,11 +21,13 @@ export class AddEditEventDialogComponent implements OnInit {
   constants: any = CONSTANTS;
   newEventForm: any;
   newEventObj: any = {};
+  isLoading: boolean = false;
 
   constructor(
     private _formBuilder: FormBuilder,
-    private _router: Router,
+    private _createEventService: CreateEventService,
     private _sNotify: SnotifyService,
+    private _globalFunctions: GlobalFunctions,
   ) {
   }
 
@@ -64,19 +68,31 @@ export class AddEditEventDialogComponent implements OnInit {
   }
 
   addEvent(): any {
+    this.isLoading = true;
+    const preparedEventObj: any = this.newEventForm.value;
+    preparedEventObj.is_other = false;
+    if (preparedEventObj.other_category && preparedEventObj.other_category != '') {
+      preparedEventObj.event_category = preparedEventObj.other_category;
+      preparedEventObj.is_other = true;
+    }
     if (!this.validate()) {
       return;
     }
-    const preparedEventForm: any = this.newEventForm.value;
-    if (preparedEventForm.other_category && preparedEventForm.other_category != '') {
-      preparedEventForm.event_category = preparedEventForm.other_category;
-    }
-    // if (!this.newEventObj.add_event) {
-    //   this.newEventObj.add_event = {};
-    // }
-    this.newEventObj.add_event = preparedEventForm;
-    localStorage.setItem('newEventObj', JSON.stringify(this.newEventObj));
-    this.closePopup();
+
+    this._createEventService.addEvent(preparedEventObj).subscribe((result: any) => {
+      if (result && result.status) {
+        this.newEventObj.add_event = result.detail;
+        localStorage.setItem('newEventObj', JSON.stringify(this.newEventObj));
+        this.isLoading = false;
+        this.closePopup();
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+        this.isLoading = false;
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isLoading = false;
+    });
   }
 
   closePopup(): void {

@@ -37,7 +37,7 @@ export class ArrangementStepComponent implements OnInit {
         },
         "name": "Best Chair",
         "no_of_seat": 50,
-        "seat_location": "FRONT",
+        "seat_location": "TOP",
         "seat_side": "LEFT",
         "table_person_capacity": 12,
         "person_capacity": 1,
@@ -55,8 +55,8 @@ export class ArrangementStepComponent implements OnInit {
       {
         "id": 2,
         "seat": {
-          "id": 1,
-          "name": "Chair",
+          "id": 2,
+          "name": "Table",
           "svg": "/media/image/events/seating_arrangement/chair.svg",
           "timestamp": "2021-08-15T06:22:41.229676Z",
           "sequence": 1,
