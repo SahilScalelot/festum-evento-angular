@@ -29,16 +29,14 @@ export class PermissionStepComponent implements OnInit {
     if (localStorage.getItem('newEventObj')) {
       const eventString: any = localStorage.getItem('newEventObj');
       this.permissionObj = JSON.parse(eventString);
-      if (this.permissionObj && this.permissionObj.permission && this.permissionObj.permission.permission_letter) {
-        this.inputText = this.permissionObj.permission.permission_letter.split('\\', 3)[2];
-      }
+      this.inputText = this.permissionObj?.permission?.permission_letter?.split('\\', 3)[2];
     } else {
       this._router.navigate(['/events']);
     }
     
     this.permissionForm = this._formBuilder.group({
       permission_letter: [null, [Validators.required]],
-      accept_booking: [this.permissionObj.permission.accept_booking]
+      accept_booking: [this.permissionObj?.permission?.accept_booking]
     });
   }
 
@@ -48,13 +46,21 @@ export class PermissionStepComponent implements OnInit {
 
   submitPermissionForm(): void {
     const pdf = $('#permission_letter')[0].files[0];
-    if (pdf != undefined) {
+    if (this.permissionForm.invalid) {
+      // this.permissionForm.controls.markAsDirty();
+      Object.keys(this.permissionForm.controls).forEach((key) => {
+        this.permissionForm.controls[key].touched = true;
+        this.permissionForm.controls[key].markAsDirty();
+      });
+      return;
+    }
+    // if (pdf != undefined) {
       // this is for upload formData
       // let formData:FormData = new FormData();
       // formData.append('permission_letter', pdf, pdf.name);
       // this.permissionForm.get('permission_letter').setValue(pdf);
-    }
-    localStorage.setItem('newEventObj', JSON.stringify(this.permissionForm.value))
+    // }
+    // localStorage.setItem('newEventObj', JSON.stringify(this.permissionForm.value))
     const preparedObj = this.prepareObj(this.permissionForm.value);
     this.permissionObj.permission = preparedObj;
     JSON.stringify({ permission: preparedObj });

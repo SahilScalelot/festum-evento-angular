@@ -1,7 +1,7 @@
-<div [formGroup]="permissionForm" class="space-y-5">
-  <div class="upload-holder w-full h-full">
+<form [formGroup]="permissionForm" class="space-y-5">
+  <div class="upload-holder w-full h-full relative">
     <span class="text-sm text-quicksilver font-semibold">Add Permission Letter</span>
-    <label class="upload upload-popup py-9" for="permission_letter">
+    <label class="upload upload-popup py-9">
       <input (change)="onChangePDF($event)" [formControlName]="'permission_letter'" accept="application/pdf" class="appearance-none hidden" id="permission_letter" name="permission_letter" type="file"/>
       <div class="flex justify-center text-left items-start">
         <i class="icon-pdf_upload mr-2 pt-2 text-quicksilver"></i>
@@ -9,10 +9,13 @@
         <span *ngIf="!inputText" class="input-titel mt-1 font-bold text-sm">Permission Letter for verification <br/>Attached pdf only</span>
       </div>
     </label>
+    <span class="absolute top-full text-red-500 text-xs" *ngIf="permissionForm.get('permission_letter')?.invalid && (permissionForm.get('permission_letter')?.dirty && permissionForm.get('permission_letter')?.touched)">
+      <span *ngIf="permissionForm.get('permission_letter')?.errors?.['required']">Permission letter is required</span>
+    </span>
   </div>
   <div class="flex items-end">
     <label class="checkbox rounded bg-white">
-      <input [formControlName]="'accept_booking'" name="accept_booking" type="checkbox"/>
+      <input [formControlName]="'accept_booking'" name="accept_booking" type="checkbox" />
       <i class="icon-right text-white"></i>
     </label>
     <span class="input-titel text-lg text-japaneseIndigo ml-4">Accept Booking <span class="textLow-red ml-5">Deselect it if you want to only show event and not allow user to book it</span></span>
@@ -25,7 +28,7 @@
     <i class="icon-info text-quicksilver pr-3"></i>
     <span class="text-xs font-bold text-quicksilver max-w-[288px] inline-block">If the price of the ticket is 0 no commission will be Charged</span>
   </div>
-</div>
+</form>
 
 <div class="mt-auto">
   <!-- advisement -->
