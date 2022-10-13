@@ -116,8 +116,8 @@ export class PhotosVideosStepComponent implements OnInit {
               this.editPhotoObj.name = '';
             }
           }
-          if (this.photoArr && this.photoArr.length && this.photoArr.length >= 5) {
-            this._sNotify.error('Maximum 5 images can upload!', 'Oops!');
+          if (this.photoArr && this.photoArr.length && this.photoArr.length >= 15) {
+            this._sNotify.error('Maximum 15 images can upload!', 'Oops!');
           } else {
             this._modalService.open("photo");
           }
@@ -169,8 +169,8 @@ export class PhotosVideosStepComponent implements OnInit {
         return false;
       }
 
-      if (this.photoArr && this.photoArr.length && this.photoArr.length >= 5) {
-        this._sNotify.error('Maximum 5 images can upload!', 'Oops!');
+      if (this.photoArr && this.photoArr.length && this.photoArr.length >= 15) {
+        this._sNotify.error('Maximum 15 images can upload!', 'Oops!');
         this._modalService.close("photo");
         return false;
       }

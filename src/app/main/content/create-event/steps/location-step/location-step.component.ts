@@ -7,6 +7,7 @@ import {FormBuilder, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import * as _ from 'lodash';
 import { SnotifyService } from 'ng-snotify';
+import { GlobalService } from 'src/app/services/global.service';
 
 @Component({
   selector: 'app-location-step',
@@ -14,6 +15,8 @@ import { SnotifyService } from 'ng-snotify';
   styleUrls: ['./location-step.component.scss']
 })
 export class LocationStepComponent implements OnInit {
+  
+  eventObj: any = {};
   locationForm: any;
   constants: any = CONSTANTS;
   zoom: number = CONSTANTS.defaultMapZoom;
@@ -39,27 +42,23 @@ export class LocationStepComponent implements OnInit {
     private _modalService: ModalService,
     private _router: Router,
     private _http: HttpClient,
-    private _sNotify: SnotifyService
+    private _sNotify: SnotifyService,
+    private _globalService: GlobalService,
   ) {
   }
 
   ngOnInit(): void {
-    if (localStorage.getItem('newEventObj')) {
-      const eventString: any = localStorage.getItem('newEventObj');
-      this.locationObj = JSON.parse(eventString);
-    }
-    this.locationForm = this._formBuilder.group({      
-      flat_number: [this.locationObj?.event_location?.flat_number],
-      street_name: [this.locationObj?.event_location?.street_name],
-      area_name: [this.locationObj?.event_location?.area_name],
-      longitude: [this.locationObj?.event_location?.longitude],
-      latitude: [this.locationObj?.event_location?.latitude],
-      city: [this.locationObj?.event_location?.city, [Validators.required]],
-      state: [this.locationObj?.event_location?.state, [Validators.required]],
-      pincode: [this.locationObj?.event_location?.pincode, [Validators.required, Validators.pattern('^[1-9]{1}[0-9]{2}\\s{0,1}[0-9]{3}$')]],
-    });
+    // if (localStorage.getItem('newEventObj')) {
+    //   const eventString: any = localStorage.getItem('newEventObj');
+    //   this.locationObj = JSON.parse(eventString);
+    // }
+    
+    this.prepareEventObj();
+
     this.lat = this.locationObj?.event_location?.latitude || CONSTANTS.latitude;
     this.lng = this.locationObj?.event_location?.longitude || CONSTANTS.longitude;
+
+    this._prepareAboutEventForm();
 
     // this.customJs('assets/js/form-wizard.js').onload = () => {
     // };
@@ -84,6 +83,37 @@ export class LocationStepComponent implements OnInit {
           this.finaLatLong.lng = place.geometry.location.lng();
         });
       });
+    });
+  }
+
+  prepareEventObj(): void {
+    // if (localStorage.getItem('newEventObj')) {
+    //   const eventString: any = localStorage.getItem('newEventObj');
+    //   this.eventObj = JSON.parse(eventString);
+    // } else {
+    //   this._router.navigate(['/events']);
+    // }
+    this._globalService.addEditEvent$.subscribe((eventObj: any) => {
+      if (eventObj) {
+        this.eventObj = eventObj;
+        this._prepareAboutEventForm(this.eventObj);
+      }
+    });
+    if (!this.eventObj || !this.eventObj.add_event) {
+      this._router.navigate(['/events']);
+    }
+  }
+
+  private _prepareAboutEventForm(eventObj: any = {}): void {
+    this.locationForm = this._formBuilder.group({
+      flat_number: [eventObj?.event_location?.flat_number],
+      street_name: [eventObj?.event_location?.street_name],
+      area_name: [eventObj?.event_location?.area_name],
+      longitude: [eventObj?.event_location?.longitude],
+      latitude: [eventObj?.event_location?.latitude],
+      city: [eventObj?.event_location?.city, [Validators.required]],
+      state: [eventObj?.event_location?.state, [Validators.required]],
+      pincode: [eventObj?.event_location?.pincode, [Validators.required, Validators.pattern('^[1-9]{1}[0-9]{2}\\s{0,1}[0-9]{3}$')]],
     });
   }
 
@@ -192,8 +222,7 @@ export class LocationStepComponent implements OnInit {
   submitLocation() {
     // if (!this.validate()) {
     //   return;
-    // }
-    
+    // }    
     if (this.locationForm.invalid) {
       Object.keys(this.locationForm.controls).forEach((key) => {
         this.locationForm.controls[key].touched = true;
@@ -201,13 +230,14 @@ export class LocationStepComponent implements OnInit {
       });
       return;
     }
-
-    const preparedLocationEventObj = this.prepareLocationEventObj(this.locationForm.value);
-    this.locationObj.event_location = preparedLocationEventObj;
+    this.eventObj.event_location = this.prepareLocationEventObj(this.locationForm.value);
+    localStorage.setItem('newEventObj', JSON.stringify(this.eventObj));
     
-    JSON.stringify({event_location: preparedLocationEventObj});
-    localStorage.setItem('newEventObj', JSON.stringify(this.locationObj));
-    this._router.navigate(['/create-event/photos-and-videos']);
+    console.log(this.eventObj);
+
+    this._globalService.addEditEvent$.next(this.eventObj);
+    // this._router.navigate(['/create-event/photos-and-videos']);
+    this._router.navigate(['/create-event/company-details']);
   }
 
   prepareLocationEventObj(locationObj: any = {}): any {

@@ -1,5 +1,12 @@
-import {Component, OnInit} from '@angular/core';
-import {Validators, FormBuilder} from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { Validators, FormBuilder } from '@angular/forms';
+import { GlobalService } from 'src/app/services/global.service';
+import { CONSTANTS } from '../../common/constants';
+import { ProfileService } from './profile.service';
+import { GlobalFunctions } from '../../common/global-functions';
+import * as moment from 'moment';
+import { SnotifyService } from 'ng-snotify';
+declare let $: any;
 
 @Component({
   selector: 'app-profile',
@@ -7,94 +14,20 @@ import {Validators, FormBuilder} from '@angular/forms';
   styleUrls: ['./profile.component.scss'],
 })
 export class ProfileComponent implements OnInit {
-  submit: boolean = false;
-  submit1: boolean = false;
-  // isEditProfile: boolean = false;
-  // isEditBusinessProfile: boolean = false;
-  imageSrc: any = '../assets/images/profile-3.png';
-  imageSrc1: any = '../assets/images/profile-3.png';
+  isLoading: boolean = false;
+  constants: any = CONSTANTS;
+  isEditProfile: boolean = false;
+  isEditBusinessProfile: boolean = false;
+  profile_pic: any = '';
+  business_profile_pic: any = '';
   profileForm: any;
   businessForm: any;
   profileObj: any = {};
   businessObj: any = {};
-
-  constructor(private _formBuilder: FormBuilder) {
-  }
-
-
-  ngOnInit(): void {
-    this._prepareProfileForm();
-    this._prepareBusinessForm();
-
-    if (localStorage.getItem('mykey')) {
-      this.profileObj = JSON.parse(<string>localStorage.getItem('mykey'));
-    }
-    if (localStorage.getItem('pic')) {
-      this.imageSrc = localStorage.getItem('pic');
-    }
-    this.businessObj = JSON.parse(<string>localStorage.getItem('mykey1'));
-    if (localStorage.getItem('pic1')) {
-      this.imageSrc1 = localStorage.getItem('pic1')
-    }
-  }
-
-  profile(event: any): void {
-    if (event.target.files && event.target.files[0]) {
-      const file = event.target.files[0];
-      const reader: any = new FileReader();
-      reader.onload = () => {
-        this.imageSrc = reader.result;
-        // localStorage.setItem('pic', reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  }
-
-  profile1(event: any): void {
-    if (event.target.files && event.target.files[0]) {
-      const file = event.target.files[0];
-      const reader: any = new FileReader();
-      reader.onload = () => {
-        this.imageSrc1 = reader.result;
-        // localStorage.setItem('pic', reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  }
-
-  editProfile() {
-    this.submit = true
-  }
-
-  editProfile1() {
-    this.submit1 = true
-  }
-
-  changeProfile() {
-    if (!this.profileForm.valid) {
-      console.log('invalid');
-      return;
-    } else {
-      console.log('profile');
-      localStorage.setItem('mykey', JSON.stringify(this.profileForm.value));
-      localStorage.setItem('pic', this.imageSrc);
-    }
-  }
-
-  changeProfile1() {
-    if (!this.businessForm.valid) {
-      console.log('invalid');
-      return;
-    } else {
-      // console.log('profile');
-      localStorage.setItem('mykey1', JSON.stringify(this.businessForm.value));
-      localStorage.setItem('pic1', this.imageSrc1);
-    }
-  }
-
+  maxDate: Date = new Date();
 
   get profileFirstName() {
-    return this.profileForm.get('firstName')
+    return this.profileForm.get('name')
   }
 
   get profileDob() {
@@ -118,7 +51,7 @@ export class ProfileComponent implements OnInit {
   }
 
   get businessFirstName() {
-    return this.businessForm.get('firstName')
+    return this.businessForm.get('name')
   }
 
   get businessDob() {
@@ -133,29 +66,143 @@ export class ProfileComponent implements OnInit {
     return this.businessForm.get('country')
   }
 
-  private _prepareProfileForm(): void {
-    this.profileForm = this._formBuilder.group({
-      firstName: [this.profileObj?.firstName, [Validators.required]],
-      email: [this.profileObj?.email, [Validators.required]],
-      mobile: [this.profileObj?.mobile, [Validators.required]],
-      dob: [this.profileObj.dob ? new Date(this.profileObj.dob) : new Date(), [Validators.required]],
-      city: [this.profileObj?.city, [Validators.required]],
-      pincode: [this.profileObj?.pincode, [Validators.required, Validators.maxLength(6), Validators.pattern('^[0-9]+(\.?[0-9]+)?$')]],
-      state: [this.profileObj?.state, [Validators.required]],
-      country: [this.profileObj?.country, [Validators.required]],
-      about: [this.profileObj?.about]
+  constructor(
+    private _formBuilder: FormBuilder,
+    private _globalService: GlobalService,
+    private _globalFunctions: GlobalFunctions,
+    private _sNotify: SnotifyService,
+    private _profileService: ProfileService) {
+  }
+
+
+  ngOnInit(): void {
+    this.maxDate = new Date();
+    this._prepareProfileForm();
+    this._prepareBusinessForm();
+    // this._getUserDetail();
+    
+    this._globalService.loginUser$.subscribe((user: any) => {
+      if (user) {
+        this.profileObj = user;
+        this._prepareProfileForm(this.profileObj);
+        this.profile_pic = this.profileObj.profile_pic;
+      }
     });
   }
 
-  private _prepareBusinessForm(): void {
+  // private _getUserDetail(): void {
+  //   this.isLoading = true;
+  //   this._authService.getLoginUser().subscribe((result: any) => {
+  //     if (result.status) {
+  //       this.profileObj = result.user;
+  //       this._prepareProfileForm();
+  //       this.isLoading = false;
+  //     }
+  //   });
+  // }
+
+  onUpdateProfileImage(event: any, isBusinessProfile: boolean = false): void {
+    this.profileObj[isBusinessProfile ? 'isChangeBusinessProfilePic' : 'isChangeProfilePic'] = true;
+    
+    if (event.target.files && event.target.files[0]) {
+      const file = event.target.files[0];
+      const reader: any = new FileReader();
+      reader.onload = () => {
+        this[!isBusinessProfile ? 'profile_pic' : 'business_profile_pic'] = reader.result;
+      };
+      reader.readAsDataURL(file);
+    } else {
+      this.profileObj[isBusinessProfile ? 'isChangeBusinessProfilePic' : 'isChangeProfilePic'] = false;
+    }
+  }
+
+  updatePersonalProfile() {
+    if (this.profileForm.valid) {
+      this.profileForm.value.dob = moment(this.profileForm.value.dob).format('DD-MM-YYYY');
+      const preparedProfileObj: any = this.preparePersonalProfileObj(this.profileForm.value);
+
+      this._profileService.updateProfile(preparedProfileObj).subscribe((result: any) => {
+        if (result && result.status) {
+          this._globalService.loginUser$.next(result.data);
+          this._sNotify.success(result.msg, 'Success');
+          window.location.reload();
+        } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+        }
+      }, (error: any) => {
+        this._globalFunctions.errorHanding(error, this, true);
+      });
+    }
+  }
+
+  preparePersonalProfileObj(personalProfileObj: any): any {
+    const personalProfileDataObj = new FormData();
+    $.each(personalProfileObj, function (field: any, value: any) {
+      if (field !== 'profile_pic' && field !== 'isChangeProfilePic') {
+        personalProfileDataObj.append(field, value);
+      }
+    });
+    
+    const profile_pic = $('input[id=profile_pic]')[0].files[0];
+    if (profile_pic !== undefined) {
+      personalProfileDataObj.append('profile_pic', profile_pic);
+    }
+
+    return personalProfileDataObj;
+  }
+
+  updateBusinessProfile() {
+    if (this.businessForm.valid) {
+      console.log('submitBusinessForm');
+    }
+  }
+
+  enableFields(isBusinessProfile: boolean = false): void {
+    if (isBusinessProfile) {
+      this.isEditBusinessProfile = true;
+      this.businessForm.get('name').enable();
+      this.businessForm.get('address').enable();
+      this.businessForm.get('dob').enable();
+      this.businessForm.get('country').enable();
+      this.businessForm.get('about').enable();
+    } else {
+      this.isEditProfile = true;
+      this.profileForm.get('name').enable();
+      this.profileForm.get('dob').enable();
+      this.profileForm.get('city').enable();
+      this.profileForm.get('pincode').enable();
+      this.profileForm.get('state').enable();
+      this.profileForm.get('country').enable();
+      this.profileForm.get('about').enable();
+    }
+  }
+
+  private _prepareProfileForm(personalProfileObj: any = {}): void {
+    const preparedDOB: any = moment(personalProfileObj?.dob, 'DD-MM-YYYY');
+    this.profileForm = this._formBuilder.group({
+      name: [{ value: personalProfileObj?.name, disabled: true }, [Validators.required]],
+      email: [{ value: personalProfileObj?.email, disabled: true }, [Validators.required]],
+      mobile: [{ value: personalProfileObj?.mobile, disabled: true }, [Validators.required]],
+      dob: [{ value: (preparedDOB && preparedDOB._d && preparedDOB._d != 'Invalid Date') ? preparedDOB._d : new Date(), disabled: true }, [Validators.required]],
+      city: [{ value: personalProfileObj?.city, disabled: true }, [Validators.required]],
+      pincode: [{ value: personalProfileObj?.pincode, disabled: true }, [Validators.required, Validators.maxLength(6), Validators.pattern('^[0-9]+(\.?[0-9]+)?$')]],
+      state: [{ value: personalProfileObj?.state, disabled: true }, [Validators.required]],
+      country: [{ value: personalProfileObj?.country, disabled: true }, [Validators.required]],
+      country_code: [{ value: personalProfileObj?.country_code, disabled: true }],
+      about: [{ value: personalProfileObj?.about, disabled: true }]
+    });
+  }
+
+  private _prepareBusinessForm(businessProfileObj: any = {}): void {
+    const preparedDOB: any = moment(businessProfileObj?.dob, 'DD-MM-YYYY');
     this.businessForm = this._formBuilder.group({
-      firstName: [this.businessObj?.firstName, [Validators.required]],
-      email: [this.businessObj?.email, [Validators.required]],
-      mobile: [this.businessObj?.mobile, [Validators.required]],
-      address: [this.businessObj?.address, [Validators.required]],
-      dob: [this.businessObj.dob ? new Date(this.businessObj.dob) : new Date(), [Validators.required]],
-      country: [this.businessObj?.country, [Validators.required]],
-      about: [this.businessObj?.about]
+      name: [{ value: businessProfileObj?.name, disabled: true }, [Validators.required]],
+      email: [{ value: businessProfileObj?.email, disabled: true }, [Validators.required]],
+      mobile: [{ value: businessProfileObj?.mobile, disabled: true }, [Validators.required]],
+      address: [{ value: businessProfileObj?.address, disabled: true }, [Validators.required]],
+      dob: [{ value: (preparedDOB && preparedDOB._d && preparedDOB._d != 'Invalid Date') ? preparedDOB._d : new Date(), disabled: true }, [Validators.required]],
+      country: [{ value: businessProfileObj?.country, disabled: true }, [Validators.required]],
+      about: [{ value: businessProfileObj?.about, disabled: true }]
     });
   }
 }

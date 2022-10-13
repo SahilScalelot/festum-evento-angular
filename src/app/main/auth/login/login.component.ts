@@ -27,6 +27,9 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    localStorage.removeItem('fPMob');
+    localStorage.removeItem('register');
+    localStorage.removeItem('forgot_sms_key');
     this.logInForm = this._formBuilder.group({
       mobile: ['', [Validators.required]],
       password: ['', Validators.required]
@@ -45,7 +48,6 @@ export class LoginComponent implements OnInit {
     }
     if (!this.logInForm.value.password || this.logInForm.value.password === "") {
       // this._sNotify.error('Password is required!', 'Oops!');
-      
       errorFields.push('Password');
       flag = false;
       // return false;

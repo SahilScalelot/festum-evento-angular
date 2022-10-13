@@ -41,20 +41,25 @@ export class CreateEventService {
   }
 
   // Company Detail Api
-  AddCompanyDetail(): any {
-    return this.http.post(environment.appURL + 'event/companydetail/', this._globalFunctions.getFileAuthorizationHeader());
+  addCompanyDetail(CompanyDetailObj: any): any {
+    return this.http.post(environment.appURL + 'event/companydetail', CompanyDetailObj, this._globalFunctions.getFileAuthorizationHeader());
   }
 
-  AddCompanyDetailImages(): any {
-    return this.http.post(environment.appURL + 'event/companydetail/image/', this._globalFunctions.getFileAuthorizationHeader());
+  addCompanyDetailImages(CompanyImageObj: any): any {
+    return this.http.post(environment.appURL + 'event/companydetail/image', CompanyImageObj, this._globalFunctions.getFileAuthorizationHeader());
   }
 
-  AddCompanyDetailVideos(): any {
-    return this.http.post(environment.appURL + 'event/companydetail/video/', this._globalFunctions.getFileAuthorizationHeader());
+  addCompanyDetailVideos(CompanyVideoObj: any): any {
+    return this.http.post(environment.appURL + 'event/companydetail/video', CompanyVideoObj, this._globalFunctions.getFileAuthorizationHeader());
   }
 
   // Personal Detail Api
-  AddPersonalDetail(): any {
+  addPersonalDetail(): any {
     return this.http.post(environment.appURL + 'event/personaldetail/', this._globalFunctions.getAuthorizationHeader());
+  }
+
+  // seats Api
+  getSeatingItems(): any {
+    return this.http.get(environment.appURL + 'seats', this._globalFunctions.getAuthorizationHeader());
   }
 }

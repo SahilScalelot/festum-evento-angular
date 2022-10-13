@@ -3,6 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SnotifyService } from 'ng-snotify';
 import { GlobalFunctions } from 'src/app/main/common/global-functions';
+import { GlobalService } from 'src/app/services/global.service';
 import { CONSTANTS } from "../../../common/constants";
 import { CreateEventService } from '../../create-event/create-event.service';
 
@@ -28,6 +29,7 @@ export class AddEditEventDialogComponent implements OnInit {
     private _createEventService: CreateEventService,
     private _sNotify: SnotifyService,
     private _globalFunctions: GlobalFunctions,
+    private _globalService: GlobalService
   ) {
   }
 
@@ -81,7 +83,8 @@ export class AddEditEventDialogComponent implements OnInit {
 
     this._createEventService.addEvent(preparedEventObj).subscribe((result: any) => {
       if (result && result.status) {
-        this.newEventObj.add_event = result.detail;
+        this.newEventObj.add_event = result.detail;        
+        this._globalService.addEditEvent$.next(this.newEventObj);
         localStorage.setItem('newEventObj', JSON.stringify(this.newEventObj));
         this.isLoading = false;
         this.closePopup();

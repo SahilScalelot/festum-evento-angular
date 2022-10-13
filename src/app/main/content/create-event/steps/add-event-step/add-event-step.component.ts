@@ -17,35 +17,40 @@ export class AddEventStepComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.prepareEvent();
-    // this._globalService.addEditEvent$.subscribe((eventObj: any) => {
-    //   if (eventObj) {
-    //     this.eventObj = eventObj.;
-    //   }
-    // });
+    this.prepareEventObj();
   }
 
   next(): any {
+    this._globalService.addEditEvent$.next(this.eventObj);
     this._router.navigate(['/create-event/about-event']);
   }
 
-  prepareEvent(): void {
-    if (localStorage.getItem('newEventObj')) {
-      const eventString: any = localStorage.getItem('newEventObj');
-      this.eventObj = JSON.parse(eventString);
-    } else {
+  prepareEventObj(): void {
+    // if (localStorage.getItem('newEventObj')) {
+    //   const eventString: any = localStorage.getItem('newEventObj');
+    //   this.eventObj = JSON.parse(eventString);
+    // } else {
+    //   this._router.navigate(['/events']);
+    // }
+    this._globalService.addEditEvent$.subscribe((eventObj: any) => {
+      if (eventObj) {
+        this.eventObj = eventObj;
+      }
+    });
+    if (!this.eventObj || !this.eventObj.add_event) {
       this._router.navigate(['/events']);
     }
   }
 
   deleteEvent(): void {
     // Open delete confirmation popup
-    localStorage.removeItem('newEventObj');
+    this._globalService.addEditEvent$.next(null);
+    // localStorage.removeItem('newEventObj');
     this._router.navigate(['/events']);
   }
 
   closePop(flag: boolean): void {
-    this.prepareEvent();
+    this.prepareEventObj();
     this.isEditEvent = flag;
   }
 

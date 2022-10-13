@@ -5,7 +5,7 @@
   <a href="javascript:void(0);" (click)="onChangeNumberClick()"><span class="text-caribbeanGreen font-semibold text-base sm:text-lg xl:text-xl">Change?</span></a>
 </div>
 <div class="w-full pt-5 sm:pt-10">
-  <form class="space-y-5 relative" id="codeverifyForm">
+  <form class="space-y-5 relative" id="codeverifyForm" >
     <div class="relative">
       <ng-otp-input [formCtrl]="otp" (onInputChange)="onOtpChange($event)" [config]="{length:6}"></ng-otp-input>
       <span class="absolute top-full text-red-500 text-xs" *ngIf="otp.invalid && otp.dirty && otp.touched">
@@ -18,6 +18,6 @@
       </span>
     </div>
     <button class="secondary w-full py-[15px] uppercase" (click)="verifyOtp()" [disabled]="otp.invalid">Verify code</button>
-    <a href="javascript:void(0);" class="block font-bold text-japaneseIndigo text-xs xl:text-sm text-center">Not Get? Re-send</a>
+    <a href="javascript:void(0);" class="block font-bold text-japaneseIndigo text-xs xl:text-sm text-center" (click)="resendOtp()">Not Get? Re-send</a>
   </form>
 </div>

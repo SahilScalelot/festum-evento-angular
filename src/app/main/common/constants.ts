@@ -25,12 +25,7 @@ export const CONSTANTS = {
     INTERNAL_SERVER_ERROR: 500
   },
 
-  userDefaultImage: './assets/images/avatars/profile.jpg',
-  defaultImage: './assets/images/default/default-image.jpeg',
-  defaultPdfImage: './assets/images/default/pdf.png',
-  profileBgImage: './assets/images/background/profile-bg.jpg',
-  logo: './assets/images/logo/logo.png',
-  secondLogo: './assets/images/logo/second-logo.png',
+  userDefaultImage: './assets/images/profile.jpg',
 
   baseImageURL: environment.baseImageURL,
   appUrl: environment.appURL,
@@ -134,5 +129,3 @@ export const CONSTANTS = {
   longitude: 72.833771,
   googleMapApiKey: 'AIzaSyDLgr8YB5IK8dBIEWClexZGzXaB7UlVm7Q'
 };
-
-

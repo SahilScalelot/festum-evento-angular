@@ -14,7 +14,7 @@
           </span>
         </div>
       </div>
-      <div class="border-t panel" hide="!item.isActive">
+      <div class="border-t panel overflow-y-auto" hide="!item.isActive">
         <!-- {{item.childProperties.propertyName}} -->
         <div class="inner_content active i_c space-y-6 px-5 py-6">
           <div class="flex">
@@ -546,4 +546,4 @@
   </div>
 </div>
 
-<app-arrangement-dialog (isAddEventChange)="closePop($event)" *ngIf="isArrangement" [popClass]="'active'"></app-arrangement-dialog>
+<app-arrangement-dialog (isAddEventChange)="closePop($event)" *ngIf="isArrangement" [popClass]="'active'" [seatingItems]="seatingItems"></app-arrangement-dialog>

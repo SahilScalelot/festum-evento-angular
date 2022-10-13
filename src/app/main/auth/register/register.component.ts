@@ -43,16 +43,36 @@ export class RegisterComponent implements OnInit {
       confirm_password: ['', [Validators.required]],
       refer_code: [''],
       country_code: ['+91'],
-      role: ['Organiser'],
+      role: [4],
     }, {
       validators: FuseValidators.mustMatch('password', 'confirm_password')
-    });
-  }
+    });    
+  }  
+
+  // verifyOtp(): void {
+  //   var pw = JSON.parse(localStorage.getItem('forgot')!);
+  //   var mnum = JSON.parse(localStorage.getItem('fPMob')!);
+
+  //   this._authService.verifyCode(mnum, this.otp1, pw.smsKey).subscribe(
+  //     (res: any) => {
+  //       console.log(res);
+  //       if (res) {
+  //         console.log(146, 'matched');
+  //         localStorage.removeItem('reMob');
+  //         localStorage.removeItem('fPMob');
+  //         this._router.navigate(['/set-new-password']);
+  //       } else {
+  //         console.log('otp not matched');
+  //       }
+  //     },
+  //     (error: any) => {
+  //       console.log('not matched');
+  //     }
+  //   );
+  // }
 
   register(): void {
-    // console.log(this.registerForm.value);
     if (this.registerForm.invalid) {
-      // this.registerForm.controls.markAsDirty();
       Object.keys(this.registerForm.controls).forEach((key) => {
         this.registerForm.controls[key].touched = true;
         this.registerForm.controls[key].markAsDirty();
@@ -60,11 +80,12 @@ export class RegisterComponent implements OnInit {
       return;
     }
 
+    localStorage.setItem("register",JSON.stringify(this.registerForm.value))
     this.registerForm.disable();
-    this._authService.register(this.registerForm.value).subscribe((result: any) => {
-      if (result.flag) {
-        this._sNotify.success(result.message, 'Success');
-        this._router.navigate(['login']);
+    this._authService.sendOTP(this.registerForm.value.mobile).subscribe((result: any) => {
+      if (result && result.status) {
+        localStorage.setItem('register_sms_key', result.smsKey);  
+        this._router.navigate(['/otp']);
       } else {
         this._sNotify.success(result.message, 'error');
         this.registerForm.enable();
@@ -74,8 +95,23 @@ export class RegisterComponent implements OnInit {
       this.registerForm.enable();
       // this.registerNgForm.resetForm();
       this._globalFunctions.errorHanding(error, this, true);
-      // this._sNotify.success(result.message, 'error');
+      this._sNotify.success(error.message, 'error');
     });
+  //   this._authService.register(this.registerForm.value).subscribe((result: any) => {
+  //     if (result.flag) {
+  //       this._sNotify.success(result.message, 'Success');
+  //       this._router.navigate(['login']);
+  //     } else {
+  //       this._sNotify.success(result.message, 'error');
+  //       this.registerForm.enable();
+  //       this._globalFunctions.successErrorHandling(result, this, true);
+  //     }
+  //   }, (error: any) => {
+  //     this.registerForm.enable();
+  //     // this.registerNgForm.resetForm();
+  //     this._globalFunctions.errorHanding(error, this, true);
+  //     // this._sNotify.success(result.message, 'error');
+  //   });
+  // }
   }
-
 }

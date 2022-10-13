@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {FuseValidators} from "../validators";
+import {AuthService} from "../../auth/auth.service"
 
 @Component({
   selector: 'app-set-new-password',
@@ -23,7 +24,8 @@ export class SetNewPasswordComponent implements OnInit {
 
   constructor(
     private _formBuilder: FormBuilder,
-    private _router: Router
+    private _router: Router,
+    private _auth:AuthService
   ) {
   }
 
@@ -39,8 +41,21 @@ export class SetNewPasswordComponent implements OnInit {
 
   setNewPassword(): void {
     if (!this.setNewPasswordForm.invalid) {
-      // console.log(this.setNewPasswordForm);
-      this._router.navigate(['/login']);
+      var mobile = JSON.parse(localStorage.getItem('fPMob')!);
+      var newPassword ={
+        mobile:mobile,
+        password:this.setNewPasswordForm.value.password,
+        confirm_password:this.setNewPasswordForm.value.confirm_password
+      }
+      console.log(mobile)
+      // console.log(this.setNewPasswordForm.value.password)
+      this._auth.changePassword(newPassword).subscribe((res:any)=>{
+        if(res.status){
+          console.log('password changed')
+          this._router.navigate(['/login']);
+        }
+      })
+      
     }
   }
 

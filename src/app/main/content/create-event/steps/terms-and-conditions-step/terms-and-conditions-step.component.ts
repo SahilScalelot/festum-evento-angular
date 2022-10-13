@@ -3,7 +3,9 @@ import {FormBuilder, Validators} from "@angular/forms";
 import { Router } from '@angular/router';
 // @ts-ignore
 import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
+import { GlobalFunctions } from 'src/app/main/common/global-functions';
 import { ModalService } from 'src/app/main/_modal';
+import { CreateEventService } from '../../create-event.service';
 
 @Component({
   selector: 'app-terms-and-conditions-step',
@@ -21,7 +23,9 @@ export class TermsAndConditionsStepComponent implements OnInit {
   constructor(
     private _formBuilder: FormBuilder,
     private _modalService: ModalService,
-    private _router: Router 
+    private _router: Router,
+    private _createEventService: CreateEventService,
+    private _globalFunctions: GlobalFunctions
   ) {}
 
   ngOnInit(): void {
@@ -104,6 +108,8 @@ export class TermsAndConditionsStepComponent implements OnInit {
       }
     };
     this._preparePersonalDetailForm();
+
+    // this.addCompanyDetail();
   }
 
   onTextEditorReady(editor: any, fieldForSetData: any): void {
@@ -231,4 +237,17 @@ export class TermsAndConditionsStepComponent implements OnInit {
       terms_and_conditions: [this.termsAndConditionsObj?.terms_and_conditions?.terms_and_conditions, {disabled: true}],
     });
   }
+
+  // addCompanyDetail(): void {
+  //   this._createEventService.addCompanyDetail(this.termsAndConditionsObj.company_details).subscribe((result: any) => {
+  //     console.log(result);
+  //     if (result) {
+  //     } else {
+  //       this._globalFunctions.successErrorHandling(result, this, true);
+  //     }
+  //   }, (error: any) => {
+  //     this._globalFunctions.errorHanding(error, this, true);
+  //   });
+  // }
+
 }

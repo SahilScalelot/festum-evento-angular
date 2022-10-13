@@ -1,3 +1,4 @@
+<p-progressSpinner *ngIf="isLoading" [style]="{width: '50px', height: '50px'}" animationDuration=".5s" fill="#EEEEEE" strokeWidth="8" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" styleClass="custom-spinner"></p-progressSpinner>
 <div class="px-2">
   <!-- company details  -->
   <form [formGroup]="companyForm">
@@ -29,7 +30,7 @@
     <div class="flex items-end flex-wrap -mx-2">
       <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative">
         <span class="input-titel">Company Contact No</span>
-        <input [formControlName]="'contact_no'" class="input" type="text"/>
+        <input [formControlName]="'contact_no'" class="input" type="text" fuseValidNumber />
         <span class="absolute top-full text-red-500 text-xs" *ngIf="companyForm.get('contact_no')?.invalid && (companyForm.get('contact_no')?.dirty && companyForm.get('contact_no')?.touched)">
           <span *ngIf="companyForm.get('contact_no')?.errors?.['pattern']">
             Please enter valid Contact Number.
@@ -86,7 +87,7 @@
         </div>
         <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-5 inputHolder relative">
           <label class="input-titel">Pincode<span class="text-magicPotion">*</span></label>
-          <input [formControlName]="'pincode'" class="input" type="text"/>
+          <input [formControlName]="'pincode'" class="input" type="text" fuseValidNumber />
           <span class="absolute top-full text-red-500 text-xs" *ngIf="companyForm.get('pincode')?.invalid && (companyForm.get('pincode')?.dirty && companyForm.get('pincode')?.touched)">
             <span *ngIf="companyForm.get('pincode')?.errors?.['required']">
               Pincode is required.

@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { SnotifyService } from 'ng-snotify';
 import { CONSTANTS } from 'src/app/main/common/constants';
 import { GlobalFunctions } from 'src/app/main/common/global-functions';
+import { GlobalService } from 'src/app/services/global.service';
+import { CreateEventService } from '../../create-event.service';
 
 declare var $: any;
 
@@ -16,6 +18,8 @@ declare var $: any;
 export class CompanyDetailsStepComponent implements OnInit {
   imgChangeEvt: any = '';
 
+  isLoading: boolean = false;
+
   companyForm: any;
   inputText: any;
 
@@ -25,6 +29,8 @@ export class CompanyDetailsStepComponent implements OnInit {
   videoObj: any = [];
   videoArr: any = [];
   permissionObj: any = [];
+  
+  eventObj: any = {};
 
   isInValidPDF: boolean = false;
 
@@ -36,35 +42,58 @@ export class CompanyDetailsStepComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private _router: Router,
     private _globalFunctions: GlobalFunctions,
-    private _sNotify: SnotifyService
+    private _sNotify: SnotifyService,
+    private _createEventService: CreateEventService,
+    private _globalService: GlobalService,
   ) {}
 
   ngOnInit(): void {
-    if (localStorage.getItem('newEventObj')) {
-      const eventString: any = localStorage.getItem('newEventObj');
-      this.companyObj = JSON.parse(eventString);
-      if (this.companyObj) {
-        this.photoArr = this.companyObj?.company_details?.photo || [];
-        this.videoArr = this.companyObj?.company_details?.video || [];
+    // if (localStorage.getItem('newEventObj')) {
+    //   const eventString: any = localStorage.getItem('newEventObj');
+    //   this.companyObj = JSON.parse(eventString);
+    //   if (this.companyObj) {
+    //     this.photoArr = this.companyObj?.company_details?.photo || [];
+    //     this.videoArr = this.companyObj?.company_details?.video || [];
+    //   }
+    // }
+    this.prepareEventObj();
+    this._prepareAboutEventForm();
+  }
+
+  prepareEventObj(): void {
+    // if (localStorage.getItem('newEventObj')) {
+    //   const eventString: any = localStorage.getItem('newEventObj');
+    //   this.eventObj = JSON.parse(eventString);
+    // } else {
+    //   this._router.navigate(['/events']);
+    // }
+    this._globalService.addEditEvent$.subscribe((eventObj: any) => {
+      if (eventObj) {
+        this.eventObj = eventObj;
+        this._prepareAboutEventForm(this.eventObj);
       }
+    });
+    if (!this.eventObj || !this.eventObj.add_event) {
+      // this._router.navigate(['/events']);
     }
-    
+  }
+
+  private _prepareAboutEventForm(eventObj: any = {}): void {
     this.companyForm = this._formBuilder.group({
-      name: [this.companyObj?.company_details?.name, [Validators.minLength(2)]],
+      name: [eventObj?.company_details?.name, [Validators.minLength(2)]],
       gst: [''],
-      contact_no: [this.companyObj?.company_details?.contact_no, [Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
-      email: [this.companyObj?.company_details?.email, [Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
-      about: [this.companyObj?.company_details?.about],
-      flat_no: [this.companyObj?.company_details?.flat_no],
-      street: [this.companyObj?.company_details?.street],
-      area: [this.companyObj?.company_details?.area],
-      city: [this.companyObj?.company_details?.city, Validators.required],
-      state: [this.companyObj?.company_details?.state, Validators.required],
-      pincode: [this.companyObj?.company_details?.pincode, [Validators.required, Validators.pattern('^[1-9]{1}[0-9]{2}\\s{0,1}[0-9]{3}$')]],
+      contact_no: [eventObj?.company_details?.contact_no, [Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
+      email: [eventObj?.company_details?.email, [Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
+      about: [eventObj?.company_details?.about],
+      flat_no: [eventObj?.company_details?.flat_no],
+      street: [eventObj?.company_details?.street],
+      area: [eventObj?.company_details?.area],
+      city: [eventObj?.company_details?.city, Validators.required],
+      state: [eventObj?.company_details?.state, Validators.required],
+      pincode: [eventObj?.company_details?.pincode, [Validators.required, Validators.pattern('^[1-9]{1}[0-9]{2}\\s{0,1}[0-9]{3}$')]],
+      event_reg: [],
       images: [this.photoArr],
       videos: [this.videoArr],
-      // images: [this.photoArr],
-      // videos: [this.videoArr],
     });
   }
 
@@ -77,18 +106,14 @@ export class CompanyDetailsStepComponent implements OnInit {
         $('#company-gst').focus();
         this.isInValidPDF = true;
         return false;
-      }
-      
+      }      
       const reader = new FileReader();
       reader.onload = (e: any) => {
         this.pdfObj.push({ pdfUpload: e.target.result });
       };
       reader.readAsDataURL(pdfUpload);
-      
       this.inputText = event?.target?.files[0]?.name;
-      console.log(this.inputText);
-
-      this.companyForm.get('gst').setValue(this.inputText);
+      // this.companyForm.get('gst').setValue(this.inputText);
     }
   }
 
@@ -169,16 +194,52 @@ export class CompanyDetailsStepComponent implements OnInit {
       return;
     }
 
-    const preparedObj = this.prepareObj(this.companyForm.value);
-    this.companyObj.company_details = preparedObj;
-    
-    JSON.stringify({company_details: preparedObj});
-    localStorage.setItem('newEventObj', JSON.stringify(this.companyObj));
+    this.eventObj.company_details = this.prepareObj(this.companyForm.value);
+    // localStorage.setItem('newEventObj', JSON.stringify(this.eventObj));
+    console.log(this.eventObj);
+    this._globalService.addEditEvent$.next(this.eventObj);    
     this._router.navigate(['/create-event/personal-details']);
   }
   
   prepareObj(companyObj: any = {}): any {
     const preparedObj: any = companyObj;
     return preparedObj;
+  }
+
+
+  addCompanyDetail(): void {
+    this._createEventService.addCompanyDetail(this.companyForm.value).subscribe((result: any) => {
+      console.log(result);
+      if (result) {
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+    });
+  }
+
+  addCompanyImages(): void {
+    this._createEventService.addCompanyDetailImages(this.companyForm.value.images).subscribe((result: any) => {
+      console.log(result);
+      if (result) {
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+    });
+  }
+  
+  addCompanyVideos(): void {
+    this._createEventService.addCompanyDetailVideos(this.companyForm.value.videos).subscribe((result: any) => {
+      console.log(result);
+      if (result) {
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+    });
   }
 }

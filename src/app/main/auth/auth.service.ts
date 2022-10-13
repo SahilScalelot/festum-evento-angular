@@ -24,7 +24,18 @@ export class AuthService {
   }
 
   forgotPassword(mobileObj: any): Observable<any> {
-    return this._httpClient.post(CONSTANTS.appUrl + 'authentication/sendOtp/?forgot_password=true', mobileObj, this._globalFunctions.getHeader());
+    return this._httpClient.post(CONSTANTS.appUrl + 'authentication/sendOtp/?forgot_password=true',mobileObj,this._globalFunctions.getHeader());
   }
 
+  sendOTP(mobileObj: any): Observable<any> {
+    return this._httpClient.post(CONSTANTS.appUrl + 'authentication/sendOtp/', mobileObj,this._globalFunctions.getHeader());
+  }
+  
+  verifyCode(verifyOTP:any): Observable<any> {
+    return this._httpClient.post(CONSTANTS.appUrl + 'authentication/verifyOtp/',verifyOTP, this._globalFunctions.getHeader());
+  }
+  
+  changePassword(newPassword:any): Observable<any> {
+    return this._httpClient.post(CONSTANTS.appUrl + 'authentication/verifyOtpChangePassword/',newPassword,this._globalFunctions.getHeader());
+  }
 }

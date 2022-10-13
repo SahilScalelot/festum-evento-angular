@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {Router} from '@angular/router';
 import {GlobalFunctions} from 'src/app/main/common/global-functions';
 import {CreateEventService} from "../../create-event.service";
@@ -9,6 +9,10 @@ import {CreateEventService} from "../../create-event.service";
   styleUrls: ['./arrangement-step.component.scss']
 })
 export class ArrangementStepComponent implements OnInit {
+  // @ViewChild('photosNgForm') photosNgForm: any;
+
+  seatingItems: any = [];
+
   isArrangement: boolean = false;
   occasion: any = [];
   eventObj: any = {};
@@ -20,8 +24,10 @@ export class ArrangementStepComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.prepareArrangementObj();
+    this.prepareArrangementObj();
     // this._globalFunctions.loadAccordion();
+    this.getSeatingItems();
+
     this._createEventService.isOpenAddEditArrangementDialog$.subscribe((isOpenAddEditArrangementDialog: boolean) => {
       this.isArrangement = isOpenAddEditArrangementDialog;
     });
@@ -58,7 +64,7 @@ export class ArrangementStepComponent implements OnInit {
         "id": 2,
         "seat": {
           "id": 2,
-          "name": "Table",
+          "name": "Chair",
           "svg": "/media/image/events/seating_arrangement/chair.svg",
           "timestamp": "2021-08-15T06:22:41.229676Z",
           "sequence": 1,
@@ -82,6 +88,18 @@ export class ArrangementStepComponent implements OnInit {
         "occasion": 43
       },
     ]
+  }
+
+  getSeatingItems(): void {
+    this._createEventService.getSeatingItems().subscribe((result: any) => {
+      if (result && result.status) {
+        this.seatingItems = result.data || [];
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+    });
   }
 
   toggleAccordion(event: any, index: any): void {

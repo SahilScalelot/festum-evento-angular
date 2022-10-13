@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {FormControl, Validators} from "@angular/forms";
+import {AuthService} from "../../auth/auth.service"
 
 @Component({
   selector: 'app-forgot-password',
@@ -11,7 +12,7 @@ export class ForgotPasswordComponent implements OnInit {
   phone: FormControl | any;
 
   constructor(
-    private _router: Router
+    private _router: Router, private _auth:AuthService
   ) {
   }
 
@@ -21,6 +22,15 @@ export class ForgotPasswordComponent implements OnInit {
   }
 
   sendVerificationCode(): any {
+    console.log(this.phone.value)
+    var forgotPwd={
+      mobile:this.phone.value
+    }
+    this._auth.forgotPassword(forgotPwd).subscribe((result:any)=>{
+      console.log(121,result)
+      localStorage.setItem('forgot1',JSON.stringify(result));
+    })
+
     if (!this.phone.invalid) {
       localStorage.setItem('fPMob', this.phone.value);
       this._router.navigate(['/otp']);
