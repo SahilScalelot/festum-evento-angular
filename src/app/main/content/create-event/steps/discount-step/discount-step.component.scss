@@ -16,16 +16,21 @@
     padding-bottom: 9px;
   }
 } 
-::ng-deep .p-multiselect-token-label {
-  font-size: 12px;
-}
-::ng-deep .p-multiselect-item {
-  padding: 0.35rem;
-}
-::ng-deep .ng-star-inserted {
-  font-size: 14px;
-}
-::ng-deep .p-multiselect-filter {
-  padding-top: 4px;
-  padding-bottom: 4px;
+::ng-deep {
+  .p-multiselect-token-label {
+    font-size: 12px;
+  }
+  .ng-star-inserted {
+    font-size: 14px;
+  }
+  .p-multiselect-item {
+    padding: 0.35rem;
+  }
+  .p-multiselect-filter {
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
+  .p-inputnumber {
+    width: 100%;
+  }
 }

@@ -24,6 +24,7 @@ import {AgmCoreModule} from "@agm/core";
 import {CKEditorModule} from "@ckeditor/ckeditor5-angular";
 import {MultiSelectModule} from 'primeng/multiselect';
 import { ReactiveFormsModule } from '@angular/forms';
+import {InputNumberModule} from "primeng/inputnumber";
 
 const routes: Routes = [
   {path: '', redirectTo: 'add-event', pathMatch: 'full'},
@@ -93,6 +94,7 @@ const routes: Routes = [
     CKEditorModule,
     ReactiveFormsModule,
     MultiSelectModule,
+    InputNumberModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyDLgr8YB5IK8dBIEWClexZGzXaB7UlVm7Q',
       libraries: ['places']

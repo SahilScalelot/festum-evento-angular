@@ -62,4 +62,8 @@ export class CreateEventService {
   getSeatingItems(): any {
     return this.http.get(environment.appURL + 'seats', this._globalFunctions.getAuthorizationHeader());
   }
+
+  getAllDiscounts(): any {
+    return this.http.get(environment.appURL + 'discount', this._globalFunctions.getAuthorizationHeader());
+  }
 }
