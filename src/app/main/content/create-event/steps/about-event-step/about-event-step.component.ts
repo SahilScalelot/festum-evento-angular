@@ -71,8 +71,7 @@ export class AboutEventStepComponent implements OnInit {
     
     // console.log(this.eventObj);
     this._globalService.addEditEvent$.next(this.eventObj);
-    // this._router.navigate(['/create-event/arrangement']);
-    this._router.navigate(['/create-event/location']);
+    this._router.navigate(['/create-event/arrangement']);
     // console.log(this.aboutEventForm);
   }
 

@@ -53,12 +53,12 @@ export class LocationStepComponent implements OnInit {
     //   this.locationObj = JSON.parse(eventString);
     // }
     
-    this.prepareEventObj();
-
+    this._prepareAboutEventForm();
+    
     this.lat = this.locationObj?.event_location?.latitude || CONSTANTS.latitude;
     this.lng = this.locationObj?.event_location?.longitude || CONSTANTS.longitude;
-
-    this._prepareAboutEventForm();
+    
+    this.prepareEventObj();
 
     // this.customJs('assets/js/form-wizard.js').onload = () => {
     // };

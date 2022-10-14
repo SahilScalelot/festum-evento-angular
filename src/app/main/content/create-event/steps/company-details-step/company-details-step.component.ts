@@ -56,8 +56,8 @@ export class CompanyDetailsStepComponent implements OnInit {
     //     this.videoArr = this.companyObj?.company_details?.video || [];
     //   }
     // }
-    this.prepareEventObj();
     this._prepareAboutEventForm();
+    this.prepareEventObj();
   }
 
   prepareEventObj(): void {
@@ -197,7 +197,7 @@ export class CompanyDetailsStepComponent implements OnInit {
     this.eventObj.company_details = this.prepareObj(this.companyForm.value);
     // localStorage.setItem('newEventObj', JSON.stringify(this.eventObj));
     console.log(this.eventObj);
-    this._globalService.addEditEvent$.next(this.eventObj);    
+    this._globalService.addEditEvent$.next(this.eventObj);
     this._router.navigate(['/create-event/personal-details']);
   }
   

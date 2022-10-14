@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
 import { GlobalFunctions } from 'src/app/main/common/global-functions';
 import { ModalService } from 'src/app/main/_modal';
+import { GlobalService } from 'src/app/services/global.service';
 import { CreateEventService } from '../../create-event.service';
 
 @Component({
@@ -18,6 +19,8 @@ export class TermsAndConditionsStepComponent implements OnInit {
   editorConfig: any = {};
   agreeTAndC: boolean = false;
 
+  eventObj: any = {};
+
   termsAndConditionsObj: any = {terms_and_conditions: {}};
 
   constructor(
@@ -25,7 +28,8 @@ export class TermsAndConditionsStepComponent implements OnInit {
     private _modalService: ModalService,
     private _router: Router,
     private _createEventService: CreateEventService,
-    private _globalFunctions: GlobalFunctions
+    private _globalFunctions: GlobalFunctions,
+    private _globalService: GlobalService,
   ) {}
 
   ngOnInit(): void {
@@ -107,7 +111,8 @@ export class TermsAndConditionsStepComponent implements OnInit {
         ]
       }
     };
-    this._preparePersonalDetailForm();
+    this._prepareForm();    
+    this.prepareTermsAndConditionsEventObj();
 
     // this.addCompanyDetail();
   }
@@ -217,6 +222,24 @@ export class TermsAndConditionsStepComponent implements OnInit {
     return preparedEventObj;
   }
 
+  prepareTermsAndConditionsEventObj(): void {
+    // if (localStorage.getItem('newEventObj')) {
+    //   const eventString: any = localStorage.getItem('newEventObj');
+    //   this.eventObj = JSON.parse(eventString);
+    // } else {
+    //   this._router.navigate(['/events']);
+    // }
+    this._globalService.addEditEvent$.subscribe((eventObj: any) => {
+      if (eventObj) {
+        this.eventObj = eventObj;
+        this._prepareForm(this.eventObj);
+      }
+    });
+    if (!this.eventObj || !this.eventObj.add_event) {
+      // this._router.navigate(['/events']);
+    }
+  }
+
   prepareImagesEventObj(eventObj: any = {}): any {
   }
   
@@ -224,17 +247,17 @@ export class TermsAndConditionsStepComponent implements OnInit {
     const preparedObj: any = companyObj;
     return preparedObj;
   }
-  
-  private _preparePersonalDetailForm(): void {
+
+  private _prepareForm(eventObj: any = {}): void {
     this.termsAndConditionsForm = this._formBuilder.group({
-      event_terms_and_conditions: [this.termsAndConditionsObj?.terms_and_conditions?.event_terms_and_conditions, [Validators.required]],
-      facebook_url: [this.termsAndConditionsObj?.terms_and_conditions?.facebook_url],
-      youtube_url: [this.termsAndConditionsObj?.terms_and_conditions?.youtube_url],
-      twitter_url: [this.termsAndConditionsObj?.terms_and_conditions?.twitter_url],
-      pinterest_url: [this.termsAndConditionsObj?.terms_and_conditions?.pinterest_url],
-      instagram_url: [this.termsAndConditionsObj?.terms_and_conditions?.instagram_url],
-      linkedin_url: [this.termsAndConditionsObj?.terms_and_conditions?.linkedin_url],
-      terms_and_conditions: [this.termsAndConditionsObj?.terms_and_conditions?.terms_and_conditions, {disabled: true}],
+      event_terms_and_conditions: [eventObj?.terms_and_conditions?.event_terms_and_conditions, [Validators.required]],
+      facebook_url: [eventObj?.terms_and_conditions?.facebook_url],
+      youtube_url: [eventObj?.terms_and_conditions?.youtube_url],
+      twitter_url: [eventObj?.terms_and_conditions?.twitter_url],
+      pinterest_url: [eventObj?.terms_and_conditions?.pinterest_url],
+      instagram_url: [eventObj?.terms_and_conditions?.instagram_url],
+      linkedin_url: [eventObj?.terms_and_conditions?.linkedin_url],
+      terms_and_conditions: [eventObj?.terms_and_conditions?.terms_and_conditions, {disabled: true}],
     });
   }
 
