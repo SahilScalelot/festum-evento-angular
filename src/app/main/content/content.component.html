@@ -71,7 +71,10 @@
           <a href="javascript:void(0);" class="block hover:text-spiroDiscoBall anim" title="megaphone"><span class="icon-megaphone text-2xl block"></span></a>
           <a href="javascript:void(0);" class="block hover:text-spiroDiscoBall anim" title="qr_scanner" (click)="openBarcode()"><span class="icon-qr_scanner text-2xl block"></span></a>
           <div class="relative group">
-            <span class="block cursor-pointer"><img src="/assets/images/profile.png" alt="user name" class="w-12 h-12 object-cover rounded-2xl" /></span>
+            <span class="block cursor-pointer">
+              <img #img [src]="(loginUser && loginUser.profile_pic) ? constants.baseImageURL + loginUser.profile_pic : constants.userDefaultImage" alt="user name"
+              (error)="img.src = constants.userDefaultImage;" class="w-12 h-12 object-cover rounded-2xl" />
+            </span>
             <div class="absolute top-full right-0 pt-3 hidden group-hover:block">
               <span class="absolute top-2 right-5 w-3 h-3 bg-white shadow-md border rotate-45"></span>
               <span class="absolute top-2 right-5 w-2.5 h-2.5 bg-white m-px z-10 rotate-45"></span>

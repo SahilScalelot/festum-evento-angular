@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { GlobalFunctions } from '../../common/global-functions';
-import { GlobalService } from '../../../services/global.service';
 import { SnotifyService } from 'ng-snotify';
 import { AuthService } from '../auth.service';
 
@@ -12,55 +11,69 @@ import { AuthService } from '../auth.service';
   styleUrls: ['./otp.component.scss'],
 })
 export class OtpComponent implements OnInit {
-  otp1: any;
   otp: FormControl | any;
+  forgotPwdObj: any = {};
+  registerObj: any = {};
   isForgotPwdFlow: boolean = false;
+  isLoading: boolean = false;
   phone: any = '';
+  smsKey: any = '';
 
   constructor(
     private _router: Router,
     private _authService: AuthService,
     private _globalFunctions: GlobalFunctions,
-    private _globalService: GlobalService,
     private _sNotify: SnotifyService
   ) { }
 
   ngOnInit() {
-    if (localStorage.getItem('reMob')) {
-      this.phone = localStorage.getItem('reMob');
-    } else if (localStorage.getItem('fPMob')) {
+    if (localStorage.getItem('forgot-password')) {
       this.isForgotPwdFlow = true;
-      this.phone = localStorage.getItem('fPMob');
+      localStorage.removeItem('register');
+      this.forgotPwdObj = JSON.parse(localStorage.getItem('forgot-password')!);
+      this.phone = this.forgotPwdObj.mobile;
+      this.smsKey = this.forgotPwdObj.smsKey;
     } else if (localStorage.getItem('register')) {
-      localStorage.removeItem('fPMob');
-      var p = JSON.parse(localStorage.getItem('register')!);
-      this.phone = p.mobile;
+      localStorage.removeItem('forgot-password');
+      this.registerObj = JSON.parse(localStorage.getItem('register')!);
+      this.phone = this.registerObj.mobile;
+      this.smsKey = this.registerObj.smsKey;
     } else {
       this._router.navigate(['/login']);
     }
 
-    this.otp = new FormControl('', [
-      Validators.required,
-      Validators.minLength(6),
-    ]);
+    this.otp = new FormControl('', [Validators.required, Validators.minLength(6)]);
   }
 
   resendOtp(): any {
-    var mobile = localStorage.getItem('fPMob');
-    console.log(mobile);
-    this._authService.forgotPassword(mobile).subscribe((res: any) => {
-      console.log(res);
+    this.isLoading = true;
+    this._authService.sendOTP({ mobile: this.phone }, this.isForgotPwdFlow).subscribe((result: any) => {
+      if (result && result.status) {
+        this.smsKey = result.smsKey;
+        if (this.isForgotPwdFlow) {
+          this.forgotPwdObj.smsKey = result.smsKey;
+          localStorage.setItem('forgot-password', JSON.stringify(this.forgotPwdObj));
+        } else {
+          this.registerObj.smsKey = result.smsKey;
+          localStorage.setItem("register", JSON.stringify(this.registerObj));
+        }
+        this.isLoading = false;
+      } else {
+        this._sNotify.success(result.message, 'error');
+        // this._globalFunctions.successErrorHandling(result, this, true);
+        this.isLoading = false;
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isLoading = false;
     });
   }
 
   onChangeNumberClick(): void {
-    this._router.navigate([
-      this.isForgotPwdFlow ? '/forgot-password' : '/register',
-    ]);
+    this._router.navigate([this.isForgotPwdFlow ? '/forgot-password' : '/register']);
   }
 
   onOtpChange(event: any): void {
-    this.otp1 = event;
     if (event.length == 6) {
       this.otp.markAsDirty();
       this.otp.markAsTouched();
@@ -68,96 +81,51 @@ export class OtpComponent implements OnInit {
   }
 
   verifyOtp(): void {
-    if (localStorage.getItem('forgot')) {
-      var pwd = JSON.parse(localStorage.getItem('forgot')!);
-      var mobile = JSON.parse(localStorage.getItem('register')!);
-      // console.log(mobile.mobile, this.otp1, pw.smsKey);
-      var verifyOTP = {
-        mobile: mobile.mobile,
-        otp: this.otp1,
-        key: pwd.smsKey
-      }
+    this.isLoading = true;
+    const verifyOTP: any = {
+      mobile: this.phone,
+      otp: this.otp.value,
+      key: this.smsKey
+    };
 
-      this._authService.verifyCode(verifyOTP).subscribe((res: any) => {
-        console.log(res);
-        if (res) {
-          console.log(146, 'matched');
-          localStorage.removeItem('reMob');
-          localStorage.removeItem('fPMob');
-          if (localStorage.getItem('register')) {
-            var data = JSON.parse(localStorage.getItem('register')!);
-            this._authService.register(data).subscribe((result: any) => {
-              if (result.status) {
-                this._sNotify.success(result.message, 'Success');
-                this._router.navigate(['login']);
-              } else {
-                this._sNotify.success(result.message, 'error');
-                this._globalFunctions.successErrorHandling(
-                  result,
-                  this,
-                  true
-                );
-              }
-            },
-              (error: any) => {
-                this._globalFunctions.errorHanding(error, this, true);
-              }
-            );
-          }
-        }
-      });
-    }
-
-    if (localStorage.getItem('forgot1')) {
-      var pwd = JSON.parse(localStorage.getItem('forgot1')!);
-      var mobile = JSON.parse(localStorage.getItem('fPMob')!);
-      console.log(mobile, this.otp1, pwd.smsKey);
-      var verifyOTP = {
-        mobile: mobile,
-        otp: this.otp1,
-        key: pwd.smsKey
-      }
-      this._authService.verifyCode(verifyOTP).subscribe((res: any) => {
-        console.log(res);
-        if (res) {
-          console.log(146, 'matched');
-          localStorage.removeItem('reMob');
-          // localStorage.removeItem('fPMob');
+    this._authService.verifyCode(verifyOTP).subscribe((result: any) => {
+      if (result && result.status) {
+        if (this.isForgotPwdFlow) {
+          localStorage.removeItem('forgot-password');
+          localStorage.setItem('phone', this.phone);
           this._router.navigate(['/set-new-password']);
+        } else {
+          localStorage.removeItem('forgot-password');
+          this.registerUser();
         }
-      });
-    }
-    
-    // else {
-    //   console.log('otp not matched');
-    //   }
-    // },
-    // (error: any) => {
-    //   console.log('not matched');
-    // }
+        this.isLoading = false;
+      } else {
+        this._sNotify.error(result.message, 'error');
+        // this._globalFunctions.successErrorHandling(result, this, true);
+        this.isLoading = false;
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isLoading = false;
+    });
+  }
 
-    // if (!this.otp.invalid) {
-    //   const otpObj: any = {
-    //     mobile: this.phone,
-    //     otp: this.otp.value
-    //   };
-    //   this._authService.verifyOtp(otpObj).subscribe((result: any) => {
-    //     if (result.flag) {
-    //       this._sNotify.success(result.message, 'Success');
-    //
-    //       localStorage.removeItem('reMob');
-    //       localStorage.removeItem('fPMob');
-    //
-    //       this._router.navigate(['/set-new-password']);
-    //     } else {
-    //       this._sNotify.success(result.message, 'error');
-    //       this._globalFunctions.successErrorHandling(result, this, true);
-    //     }
-    //   }, (error: any) => {
-    //     // this.registerNgForm.resetForm();
-    //     this._globalFunctions.errorHanding(error, this, true);
-    //     // this._sNotify.success(result.message, 'error');
-    //   });
-    // }
+  registerUser(): any {
+    this.isLoading = true;
+    this._authService.register(this.registerObj).subscribe((result: any) => {
+      if (result.status) {
+        localStorage.removeItem('register');
+        this._sNotify.success('Organizer registered successfully', 'Success');
+        this._router.navigate(['login']);
+        this.isLoading = false;
+      } else {
+        this._sNotify.error(result.message, 'error');
+        // this._globalFunctions.successErrorHandling(result, this, true);
+        this.isLoading = false;
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isLoading = false;
+    });
   }
 }

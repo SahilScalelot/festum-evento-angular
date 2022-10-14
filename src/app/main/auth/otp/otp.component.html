@@ -17,7 +17,14 @@
         </span>
       </span>
     </div>
-    <button class="secondary w-full py-[15px] uppercase" (click)="verifyOtp()" [disabled]="otp.invalid">Verify code</button>
+    <div class="relative">
+      <button class="secondary w-full py-[15px] uppercase relative" type="submit" (click)="verifyOtp()" [disabled]="otp.invalid || isLoading">
+        <span [ngClass]="{'opacity-0': isLoading}">Verify code</span>
+      </button>
+      <div class="absolute inset-0 text-white flex items-center" *ngIf="isLoading">
+        <mat-progress-spinner [diameter]="22" [mode]="'indeterminate'" class="mx-auto"></mat-progress-spinner>
+      </div>
+    </div>
     <a href="javascript:void(0);" class="block font-bold text-japaneseIndigo text-xs xl:text-sm text-center" (click)="resendOtp()">Not Get? Re-send</a>
   </form>
 </div>

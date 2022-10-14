@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import html2canvas from 'html2canvas';
 import { SnotifyService } from 'ng-snotify';
+import { GlobalService } from 'src/app/services/global.service';
+import { CONSTANTS } from '../common/constants';
 import { ModalService } from '../_modal';
 
 @Component({
@@ -10,6 +12,8 @@ import { ModalService } from '../_modal';
   styleUrls: ['./content.component.scss']
 })
 export class ContentComponent implements OnInit {
+  loginUser: any = {};
+  constants: any = CONSTANTS;
 
   @ViewChild('screenShort') screenShort: any;
   @ViewChild('canvas') canvas: any;
@@ -18,11 +22,16 @@ export class ContentComponent implements OnInit {
   constructor(
     private _sNotify: SnotifyService,
     private _router: Router,
+    private _globalService: GlobalService,
     private _modalService: ModalService
   ) { }
 
   ngOnInit(): void {
-
+    this._globalService.loginUser$.subscribe((user: any) => {
+      if (user) {
+        this.loginUser = user;
+      }
+    });
   }
 
   screenCapture() {

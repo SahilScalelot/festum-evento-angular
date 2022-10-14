@@ -3,6 +3,8 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {FuseValidators} from "../validators";
 import {AuthService} from "../../auth/auth.service"
+import { GlobalFunctions } from '../../common/global-functions';
+import { SnotifyService } from 'ng-snotify';
 
 @Component({
   selector: 'app-set-new-password',
@@ -13,6 +15,8 @@ export class SetNewPasswordComponent implements OnInit {
   setNewPasswordForm: FormGroup | any;
   pwd: boolean = false;
   confirmPwd: boolean = false;
+  
+  isLoading: boolean = false;
 
   get password(): any {
     return this.setNewPasswordForm.get('password');
@@ -25,13 +29,17 @@ export class SetNewPasswordComponent implements OnInit {
   constructor(
     private _formBuilder: FormBuilder,
     private _router: Router,
-    private _auth:AuthService
+    private _auth:AuthService,
+    private _globalFunctions: GlobalFunctions,
+    private _sNotify: SnotifyService
   ) {
   }
 
   ngOnInit(): void {
+    if (!localStorage.getItem('phone')) {
+      this._router.navigate(['/login']);
+    }
     this.setNewPasswordForm = this._formBuilder.group({
-      // mobile: ['', [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
       password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(16)]],
       confirm_password: ['', [Validators.required]],
     }, {
@@ -41,20 +49,26 @@ export class SetNewPasswordComponent implements OnInit {
 
   setNewPassword(): void {
     if (!this.setNewPasswordForm.invalid) {
-      var mobile = JSON.parse(localStorage.getItem('fPMob')!);
+      var mobile = JSON.parse(localStorage.getItem('phone')!);
       var newPassword ={
         mobile:mobile,
         password:this.setNewPasswordForm.value.password,
         confirm_password:this.setNewPasswordForm.value.confirm_password
       }
-      console.log(mobile)
-      // console.log(this.setNewPasswordForm.value.password)
-      this._auth.changePassword(newPassword).subscribe((res:any)=>{
-        if(res.status){
-          console.log('password changed')
+      this._auth.changePassword(newPassword).subscribe((result:any)=>{
+        if(result.status){
+          this._sNotify.success('Password change successfully', 'Success');
           this._router.navigate(['/login']);
+          this.isLoading = false;
+        } else {
+          this._sNotify.error(result.message, 'error');
+          // this._globalFunctions.successErrorHandling(result, this, true);
+          this.isLoading = false;
         }
-      })
+      }, (error: any) => {
+        this._globalFunctions.errorHanding(error, this, true);
+        this.isLoading = false;
+      });
       
     }
   }

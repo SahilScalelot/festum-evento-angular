@@ -27,9 +27,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    localStorage.removeItem('fPMob');
-    localStorage.removeItem('register');
-    localStorage.removeItem('forgot_sms_key');
+    localStorage.clear();
     this.logInForm = this._formBuilder.group({
       mobile: ['', [Validators.required]],
       password: ['', Validators.required]

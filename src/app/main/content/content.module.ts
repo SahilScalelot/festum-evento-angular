@@ -9,6 +9,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { ModalModule } from '../_modal';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CalendarModule } from 'primeng/calendar';
+import {ProgressSpinnerModule} from 'primeng/progressspinner';
 
 const routes: Routes = [
   {
@@ -31,7 +32,8 @@ const routes: Routes = [
     ModalModule,
     FormsModule,
     ReactiveFormsModule,
-    CalendarModule
+    CalendarModule,
+    ProgressSpinnerModule
   ]
 })
 export class ContentModule {

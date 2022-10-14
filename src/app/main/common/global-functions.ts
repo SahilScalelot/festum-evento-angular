@@ -86,8 +86,12 @@ export class GlobalFunctions {
 
     let messageText = '';
     messageText = errorResponse.message || CONSTANTS.message.INTERNAL_ERROR;
-    if (error && error.error) {
-      messageText = error.error;
+    if (error) {
+      if (error.detail) {
+        messageText = error.detail;
+      } else if (error.error) {
+        messageText = error.error;
+      }
     }
     if (errorResponse.status === CONSTANTS.errorCodes.UNAUTHORIZED ||
       errorResponse.status === CONSTANTS.errorCodes.TOKEN_EXPIRED ||
@@ -119,7 +123,7 @@ export class GlobalFunctions {
       errorResponse.status === CONSTANTS.errorCodes.METHOD_NOT_FOUND ||
       // errorResponse.status === CONSTANTS.errorCodes.ALREADY_EXISTS ||
       errorResponse.status === CONSTANTS.errorCodes.DATABASE_INITIALIZATION_FAIL ||
-      errorResponse.status === CONSTANTS.errorCodes.INVALID_DOMAIN) {
+      errorResponse.status === CONSTANTS.errorCodes.INVALID_DOMAIN) {        
       this._sNotifyService.error(messageText, 'Oops..!');
     } else {
       this._sNotifyService.error(messageText, 'Oops..!');

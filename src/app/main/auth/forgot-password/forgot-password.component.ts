@@ -1,7 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
-import {FormControl, Validators} from "@angular/forms";
-import {AuthService} from "../../auth/auth.service"
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { FormControl, Validators } from "@angular/forms";
+import { AuthService } from "../../auth/auth.service"
+import { GlobalFunctions } from '../../common/global-functions';
+import { SnotifyService } from 'ng-snotify';
 
 @Component({
   selector: 'app-forgot-password',
@@ -9,31 +11,45 @@ import {AuthService} from "../../auth/auth.service"
   styleUrls: ['./forgot-password.component.scss']
 })
 export class ForgotPasswordComponent implements OnInit {
+  forgotPwdObj: any = {};
+  isLoading: boolean = false;
   phone: FormControl | any;
 
   constructor(
-    private _router: Router, private _auth:AuthService
+    private _router: Router,
+    private _globalFunctions: GlobalFunctions,
+    private _authService: AuthService,
+    private _sNotify: SnotifyService
   ) {
   }
 
   ngOnInit(): void {
-    this.phone = new FormControl('');
-    this.phone.addValidators([Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]);
+    if (localStorage.getItem('forgot-password')) {
+      this.forgotPwdObj = JSON.parse(localStorage.getItem('forgot-password')!);
+    }
+    this.phone = new FormControl(this.forgotPwdObj?.mobile || '', [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]);
   }
 
   sendVerificationCode(): any {
-    console.log(this.phone.value)
-    var forgotPwd={
-      mobile:this.phone.value
-    }
-    this._auth.forgotPassword(forgotPwd).subscribe((result:any)=>{
-      console.log(121,result)
-      localStorage.setItem('forgot1',JSON.stringify(result));
-    })
-
     if (!this.phone.invalid) {
-      localStorage.setItem('fPMob', this.phone.value);
-      this._router.navigate(['/otp']);
+      this.isLoading = true;
+      this._authService.sendOTP({ mobile: this.phone.value }, true).subscribe((result: any) => {
+        if (result && result.status) {
+          const preparedForgotPwdObj: any = {};
+          preparedForgotPwdObj.smsKey = result.smsKey;
+          preparedForgotPwdObj.mobile = this.phone.value;
+          localStorage.setItem('forgot-password', JSON.stringify(preparedForgotPwdObj));
+          this.isLoading = false;
+          this._router.navigate(['/otp']);
+        } else {
+          this._sNotify.error(result.message, 'error');
+          // this._globalFunctions.successErrorHandling(result, this, true);
+          this.isLoading = false;
+        }
+      }, (error: any) => {
+        this._globalFunctions.errorHanding(error, this, true);
+        this.isLoading = false;
+      });
     }
   }
 }

@@ -23,8 +23,8 @@ export class AboutEventStepComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.prepareEventObj();
     this._prepareAboutEventForm();
+    this.prepareEventObj();
   }
 
   prepareEventObj(): void {

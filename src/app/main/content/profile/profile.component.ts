@@ -82,10 +82,12 @@ export class ProfileComponent implements OnInit {
     // this._getUserDetail();
     
     this._globalService.loginUser$.subscribe((user: any) => {
+      this.isLoading = true;
       if (user) {
         this.profileObj = user;
         this._prepareProfileForm(this.profileObj);
         this.profile_pic = this.profileObj.profile_pic;
+        this.isLoading = false;
       }
     });
   }
@@ -117,19 +119,23 @@ export class ProfileComponent implements OnInit {
   }
 
   updatePersonalProfile() {
+    this.isLoading = true;
     if (this.profileForm.valid) {
       this.profileForm.value.dob = moment(this.profileForm.value.dob).format('DD-MM-YYYY');
       const preparedProfileObj: any = this.preparePersonalProfileObj(this.profileForm.value);
-
+      this.isLoading = true;
       this._profileService.updateProfile(preparedProfileObj).subscribe((result: any) => {
         if (result && result.status) {
           this._globalService.loginUser$.next(result.data);
           this._sNotify.success(result.msg, 'Success');
-          window.location.reload();
-        } else {
-        this._globalFunctions.successErrorHandling(result, this, true);
+          this.enableFields();
+          this.isLoading = false;
+          // window.location.reload();
+        } else {  
+          this._globalFunctions.successErrorHandling(result, this, true);
         }
       }, (error: any) => {
+        this.isLoading = false;
         this._globalFunctions.errorHanding(error, this, true);
       });
     }
