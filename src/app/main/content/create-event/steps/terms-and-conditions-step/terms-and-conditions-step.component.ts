@@ -114,7 +114,7 @@ export class TermsAndConditionsStepComponent implements OnInit {
     this._prepareForm();    
     this.prepareTermsAndConditionsEventObj();
 
-    // this.addCompanyDetail();
+    this.termsAndConditionsForm.get('terms_and_conditions').setValue(false);
   }
 
   onTextEditorReady(editor: any, fieldForSetData: any): void {
@@ -122,9 +122,6 @@ export class TermsAndConditionsStepComponent implements OnInit {
       editor.ui.view.toolbar.element,
       editor.ui.getEditableElement()
     );
-    // if (this.productObj[fieldForSetData]) {
-    //   editor.setData(this.productObj[fieldForSetData]);
-    // }
   }
 
   tAndCPop(): void {
@@ -145,10 +142,7 @@ export class TermsAndConditionsStepComponent implements OnInit {
   }
 
   saveFullEvent(): void {
-    // console.log(this.termsAndConditionsForm.value);
-
     if (this.termsAndConditionsForm.invalid) {
-      // this.termsAndConditionsForm.controls.markAsDirty();
       Object.keys(this.termsAndConditionsForm.controls).forEach((key) => {
         this.termsAndConditionsForm.controls[key].touched = true;
         this.termsAndConditionsForm.controls[key].markAsDirty();
@@ -163,14 +157,12 @@ export class TermsAndConditionsStepComponent implements OnInit {
     localStorage.setItem('newEventObj', JSON.stringify(this.termsAndConditionsObj));
     
     const preparedEventObj: any = this.prepareEventObj(this.termsAndConditionsObj);
-    // console.log(preparedEventObj);
     const preparedEventImagesObj: any = this.prepareImagesEventObj(this.termsAndConditionsObj);
     console.log(preparedEventImagesObj);
     
     this.termsAndConditionsObj?.photos_and_videos.photo.forEach((photo: any) => {
       const preparedEventImagesObj: any = photo;
       preparedEventImagesObj.description = photo.details;
-      // console.log(preparedEventImagesObj);
     });
     this.termsAndConditionsObj?.photos_and_videos.video.forEach((video: any) => {
       const preparedEventImagesObj: any = video;
@@ -223,12 +215,6 @@ export class TermsAndConditionsStepComponent implements OnInit {
   }
 
   prepareTermsAndConditionsEventObj(): void {
-    // if (localStorage.getItem('newEventObj')) {
-    //   const eventString: any = localStorage.getItem('newEventObj');
-    //   this.eventObj = JSON.parse(eventString);
-    // } else {
-    //   this._router.navigate(['/events']);
-    // }
     this._globalService.addEditEvent$.subscribe((eventObj: any) => {
       if (eventObj) {
         this.eventObj = eventObj;
@@ -236,7 +222,6 @@ export class TermsAndConditionsStepComponent implements OnInit {
       }
     });
     if (!this.eventObj || !this.eventObj.add_event) {
-      // this._router.navigate(['/events']);
     }
   }
 
@@ -260,17 +245,4 @@ export class TermsAndConditionsStepComponent implements OnInit {
       terms_and_conditions: [eventObj?.terms_and_conditions?.terms_and_conditions, {disabled: true}],
     });
   }
-
-  // addCompanyDetail(): void {
-  //   this._createEventService.addCompanyDetail(this.termsAndConditionsObj.company_details).subscribe((result: any) => {
-  //     console.log(result);
-  //     if (result) {
-  //     } else {
-  //       this._globalFunctions.successErrorHandling(result, this, true);
-  //     }
-  //   }, (error: any) => {
-  //     this._globalFunctions.errorHanding(error, this, true);
-  //   });
-  // }
-
 }
