@@ -36,17 +36,17 @@
     </div>
     <!-- tab-holder  -->
     <div class="teb-holder">
-      <button class="active" data-tab="overview" type="button">Overview</button>
-      <button data-tab="attendee" type="button">Attendee</button>
-      <button data-tab="reviews" type="button">Reviews</button>
+      <button [class]="overview ? 'active' : ''" (click)="onTabChange('overview')" type="button">Overview</button>
+      <button [class]="attendee ? 'active' : ''" (click)="onTabChange('attendee')" type="button">Attendee</button>
+      <button [class]="reviews ? 'active' : ''" (click)="onTabChange('reviews')" type="button">Reviews</button>
     </div>
     <!-- tab-contents-holder -->
     <div class="pt-7 lg:pt-10">
       <!--overview-tab-contents -->
-      <div class="relative tab-main active" id="overview">
+      <div class="relative tab-main" [class]="!reviews ? 'active' : ''" *ngIf="!reviews">
         <div class="flex flex-wrap">
-          <!-- left-bar -->
-          <div class="w-full lg:w-8/12 lg:pr-5 space-y-7">
+          <!-- Overview left-bar -->
+          <div class="w-full lg:w-8/12 lg:pr-5 space-y-7" *ngIf="overview">
             <div class="p-7 bg-white rounded-md space-y-1">
               <h5>About Event</h5>
               <p class="text-quicksilver text-sm leading-6 font-normal">{{ events[0].description }}</p>
@@ -273,76 +273,8 @@
               <img alt="add-Banner" class="w-full" src="../assets/images/banner-ads.png"/>
             </div>
           </div>
-          <!-- right-bar  -->
-          <div class="w-full lg:w-4/12 lg:pl-5 space-y-7 sticky top-0">
-            <!-- map-content  -->
-            <div class="w-full p-2.5 bg-white rounded-md">
-              <div class="relative">
-                <iframe allowfullscreen=""
-                        class="min-h-[170px] xl:min-h-[220px]"
-                        height="100%" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
-                        src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d14875.88775631223!2d72.81608609999999!3d21.2329613!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1655442825672!5m2!1sen!2sin"
-                        style="border:0;"
-                        width="100%"></iframe>
-                <!-- <agm-map (mapClick)="mapClicked($event)" [disableDefaultUI]="false" [latitude]="lat" [longitude]="lng" [zoomControl]="false" [zoom]="zoom">
-                  <agm-marker (dragEnd)="markerDragEnd(markers, $event)" (markerClick)="clickedMarker(markers.label)" [label]="markers.label" [latitude]="lat" [longitude]="lng" [markerDraggable]="true"></agm-marker>
-                </agm-map> -->
-                <a class="w-10 h-10 flex items-center justify-center text-xl bg-white shadow-sm absolute right-4 bottom-4 text-magicPotion" href="javascript:void(0);"><i class="icon-map"></i></a>
-              </div>
-              <div class="p-3.5 xl:p-5">
-                <span class="input-titel"><i class="icon-location-1 mr-1"></i> Location</span>
-                <h3 class="text-sm xl:text-base">{{ events[0].location_address }}</h3>
-              </div>
-            </div>
-            <!-- date-content  -->
-            <div class="w-full p-5 xl:p-7 bg-white rounded-md space-y-3">
-              <div class="w-full">
-                <div class="text-xs lg:text-sm font-medium text-quicksilver flex items-center"><i class="icon-calendar mr-1.5 text-base"></i>Date </div>
-                <span class="text-japaneseIndigo text-xs lg:text-sm font-bold">{{ events[0].start_date }} - {{ events[0].end_date }}</span>
-              </div>
-              <div class="w-full">
-                <div class="text-xs lg:text-sm font-medium text-quicksilver flex items-center"><i class="icon-time mr-1.5 text-sm"></i>Time </div>
-                <span class="text-japaneseIndigo text-xs lg:text-sm font-bold">{{ events[0].start_time }} - {{ events[0].end_time }}</span>
-              </div>
-            </div>
-            <!-- Discount On Total Bill  -->
-            <div class="bg-gradient-to-r from-[#13e1b094] to-[#13E1B0] p-3.5 xl:p-5 rounded-lg relative overflow-hidden">
-              <div class="w-full  space-y-4">
-                <h4 class="text-white">Discount On Total Bill</h4>
-                <h1 class="text-black font-bold">10%</h1>
-                <div class="space-y-2">
-                  <span class="text-xs text-white font-normal block">4 Event can be posted or one event with max 30 day</span>
-                </div>
-                <img alt="celebration" class="absolute -right-3 -bottom-3 opacity-80" src="../assets/images/event-subscription.png"/>
-              </div>
-            </div>
-            <!-- Book_ticket_detils -->
-            <div class="bg-white rounded-md overflow-hidden">
-              <div class="flex justify-between px-5 py-2 bg-japaneseIndigo">
-                <span class="text-sm font-bold text-white">Book Ticket</span>
-                <span class="text-sm font-bold text-white">Total Amount</span>
-              </div>
-              <div class="flex justify-between px-5 py-2 bg-white border-b border-brightGray">
-                <span class="text-sm font-bold text-japaneseIndigo">15 T - L</span>
-                <span class="text-sm font-bold text-japaneseIndigo">$2500.00</span>
-              </div>
-              <div class="flex justify-between px-5 py-2 bg-white border-b border-brightGray">
-                <span class="text-sm font-bold text-japaneseIndigo">15 C - C</span>
-                <span class="text-sm font-bold text-japaneseIndigo">$5000.00</span>
-              </div>
-              <div class="flex justify-between px-5 py-2 bg-white">
-                <span class="text-sm font-bold text-japaneseIndigo">26 B - R</span>
-                <span class="text-sm font-bold text-japaneseIndigo">$7500.00</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Attendee-Teb-Content   -->
-      <div class="w-full space-y-7 tab-main" id="attendee">
-        <div class="w-full flex">
-          <!-- left-bar -->
-          <div class="w-full lg:w-8/12 space-y-2.5">
+          <!-- Attendee left-bar -->
+          <div class="w-full lg:w-8/12 space-y-2.5" *ngIf="attendee">
             <div class="bg-white px-5 py-2.5 flex justify-between items-center rounded-md">
               <div class="space-y-2">
                 <div class="flex items-center space-x-3">
@@ -449,28 +381,25 @@
                         src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d14875.88775631223!2d72.81608609999999!3d21.2329613!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1655442825672!5m2!1sen!2sin"
                         style="border:0;"
                         width="100%"></iframe>
-                <a class="w-10 h-10 flex items-center justify-center text-xl bg-white shadow-sm absolute right-4 bottom-4 text-magicPotion"
-                   href="javascript:void(0);"><i
-                    class="icon-map"></i></a>
+                <!-- <agm-map (mapClick)="mapClicked($event)" [disableDefaultUI]="false" [latitude]="lat" [longitude]="lng" [zoomControl]="false" [zoom]="zoom">
+                  <agm-marker (dragEnd)="markerDragEnd(markers, $event)" (markerClick)="clickedMarker(markers.label)" [label]="markers.label" [latitude]="lat" [longitude]="lng" [markerDraggable]="true"></agm-marker>
+                </agm-map> -->
+                <a class="w-10 h-10 flex items-center justify-center text-xl bg-white shadow-sm absolute right-4 bottom-4 text-magicPotion" href="javascript:void(0);"><i class="icon-map"></i></a>
               </div>
               <div class="p-3.5 xl:p-5">
                 <span class="input-titel"><i class="icon-location-1 mr-1"></i> Location</span>
-                <h3 class="text-sm xl:text-base">309 Ridgeview St. Carleton Place, ON K7C 3Y6</h3>
+                <h3 class="text-sm xl:text-base">{{ events[0].location_address }}</h3>
               </div>
             </div>
             <!-- date-content  -->
             <div class="w-full p-5 xl:p-7 bg-white rounded-md space-y-3">
               <div class="w-full">
-                <div class="text-xs lg:text-sm font-medium text-quicksilver flex items-center"><i
-                    class="icon-calendar mr-1.5 text-base"></i>Date
-                </div>
-                <span class="text-japaneseIndigo text-xs lg:text-sm font-bold">July 23, 2021 - July 30, 2021</span>
+                <div class="text-xs lg:text-sm font-medium text-quicksilver flex items-center"><i class="icon-calendar mr-1.5 text-base"></i>Date </div>
+                <span class="text-japaneseIndigo text-xs lg:text-sm font-bold">{{ events[0].start_date }} - {{ events[0].end_date }}</span>
               </div>
               <div class="w-full">
-                <div class="text-xs lg:text-sm font-medium text-quicksilver flex items-center"><i
-                    class="icon-time mr-1.5 text-sm"></i>Time
-                </div>
-                <span class="text-japaneseIndigo text-xs lg:text-sm font-bold">04:00PM - 05:00AM</span>
+                <div class="text-xs lg:text-sm font-medium text-quicksilver flex items-center"><i class="icon-time mr-1.5 text-sm"></i>Time </div>
+                <span class="text-japaneseIndigo text-xs lg:text-sm font-bold">{{ events[0].start_time }} - {{ events[0].end_time }}</span>
               </div>
             </div>
             <!-- Discount On Total Bill  -->
@@ -507,7 +436,7 @@
         </div>
       </div>
       <!-- Reviews-Teb-Content   -->
-      <div class="w-full space-y-7 tab-main" id="reviews">
+      <div class="w-full space-y-7 tab-main" [class]="reviews ? 'active' : ''">
         <div class="w-full space-y-2">
 
           <div *ngFor="let reviews of events[0].occasion_id" class="flex justify-between p-7 bg-white rounded-md">

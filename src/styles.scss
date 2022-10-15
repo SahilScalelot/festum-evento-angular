@@ -112,10 +112,14 @@ body{@apply font-primary text-japaneseIndigo bg-brightGray m-0 capitalize;}
 
   /* checkbox right */
   .checkbox {@apply relative flex justify-center items-center;}
-  .checkbox input{@apply appearance-none w-8 h-8 border bg-white border-gray-300 rounded-md cursor-pointer;}
+  .p-checkbox {@apply w-8 h-8;}
+  .checkbox input,.p-checkbox .p-checkbox-box{@apply appearance-none w-8 h-8 border bg-white border-gray-300 rounded-md cursor-pointer;}
+  .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-highlight:hover {border: 1px solid rgb(209 213 219) !important; background-color: rgb(254 77 95);}
+  .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-focus {box-shadow: none !important;border: 1px solid rgb(209 213 219) !important;}
+  .p-checkbox .p-checkbox-box .p-checkbox-icon{font-size: 16px}
   .checkbox i{@apply absolute scale-0 origin-center;}
   .checkbox .bgbrightgray{@apply bg-brightGray;}
-  input:checked {@apply bg-magicPotion border-magicPotion duration-200;}
+  input:checked,.p-checkbox .p-checkbox-box.p-highlight {@apply bg-magicPotion border-magicPotion duration-200;}
   .checkbox input.bgbrightgray:checked {@apply bg-magicPotion;}
   input:checked + i{@apply scale-100 duration-300;}
 

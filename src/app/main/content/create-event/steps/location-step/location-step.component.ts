@@ -236,8 +236,8 @@ export class LocationStepComponent implements OnInit {
     console.log(this.eventObj);
 
     this._globalService.addEditEvent$.next(this.eventObj);
-    // this._router.navigate(['/create-event/photos-and-videos']);
-    this._router.navigate(['/create-event/company-details']);
+    this._router.navigate(['/create-event/photos-and-videos']);
+    // this._router.navigate(['/create-event/company-details']);
   }
 
   prepareLocationEventObj(locationObj: any = {}): any {

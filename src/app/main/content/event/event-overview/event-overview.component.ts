@@ -19,6 +19,10 @@ export class EventOverviewComponent implements OnInit {
   isImage: boolean = false;
   imagesOrVideosArr: Array<any> = [];
 
+  overview: boolean = true;
+  attendee: boolean = false;
+  reviews: boolean = false;
+
   constructor(
     private _eventService: EventService,
     public _globalFunctions: GlobalFunctions,
@@ -38,13 +42,24 @@ export class EventOverviewComponent implements OnInit {
       this.events = result.events;
       setTimeout(() => {
         this._globalFunctions.loadAccordion();
-        this._globalFunctions.loadTabsJs();
+        // this._globalFunctions.loadTabsJs();
       }, 0);
       this.isLoading = false;
     }, (error: any) => {
       this._globalFunctions.errorHanding(error, this, true);
       this.isLoading = false;
     });
+  }
+
+  onTabChange(tabVarName: any): void {
+    this.overview = this.attendee = this.reviews = false;
+    if (tabVarName == 'overview') {
+      this.overview = true;
+    } else if (tabVarName == 'attendee') {
+      this.attendee = true;
+    } else if (tabVarName == 'reviews') {
+      this.reviews = true;
+    }
   }
 
   openImageAndVideoDialog(imagesOrVideosArr: Array<any>, isImage: boolean): void {

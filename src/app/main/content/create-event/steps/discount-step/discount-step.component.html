@@ -2,11 +2,7 @@
 <div class="space-y-5">
   <div class="flex items-center" *ngFor="let discount of discounts; let i = index">
     <div class="">
-      <label class="checkbox mr-4" (click)="multipleLiveEvent($event)">
-        <!-- <input type="checkbox" class="bg-white"/> -->
-        <p-checkbox name="groupname" [value]="discount.discountsId" [(ngModel)]="selectedDiscountIds"></p-checkbox>
-        <i class="icon-right text-white"></i>
-      </label>
+      <p-checkbox name="groupname" class="mr-5" [value]="discount.discountsId" [(ngModel)]="selectedDiscountIds"></p-checkbox>
     </div>
     <div class="bg-gradient-to-r p-5 pr-8 rounded-lg overflow-hidden max-w-[calc(100%-48px)] w-full"
          [ngClass]="(discount.discount_type == 'discount_on_total_bill') ? 'from-[#13e1b094] to-[#13E1B0]' : ((discount.discount_type == 'discount_on_equipment_or_item') ? ' from-[#20C0E894] to-[#20C0E8]' : 'from-[#FABA1594] to-[#FABA15]')">
@@ -39,7 +35,7 @@
       <i class="icon-left_arrow mr-3"></i>
       <h5>Back</h5>
     </button>
-    <button type="button" class="flex items-center active"  [routerLink]="'/create-event/company-details'">
+    <button type="button" class="flex items-center active" (click)="next()">
       <h5>Next</h5>
       <i class="icon-right_arrow ml-3"></i>
     </button>

@@ -5,6 +5,8 @@ import { ModalService } from 'src/app/main/_modal';
 import { CreateEventService } from '../../create-event.service';
 import { GlobalFunctions } from "../../../../common/global-functions";
 import * as _ from 'lodash';
+import { Router } from '@angular/router';
+import { GlobalService } from 'src/app/services/global.service';
 
 @Component({
   selector: 'app-discount-step',
@@ -25,6 +27,8 @@ export class DiscountStepComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private _createEventService: CreateEventService,
     private _sNotify: SnotifyService,
+    private _router: Router,
+    private _globalService: GlobalService,
   ) {
   }
 
@@ -84,10 +88,6 @@ export class DiscountStepComponent implements OnInit {
     this._modalService.open(popId);
   }
 
-  multipleLiveEvent(event: any): void {
-    event.stopPropagation();
-  }
-
   updateDiscount(): any {
     this.isLoading = true;
     const discountObj: any = this.discountForm.value;
@@ -114,5 +114,12 @@ export class DiscountStepComponent implements OnInit {
   closePop(): any {
     this.discountForm.reset();
     this._modalService.close('discountDialog');
+  }
+
+  next(): any {
+    console.log(this.selectedDiscountIds);
+    
+    this._globalService.addEditEvent$.next(this.selectedDiscountIds);
+    this._router.navigate(['/create-event/company-details']);
   }
 }
