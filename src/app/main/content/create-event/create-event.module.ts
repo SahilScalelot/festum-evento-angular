@@ -23,8 +23,9 @@ import {ImageCropperModule} from 'ngx-image-cropper';
 import {AgmCoreModule} from "@agm/core";
 import {CKEditorModule} from "@ckeditor/ckeditor5-angular";
 import {MultiSelectModule} from 'primeng/multiselect';
-import { ReactiveFormsModule } from '@angular/forms';
+import {ReactiveFormsModule} from '@angular/forms';
 import {InputNumberModule} from "primeng/inputnumber";
+import {CheckboxModule} from 'primeng/checkbox';
 
 const routes: Routes = [
   {path: '', redirectTo: 'add-event', pathMatch: 'full'},
@@ -94,6 +95,7 @@ const routes: Routes = [
     CKEditorModule,
     ReactiveFormsModule,
     MultiSelectModule,
+    CheckboxModule,
     InputNumberModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyDLgr8YB5IK8dBIEWClexZGzXaB7UlVm7Q',

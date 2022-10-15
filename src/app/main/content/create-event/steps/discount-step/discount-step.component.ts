@@ -3,7 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { SnotifyService } from 'ng-snotify';
 import { ModalService } from 'src/app/main/_modal';
 import { CreateEventService } from '../../create-event.service';
-import {GlobalFunctions} from "../../../../common/global-functions";
+import { GlobalFunctions } from "../../../../common/global-functions";
 import * as _ from 'lodash';
 
 @Component({
@@ -16,23 +16,26 @@ export class DiscountStepComponent implements OnInit {
   seatingItems: any = [];
   discounts: any = [];
   discountForm: any;
+  tmpDiscountObj: any = {};
+  selectedDiscountIds: any = [];
 
   constructor(
     private _globalFunctions: GlobalFunctions,
     private _modalService: ModalService,
     private _formBuilder: FormBuilder,
     private _createEventService: CreateEventService,
-    private _sNotify: SnotifyService, 
+    private _sNotify: SnotifyService,
   ) {
   }
 
   ngOnInit(): void {
+    this.tmpDiscountObj = {};
     this.getAllDiscounts();
     this.getSeatingItems();
 
     this.discountForm = this._formBuilder.group({
       discount_type: [null, [Validators.required]],
-      seating_type: [null],
+      seatings: [null],
       discount: [null, [Validators.required]],
     });
   }
@@ -60,7 +63,6 @@ export class DiscountStepComponent implements OnInit {
     this._createEventService.getSeatingItems().subscribe((result: any) => {
       if (result && result.status) {
         this.seatingItems = result.data || [];
-        console.log(this.seatingItems);
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
       }
@@ -71,27 +73,44 @@ export class DiscountStepComponent implements OnInit {
     });
   }
 
-  popupOpen(popId: string, discountObj: any = {}): void {
+  popupOpen(popId: string, discountObj: any = {}, index: number): void {
+    this.tmpDiscountObj = this._globalFunctions.copyObject(discountObj);
+    this.tmpDiscountObj.discountIndex = index;
     this.discountForm.patchValue({
       discount_type: discountObj.discount_type,
-      seating_type: discountObj.seating_type,
+      seatings: discountObj.seatings,
       discount: (discountObj.discount.includes('%')) ? discountObj.discount.replace('%', '') : discountObj.discount,
     });
-    console.log(this.discountForm.value);
     this._modalService.open(popId);
   }
-  
+
   multipleLiveEvent(event: any): void {
     event.stopPropagation();
   }
 
-  submitDiscount(): any {
+  updateDiscount(): any {
+    this.isLoading = true;
     const discountObj: any = this.discountForm.value;
     discountObj.discount = discountObj.discount.toString() + '%';
-    console.log(discountObj);
-    // this._modalService.close("discountDialog");
+    this._createEventService.updateDiscount(this.tmpDiscountObj.discountsId, discountObj).subscribe((result: any) => {
+      if (result && result.isSuccess) {
+        const discounts = this._globalFunctions.copyObject(this.discounts);
+        discounts[this.tmpDiscountObj.discountIndex] = result.data;
+        discounts[this.tmpDiscountObj.discountIndex].name = discounts[this.tmpDiscountObj.discountIndex].discount_type.replace(/_/g, ' ');
+        this.discounts = this._globalFunctions.copyObject(discounts);
+        this._sNotify.success(result.message, 'Success');
+        this._modalService.close("discountDialog");
+        this.tmpDiscountObj = {};
+        this.isLoading = false;
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+      }
+    }, (error: any) => {
+      this.isLoading = false;
+      this._globalFunctions.errorHanding(error, this, true);
+    });
   }
-  
+
   closePop(): any {
     this.discountForm.reset();
     this._modalService.close('discountDialog');

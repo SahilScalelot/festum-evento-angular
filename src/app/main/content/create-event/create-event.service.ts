@@ -63,7 +63,12 @@ export class CreateEventService {
     return this.http.get(environment.appURL + 'seats', this._globalFunctions.getAuthorizationHeader());
   }
 
+  // Discounts Apis
   getAllDiscounts(): any {
     return this.http.get(environment.appURL + 'discount', this._globalFunctions.getAuthorizationHeader());
+  }
+
+  updateDiscount(discountId: any, discountObj: any): any {
+    return this.http.put(environment.appURL + 'discount/' + discountId, discountObj, this._globalFunctions.getAuthorizationHeader());
   }
 }
