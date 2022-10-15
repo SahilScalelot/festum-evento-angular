@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { CONSTANTS } from 'src/app/main/common/constants';
-import { GlobalFunctions } from 'src/app/main/common/global-functions';
-import { CreateEventService } from "../../create-event.service";
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {CONSTANTS} from 'src/app/main/common/constants';
+import {GlobalFunctions} from 'src/app/main/common/global-functions';
+import {CreateEventService} from "../../create-event.service";
 import * as _ from 'lodash';
 
 @Component({
@@ -12,6 +12,7 @@ import * as _ from 'lodash';
 })
 export class ArrangementStepComponent implements OnInit {
   seatingItems: any = [];
+  tmpSeatingItems: any = [];
   isArrangement: boolean = false;
   constants: any = CONSTANTS;
   occasions: any = [];
@@ -96,6 +97,7 @@ export class ArrangementStepComponent implements OnInit {
     this._createEventService.getSeatingItems().subscribe((result: any) => {
       if (result && result.status) {
         this.seatingItems = result.data || [];
+        this.tmpSeatingItems = this._globalFunctions.copyObject(this.seatingItems);
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
       }
@@ -124,7 +126,18 @@ export class ArrangementStepComponent implements OnInit {
     this.isArrangement = true;
   }
 
+  deleteArrangement(occasionId: any = ''): void {
+    const eventString: any = localStorage.getItem('newEventObj');
+    const eventObj: any = JSON.parse(eventString);
+    this.eventObj.arrangements = _.remove(eventObj.arrangements, (arrangement: any) => {
+      return arrangement.seat_id != occasionId;
+    });
+    localStorage.setItem('newEventObj', JSON.stringify(this.eventObj));
+    this.prepareArrangementObj();
+  }
+
   closePop(flag: boolean): void {
+    this.seatingItems = this._globalFunctions.copyObject(this.tmpSeatingItems);
     this.arrangementObj = {};
     this.isArrangement = flag;
     this.prepareArrangementObj();

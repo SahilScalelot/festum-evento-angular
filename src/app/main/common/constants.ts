@@ -35,30 +35,6 @@ export const CONSTANTS = {
     PUBLIC: 'PP',
   },
 
-  seatingType: {
-    TABLE: 1,
-    SOFA: 2,
-    CHAIR: 3,
-    BOOTH: 4,
-    STAND: 5
-  },
-
-  seatingTypesObj: <any> {
-    1: {value: 1, label: 'Table'},
-    2: {value: 2, label: 'Sofa'},
-    3: {value: 3, label: 'Chair'},
-    4: {value: 4, label: 'Booth'},
-    5: {value: 5, label: 'Stand'}
-  },
-
-  seatingItems: [
-    {value: 1, label: 'Table'},
-    {value: 2, label: 'Sofa'},
-    {value: 3, label: 'Chair'},
-    {value: 4, label: 'Booth'},
-    {value: 5, label: 'Stand'}
-  ],
-
   unitTypeArr: <any> {
     'B2B': <any>{
       value: <any>'B2B',

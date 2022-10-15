@@ -7,7 +7,7 @@
           <h4>{{occasion.seat.name}}</h4>
         </div>
         <div class="flex items-center space-x-7">
-          <a href="javascript:void(0);"><i class="icon-delete text-lg text-quicksilver"></i></a>
+          <a href="javascript:void(0);" (click)="deleteArrangement(occasion.seating_item)"><i class="icon-delete text-lg text-quicksilver"></i></a>
           <a href="javascript:void(0);" (click)="openArrangementPopup(occasion)"><i class="icon-edit text-lg text-quicksilver"></i></a>
           <span (click)="accordionClick.click()" class="uper-down flex items-center cursor-pointer">
           <i class="icon-drop_arrow"></i>
@@ -28,23 +28,25 @@
               <div *ngFor="let arrangement of occasion.arrangements">
                 <div class="flex flex-wrap items-center">
                   <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
-                    <span class="block text-xs xl:text-sm text-quicksilver">No of Table</span>
+                    <span class="block text-xs xl:text-sm text-quicksilver">No of {{occasion?.seat?.name}}</span>
                     <span class="block text-base font-bold text-quicksilver">{{arrangement.no_of_seat}}</span>
                   </div>
                   <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
                     <span class="block text-xs xl:text-sm text-quicksilver">Location</span>
                     <span class="block text-base font-bold text-quicksilver">{{((arrangement.seat_location == 'TOP') ? 'T' : (arrangement.seat_location == 'CENTER' ? 'C' : 'B'))}} - {{((arrangement.seat_side == 'LEFT') ? 'L' : (arrangement.seat_side == 'RIGHT' ? 'R' : 'N'))}}</span>
                   </div>
-                  <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
-                    <span class="block text-xs xl:text-sm text-quicksilver">per table person capacity</span>
+                  <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2"
+                       *ngIf="occasion?.seat?.name != 'Chair' && occasion?.seat?.name != 'Stands'">
+                    <span class="block text-xs xl:text-sm text-quicksilver">per {{occasion?.seat?.name}} person capacity</span>
                     <span class="block text-base font-bold text-quicksilver">{{arrangement.table_person_capacity}}</span>
                   </div>
                   <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
                     <span class="block text-xs xl:text-sm text-quicksilver">Total person capacity</span>
                     <span class="block text-base font-bold text-quicksilver">{{arrangement.person_capacity}}</span>
                   </div>
-                  <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
-                    <span class="block text-xs xl:text-sm text-quicksilver">Per Table Price</span>
+                  <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2"
+                       *ngIf="occasion?.seat?.name != 'Chair' && occasion?.seat?.name != 'Stands'">
+                    <span class="block text-xs xl:text-sm text-quicksilver">Per {{occasion?.seat?.name}} Price</span>
                     <span class="block text-base font-bold text-quicksilver">{{arrangement.table_price}}</span>
                   </div>
                   <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
@@ -53,7 +55,7 @@
                   </div>
                   <div class="space-y-1 pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
                     <span class="block text-xs xl:text-sm text-quicksilver">Total Amount</span>
-                    <span class="block text-base font-bold text-japaneseIndigo">{{arrangement.table_person_capacity}} INR</span>
+                    <span class="block text-base font-bold text-japaneseIndigo">{{arrangement.total_booking_count}} INR</span>
                   </div>
                 </div>
                 <div class="flex items-start justify-between">
@@ -76,8 +78,8 @@
             </div>
             <div class="w-full space-y-2">
               <p>Food</p>
-              <span class="text-lg font-bold text-japaneseIndigo capitalize">{{occasion.seat_food}}</span>
-              <p>{{occasion.seat_food_description}}</p>
+              <span class="text-lg font-bold text-japaneseIndigo capitalize">{{occasion.food}}</span>
+              <p>{{occasion.food_description}}</p>
             </div>
           </div>
           <div class="flex">
@@ -86,8 +88,8 @@
             </div>
             <div class="w-full space-y-2">
               <p>Equipment</p>
-              <span class="text-lg font-bold text-japaneseIndigo capitalize">{{occasion.seat_equipment}}Not Include</span>
-              <p>{{occasion.seat_equipment_description}}</p>
+              <span class="text-lg font-bold text-japaneseIndigo capitalize">{{occasion.equipment ? 'Not Include' : 'Include'}}</span>
+              <p>{{occasion.equipment_description}}</p>
             </div>
           </div>
         </div>

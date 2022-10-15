@@ -14,11 +14,12 @@ export class ArrangementDialogComponent implements OnInit {
   @Input() arrangementObj: any;
   @Output() isAddEventChange = new EventEmitter<boolean>();
   constants: any = CONSTANTS;
-  preparedSeatingItems: any = [];
   seatingForm: any;
   selectedTab = 0;
   totalArrangementsObj: any = {};
   eventObj: any = {};
+  selectedSeatingObj: any = {};
+  isInitial: boolean = true;
 
   constructor(
     private _formBuilder: FormBuilder
@@ -26,12 +27,16 @@ export class ArrangementDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.isInitial = true;
     if (localStorage.getItem('newEventObj')) {
       const eventString: any = localStorage.getItem('newEventObj');
       this.eventObj = JSON.parse(eventString);
     }
-    this.preparedSeatingItems = CONSTANTS.seatingItems;
     this._prepareArrangementForm();
+    this.prepareSeatingItems();
+    if (this.arrangementObj && this.arrangementObj.seat) {
+      this.selectedSeatingObj = this.arrangementObj.seat;
+    }
   }
 
   get arrangements() {
@@ -70,6 +75,8 @@ export class ArrangementDialogComponent implements OnInit {
         this.arrangements.controls[index].get('total_person')?.setValue((arrangement.number_of_seating_item * arrangement.per_seating_person));
         this.arrangements.controls[index].get('per_person_price')?.setValue(Number((arrangement.per_seating_price / arrangement.per_seating_person).toFixed(2)));
         this.arrangements.controls[index].get('total_amount')?.setValue((arrangement.per_seating_price * arrangement.number_of_seating_item));
+      } else if (this.selectedSeatingObj && (this.selectedSeatingObj.name == 'Chair' || this.selectedSeatingObj.name == 'Stands')) {
+        this.arrangements.controls[index].get('total_amount')?.setValue((arrangement.number_of_seating_item * arrangement.per_person_price));
       }
     });
     this.totalArrangementsObj.totalNumberOfSeatingItems = _.sumBy(this.arrangements.value, 'number_of_seating_item');
@@ -80,7 +87,19 @@ export class ArrangementDialogComponent implements OnInit {
     this.totalArrangementsObj.total_amount = _.sumBy(this.arrangements.value, 'total_amount');
   }
 
+  prepareSeatingItems(): void {
+    if (this.isInitial && this.eventObj && this.eventObj.arrangements && this.eventObj.arrangements.length &&
+      (!this.arrangementObj || !this.arrangementObj.seating_item)) {
+      const arrangementKeys = Object.keys(_.keyBy(this.eventObj.arrangements, 'seat_id'));
+      _.each(arrangementKeys, (key: any) => {
+        this.seatingItems = _.remove(this.seatingItems, (seatingItem: any) => { return seatingItem.id != key; });
+      });
+      this.isInitial = false;
+    }
+  }
+
   onSeatingItemChange(): void {
+    this.selectedSeatingObj = _.find(this.seatingItems, ['id', Number(this.seatingForm.get('seating_item').value)]);
     this.arrangements.controls = [];
     this.addArrangements();
   }
@@ -90,22 +109,27 @@ export class ArrangementDialogComponent implements OnInit {
   }
 
   addFormData(): void {
-    let isForEdit: boolean = false;
     if (this.eventObj && (!this.eventObj.arrangements || !this.eventObj.arrangements.length)) {
       this.eventObj.arrangements = [];
-    } else {
-      isForEdit = (this.eventObj.arrangements && this.eventObj.arrangements.length);
     }
 
-    const preparedSeatingArr: any = this.eventObj.arrangements ? this.eventObj.arrangements : [];
-    const seatingObj = this.seatingForm.value;
-    console.log(seatingObj);
-    console.log(this.arrangementObj);
+    let preparedSeatingArr: any = this.eventObj.arrangements ? this.eventObj.arrangements : [];
+    if (this.arrangementObj && this.arrangementObj.seating_item) {
+      preparedSeatingArr = [];
+      _.each(this.eventObj.arrangements, (arrangement: any) => {
+        if (this.arrangementObj.seating_item != arrangement.seat_id) {
+          preparedSeatingArr.push(arrangement);
+        }
+      });
+    } else {
+      preparedSeatingArr = this.eventObj.arrangements ? this.eventObj.arrangements : [];
+    }
 
+    const seatingObj = this.seatingForm.value;
     _.each(seatingObj.arrangements, (arrangement: any) => {
       const preparedArrangementObj: any = {};
-      preparedArrangementObj.seat_id = isForEdit ? this.arrangementObj.seating_item : Number(seatingObj.seating_item);
-      preparedArrangementObj.seat = isForEdit ? this.arrangementObj.seat : _.find(this.seatingItems, ['id', Number(seatingObj.seating_item)]);
+      preparedArrangementObj.seat_id = (this.arrangementObj && this.arrangementObj.seating_item) ? this.arrangementObj.seating_item : Number(seatingObj.seating_item);
+      preparedArrangementObj.seat = (this.arrangementObj && this.arrangementObj.seat) ? this.arrangementObj.seat : _.find(this.seatingItems, ['id', Number(seatingObj.seating_item)]);
       preparedArrangementObj.name = '';
       preparedArrangementObj.no_of_seat = arrangement.number_of_seating_item;
       preparedArrangementObj.seat_location = arrangement.vertical_location;
@@ -124,18 +148,9 @@ export class ArrangementDialogComponent implements OnInit {
 
       preparedSeatingArr.push(preparedArrangementObj);
     });
-
-    if (this.arrangementObj && this.arrangementObj.seating_item) {
-      // _.each(this.eventObj.arrangements, (arrangement: any) => {
-      //   return (arrangement.seat_id != this.arrangementObj.seat_id);
-      // });
-    } else {
-      this.eventObj.arrangements = preparedSeatingArr;
-    }
-    console.log(preparedSeatingArr);
-
-    // localStorage.setItem('newEventObj', JSON.stringify(this.eventObj));
-    // this.closePopup();
+    this.eventObj.arrangements = preparedSeatingArr;
+    localStorage.setItem('newEventObj', JSON.stringify(this.eventObj));
+    this.closePopup();
   }
 
   private _prepareArrangementForm(): void {
@@ -144,7 +159,7 @@ export class ArrangementDialogComponent implements OnInit {
       arrangements: this._formBuilder.array([]),
       food: [this.arrangementObj?.food || 'VEG', [Validators.required]],
       food_description: [this.arrangementObj?.food_description || ''],
-      equipment: [(this.arrangementObj && this.arrangementObj.equipment), [Validators.required]],
+      equipment: [(!!(this.arrangementObj && this.arrangementObj.equipment)), [Validators.required]],
       equipment_description: [this.arrangementObj?.equipment_description || null],
     });
     if (this.arrangementObj && this.arrangementObj.arrangements) {
