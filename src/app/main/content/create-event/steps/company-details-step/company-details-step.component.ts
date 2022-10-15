@@ -61,18 +61,18 @@ export class CompanyDetailsStepComponent implements OnInit {
   }
 
   prepareEventObj(): void {
-    // if (localStorage.getItem('newEventObj')) {
-    //   const eventString: any = localStorage.getItem('newEventObj');
-    //   this.eventObj = JSON.parse(eventString);
-    // } else {
-    //   this._router.navigate(['/events']);
-    // }
-    this._globalService.addEditEvent$.subscribe((eventObj: any) => {
-      if (eventObj) {
-        this.eventObj = eventObj;
-        this._prepareAboutEventForm(this.eventObj);
-      }
-    });
+    if (localStorage.getItem('newEventObj')) {
+      const eventString: any = localStorage.getItem('newEventObj');
+      this.eventObj = JSON.parse(eventString);
+    } else {
+      this._router.navigate(['/events']);
+    }
+    // this._globalService.addEditEvent$.subscribe((eventObj: any) => {
+    //   if (eventObj) {
+    //     this.eventObj = eventObj;
+    //     this._prepareAboutEventForm(this.eventObj);
+    //   }
+    // });
     if (!this.eventObj || !this.eventObj.add_event) {
       // this._router.navigate(['/events']);
     }
@@ -195,9 +195,8 @@ export class CompanyDetailsStepComponent implements OnInit {
     }
 
     this.eventObj.company_details = this.prepareObj(this.companyForm.value);
-    // localStorage.setItem('newEventObj', JSON.stringify(this.eventObj));
-    console.log(this.eventObj);
-    this._globalService.addEditEvent$.next(this.eventObj);
+    localStorage.setItem('newEventObj', JSON.stringify(this.eventObj));
+    // this._globalService.addEditEvent$.next(this.eventObj);
     this._router.navigate(['/create-event/personal-details']);
   }
   

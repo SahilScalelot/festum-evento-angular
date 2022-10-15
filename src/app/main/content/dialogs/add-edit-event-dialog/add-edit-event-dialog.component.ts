@@ -84,7 +84,7 @@ export class AddEditEventDialogComponent implements OnInit {
     this._createEventService.addEvent(preparedEventObj).subscribe((result: any) => {
       if (result && result.status) {
         this.newEventObj.add_event = result.detail;        
-        this._globalService.addEditEvent$.next(this.newEventObj);
+        // this._globalService.addEditEvent$.next(this.newEventObj);
         localStorage.setItem('newEventObj', JSON.stringify(this.newEventObj));
         this.isLoading = false;
         this.closePopup();

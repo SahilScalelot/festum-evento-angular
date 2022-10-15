@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, EventEmitter, Input, Output} from '@angular/core';
 import {FormBuilder, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {SnotifyService} from 'ng-snotify';
@@ -12,7 +12,9 @@ import { GlobalService } from 'src/app/services/global.service';
 export class AboutEventStepComponent implements OnInit {
   minDateValue: any = new Date();
   aboutEventForm: any;
-  eventObj: any = {};
+
+  @Input() eventObj: any = {};
+  @Output() newEventObj: EventEmitter<any> = new EventEmitter();
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -23,26 +25,26 @@ export class AboutEventStepComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this._prepareAboutEventForm();
-    this.prepareEventObj();
+    this._prepareAboutEventForm(this.eventObj);
+    // this.prepareEventObj();
   }
 
   prepareEventObj(): void {
-    // if (localStorage.getItem('newEventObj')) {
-    //   const eventString: any = localStorage.getItem('newEventObj');
-    //   this.eventObj = JSON.parse(eventString);
-    // } else {
-    //   this._router.navigate(['/events']);
-    // }
-    this._globalService.addEditEvent$.subscribe((eventObj: any) => {
-      if (eventObj) {
-        this.eventObj = eventObj;
-        this._prepareAboutEventForm(this.eventObj);
-      }
-    });
-    if (!this.eventObj || !this.eventObj.add_event) {
+    if (localStorage.getItem('newEventObj')) {
+      const eventString: any = localStorage.getItem('newEventObj');
+      this.eventObj = JSON.parse(eventString);
+    } else {
       this._router.navigate(['/events']);
     }
+    // this._globalService.addEditEvent$.subscribe((eventObj: any) => {
+    //   if (eventObj) {
+    //     this.eventObj = eventObj;
+    //     this._prepareAboutEventForm(this.eventObj);
+    //   }
+    // });
+    // if (!this.eventObj || !this.eventObj.add_event) {
+    //   this._router.navigate(['/events']);
+    // }
   }
 
   private _prepareAboutEventForm(eventObj: any = {}): void {
@@ -68,11 +70,9 @@ export class AboutEventStepComponent implements OnInit {
 
     this.eventObj.about_event = this.prepareAboutEventObj(this.aboutEventForm.value);
     // localStorage.setItem('newEventObj', JSON.stringify(this.eventObj));
-    
-    // console.log(this.eventObj);
-    this._globalService.addEditEvent$.next(this.eventObj);
+    // this._globalService.addEditEvent$.next(this.eventObj);
+    this.newEventObj.emit(this.eventObj);
     this._router.navigate(['/create-event/arrangement']);
-    // console.log(this.aboutEventForm);
   }
 
   prepareAboutEventObj(aboutEventObj: any): any {
@@ -91,7 +91,4 @@ export class AboutEventStepComponent implements OnInit {
       return dateWithTime.getHours() + ':' + dateWithTime.getMinutes();
     }
   }
-  
-  
-
 }

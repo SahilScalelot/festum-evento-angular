@@ -40,7 +40,7 @@
                     </option>
                   </select>
                 </div>
-                <div *ngIf="seatingForm?.value?.seating_item" class="">
+                <div *ngIf="seatingForm?.value?.seating_item || arrangementObj?.seating_item" class="">
                   <label class="input-titel">arrangement</label>
                   <div class="w-full">
                     <div class="bg-white p-7 rounded-md">

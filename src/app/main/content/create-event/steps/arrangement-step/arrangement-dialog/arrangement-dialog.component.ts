@@ -1,6 +1,6 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {CONSTANTS} from 'src/app/main/common/constants';
-import {FormArray, FormBuilder, Validators} from "@angular/forms";
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { CONSTANTS } from 'src/app/main/common/constants';
+import { FormArray, FormBuilder, Validators } from "@angular/forms";
 import * as _ from 'lodash';
 
 @Component({
@@ -8,10 +8,11 @@ import * as _ from 'lodash';
   templateUrl: './arrangement-dialog.component.html',
   styleUrls: ['./arrangement-dialog.component.scss']
 })
-export class ArrangementDialogComponent implements OnInit {  
+export class ArrangementDialogComponent implements OnInit {
   @Input() popClass: any;
-  @Output() isAddEventChange = new EventEmitter<boolean>();
   @Input() seatingItems: any;
+  @Input() arrangementObj: any;
+  @Output() isAddEventChange = new EventEmitter<boolean>();
   constants: any = CONSTANTS;
   preparedSeatingItems: any = [];
   seatingForm: any;
@@ -24,7 +25,7 @@ export class ArrangementDialogComponent implements OnInit {
   ) {
   }
 
-  ngOnInit(): void {    
+  ngOnInit(): void {
     if (localStorage.getItem('newEventObj')) {
       const eventString: any = localStorage.getItem('newEventObj');
       this.eventObj = JSON.parse(eventString);
@@ -38,32 +39,17 @@ export class ArrangementDialogComponent implements OnInit {
   }
 
   addArrangements(tempArrangementObj: any = {}): void {
-    if (Object.keys(tempArrangementObj).length === 0) {
-      tempArrangementObj = {
-        number_of_seating_item: 0,
-        vertical_location: 0,
-        horizontal_location: 0,
-        per_seating_person: 0,
-        total_person: 0,
-        per_seating_price: 0,
-        per_person_price: 0,
-        total_amount: 0,
-        description: '',
-        booking_acceptance: false,
-      };
-    }
-
     const arrangementsObj = this._formBuilder.group({
-      number_of_seating_item: [tempArrangementObj.number_of_seating_item],
-      vertical_location: [tempArrangementObj.vertical_location],
-      horizontal_location: [tempArrangementObj.horizontal_location],
-      per_seating_person: [tempArrangementObj.per_seating_person],
-      total_person: [tempArrangementObj.total_person],
-      per_seating_price: [tempArrangementObj.per_seating_price],
-      per_person_price: [tempArrangementObj.per_person_price],
-      total_amount: [tempArrangementObj.total_amount],
-      description: [tempArrangementObj.description],
-      booking_acceptance: [tempArrangementObj.booking_acceptance],
+      number_of_seating_item: [tempArrangementObj?.no_of_seat || 0],
+      vertical_location: [tempArrangementObj?.seat_location || 0],
+      horizontal_location: [tempArrangementObj?.seat_side || 0],
+      per_seating_person: [tempArrangementObj?.table_person_capacity || 0],
+      total_person: [tempArrangementObj?.person_capacity || 0],
+      per_seating_price: [tempArrangementObj?.table_price || 0],
+      per_person_price: [tempArrangementObj?.price_per_seat || 0],
+      total_amount: [tempArrangementObj?.total_booking_count || 0],
+      description: [tempArrangementObj?.description || ''],
+      booking_acceptance: [tempArrangementObj?.booking_acceptance || false],
     });
     this.arrangements.push(arrangementsObj);
 
@@ -104,51 +90,70 @@ export class ArrangementDialogComponent implements OnInit {
   }
 
   addFormData(): void {
-    // const preparedSeatingArr: any = this.eventObj.arrangements ? this.eventObj.arrangements : [];
+    let isForEdit: boolean = false;
+    if (this.eventObj && (!this.eventObj.arrangements || !this.eventObj.arrangements.length)) {
+      this.eventObj.arrangements = [];
+    } else {
+      isForEdit = (this.eventObj.arrangements && this.eventObj.arrangements.length);
+    }
+
+    const preparedSeatingArr: any = this.eventObj.arrangements ? this.eventObj.arrangements : [];
     const seatingObj = this.seatingForm.value;
     console.log(seatingObj);
-    
-    // _.each(seatingObj.arrangements, (arrangement: any) => {
-    //   const preparedArrangementObj: any = {};
-    //   preparedArrangementObj.seat = {
-    //     "id": CONSTANTS.seatingTypesObj[seatingObj.seating_item].value,
-    //     "name": CONSTANTS.seatingTypesObj[seatingObj.seating_item].label,
-    //     "svg": "/media/image/events/seating_arrangement/chair.svg",
-    //   };
-    //   preparedArrangementObj.name = '';
-    //   preparedArrangementObj.no_of_seat = arrangement.number_of_seating_item;
-    //   preparedArrangementObj.seat_location = arrangement.vertical_location;
-    //   preparedArrangementObj.seat_side = arrangement.horizontal_location;
-    //   preparedArrangementObj.table_person_capacity = arrangement.per_seating_person;
-    //   preparedArrangementObj.person_capacity = arrangement.total_person;
-    //   preparedArrangementObj.table_price = arrangement.per_seating_price;
-    //   preparedArrangementObj.price_per_seat = arrangement.per_person_price;
-    //   preparedArrangementObj.total_booking_count = arrangement.total_amount;
-    //   preparedArrangementObj.description = arrangement.description;
-    //   preparedArrangementObj.seat_food = seatingObj.food;
-    //   preparedArrangementObj.seat_food_description = seatingObj.food_description;
-    //   preparedArrangementObj.seat_equipment_description = seatingObj.equipment_description;
-    //   preparedArrangementObj.booking_acceptance = arrangement.booking_acceptance ? 'PERPERSON' : 'PERTABLE';
-    //   preparedArrangementObj.seat_equipment = seatingObj.equipment;
+    console.log(this.arrangementObj);
 
-    //   preparedSeatingArr.push(preparedArrangementObj);
-    // });
-    // this.eventObj.arrangements = preparedSeatingArr;
-    // console.log(seatingObj);
+    _.each(seatingObj.arrangements, (arrangement: any) => {
+      const preparedArrangementObj: any = {};
+      preparedArrangementObj.seat_id = isForEdit ? this.arrangementObj.seating_item : Number(seatingObj.seating_item);
+      preparedArrangementObj.seat = isForEdit ? this.arrangementObj.seat : _.find(this.seatingItems, ['id', Number(seatingObj.seating_item)]);
+      preparedArrangementObj.name = '';
+      preparedArrangementObj.no_of_seat = arrangement.number_of_seating_item;
+      preparedArrangementObj.seat_location = arrangement.vertical_location;
+      preparedArrangementObj.seat_side = arrangement.horizontal_location;
+      preparedArrangementObj.table_person_capacity = arrangement.per_seating_person;
+      preparedArrangementObj.person_capacity = arrangement.total_person;
+      preparedArrangementObj.table_price = arrangement.per_seating_price;
+      preparedArrangementObj.price_per_seat = arrangement.per_person_price;
+      preparedArrangementObj.total_booking_count = arrangement.total_amount;
+      preparedArrangementObj.description = arrangement.description;
+      preparedArrangementObj.seat_food = seatingObj.food;
+      preparedArrangementObj.seat_food_description = seatingObj.food_description;
+      preparedArrangementObj.seat_equipment_description = seatingObj.equipment_description;
+      preparedArrangementObj.booking_acceptance = arrangement.booking_acceptance ? 'PERPERSON' : 'PERTABLE';
+      preparedArrangementObj.seat_equipment = seatingObj.equipment;
+
+      preparedSeatingArr.push(preparedArrangementObj);
+    });
+
+    if (this.arrangementObj && this.arrangementObj.seating_item) {
+      // _.each(this.eventObj.arrangements, (arrangement: any) => {
+      //   return (arrangement.seat_id != this.arrangementObj.seat_id);
+      // });
+    } else {
+      this.eventObj.arrangements = preparedSeatingArr;
+    }
+    console.log(preparedSeatingArr);
+
     // localStorage.setItem('newEventObj', JSON.stringify(this.eventObj));
-    this.closePopup();
+    // this.closePopup();
   }
 
   private _prepareArrangementForm(): void {
     this.seatingForm = this._formBuilder.group({
-      seating_item: ['', [Validators.required]],
+      seating_item: [{ value: this.arrangementObj?.seating_item || null, disabled: (this.arrangementObj && this.arrangementObj.seating_item) }, [Validators.required]],
       arrangements: this._formBuilder.array([]),
-      food: ['VEG', [Validators.required]],
-      food_description: [''],
-      equipment: [false, [Validators.required]],
-      equipment_description: [''],
+      food: [this.arrangementObj?.food || 'VEG', [Validators.required]],
+      food_description: [this.arrangementObj?.food_description || ''],
+      equipment: [(this.arrangementObj && this.arrangementObj.equipment), [Validators.required]],
+      equipment_description: [this.arrangementObj?.equipment_description || null],
     });
-    this.addArrangements();
+    if (this.arrangementObj && this.arrangementObj.arrangements) {
+      _.each(this.arrangementObj.arrangements, (arrangement: any) => {
+        this.addArrangements(arrangement);
+      });
+    } else {
+      this.addArrangements();
+    }
   }
 
 }

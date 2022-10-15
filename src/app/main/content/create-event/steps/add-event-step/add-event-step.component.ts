@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, EventEmitter, Input, Output} from '@angular/core';
 import { Router } from '@angular/router';
 import { SnotifyService } from 'ng-snotify';
 import { GlobalService } from 'src/app/services/global.service';
@@ -11,41 +11,44 @@ import { GlobalService } from 'src/app/services/global.service';
 export class AddEventStepComponent implements OnInit {
   isEditEvent: boolean = false;
   selectedEventIndex: number = 0;
-  eventObj: any = {};
+
+  @Input() eventObj: any = {};
+  @Output() newEventObj: EventEmitter<any> = new EventEmitter();
 
   constructor(private _globalService: GlobalService, private _sNotifyService: SnotifyService, private _router: Router) {
   }
 
   ngOnInit(): void {
-    this.prepareEventObj();
+    // this.prepareEventObj();
   }
 
   next(): any {
-    this._globalService.addEditEvent$.next(this.eventObj);
+    // this._globalService.addEditEvent$.next(this.eventObj);
+    this.newEventObj.emit(this.eventObj);
     this._router.navigate(['/create-event/about-event']);
   }
 
   prepareEventObj(): void {
-    // if (localStorage.getItem('newEventObj')) {
-    //   const eventString: any = localStorage.getItem('newEventObj');
-    //   this.eventObj = JSON.parse(eventString);
-    // } else {
-    //   this._router.navigate(['/events']);
-    // }
-    this._globalService.addEditEvent$.subscribe((eventObj: any) => {
-      if (eventObj) {
-        this.eventObj = eventObj;
-      }
-    });
-    if (!this.eventObj || !this.eventObj.add_event) {
+    if (localStorage.getItem('newEventObj')) {
+      const eventString: any = localStorage.getItem('newEventObj');
+      this.eventObj = JSON.parse(eventString);
+    } else {
       this._router.navigate(['/events']);
     }
+    // this._globalService.addEditEvent$.subscribe((eventObj: any) => {
+    //   if (eventObj) {
+    //     this.eventObj = eventObj;
+    //   }
+    // });
+    // if (!this.eventObj || !this.eventObj.add_event) {
+    //   this._router.navigate(['/events']);
+    // }
   }
 
   deleteEvent(): void {
     // Open delete confirmation popup
-    this._globalService.addEditEvent$.next(null);
-    // localStorage.removeItem('newEventObj');
+    // this._globalService.addEditEvent$.next(null);
+    localStorage.removeItem('newEventObj');
     this._router.navigate(['/events']);
   }
 
