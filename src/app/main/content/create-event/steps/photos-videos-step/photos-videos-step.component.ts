@@ -29,6 +29,7 @@ export class PhotosVideosStepComponent implements OnInit {
   videoObj: any = [];
   videoArr: any = [];
   permissionObj: any = [];
+  allPhotosFileArr: any = [];
 
   editPhotoObj: any;
 
@@ -182,6 +183,9 @@ export class PhotosVideosStepComponent implements OnInit {
         this.photoArr.push({ image: e.target.result, details: this.photosForm.value.details, name: this.photosForm.value.imageName });
       };
       reader.readAsDataURL(image);
+
+      this.allPhotosFileArr.push(image);
+
       $('#create-photo-upload').val(null);
       this.inputText = '';
       this._modalService.close("photo");
@@ -224,6 +228,7 @@ export class PhotosVideosStepComponent implements OnInit {
 
   removeImage(index: number) {
     this.photoArr.splice(index, 1);
+    this.allPhotosFileArr.splice(index, 1);
   }
 
   removeVideo(index: number) {
@@ -231,14 +236,16 @@ export class PhotosVideosStepComponent implements OnInit {
   }
 
   submitPhotosAndVideosForm() {
-    localStorage.setItem('newEventObj', JSON.stringify(this.photosAndVideosForm.value))
-    const preparedObj = this.prepareObj(this.photosAndVideosForm.value);
-    // console.log(this.photosAndVideosForm.value);
-    this.imagesAndVideoObj.photos_and_videos = preparedObj;
-    JSON.stringify({ photos_and_videos: preparedObj });
-    localStorage.setItem('newEventObj', JSON.stringify(this.imagesAndVideoObj));
-    this._router.navigate(['/create-event/permission']);
-    // console.log(this.photosAndVideosForm.value);
+    console.log(this.allPhotosFileArr);
+
+    // localStorage.setItem('newEventObj', JSON.stringify(this.photosAndVideosForm.value));
+    // const preparedObj = this.prepareObj(this.photosAndVideosForm.value);
+    // // console.log(this.photosAndVideosForm.value);
+    // this.imagesAndVideoObj.photos_and_videos = preparedObj;
+    // JSON.stringify({ photos_and_videos: preparedObj });
+    // localStorage.setItem('newEventObj', JSON.stringify(this.imagesAndVideoObj));
+    // this._router.navigate(['/create-event/permission']);
+    // // console.log(this.photosAndVideosForm.value);
   }
 
   prepareObj(imagesAndVideoObj: any = {}): any {
