@@ -1,4 +1,4 @@
-import {Component, ElementRef, NgZone, OnInit, Renderer2, ViewChild} from '@angular/core';
+import {Component, ElementRef, NgZone, OnInit, Renderer2, ViewChild,  EventEmitter, Input, Output} from '@angular/core';
 import {MapsAPILoader} from "@agm/core";
 import {ModalService} from "../../../../_modal";
 import {HttpClient} from "@angular/common/http";
@@ -16,7 +16,7 @@ import { GlobalService } from 'src/app/services/global.service';
 })
 export class LocationStepComponent implements OnInit {
   
-  eventObj: any = {};
+  // eventObj: any = {};
   locationForm: any;
   constants: any = CONSTANTS;
   zoom: number = CONSTANTS.defaultMapZoom;
@@ -31,6 +31,10 @@ export class LocationStepComponent implements OnInit {
   finaLatLong: any = {lat: CONSTANTS.latitude, lng: CONSTANTS.longitude};
   map: google.maps.Map | any;
   @ViewChild('search') public searchElementRef: ElementRef | any;
+
+  
+  @Input() eventObj: any = {};
+  @Output() newEventObj: EventEmitter<any> = new EventEmitter();
   
   locationObj: any = {event_location: {}};
 
@@ -48,17 +52,13 @@ export class LocationStepComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // if (localStorage.getItem('newEventObj')) {
-    //   const eventString: any = localStorage.getItem('newEventObj');
-    //   this.locationObj = JSON.parse(eventString);
-    // }
     
     this._prepareAboutEventForm();
     
     this.lat = this.locationObj?.event_location?.latitude || CONSTANTS.latitude;
     this.lng = this.locationObj?.event_location?.longitude || CONSTANTS.longitude;
     
-    this.prepareEventObj();
+    // this.prepareEventObj();
 
     // this.customJs('assets/js/form-wizard.js').onload = () => {
     // };
@@ -87,21 +87,18 @@ export class LocationStepComponent implements OnInit {
   }
 
   prepareEventObj(): void {
-    // if (localStorage.getItem('newEventObj')) {
-    //   const eventString: any = localStorage.getItem('newEventObj');
-    //   this.eventObj = JSON.parse(eventString);
-    // } else {
-    //   this._router.navigate(['/events']);
-    // }
+    if (localStorage.getItem('newEventObj')) {
+      const eventString: any = localStorage.getItem('newEventObj');
+      this.eventObj = JSON.parse(eventString);
+    } else {
+      this._router.navigate(['/events']);
+    }
     this._globalService.addEditEvent$.subscribe((eventObj: any) => {
       if (eventObj) {
         this.eventObj = eventObj;
         this._prepareAboutEventForm(this.eventObj);
       }
     });
-    if (!this.eventObj || !this.eventObj.add_event) {
-      this._router.navigate(['/events']);
-    }
   }
 
   private _prepareAboutEventForm(eventObj: any = {}): void {
@@ -230,6 +227,7 @@ export class LocationStepComponent implements OnInit {
       });
       return;
     }
+    
     this.eventObj.event_location = this.prepareLocationEventObj(this.locationForm.value);
     localStorage.setItem('newEventObj', JSON.stringify(this.eventObj));
     
