@@ -94,14 +94,7 @@ export class DiscountStepComponent implements OnInit {
     discountObj.discount = discountObj.discount.toString() + '%';
     this._createEventService.updateDiscount(this.tmpDiscountObj.discountsId, discountObj).subscribe((result: any) => {
       if (result && result.isSuccess) {
-        const discounts = this._globalFunctions.copyObject(this.discounts);
-        discounts[this.tmpDiscountObj.discountIndex] = result.data;
-        discounts[this.tmpDiscountObj.discountIndex].name = discounts[this.tmpDiscountObj.discountIndex].discount_type.replace(/_/g, ' ');
-        this.discounts = this._globalFunctions.copyObject(discounts);
-        this._sNotify.success(result.message, 'Success');
-        this._modalService.close("discountDialog");
-        this.tmpDiscountObj = {};
-        this.isLoading = false;
+        this.updateDiscountObj(result);
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
       }
@@ -109,6 +102,37 @@ export class DiscountStepComponent implements OnInit {
       this.isLoading = false;
       this._globalFunctions.errorHanding(error, this, true);
     });
+  }
+
+  updateEquipmentDiscount(): any {
+    this.isLoading = true;
+    // const discountObj: any = this.discountForm.value;
+    const discountObj: any = {
+      orgequipment_id: this.discountForm.value.discount_type,
+      orgequipmentdiscounts_id: this.discountForm.value.seatings,
+      orgequipmentdiscounts: this.discountForm.value.discount.toString() + '%'
+    };
+    this._createEventService.updateEquipmentDiscount(discountObj).subscribe((result: any) => {
+      if (result && result.isSuccess) {
+        this.updateDiscountObj(result);
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+      }
+    }, (error: any) => {
+      this.isLoading = false;
+      this._globalFunctions.errorHanding(error, this, true);
+    });
+  }
+
+  updateDiscountObj(result: any): any {
+    const discounts = this._globalFunctions.copyObject(this.discounts);
+    discounts[this.tmpDiscountObj.discountIndex] = result.data;
+    discounts[this.tmpDiscountObj.discountIndex].name = discounts[this.tmpDiscountObj.discountIndex].discount_type.replace(/_/g, ' ');
+    this.discounts = this._globalFunctions.copyObject(discounts);
+    this._sNotify.success(result.message, 'Success');
+    this._modalService.close("discountDialog");
+    this.tmpDiscountObj = {};
+    this.isLoading = false;
   }
 
   closePop(): any {

@@ -72,6 +72,7 @@ export class AboutEventStepComponent implements OnInit {
     // localStorage.setItem('newEventObj', JSON.stringify(this.eventObj));
     // this._globalService.addEditEvent$.next(this.eventObj);
     this.newEventObj.emit(this.eventObj);
+    console.log(this.newEventObj);
     this._router.navigate(['/create-event/arrangement']);
   }
 

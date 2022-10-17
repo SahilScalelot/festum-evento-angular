@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, EventEmitter, Input, Output} from '@angular/core';
 import {Router} from '@angular/router';
 import {CONSTANTS} from 'src/app/main/common/constants';
 import {GlobalFunctions} from 'src/app/main/common/global-functions';
@@ -17,7 +17,10 @@ export class ArrangementStepComponent implements OnInit {
   constants: any = CONSTANTS;
   occasions: any = [];
   arrangementObj: any = {};
-  eventObj: any = {};
+  // eventObj: any = {};
+  
+  @Input() eventObj: any = {};
+  @Output() newEventObj: EventEmitter<any> = new EventEmitter();
 
   constructor(
     public _globalFunctions: GlobalFunctions,

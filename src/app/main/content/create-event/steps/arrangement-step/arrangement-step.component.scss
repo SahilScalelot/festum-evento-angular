@@ -12,3 +12,5 @@
 }
 
 .accordion_item .inner_content{@apply block;}
+
+.borders > div:not(:first-child) {@apply border-t pt-3 mt-3;}

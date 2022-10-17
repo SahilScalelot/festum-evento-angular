@@ -33,7 +33,7 @@
               "src/assets/css/moon-icon.css",
               "src/assets/css/swiper-bundle.min.css",
               "node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
-              "node_modules/primeng/resources/themes/tailwind-light/theme.css",
+              "node_modules/primeng/resources/themes/lara-light-blue/theme.css",
               "node_modules/primeng/resources/primeng.min.css",
               "node_modules/primeicons/primeicons.css",
               "src/styles.scss"

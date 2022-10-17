@@ -69,6 +69,10 @@ export class CreateEventService {
   }
 
   updateDiscount(discountId: any, discountObj: any): any {
-    return this.http.put(environment.appURL + 'discount/' + discountId, discountObj, this._globalFunctions.getAuthorizationHeader());
+    return this.http.put(environment.appURL + 'org/discount/' + discountId, discountObj, this._globalFunctions.getAuthorizationHeader());
+  }
+
+  updateEquipmentDiscount(discountObj: any): any {
+    return this.http.post(environment.appURL + 'org/equipment/discount', discountObj, this._globalFunctions.getAuthorizationHeader());
   }
 }
