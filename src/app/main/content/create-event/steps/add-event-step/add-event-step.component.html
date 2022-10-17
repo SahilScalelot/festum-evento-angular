@@ -9,7 +9,7 @@
       <span class="text-sm text-magicPotion font-bold">{{eventObj.add_event.event_category}}</span>
     </div>
     <div class="flex items-start space-x-5">
-      <a (click)="deleteEvent()" href="javascript:void(0)"><i class="icon-delete text-quicksilver"></i></a>
+      <a (click)="deleteEvent(eventObj.add_event.id)" href="javascript:void(0)"><i class="icon-delete text-quicksilver"></i></a>
       <a (click)="isEditEvent = true" href="javascript:void(0)"><i class="icon-edit text-quicksilver"></i></a>
       <span class="bg-magicPotion text-xs font-bold px-2 py-1 text-white">{{eventObj.add_event.event_type}}</span>
     </div>

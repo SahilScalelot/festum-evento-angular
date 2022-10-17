@@ -23,6 +23,7 @@ export class AddEditEventDialogComponent implements OnInit {
   newEventForm: any;
   newEventObj: any = {};
   isLoading: boolean = false;
+  isForUpdateEvent: boolean = false;
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -41,7 +42,7 @@ export class AddEditEventDialogComponent implements OnInit {
         this.newEventObj = newEventObj;
       }
     }
-
+    this.isForUpdateEvent = !!(this.eventObj && this.eventObj.id);
     this.eventObj = this.newEventObj.add_event;
     const eventType: any = (this.eventObj && this.eventObj.event_type) ? this.eventObj.event_type : CONSTANTS.eventType.B2B
     this.eventType = CONSTANTS.unitTypeArr[eventType].options;
@@ -71,12 +72,7 @@ export class AddEditEventDialogComponent implements OnInit {
 
   addEvent(): any {
     this.isLoading = true;
-    const preparedEventObj: any = this.newEventForm.value;
-    preparedEventObj.is_other = false;
-    if (preparedEventObj.other_category && preparedEventObj.other_category != '') {
-      preparedEventObj.event_category = preparedEventObj.other_category;
-      preparedEventObj.is_other = true;
-    }
+    const preparedEventObj: any = this.prepareEventObj(this.newEventForm.value);
     if (!this.validate()) {
       return;
     }
@@ -96,6 +92,45 @@ export class AddEditEventDialogComponent implements OnInit {
       this._globalFunctions.errorHanding(error, this, true);
       this.isLoading = false;
     });
+  }
+
+  updateEvent(): any {
+    this.isLoading = true;
+    const preparedEventObj: any = this.prepareEventObj(this.newEventForm.value);
+    if (!this.validate()) {
+      return;
+    }
+
+    this._createEventService.editEvent(this.eventObj.id, preparedEventObj).subscribe((result: any) => {
+      if (result && result.status) {
+        const oldEventObj: any = this._globalFunctions.copyObject(this.eventObj);
+        oldEventObj.name = this.newEventForm.value.name;
+        oldEventObj.event_type = this.newEventForm.value.event_type;
+        oldEventObj.event_category = this.newEventForm.value.event_category;
+        oldEventObj.other_category = this.newEventForm.value.other_category;
+        this.newEventObj.add_event = oldEventObj;
+        // this._globalService.addEditEvent$.next(this.newEventObj);
+        localStorage.setItem('newEventObj', JSON.stringify(this.newEventObj));
+        this.isLoading = false;
+        this.closePopup();
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+        this.isLoading = false;
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isLoading = false;
+    });
+  }
+
+  prepareEventObj(eventObj: any = {}): any {
+    const preparedEventObj: any = this._globalFunctions.copyObject(eventObj);
+    preparedEventObj.is_other = false;
+    if (preparedEventObj.other_category && preparedEventObj.other_category != '') {
+      preparedEventObj.event_category = preparedEventObj.other_category;
+      preparedEventObj.is_other = true;
+    }
+    return preparedEventObj;
   }
 
   closePopup(): void {

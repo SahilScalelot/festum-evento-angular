@@ -8,6 +8,7 @@ import {Router} from "@angular/router";
 import * as _ from 'lodash';
 import { SnotifyService } from 'ng-snotify';
 import { GlobalService } from 'src/app/services/global.service';
+import {CreateEventService} from "../../create-event.service";
 
 @Component({
   selector: 'app-location-step',
@@ -48,6 +49,7 @@ export class LocationStepComponent implements OnInit {
     private _http: HttpClient,
     private _sNotify: SnotifyService,
     private _globalService: GlobalService,
+    private _createEventService: CreateEventService,
   ) {
   }
 
@@ -243,6 +245,10 @@ export class LocationStepComponent implements OnInit {
     preparedLocationEventObj.longitude = locationObj.longitude;
     preparedLocationEventObj.latitude = locationObj.latitude;
     return preparedLocationEventObj;
+  }
+
+  onBackButtonClick(): void {
+    this._createEventService.isOpenAddEditArrangementDialog$.next(false);
   }
 
   // mapDragged($event: any) {

@@ -130,12 +130,13 @@ export class ArrangementStepComponent implements OnInit {
   }
 
   deleteArrangement(occasionId: any = ''): void {
-    const eventString: any = localStorage.getItem('newEventObj');
-    const eventObj: any = JSON.parse(eventString);
+    // const eventString: any = localStorage.getItem('newEventObj');
+    const eventObj: any = this._globalFunctions.copyObject(this.eventObj || {});
     this.eventObj.arrangements = _.remove(eventObj.arrangements, (arrangement: any) => {
       return arrangement.seat_id != occasionId;
     });
-    localStorage.setItem('newEventObj', JSON.stringify(this.eventObj));
+    // localStorage.setItem('newEventObj', JSON.stringify(this.eventObj));
+    this.newEventObj.emit(this.eventObj);
     this.prepareArrangementObj();
   }
 
@@ -146,10 +147,14 @@ export class ArrangementStepComponent implements OnInit {
     this.prepareArrangementObj();
   }
 
+  onNextStep(): void {
+    this.newEventObj.emit(this.eventObj);
+  }
+
   prepareArrangementObj(): void {
-    if (localStorage.getItem('newEventObj')) {
-      const eventString: any = localStorage.getItem('newEventObj');
-      this.eventObj = JSON.parse(eventString);
+    if (this.eventObj) {
+      // const eventString: any = localStorage.getItem('newEventObj');
+      // this.eventObj = JSON.parse(eventString);
 
       const preparedOccasionArr: any = [];
       const occasionGroupBySeatingId: any = _.groupBy(this.eventObj.arrangements, 'seat_id');

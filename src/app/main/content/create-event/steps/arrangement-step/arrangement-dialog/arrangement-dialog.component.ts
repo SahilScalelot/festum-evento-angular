@@ -9,17 +9,19 @@ import * as _ from 'lodash';
   styleUrls: ['./arrangement-dialog.component.scss']
 })
 export class ArrangementDialogComponent implements OnInit {
-  @Input() popClass: any;
-  @Input() seatingItems: any;
-  @Input() arrangementObj: any;
-  @Output() isAddEventChange = new EventEmitter<boolean>();
   constants: any = CONSTANTS;
   seatingForm: any;
   selectedTab = 0;
   totalArrangementsObj: any = {};
-  eventObj: any = {};
   selectedSeatingObj: any = {};
   isInitial: boolean = true;
+
+  @Input() eventObj: any = {};
+  @Input() popClass: any;
+  @Input() seatingItems: any;
+  @Input() arrangementObj: any;
+  @Output() isAddEventChange = new EventEmitter<boolean>();
+  @Output() newEventObj: EventEmitter<any> = new EventEmitter();
 
   constructor(
     private _formBuilder: FormBuilder
@@ -28,10 +30,10 @@ export class ArrangementDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.isInitial = true;
-    if (localStorage.getItem('newEventObj')) {
-      const eventString: any = localStorage.getItem('newEventObj');
-      this.eventObj = JSON.parse(eventString);
-    }
+    // if (localStorage.getItem('newEventObj')) {
+    //   const eventString: any = localStorage.getItem('newEventObj');
+    //   this.eventObj = JSON.parse(eventString);
+    // }
     this._prepareArrangementForm();
     this.prepareSeatingItems();
     if (this.arrangementObj && this.arrangementObj.seat) {
@@ -104,16 +106,12 @@ export class ArrangementDialogComponent implements OnInit {
     this.addArrangements();
   }
 
-  closePopup(): void {
-    this.isAddEventChange.emit(false);
-  }
-
   addFormData(): void {
     if (this.eventObj && (!this.eventObj.arrangements || !this.eventObj.arrangements.length)) {
       this.eventObj.arrangements = [];
     }
 
-    let preparedSeatingArr: any = this.eventObj.arrangements ? this.eventObj.arrangements : [];
+    let preparedSeatingArr: any = this.eventObj?.arrangements || [];
     if (this.arrangementObj && this.arrangementObj.seating_item) {
       preparedSeatingArr = [];
       _.each(this.eventObj.arrangements, (arrangement: any) => {
@@ -122,7 +120,7 @@ export class ArrangementDialogComponent implements OnInit {
         }
       });
     } else {
-      preparedSeatingArr = this.eventObj.arrangements ? this.eventObj.arrangements : [];
+      preparedSeatingArr = this.eventObj?.arrangements || [];
     }
 
     const seatingObj = this.seatingForm.value;
@@ -149,8 +147,13 @@ export class ArrangementDialogComponent implements OnInit {
       preparedSeatingArr.push(preparedArrangementObj);
     });
     this.eventObj.arrangements = preparedSeatingArr;
-    localStorage.setItem('newEventObj', JSON.stringify(this.eventObj));
+    // localStorage.setItem('newEventObj', JSON.stringify(this.eventObj));
     this.closePopup();
+  }
+
+  closePopup(): void {
+    this.newEventObj.emit(this.eventObj);
+    this.isAddEventChange.emit(false);
   }
 
   private _prepareArrangementForm(): void {

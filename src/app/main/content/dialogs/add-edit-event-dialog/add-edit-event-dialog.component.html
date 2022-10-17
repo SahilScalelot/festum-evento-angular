@@ -51,7 +51,7 @@
             <input [formControlName]="'other_category'" class="input option rounded-lg w-full py-3 px-4 focus-visible:outline-none" type="text"/>
           </div>
         </form>
-        <button (click)="addEvent()" [ngClass]="{'opacity-0': newEventForm.disabled}" class="secondary py-2 px-14 anim uppercase flex ml-auto" type="submit">
+        <button (click)="this.isForUpdateEvent ? updateEvent() : addEvent()" [ngClass]="{'opacity-0': newEventForm.disabled}" class="secondary py-2 px-14 anim uppercase flex ml-auto" type="submit">
           Submit
         </button>
       </div>

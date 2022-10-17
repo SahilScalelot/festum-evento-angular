@@ -543,11 +543,12 @@
       <i class="icon-left_arrow mr-3"></i>
       <h5>Back</h5>
     </button>
-    <button [disabled]="!occasions || !occasions.length" [routerLink]="'/create-event/location'" class="flex items-center active" type="button">
+    <button [disabled]="!occasions || !occasions.length" [routerLink]="'/create-event/location'" class="flex items-center active" type="button"
+    (click)="onNextStep()">
       <h5>Next</h5>
       <i class="icon-right_arrow ml-3"></i>
     </button>
   </div>
 </div>
 
-<app-arrangement-dialog (isAddEventChange)="closePop($event)" *ngIf="isArrangement" [popClass]="'active'" [seatingItems]="seatingItems" [arrangementObj]="arrangementObj"></app-arrangement-dialog>
+<app-arrangement-dialog (isAddEventChange)="closePop($event)" *ngIf="isArrangement" [popClass]="'active'" [seatingItems]="seatingItems" [arrangementObj]="arrangementObj" [eventObj]="eventObj"></app-arrangement-dialog>

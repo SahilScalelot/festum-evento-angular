@@ -24,11 +24,11 @@ export class CreateEventService {
   }
   
   editEvent(eventId: any, eventObj: any): any {
-    return this.http.post(environment.appURL + 'org/event/' + eventId + '/', eventObj, this._globalFunctions.getAuthorizationHeader());
+    return this.http.put(environment.appURL + 'org/event/' + eventId, eventObj, this._globalFunctions.getAuthorizationHeader());
   }
   
   deleteEvent(eventId: any): any {
-    return this.http.delete(environment.appURL + 'org/event/delete/' + eventId + '/', this._globalFunctions.getAuthorizationHeader());
+    return this.http.delete(environment.appURL + 'org/event/delete/' + eventId, this._globalFunctions.getAuthorizationHeader());
   }
 
   // Images And Video Api

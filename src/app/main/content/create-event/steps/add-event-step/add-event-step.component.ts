@@ -2,6 +2,8 @@ import {Component, OnInit, EventEmitter, Input, Output} from '@angular/core';
 import { Router } from '@angular/router';
 import { SnotifyService } from 'ng-snotify';
 import { GlobalService } from 'src/app/services/global.service';
+import {CreateEventService} from "../../create-event.service";
+import {GlobalFunctions} from "../../../../common/global-functions";
 
 @Component({
   selector: 'app-add-event-step',
@@ -10,16 +12,22 @@ import { GlobalService } from 'src/app/services/global.service';
 })
 export class AddEventStepComponent implements OnInit {
   isEditEvent: boolean = false;
-  selectedEventIndex: number = 0;
+  isLoading: boolean = false;
 
   @Input() eventObj: any = {};
   @Output() newEventObj: EventEmitter<any> = new EventEmitter();
 
-  constructor(private _globalService: GlobalService, private _sNotifyService: SnotifyService, private _router: Router) {
+  constructor(
+    private _globalService: GlobalService,
+    private _sNotifyService: SnotifyService,
+    private _createEventService: CreateEventService,
+    private _globalFunctions: GlobalFunctions,
+    private _router: Router
+  ) {
   }
 
   ngOnInit(): void {
-    // this.prepareEventObj();
+    this.prepareEventObj();
   }
 
   next(): any {
@@ -45,11 +53,22 @@ export class AddEventStepComponent implements OnInit {
     // }
   }
 
-  deleteEvent(): void {
+  deleteEvent(eventId: any): void {
     // Open delete confirmation popup
-    // this._globalService.addEditEvent$.next(null);
-    localStorage.removeItem('newEventObj');
-    this._router.navigate(['/events']);
+    this.isLoading = true;
+    this._createEventService.deleteEvent(eventId).subscribe((result: any) => {
+      if (result && result.delete) {
+        this._globalService.addEditEvent$.next(null);
+        this._router.navigate(['/events']);
+        this.isLoading = false;
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+        this.isLoading = false;
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isLoading = false;
+    });
   }
 
   closePop(flag: boolean): void {

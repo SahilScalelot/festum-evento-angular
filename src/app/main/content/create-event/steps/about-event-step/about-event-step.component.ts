@@ -30,21 +30,21 @@ export class AboutEventStepComponent implements OnInit {
   }
 
   prepareEventObj(): void {
-    if (localStorage.getItem('newEventObj')) {
-      const eventString: any = localStorage.getItem('newEventObj');
-      this.eventObj = JSON.parse(eventString);
-    } else {
-      this._router.navigate(['/events']);
-    }
+    // if (localStorage.getItem('newEventObj')) {
+    //   const eventString: any = localStorage.getItem('newEventObj');
+    //   this.eventObj = JSON.parse(eventString);
+    // } else {
+    //   this._router.navigate(['/events']);
+    // }
     // this._globalService.addEditEvent$.subscribe((eventObj: any) => {
     //   if (eventObj) {
     //     this.eventObj = eventObj;
     //     this._prepareAboutEventForm(this.eventObj);
     //   }
     // });
-    // if (!this.eventObj || !this.eventObj.add_event) {
-    //   this._router.navigate(['/events']);
-    // }
+    if (!this.eventObj || !this.eventObj.add_event) {
+      this._router.navigate(['/events']);
+    }
   }
 
   private _prepareAboutEventForm(eventObj: any = {}): void {
@@ -67,12 +67,10 @@ export class AboutEventStepComponent implements OnInit {
       });
       return;
     }
-
     this.eventObj.about_event = this.prepareAboutEventObj(this.aboutEventForm.value);
     // localStorage.setItem('newEventObj', JSON.stringify(this.eventObj));
     // this._globalService.addEditEvent$.next(this.eventObj);
     this.newEventObj.emit(this.eventObj);
-    console.log(this.newEventObj);
     this._router.navigate(['/create-event/arrangement']);
   }
 
@@ -91,5 +89,6 @@ export class AboutEventStepComponent implements OnInit {
     if (date != 'Invalid Date') {
       return dateWithTime.getHours() + ':' + dateWithTime.getMinutes();
     }
+    return dateWithTime;
   }
 }
