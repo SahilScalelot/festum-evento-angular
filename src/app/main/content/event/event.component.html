@@ -3,22 +3,18 @@
   <div class="flex flex-wrap items-center">
     <h2>Events</h2>
     <div class="flex whitespace-nowrap space-x-5 ml-auto">
-      <button class="bg-white px-5 py-3 text-japaneseIndigo font-bold rounded-md tracking-wider">MultipleLive</button>
+      <button class="bg-white px-5 py-3 text-japaneseIndigo font-bold rounded-md tracking-wider" (click)="multipleLiveEvent()">MultipleLive</button>
       <span class="secondary cursor-pointer px-7 py-3" (click)="openAddEventDialog()"><i class="icon-plus mr-3"></i>Create new event</span>
     </div>
   </div>
   <div class="space-y-5 pt-10" *ngIf="!isLoading">
-    <p-table [value]="events" [paginator]="(events.length)" [rows]="4" [showCurrentPageReport]="true" 
-    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} Events" [rowsPerPageOptions]="[4,8,10]">
+    <p-table [value]="events" [paginator]="(events.length)" [rows]="4" [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} Events" [rowsPerPageOptions]="[4,8,10]">
       <ng-template pTemplate="body" let-event>
         <tr>
           <td>
             <div class="w-full flex items-center cursor-pointer" (click)="gotoEventOverview($event, event)">
-              <div>
-                <label class="checkbox mr-4" (click)="multipleLiveEvent($event, event)">
-                  <input type="checkbox" class="bg-white"/>
-                  <i class="icon-right text-white"></i>
-                </label>
+              <div class="">
+                <p-checkbox name="groupname" class="mr-5" [value]="event.id" [(ngModel)]="selectedEventIds" (click)="$event.stopPropagation()"></p-checkbox>
               </div>
               <div class="w-full flex items-center">
                 <div class="w-full p-4 bg-white rounded">
@@ -52,7 +48,7 @@
                         </div>
                         <div class="text-left pt-5 w-full flex justify-between lg:inline-block lg:w-auto lg:pt-0 lg:text-right space-y-3 lg:space-y-5">
                           <label class="flex items-center" (click)="liveEvent($event, event)">
-                            <input type="checkbox" class="switch mr-1.5 lg:mx-3 order-2" checked/>
+                            <input type="checkbox" class="switch mr-1.5 lg:mx-3 order-2" [checked]="event.live"/>
                             <span class="text-base font-bold anim order-3">Live</span>
                           </label>
                           <!-- <h3 class="text-right">250 INR</h3>-->

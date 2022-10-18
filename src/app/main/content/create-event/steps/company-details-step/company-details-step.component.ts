@@ -191,13 +191,24 @@ export class CompanyDetailsStepComponent implements OnInit {
       return;
     }
 
-    this.eventObj.company_details = this.prepareObj(this.companyForm.value);
+    const companyFormData = this._globalFunctions.copyObject(this.companyForm.value);
+    delete companyFormData.images;
+    delete companyFormData.videos;
+    const newData: any = {
+      company_detail: companyFormData,
+      company_images: this.photoArr,
+      company_videos: this.videoArr
+    }
+    console.log(newData);
+    
+
+    // this.eventObj.company_details = this.prepareObj(this.companyForm.value);
     
     // console.log(this.eventObj);
-    this.newEventObj.emit(this.eventObj);
+    // this.newEventObj.emit(this.eventObj);
     // localStorage.setItem('newEventObj', JSON.stringify(this.eventObj));
     // this._globalService.addEditEvent$.next(this.eventObj);
-    this._router.navigate(['/create-event/personal-details']);
+    // this._router.navigate(['/create-event/personal-details']);
   }
   
   prepareObj(companyObj: any = {}): any {
