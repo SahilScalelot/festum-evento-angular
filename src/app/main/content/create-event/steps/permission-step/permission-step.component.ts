@@ -62,9 +62,9 @@ export class PermissionStepComponent implements OnInit {
     // }
     // localStorage.setItem('newEventObj', JSON.stringify(this.permissionForm.value))
     const preparedObj = this.prepareObj(this.permissionForm.value);
-    this.permissionObj.permission = preparedObj;
-    JSON.stringify({ permission: preparedObj });
-    localStorage.setItem('newEventObj', JSON.stringify(this.permissionObj));
+    // this.permissionObj.permission = preparedObj;
+    // JSON.stringify({ permission: preparedObj });
+    // localStorage.setItem('newEventObj', JSON.stringify(this.permissionObj));
     this._router.navigate(['create-event/discount']);
   }
 

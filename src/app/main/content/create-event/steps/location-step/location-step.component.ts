@@ -55,7 +55,7 @@ export class LocationStepComponent implements OnInit {
 
   ngOnInit(): void {
     
-    this._prepareAboutEventForm();
+    this._prepareAboutEventForm(this.eventObj);
     
     this.lat = this.eventObj?.event_location?.latitude || CONSTANTS.latitude;
     this.lng = this.eventObj?.event_location?.longitude || CONSTANTS.longitude;
@@ -69,6 +69,7 @@ export class LocationStepComponent implements OnInit {
       this.geoCoder = new google.maps.Geocoder;
       this.autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement);
       this.autocomplete.addListener("place_changed", () => {
+        console.log('tesxt');
         this._ngZone.run(() => {
           //get the place result
           let place: any = this.autocomplete.getPlace();
@@ -103,16 +104,16 @@ export class LocationStepComponent implements OnInit {
     // });
   // }
 
-  private _prepareAboutEventForm(): void {
+  private _prepareAboutEventForm(eventObj: any = {}): void {
     this.locationForm = this._formBuilder.group({
-      flat_number: [this.eventObj?.event_location?.flat_number],
-      street_name: [this.eventObj?.event_location?.street_name],
-      area_name: [this.eventObj?.event_location?.area_name],
-      longitude: [this.eventObj?.event_location?.longitude],
-      latitude: [this.eventObj?.event_location?.latitude],
-      city: [this.eventObj?.event_location?.city, [Validators.required]],
-      state: [this.eventObj?.event_location?.state, [Validators.required]],
-      pincode: [this.eventObj?.event_location?.pincode, [Validators.required, Validators.pattern('^[1-9]{1}[0-9]{2}\\s{0,1}[0-9]{3}$')]],
+      flat_number: [eventObj?.event_location?.flat_number],
+      street_name: [eventObj?.event_location?.street_name],
+      area_name: [eventObj?.event_location?.area_name],
+      latitude: [eventObj?.event_location?.latitude || CONSTANTS.latitude],
+      longitude: [eventObj?.event_location?.longitude || CONSTANTS.longitude],
+      city: [eventObj?.event_location?.city, [Validators.required]],
+      state: [eventObj?.event_location?.state, [Validators.required]],
+      pincode: [eventObj?.event_location?.pincode, [Validators.required, Validators.pattern('^[1-9]{1}[0-9]{2}\\s{0,1}[0-9]{3}$')]],
     });
   }
 

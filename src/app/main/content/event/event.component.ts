@@ -5,6 +5,7 @@ import {CONSTANTS} from '../../common/constants';
 import {EventService} from './event.service';
 import {GlobalFunctions} from "../../common/global-functions";
 import {Router} from "@angular/router";
+import * as _ from "lodash";
 
 @Component({
   selector: 'app-event',
@@ -15,7 +16,8 @@ export class EventComponent implements OnInit {
   isAddEvent: boolean = false;
   events: any = [];
   constants: any = CONSTANTS;  
-  isLoading: boolean = false;
+  isLoading: boolean = false;  
+  selectedEventIds: any = [];
 
   constructor(
     private _eventService: EventService,
@@ -27,6 +29,7 @@ export class EventComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.selectedEventIds = [];
     localStorage.removeItem('newEventObj');
     this.getEvent();
   }
@@ -62,8 +65,11 @@ export class EventComponent implements OnInit {
     event.stopPropagation();
   }
   
-  multipleLiveEvent(event: any, eventObj: any): void {
-    event.stopPropagation();
+  multipleLiveEvent(): void {
+    this.selectedEventIds.forEach((eventId: any) => {
+      const getObj: any = _.find(this.events, ["id", eventId]);
+      getObj.live = true;
+    });
   }
 
   gotoEventOverview(event: any, eventObj: any): void {
