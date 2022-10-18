@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {CONSTANTS} from "../../../../common/constants";
 import {FormBuilder, Validators} from "@angular/forms";
 import {SnotifyService} from "ng-snotify";
@@ -16,7 +16,8 @@ export class PermissionStepComponent implements OnInit {
   inputText: any;
   constants: any = CONSTANTS;
 
-  permissionObj: any = {permission: {}};
+  @Input() eventObj: any = {};
+  @Output() newEventObj: EventEmitter<any> = new EventEmitter();
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -26,18 +27,21 @@ export class PermissionStepComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (localStorage.getItem('newEventObj')) {
-      const eventString: any = localStorage.getItem('newEventObj');
-      this.permissionObj = JSON.parse(eventString);
-      this.inputText = this.permissionObj?.permission?.permission_letter?.split('\\', 3)[2];
-    } else {
+    // if (localStorage.getItem('newEventObj')) {
+    //   const eventString: any = localStorage.getItem('newEventObj');
+    //   this.permissionObj = JSON.parse(eventString);
+    //   this.inputText = this.permissionObj?.permission?.permission_letter?.split('\\', 3)[2];
+    // } else {
+    //   this._router.navigate(['/events']);
+    // }
+    if (!this.eventObj || !this.eventObj.add_event) {
       this._router.navigate(['/events']);
     }
-    
     this.permissionForm = this._formBuilder.group({
-      permission_letter: [null, [Validators.required]],
-      accept_booking: [this.permissionObj?.permission?.accept_booking]
+      permission_letter: [null],
+      accept_booking: [this.eventObj?.permission?.accept_booking || false]
     });
+    this.inputText = this.eventObj?.permission?.permission_letter_name;
   }
 
   onChangePDF(event: any): void {
@@ -45,13 +49,17 @@ export class PermissionStepComponent implements OnInit {
   }
 
   submitPermissionForm(): void {
-    const pdf = $('#permission_letter')[0].files[0];
-    if (this.permissionForm.invalid) {
+    this.permissionForm.get('permission_letter').setErrors({'required': false});
+    if (((!this.eventObj || !this.eventObj.permission || !this.eventObj.permission.permission_letter) &&
+      (!this.permissionForm.value || !this.permissionForm.value.permission_letter)) ||
+      (this.eventObj && this.eventObj.permission && (!this.eventObj.permission.permission_letter ||
+        typeof (this.eventObj.permission.permission_letter) != 'object'))) {
       // this.permissionForm.controls.markAsDirty();
       Object.keys(this.permissionForm.controls).forEach((key) => {
         this.permissionForm.controls[key].touched = true;
         this.permissionForm.controls[key].markAsDirty();
       });
+      this.permissionForm.get('permission_letter').setErrors({'required': true});
       return;
     }
     // if (pdf != undefined) {
@@ -61,16 +69,24 @@ export class PermissionStepComponent implements OnInit {
       // this.permissionForm.get('permission_letter').setValue(pdf);
     // }
     // localStorage.setItem('newEventObj', JSON.stringify(this.permissionForm.value))
-    const preparedObj = this.prepareObj(this.permissionForm.value);
-    // this.permissionObj.permission = preparedObj;
+    this.eventObj.permission = this.preparePermissionObj(this.permissionForm.value);
     // JSON.stringify({ permission: preparedObj });
     // localStorage.setItem('newEventObj', JSON.stringify(this.permissionObj));
+    this.newEventObj.emit(this.eventObj);
     this._router.navigate(['create-event/discount']);
   }
 
-  prepareObj(permissionObj: any = {}): any {
-    const preparedObj: any = permissionObj;
-    return preparedObj; 
+  preparePermissionObj(permissionObj: any = {}): any {
+    const preparedPermissionObj: any = permissionObj;
+    const pdf = $('#permission_letter')[0].files[0];
+    if (pdf != undefined) {
+      preparedPermissionObj.permission_letter = pdf;
+      preparedPermissionObj.permission_letter_name = pdf.name;
+    } else if (this.eventObj?.permission?.permission_letter) {
+      preparedPermissionObj.permission_letter = this.eventObj?.permission?.permission_letter;
+      preparedPermissionObj.permission_letter_name = preparedPermissionObj.permission_letter.name;
+    }
+    return preparedPermissionObj;
   }
 
 }
