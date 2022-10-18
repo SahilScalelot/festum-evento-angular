@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 import {FormBuilder, Validators} from "@angular/forms";
 import { Router } from '@angular/router';
 // @ts-ignore
@@ -19,7 +19,8 @@ export class TermsAndConditionsStepComponent implements OnInit {
   editorConfig: any = {};
   agreeTAndC: boolean = false;
 
-  eventObj: any = {};
+  @Input() eventObj: any = {};
+  @Output() newEventObj: EventEmitter<any> = new EventEmitter();
 
   termsAndConditionsObj: any = {terms_and_conditions: {}};
 
@@ -111,8 +112,8 @@ export class TermsAndConditionsStepComponent implements OnInit {
         ]
       }
     };
-    this._prepareForm();    
-    this.prepareTermsAndConditionsEventObj();
+    this._prepareForm(this.eventObj);    
+    // this.prepareTermsAndConditionsEventObj();
 
     this.termsAndConditionsForm.get('terms_and_conditions').setValue(false);
   }
@@ -154,7 +155,7 @@ export class TermsAndConditionsStepComponent implements OnInit {
     this.termsAndConditionsObj.terms_and_conditions = preparedObj;
     
     JSON.stringify({terms_and_conditions: preparedObj});
-    localStorage.setItem('newEventObj', JSON.stringify(this.termsAndConditionsObj));
+    // localStorage.setItem('newEventObj', JSON.stringify(this.termsAndConditionsObj));
     
     const preparedEventObj: any = this.prepareEventObj(this.termsAndConditionsObj);
     const preparedEventImagesObj: any = this.prepareImagesEventObj(this.termsAndConditionsObj);
@@ -214,16 +215,16 @@ export class TermsAndConditionsStepComponent implements OnInit {
     return preparedEventObj;
   }
 
-  prepareTermsAndConditionsEventObj(): void {
-    this._globalService.addEditEvent$.subscribe((eventObj: any) => {
-      if (eventObj) {
-        this.eventObj = eventObj;
-        this._prepareForm(this.eventObj);
-      }
-    });
-    if (!this.eventObj || !this.eventObj.add_event) {
-    }
-  }
+  // prepareTermsAndConditionsEventObj(): void {
+  //   this._globalService.addEditEvent$.subscribe((eventObj: any) => {
+  //     if (eventObj) {
+  //       this.eventObj = eventObj;
+  //       this._prepareForm(this.eventObj);
+  //     }
+  //   });
+  //   if (!this.eventObj || !this.eventObj.add_event) {
+  //   }
+  // }
 
   prepareImagesEventObj(eventObj: any = {}): any {
   }

@@ -25,8 +25,8 @@
     <app-photos-videos-step *ngIf="currentURL == '/create-event/photos-and-videos'"></app-photos-videos-step>
     <app-permission-step *ngIf="currentURL == '/create-event/permission'"></app-permission-step>
     <app-discount-step *ngIf="currentURL == '/create-event/discount'"></app-discount-step>
-    <app-company-details-step *ngIf="currentURL == '/create-event/company-details'"></app-company-details-step>
-    <app-personal-details-step *ngIf="currentURL == '/create-event/personal-details'"></app-personal-details-step>
-    <app-terms-and-conditions-step *ngIf="currentURL == '/create-event/terms-and-conditions'"></app-terms-and-conditions-step>
+    <app-company-details-step *ngIf="currentURL == '/create-event/company-details'" [eventObj]="eventObj" (newEventObj)="onNextStep($event)"></app-company-details-step>
+    <app-personal-details-step *ngIf="currentURL == '/create-event/personal-details'" [eventObj]="eventObj" (newEventObj)="onNextStep($event)"></app-personal-details-step>
+    <app-terms-and-conditions-step *ngIf="currentURL == '/create-event/terms-and-conditions'" [eventObj]="eventObj" (newEventObj)="onNextStep($event)"></app-terms-and-conditions-step>
   </div>
 </div>

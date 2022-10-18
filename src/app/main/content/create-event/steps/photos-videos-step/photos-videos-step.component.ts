@@ -46,16 +46,16 @@ export class PhotosVideosStepComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    if (localStorage.getItem('newEventObj')) {
-      const eventString: any = localStorage.getItem('newEventObj');
-      this.imagesAndVideoObj = JSON.parse(eventString);
-      if (this.imagesAndVideoObj) {
-        this.photoArr = this.imagesAndVideoObj?.photos_and_videos?.photo || [];
-        this.videoArr = this.imagesAndVideoObj?.photos_and_videos?.video || [];
-      }
-    } else {
-      this._router.navigate(['/events']);
-    }
+    // if (localStorage.getItem('newEventObj')) {
+    //   const eventString: any = localStorage.getItem('newEventObj');
+    //   this.imagesAndVideoObj = JSON.parse(eventString);
+    //   if (this.imagesAndVideoObj) {
+    //     this.photoArr = this.imagesAndVideoObj?.photos_and_videos?.photo || [];
+    //     this.videoArr = this.imagesAndVideoObj?.photos_and_videos?.video || [];
+    //   }
+    // } else {
+    //   this._router.navigate(['/events']);
+    // }
 
     this.photosAndVideosForm = this._formBuilder.group({
       poster: [null],
@@ -235,7 +235,7 @@ export class PhotosVideosStepComponent implements OnInit {
     this.videoArr.splice(index, 1);
   }
 
-  submitPhotosAndVideosForm() {
+  nextStep() {
     console.log(this.allPhotosFileArr);
 
     // localStorage.setItem('newEventObj', JSON.stringify(this.photosAndVideosForm.value));
@@ -244,7 +244,7 @@ export class PhotosVideosStepComponent implements OnInit {
     // this.imagesAndVideoObj.photos_and_videos = preparedObj;
     // JSON.stringify({ photos_and_videos: preparedObj });
     // localStorage.setItem('newEventObj', JSON.stringify(this.imagesAndVideoObj));
-    // this._router.navigate(['/create-event/permission']);
+    this._router.navigate(['/create-event/permission']);
     // // console.log(this.photosAndVideosForm.value);
   }
 

@@ -1,4 +1,4 @@
-import {Component, ElementRef, NgZone, OnInit, Renderer2, ViewChild,  EventEmitter, Input, Output} from '@angular/core';
+import {Component, ElementRef, NgZone, OnInit, Renderer2, ViewChild, EventEmitter, Input, Output} from '@angular/core';
 import {MapsAPILoader} from "@agm/core";
 import {ModalService} from "../../../../_modal";
 import {HttpClient} from "@angular/common/http";
@@ -57,8 +57,8 @@ export class LocationStepComponent implements OnInit {
     
     this._prepareAboutEventForm();
     
-    this.lat = this.locationObj?.event_location?.latitude || CONSTANTS.latitude;
-    this.lng = this.locationObj?.event_location?.longitude || CONSTANTS.longitude;
+    this.lat = this.eventObj?.event_location?.latitude || CONSTANTS.latitude;
+    this.lng = this.eventObj?.event_location?.longitude || CONSTANTS.longitude;
     
     // this.prepareEventObj();
 
@@ -88,31 +88,31 @@ export class LocationStepComponent implements OnInit {
     });
   }
 
-  prepareEventObj(): void {
-    if (localStorage.getItem('newEventObj')) {
-      const eventString: any = localStorage.getItem('newEventObj');
-      this.eventObj = JSON.parse(eventString);
-    } else {
-      this._router.navigate(['/events']);
-    }
-    this._globalService.addEditEvent$.subscribe((eventObj: any) => {
-      if (eventObj) {
-        this.eventObj = eventObj;
-        this._prepareAboutEventForm(this.eventObj);
-      }
-    });
-  }
+  // prepareEventObj(): void {
+    // if (localStorage.getItem('newEventObj')) {
+    //   const eventString: any = localStorage.getItem('newEventObj');
+    //   this.eventObj = JSON.parse(eventString);
+    // } else {
+    //   this._router.navigate(['/events']);
+    // }
+    // this._globalService.addEditEvent$.subscribe((eventObj: any) => {
+    //   if (eventObj) {
+    //     this.eventObj = eventObj;
+    //     this._prepareAboutEventForm(this.eventObj);
+    //   }
+    // });
+  // }
 
-  private _prepareAboutEventForm(eventObj: any = {}): void {
+  private _prepareAboutEventForm(): void {
     this.locationForm = this._formBuilder.group({
-      flat_number: [eventObj?.event_location?.flat_number],
-      street_name: [eventObj?.event_location?.street_name],
-      area_name: [eventObj?.event_location?.area_name],
-      longitude: [eventObj?.event_location?.longitude],
-      latitude: [eventObj?.event_location?.latitude],
-      city: [eventObj?.event_location?.city, [Validators.required]],
-      state: [eventObj?.event_location?.state, [Validators.required]],
-      pincode: [eventObj?.event_location?.pincode, [Validators.required, Validators.pattern('^[1-9]{1}[0-9]{2}\\s{0,1}[0-9]{3}$')]],
+      flat_number: [this.eventObj?.event_location?.flat_number],
+      street_name: [this.eventObj?.event_location?.street_name],
+      area_name: [this.eventObj?.event_location?.area_name],
+      longitude: [this.eventObj?.event_location?.longitude],
+      latitude: [this.eventObj?.event_location?.latitude],
+      city: [this.eventObj?.event_location?.city, [Validators.required]],
+      state: [this.eventObj?.event_location?.state, [Validators.required]],
+      pincode: [this.eventObj?.event_location?.pincode, [Validators.required, Validators.pattern('^[1-9]{1}[0-9]{2}\\s{0,1}[0-9]{3}$')]],
     });
   }
 
@@ -219,9 +219,6 @@ export class LocationStepComponent implements OnInit {
   }
   
   submitLocation() {
-    // if (!this.validate()) {
-    //   return;
-    // }    
     if (this.locationForm.invalid) {
       Object.keys(this.locationForm.controls).forEach((key) => {
         this.locationForm.controls[key].touched = true;
@@ -231,13 +228,12 @@ export class LocationStepComponent implements OnInit {
     }
     
     this.eventObj.event_location = this.prepareLocationEventObj(this.locationForm.value);
-    localStorage.setItem('newEventObj', JSON.stringify(this.eventObj));
+    // localStorage.setItem('newEventObj', JSON.stringify(this.eventObj));
     
-    console.log(this.eventObj);
-
-    this._globalService.addEditEvent$.next(this.eventObj);
+    // console.log(this.eventObj);
+    this.newEventObj.emit(this.eventObj);
+    // this._globalService.addEditEvent$.next(this.eventObj);
     this._router.navigate(['/create-event/photos-and-videos']);
-    // this._router.navigate(['/create-event/company-details']);
   }
 
   prepareLocationEventObj(locationObj: any = {}): any {
@@ -248,7 +244,7 @@ export class LocationStepComponent implements OnInit {
   }
 
   onBackButtonClick(): void {
-    this._createEventService.isOpenAddEditArrangementDialog$.next(false);
+    // this._createEventService.isOpenAddEditArrangementDialog$.next(false);
   }
 
   // mapDragged($event: any) {

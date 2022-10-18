@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SnotifyService } from 'ng-snotify';
@@ -29,14 +29,11 @@ export class CompanyDetailsStepComponent implements OnInit {
   videoObj: any = [];
   videoArr: any = [];
   permissionObj: any = [];
-  
-  eventObj: any = {};
 
   isInValidPDF: boolean = false;
 
-  reactiveForm!: FormGroup;
-
-  companyObj: any = {company_details: {}};
+  @Input() eventObj: any = {};
+  @Output() newEventObj: EventEmitter<any> = new EventEmitter();
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -56,27 +53,27 @@ export class CompanyDetailsStepComponent implements OnInit {
     //     this.videoArr = this.companyObj?.company_details?.video || [];
     //   }
     // }
-    this._prepareAboutEventForm();
-    this.prepareEventObj();
+    this._prepareAboutEventForm(this.eventObj);
+    // this.prepareEventObj();
   }
 
-  prepareEventObj(): void {
-    if (localStorage.getItem('newEventObj')) {
-      const eventString: any = localStorage.getItem('newEventObj');
-      this.eventObj = JSON.parse(eventString);
-    } else {
-      this._router.navigate(['/events']);
-    }
-    // this._globalService.addEditEvent$.subscribe((eventObj: any) => {
-    //   if (eventObj) {
-    //     this.eventObj = eventObj;
-    //     this._prepareAboutEventForm(this.eventObj);
-    //   }
-    // });
-    if (!this.eventObj || !this.eventObj.add_event) {
-      // this._router.navigate(['/events']);
-    }
-  }
+  // prepareEventObj(): void {
+  //   if (localStorage.getItem('newEventObj')) {
+  //     const eventString: any = localStorage.getItem('newEventObj');
+  //     this.eventObj = JSON.parse(eventString);
+  //   } else {
+  //     this._router.navigate(['/events']);
+  //   }
+  //   // this._globalService.addEditEvent$.subscribe((eventObj: any) => {
+  //   //   if (eventObj) {
+  //   //     this.eventObj = eventObj;
+  //   //     this._prepareAboutEventForm(this.eventObj);
+  //   //   }
+  //   // });
+  //   if (!this.eventObj || !this.eventObj.add_event) {
+  //     // this._router.navigate(['/events']);
+  //   }
+  // }
 
   private _prepareAboutEventForm(eventObj: any = {}): void {
     this.companyForm = this._formBuilder.group({
@@ -184,7 +181,7 @@ export class CompanyDetailsStepComponent implements OnInit {
     this.videoArr.splice(index, 1);
   }
 
-  companyDetails(): void {
+  nextStep(): void {
     if (this.companyForm.invalid) {
       // this.companyForm.controls.markAsDirty();
       Object.keys(this.companyForm.controls).forEach((key) => {
@@ -195,7 +192,10 @@ export class CompanyDetailsStepComponent implements OnInit {
     }
 
     this.eventObj.company_details = this.prepareObj(this.companyForm.value);
-    localStorage.setItem('newEventObj', JSON.stringify(this.eventObj));
+    
+    // console.log(this.eventObj);
+    this.newEventObj.emit(this.eventObj);
+    // localStorage.setItem('newEventObj', JSON.stringify(this.eventObj));
     // this._globalService.addEditEvent$.next(this.eventObj);
     this._router.navigate(['/create-event/personal-details']);
   }
@@ -204,7 +204,6 @@ export class CompanyDetailsStepComponent implements OnInit {
     const preparedObj: any = companyObj;
     return preparedObj;
   }
-
 
   addCompanyDetail(): void {
     this._createEventService.addCompanyDetail(this.companyForm.value).subscribe((result: any) => {

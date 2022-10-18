@@ -143,7 +143,7 @@ export class DiscountStepComponent implements OnInit {
   next(): any {
     console.log(this.selectedDiscountIds);
     
-    this._globalService.addEditEvent$.next(this.selectedDiscountIds);
+    // this._globalService.addEditEvent$.next(this.selectedDiscountIds);
     this._router.navigate(['/create-event/company-details']);
   }
 }
