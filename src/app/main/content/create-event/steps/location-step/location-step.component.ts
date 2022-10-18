@@ -59,17 +59,17 @@ export class LocationStepComponent implements OnInit {
     
     this.lat = this.eventObj?.event_location?.latitude || CONSTANTS.latitude;
     this.lng = this.eventObj?.event_location?.longitude || CONSTANTS.longitude;
-    
     // this.prepareEventObj();
 
     // this.customJs('assets/js/form-wizard.js').onload = () => {
     // };
     this._mapsAPILoader.load().then(() => {
-      this._setCurrentLocation();
+      if (!this.eventObj || !this.eventObj.event_location || !this.eventObj.event_location.latitude) {
+        this._setCurrentLocation();
+      }
       this.geoCoder = new google.maps.Geocoder;
       this.autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement);
       this.autocomplete.addListener("place_changed", () => {
-        console.log('tesxt');
         this._ngZone.run(() => {
           //get the place result
           let place: any = this.autocomplete.getPlace();
