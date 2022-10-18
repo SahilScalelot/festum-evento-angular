@@ -5,8 +5,8 @@ import { ModalService } from 'src/app/main/_modal';
 import { SnotifyService } from "ng-snotify";
 import { CONSTANTS } from "../../../../common/constants";
 import { Router } from '@angular/router';
-import { DomSanitizer } from '@angular/platform-browser';
 import { GlobalFunctions } from 'src/app/main/common/global-functions';
+import * as _ from 'lodash';
 
 declare var $: any;
 
@@ -65,20 +65,7 @@ export class PhotosVideosStepComponent implements OnInit {
       }
       this.photoArr = this.eventObj?.photos_and_videos?.photos || [];
       this.videoArr = this.eventObj?.photos_and_videos?.videos || [];
-      if (this.posterObj && this.posterObj.image) {
-        if (typeof(this.posterObj.image) == 'string') {
-          this.savePoster(this.posterObj);
-        } else {
-          const image: any = this.posterObj.image;
-          if (image != undefined) {
-            const reader = new FileReader();
-            reader.onload = (e: any) => {
-              this.cropImgPreview = e.target.result;
-            };
-            reader.readAsDataURL(image);
-          }
-        }
-      }
+      this.prepareDefaultImagesAndPosterAndVideos();
     } else {
       this._router.navigate(['/events']);
     }
@@ -101,11 +88,51 @@ export class PhotosVideosStepComponent implements OnInit {
       details: [null]
     });
     // this.preImg = this.imagesAndVideoObj?.photos_and_videos?.photo[0].image.split(',', 2)[1]
-
-
     // this.imageSource = this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/png;base64, ${this.preImg}`);
     // console.log(this.imagesAndVideoObj?.photos_and_videos?.photo);
+  }
 
+  prepareDefaultImagesAndPosterAndVideos(): void {
+    if (this.posterObj && this.posterObj.image) {
+      if (typeof(this.posterObj.image) == 'string') {
+        this.savePoster(this.posterObj);
+      } else {
+        const image: any = this.posterObj.image;
+        if (image != undefined) {
+          const reader = new FileReader();
+          reader.onload = (e: any) => {
+            this.cropImgPreview = e.target.result;
+          };
+          reader.readAsDataURL(image);
+        }
+      }
+    }
+    _.each(this.photoArr, (photoObj: any) => {
+      if (typeof(photoObj.image) != 'string') {
+        const image: any = photoObj.image;
+        if (image != undefined) {
+          const reader = new FileReader();
+          reader.onload = (e: any) => {
+            photoObj.image = e.target.result;
+          };
+          reader.readAsDataURL(image);
+          this.allPhotosFilesArr.push({ image: image, details: photoObj?.details, name: photoObj?.name });
+        }
+      }
+    });
+    _.each(this.videoArr, (videoObj: any) => {
+      if (typeof(videoObj.video) != 'string') {
+        const video: any = videoObj.video;
+        if (video != undefined) {
+          const reader = new FileReader();
+          reader.onload = (e: any) => {
+            videoObj.video = e.target.result;
+          };
+          reader.readAsDataURL(video);
+          this.allVideosFilesArr.push({ video: video, details: videoObj?.details });
+        }
+      }
+    });
   }
 
   readURL(event: any): void {
@@ -169,8 +196,7 @@ export class PhotosVideosStepComponent implements OnInit {
   }
 
   cropImg(e: ImageCroppedEvent) {
-    let blob = e.base64;
-    this.cropImgPreview = blob;
+    this.cropImgPreview = e.base64;
   }
 
   uploadImage(): any {
@@ -270,11 +296,18 @@ export class PhotosVideosStepComponent implements OnInit {
   }
 
   prepareObj(): any {
-    const posterObj: any = this._globalFunctions.base64ToImage(this.posterObj.image, this.posterObj.name);
+    console.log(this.posterObj);
+    let posterObj: any = {};
+    if (this.posterObj && this.posterObj.image && typeof (this.posterObj.image) == 'string') {
+      posterObj = this._globalFunctions.base64ToImage(this.posterObj.image, this.posterObj.name);
+    } else {
+      posterObj = this.posterObj.image;
+    }
     const preparedObj: any = {};
     preparedObj.poster = posterObj;
     preparedObj.photos = this.allPhotosFilesArr;
     preparedObj.videos = this.allVideosFilesArr;
+    console.log(preparedObj);
     return preparedObj;
   }
 

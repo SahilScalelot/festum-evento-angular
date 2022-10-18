@@ -241,9 +241,7 @@ export class GlobalFunctions {
   async getThumbnail(file: Blob | any): Promise<Blob> {
     let base64String = await this.generateThumbnail(file);
     let blob = this.dataURItoBlob(base64String);
-    return new File([blob], `${file?.name.split('.')[0]}.jpeg`, {
-      type: "image/jpeg"
-    });
+    return new File([blob], `${file?.name.split('.')[0]}.jpeg`, { type: "image/jpeg" });
   }
 
   base64ToImage(base64String: string, imageName: string = '') {
