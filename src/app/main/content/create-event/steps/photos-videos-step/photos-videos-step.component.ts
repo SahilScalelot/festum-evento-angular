@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { ModalService } from 'src/app/main/_modal';
@@ -6,6 +6,7 @@ import { SnotifyService } from "ng-snotify";
 import { CONSTANTS } from "../../../../common/constants";
 import { Router } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
+import { GlobalFunctions } from 'src/app/main/common/global-functions';
 
 declare var $: any;
 
@@ -20,42 +21,67 @@ export class PhotosVideosStepComponent implements OnInit {
   imgChangeEvt: any = '';
   cropImgPreview: any = '';
   photosAndVideosForm: any;
-  photosForm: any;
+  photoForm: any;
   videoForm: any;
 
-  posterObj: any;
+  posterObj: any = {};
   photoArr: any = [];
-  photoObj: any = [];
-  videoObj: any = [];
   videoArr: any = [];
   permissionObj: any = [];
-  allPhotosFileArr: any = [];
+  allPhotosFilesArr: any = [];
+  allVideosFilesArr: any = [];
 
   editPhotoObj: any;
-
   imagesAndVideoObj: any = { photos_and_videos: {} };
-
   inputText: any;
+
+  @Input() eventObj: any = {};
+  @Output() newEventObj: EventEmitter<any> = new EventEmitter();
 
   constructor(
     private _modalService: ModalService,
     private _formBuilder: FormBuilder,
     private _sNotify: SnotifyService,
-    private _router: Router,
-    private sanitizer: DomSanitizer
+    private _globalFunctions: GlobalFunctions,
+    private _router: Router
   ) { }
 
   ngOnInit(): void {
-    // if (localStorage.getItem('newEventObj')) {
-    //   const eventString: any = localStorage.getItem('newEventObj');
-    //   this.imagesAndVideoObj = JSON.parse(eventString);
-    //   if (this.imagesAndVideoObj) {
-    //     this.photoArr = this.imagesAndVideoObj?.photos_and_videos?.photo || [];
-    //     this.videoArr = this.imagesAndVideoObj?.photos_and_videos?.video || [];
-    //   }
-    // } else {
-    //   this._router.navigate(['/events']);
-    // }
+    $('.poster').dropify({
+      messages: {
+        default: 'Add Poster',
+        icon: '<svg width="21" height="17" viewBox="0 0 21 17" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19.6666 0.333496H1.33335C0.59702 0.333496 0 0.930479 0 1.66681V15.3335C0 16.0698 0.59702 16.6668 1.33335 16.6668H19.6666C20.403 16.6668 21 16.0698 21 15.3335V1.66681C21 0.930479 20.403 0.333496 19.6666 0.333496ZM19.6666 1.66681V11.3638L17.0389 8.9748C16.644 8.61581 16.0366 8.63014 15.6593 9.00782L12.9999 11.6668L7.75634 5.40347C7.35998 4.93013 6.63397 4.92548 6.23167 5.39314L1.33335 11.0858V1.66681H19.6666ZM14 5.16682C14 4.15414 14.8206 3.33347 15.8333 3.33347C16.846 3.33347 17.6666 4.15414 17.6666 5.16682C17.6666 6.17949 16.846 7.00012 15.8333 7.00012C14.8206 7.00016 14 6.17949 14 5.16682Z" fill="#A6A6A6"/></svg>',
+      }
+    });
+
+    if (localStorage.getItem('newEventObj')) {
+      // const eventString: any = localStorage.getItem('newEventObj');
+      // this.imagesAndVideoObj = JSON.parse(eventString);
+      if (this.eventObj?.photos_and_videos?.poster) {
+        const newPosterObj: any = {};
+        newPosterObj.image = this.eventObj?.photos_and_videos?.poster;
+        newPosterObj.name = this.eventObj?.photos_and_videos?.poster.name;
+        this.posterObj = newPosterObj;
+      }
+      this.photoArr = this.eventObj?.photos_and_videos?.photos || [];
+      this.videoArr = this.eventObj?.photos_and_videos?.videos || [];
+      if (this.posterObj && this.posterObj.image) {
+        if (typeof(this.posterObj.image) == 'string') {
+          this.savePoster(this.posterObj);
+        } else {
+          const image: any = this.posterObj.image;
+          if (image != undefined) {
+            const reader = new FileReader();
+            reader.onload = (e: any) => {
+              this.cropImgPreview = e.target.result;
+            };
+            reader.readAsDataURL(image);
+          }
+        }
+      }
+    } else {
+      this._router.navigate(['/events']);
+    }
 
     this.photosAndVideosForm = this._formBuilder.group({
       poster: [null],
@@ -63,7 +89,7 @@ export class PhotosVideosStepComponent implements OnInit {
       video: [this.videoArr],
     });
 
-    this.photosForm = this._formBuilder.group({
+    this.photoForm = this._formBuilder.group({
       image: [null],
       imageName: [''],
       details: [null]
@@ -73,13 +99,6 @@ export class PhotosVideosStepComponent implements OnInit {
       video: [null],
       videoName: [null],
       details: [null]
-    });
-
-    $('.poster').dropify({
-      messages: {
-        default: 'Add Poster',
-        icon: '<svg width="21" height="17" viewBox="0 0 21 17" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19.6666 0.333496H1.33335C0.59702 0.333496 0 0.930479 0 1.66681V15.3335C0 16.0698 0.59702 16.6668 1.33335 16.6668H19.6666C20.403 16.6668 21 16.0698 21 15.3335V1.66681C21 0.930479 20.403 0.333496 19.6666 0.333496ZM19.6666 1.66681V11.3638L17.0389 8.9748C16.644 8.61581 16.0366 8.63014 15.6593 9.00782L12.9999 11.6668L7.75634 5.40347C7.35998 4.93013 6.63397 4.92548 6.23167 5.39314L1.33335 11.0858V1.66681H19.6666ZM14 5.16682C14 4.15414 14.8206 3.33347 15.8333 3.33347C16.846 3.33347 17.6666 4.15414 17.6666 5.16682C17.6666 6.17949 16.846 7.00012 15.8333 7.00012C14.8206 7.00016 14 6.17949 14 5.16682Z" fill="#A6A6A6"/></svg>',
-      }
     });
     // this.preImg = this.imagesAndVideoObj?.photos_and_videos?.photo[0].image.split(',', 2)[1]
 
@@ -100,7 +119,8 @@ export class PhotosVideosStepComponent implements OnInit {
         case 'poster':
           if (event.target.files.length > 0) {
             const file = event.target.files[0];
-            this.posterObj = file;
+            this.posterObj.image = file;
+            this.posterObj.name = file.name;
             this._modalService.open("imgCropper");
           }
           break;
@@ -141,7 +161,7 @@ export class PhotosVideosStepComponent implements OnInit {
   }
 
   savePoster(img: any) {
-    this.posterObj = img;
+    this.posterObj.image = img;
     // console.log($('#posterUpload').find('.dropify-render').find('.dropify-render').find('img'));
     $('#posterUpload').find('.dropify-preview').find('.dropify-render').find('img').attr("src", img);
 
@@ -155,7 +175,6 @@ export class PhotosVideosStepComponent implements OnInit {
 
   uploadImage(): any {
     let image = $('#create-photo-upload')[0].files[0];
-
     if (image != undefined) {
       if (image.type != 'image/jpeg' && image.type != 'image/jpg' && image.type != 'image/png') {
         this._sNotify.error('Image type is Invalid.', 'Oops!');
@@ -176,16 +195,14 @@ export class PhotosVideosStepComponent implements OnInit {
         return false;
       }
 
-      this.photosForm.get('imageName').setValue(image.name);
-
+      this.photoForm.get('imageName').setValue(image.name);
+      const photosFormValues: any = this.photoForm.value;
       const reader = new FileReader();
       reader.onload = (e: any) => {
-        this.photoArr.push({ image: e.target.result, details: this.photosForm.value.details, name: this.photosForm.value.imageName });
+        this.photoArr.push({ image: e.target.result, details: photosFormValues?.details, name: photosFormValues?.imageName });
       };
       reader.readAsDataURL(image);
-
-      this.allPhotosFileArr.push(image);
-
+      this.allPhotosFilesArr.push({ image: image, details: photosFormValues?.details, name: photosFormValues?.imageName });
       $('#create-photo-upload').val(null);
       this.inputText = '';
       this._modalService.close("photo");
@@ -220,6 +237,8 @@ export class PhotosVideosStepComponent implements OnInit {
         this.videoArr.push({ video: e.target.result, details: this.videoForm.value.details });
       };
       reader.readAsDataURL(video);
+      const videoFormValues: any = this.videoForm.value;
+      this.allVideosFilesArr.push({ video: video, details: videoFormValues?.details });
       $('#create-video-upload').val(null);
       this.inputText = '';
       this._modalService.close("video");
@@ -228,15 +247,17 @@ export class PhotosVideosStepComponent implements OnInit {
 
   removeImage(index: number) {
     this.photoArr.splice(index, 1);
-    this.allPhotosFileArr.splice(index, 1);
+    this.allPhotosFilesArr.splice(index, 1);
   }
 
   removeVideo(index: number) {
     this.videoArr.splice(index, 1);
+    this.allVideosFilesArr.splice(index, 1);
   }
 
   nextStep() {
-    console.log(this.allPhotosFileArr);
+    this.eventObj.photos_and_videos = this.prepareObj();
+    this.newEventObj.emit(this.eventObj);
 
     // localStorage.setItem('newEventObj', JSON.stringify(this.photosAndVideosForm.value));
     // const preparedObj = this.prepareObj(this.photosAndVideosForm.value);
@@ -248,8 +269,12 @@ export class PhotosVideosStepComponent implements OnInit {
     // // console.log(this.photosAndVideosForm.value);
   }
 
-  prepareObj(imagesAndVideoObj: any = {}): any {
-    const preparedObj: any = imagesAndVideoObj;
+  prepareObj(): any {
+    const posterObj: any = this._globalFunctions.base64ToImage(this.posterObj.image, this.posterObj.name);
+    const preparedObj: any = {};
+    preparedObj.poster = posterObj;
+    preparedObj.photos = this.allPhotosFilesArr;
+    preparedObj.videos = this.allVideosFilesArr;
     return preparedObj;
   }
 

@@ -22,7 +22,7 @@
     <app-about-event-step *ngIf="currentURL == '/create-event/about-event'" [eventObj]="eventObj" (newEventObj)="onNextStep($event)"></app-about-event-step>
     <app-arrangement-step *ngIf="currentURL == '/create-event/arrangement'" [eventObj]="eventObj" (newEventObj)="onNextStep($event)"></app-arrangement-step>
     <app-location-step *ngIf="currentURL == '/create-event/location'" [eventObj]="eventObj" (newEventObj)="onNextStep($event)"></app-location-step>
-    <app-photos-videos-step *ngIf="currentURL == '/create-event/photos-and-videos'"></app-photos-videos-step>
+    <app-photos-videos-step *ngIf="currentURL == '/create-event/photos-and-videos'" [eventObj]="eventObj" (newEventObj)="onNextStep($event)"></app-photos-videos-step>
     <app-permission-step *ngIf="currentURL == '/create-event/permission'"></app-permission-step>
     <app-discount-step *ngIf="currentURL == '/create-event/discount'"></app-discount-step>
     <app-company-details-step *ngIf="currentURL == '/create-event/company-details'" [eventObj]="eventObj" (newEventObj)="onNextStep($event)"></app-company-details-step>

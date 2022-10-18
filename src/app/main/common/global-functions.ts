@@ -1,8 +1,9 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { CONSTANTS } from './constants';
 import { HttpHeaders } from "@angular/common/http";
 import { SnotifyService } from 'ng-snotify';
+import { DOCUMENT } from '@angular/common';
 import * as _ from 'lodash';
 
 declare let $: any;
@@ -11,6 +12,7 @@ declare let $: any;
 export class GlobalFunctions {
 
   constructor(
+    @Inject(DOCUMENT) private document: Document,
     private _router: Router,
     private _sNotifyService: SnotifyService
   ) {
@@ -123,7 +125,7 @@ export class GlobalFunctions {
       errorResponse.status === CONSTANTS.errorCodes.METHOD_NOT_FOUND ||
       // errorResponse.status === CONSTANTS.errorCodes.ALREADY_EXISTS ||
       errorResponse.status === CONSTANTS.errorCodes.DATABASE_INITIALIZATION_FAIL ||
-      errorResponse.status === CONSTANTS.errorCodes.INVALID_DOMAIN) {        
+      errorResponse.status === CONSTANTS.errorCodes.INVALID_DOMAIN) {
       this._sNotifyService.error(messageText, 'Oops..!');
     } else {
       this._sNotifyService.error(messageText, 'Oops..!');
@@ -171,6 +173,83 @@ export class GlobalFunctions {
       $(e.target).addClass('active');
       $("#" + tab_id).addClass('active');
     });
+  }
+
+  promptForVideo(): Promise<File> {
+    return new Promise<File>((resolve, reject) => {
+      // make file input element in memory
+      const fileInput: HTMLInputElement = this.document.createElement('input');
+      fileInput.type = 'file';
+      fileInput.accept = 'video/*';
+      fileInput.setAttribute('capture', 'camera');
+      // fileInput['capture'] = 'camera';
+      fileInput.addEventListener('error', event => {
+        reject(event.error);
+      });
+      fileInput.addEventListener('change', event => {
+        if (fileInput && fileInput.files)
+          resolve(fileInput.files[0]);
+      });
+      // prompt for video file
+      fileInput.click();
+    });
+  }
+
+  generateThumbnail(videoFile: Blob) {
+    const video: HTMLVideoElement = this.document.createElement('video');
+    const canvas: HTMLCanvasElement = this.document.createElement('canvas');
+    const context: CanvasRenderingContext2D | any = canvas.getContext('2d');
+    return new Promise<string>((resolve, reject) => {
+      canvas.addEventListener('error', reject);
+      video.addEventListener('error', reject);
+      video.addEventListener('canplay', event => {
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        context.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+        resolve(canvas.toDataURL());
+      });
+      if (videoFile.type) {
+        video.setAttribute('type', videoFile.type);
+      }
+      video.preload = 'auto';
+      video.src = window.URL.createObjectURL(videoFile);
+      video.load();
+    });
+  }
+
+  dataURItoBlob(dataURI: string) {
+    // convert base64/URLEncoded data component to raw binary data held in a string
+    var byteString;
+    if (dataURI.split(',')[0].indexOf('base64') >= 0) {
+      byteString = atob(dataURI.split(',')[1]);
+    } else {
+      byteString = unescape(dataURI.split(',')[1]);
+    }
+
+    // separate out the mime component
+    var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+
+    // write the bytes of the string to a typed array
+    var ia = new Uint8Array(byteString.length);
+    for (var i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+
+    return new Blob([ia], { type: mimeString });
+  }
+
+  async getThumbnail(file: Blob | any): Promise<Blob> {
+    let base64String = await this.generateThumbnail(file);
+    let blob = this.dataURItoBlob(base64String);
+    return new File([blob], `${file?.name.split('.')[0]}.jpeg`, {
+      type: "image/jpeg"
+    });
+  }
+
+  base64ToImage(base64String: string, imageName: string = '') {
+    let blob = this.dataURItoBlob(base64String);
+    let name = (imageName && imageName != '') ? imageName : new Date().valueOf();
+    return new File([blob], name + '.jpeg', { type: "image/jpeg" });
   }
 
 }
