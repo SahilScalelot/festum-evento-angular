@@ -69,7 +69,7 @@
     </ul>
     <div class="flex items-center space-x-5">
       <button class="secondary w-full py-2 anim" accesskey="alt+tab" (click)="closePop()">CANCEL</button>
-      <button type="submit" class="primary w-full py-2 anim" (click)="(discountForm.value.discount_type == 'discount_on_equipment_or_item') ? updateEquipmentDiscount() : updateDiscount()">APPLY</button>
+      <button type="submit" class="primary w-full py-2 anim" (click)="updateDiscount()">APPLY</button>
     </div>
   </div>
 </modal>

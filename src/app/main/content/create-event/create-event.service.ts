@@ -64,15 +64,11 @@ export class CreateEventService {
   }
 
   // Discounts Apis
-  getAllDiscounts(): any {
-    return this.http.get(environment.appURL + 'discount', this._globalFunctions.getAuthorizationHeader());
+  getAllDiscounts(eventId: any): any {
+    return this.http.get(environment.appURL + 'org/discount?event_id=' + eventId, this._globalFunctions.getAuthorizationHeader());
   }
 
-  updateDiscount(discountId: any, discountObj: any): any {
-    return this.http.put(environment.appURL + 'org/discount/' + discountId, discountObj, this._globalFunctions.getAuthorizationHeader());
-  }
-
-  updateEquipmentDiscount(discountObj: any): any {
-    return this.http.post(environment.appURL + 'org/equipment/discount', discountObj, this._globalFunctions.getAuthorizationHeader());
+  updateDiscount(eventId: any, discountId: any, discountObj: any): any {
+    return this.http.put(environment.appURL + 'org/discount/' + discountId + '?event_id=' + eventId, discountObj, this._globalFunctions.getAuthorizationHeader());
   }
 }
