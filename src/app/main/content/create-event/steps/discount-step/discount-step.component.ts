@@ -62,6 +62,9 @@ export class DiscountStepComponent implements OnInit {
         this.discounts = result.data || [];
         _.each(this.discounts, (discount: any) => {
           discount.name = discount.discount_type.replace(/_/g, ' ');
+          if (discount.discount_type == 'discount_on_equipment_or_item') {
+            discount.equipment_id = _.map(discount.equipment_id, 'equipment_id');
+          }
         });
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
@@ -111,8 +114,9 @@ export class DiscountStepComponent implements OnInit {
     this._createEventService.updateDiscount(discountObj.event_id, this.tmpDiscountObj.id, discountObj).subscribe((result: any) => {
       if (result && result.isSuccess) {
         const discounts = this._globalFunctions.copyObject(this.discounts);
-        discounts[this.tmpDiscountObj.discountIndex] = result.data;
-        discounts[this.tmpDiscountObj.discountIndex].name = discounts[this.tmpDiscountObj.discountIndex].discount_type.replace(/_/g, ' ');
+        discounts[this.tmpDiscountObj.discountIndex] = this.tmpDiscountObj;
+        discounts[this.tmpDiscountObj.discountIndex].equipment_id = discountObj.equipment_id;
+        discounts[this.tmpDiscountObj.discountIndex].discount = discountObj.discount;
         this.discounts = this._globalFunctions.copyObject(discounts);
 
         this._sNotify.success(result.message, 'Success');
