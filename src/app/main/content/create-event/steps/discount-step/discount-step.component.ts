@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { SnotifyService } from 'ng-snotify';
 import { ModalService } from 'src/app/main/_modal';
@@ -20,6 +20,9 @@ export class DiscountStepComponent implements OnInit {
   discountForm: any;
   tmpDiscountObj: any = {};
   selectedDiscountIds: any = [];
+  
+  @Input() eventObj: any = {};
+  @Output() newEventObj: EventEmitter<any> = new EventEmitter();
 
   constructor(
     private _globalFunctions: GlobalFunctions,
@@ -140,9 +143,12 @@ export class DiscountStepComponent implements OnInit {
     this._modalService.close('discountDialog');
   }
 
+  
   next(): any {
     console.log(this.selectedDiscountIds);
     
+    this.eventObj = this.selectedDiscountIds
+    this.newEventObj.emit(this.eventObj);
     // this._globalService.addEditEvent$.next(this.selectedDiscountIds);
     this._router.navigate(['/create-event/company-details']);
   }

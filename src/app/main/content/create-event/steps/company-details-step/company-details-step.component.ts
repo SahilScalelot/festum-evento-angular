@@ -200,15 +200,12 @@ export class CompanyDetailsStepComponent implements OnInit {
       company_videos: this.videoArr
     }
     console.log(newData);
-    
-
     // this.eventObj.company_details = this.prepareObj(this.companyForm.value);
-    
     // console.log(this.eventObj);
     // this.newEventObj.emit(this.eventObj);
     // localStorage.setItem('newEventObj', JSON.stringify(this.eventObj));
     // this._globalService.addEditEvent$.next(this.eventObj);
-    // this._router.navigate(['/create-event/personal-details']);
+    this._router.navigate(['/create-event/personal-details']);
   }
   
   prepareObj(companyObj: any = {}): any {
