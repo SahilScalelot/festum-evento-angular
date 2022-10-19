@@ -2,7 +2,7 @@
 <div class="space-y-5">
   <div class="flex items-center" *ngFor="let discount of discounts; let i = index">
     <div class="">
-      <p-checkbox name="groupname" class="mr-5" [value]="discount.discountsId" [(ngModel)]="selectedDiscountIds"></p-checkbox>
+      <p-checkbox name="groupname" class="mr-5" [value]="discount.id" [(ngModel)]="selectedDiscountIds"></p-checkbox>
     </div>
     <div class="bg-gradient-to-r p-5 pr-8 rounded-lg overflow-hidden max-w-[calc(100%-48px)] w-full"
          [ngClass]="(discount.discount_type == 'discount_on_total_bill') ? 'from-[#13e1b094] to-[#13E1B0]' : ((discount.discount_type == 'discount_on_equipment_or_item') ? ' from-[#20C0E894] to-[#20C0E8]' : 'from-[#FABA1594] to-[#FABA15]')">
@@ -52,7 +52,7 @@
     <form class="flex flex-wrap" [formGroup]="discountForm">
       <div class="w-full lg:w-1/2 inputHolder px-2.5" *ngIf="discountForm.value.discount_type == 'discount_on_equipment_or_item'">
         <label class="input-titel">Equipment Or Item</label>
-        <p-multiSelect [options]="seatingItems" optionLabel="name" optionValue="id" display="chip" class="w-full input" [formControlName]="'seatings'"></p-multiSelect>
+        <p-multiSelect [options]="seatingItems" optionLabel="name" optionValue="id" display="chip" class="w-full input" [formControlName]="'equipment_id'"></p-multiSelect>
       </div>
       <div class="w-full inputHolder" [class]="(discountForm.value.discount_type == 'discount_on_equipment_or_item') ? 'lg:w-1/2 px-2.5' : ''">
         <label class="input-titel" *ngIf="discountForm.value.discount_type == 'discount_on_total_bill'">Discount On Total Bill</label>

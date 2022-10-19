@@ -20,7 +20,7 @@ export class DiscountStepComponent implements OnInit {
   discountForm: any;
   tmpDiscountObj: any = {};
   selectedDiscountIds: any = [];
-  
+
   @Input() eventObj: any = {};
   @Output() newEventObj: EventEmitter<any> = new EventEmitter();
 
@@ -39,20 +39,25 @@ export class DiscountStepComponent implements OnInit {
     this.tmpDiscountObj = {};
     this.getAllDiscounts();
     this.getSeatingItems();
+    if (!localStorage.getItem('newEventObj')) {
+      this._router.navigate(['/events']);
+    }
 
+    const newEventObj: any = localStorage.getItem('newEventObj');
+    const eventId = JSON.parse(newEventObj).add_event.id;
     this.discountForm = this._formBuilder.group({
       discount_type: [null, [Validators.required]],
-      seatings: [null],
+      equipment_id: [null],
       discount: [null, [Validators.required]],
+      event_id: [eventId || '', [Validators.required]],
     });
   }
 
   getAllDiscounts(): void {
     this.isLoading = true;
-    const getEventId : any = localStorage.getItem('newEventObj');
-    const eventId = JSON.parse(getEventId).add_event.id;    
+    const newEventObj: any = localStorage.getItem('newEventObj');
+    const eventId = JSON.parse(newEventObj).add_event.id;
     this._createEventService.getAllDiscounts(eventId).subscribe((result: any) => {
-      console.log(105, result);
       if (result && result.isSuccess) {
         this.discounts = result.data || [];
         _.each(this.discounts, (discount: any) => {
@@ -84,12 +89,16 @@ export class DiscountStepComponent implements OnInit {
   }
 
   popupOpen(popId: string, discountObj: any = {}, index: number): void {
+    const newEventObj: any = localStorage.getItem('newEventObj');
+    const eventId = JSON.parse(newEventObj).add_event.id;
     this.tmpDiscountObj = this._globalFunctions.copyObject(discountObj);
     this.tmpDiscountObj.discountIndex = index;
+
     this.discountForm.patchValue({
       discount_type: discountObj.discount_type,
-      seatings: discountObj.seatings,
+      equipment_id: discountObj.equipment_id,
       discount: (discountObj.discount.includes('%')) ? discountObj.discount.replace('%', '') : discountObj.discount,
+      event_id: eventId
     });
     this._modalService.open(popId);
   }
@@ -99,11 +108,17 @@ export class DiscountStepComponent implements OnInit {
     const discountObj: any = this.discountForm.value;
     discountObj.discount = discountObj.discount.toString() + '%';
 
-    console.log(this.tmpDiscountObj);
-    
-    this._createEventService.updateDiscount(this.tmpDiscountObj.discountsId, this.tmpDiscountObj.discountsId, discountObj).subscribe((result: any) => {
+    this._createEventService.updateDiscount(discountObj.event_id, this.tmpDiscountObj.id, discountObj).subscribe((result: any) => {
       if (result && result.isSuccess) {
-        this.updateDiscountObj(result);
+        const discounts = this._globalFunctions.copyObject(this.discounts);
+        discounts[this.tmpDiscountObj.discountIndex] = result.data;
+        discounts[this.tmpDiscountObj.discountIndex].name = discounts[this.tmpDiscountObj.discountIndex].discount_type.replace(/_/g, ' ');
+        this.discounts = this._globalFunctions.copyObject(discounts);
+
+        this._sNotify.success(result.message, 'Success');
+        this._modalService.close("discountDialog");
+        this.tmpDiscountObj = {};
+        this.isLoading = false;
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
       }
@@ -113,46 +128,12 @@ export class DiscountStepComponent implements OnInit {
     });
   }
 
-  // updateEquipmentDiscount(): any {
-  //   this.isLoading = true;
-  //   // const discountObj: any = this.discountForm.value;
-  //   const discountObj: any = {
-  //     orgequipment_id: this.discountForm.value.discount_type,
-  //     orgequipmentdiscounts_id: this.discountForm.value.seatings,
-  //     orgequipmentdiscounts: this.discountForm.value.discount.toString() + '%'
-  //   };
-  //   this._createEventService.updateEquipmentDiscount(discountObj).subscribe((result: any) => {
-  //     if (result && result.isSuccess) {
-  //       this.updateDiscountObj(result);
-  //     } else {
-  //       this._globalFunctions.successErrorHandling(result, this, true);
-  //     }
-  //   }, (error: any) => {
-  //     this.isLoading = false;
-  //     this._globalFunctions.errorHanding(error, this, true);
-  //   });
-  // }
-
-  updateDiscountObj(result: any): any {
-    const discounts = this._globalFunctions.copyObject(this.discounts);
-    discounts[this.tmpDiscountObj.discountIndex] = result.data;
-    discounts[this.tmpDiscountObj.discountIndex].name = discounts[this.tmpDiscountObj.discountIndex].discount_type.replace(/_/g, ' ');
-    this.discounts = this._globalFunctions.copyObject(discounts);
-    this._sNotify.success(result.message, 'Success');
-    this._modalService.close("discountDialog");
-    this.tmpDiscountObj = {};
-    this.isLoading = false;
-  }
-
   closePop(): any {
     this.discountForm.reset();
     this._modalService.close('discountDialog');
   }
 
-  
   next(): any {
-    console.log(this.selectedDiscountIds);
-    
     this.eventObj = this.selectedDiscountIds
     this.newEventObj.emit(this.eventObj);
     // this._globalService.addEditEvent$.next(this.selectedDiscountIds);
