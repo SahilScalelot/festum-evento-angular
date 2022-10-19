@@ -11,7 +11,7 @@
     <div class="flex flex-wrap h-full pt-2">
       <div *ngFor="let photo of photoArr; let i = index" class="upload-box mr-2.5 mb-2.5">
         <div class="rounded relative overflow-hidden h-full w-full">
-          <img [alt]="'add-photo-' + i" [src]="photo.image" class="object-cover w-full h-full"/>
+          <img [alt]="'add-photo-' + i" [src]="photo.image" *ngIf="isString(photo.image)" class="object-cover w-full h-full"/>
           <button (click)="removeImage(i)">Remove</button>
         </div>
       </div>
@@ -31,7 +31,7 @@
         <div class="rounded relative overflow-hidden h-full w-full">
           <!-- <iframe [src]="video.video" frameborder="0" class="w-full h-full"></iframe> -->
           <video width="100%" height="100%" class="w-full h-full object-cover">
-            <source [src]="video.video" type="video/mp4">
+            <source [src]="video.video" *ngIf="isString(video.video)" type="video/mp4">
           </video>
           <button (click)="removeVideo(i)">Remove</button>
         </div>

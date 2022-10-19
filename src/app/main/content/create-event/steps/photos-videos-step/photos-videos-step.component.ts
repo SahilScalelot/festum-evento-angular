@@ -135,6 +135,10 @@ export class PhotosVideosStepComponent implements OnInit {
     });
   }
 
+  isString(val: any): boolean {
+    return typeof val === 'string';
+  }
+
   readURL(event: any): void {
     this.inputText = event?.target?.files[0]?.name;
   }

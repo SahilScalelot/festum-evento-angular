@@ -6,6 +6,7 @@ import { CONSTANTS } from 'src/app/main/common/constants';
 import { GlobalFunctions } from 'src/app/main/common/global-functions';
 import { GlobalService } from 'src/app/services/global.service';
 import { CreateEventService } from '../../create-event.service';
+import * as _ from 'lodash';
 
 declare var $: any;
 
@@ -29,6 +30,9 @@ export class CompanyDetailsStepComponent implements OnInit {
   videoObj: any = [];
   videoArr: any = [];
   permissionObj: any = [];
+  
+  allPhotosFilesArr: any = [];
+  allVideosFilesArr: any = [];
 
   isInValidPDF: boolean = false;
 
@@ -53,7 +57,16 @@ export class CompanyDetailsStepComponent implements OnInit {
     //     this.videoArr = this.companyObj?.company_details?.video || [];
     //   }
     // }
+
     this._prepareAboutEventForm(this.eventObj);
+
+    if (localStorage.getItem('newEventObj')) {
+      this.photoArr = this.eventObj?.company_details?.company_images || [];
+      this.videoArr = this.eventObj?.company_details?.company_videos || [];
+      this.prepareObj();
+    } else {
+      this._router.navigate(['/events']);
+    }
     // this.prepareEventObj();
   }
 
@@ -77,30 +90,34 @@ export class CompanyDetailsStepComponent implements OnInit {
 
   private _prepareAboutEventForm(eventObj: any = {}): void {
     this.companyForm = this._formBuilder.group({
-      name: [eventObj?.company_details?.name, [Validators.minLength(2)]],
+      name: [eventObj?.company_details?.company_detail?.name, [Validators.minLength(2)]],
       gst: [''],
-      contact_no: [eventObj?.company_details?.contact_no, [Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
-      email: [eventObj?.company_details?.email, [Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
-      about: [eventObj?.company_details?.about],
-      flat_no: [eventObj?.company_details?.flat_no],
-      street: [eventObj?.company_details?.street],
-      area: [eventObj?.company_details?.area],
-      city: [eventObj?.company_details?.city, Validators.required],
-      state: [eventObj?.company_details?.state, Validators.required],
-      pincode: [eventObj?.company_details?.pincode, [Validators.required, Validators.pattern('^[1-9]{1}[0-9]{2}\\s{0,1}[0-9]{3}$')]],
+      contact_no: [eventObj?.company_details?.company_detail?.contact_no, [Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
+      email: [eventObj?.company_details?.company_detail?.email, [Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
+      about: [eventObj?.company_details?.company_detail?.about],
+      flat_no: [eventObj?.company_details?.company_detail?.flat_no],
+      street: [eventObj?.company_details?.company_detail?.street],
+      area: [eventObj?.company_details?.company_detail?.area],
+      city: [eventObj?.company_details?.company_detail?.city, Validators.required],
+      state: [eventObj?.company_details?.company_detail?.state, Validators.required],
+      pincode: [eventObj?.company_details?.company_detail?.pincode, [Validators.required, Validators.pattern('^[1-9]{1}[0-9]{2}\\s{0,1}[0-9]{3}$')]],
       event_reg: [],
       images: [this.photoArr],
       videos: [this.videoArr],
     });
+    
+    // this.photoArr = this.eventObj?.company_details?.company_images?.images || [];
+    // this.videoArr = this.eventObj?.company_details?.company_videos?.videos || [];
+    this.inputText = eventObj?.company_details?.company_detail?.gst_name;
   }
 
   onChangePDF(event: any): any {
-    const pdfUpload = $('#company-gst')[0].files[0];
+    const pdfUpload = $('#company_gst')[0].files[0];
     this.isInValidPDF = false;
     if (pdfUpload != undefined) {
       if (pdfUpload != undefined && pdfUpload.type != 'application/pdf') {
         // this._sNotify.error('File type is Invalid.', 'Oops!');
-        $('#company-gst').focus();
+        $('#company_gst').focus();
         this.isInValidPDF = true;
         return false;
       }      
@@ -141,6 +158,8 @@ export class CompanyDetailsStepComponent implements OnInit {
         this.photoArr.push({ image: e.target.result });
       };
       reader.readAsDataURL(image);
+      this.allPhotosFilesArr.push({ image: image });
+      $('#create-photo-upload').val(null);
     }
   }
 
@@ -170,47 +189,91 @@ export class CompanyDetailsStepComponent implements OnInit {
         this.videoArr.push({ video: e.target.result });
       };
       reader.readAsDataURL(video);
+      this.allVideosFilesArr.push({ video: video });
+      $('#create-video-upload').val(null);
     }
   }
 
   removeImage(index: number) {
     this.photoArr.splice(index, 1);
+    this.allPhotosFilesArr.splice(index, 1);
   }
 
   removeVideo(index: number) {
     this.videoArr.splice(index, 1);
+    this.allVideosFilesArr.splice(index, 1);
   }
 
   nextStep(): void {
-    if (this.companyForm.invalid) {
-      // this.companyForm.controls.markAsDirty();
-      Object.keys(this.companyForm.controls).forEach((key) => {
-        this.companyForm.controls[key].touched = true;
-        this.companyForm.controls[key].markAsDirty();
-      });
-      return;
-    }
+    // if (this.companyForm.invalid) {
+    //   // this.companyForm.controls.markAsDirty();
+    //   Object.keys(this.companyForm.controls).forEach((key) => {
+    //     this.companyForm.controls[key].touched = true;
+    //     this.companyForm.controls[key].markAsDirty();
+    //   });
+    //   return;
+    // }
+    
+    this.eventObj.company_details = this.prepareObj(this.companyForm.value);
+    this.newEventObj.emit(this.eventObj);
 
-    const companyFormData = this._globalFunctions.copyObject(this.companyForm.value);
-    delete companyFormData.images;
-    delete companyFormData.videos;
-    const newData: any = {
-      company_detail: companyFormData,
-      company_images: this.photoArr,
-      company_videos: this.videoArr
-    }
-    console.log(newData);
-    // this.eventObj.company_details = this.prepareObj(this.companyForm.value);
     // console.log(this.eventObj);
-    // this.newEventObj.emit(this.eventObj);
     // localStorage.setItem('newEventObj', JSON.stringify(this.eventObj));
     // this._globalService.addEditEvent$.next(this.eventObj);
     this._router.navigate(['/create-event/personal-details']);
   }
+
+  isString(val: any): boolean {
+    return typeof val === 'string';
+  }
   
   prepareObj(companyObj: any = {}): any {
-    const preparedObj: any = companyObj;
-    return preparedObj;
+    const companyFormData = this._globalFunctions.copyObject(this.companyForm.value);
+    delete companyFormData.images;
+    delete companyFormData.videos;
+    const pdf = $('input[id=company_gst]')[0].files[0];
+    if (pdf != undefined) {
+      companyFormData.gst = pdf;
+      companyFormData.gst_name = pdf.name;
+    } else if (this.eventObj?.company_details?.company_detail?.gst) {
+      companyFormData.gst = this.eventObj?.company_details?.company_detail?.gst;
+      companyFormData.gst_name = companyFormData.gst.name;
+    }
+    console.log(this.photoArr);
+    _.each(this.photoArr, (photoObj: any) => {
+      console.log(photoObj);
+      
+      if (typeof(photoObj.image) != 'string') {
+        const image: any = photoObj.image;
+        if (image != undefined) {
+          const reader = new FileReader();
+          reader.onload = (e: any) => {
+            photoObj.image = e.target.result;
+          };
+          reader.readAsDataURL(image);
+          this.allPhotosFilesArr.push({ image: image });
+        }
+      }
+    });
+    _.each(this.videoArr, (videoObj: any) => {
+      if (typeof(videoObj.video) != 'string') {
+        const video: any = videoObj.video;
+        if (video != undefined) {
+          const reader = new FileReader();
+          reader.onload = (e: any) => {
+            videoObj.video = e.target.result;
+          };
+          reader.readAsDataURL(video);
+          this.allVideosFilesArr.push({ video: video });
+        }
+      }
+    });
+    companyObj = {
+      company_detail: companyFormData,
+      company_images: this.allPhotosFilesArr,
+      company_videos: this.allVideosFilesArr
+    }
+    return companyObj;
   }
 
   addCompanyDetail(): void {

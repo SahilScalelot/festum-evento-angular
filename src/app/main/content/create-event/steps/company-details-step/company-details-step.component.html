@@ -15,7 +15,7 @@
       <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative">
         <span class="input-titel">Company GST (Optional)</span>
         <label class="upload upload-popup py-3">
-          <input (change)="onChangePDF($event)" [formControlName]="'gst'" accept="application/pdf" class="appearance-none hidden" id="company-gst" name="images" type="file"/>
+          <input (change)="onChangePDF($event)" [formControlName]="'gst'" accept="application/pdf" class="appearance-none hidden" id="company_gst" name="images" type="file"/>
           <span class="input-titel text-base p-0">
             <i class="icon-pdf_upload mr-2"></i> 
             <span>{{inputText ? inputText : 'Upload PDF'}}</span>
@@ -107,7 +107,7 @@
           <div class="flex flex-wrap h-full pt-2">
             <div *ngFor="let photo of photoArr; let i = index" class="upload-box mr-2.5 mb-2.5">
               <div class="rounded relative overflow-hidden h-full w-full">
-                <img [alt]="'add-photo-' + i" [src]="photo.image" class="object-cover w-full h-full"/>
+                <img [alt]="'add-photo-' + i" [src]="photo.image" *ngIf="isString(photo.image)" class="object-cover w-full h-full"/>
                 <button (click)="removeImage(i)">Remove</button>
               </div>
             </div>
@@ -128,7 +128,7 @@
             <div *ngFor="let video of videoArr; let i = index" class="upload-box mr-2.5 mb-2.5">
               <div class="rounded relative overflow-hidden h-full w-full">
                 <video class="w-full h-full object-cover" height="100%" width="100%">
-                  <source [src]="video.video" type="video/mp4">
+                  <source [src]="video.video" *ngIf="isString(video.video)" type="video/mp4">
                 </video>
                 <button (click)="removeVideo(i)">Remove</button>
               </div>
