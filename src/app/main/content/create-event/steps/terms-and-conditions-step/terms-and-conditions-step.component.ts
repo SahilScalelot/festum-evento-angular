@@ -674,6 +674,8 @@ export class TermsAndConditionsStepComponent implements OnInit {
 
   eventApiCall(eventRegister: any): any {
     this.isLoading = true;
+    console.log(eventRegister);
+    
     const preparedAddEventObj: any = this.prepareAddEventObj(eventRegister);
     this._createEventService.eventRegister(preparedAddEventObj).subscribe((result: any) => {
       if (result && result.status) {
@@ -747,9 +749,9 @@ export class TermsAndConditionsStepComponent implements OnInit {
     preparedEventObj.is_active = true;
     preparedEventObj.live = true;
 
-    const permissionEventObj: any = eventObj?.event_permission;
-    preparedEventObj.permission_letter = permissionEventObj?.permission_letter;
-    preparedEventObj.accept_booking = permissionEventObj?.accept_booking;
+    // const permissionEventObj: any = eventObj?.event_permission;
+    // preparedEventObj.permission_letter = permissionEventObj?.permission_letter;
+    // preparedEventObj.accept_booking = permissionEventObj?.accept_booking;
 
     const tAndCEventObj: any = this.termsAndConditionsObj;
     preparedEventObj.t_and_c = tAndCEventObj?.event_terms_and_conditions;
