@@ -205,21 +205,17 @@ export class CompanyDetailsStepComponent implements OnInit {
   }
 
   nextStep(): void {
-    // if (this.companyForm.invalid) {
-    //   // this.companyForm.controls.markAsDirty();
-    //   Object.keys(this.companyForm.controls).forEach((key) => {
-    //     this.companyForm.controls[key].touched = true;
-    //     this.companyForm.controls[key].markAsDirty();
-    //   });
-    //   return;
-    // }
+    if (this.companyForm.invalid) {
+      // this.companyForm.controls.markAsDirty();
+      Object.keys(this.companyForm.controls).forEach((key) => {
+        this.companyForm.controls[key].touched = true;
+        this.companyForm.controls[key].markAsDirty();
+      });
+      return;
+    }
     
     this.eventObj.company_details = this.prepareObj(this.companyForm.value);
     this.newEventObj.emit(this.eventObj);
-
-    // console.log(this.eventObj);
-    // localStorage.setItem('newEventObj', JSON.stringify(this.eventObj));
-    // this._globalService.addEditEvent$.next(this.eventObj);
     this._router.navigate(['/create-event/personal-details']);
   }
 
@@ -239,10 +235,7 @@ export class CompanyDetailsStepComponent implements OnInit {
       companyFormData.gst = this.eventObj?.company_details?.company_detail?.gst;
       companyFormData.gst_name = companyFormData.gst.name;
     }
-    console.log(this.photoArr);
-    _.each(this.photoArr, (photoObj: any) => {
-      console.log(photoObj);
-      
+    _.each(this.photoArr, (photoObj: any) => {      
       if (typeof(photoObj.image) != 'string') {
         const image: any = photoObj.image;
         if (image != undefined) {
@@ -278,7 +271,6 @@ export class CompanyDetailsStepComponent implements OnInit {
 
   addCompanyDetail(): void {
     this._createEventService.addCompanyDetail(this.companyForm.value).subscribe((result: any) => {
-      console.log(result);
       if (result) {
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
@@ -290,7 +282,6 @@ export class CompanyDetailsStepComponent implements OnInit {
 
   addCompanyImages(): void {
     this._createEventService.addCompanyDetailImages(this.companyForm.value.images).subscribe((result: any) => {
-      console.log(result);
       if (result) {
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
@@ -302,7 +293,6 @@ export class CompanyDetailsStepComponent implements OnInit {
   
   addCompanyVideos(): void {
     this._createEventService.addCompanyDetailVideos(this.companyForm.value.videos).subscribe((result: any) => {
-      console.log(result);
       if (result) {
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);

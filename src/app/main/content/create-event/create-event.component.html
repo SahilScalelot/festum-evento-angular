@@ -27,6 +27,6 @@
     <app-discount-step *ngIf="currentURL == '/create-event/discount'" [eventObj]="eventObj" (newEventObj)="onNextStep($event)"></app-discount-step>
     <app-company-details-step *ngIf="currentURL == '/create-event/company-details'" [eventObj]="eventObj" (newEventObj)="onNextStep($event)"></app-company-details-step>
     <app-personal-details-step *ngIf="currentURL == '/create-event/personal-details'" [eventObj]="eventObj" (newEventObj)="onNextStep($event)"></app-personal-details-step>
-    <app-terms-and-conditions-step *ngIf="currentURL == '/create-event/terms-and-conditions'" [eventObj]="eventObj" (newEventObj)="onNextStep($event)"></app-terms-and-conditions-step>
+    <app-terms-and-conditions-step *ngIf="currentURL == '/create-event/terms-and-conditions'" [eventObj]="eventObj"></app-terms-and-conditions-step>
   </div>
 </div>

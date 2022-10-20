@@ -14,8 +14,8 @@ export class CreateEventService {
     this.isOpenAddEditArrangementDialog$ = new BehaviorSubject<any>(null);
   }
 
-  eventRegister(): any {
-    return this.http.post(environment.appURL + 'event/register/', this._globalFunctions.getAuthorizationHeader());
+  eventRegister(eventObj: any): any {
+    return this.http.post(environment.appURL + 'event/register/', eventObj, this._globalFunctions.getAuthorizationHeader());
   }
 
   // Add Event First Step

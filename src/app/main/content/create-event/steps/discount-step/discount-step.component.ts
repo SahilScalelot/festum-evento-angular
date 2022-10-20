@@ -51,6 +51,8 @@ export class DiscountStepComponent implements OnInit {
       discount: [null, [Validators.required]],
       event_id: [eventId || '', [Validators.required]],
     });
+    
+    this.selectedDiscountIds = this.eventObj.discounts;
   }
 
   getAllDiscounts(): void {
@@ -138,7 +140,7 @@ export class DiscountStepComponent implements OnInit {
   }
 
   next(): any {
-    this.eventObj = this.selectedDiscountIds
+    this.eventObj.discounts = this.selectedDiscountIds
     this.newEventObj.emit(this.eventObj);
     // this._globalService.addEditEvent$.next(this.selectedDiscountIds);
     this._router.navigate(['/create-event/company-details']);

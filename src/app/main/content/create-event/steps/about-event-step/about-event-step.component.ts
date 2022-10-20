@@ -3,6 +3,7 @@ import {FormBuilder, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {SnotifyService} from 'ng-snotify';
 import { GlobalService } from 'src/app/services/global.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-about-event-step',
@@ -76,8 +77,8 @@ export class AboutEventStepComponent implements OnInit {
 
   prepareAboutEventObj(aboutEventObj: any): any {
     const preparedAboutEventObj: any = {};
-    preparedAboutEventObj.event_start_date = aboutEventObj.date[0];
-    preparedAboutEventObj.event_end_date = aboutEventObj.date[1];
+    preparedAboutEventObj.event_start_date = moment(aboutEventObj.date[0]).format('YYYY-MM-DD');
+    preparedAboutEventObj.event_end_date = moment(aboutEventObj.date[1]).format('YYYY-MM-DD');
     preparedAboutEventObj.event_start_time = this.prepareTime(aboutEventObj.start_time);
     preparedAboutEventObj.event_end_time = this.prepareTime(aboutEventObj.end_time);
     preparedAboutEventObj.about_event = aboutEventObj.about_event;
