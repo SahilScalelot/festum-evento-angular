@@ -23,6 +23,8 @@ export class EventOverviewComponent implements OnInit {
   attendee: boolean = false;
   reviews: boolean = false;
 
+  t_and_c: any; 
+
   constructor(
     private _eventService: EventService,
     public _globalFunctions: GlobalFunctions,
@@ -32,7 +34,7 @@ export class EventOverviewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getEvent();
+    this.getEvent();    
   }
 
   getEvent(): void {
@@ -40,6 +42,8 @@ export class EventOverviewComponent implements OnInit {
     const eventId = this._activatedRoute.snapshot.paramMap.get('id');
     this._eventService.retrieveEventsId(eventId).subscribe((result: any) => {
       this.events = result.events;
+      // console.log(this.events[0].t_and_c);
+      this.t_and_c = this.events[0].t_and_c
       setTimeout(() => {
         this._globalFunctions.loadAccordion();
         // this._globalFunctions.loadTabsJs();
