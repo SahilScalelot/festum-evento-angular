@@ -10,6 +10,7 @@ import { ModalModule } from '../_modal';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CalendarModule } from 'primeng/calendar';
 import {ProgressSpinnerModule} from 'primeng/progressspinner';
+import { LandingPageComponent } from './landing-page/landing-page.component';
 
 const routes: Routes = [
   {
@@ -22,7 +23,8 @@ const routes: Routes = [
   declarations: [
     ContentComponent,
     BuySpacePlansComponent,
-    ProfileComponent
+    ProfileComponent,
+    LandingPageComponent
   ],
   imports: [
     RouterModule.forChild(routes),

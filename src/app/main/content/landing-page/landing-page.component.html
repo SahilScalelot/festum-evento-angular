@@ -41,7 +41,7 @@
               </svg>
             </a>
             <button class="btn-primary uppercase hidden md:block">Contact Us</button>
-            <button class="btn-primary uppercase" style="margin-left: 15px;" (click)="Dashboard()">Dashboard</button>
+            <button class="btn-primary uppercase" style="margin-left: 15px;" [routerLink]="'/login'">Dashboard</button>
             <svg class="w-5 md:w-7 h-auto cursor-pointer fill-current hover:text-ev-red anim xl:hidden" onclick="toggleActive('nav', 'hidden')" viewBox="0 0 100 80" width="40" height="40">
               <rect width="100" height="15"></rect>
               <rect y="30" width="100" height="15"></rect>
@@ -65,30 +65,7 @@
 
     <!-- Banner Section -->
     <div class="banner relative overflow-hidden">
-      <svg class="w-full absolute inset-0 -z-10" width="1920" height="967" viewBox="0 0 1920 967" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0 884.639V-3.03619H1922V884.639C1655.81 1075.36 1077.3 884.639 734.912 812.902C460.999 755.512 130.84 836.814 0 884.639Z" fill="url(#paint0_linear_0_1)"/>
-        <circle cx="187" cy="368.964" r="136" fill="url(#paint1_linear_0_1)"/>
-        <circle cx="1725.84" cy="741.808" r="87" transform="rotate(60 1725.84 741.808)" fill="url(#paint2_linear_0_1)"/>
-        <circle cx="1927.98" cy="175.979" r="163.964" transform="rotate(-30 1927.98 175.979)" fill="url(#paint3_linear_0_1)"/>
-        <defs>
-          <linearGradient id="paint0_linear_0_1" x1="1922" y1="876.343" x2="-6.40207" y2="11.2346" gradientUnits="userSpaceOnUse">
-            <stop stop-color="#FE4D5F"/>
-            <stop offset="1" stop-color="#FE4D5F" stop-opacity="0.63"/>
-          </linearGradient>
-          <linearGradient id="paint1_linear_0_1" x1="118.5" y1="251.964" x2="262" y2="491.464" gradientUnits="userSpaceOnUse">
-            <stop stop-color="white" stop-opacity="0.17"/>
-            <stop offset="1" stop-color="#C4C4C4" stop-opacity="0"/>
-          </linearGradient>
-          <linearGradient id="paint2_linear_0_1" x1="1682.02" y1="666.962" x2="1773.82" y2="820.172" gradientUnits="userSpaceOnUse">
-            <stop stop-color="white" stop-opacity="0.17"/>
-            <stop offset="1" stop-color="#C4C4C4" stop-opacity="0"/>
-          </linearGradient>
-          <linearGradient id="paint3_linear_0_1" x1="1845.39" y1="34.9216" x2="2018.4" y2="323.667" gradientUnits="userSpaceOnUse">
-            <stop stop-color="white" stop-opacity="0.17"/>
-            <stop offset="1" stop-color="#C4C4C4" stop-opacity="0"/>
-          </linearGradient>
-        </defs>
-      </svg>
+      <img src="/assets/images/landing-page/bg-frame.png" class="w-full h-full absolute inset-0 object-cover -z-10" />
       <div class="wrapper pt-32 md:pt-40 lg:pt-60 space-y-9 2xl:space-y-16 text-center">
         <div class="text-white w-full max-w-5xl mx-auto space-y-2 md:space-y-6">
           <p>Create Own Events, Offer and Live stream</p>
@@ -229,12 +206,12 @@
         <div class="flex flex-wrap items-center sm:justify-between space-y-10 sm:space-y-0">
           <h2 class="w-full text-center sm:text-left sm:w-auto text-ev-red">Upcoming</h2>
           <ul class="flex u-tabs w-full sm:w-auto justify-center sm:justify-end">
-            <li data-tab="tab-1" class="current" id="autoClick">Events</li>
-            <li data-tab="tab-2">Offers</li>
-            <li data-tab="tab-3">Live Stream</li>
+            <li [class]="upcomingEvents ? 'current' : ''" (click)="onTabChange('Events')">Events</li>
+            <li [class]="upcomingOffers ? 'current' : ''" (click)="onTabChange('Offers')">Offers</li>
+            <li [class]="upcomingLiveStream ? 'current' : ''" (click)="onTabChange('LiveStream')">Live Stream</li>
           </ul>
         </div>
-        <div class="tabs-call current" id="tab-1">
+        <div [class]="upcomingEvents ? 'current' : 'hidden'" class="tabs-call">
           <div class="swiper mySwiper px-4">
             <div class="swiper-wrapper">
               <div class="swiper-slide py-5">
@@ -382,7 +359,7 @@
             <div class="swiper-button-prev scale-50 -translate-x-4" style="color: #007aff;"></div>
           </div>
         </div>
-        <div class="tabs-call" id="tab-2">
+        <div [class]="upcomingOffers ? 'current' : 'hidden'" class="tabs-call">
           <div class="swiper mySwiper px-4">
             <div class="swiper-wrapper">
               <div class="swiper-slide py-5">
@@ -530,7 +507,7 @@
             <div class="swiper-button-prev scale-50 -translate-x-4"></div>
           </div>
         </div>
-        <div class="tabs-call" id="tab-3">
+        <div [class]="upcomingLiveStream ? 'current' : 'hidden'" class="tabs-call">
           <div class="swiper mySwiper px-4">
             <div class="swiper-wrapper">
               <div class="swiper-slide py-5">
@@ -681,21 +658,21 @@
       </div>
     </section>
     
-    <section class="relative">
+    <section class="relative bg-white">
       <div class="px-3.5 relative pt-16 lg:pt-24">
         <div class="lg:pt-10">
-          <h1 class="w-full text-center sm:w-auto text-4xl lg:text-[50px] text-white font-bold mb-3 lg:mb-6">App Showcase</h1>
-          <p class="max-w-5xl mx-auto text-white text-center">Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-          <img src="/assets/images/landing-page/Showcase-bg2.png" class="absolute inset-0 w-full h-full -z-10" alt="Showcase-bg"/>
+          <h1 class="w-full text-center sm:w-auto text-4xl lg:text-[50px] text-white font-bold mb-3 lg:mb-6 relative z-10">App Showcase</h1>
+          <p class="max-w-5xl mx-auto text-white text-center relative z-10">Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+          <img src="/assets/images/landing-page/Showcase-bg2.png" class="absolute inset-0 w-full h-full z-0" alt="Showcase-bg"/>
         </div>
-        <div class="flex items-center text-center -mx-3.5 pt-10 lg:pt-16">
+        <div class="flex items-center text-center -mx-3.5 pt-10 lg:pt-16 relative z-10">
           <img src="/assets/images/landing-page/Showcase-bg.png" alt="Showcase-bg">
         </div>
       </div>
     </section>
 
     <!-- V -->
-    <section class="pt-12 lg:pt-20 2xl:pt-24">
+    <section class="pt-12 lg:pt-20 2xl:pt-24 bg-white">
       <div class="wrapper">
         <h2 class="text-center pb-3 lg:pb-6">Pricing Plan</h2>
         <p class="lg:max-w-screen-lg lg:px-8 mx-auto font-bold text-center text-ev-gray pb-5 lg:pb-9">Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
@@ -875,8 +852,8 @@
       </div>
     </section>
 
-    <section class="bg-[#EEEEEE] md:bg-transparent relative lg:mt-48 my-20 lg:mb-40">
-      <span class="absolute w-full md:h-[90%] xl:h-[80%] inset-x-0 top-1/2 -translate-y-1/2 bg-[#EEEEEE] hidden md:block"></span>
+    <section class="bg-[#EEEEEE] md:bg-white relative lg:pt-48 py-20 lg:pb-40">
+      <span class="absolute w-full md:h-[66%] xl:h-[55%] inset-x-0 top-1/2 -translate-y-1/2 bg-[#EEEEEE] hidden md:block"></span>
       <div class="max-w-screen-2xl mx-auto flex flex-wrap items-center relative px-4">
         <div class="w-full lg:w-1/2 z-10 relative py-10 xl:py-28">
           <h2 class="text-ev-dark pb-3 lg:pb-6">Who we are?</h2>
@@ -889,7 +866,7 @@
       </div>
     </section>
 
-    <section>
+    <section class="bg-white">
       <div class="max-w-screen-2xl mx-auto px-4">
         <h2 class="text-center text-ev-dark pb-3 lg:pb-6">Ads Video Gallery</h2>
         <div class="flex flex-wrap items-center">
@@ -962,7 +939,7 @@
     </section>
 
     <!-- B -->
-    <div class="">
+    <div class="bg-white">
       <div class="wrapper pt-14 md:pt-24">
         <div class="flex flex-wrap items-center bg-[#EEEEEE]">
           <div class="w-full lg:w-6/12">
@@ -979,7 +956,7 @@
       </div>
     </div>
   
-    <div class="">
+    <div class="bg-white">
       <div class="wrapper py-14 md:py-24">
         <div class="flex flex-wrap justify-between">
           <div class="w-full md:w-5/12">
@@ -993,17 +970,17 @@
       </div>
     </div>
   
-    <div>
+    <div class="bg-white">
       <div class="wrapper py-9 relative">
-        <img src="/assets/images/landing-page/add-banner.jpg" alt="Lates Ring collection" class="w-full block absolute inset-0 -z-10 h-full object-cover"/> 
-        <div class="flex items-center justify-between px-4 lg:px-8">
-            <h1 class="text-3xl lg:text-5xl font-semibold text-white">50% off</h1>
-            <p class="text-xl lg:text-3xl text-white">Lates Ring collection</p>
+        <img src="/assets/images/landing-page/ads-banner.jpg" alt="Lates Ring collection" class="w-full block absolute inset-0 h-full object-cover"/> 
+        <div class="flex items-center justify-between px-4 lg:px-8 relative">
+          <h1 class="text-3xl lg:text-5xl font-semibold text-white">50% off</h1>
+          <p class="text-xl lg:text-3xl text-white">Lates Ring collection</p>
         </div>
       </div>
     </div>
   
-    <div class="">
+    <div class="bg-white">
       <div class="wrapper py-14 md:py-24">
         <div class="swiper mySwiper px-4 responsive">
           <div class="swiper-wrapper">
@@ -1119,7 +1096,7 @@
       </div>
     </div>
   
-    <div class="pt-[150px] pb-16 md:pb-0 md:pt-[200px]">
+    <div class="pt-[150px] pb-16 md:pb-0 md:pt-[200px] bg-white">
       <div class="wrapper md:py-10">
         <div class="text-center pt-56 md:pt-0">
             <h2 class="text-ev-dark">Get Our Brochure</h2>
@@ -1130,7 +1107,7 @@
     </div> 
 
     <!-- Footer -->
-    <footer class="">
+    <footer class="bg-white">
       <div class="bg-ev-dark text-white pt-24 pb-10">
         <div class="max-w-screen-2xl mx-auto px-5">
           <div class="flex flex-wrap pb-10 border-b border-white border-opacity-20 space-y-7 md:space-y-0">

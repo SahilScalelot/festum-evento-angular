@@ -351,3 +351,42 @@ body{@apply font-primary text-japaneseIndigo bg-brightGray m-0 capitalize;}
 
 .is-invalid {box-shadow: inset 0 0 4px rgba(255, 0, 0, .4);}
 .snotifyToast__inner .snotifyToast__body {@apply break-all;}
+
+
+// Landing Start
+app-landing-page h1 {@apply font-bold text-3xl md:text-4xl lg:text-5xl xl:text-6xl;}
+app-landing-page h2 {@apply font-bold text-2xl md:text-3xl lg:text-4xl xl:text-5xl;}
+app-landing-page h3 {@apply font-bold text-xl md:text-2xl lg:text-3xl;}
+app-landing-page p {@apply font-semibold md:font-bold text-xs md:text-base lg:text-lg;}
+app-landing-page .wrapper {@apply max-w-screen-2xl mx-auto px-3.5 md:px-5 xl:px-8 2xl:px-10;}
+
+header a {@apply font-primary text-lg font-bold hover:text-ev-red transition-all duration-300;}
+
+.btn-primary {@apply bg-ev-dark text-white border-ev-dark border hover:bg-white hover:text-ev-dark px-5 md:px-6 py-2 md:py-3 text-xs md:text-sm font-bold transition-all duration-300;}
+
+header {@apply py-5 md:py-8 lg:py-12 transition-all duration-300;}
+header.nav-down {@apply py-5 md:py-8 lg:py-12;}
+header.nav-down > div > div {@apply shadow-md;}
+header.nav-up {@apply py-0 -translate-y-28;}
+
+.u-tabs li{@apply text-[#25364F] border-t-2 border-transparent text-xl lg:text-3xl py-4 lg:py-6 text-center px-3.5 lg:px-5 font-semibold cursor-pointer;}
+.u-tabs li.current{@apply text-[#FE4D5F] border-t-2 border-[#FE4D5F] ;}
+// .tabs-call{@apply hidden;}
+.tabs-call.current{@apply block;}
+@media(max-width: 767px){
+  .f-manu a:not(:last-child){
+    margin-right: 10px;
+  }
+}
+.gradiyent-c{
+  background: linear-gradient(282.76deg, #FE4D5F 1.72%, rgba(254, 77, 95, 0.63) 100%);
+} 
+.dates button{@apply w-[14.28%] py-3 font-semibold;}
+.dates button .selact{@apply p-2 md:p-3.5 text-sm md:text-base rounded-full bg-[#15E0B0] text-white;}
+.arrow{@apply appearance-none w-full;
+  background-image: url('/../../public/assest/images/svg/arrow.svg');
+  background-repeat: no-repeat;
+  background-position: calc(100% - 17px) center;
+}
+
+// Landing End
