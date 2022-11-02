@@ -7,10 +7,11 @@ import {AuthComponent} from "./main/auth/auth.component";
 import { EventOverviewComponent } from './main/content/event/event-overview/event-overview.component';
 import { BuySpacePlansComponent } from './main/content/buy-space-plans/buy-space-plans.component';
 import { ProfileComponent } from './main/content/profile/profile.component';
+import { LandingPageComponent } from './main/content/landing-page/landing-page.component';
 
 const routes: Routes = [
 
-  { path: '', redirectTo: 'event', pathMatch: 'full' },
+  { path: '', component:  LandingPageComponent},
   {
     path: '',
     canActivate: [NoAuthGuard],

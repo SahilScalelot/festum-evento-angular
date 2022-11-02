@@ -2,6 +2,7 @@
 @tailwind components;
 @import "./node_modules/ng-snotify/styles/material.scss";
 
+
 * {@apply font-primary}
 
 body{@apply font-primary text-japaneseIndigo bg-brightGray m-0 capitalize;}

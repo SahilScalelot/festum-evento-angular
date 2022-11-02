@@ -3,12 +3,12 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false,
-  appURL: "http://192.168.29.23:8000/api/v1/",
-  baseImageURL: "http://192.168.29.23:8000/",
+  production: true,
+  // appURL: "http://192.168.29.23:8000/api/v1/",
+  // baseImageURL: "http://192.168.29.23:8000/",
 
-  // appURL: "https://festum.dev.scalelot.com/api/v1/",
-  // baseImageURL: "https://festum.dev.scalelot.com/",
+  appURL: "https://api.festumevento.com/api/v1/",
+  baseImageURL: "https://api.festumevento.com/",
 };
 
 /*
