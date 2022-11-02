@@ -1,0 +1,15 @@
+<div class="flex min-h-screen">
+  <div class="flex w-full flex-wrap bg-white">
+    <div class="w-full relative lg:w-1/2 hidden lg:block">
+      <img src="/assets/images/login.png" alt="login-bg" class="absolute inset-0 w-full h-full object-cover" />
+      <div class="bg-white p-5 w-36 h-36 xl:w-48 xl:h-48 relative ml-36 flex" [routerLink]="'/'">
+        <img src="/assets/images/festum-evento.png" alt="evanto-logo" class="m-auto"/>
+      </div>
+    </div>
+    <div class="w-full relative lg:w-1/2 flex px-4">
+      <div class="max-w-md w-full m-auto py-10">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+</div>

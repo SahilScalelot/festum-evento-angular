@@ -1,0 +1,30 @@
+<h1 class="whitespace-nowrap">Enter OTP</h1>
+<p class="sm:text-lg xl:text-xl text-quicksilver font-normal sm:pt-3.5 xl:pr-8">Please enter the 6 Digit code sent to</p>
+<div class="flex justify-between sm:mt-1">
+  <a href="javascript:void(0);" class="block font-bold text-japaneseIndigo text-base sm:text-lg xl:text-xl lowercase">{{phone}}</a>
+  <a href="javascript:void(0);" (click)="onChangeNumberClick()"><span class="text-caribbeanGreen font-semibold text-base sm:text-lg xl:text-xl">Change?</span></a>
+</div>
+<div class="w-full pt-5 sm:pt-10">
+  <form class="space-y-5 relative" id="codeverifyForm" >
+    <div class="relative">
+      <ng-otp-input [formCtrl]="otp" (onInputChange)="onOtpChange($event)" [config]="{length:6}"></ng-otp-input>
+      <span class="absolute top-full text-red-500 text-xs" *ngIf="otp.invalid && otp.dirty && otp.touched">
+        <span *ngIf="otp?.errors?.['required']">
+          OTP is required.
+        </span>
+        <span *ngIf="otp?.errors?.['minlength']">
+          This field must have at least 6 character.
+        </span>
+      </span>
+    </div>
+    <div class="relative">
+      <button class="secondary w-full py-[15px] uppercase relative" type="submit" (click)="verifyOtp()" [disabled]="otp.invalid || isLoading">
+        <span [ngClass]="{'opacity-0': isLoading}">Verify code</span>
+      </button>
+      <div class="absolute inset-0 text-white flex items-center" *ngIf="isLoading">
+        <mat-progress-spinner [diameter]="22" [mode]="'indeterminate'" class="mx-auto"></mat-progress-spinner>
+      </div>
+    </div>
+    <a href="javascript:void(0);" class="block font-bold text-japaneseIndigo text-xs xl:text-sm text-center" (click)="resendOtp()">Not Get? Re-send</a>
+  </form>
+</div>

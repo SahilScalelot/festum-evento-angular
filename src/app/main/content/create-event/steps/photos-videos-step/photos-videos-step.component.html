@@ -1,0 +1,122 @@
+<form [formGroup]="photosAndVideosForm" class="space-y-5">
+  <div class="upload-holder w-full h-auto">
+    <span class="text-sm text-quicksilver font-semibold">Add Poster <span class="font-normal">(Max size 10MB)</span></span>
+    <label class="upload upload-popup p-0 relative group" id="posterUpload">
+      <input #poster (change)="onFileChange($event,'poster')" accept="image/png, image/jpeg, image/gif" class="poster hidden" formControlName="poster" id="poster" type="file"/>
+      <img *ngIf="cropImgPreview" [src]="cropImgPreview" class="absolute inset-0 w-full h-full object-cover z-10 group-hover:-z-10"/>
+    </label>
+  </div>
+  <div class="media-upload-holder pt-5">
+    <span class="text-sm text-quicksilver font-semibold">Add Photos <span class="font-normal">(15 Images - up to 3MB/Image)</span></span>
+    <div class="flex flex-wrap h-full pt-2">
+      <div *ngFor="let photo of photoArr; let i = index" class="upload-box mr-2.5 mb-2.5">
+        <div class="rounded relative overflow-hidden h-full w-full">
+          <img [alt]="'add-photo-' + i" [src]="photo.image" *ngIf="isString(photo.image)" class="object-cover w-full h-full"/>
+          <button (click)="removeImage(i)">Remove</button>
+        </div>
+      </div>
+      <div (click)="onFileChange($event, 'photo')" class="upload-holder" *ngIf="photoArr.length < 15">
+        <label class="upload-photo" for="event-upload1">
+          <!-- <input type="file" id="photo" name="photo" (change)="onFileChange($event, 'photo')" id="event-upload1" class="appearance-none hidden" accept="image/png, image/jpeg, image/gif" /> -->
+          <i class="icon-img_upload text-base text-quicksilver"></i>
+          <div class="mt-1 flex items-baseline justify-center"><span class="input-titel pt-1">Add Photos</span></div>
+        </label>
+      </div>
+    </div>
+  </div>
+  <div class="media-upload-holder">
+    <span class="text-sm text-quicksilver font-semibold">Add Video <span class="font-normal">(2 videos - up to 512MB/Video)</span></span>
+    <div class="flex space-x-2.5 h-full pt-2">
+      <div *ngFor="let video of videoArr; let i = index" class="upload-box">
+        <div class="rounded relative overflow-hidden h-full w-full">
+          <!-- <iframe [src]="video.video" frameborder="0" class="w-full h-full"></iframe> -->
+          <video width="100%" height="100%" class="w-full h-full object-cover">
+            <source [src]="video.video" *ngIf="isString(video.video)" type="video/mp4">
+          </video>
+          <button (click)="removeVideo(i)">Remove</button>
+        </div>
+      </div>
+      <!-- *ngIf="videoArr.i <= 2" -->
+      <div (click)="onFileChange($event, 'video')" class="upload-holder" *ngIf="videoArr.length < 2">
+        <label class="upload-photo" for="event-upload1">
+          <!-- <input type="file" id="photo" name="photo" (change)="onFileChange($event, 'photo')" id="event-upload1" class="appearance-none hidden" accept="image/png, image/jpeg, image/gif" /> -->
+          <i class="icon-video_upload text-base text-quicksilver"></i>
+          <div class="mt-1 flex items-baseline justify-center"><span class="input-titel pt-1">Add video</span></div>
+        </label>
+      </div>
+    </div>
+  </div>
+  <!-- <div class="flex justify-end">
+    <a class="secondary float-right btn-primary small leading-10 px-5 uppercase anim cursor-pointer" [routerLink]="'/buy-space-plans'">Buy Space</a>
+  </div> -->
+</form>
+
+<div class="mt-auto">
+  <!-- advisement -->
+  <div class="w-full mt-5">
+    <img alt="ring-ad" class="w-full object-cover" src="assets/images/banner-ads.png"/>
+  </div>
+  <!-- pre and next button -->
+  <div class="prw-next-btn">
+    <button [routerLink]="'/create-event/location'" class="flex items-center active" type="button">
+      <i class="icon-left_arrow mr-3"></i>
+      <h5>Back</h5>
+    </button>
+    <!-- <button [routerLink]="'/create-event/permission'" class="flex items-center active" type="button">
+      <h5>Next</h5>
+      <i class="icon-right_arrow ml-3"></i>
+    </button> -->
+    <button [disabled]="!photosAndVideosForm.valid" (click)="nextStep()" class="flex items-center active" type="button">
+      <h5>Next</h5>
+      <i class="icon-right_arrow ml-3"></i>
+    </button>
+  </div>
+</div>
+
+<!-- Poster crop -->
+<modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="imgCropper" title="Poster">
+  <div class="flex flex-wrap -mx-4 py-5">
+    <div class="w-full lg:w-1/2 px-4">
+      <image-cropper (imageCropped)="cropImg($event)" [aspectRatio]="2 / 1 " [imageChangedEvent]="imgChangeEvt" [maintainAspectRatio]="true" format="png"></image-cropper>
+    </div>
+    <div class="w-full lg:w-1/2 px-4">
+      <h6 class="text-lg pb-4">{{ 'Image Preview' }}</h6>
+      <img [src]="cropImgPreview" class="responsive-img"/>
+    </div>
+  </div>
+  <button (click)="savePoster(cropImgPreview)" class="secondary w-full uppercase py-2 anim">{{ 'Save Poster' }}</button>
+</modal>
+<!-- Photo -->
+<modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="photo" title="Upload Photo" *ngIf="photoForm">
+  <form #photosNgForm="ngForm" [formGroup]="photoForm" class="py-6 space-y-5">
+    <div class="upload-holder w-full h-[74px]">
+      <h6 class="input-titel text-sm font-bold text-quicksilver flex items-center">Select Photo <p class="text-10 ml-2"> 15 Images (up to 3MB/Image)</p></h6>
+      <label class="upload upload-popup py-3" for="create-photo-upload">
+        <input accept="image/png, image/jpeg, image/gif" class="appearance-none hidden" id="create-photo-upload" name="images" type="file" (change)="readURL($event);"/>
+        <span class="input-titel flex justify-center items-center"><i class="icon-img_upload text-lg mr-2 leading-none"></i> {{inputText ? inputText : 'Choose Images'}}</span>
+      </label>
+    </div>
+    <div class="w-full">
+      <span class="input-titel">Details</span>
+      <textarea class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md" cols="30" rows="5" formControlName="details"></textarea>
+    </div>
+  </form>
+  <button (click)="uploadImage()" class="secondary w-full uppercase py-2 anim">{{ 'Submit' }}</button>
+</modal>
+<!-- Video -->
+<modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="video" title="Upload video" *ngIf="videoForm">
+  <form #photosNgForm="ngForm" [formGroup]="videoForm" class="py-6 space-y-5">
+    <div class="upload-holder w-full h-[74px]">
+      <h6 class="input-titel text-sm font-bold text-quicksilver flex items-center">Select video <p class="text-10 ml-2"> (2 videos - up to 512MB/Video)</p></h6>
+      <label class="upload upload-popup py-3" for="create-video-upload">
+        <input accept="video/mp4" class="appearance-none hidden" id="create-video-upload" name="images" type="file" (change)="readURL($event);"/>
+        <span class="input-titel flex justify-center items-center"><i class="icon-video_upload text-lg mr-2 leading-none"></i> {{inputText ? inputText : 'Choose Video'}}</span>
+      </label>
+    </div>
+    <div class="w-full">
+      <span class="input-titel">Details</span>
+      <textarea class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md" cols="30" rows="5" formControlName="details"></textarea>
+    </div>
+  </form>
+  <button (click)="uploadVideo()" class="secondary w-full uppercase py-2 anim">{{ 'Submit' }}</button>
+</modal>

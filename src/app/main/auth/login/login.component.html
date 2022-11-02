@@ -1,0 +1,43 @@
+<h1>Welcome Back!</h1>
+<p class="sm:text-lg xl:text-xl text-quicksilver font-normal sm:pt-3.5 xl:pr-8">Log in with your data that you entered
+  during your registration</p>
+<div class="w-full pt-7 sm:pt-10">
+  <form #logInNgForm="ngForm" [formGroup]="logInForm" class="space-y-5">
+    <div>
+      <label class="input-titel">Phone number <span class="text-red-500">*</span></label>
+      <input type="text" name="mobile" [formControlName]="'mobile'" id="mobile" class="input_box" fuseValidNumber />
+    </div>
+    <div>
+      <label class="input-titel">Password <span class="text-red-500">*</span></label>
+      <input type="Password" name="Password" class="input_box" [formControlName]="'password'" id="password" />
+      <span class="text-caribbeanGreen font-bold text-xs md:text-sm block text-right mt-2">
+        <span class="cursor-pointer inline-block" [routerLink]="'/forgot-password'">
+          Forget Password?
+        </span>
+      </span>
+    </div>
+    <div class="relative">
+      <button class="secondary w-full py-[15px] uppercase relative" type="submit" (click)="logIn()">
+        <span [ngClass]="{'opacity-0': logInForm.disabled}">Login Now</span>
+      </button>
+      <div class="absolute inset-0 text-white flex items-center" *ngIf="logInForm.disabled">
+        <mat-progress-spinner [diameter]="22" [mode]="'indeterminate'" class="mx-auto"></mat-progress-spinner>
+      </div>
+    </div>
+    <div type="button" class="relative py-5 sm:py-8">
+      <span class="absolute inset-x-0 top-1/2 -translate-y-1/2 w-full h-[1px] bg-brightGray"></span>
+      <span class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-max p-2 bg-white">or</span>
+    </div>
+    <div class="flex items-center justify-between">
+      <button type="button" class="btn p-3 relative w-[48%] font-bold text-base text-japaneseIndigo border-2 border-[#D3DCEA] rounded">
+        <img src="/assets/images/google 1.png" class="absolute top-1/2 left-3.5 -translate-y-1/2" alt="Google" />
+        Google
+      </button>
+      <button type="button" class="btn p-3 relative w-[48%] font-bold text-base text-japaneseIndigo border-2 border-[#D3DCEA] rounded">
+        <img src="/assets/images/facebook-icon.png" class="absolute top-1/2 left-3.5 -translate-y-1/2 w-4" alt="Facebook" />
+        Facebook
+      </button>
+    </div>
+    <span class="block text-sm text-japaneseIndigo font-bold text-center">Are you new? <a [routerLink]="'/register'">Register Now</a></span>
+  </form>
+</div>

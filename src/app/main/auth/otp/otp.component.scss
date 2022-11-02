@@ -1,0 +1,11 @@
+::ng-deep {
+  ng-otp-input .ng-otp-input-wrapper {
+    @apply flex justify-between px-0 py-2;
+  }
+  .ng-otp-input-wrapper .otp-input:not(:last-child) {
+    margin-right: 0 !important;
+  }
+  ng-otp-input .ng-otp-input-wrapper > .otp-input {
+    @apply w-[40px] h-[40px] sm:w-[60px] sm:h-[60px] bg-brightGray text-2xl sm:text-4xl font-bold text-center rounded-[5px] placeholder:text-2xl placeholder:sm:text-4xl placeholder:leading-5 placeholder:font-bold;
+  }
+}

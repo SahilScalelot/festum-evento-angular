@@ -1,0 +1,36 @@
+::ng-deep {
+  .p-multiselect {
+    min-width: 100%;
+    max-width: 100%;
+    width: 100%;
+    border: none;
+    .p-multiselect-label {
+      padding-right: 0;
+      padding-top: 12px;
+      padding-bottom: 12px;
+    }
+  }
+  .p-inputwrapper-filled .p-multiselect.p-multiselect-chip .p-multiselect-label {
+    padding-right: 0;
+    padding-top: 9px;
+    padding-bottom: 9px;
+  }
+} 
+::ng-deep {
+  .p-multiselect-token-label {
+    font-size: 12px;
+  }
+  .ng-star-inserted {
+    font-size: 14px;
+  }
+  .p-multiselect-item {
+    padding: 0.35rem;
+  }
+  .p-multiselect-filter {
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
+  .p-inputnumber {
+    width: 100%;
+  }
+}

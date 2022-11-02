@@ -1,0 +1,488 @@
+<p-progressSpinner *ngIf="isLoading" [style]="{width: '50px', height: '50px'}" animationDuration=".5s" strokeWidth="8" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-x-0 top-0 h-full w-full z-50" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
+<div *ngIf="events && events.length && events[0] && !isLoading" class="">
+  <div class="-mt-12 relative -z-10">
+    <!-- src="../assets/images/cooking-together-big.png"  -->
+    <img [src]="constants.baseImageURL + events[0].poster" alt="cooking-together-bg" class="w-full object-cover max-h-80"/>
+  </div>
+  <div class="wrapper min-h-full -mt-14 z-10">
+    <div class="flex items-center justify-between bg-white py-5 px-7 rounded-md">
+      <div class="w-full md:w-1/2 space-y-3">
+        <div class="flex items-center space-x-3">
+          <span class="px-3 py-1 rounded-sm text-xs text-white font-bold bg-magicPotion">Unverified</span>
+          <span class="px-3 py-1 rounded-sm text-xs text-white font-bold bg-caribbeanGreen">Booking Accepting</span>
+        </div>
+        <h2>{{ events[0].event.name }}</h2>
+        <div class="flex items-center space-x-1">
+          <p-rating [(ngModel)]="events[0].user_rating" [readonly]="true" [cancel]="false"></p-rating>
+          <span class="text-quicksilver text-xs font-bold pl-2"> {{events[0].user_rating}} 19,981 ratings</span>
+        </div>
+      </div>
+      <div class="w-full md:w-1/2 space-y-3">
+        <h3 class="text-right">250 INR</h3>
+        <div class="flex space-x-2 justify-end">
+          <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" href="javascript:void(0);"><i class="icon-edit text-sm leading-0 text-japaneseIndigo"></i></a>
+          <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" href="javascript:void(0);"><i class="icon-fill_megaphone text-sm leading-0 text-japaneseIndigo"></i></a>
+          <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" href="javascript:void(0);"><i class="icon-share text-sm leading-0 text-japaneseIndigo"></i></a>
+        </div>
+        <div class="flex items-center justify-end space-x-3">
+          <div class="flex items-center justify-end">
+            <input checked="" class="switch mr-1.5 lg:mx-3 order-2" type="checkbox">
+            <span class="text-base font-bold anim order-3">Live</span>
+          </div>
+          <span class="px-3 py-1 rounded-sm text-xs text-white font-bold bg-magicPotion">{{ events[0].event.event_category }}</span>
+          <span class="px-3 py-1 rounded-sm text-xs text-white font-bold bg-japaneseIndigo">{{ events[0].event.event_type }}</span>
+        </div>
+      </div>
+    </div>
+    <!-- tab-holder  -->
+    <div class="teb-holder">
+      <button [class]="overview ? 'active' : ''" (click)="onTabChange('overview')" type="button">Overview</button>
+      <button [class]="attendee ? 'active' : ''" (click)="onTabChange('attendee')" type="button">Attendee</button>
+      <button [class]="reviews ? 'active' : ''" (click)="onTabChange('reviews')" type="button">Reviews</button>
+    </div>
+    <!-- tab-contents-holder -->
+    <div class="pt-7 lg:pt-10">
+      <!--overview-tab-contents -->
+      <div class="relative tab-main" [class]="!reviews ? 'active' : ''" *ngIf="!reviews">
+        <div class="flex flex-wrap">
+          <!-- Overview left-bar -->
+          <div class="w-full lg:w-8/12 lg:pr-5 space-y-7" *ngIf="overview">
+            <div class="p-7 bg-white rounded-md space-y-1">
+              <h5>About Event</h5>
+              <p class="text-quicksilver text-sm leading-6 font-normal">{{ events[0].description }}</p>
+            </div>
+            <!-- Photo-holder -->
+            <div class="media-upload-holder">
+              <!-- media title  -->
+              <div class="flex justify-between items-center">
+                <h3 class="text-lg">Photo</h3>
+                <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(events[0].image, true)">View All</a>
+              </div>
+              <!-- photo-holder -->
+              <div class="w-full">
+                <div class="flex flex-wrap -mx-2">
+                  <div *ngFor="let img of events[0].image" class="w-full lg:w-2/12 p-2 ov-p">
+                    <div class="rounded relative overflow-hidden bg-white h-24">
+                      <img [src]="constants.baseImageURL + img.image" alt="upload-1" class="w-full h-full object-cover"/>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- videos-holder -->
+            <div class="media-upload-holder">
+              <!-- media title  -->
+              <div class="flex justify-between items-center">
+                <h3 class="text-lg">Videos</h3>
+                <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(events[0].video, false)">View All</a>
+              </div>
+              <!-- media-holder -->
+              <div class="w-full">
+                <div class="flex flex-wrap -mx-2">
+                  <div *ngFor="let video of events[0].video" class="w-full lg:w-1/5 p-2 ov-p">
+                    <div class="rounded relative overflow-hidden h-28">
+                      <img [src]="constants.baseImageURL + video.thumbnail" alt="upload-1" class="w-full h-full object-cover bg-white"/>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Accordion -->
+            <div *ngIf="events[0].occasion && events[0].occasion.length" class="space-y-1.5">
+              <h5 class="text-lg font-bold">Arrangement</h5>
+              <div class="accordions w-full space-y-5">
+                <div *ngFor="let seating of events[0].occasion" class="accordion_item cursor-pointer h-full p-0 relative">
+                  <div class="title_tab flex justify-between items-center px-5 py-6 max-h-[78px]">
+                    <div class="space-x-7 flex items-center">
+                      <div class="w-10 text-center">
+                        <img alt="table" class="mx-auto max-w-full object-contain" src="../assets/images/table.png"/>
+                      </div>
+                      <h4>{{seating?.seat?.name}}</h4>
+                    </div>
+                    <div class="flex items-center space-x-7">
+                      <span class="uper-down flex items-center cursor-pointer">
+                        <i class="icon-top_Arrow hidden"></i>
+                        <i class="icon-drop_arrow"></i>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="inner_content i_c space-y-6 border-t px-5 py-6">
+                    <div class="flex">
+                      <div class="pr-5">
+                        <img alt="select-item" src="../assets/images/select-item.png"/>
+                      </div>
+                      <div class="w-full space-y-2">
+                        <div class="flex items-center justify-between">
+                          <h6 class="text-lg text-japaneseIndigo font-bold">Select Item</h6>
+                          <div class="flex items-center">
+                            <input class="switch mx-3 order-2" id="on" type="checkbox"/>
+                            <span class="off text-base font-bold anim order-1 text-caribbeanGreen">per table</span>
+                            <span class="on text-base font-bold anim order-3">per person</span>
+                          </div>
+                        </div>
+                        <div class="flex flex-wrap items-center">
+                          <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
+                            <span class="block text-xs xl:text-sm text-quicksilver">No of Table</span>
+                            <span class="block text-base font-bold text-quicksilver">{{seating?.no_of_seat}}</span>
+                          </div>
+                          <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
+                            <span class="block text-xs xl:text-sm text-quicksilver">Location</span>
+                            <span class="block text-base font-bold text-quicksilver">{{seating?.seat_location}}</span>
+                          </div>
+                          <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
+                            <span class="block text-xs xl:text-sm text-quicksilver">Table Person Capacity</span>
+                            <span class="block text-base font-bold text-quicksilver">{{seating?.table_person_capacity}}</span>
+                          </div>
+                          <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
+                            <span class="block text-xs xl:text-sm text-quicksilver">Total Person Capacity</span>
+                            <span class="block text-base font-bold text-quicksilver">{{seating?.table_person_capacity}}</span>
+                          </div>
+                          <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
+                            <span class="block text-xs xl:text-sm text-quicksilver">Per Table Price</span>
+                            <span class="block text-base font-bold text-quicksilver">{{seating?.table_price}}</span>
+                          </div>
+                          <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
+                            <span class="block text-xs xl:text-sm text-quicksilver">per person price</span>
+                            <span class="block text-base font-bold text-quicksilver">{{seating?.price_per_seat}} INR</span>
+                          </div>
+                          <div class="space-y-1 pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
+                            <span class="block text-xs xl:text-sm text-quicksilver">Total Amount</span>
+                            <span class="block text-base font-bold text-japaneseIndigo">1000 INR</span>
+                          </div>
+                        </div>
+                        <div>
+                          <p>Description</p>
+                          <span class="text-base text-quicksilver font-bold">{{seating?.description}}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="flex">
+                      <div class="pr-5">
+                        <img alt="non-veg" src="../assets/images/non-veg.png"/>
+                      </div>
+                      <div class="w-full space-y-2">
+                        <p>Food</p>
+                        <span class="text-lg font-bold text-japaneseIndigo">{{seating?.seat_food}}</span>
+                        <p>{{seating?.seat_food_description}}</p>
+                      </div>
+                    </div>
+                    <div class="flex" *ngIf="seating.seat_equipment">
+                      <div class="pr-5">
+                        <img alt="not-include" src="../assets/images/not-include.png"/>
+                      </div>
+                      <div class="w-full space-y-2">
+                        <p>Equipment</p>
+                        <span class="text-lg font-bold text-japaneseIndigo">Not Include</span>
+                        <p>{{seating?.seat_equipment_description}}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <!-- Company Details -->
+            <div *ngIf="events[0].companydetails[0]" class="space-y-1.5">
+              <h5 class="text-lg font-bold">Company Details</h5>
+              <div class="p-7 bg-white rounded-md space-y-1">
+                <span class="block text-base lg:text-lg font-bold">{{ events[0].companydetails[0].name }}</span>
+                <p class="text-quicksilver text-sm leading-6 font-normal">{{ events[0].companydetails[0].about }}</p>
+              </div>
+            </div>            
+            <!-- Photo-holder -->
+            <div *ngIf="events[0].companydetails[0].image != ''" class="media-upload-holder">
+              <!-- media title  -->
+              <div class="flex justify-between items-center">
+                <h3 class="text-lg">Photo</h3>
+                <a class="text-spiroDiscoBall text-sm font-bold opacity-60" href="javascript:void(0);" (click)="openImageAndVideoDialog(events[0].companydetails[0].image, true)">View All</a>
+              </div>
+              <!-- photo-holder -->
+              <div class="w-full">
+                <div class="flex flex-wrap -mx-2">
+                  <div *ngFor="let img of events[0].companydetails[0].image" class="w-full lg:w-2/12 p-2 ov-p">
+                    <div class="rounded relative overflow-hidden bg-white h-24">
+                      <img [src]="constants.baseImageURL + img.image" alt="upload-1" class="w-full h-full object-cover"/>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- videos-holder -->
+            <div *ngIf="events[0].companydetails[0].video != ''" class="media-upload-holder">
+              <!-- media title  -->
+              <div class="flex justify-between items-center">
+                <h3 class="text-lg">Videos</h3>
+                <a class="text-spiroDiscoBall text-sm font-bold opacity-60" href="javascript:void(0);" (click)="openImageAndVideoDialog(events[0].companydetails[0].video, false)">View All</a>
+              </div>
+              <!-- media-holder -->
+              <div class="w-full">
+                <div class="flex flex-wrap -mx-2">
+                  <div *ngFor="let video of events[0].companydetails[0].video" class="w-full lg:w-1/5 p-2 ov-p">
+                    <div class="rounded relative overflow-hidden h-28">
+                      <img [src]="constants.baseImageURL + video.thumbnail" alt="upload-1" class="w-full h-full object-cover bg-white"/>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Company Details -->
+            <div *ngIf="events[0].t_and_c != ''" class="space-y-1.5">
+              <h3 class="text-lg">Terms & Conditions</h3>
+              <div class="p-3.5 xl:p-5 bg-white rounded-md">
+                <div class="flex items-start text-quicksilver font-normal">
+                  <div class="pt-0.5">*</div>
+                  <p class="text-sm font-normal pl-3">{{ events[0].t_and_c }}</p>
+                </div>
+                <div class="flex items-start text-quicksilver font-normal">
+                  <div class="pt-0.5">*</div>
+                  <p class="text-sm font-normal pl-3">Lorem Ipsum is simply dummy text of the printing
+                    and typesetting industry. Lorem Ipsum has been the industry's standard dummy
+                    text ever since the 1500s,</p>
+                </div>
+              </div>
+            </div>
+            <!-- Social-Media -->
+            <div class="w-full space-y-3"
+            *ngIf="events[0].twitter && events[0].twitter != '' &&
+            events[0].linkedin && events[0].linkedin != '' &&
+            events[0].facebook && events[0].facebook != '' &&
+            events[0].whatapp && events[0].whatapp != '' &&
+            events[0].instagram && events[0].instagram != ''"
+            >
+              <span class="block text-base lg:text-xl font-bold">Social Media</span>
+              <div class="flex items-center space-x-5 p-5 lg:p-7 bg-white rounded-lg">
+                <a *ngIf="events[0].twitter != ''" href="{{ events[0].twitter }}">
+                  <img alt="twiiter.png" src="../assets/images/twiiter.png" />
+                </a>
+                <a *ngIf="events[0].linkedin != ''" href="{{ events[0].linkedin }}">
+                  <img alt="linkdin.png" src="../assets/images/linked.png" />
+                </a>
+                <a *ngIf="events[0].facebook != ''" href="{{ events[0].facebook }}">
+                  <img alt="facebook.png" src="../assets/images/facebook.png" />
+                </a>
+                <a *ngIf="events[0].whatapp != ''" href="{{ events[0].whatapp }}">
+                  <img alt="whatapp.png" src="../assets/images/whatapp.png" />
+                </a>
+                <a *ngIf="events[0].instagram != ''" href="{{ events[0].instagram }}">
+                  <img alt="instagram.png" src="../assets/images/instagram.png" />
+                </a>
+              </div>
+            </div>
+            <!-- product_ad -->
+            <div class="w-full">
+              <img alt="add-Banner" class="w-full" src="../assets/images/banner-ads.png"/>
+            </div>
+          </div>
+          <!-- Attendee left-bar -->
+          <div class="w-full lg:w-8/12 space-y-2.5" *ngIf="attendee">
+            <div class="bg-white px-5 py-2.5 flex justify-between items-center rounded-md">
+              <div class="space-y-2">
+                <div class="flex items-center space-x-3">
+                  <h3 class="text-base">Reynaldo Franklin</h3>
+                  <span class="input-titel font-bold text-caribbeanGreen" style="padding-bottom: 0;">#55841251</span>
+                </div>
+                <p class="text-quicksilver text-xs font-bold flex items-center">July 13, 2021</p>
+              </div>
+              <div class="space-y-1">
+                <h3 class="text-lg">$560.00</h3>
+                <span class="block input-titel text-magicPotion text-right">15 Ticket</span>
+              </div>
+            </div>
+            <div class="bg-white px-5 py-2.5 flex justify-between items-center rounded-md">
+              <div class="space-y-2">
+                <div class="flex items-center space-x-3">
+                  <h3 class="text-base">Mark Jecno</h3>
+                  <span class="input-titel font-bold text-caribbeanGreen" style="padding-bottom: 0;">#23541251</span>
+                </div>
+                <p class="text-quicksilver text-xs font-bold flex items-center">July 13, 2021</p>
+              </div>
+              <div class="space-y-1">
+                <h3 class="text-lg">$2100.00</h3>
+                <span class="block input-titel text-magicPotion text-right">100 Ticket</span>
+              </div>
+            </div>
+            <div class="bg-white px-5 py-2.5 flex justify-between items-center rounded-md">
+              <div class="space-y-2">
+                <div class="flex items-center space-x-3">
+                  <h3 class="text-base">Joila balia</h3>
+                  <span class="input-titel font-bold text-caribbeanGreen" style="padding-bottom: 0;">#55841251</span>
+                </div>
+                <p class="text-quicksilver text-xs font-bold flex items-center">July 13, 2021</p>
+              </div>
+              <div class="space-y-1">
+                <h3 class="text-lg">$900.00</h3>
+                <span class="block input-titel text-magicPotion text-right">10 Ticket</span>
+              </div>
+            </div>
+            <div class="bg-white px-5 py-2.5 flex justify-between items-center rounded-md">
+              <div class="space-y-2">
+                <div class="flex items-center space-x-3">
+                  <h3 class="text-base">Mackenzie Holder</h3>
+                  <span class="input-titel font-bold text-caribbeanGreen" style="padding-bottom: 0;">#55841251</span>
+                </div>
+                <p class="text-quicksilver text-xs font-bold flex items-center">July 13, 2021</p>
+              </div>
+              <div class="space-y-1">
+                <h3 class="text-lg">$900.00</h3>
+                <span class="block input-titel text-magicPotion text-right">10 Ticket</span>
+              </div>
+            </div>
+            <div class="bg-white px-5 py-2.5 flex justify-between items-center rounded-md">
+              <div class="space-y-2">
+                <div class="flex items-center space-x-3">
+                  <h3 class="text-base">Mackenzie Holder</h3>
+                  <span class="input-titel font-bold text-caribbeanGreen" style="padding-bottom: 0;">#55841251</span>
+                </div>
+                <p class="text-quicksilver text-xs font-bold flex items-center">July 13, 2021</p>
+              </div>
+              <div class="space-y-1">
+                <h3 class="text-lg">$900.00</h3>
+                <span class="block input-titel text-magicPotion text-right">10 Ticket</span>
+              </div>
+            </div>
+            <div class="w-full">
+              <img alt="ring-ad" class="w-full object-cover" src="../assets/images/banner-ads.png"/>
+            </div>
+            <div class="bg-white px-5 py-2.5 flex justify-between items-center rounded-md">
+              <div class="space-y-2">
+                <div class="flex items-center space-x-3">
+                  <h3 class="text-base">Mackenzie Holder</h3>
+                  <span class="input-titel font-bold text-caribbeanGreen" style="padding-bottom: 0;">#55841251</span>
+                </div>
+                <p class="text-quicksilver text-xs font-bold flex items-center">July 13, 2021</p>
+              </div>
+              <div class="space-y-1">
+                <h3 class="text-lg">$900.00</h3>
+                <span class="block input-titel text-magicPotion text-right">10 Ticket</span>
+              </div>
+            </div>
+            <div class="bg-white px-5 py-2.5 flex justify-between items-center rounded-md">
+              <div class="space-y-2">
+                <div class="flex items-center space-x-3">
+                  <h3 class="text-base">Mackenzie Holder</h3>
+                  <span class="input-titel font-bold text-caribbeanGreen" style="padding-bottom: 0;">#55841251</span>
+                </div>
+                <p class="text-quicksilver text-xs font-bold flex items-center">July 13, 2021</p>
+              </div>
+              <div class="space-y-1">
+                <h3 class="text-lg">$900.00</h3>
+                <span class="block input-titel text-magicPotion text-right">10 Ticket</span>
+              </div>
+            </div>
+          </div>
+          <!-- right-bar  -->
+          <div class="w-full lg:w-4/12 lg:pl-5 space-y-7 sticky top-0">
+            <!-- map-content  -->
+            <div class="w-full p-2.5 bg-white rounded-md">
+              <div class="relative">
+                <iframe allowfullscreen=""
+                        class="min-h-[170px] xl:min-h-[220px]"
+                        height="100%" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+                        src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d14875.88775631223!2d72.81608609999999!3d21.2329613!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1655442825672!5m2!1sen!2sin"
+                        style="border:0;"
+                        width="100%"></iframe>
+                <!-- <agm-map (mapClick)="mapClicked($event)" [disableDefaultUI]="false" [latitude]="lat" [longitude]="lng" [zoomControl]="false" [zoom]="zoom">
+                  <agm-marker (dragEnd)="markerDragEnd(markers, $event)" (markerClick)="clickedMarker(markers.label)" [label]="markers.label" [latitude]="lat" [longitude]="lng" [markerDraggable]="true"></agm-marker>
+                </agm-map> -->
+                <a class="w-10 h-10 flex items-center justify-center text-xl bg-white shadow-sm absolute right-4 bottom-4 text-magicPotion" href="javascript:void(0);"><i class="icon-map"></i></a>
+              </div>
+              <div class="p-3.5 xl:p-5">
+                <span class="input-titel"><i class="icon-location-1 mr-1"></i> Location</span>
+                <h3 class="text-sm xl:text-base">{{ events[0].location_address }}</h3>
+              </div>
+            </div>
+            <!-- date-content  -->
+            <div class="w-full p-5 xl:p-7 bg-white rounded-md space-y-3">
+              <div class="w-full">
+                <div class="text-xs lg:text-sm font-medium text-quicksilver flex items-center"><i class="icon-calendar mr-1.5 text-base"></i>Date </div>
+                <span class="text-japaneseIndigo text-xs lg:text-sm font-bold">{{ events[0].start_date }} - {{ events[0].end_date }}</span>
+              </div>
+              <div class="w-full">
+                <div class="text-xs lg:text-sm font-medium text-quicksilver flex items-center"><i class="icon-time mr-1.5 text-sm"></i>Time </div>
+                <span class="text-japaneseIndigo text-xs lg:text-sm font-bold">{{ events[0].start_time }} - {{ events[0].end_time }}</span>
+              </div>
+            </div>
+            <!-- Discount On Total Bill  -->
+            <div class="bg-gradient-to-r from-[#13e1b094] to-[#13E1B0] p-3.5 xl:p-5 rounded-lg relative overflow-hidden">
+              <div class="w-full  space-y-4">
+                <h4 class="text-white">Discount On Total Bill</h4>
+                <h1 class="text-black font-bold">10%</h1>
+                <div class="space-y-2">
+                  <span class="text-xs text-white font-normal block">4 Event can be posted or one event with max 30 day</span>
+                </div>
+                <img alt="celebration" class="absolute -right-3 -bottom-3 opacity-80" src="../assets/images/event-subscription.png"/>
+              </div>
+            </div>
+            <!-- Book_ticket_detils -->
+            <div class="bg-white rounded-md overflow-hidden">
+              <div class="flex justify-between px-5 py-2 bg-japaneseIndigo">
+                <span class="text-sm font-bold text-white">Book Ticket</span>
+                <span class="text-sm font-bold text-white">Total Amount</span>
+              </div>
+              <div class="flex justify-between px-5 py-2 bg-white border-b border-brightGray">
+                <span class="text-sm font-bold text-japaneseIndigo">15 T - L</span>
+                <span class="text-sm font-bold text-japaneseIndigo">$2500.00</span>
+              </div>
+              <div class="flex justify-between px-5 py-2 bg-white border-b border-brightGray">
+                <span class="text-sm font-bold text-japaneseIndigo">15 C - C</span>
+                <span class="text-sm font-bold text-japaneseIndigo">$5000.00</span>
+              </div>
+              <div class="flex justify-between px-5 py-2 bg-white">
+                <span class="text-sm font-bold text-japaneseIndigo">26 B - R</span>
+                <span class="text-sm font-bold text-japaneseIndigo">$7500.00</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Reviews-Teb-Content   -->
+      <div class="w-full space-y-7 tab-main" [class]="reviews ? 'active' : ''">
+        <div class="w-full space-y-2">
+
+          <div *ngFor="let reviews of events[0].occasion_id" class="flex justify-between p-7 bg-white rounded-md">
+            <div class="">
+              <div class="w-28 h-28 border-2 border-brightGray rounded-full overflow-hidden bg-white">
+                <img alt="cutting-board" class="w-full h-full object-cover" src="../assets/images/profile-2.png"/>
+              </div>
+            </div>
+            <div class="w-full pl-5">
+              <div class="flex justify-between">
+                <h3>{{ reviews.user.name }}</h3>
+                <div class="flex items-center space-x-2">
+                  <span class="text-xs text-quicksilver">{{ reviews.user.created_date | date:'dd MMM, yyyy' }}</span>
+                  <p-rating [(ngModel)]="reviews.user_rating" [readonly]="true" [cancel]="false"></p-rating>
+                </div>
+              </div>
+              <p class="text-japaneseIndigo text-sm font-normal leading-6 pt-2">{{ reviews.review }}</p>
+            </div>
+          </div>
+          <div class="w-full py-2.5">
+            <img alt="add" src="../assets/images/banner-ads.png"/>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- bottom-bar -->
+  <div class="-mb-14 mt-14 bg-white pb-4">
+    <div class="flex flex-wrap items-center justify-between max-w-7xl mx-auto px-5 xl:px-8">
+      <div class="flex items-center space-x-2 pt-4">
+        <h4 class="pr-5 border-r border-brightGray"><span class="text-quicksilver font-normal">Sold :</span>
+          {{ events[0].sold }}</h4>
+        <h4 class="px-5"><span class="text-quicksilver font-normal">Unsold  :</span> 235</h4>
+      </div>
+      <div class="flex items-center space-x-2 pt-4">
+        <span class="text-xs font-bold text-quicksilver whitespace-nowrap">150 Sold</span>
+        <div class="w-32 md:w-[150px] xl:w-[203px] bg-[#D6D7DC] rounded-full h-1.5">
+          <div class="bg-magicPotion h-1.5 rounded-full" style="width: 30%"></div>
+        </div>
+        <span class="text-xs font-bold text-quicksilver whitespace-nowrap">521 UnSold</span>
+      </div>
+      <div class="pt-4">
+        <a class="secondary px-5 py-2 flex items-end rounded-sm max-w-max mx-auto" href="javascript:void(0);"><i class="icon-scanner mr-3 text-lg"></i>SCAN QR</a>
+      </div>
+    </div>
+  </div>
+  
+  <app-image-and-video-preview *ngIf="isOpenPopup" (openClosePopup)="closePop($event)" [isImageOrVideoFlag]="isImage" [expectedProp]="imagesOrVideosArr"></app-image-and-video-preview>
+</div>

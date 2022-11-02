@@ -1,0 +1,94 @@
+<p-progressSpinner *ngIf="isLoading" [style]="{width: '50px', height: '50px'}" animationDuration=".5s" strokeWidth="8" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-x-0 top-0 h-full w-full z-50" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
+<div class="wrapper">
+  <div class="flex flex-wrap items-center">
+    <h2>Events</h2>
+    <div class="flex whitespace-nowrap space-x-5 ml-auto">
+      <button class="bg-white px-5 py-3 text-japaneseIndigo font-bold rounded-md tracking-wider" (click)="multipleLiveEvent()">MultipleLive</button>
+      <span class="secondary cursor-pointer px-7 py-3" (click)="openAddEventDialog()"><i class="icon-plus mr-3"></i>Create new event</span>
+    </div>
+  </div>
+  <div class="space-y-5 pt-10" *ngIf="!isLoading">
+    <p-table [value]="events" [paginator]="(events.length)" [rows]="4" [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} Events" [rowsPerPageOptions]="[4,8,10]">
+      <ng-template pTemplate="body" let-event>
+        <tr>
+          <td>
+            <div class="w-full flex items-center cursor-pointer" (click)="gotoEventOverview($event, event)">
+              <div class="">
+                <p-checkbox name="groupname" class="mr-5" [value]="event.id" [(ngModel)]="selectedEventIds" (click)="$event.stopPropagation()"></p-checkbox>
+              </div>
+              <div class="w-full flex items-center">
+                <div class="w-full p-4 bg-white rounded">
+                  <div class="flex items-center flex-wrap xl:flex-nowrap xl:space-x-5">
+                    <div class="relative w-full lg:max-w-[288px]">
+                      <img [src]="constants.baseImageURL + event.poster" alt="{{event.event.name}}" class="w-full"/>
+                      <span class="text-base text-white font-bold px-2 py-1 absolute top-2 left-0 bg-magicPotion">{{event.event_type}}</span>
+                    </div>
+                    <div class="w-full pt-5 xl:pt-0">
+                      <div class="flex flex-wrap justify-between border-b-2 pb-4">
+                        <div class="w-full lg:w-auto">
+                          <div class="flex items-center space-x-2 lg:space-x-4">
+                            <h4 class="text-japaneseIndigo">{{event.event.name}}</h4>
+                            <span class="text-xs text-white font-bold bg-magicPotion px-3 rounded-xl py-1">Unverified</span>
+                            <span class="text-xs text-white font-bold bg-caribbeanGreen px-3 rounded-xl py-1">Booking Accepting</span>
+                          </div>
+                          <div class="flex flex-wrap pt-3">
+                            <div class="border-brightGray px-2 lg:pl-0 lg:pr-4">
+                              <div class="text-xs lg:text-sm font-semibold text-quicksilver pt-3"><i class="icon-calendar mr-1.5"></i>Date</div>
+                              <span class="text-japaneseIndigo text-xs lg:text-sm font-bold">{{event.start_date}} - {{event.end_date}}</span>
+                            </div>
+                            <div class="border-l-2 border-brightGray px-2 lg:px-4">
+                              <div class="text-xs lg:text-sm font-semibold text-quicksilver pt-3"><i class="icon-time mr-1.5"></i>Time</div>
+                              <span class="text-japaneseIndigo text-xs lg:text-sm font-bold">{{event.start_time}} - {{event.end_time}}</span>
+                            </div>
+                            <div class="border-l-2 border-brightGray px-2 lg:px-4">
+                              <div class="text-xs lg:text-sm font-semibold text-quicksilver pt-3"><i class="icon-location-1 mr-1.5"></i>Location</div>
+                              <span class="text-japaneseIndigo text-xs lg:text-sm font-bold">{{event.city}}, {{event.state}}</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="text-left pt-5 w-full flex justify-between lg:inline-block lg:w-auto lg:pt-0 lg:text-right space-y-3 lg:space-y-5">
+                          <label class="flex items-center" (click)="liveEvent($event, event)">
+                            <input type="checkbox" class="switch mr-1.5 lg:mx-3 order-2" [checked]="event.live"/>
+                            <span class="text-base font-bold anim order-3">Live</span>
+                          </label>
+                          <!-- <h3 class="text-right">250 INR</h3>-->
+                        </div>
+                      </div>
+                      <div class="flex flex-wrap justify-between">
+                        <div class="flex items-center space-x-1 pt-4">
+                          <p-rating [(ngModel)]="event.user_rating" [readonly]="true" [cancel]="false"></p-rating>
+                          <span class="text-quicksilver text-xs font-bold pl-2"> 19,981 ratings</span>
+                        </div>
+                        <div class="flex items-center space-x-2.5 pt-4">
+                          <span class="text-xs font-bold text-quicksilver">150 Sold</span>
+                          <div class="w-[70px] bg-[#D6D7DC] rounded-full h-1.5">
+                            <div class="bg-magicPotion h-1.5 rounded-full" style="width: 30%"></div>
+                          </div>
+                          <span class="text-xs font-bold text-quicksilver">521 UnSold</span>
+                        </div>
+                        <div class="flex space-x-2 pt-4">
+                          <a href="javascript:void(0)" (click)="editEvent($event, event)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-edit text-sm leading-0 text-japaneseIndigo"></i></a>
+                          <a href="javascript:void(0)" (click)="gotoEventOverview($event, event)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-show text-xs leading-0 text-japaneseIndigo"></i></a>
+                          <a href="javascript:void(0)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-fill_megaphone text-sm leading-0 text-japaneseIndigo"></i></a>
+                          <a href="javascript:void(0)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-online_offer text-xl leading-0 text-japaneseIndigo"></i></a>
+                          <a href="javascript:void(0)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-share text-sm leading-0 text-japaneseIndigo"></i></a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+
+    <!-- event_offer_banner -->
+    <div class="mt-5">
+      <img src="assets/images/banner-ads.png" alt="add banner"/>
+    </div>
+  </div>
+</div>
+
+<app-add-edit-event-dialog *ngIf="isAddEvent" (isAddEventChange)="closePop($event)" [popClass]="'active'"></app-add-edit-event-dialog>

@@ -1,0 +1,51 @@
+::ng-deep {
+  .p-inputtext{
+  border: 0 !important;
+  }
+
+  .p-inputtext:enabled:focus {
+  border: 0 !important;
+  box-shadow: none !important;
+  }
+  p-calendar > span, .p-calendar {
+    width: 100%!important;
+  }
+  p-calendar input {
+    width: 100% !important;
+  }
+
+  .p-disabled, .p-component:disabled {
+      opacity: 1!important;
+      padding-left: 10px;
+  }
+
+  .p-inputtext {
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 1rem;
+      color: #3f3f46;
+      background: #ffffff;
+      padding: 0.75rem 0.75rem;
+      border: 1px solid #d4d4d8;
+      transition: none;
+      -webkit-appearance: none;
+      appearance: none;
+      border-radius: 0.375rem;
+      
+  }
+
+  .text-japaneseIndigo {
+      --tw-text-opacity: 1;
+      color: rgb(37 54 79 / var(--tw-text-opacity));
+      // width:auto;
+      font-weight: 700;
+  }
+
+  :disabled {
+      cursor: default;
+      opacity: 1!important;
+      // padding: 12px 0px;
+      // width: auto;
+  }   
+}
+

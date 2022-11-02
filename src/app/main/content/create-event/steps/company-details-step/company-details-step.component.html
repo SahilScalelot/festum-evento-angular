@@ -1,0 +1,167 @@
+<p-progressSpinner *ngIf="isLoading" [style]="{width: '50px', height: '50px'}" animationDuration=".5s" strokeWidth="8" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-x-0 top-0 h-full w-full z-50" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
+<div class="px-2">
+  <!-- company details  -->
+  <form [formGroup]="companyForm">
+    <div class="flex items-end flex-wrap -mx-2">
+      <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative">
+        <span class="input-titel">Company name</span>
+        <input class="input" type="text" id="name" name="name" [formControlName]="'name'" required />
+        <span class="absolute top-full text-red-500 text-xs" *ngIf="companyForm.get('name')?.invalid && (companyForm.get('name')?.dirty && companyForm.get('name')?.touched)">
+          <span *ngIf="companyForm.get('name')?.errors?.['minlength']">
+            This field must have at least 2 character.
+          </span>
+        </span>
+      </div>
+      <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative">
+        <span class="input-titel">Company GST (Optional)</span>
+        <label class="upload upload-popup py-3">
+          <input (change)="onChangePDF($event)" [formControlName]="'gst'" accept="application/pdf" class="appearance-none hidden" id="company_gst" name="images" type="file"/>
+          <span class="input-titel text-base p-0">
+            <i class="icon-pdf_upload mr-2"></i> 
+            <span>{{inputText ? inputText : 'Upload PDF'}}</span>
+            <!-- <span>{{companyObj?.company_details?.gst}}</span> -->
+          </span>
+        </label>
+        <span class="absolute top-full text-red-500 text-xs" *ngIf="isInValidPDF">
+          Please upload only PDF file. 
+        </span>
+      </div>
+    </div>
+    <div class="flex items-end flex-wrap -mx-2">
+      <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative">
+        <span class="input-titel">Company Contact No</span>
+        <input [formControlName]="'contact_no'" class="input" type="text" fuseValidNumber />
+        <span class="absolute top-full text-red-500 text-xs" *ngIf="companyForm.get('contact_no')?.invalid && (companyForm.get('contact_no')?.dirty && companyForm.get('contact_no')?.touched)">
+          <span *ngIf="companyForm.get('contact_no')?.errors?.['pattern']">
+            Please enter valid Contact Number.
+          </span>
+        </span>
+      </div>
+      <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative">
+        <span class="input-titel">Company Email</span>
+        <input [formControlName]="'email'" class="input" type="text"/>
+        <span class="absolute top-full text-red-500 text-xs" *ngIf="companyForm.get('email')?.invalid && (companyForm.get('email')?.dirty && companyForm.get('email')?.touched)">
+          <span *ngIf="companyForm.get('email')?.errors?.['pattern']">
+            Please enter valid Email.
+          </span>
+        </span>
+      </div>
+    </div>
+    <div class="w-full pt-5">
+      <span class="input-titel">About Our Company</span>
+      <textarea [formControlName]="'about'" class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md" cols="30" rows="4"></textarea>
+    </div>
+    <!-- Address  -->
+    <div class="pt-5 -mx-2">
+      <h3 class="px-2">Address</h3>
+      <div class="w-full flex flex-wrap">
+        <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-5 inputHolder">
+          <span class="input-titel">Flat No.</span>
+          <input [formControlName]="'flat_no'" class="input" type="text"/>
+        </div>
+        <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-5 inputHolder">
+          <span class="input-titel">Street Name.</span>
+          <input [formControlName]="'street'" class="input" type="text"/>
+        </div>
+        <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-5 inputHolder">
+          <span class="input-titel">Area Name.</span>
+          <input [formControlName]="'area'" class="input" type="text"/>
+        </div>
+        <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-5 inputHolder relative">
+          <label class="input-titel">City<span class="text-magicPotion">*</span></label>
+          <input [formControlName]="'city'" class="input" type="text"/>
+          <span class="absolute top-full text-red-500 text-xs" *ngIf="companyForm.get('city')?.invalid && (companyForm.get('city')?.dirty && companyForm.get('city')?.touched)">
+            <span *ngIf="companyForm.get('city')?.errors?.['required']">
+              City is required.
+            </span>
+          </span>
+        </div>
+        <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-5 inputHolder relative">
+          <label class="input-titel">State<span class="text-magicPotion">*</span></label>
+          <input [formControlName]="'state'" class="input" type="text"/>
+          <span class="absolute top-full text-red-500 text-xs" *ngIf="companyForm.get('state')?.invalid && (companyForm.get('state')?.dirty && companyForm.get('state')?.touched)">
+            <span *ngIf="companyForm.get('state')?.errors?.['required']">
+              State is required.
+            </span>
+          </span>
+        </div>
+        <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-5 inputHolder relative">
+          <label class="input-titel">Pincode<span class="text-magicPotion">*</span></label>
+          <input [formControlName]="'pincode'" class="input" type="text" fuseValidNumber />
+          <span class="absolute top-full text-red-500 text-xs" *ngIf="companyForm.get('pincode')?.invalid && (companyForm.get('pincode')?.dirty && companyForm.get('pincode')?.touched)">
+            <span *ngIf="companyForm.get('pincode')?.errors?.['required']">
+              Pincode is required.
+            </span>
+            <span *ngIf="companyForm.get('pincode')?.errors?.['pattern']">
+              Please enter valid Pincode.
+            </span>
+          </span>
+        </div>
+      </div>
+    </div>
+    <!-- upload photo And Video  -->
+    <div class="flex flex-wrap justify-between -mx-2 mt-7">
+      <div class="w-full lg:w-1/2 px-2">
+        <div class="media-upload-holder">
+          <span class="text-quicksilver font-semibold">Company Photos<span class="font-normal"> Max 5 images (up to 5MB/image)</span></span>
+          <div class="flex flex-wrap h-full pt-2">
+            <div *ngFor="let photo of photoArr; let i = index" class="upload-box mr-2.5 mb-2.5">
+              <div class="rounded relative overflow-hidden h-full w-full">
+                <img [alt]="'add-photo-' + i" [src]="photo.image" *ngIf="isString(photo.image)" class="object-cover w-full h-full"/>
+                <button (click)="removeImage(i)">Remove</button>
+              </div>
+            </div>
+            <div class="upload-holder" *ngIf="photoArr.length < 5">
+              <label class="upload-photo">
+                <input (change)="uploadImage()" accept="image/png, image/jpeg, image/gif" class="appearance-none hidden" id="create-photo-upload" multiple name="images" type="file"/>
+                <i class="icon-img_upload text-base text-quicksilver"></i>
+                <div class="mt-1 flex items-baseline justify-center"><span class="input-titel pt-1">Add Photos</span></div>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="w-full lg:w-1/2 px-2">
+        <div class="media-upload-holder">
+          <span class="text-quicksilver font-semibold">Company Video <span class="font-normal">Max 1 videos (up to 2GB/video)</span></span>
+          <div class="flex flex-wrap h-full pt-2">
+            <div *ngFor="let video of videoArr; let i = index" class="upload-box mr-2.5 mb-2.5">
+              <div class="rounded relative overflow-hidden h-full w-full">
+                <video class="w-full h-full object-cover" height="100%" width="100%">
+                  <source [src]="video.video" *ngIf="isString(video.video)" type="video/mp4">
+                </video>
+                <button (click)="removeVideo(i)">Remove</button>
+              </div>
+            </div>
+            <div class="upload-holder" *ngIf="videoArr.length < 1">
+              <label class="upload-photo">
+                <input (change)="uploadVideo()" accept="video/mp4" class="appearance-none hidden" id="create-video-upload" name="videos" type="file"/>
+                <i class="icon-video_upload text-base text-quicksilver"></i>
+                <div class="mt-1 flex items-baseline justify-center">
+                  <span class="input-titel pt-1">Add video</span>
+                </div>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="mt-auto">
+  <!-- advisement -->
+  <div class="w-full mt-5">
+    <img alt="ring-ad" class="w-full object-cover" src="assets/images/banner-ads.png"/>
+  </div>
+  <!-- pre and next button -->
+  <div class="prw-next-btn">
+    <button [routerLink]="'/create-event/discount'" class="flex items-center active" type="button">
+      <i class="icon-left_arrow mr-3"></i>
+      <h5>Back</h5>
+    </button>
+    <button (click)="nextStep()" class="flex items-center active" type="button">
+      <h5>Next</h5>
+      <i class="icon-right_arrow ml-3"></i>
+    </button>
+  </div>
+</div>
