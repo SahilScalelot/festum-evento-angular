@@ -48,8 +48,8 @@ export class ArrangementDialogComponent implements OnInit {
   addArrangements(tempArrangementObj: any = {}): void {
     const arrangementsObj = this._formBuilder.group({
       number_of_seating_item: [tempArrangementObj?.no_of_seat || 0],
-      vertical_location: [tempArrangementObj?.seat_location || 0],
-      horizontal_location: [tempArrangementObj?.seat_side || 0],
+      vertical_location: [tempArrangementObj?.seat_location || this.constants.verticalLocationsArr[this.constants.verticalLocationsObj.TOP].value],
+      horizontal_location: [tempArrangementObj?.seat_side || this.constants.horizontalLocationsArr[this.constants.horizontalLocationsObj.NONE].value],
       per_seating_person: [tempArrangementObj?.table_person_capacity || 0],
       total_person: [tempArrangementObj?.person_capacity || 0],
       per_seating_price: [tempArrangementObj?.table_price || 0],
@@ -128,7 +128,7 @@ export class ArrangementDialogComponent implements OnInit {
       const preparedArrangementObj: any = {};
       preparedArrangementObj.seat_id = (this.arrangementObj && this.arrangementObj.seating_item) ? this.arrangementObj.seating_item : Number(seatingObj.seating_item);
       preparedArrangementObj.seat = (this.arrangementObj && this.arrangementObj.seat) ? this.arrangementObj.seat : _.find(this.seatingItems, ['id', Number(seatingObj.seating_item)]);
-      preparedArrangementObj.name = '';
+      preparedArrangementObj.name = preparedArrangementObj?.seat?.name;
       preparedArrangementObj.no_of_seat = arrangement.number_of_seating_item;
       preparedArrangementObj.seat_location = arrangement.vertical_location;
       preparedArrangementObj.seat_side = arrangement.horizontal_location;

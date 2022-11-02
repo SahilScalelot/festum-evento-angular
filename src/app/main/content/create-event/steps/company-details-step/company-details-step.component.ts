@@ -94,12 +94,12 @@ export class CompanyDetailsStepComponent implements OnInit {
       gst: [''],
       contact_no: [eventObj?.company_details?.company_detail?.contact_no, [Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
       email: [eventObj?.company_details?.company_detail?.email, [Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
-      about: [eventObj?.company_details?.company_detail?.about],
+      about: [eventObj?.company_details?.company_detail?.about, [Validators.required]],
       flat_no: [eventObj?.company_details?.company_detail?.flat_no],
       street: [eventObj?.company_details?.company_detail?.street],
       area: [eventObj?.company_details?.company_detail?.area],
-      city: [eventObj?.company_details?.company_detail?.city, Validators.required],
-      state: [eventObj?.company_details?.company_detail?.state, Validators.required],
+      city: [eventObj?.company_details?.company_detail?.city, [Validators.required]],
+      state: [eventObj?.company_details?.company_detail?.state, [Validators.required]],
       pincode: [eventObj?.company_details?.company_detail?.pincode, [Validators.required, Validators.pattern('^[1-9]{1}[0-9]{2}\\s{0,1}[0-9]{3}$')]],
       event_reg: [],
       images: [this.photoArr],
@@ -267,38 +267,5 @@ export class CompanyDetailsStepComponent implements OnInit {
       company_videos: this.allVideosFilesArr
     }
     return companyObj;
-  }
-
-  addCompanyDetail(): void {
-    this._createEventService.addCompanyDetail(this.companyForm.value).subscribe((result: any) => {
-      if (result) {
-      } else {
-        this._globalFunctions.successErrorHandling(result, this, true);
-      }
-    }, (error: any) => {
-      this._globalFunctions.errorHanding(error, this, true);
-    });
-  }
-
-  addCompanyImages(): void {
-    this._createEventService.addCompanyDetailImages(this.companyForm.value.images).subscribe((result: any) => {
-      if (result) {
-      } else {
-        this._globalFunctions.successErrorHandling(result, this, true);
-      }
-    }, (error: any) => {
-      this._globalFunctions.errorHanding(error, this, true);
-    });
-  }
-  
-  addCompanyVideos(): void {
-    this._createEventService.addCompanyDetailVideos(this.companyForm.value.videos).subscribe((result: any) => {
-      if (result) {
-      } else {
-        this._globalFunctions.successErrorHandling(result, this, true);
-      }
-    }, (error: any) => {
-      this._globalFunctions.errorHanding(error, this, true);
-    });
   }
 }

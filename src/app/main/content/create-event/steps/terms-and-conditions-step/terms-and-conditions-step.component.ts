@@ -7,6 +7,7 @@ import { GlobalFunctions } from 'src/app/main/common/global-functions';
 import { ModalService } from 'src/app/main/_modal';
 import { GlobalService } from 'src/app/services/global.service';
 import { CreateEventService } from '../../create-event.service';
+import * as _ from 'lodash';
 declare let $: any;
 
 @Component({
@@ -20,6 +21,7 @@ export class TermsAndConditionsStepComponent implements OnInit {
   detailEditor = DecoupledEditor;
   editorConfig: any = {};
   agreeTAndC: boolean = false;
+  registeredEventId: any = 47;
 
   eventRegister: any;
 
@@ -115,10 +117,881 @@ export class TermsAndConditionsStepComponent implements OnInit {
         ]
       }
     };
-    this._prepareForm(this.eventObj);
-    // this.prepareTermsAndConditionsEventObj();
 
-    this.termsAndConditionsForm.get('terms_and_conditions').setValue(false);
+    // this.eventObj = {
+    //   "add_event": {
+    //       "id": 192,
+    //       "name": "Test",
+    //       "event_type": "PP",
+    //       "event_category": "123",
+    //       "is_other": true,
+    //       "user": 68,
+    //       "is_active": true
+    //   },
+    //   "arrangements": [
+    //       {
+    //           "seat_id": 1,
+    //           "seat": {
+    //               "id": 1,
+    //               "name": "Chair",
+    //               "svg": "/media/image/events/seating_arrangement/chair.svg",
+    //               "timestamp": "2021-08-15T06:22:41.229676Z",
+    //               "sequence": 1,
+    //               "is_active": true,
+    //               "arrangement": [
+    //                   {
+    //                       "id": 1,
+    //                       "name": "Best Chair",
+    //                       "no_of_seat": 50,
+    //                       "seat_location": "FRONT",
+    //                       "seat_side": "LEFT",
+    //                       "table_person_capacity": 12,
+    //                       "person_capacity": 1,
+    //                       "table_price": 250,
+    //                       "price_per_seat": "350.50",
+    //                       "total_booking_count": 6,
+    //                       "description": "this is logn description for seat",
+    //                       "booking_acceptance": "",
+    //                       "seat_food": "VEG",
+    //                       "seat_food_description": "this is logn description for Food",
+    //                       "seat_equipment": true,
+    //                       "seat_equipment_description": "this is logn description for equipment",
+    //                       "seat": 1,
+    //                       "occasion": 43
+    //                   },
+    //                   {
+    //                       "id": 2,
+    //                       "name": "Good Chair",
+    //                       "no_of_seat": 100,
+    //                       "seat_location": "CENTER",
+    //                       "seat_side": "CENTER",
+    //                       "table_person_capacity": 12,
+    //                       "person_capacity": 1,
+    //                       "table_price": 250,
+    //                       "price_per_seat": "250.50",
+    //                       "total_booking_count": 12,
+    //                       "description": "this is logn description for seat",
+    //                       "booking_acceptance": "",
+    //                       "seat_food": "VEG",
+    //                       "seat_food_description": "this is logn description for Food",
+    //                       "seat_equipment": true,
+    //                       "seat_equipment_description": "this is logn description for equipment",
+    //                       "seat": 1,
+    //                       "occasion": 43
+    //                   },
+    //                   {
+    //                       "id": 3,
+    //                       "name": "Economic Chair",
+    //                       "no_of_seat": 200,
+    //                       "seat_location": "LAST",
+    //                       "seat_side": "RIGHT",
+    //                       "table_person_capacity": 12,
+    //                       "person_capacity": 1,
+    //                       "table_price": 250,
+    //                       "price_per_seat": "150.50",
+    //                       "total_booking_count": 30,
+    //                       "description": "this is logn description for seat",
+    //                       "booking_acceptance": "",
+    //                       "seat_food": "VEG",
+    //                       "seat_food_description": "this is logn description for Food",
+    //                       "seat_equipment": true,
+    //                       "seat_equipment_description": "this is logn description for equipment",
+    //                       "seat": 1,
+    //                       "occasion": 43
+    //                   },
+    //                   {
+    //                       "id": 5,
+    //                       "name": "Economic Chair",
+    //                       "no_of_seat": 200,
+    //                       "seat_location": "LAST",
+    //                       "seat_side": "RIGHT",
+    //                       "table_person_capacity": 12,
+    //                       "person_capacity": 1,
+    //                       "table_price": 250,
+    //                       "price_per_seat": "150.50",
+    //                       "total_booking_count": null,
+    //                       "description": "this is logn description for seat",
+    //                       "booking_acceptance": "",
+    //                       "seat_food": "VEG",
+    //                       "seat_food_description": "this is logn description for Food",
+    //                       "seat_equipment": true,
+    //                       "seat_equipment_description": "this is logn description for equipment",
+    //                       "seat": 1,
+    //                       "occasion": 43
+    //                   },
+    //                   {
+    //                       "id": 6,
+    //                       "name": "Economic Chair",
+    //                       "no_of_seat": 200,
+    //                       "seat_location": "LAST",
+    //                       "seat_side": "RIGHT",
+    //                       "table_person_capacity": 12,
+    //                       "person_capacity": 1,
+    //                       "table_price": 250,
+    //                       "price_per_seat": "150.50",
+    //                       "total_booking_count": null,
+    //                       "description": "this is logn description for seat",
+    //                       "booking_acceptance": "",
+    //                       "seat_food": "VEG",
+    //                       "seat_food_description": "this is logn description for Food",
+    //                       "seat_equipment": true,
+    //                       "seat_equipment_description": "this is logn description for equipment",
+    //                       "seat": 1,
+    //                       "occasion": 43
+    //                   },
+    //                   {
+    //                       "id": 7,
+    //                       "name": "demo",
+    //                       "no_of_seat": 2,
+    //                       "seat_location": "TOP",
+    //                       "seat_side": "LEFT",
+    //                       "table_person_capacity": 4,
+    //                       "person_capacity": 4,
+    //                       "table_price": 200,
+    //                       "price_per_seat": "50.00",
+    //                       "total_booking_count": 10,
+    //                       "description": "demo",
+    //                       "booking_acceptance": "PERTABLE",
+    //                       "seat_food": "BOTH",
+    //                       "seat_food_description": "both food description",
+    //                       "seat_equipment": true,
+    //                       "seat_equipment_description": "equipment description",
+    //                       "seat": 1,
+    //                       "occasion": 43
+    //                   },
+    //                   {
+    //                       "id": 8,
+    //                       "name": "demo",
+    //                       "no_of_seat": 2,
+    //                       "seat_location": "TOP",
+    //                       "seat_side": "LEFT",
+    //                       "table_person_capacity": 4,
+    //                       "person_capacity": 4,
+    //                       "table_price": 200,
+    //                       "price_per_seat": "50.00",
+    //                       "total_booking_count": 10,
+    //                       "description": "demo",
+    //                       "booking_acceptance": "PERTABLE",
+    //                       "seat_food": "BOTH",
+    //                       "seat_food_description": "both food description",
+    //                       "seat_equipment": true,
+    //                       "seat_equipment_description": "equipment description",
+    //                       "seat": 1,
+    //                       "occasion": 48
+    //                   },
+    //                   {
+    //                       "id": 9,
+    //                       "name": "Chair",
+    //                       "no_of_seat": 1,
+    //                       "seat_location": "TOP",
+    //                       "seat_side": "CENTER",
+    //                       "table_person_capacity": null,
+    //                       "person_capacity": 1,
+    //                       "table_price": null,
+    //                       "price_per_seat": "1.00",
+    //                       "total_booking_count": null,
+    //                       "description": "test",
+    //                       "booking_acceptance": "PERTABLE",
+    //                       "seat_food": "NONE",
+    //                       "seat_food_description": "",
+    //                       "seat_equipment": false,
+    //                       "seat_equipment_description": "",
+    //                       "seat": 1,
+    //                       "occasion": 55
+    //                   },
+    //                   {
+    //                       "id": 10,
+    //                       "name": "Chair",
+    //                       "no_of_seat": 11,
+    //                       "seat_location": "CENTER",
+    //                       "seat_side": "LEFT",
+    //                       "table_person_capacity": null,
+    //                       "person_capacity": 11,
+    //                       "table_price": null,
+    //                       "price_per_seat": "111.00",
+    //                       "total_booking_count": null,
+    //                       "description": "Test",
+    //                       "booking_acceptance": "PERTABLE",
+    //                       "seat_food": "NONE",
+    //                       "seat_food_description": "",
+    //                       "seat_equipment": false,
+    //                       "seat_equipment_description": "",
+    //                       "seat": 1,
+    //                       "occasion": 65
+    //                   },
+    //                   {
+    //                       "id": 11,
+    //                       "name": "demo",
+    //                       "no_of_seat": 5,
+    //                       "seat_location": "CENTER",
+    //                       "seat_side": "RIGHT",
+    //                       "table_person_capacity": 1,
+    //                       "person_capacity": 1,
+    //                       "table_price": 1,
+    //                       "price_per_seat": "50.00",
+    //                       "total_booking_count": 1,
+    //                       "description": "demo",
+    //                       "booking_acceptance": "PERTABLE",
+    //                       "seat_food": "NONVEG",
+    //                       "seat_food_description": "demo",
+    //                       "seat_equipment": true,
+    //                       "seat_equipment_description": "dewmo",
+    //                       "seat": 1,
+    //                       "occasion": 29
+    //                   },
+    //                   {
+    //                       "id": 12,
+    //                       "name": "demo",
+    //                       "no_of_seat": 2,
+    //                       "seat_location": "TOP",
+    //                       "seat_side": "LEFT",
+    //                       "table_person_capacity": 4,
+    //                       "person_capacity": 4,
+    //                       "table_price": 200,
+    //                       "price_per_seat": "50.00",
+    //                       "total_booking_count": 10,
+    //                       "description": "demo",
+    //                       "booking_acceptance": "PERTABLE",
+    //                       "seat_food": "BOTH",
+    //                       "seat_food_description": "both food description",
+    //                       "seat_equipment": true,
+    //                       "seat_equipment_description": "equipment description",
+    //                       "seat": 1,
+    //                       "occasion": 48
+    //                   },
+    //                   {
+    //                       "id": 13,
+    //                       "name": "Chair",
+    //                       "no_of_seat": 10,
+    //                       "seat_location": "TOP",
+    //                       "seat_side": "RIGHT",
+    //                       "table_person_capacity": null,
+    //                       "person_capacity": 10,
+    //                       "table_price": null,
+    //                       "price_per_seat": "1.00",
+    //                       "total_booking_count": null,
+    //                       "description": "Chair for all Garba player",
+    //                       "booking_acceptance": "PERTABLE",
+    //                       "seat_food": "VEG",
+    //                       "seat_food_description": "Food For alll",
+    //                       "seat_equipment": true,
+    //                       "seat_equipment_description": "We provided dandies to all",
+    //                       "seat": 1,
+    //                       "occasion": 66
+    //                   },
+    //                   {
+    //                       "id": 16,
+    //                       "name": "Chair",
+    //                       "no_of_seat": 11,
+    //                       "seat_location": "CENTER",
+    //                       "seat_side": "LEFT",
+    //                       "table_person_capacity": null,
+    //                       "person_capacity": 1,
+    //                       "table_price": null,
+    //                       "price_per_seat": "1000.00",
+    //                       "total_booking_count": null,
+    //                       "description": "Test",
+    //                       "booking_acceptance": "PERTABLE",
+    //                       "seat_food": "VEG",
+    //                       "seat_food_description": "Veg Food",
+    //                       "seat_equipment": true,
+    //                       "seat_equipment_description": "Dandiya",
+    //                       "seat": 1,
+    //                       "occasion": 67
+    //                   },
+    //                   {
+    //                       "id": 18,
+    //                       "name": "Chair",
+    //                       "no_of_seat": 11,
+    //                       "seat_location": "CENTER",
+    //                       "seat_side": "LEFT",
+    //                       "table_person_capacity": null,
+    //                       "person_capacity": 11,
+    //                       "table_price": null,
+    //                       "price_per_seat": "11.00",
+    //                       "total_booking_count": null,
+    //                       "description": "Test chair",
+    //                       "booking_acceptance": "PERTABLE",
+    //                       "seat_food": "NONE",
+    //                       "seat_food_description": "",
+    //                       "seat_equipment": false,
+    //                       "seat_equipment_description": "",
+    //                       "seat": 1,
+    //                       "occasion": 68
+    //                   },
+    //                   {
+    //                       "id": 20,
+    //                       "name": "Chair",
+    //                       "no_of_seat": 100,
+    //                       "seat_location": "TOP",
+    //                       "seat_side": "LEFT",
+    //                       "table_person_capacity": null,
+    //                       "person_capacity": 100,
+    //                       "table_price": null,
+    //                       "price_per_seat": "5.00",
+    //                       "total_booking_count": null,
+    //                       "description": "Chair fr all employee",
+    //                       "booking_acceptance": "PERTABLE",
+    //                       "seat_food": "VEG",
+    //                       "seat_food_description": "Drinks and dinner fo all",
+    //                       "seat_equipment": false,
+    //                       "seat_equipment_description": "",
+    //                       "seat": 1,
+    //                       "occasion": 69
+    //                   },
+    //                   {
+    //                       "id": 21,
+    //                       "name": "Chair",
+    //                       "no_of_seat": 1,
+    //                       "seat_location": "CENTER",
+    //                       "seat_side": "LEFT",
+    //                       "table_person_capacity": null,
+    //                       "person_capacity": 1,
+    //                       "table_price": null,
+    //                       "price_per_seat": "1.00",
+    //                       "total_booking_count": null,
+    //                       "description": "Test111",
+    //                       "booking_acceptance": "PERTABLE",
+    //                       "seat_food": "NONE",
+    //                       "seat_food_description": "",
+    //                       "seat_equipment": false,
+    //                       "seat_equipment_description": "",
+    //                       "seat": 1,
+    //                       "occasion": 70
+    //                   },
+    //                   {
+    //                       "id": 22,
+    //                       "name": "Chair",
+    //                       "no_of_seat": 100,
+    //                       "seat_location": "CENTER",
+    //                       "seat_side": "LEFT",
+    //                       "table_person_capacity": null,
+    //                       "person_capacity": 100,
+    //                       "table_price": null,
+    //                       "price_per_seat": "10.00",
+    //                       "total_booking_count": null,
+    //                       "description": "Chair for all my friens",
+    //                       "booking_acceptance": "PERTABLE",
+    //                       "seat_food": "NONE",
+    //                       "seat_food_description": "",
+    //                       "seat_equipment": false,
+    //                       "seat_equipment_description": "",
+    //                       "seat": 1,
+    //                       "occasion": 71
+    //                   },
+    //                   {
+    //                       "id": 23,
+    //                       "name": "Chair",
+    //                       "no_of_seat": 1000,
+    //                       "seat_location": "CENTER",
+    //                       "seat_side": "LEFT",
+    //                       "table_person_capacity": null,
+    //                       "person_capacity": 10,
+    //                       "table_price": null,
+    //                       "price_per_seat": "10.00",
+    //                       "total_booking_count": null,
+    //                       "description": "Chair for all users",
+    //                       "booking_acceptance": "PERTABLE",
+    //                       "seat_food": "NONE",
+    //                       "seat_food_description": "",
+    //                       "seat_equipment": false,
+    //                       "seat_equipment_description": "",
+    //                       "seat": 1,
+    //                       "occasion": 73
+    //                   }
+    //               ]
+    //           },
+    //           "name": "",
+    //           "no_of_seat": 4,
+    //           "seat_location": "TOP",
+    //           "seat_side": "NONE",
+    //           "table_person_capacity": 0,
+    //           "person_capacity": 11,
+    //           "table_price": 0,
+    //           "price_per_seat": 10,
+    //           "total_booking_count": 40,
+    //           "description": "",
+    //           "seat_food": "VEG",
+    //           "seat_food_description": "",
+    //           "seat_equipment_description": null,
+    //           "booking_acceptance": "PERTABLE",
+    //           "seat_equipment": false
+    //       },
+    //       {
+    //           "seat_id": 1,
+    //           "seat": {
+    //               "id": 1,
+    //               "name": "Chair",
+    //               "svg": "/media/image/events/seating_arrangement/chair.svg",
+    //               "timestamp": "2021-08-15T06:22:41.229676Z",
+    //               "sequence": 1,
+    //               "is_active": true,
+    //               "arrangement": [
+    //                   {
+    //                       "id": 1,
+    //                       "name": "Best Chair",
+    //                       "no_of_seat": 50,
+    //                       "seat_location": "FRONT",
+    //                       "seat_side": "LEFT",
+    //                       "table_person_capacity": 12,
+    //                       "person_capacity": 1,
+    //                       "table_price": 250,
+    //                       "price_per_seat": "350.50",
+    //                       "total_booking_count": 6,
+    //                       "description": "this is logn description for seat",
+    //                       "booking_acceptance": "",
+    //                       "seat_food": "VEG",
+    //                       "seat_food_description": "this is logn description for Food",
+    //                       "seat_equipment": true,
+    //                       "seat_equipment_description": "this is logn description for equipment",
+    //                       "seat": 1,
+    //                       "occasion": 43
+    //                   },
+    //                   {
+    //                       "id": 2,
+    //                       "name": "Good Chair",
+    //                       "no_of_seat": 100,
+    //                       "seat_location": "CENTER",
+    //                       "seat_side": "CENTER",
+    //                       "table_person_capacity": 12,
+    //                       "person_capacity": 1,
+    //                       "table_price": 250,
+    //                       "price_per_seat": "250.50",
+    //                       "total_booking_count": 12,
+    //                       "description": "this is logn description for seat",
+    //                       "booking_acceptance": "",
+    //                       "seat_food": "VEG",
+    //                       "seat_food_description": "this is logn description for Food",
+    //                       "seat_equipment": true,
+    //                       "seat_equipment_description": "this is logn description for equipment",
+    //                       "seat": 1,
+    //                       "occasion": 43
+    //                   },
+    //                   {
+    //                       "id": 3,
+    //                       "name": "Economic Chair",
+    //                       "no_of_seat": 200,
+    //                       "seat_location": "LAST",
+    //                       "seat_side": "RIGHT",
+    //                       "table_person_capacity": 12,
+    //                       "person_capacity": 1,
+    //                       "table_price": 250,
+    //                       "price_per_seat": "150.50",
+    //                       "total_booking_count": 30,
+    //                       "description": "this is logn description for seat",
+    //                       "booking_acceptance": "",
+    //                       "seat_food": "VEG",
+    //                       "seat_food_description": "this is logn description for Food",
+    //                       "seat_equipment": true,
+    //                       "seat_equipment_description": "this is logn description for equipment",
+    //                       "seat": 1,
+    //                       "occasion": 43
+    //                   },
+    //                   {
+    //                       "id": 5,
+    //                       "name": "Economic Chair",
+    //                       "no_of_seat": 200,
+    //                       "seat_location": "LAST",
+    //                       "seat_side": "RIGHT",
+    //                       "table_person_capacity": 12,
+    //                       "person_capacity": 1,
+    //                       "table_price": 250,
+    //                       "price_per_seat": "150.50",
+    //                       "total_booking_count": null,
+    //                       "description": "this is logn description for seat",
+    //                       "booking_acceptance": "",
+    //                       "seat_food": "VEG",
+    //                       "seat_food_description": "this is logn description for Food",
+    //                       "seat_equipment": true,
+    //                       "seat_equipment_description": "this is logn description for equipment",
+    //                       "seat": 1,
+    //                       "occasion": 43
+    //                   },
+    //                   {
+    //                       "id": 6,
+    //                       "name": "Economic Chair",
+    //                       "no_of_seat": 200,
+    //                       "seat_location": "LAST",
+    //                       "seat_side": "RIGHT",
+    //                       "table_person_capacity": 12,
+    //                       "person_capacity": 1,
+    //                       "table_price": 250,
+    //                       "price_per_seat": "150.50",
+    //                       "total_booking_count": null,
+    //                       "description": "this is logn description for seat",
+    //                       "booking_acceptance": "",
+    //                       "seat_food": "VEG",
+    //                       "seat_food_description": "this is logn description for Food",
+    //                       "seat_equipment": true,
+    //                       "seat_equipment_description": "this is logn description for equipment",
+    //                       "seat": 1,
+    //                       "occasion": 43
+    //                   },
+    //                   {
+    //                       "id": 7,
+    //                       "name": "demo",
+    //                       "no_of_seat": 2,
+    //                       "seat_location": "TOP",
+    //                       "seat_side": "LEFT",
+    //                       "table_person_capacity": 4,
+    //                       "person_capacity": 4,
+    //                       "table_price": 200,
+    //                       "price_per_seat": "50.00",
+    //                       "total_booking_count": 10,
+    //                       "description": "demo",
+    //                       "booking_acceptance": "PERTABLE",
+    //                       "seat_food": "BOTH",
+    //                       "seat_food_description": "both food description",
+    //                       "seat_equipment": true,
+    //                       "seat_equipment_description": "equipment description",
+    //                       "seat": 1,
+    //                       "occasion": 43
+    //                   },
+    //                   {
+    //                       "id": 8,
+    //                       "name": "demo",
+    //                       "no_of_seat": 2,
+    //                       "seat_location": "TOP",
+    //                       "seat_side": "LEFT",
+    //                       "table_person_capacity": 4,
+    //                       "person_capacity": 4,
+    //                       "table_price": 200,
+    //                       "price_per_seat": "50.00",
+    //                       "total_booking_count": 10,
+    //                       "description": "demo",
+    //                       "booking_acceptance": "PERTABLE",
+    //                       "seat_food": "BOTH",
+    //                       "seat_food_description": "both food description",
+    //                       "seat_equipment": true,
+    //                       "seat_equipment_description": "equipment description",
+    //                       "seat": 1,
+    //                       "occasion": 48
+    //                   },
+    //                   {
+    //                       "id": 9,
+    //                       "name": "Chair",
+    //                       "no_of_seat": 1,
+    //                       "seat_location": "TOP",
+    //                       "seat_side": "CENTER",
+    //                       "table_person_capacity": null,
+    //                       "person_capacity": 1,
+    //                       "table_price": null,
+    //                       "price_per_seat": "1.00",
+    //                       "total_booking_count": null,
+    //                       "description": "test",
+    //                       "booking_acceptance": "PERTABLE",
+    //                       "seat_food": "NONE",
+    //                       "seat_food_description": "",
+    //                       "seat_equipment": false,
+    //                       "seat_equipment_description": "",
+    //                       "seat": 1,
+    //                       "occasion": 55
+    //                   },
+    //                   {
+    //                       "id": 10,
+    //                       "name": "Chair",
+    //                       "no_of_seat": 11,
+    //                       "seat_location": "CENTER",
+    //                       "seat_side": "LEFT",
+    //                       "table_person_capacity": null,
+    //                       "person_capacity": 11,
+    //                       "table_price": null,
+    //                       "price_per_seat": "111.00",
+    //                       "total_booking_count": null,
+    //                       "description": "Test",
+    //                       "booking_acceptance": "PERTABLE",
+    //                       "seat_food": "NONE",
+    //                       "seat_food_description": "",
+    //                       "seat_equipment": false,
+    //                       "seat_equipment_description": "",
+    //                       "seat": 1,
+    //                       "occasion": 65
+    //                   },
+    //                   {
+    //                       "id": 11,
+    //                       "name": "demo",
+    //                       "no_of_seat": 5,
+    //                       "seat_location": "CENTER",
+    //                       "seat_side": "RIGHT",
+    //                       "table_person_capacity": 1,
+    //                       "person_capacity": 1,
+    //                       "table_price": 1,
+    //                       "price_per_seat": "50.00",
+    //                       "total_booking_count": 1,
+    //                       "description": "demo",
+    //                       "booking_acceptance": "PERTABLE",
+    //                       "seat_food": "NONVEG",
+    //                       "seat_food_description": "demo",
+    //                       "seat_equipment": true,
+    //                       "seat_equipment_description": "dewmo",
+    //                       "seat": 1,
+    //                       "occasion": 29
+    //                   },
+    //                   {
+    //                       "id": 12,
+    //                       "name": "demo",
+    //                       "no_of_seat": 2,
+    //                       "seat_location": "TOP",
+    //                       "seat_side": "LEFT",
+    //                       "table_person_capacity": 4,
+    //                       "person_capacity": 4,
+    //                       "table_price": 200,
+    //                       "price_per_seat": "50.00",
+    //                       "total_booking_count": 10,
+    //                       "description": "demo",
+    //                       "booking_acceptance": "PERTABLE",
+    //                       "seat_food": "BOTH",
+    //                       "seat_food_description": "both food description",
+    //                       "seat_equipment": true,
+    //                       "seat_equipment_description": "equipment description",
+    //                       "seat": 1,
+    //                       "occasion": 48
+    //                   },
+    //                   {
+    //                       "id": 13,
+    //                       "name": "Chair",
+    //                       "no_of_seat": 10,
+    //                       "seat_location": "TOP",
+    //                       "seat_side": "RIGHT",
+    //                       "table_person_capacity": null,
+    //                       "person_capacity": 10,
+    //                       "table_price": null,
+    //                       "price_per_seat": "1.00",
+    //                       "total_booking_count": null,
+    //                       "description": "Chair for all Garba player",
+    //                       "booking_acceptance": "PERTABLE",
+    //                       "seat_food": "VEG",
+    //                       "seat_food_description": "Food For alll",
+    //                       "seat_equipment": true,
+    //                       "seat_equipment_description": "We provided dandies to all",
+    //                       "seat": 1,
+    //                       "occasion": 66
+    //                   },
+    //                   {
+    //                       "id": 16,
+    //                       "name": "Chair",
+    //                       "no_of_seat": 11,
+    //                       "seat_location": "CENTER",
+    //                       "seat_side": "LEFT",
+    //                       "table_person_capacity": null,
+    //                       "person_capacity": 1,
+    //                       "table_price": null,
+    //                       "price_per_seat": "1000.00",
+    //                       "total_booking_count": null,
+    //                       "description": "Test",
+    //                       "booking_acceptance": "PERTABLE",
+    //                       "seat_food": "VEG",
+    //                       "seat_food_description": "Veg Food",
+    //                       "seat_equipment": true,
+    //                       "seat_equipment_description": "Dandiya",
+    //                       "seat": 1,
+    //                       "occasion": 67
+    //                   },
+    //                   {
+    //                       "id": 18,
+    //                       "name": "Chair",
+    //                       "no_of_seat": 11,
+    //                       "seat_location": "CENTER",
+    //                       "seat_side": "LEFT",
+    //                       "table_person_capacity": null,
+    //                       "person_capacity": 11,
+    //                       "table_price": null,
+    //                       "price_per_seat": "11.00",
+    //                       "total_booking_count": null,
+    //                       "description": "Test chair",
+    //                       "booking_acceptance": "PERTABLE",
+    //                       "seat_food": "NONE",
+    //                       "seat_food_description": "",
+    //                       "seat_equipment": false,
+    //                       "seat_equipment_description": "",
+    //                       "seat": 1,
+    //                       "occasion": 68
+    //                   },
+    //                   {
+    //                       "id": 20,
+    //                       "name": "Chair",
+    //                       "no_of_seat": 100,
+    //                       "seat_location": "TOP",
+    //                       "seat_side": "LEFT",
+    //                       "table_person_capacity": null,
+    //                       "person_capacity": 100,
+    //                       "table_price": null,
+    //                       "price_per_seat": "5.00",
+    //                       "total_booking_count": null,
+    //                       "description": "Chair fr all employee",
+    //                       "booking_acceptance": "PERTABLE",
+    //                       "seat_food": "VEG",
+    //                       "seat_food_description": "Drinks and dinner fo all",
+    //                       "seat_equipment": false,
+    //                       "seat_equipment_description": "",
+    //                       "seat": 1,
+    //                       "occasion": 69
+    //                   },
+    //                   {
+    //                       "id": 21,
+    //                       "name": "Chair",
+    //                       "no_of_seat": 1,
+    //                       "seat_location": "CENTER",
+    //                       "seat_side": "LEFT",
+    //                       "table_person_capacity": null,
+    //                       "person_capacity": 1,
+    //                       "table_price": null,
+    //                       "price_per_seat": "1.00",
+    //                       "total_booking_count": null,
+    //                       "description": "Test111",
+    //                       "booking_acceptance": "PERTABLE",
+    //                       "seat_food": "NONE",
+    //                       "seat_food_description": "",
+    //                       "seat_equipment": false,
+    //                       "seat_equipment_description": "",
+    //                       "seat": 1,
+    //                       "occasion": 70
+    //                   },
+    //                   {
+    //                       "id": 22,
+    //                       "name": "Chair",
+    //                       "no_of_seat": 100,
+    //                       "seat_location": "CENTER",
+    //                       "seat_side": "LEFT",
+    //                       "table_person_capacity": null,
+    //                       "person_capacity": 100,
+    //                       "table_price": null,
+    //                       "price_per_seat": "10.00",
+    //                       "total_booking_count": null,
+    //                       "description": "Chair for all my friens",
+    //                       "booking_acceptance": "PERTABLE",
+    //                       "seat_food": "NONE",
+    //                       "seat_food_description": "",
+    //                       "seat_equipment": false,
+    //                       "seat_equipment_description": "",
+    //                       "seat": 1,
+    //                       "occasion": 71
+    //                   },
+    //                   {
+    //                       "id": 23,
+    //                       "name": "Chair",
+    //                       "no_of_seat": 1000,
+    //                       "seat_location": "CENTER",
+    //                       "seat_side": "LEFT",
+    //                       "table_person_capacity": null,
+    //                       "person_capacity": 10,
+    //                       "table_price": null,
+    //                       "price_per_seat": "10.00",
+    //                       "total_booking_count": null,
+    //                       "description": "Chair for all users",
+    //                       "booking_acceptance": "PERTABLE",
+    //                       "seat_food": "NONE",
+    //                       "seat_food_description": "",
+    //                       "seat_equipment": false,
+    //                       "seat_equipment_description": "",
+    //                       "seat": 1,
+    //                       "occasion": 73
+    //                   }
+    //               ]
+    //           },
+    //           "name": "",
+    //           "no_of_seat": 1,
+    //           "seat_location": "TOP",
+    //           "seat_side": "NONE",
+    //           "table_person_capacity": 0,
+    //           "person_capacity": 9,
+    //           "table_price": 0,
+    //           "price_per_seat": 9,
+    //           "total_booking_count": 9,
+    //           "description": "",
+    //           "seat_food": "VEG",
+    //           "seat_food_description": "",
+    //           "seat_equipment_description": null,
+    //           "booking_acceptance": "PERTABLE",
+    //           "seat_equipment": false
+    //       }
+    //   ],
+    //   "about_event": {
+    //       "event_start_date": "2022-10-21",
+    //       "event_end_date": "2022-10-23",
+    //       "event_start_time": "15:19",
+    //       "event_end_time": "15:19",
+    //       "about_event": null
+    //   },
+    //   "event_location": {
+    //       "flat_number": null,
+    //       "street_name": "Bharatnath Society",
+    //       "area_name": "Hari Darshan Society",
+    //       "latitude": 21.228125,
+    //       "longitude": 72.833771,
+    //       "city": "Surat",
+    //       "state": "Gujarat",
+    //       "pincode": "395004"
+    //   },
+    //   "photos_and_videos": {
+    //       "poster": {},
+    //       "photos": [
+    //           {
+    //               "image": {},
+    //               "details": "TEST",
+    //               "name": "example_clipdrop-relight.jpeg"
+    //           }
+    //       ],
+    //       "videos": [
+    //           {
+    //               "video": {},
+    //               "details": null
+    //           }
+    //       ]
+    //   },
+    //   "permission": {
+    //       "permission_letter": {},
+    //       "accept_booking": true,
+    //       "permission_letter_name": "ScaleLot_Standard Operating Procedure.pdf"
+    //   },
+    //   "discounts": [
+    //       69
+    //   ],
+    //   "company_details": {
+    //       "company_detail": {
+    //           "name": "9874563210",
+    //           "gst": "",
+    //           "contact_no": "9874563210",
+    //           "email": "sdfsdf@fcxgdfg.ser",
+    //           "about": null,
+    //           "flat_no": null,
+    //           "street": "dfgdsfg",
+    //           "area": null,
+    //           "city": "sdfsdf",
+    //           "state": "sdfsdfsdf",
+    //           "pincode": "123456",
+    //           "event_reg": null
+    //       },
+    //       "company_images": [],
+    //       "company_videos": []
+    //   },
+    //   "personal_details": {
+    //       "full_name": "Sahil Nayani",
+    //       "mobile": "9909682980",
+    //       "mobile_hidden": null,
+    //       "alternate_mobile": null,
+    //       "alternate_mobile_hidden": null,
+    //       "email": "sdfsdf@fcxgdfg.ser",
+    //       "email_hidden": null,
+    //       "flat_number": null,
+    //       "street_name": "dfgdsfg",
+    //       "area_name": null,
+    //       "state": "sdfsdfsdf",
+    //       "city": "sdfsdf",
+    //       "pincode": "123456"
+    //   },
+    //   "terms_and_conditions": {
+    //     "event_terms_and_conditions": "<h3><strong>Bappu no ek j niyam</strong></h3><p>&nbsp;</p><p>Roke ani mane thoke</p><p>&nbsp;</p><p>Bhag B</p>",
+    //     "facebook_url": "Bappu",
+    //     "youtube_url": "Bappu",
+    //     "twitter_url": "Bappu",
+    //     "pinterest_url": "Bappu",
+    //     "instagram_url": "Bappu",
+    //     "linkedin_url": "Bappu",
+    //     "terms_and_conditions": true
+    //   }
+    // }
+    
     // this.eventObj = {
     //   "add_event": {
     //     "id": 183,
@@ -618,6 +1491,12 @@ export class TermsAndConditionsStepComponent implements OnInit {
     //     "terms_and_conditions": true
     //   }
     // };
+
+    this._prepareForm(this.eventObj);
+    // this.prepareTermsAndConditionsEventObj();
+
+    this.termsAndConditionsForm.get('terms_and_conditions').setValue(true);
+    // this.termsAndConditionsForm.get('terms_and_conditions').setValue(false);
   }
 
   onTextEditorReady(editor: any, fieldForSetData: any): void {
@@ -652,59 +1531,9 @@ export class TermsAndConditionsStepComponent implements OnInit {
       });
       return;
     }
-    this.termsAndConditionsObj = this.prepareObj(this.termsAndConditionsForm.value);
-    // console.log(this.termsAndConditionsObj);
-    
+    this.termsAndConditionsObj = this._globalFunctions.copyObject(this.termsAndConditionsForm.value);
     this.eventRegister = this.prepareEventObj(this.eventObj);
-    this.eventApiCall(this.eventRegister);
-
-    // const preparedEventImagesObj: any = this.prepareImagesEventObj(this.termsAndConditionsObj);
-    // console.log(preparedEventImagesObj);
-
-    // this.termsAndConditionsObj?.photos_and_videos.photo.forEach((photo: any) => {
-    //   const preparedEventImagesObj: any = photo;
-    //   preparedEventImagesObj.description = photo.details;
-    // });
-    // this.termsAndConditionsObj?.photos_and_videos.video.forEach((video: any) => {
-    //   const preparedEventImagesObj: any = video;
-    //   preparedEventImagesObj.description = video.details;
-    //   console.log(preparedEventImagesObj);
-    // });
-  }
-
-  eventApiCall(eventRegister: any): any {
-    this.isLoading = true;
-    console.log(eventRegister);
-    
-    const preparedAddEventObj: any = this.prepareAddEventObj(eventRegister);
-    this._createEventService.eventRegister(preparedAddEventObj).subscribe((result: any) => {
-      if (result && result.status) {
-        console.log(result);
-      } else {
-        this._globalFunctions.successErrorHandling(result, this, true);
-      }
-      this.isLoading = false;
-    }, (error: any) => {
-      this.isLoading = false;
-      console.log(error);
-      this._globalFunctions.errorHanding(error, this, true);
-    });
-  }
-
-  prepareAddEventObj(eventRegisterObj: any): any {
-    const eventRegisterObjDataObj = new FormData();
-    $.each(eventRegisterObj, function (field: any, value: any) {
-      // if (field !== 'poster') {
-        eventRegisterObjDataObj.append(field, value);
-      // }
-    });
-    
-    // const profile_pic = $('input[id=profile_pic]')[0].files[0];
-    // if (profile_pic !== undefined) {
-    //   eventRegisterObjDataObj.append('poster', profile_pic);
-    // }
-
-    return eventRegisterObjDataObj;
+    this.registerEvent(this.eventRegister);
   }
 
   prepareEventObj(eventObj: any = {}): any {
@@ -737,6 +1566,8 @@ export class TermsAndConditionsStepComponent implements OnInit {
     const permissionLetterEventObj: any = eventObj?.permission;
     preparedEventObj.permission_letter = permissionLetterEventObj?.permission_letter;
     preparedEventObj.accept_booking = permissionLetterEventObj?.accept_booking;
+    
+    preparedEventObj.orgdiscountsId = eventObj?.discounts[0];
 
     const posterEventObj: any = eventObj?.photos_and_videos;
     preparedEventObj.poster = posterEventObj?.poster;
@@ -748,10 +1579,6 @@ export class TermsAndConditionsStepComponent implements OnInit {
     preparedEventObj.is_verify = true;
     preparedEventObj.is_active = true;
     preparedEventObj.live = true;
-
-    // const permissionEventObj: any = eventObj?.event_permission;
-    // preparedEventObj.permission_letter = permissionEventObj?.permission_letter;
-    // preparedEventObj.accept_booking = permissionEventObj?.accept_booking;
 
     const tAndCEventObj: any = this.termsAndConditionsObj;
     preparedEventObj.t_and_c = tAndCEventObj?.event_terms_and_conditions;
@@ -786,11 +1613,6 @@ export class TermsAndConditionsStepComponent implements OnInit {
   prepareImagesEventObj(eventObj: any = {}): any {
   }
 
-  prepareObj(companyObj: any = {}): any {
-    const preparedObj: any = companyObj;
-    return preparedObj;
-  }
-
   private _prepareForm(eventObj: any = {}): void {
     this.termsAndConditionsForm = this._formBuilder.group({
       event_terms_and_conditions: [eventObj?.terms_and_conditions?.event_terms_and_conditions, [Validators.required]],
@@ -803,4 +1625,169 @@ export class TermsAndConditionsStepComponent implements OnInit {
       terms_and_conditions: [eventObj?.terms_and_conditions?.terms_and_conditions, { disabled: true }],
     });
   }
+
+  registerEvent(eventRegister: any): void {
+    this.isLoading = true;
+    const preparedAddEventObj: any = this.prepareFormDataObj(eventRegister);
+    this._createEventService.eventRegister(preparedAddEventObj).subscribe((result: any) => {
+      if (result && result.status) {
+        this.registeredEventId = result?.detail?.id;
+        this.addArrangements();
+        this.addUploadPhotos();
+        this.addUploadVideos();
+        this.addCompanyDetails();
+        this.personalDetails();
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+      }
+      this.isLoading = false;
+    }, (error: any) => {
+      this.isLoading = false;
+      this._globalFunctions.errorHanding(error, this, true);
+    });
+  }
+
+  prepareFormDataObj(eventRegisterObj: any): any {
+    const eventRegisterObjDataObj = new FormData();
+    $.each(eventRegisterObj, function (field: any, value: any) {
+        eventRegisterObjDataObj.append(field, value);
+    });
+    return eventRegisterObjDataObj;
+  }
+
+  addArrangements(): void {
+    if (this.eventObj && this.eventObj.arrangements && this.eventObj.arrangements.length) {
+      _.each(this.eventObj.arrangements, (arrangementObj: any) => {
+        arrangementObj.seat = this._globalFunctions.copyObject(arrangementObj.seat_id);
+        arrangementObj.name = this._globalFunctions.copyObject(arrangementObj.name);
+        arrangementObj.occasion = this._globalFunctions.copyObject(this.registeredEventId);
+        this._createEventService.bookOccasionSeat(arrangementObj).subscribe((result: any) => {
+          if (result && result.status) {
+            console.log(result);
+          } else {
+            this._globalFunctions.successErrorHandling(result, this, true);
+          }
+        }, (error: any) => {
+          this._globalFunctions.errorHanding(error, this, true);
+        });
+      });
+    }
+  }
+
+  addUploadPhotos(): void {
+    if (this.eventObj && this.eventObj.photos_and_videos && this.eventObj.photos_and_videos.photos && this.eventObj.photos_and_videos.photos.length) {
+      _.each(this.eventObj.photos_and_videos.photos, (photoObj: any) => {
+        const photoFormData = new FormData();
+        photoFormData.append('image', photoObj.image);
+        photoFormData.append('description', photoObj.details);
+        photoFormData.append('event_reg', this.registeredEventId);
+        this._createEventService.uploadImages(photoFormData).subscribe((result: any) => {
+          if (result && result.status) {
+            console.log(result);
+          } else {
+            this._globalFunctions.successErrorHandling(result, this, true);
+          }
+        }, (error: any) => {
+          this._globalFunctions.errorHanding(error, this, true);
+        });
+      });
+    }
+  }
+
+  addUploadVideos(): void {
+    if (this.eventObj && this.eventObj.photos_and_videos && this.eventObj.photos_and_videos.videos && this.eventObj.photos_and_videos.videos.length) {
+      _.each(this.eventObj.photos_and_videos.videos, (videoObj: any) => {
+        const videoFormData = new FormData();
+        videoFormData.append('video', videoObj.video);
+        videoFormData.append('description', videoObj.details);
+        videoFormData.append('thumbnail', '');
+        videoFormData.append('event_reg', this.registeredEventId);
+        this._createEventService.uploadVideos(videoFormData).subscribe((result: any) => {
+          if (result && result.status) {
+            console.log(result);
+          } else {
+            this._globalFunctions.successErrorHandling(result, this, true);
+          }
+        }, (error: any) => {
+          this._globalFunctions.errorHanding(error, this, true);
+        });
+      });
+    }
+  }
+
+  addCompanyDetails(): void {
+    if (this.eventObj && this.eventObj.company_details && this.eventObj.company_details.company_detail) {
+      const companyFormData = new FormData();
+      _.each(this.eventObj.company_details.company_detail, (value: any, field: any) => {
+        companyFormData.append(field, (field == 'event_reg') ? this.registeredEventId : value);
+      });
+      this._createEventService.addCompanyDetail(companyFormData).subscribe((result: any) => {
+        if (result && result.status) {
+          console.log(result);
+          this.addCompanyPhotos(result?.detail?.id);
+          this.addCompanyVideos(result?.detail?.id);
+        } else {
+          this._globalFunctions.successErrorHandling(result, this, true);
+        }
+      }, (error: any) => {
+        this._globalFunctions.errorHanding(error, this, true);
+      });
+    }
+  }
+
+  addCompanyPhotos(companyId: any): void {
+    if (this.eventObj && this.eventObj.company_details && this.eventObj.company_details.company_images) {
+      _.each(this.eventObj.company_details.company_images, (companyImage: any) => {
+        const companyPhotoFormData = new FormData();
+        companyPhotoFormData.append('image', companyImage.image);
+        companyPhotoFormData.append('company_id', companyId);
+
+        this._createEventService.addCompanyImages(companyPhotoFormData).subscribe((result: any) => {
+          if (result && result.status) {
+            console.log(result);
+          } else {
+            this._globalFunctions.successErrorHandling(result, this, true);
+          }
+        }, (error: any) => {
+          this._globalFunctions.errorHanding(error, this, true);
+        });
+      });
+    }
+  }
+
+  addCompanyVideos(companyId: any): void {
+    if (this.eventObj && this.eventObj.company_details && this.eventObj.company_details.company_videos) {
+      _.each(this.eventObj.company_details.company_videos, (companyVideo: any) => {
+        const companyVideoFormData = new FormData();
+        companyVideoFormData.append('video', companyVideo.video);
+        companyVideoFormData.append('company_id', companyId);
+        this._createEventService.addCompanyVideos(companyVideoFormData).subscribe((result: any) => {
+          if (result && result.status) {
+            console.log(result);
+          } else {
+            this._globalFunctions.successErrorHandling(result, this, true);
+          }
+        }, (error: any) => {
+          this._globalFunctions.errorHanding(error, this, true);
+        });
+      });
+    }
+  }
+
+  personalDetails(): void {
+    if (this.eventObj && this.eventObj.personal_details) {
+      this.eventObj.personal_details.event_reg = this.registeredEventId;
+      this.eventObj.personal_details.mobile_no = this.eventObj.personal_details?.mobile;
+      this._createEventService.addPersonalDetail(this.eventObj.personal_details).subscribe((result: any) => {
+        if (result && result.status) {
+          console.log(result);
+        } else {
+          this._globalFunctions.successErrorHandling(result, this, true);
+        }
+      }, (error: any) => {
+        this._globalFunctions.errorHanding(error, this, true);
+      });
+    }
+  }
+
 }

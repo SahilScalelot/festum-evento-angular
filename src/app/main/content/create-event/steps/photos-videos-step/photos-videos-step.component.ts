@@ -300,7 +300,6 @@ export class PhotosVideosStepComponent implements OnInit {
   }
 
   prepareObj(): any {
-    console.log(this.posterObj);
     let posterObj: any = {};
     if (this.posterObj && this.posterObj.image && typeof (this.posterObj.image) == 'string') {
       posterObj = this._globalFunctions.base64ToImage(this.posterObj.image, this.posterObj.name);
@@ -311,7 +310,6 @@ export class PhotosVideosStepComponent implements OnInit {
     preparedObj.poster = posterObj;
     preparedObj.photos = this.allPhotosFilesArr;
     preparedObj.videos = this.allVideosFilesArr;
-    console.log(preparedObj);
     return preparedObj;
   }
 

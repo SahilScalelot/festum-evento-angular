@@ -148,7 +148,7 @@ export class ArrangementStepComponent implements OnInit {
   }
 
   onNextStep(): void {
-    this.newEventObj.emit(this.eventObj);
+    // this.newEventObj.emit(this.eventObj);
   }
 
   prepareArrangementObj(): void {
