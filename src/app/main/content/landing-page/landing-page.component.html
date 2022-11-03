@@ -1065,25 +1065,45 @@
         </div>
       </div>
       <div class="absolute top-56 lg:top-72 px-3.5 md:px-0 mx-auto w-full">
-        <div class="md:w-1/2 flex flex-wrap mx-auto bg-white shadow-lg px-8 md:px-12 py-6">
-          <div class="w-full p-1">                   
-            <label for="name" class="leading-7 text-sm font-medium">Your Name</label>
-            <input type="text" id="name" name="name" class="form-control relative flex-auto min-w-0 block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-[#EEEEEE] bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0focus:border-gray-500 focus:ring-2 focus:ring-gray-300 outline-none" />
+        <form #queryNgForm="ngForm" [formGroup]="queryForm" class="md:w-1/2 flex flex-wrap mx-auto bg-white shadow-lg px-8 md:px-12 py-6">
+          <div class="w-full p-1 relative">
+            <label for="name" class="leading-7 text-sm font-medium">Your Name<span class="text-red-500">*</span></label>
+            <input type="text" id="name" [formControlName]="'name'" name="name" class="form-control relative flex-auto min-w-0 block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-[#EEEEEE] bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0focus:border-gray-500 focus:ring-2 focus:ring-gray-300 outline-none" />
+            <span class="absolute top-2.5 right-1 bg-white text-red-500 text-xs" *ngIf="queryForm.get('name')?.invalid && (queryForm.get('name')?.dirty && queryForm.get('name')?.touched)">
+              <span *ngIf="queryForm.get('name')?.errors?.['required']">Name is Required.</span>
+            </span>
           </div>
-          <div class="w-full md:w-1/2 p-1">                   
-            <label for="name" class="leading-7 text-sm font-medium">Company Name</label>
-            <input type="text" id="name2" name="name2" class="form-control relative flex-auto min-w-0 block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-[#EEEEEE] bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0focus:border-gray-500 focus:ring-2 focus:ring-gray-300 outline-none" />
+          <div class="w-full md:w-1/2 p-1 relative">
+            <label for="name" class="leading-7 text-sm font-medium">Company Name<span class="text-red-500">*</span></label>
+            <input type="text" id="company" [formControlName]="'company'" name="company" class="form-control relative flex-auto min-w-0 block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-[#EEEEEE] bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0focus:border-gray-500 focus:ring-2 focus:ring-gray-300 outline-none" />
+            <span class="absolute top-2.5 right-1 bg-white text-red-500 text-xs" *ngIf="queryForm.get('company')?.invalid && (queryForm.get('company')?.dirty && queryForm.get('company')?.touched)">
+              <span *ngIf="queryForm.get('company')?.errors?.['required']">Company is Required.</span>
+            </span>
           </div>
-          <div class="w-full md:w-1/2 p-1">                   
-            <label for="name" class="leading-7 text-sm font-medium">Email Address</label>
-            <input type="email" id="email" name="email" class="form-control relative flex-auto min-w-0 block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-[#EEEEEE] bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0focus:border-gray-500 focus:ring-2 focus:ring-gray-300 outline-none" />
+          <div class="w-full md:w-1/2 p-1 relative">
+            <label for="name" class="leading-7 text-sm font-medium">Email Address<span class="text-red-500">*</span></label>
+            <input type="email" id="email" [formControlName]="'email'" name="email" class="form-control relative flex-auto min-w-0 block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-[#EEEEEE] bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0focus:border-gray-500 focus:ring-2 focus:ring-gray-300 outline-none" />
+            <span class="absolute top-2.5 right-1 bg-white text-red-500 text-xs" *ngIf="queryForm.get('email')?.invalid && (queryForm.get('email')?.dirty && queryForm.get('email')?.touched)">
+              <span *ngIf="queryForm.get('email')?.errors?.['required']">Email is Required.</span>
+              <span *ngIf="queryForm.get('email')?.errors?.['pattern']">Please enter valid Email.</span>
+            </span>
           </div>
-          <div class="w-full mb-12 p-1">                   
-            <label for="message" class="leading-7 text-sm font-medium">Description</label>
-            <textarea id="message" name="message" rows="5" rows="3" class="form-control relative flex-auto min-w-0 block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-[#EEEEEE] bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0focus:border-gray-500 focus:ring-2 focus:ring-gray-300 outline-none"></textarea>
+          <div class="w-full mb-7 p-1 relative">
+            <label for="message" class="leading-7 text-sm font-medium">Description<span class="text-red-500">*</span></label>
+            <textarea id="message" [formControlName]="'message'" name="message" rows="5" rows="3" class="form-control relative flex-auto min-w-0 block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-[#EEEEEE] bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0focus:border-gray-500 focus:ring-2 focus:ring-gray-300 outline-none"></textarea>
+            <span class="absolute top-2.5 right-1 bg-white text-red-500 text-xs" *ngIf="queryForm.get('message')?.invalid && (queryForm.get('message')?.dirty && queryForm.get('message')?.touched)">
+              <span *ngIf="queryForm.get('message')?.errors?.['required']">Message is Required.</span>
+            </span>
           </div>
-          <button class="w-full text-white text-lg font-semibold bg-[#F2466A] hover:bg-[#ed7581] py-2">Submit your query</button>
-        </div> 
+          <div class="relative w-full">
+            <button class="w-full text-white text-lg font-semibold bg-[#F2466A] hover:bg-[#ed7581] py-2 relative" type="submit" (click)="submitForm()">
+              <span [ngClass]="{'opacity-0': queryForm.disabled}">Submit your query</span>
+            </button>
+            <div class="absolute inset-0 text-white flex items-center" *ngIf="queryForm.disabled">
+              <mat-progress-spinner [diameter]="22" [mode]="'indeterminate'" class="mx-auto"></mat-progress-spinner>
+            </div>
+          </div>
+        </form> 
       </div>    
     </div>
   </div>

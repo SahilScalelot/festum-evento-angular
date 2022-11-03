@@ -11,6 +11,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CalendarModule } from 'primeng/calendar';
 import {ProgressSpinnerModule} from 'primeng/progressspinner';
 import { LandingPageComponent } from './landing-page/landing-page.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 const routes: Routes = [
   {
@@ -28,6 +29,7 @@ const routes: Routes = [
   ],
   imports: [
     RouterModule.forChild(routes),
+    MatProgressSpinnerModule,
     CommonModule,
     EventModule,
     CreateEventModule,
