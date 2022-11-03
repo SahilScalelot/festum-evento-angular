@@ -92,16 +92,11 @@ button.primary,.primary{@apply bg-caribbeanGreen rounded-md font-bold text-white
   border-color: rgba(221, 221, 221, 1) !important;
 }
 .p-steps .p-steps-item {
-  .p-steps-number {
-    background-color: #FE4D5F !important;
-    color: #fff !important;
+  .p-steps-number {background-color: #FE4D5F !important;color: #fff !important;
   }
   &.p-highlight,
   &.p-steps-current {
-    ~ .p-steps-item .p-steps-number {
-      background-color: rgba(221, 221, 221, 1) !important;
-      color: rgba(155, 166, 168, 1) !important;
-    }
+    ~ .p-steps-item .p-steps-number {background-color: rgba(221, 221, 221, 1) !important;color: rgba(155, 166, 168, 1) !important;}
   }
 }
 
@@ -192,7 +187,6 @@ input[type="checkbox"].switch:checked ~ .off{@apply text-japaneseIndigo;}
 .inputHolder .bgmagicpotion {@apply bg-[#FFDBDF];}
 .inputHolder .bormagicpotion {@apply w-36 border-b-2 border-magicPotion rounded-none font-bold;}
 
-
 /* language */
 input:checked + .check-language{@apply bg-magicPotion;}
 input:checked + .check-language i{@apply scale-100;}
@@ -239,8 +233,8 @@ select.js-example-basic-single + span.select2.select2-container {@apply w-full;}
 .select2-container .select2-selection--single .select2-selection__rendered{@apply pl-3;}
 
 /* video-play glerry boxs */
-  li#video-card.active .video-cover{@apply scale-0 origin-center;}
-  .gallery-holder button{@apply border-b-0 border-t text-base text-japaneseIndigo py-3.5;}
+li#video-card.active .video-cover{@apply scale-0 origin-center;}
+.gallery-holder button{@apply border-b-0 border-t text-base text-japaneseIndigo py-3.5;}
 
 /* swiper slider  */
 .swiper-container {@apply w-full h-[300px] mx-auto;}
@@ -262,8 +256,6 @@ select.js-example-basic-single + span.select2.select2-container {@apply w-full;}
 .step-progress-holder h6{@apply whitespace-nowrap;}
 .content-w{max-width: calc(100% - 230px);}
 
-
-
 // Landing Start
 app-landing-page h1 {@apply font-bold text-3xl md:text-4xl lg:text-5xl xl:text-6xl normal-case;}
 app-landing-page h2 {@apply font-bold text-2xl md:text-3xl lg:text-4xl xl:text-5xl normal-case;}
@@ -284,109 +276,47 @@ header.nav-up {@apply py-0 -translate-y-28;}
 .u-tabs li.current{@apply text-[#FE4D5F] border-t-2 border-[#FE4D5F] ;}
 // .tabs-call{@apply hidden;}
 .tabs-call.current{@apply block;}
-@media(max-width: 767px){
-  .f-manu a:not(:last-child){
-    margin-right: 10px;
-  }
-}
-.gradiyent-c{
-  background: linear-gradient(282.76deg, #FE4D5F 1.72%, rgba(254, 77, 95, 0.63) 100%);
-} 
+@media(max-width: 767px){.f-manu a:not(:last-child){margin-right: 10px;}}
+.gradiyent-c{background: linear-gradient(282.76deg, #FE4D5F 1.72%, rgba(254, 77, 95, 0.63) 100%);} 
 .dates button{@apply w-[14.28%] py-3 font-semibold;}
 .dates button .selact{@apply p-2 md:p-3.5 text-sm md:text-base rounded-full bg-[#15E0B0] text-white;}
-.arrow{@apply appearance-none w-full;
-  background-image: url('/../../public/assest/images/svg/arrow.svg');
-  background-repeat: no-repeat;
-  background-position: calc(100% - 17px) center;
-}
-
+.arrow{@apply appearance-none w-full;background-image: url('/../../public/assest/images/svg/arrow.svg');background-repeat: no-repeat;background-position: calc(100% - 17px) center;}
 // Landing End
 
 @tailwind utilities;
-
 
 
 mat-progress-spinner.mat-progress-spinner.mat-spinner.mat-primary.mat-progress-spinner-indeterminate-animation svg circle {
   @apply stroke-current;
 }
 
-
 .snotifyToast__progressBar,
-.snotifyToast__progressBar__percentage {
-  @apply h-1;
-}
-.snotifyToast__inner {
-  @apply tracking-wider font-primary;
-  .snotifyToast__title {
-    @apply text-lg uppercase font-primary;
-  }
-  .snotifyToast__body {
-    @apply text-xs font-primary;
-  }
-  .snotify-icon {
-    @apply w-5 h-5;
-  }
+.snotifyToast__progressBar__percentage {@apply h-1;}
+.snotifyToast__inner {@apply tracking-wider font-primary;
+  .snotifyToast__title {@apply text-lg uppercase font-primary;}
+  .snotifyToast__body {@apply text-xs font-primary;}
+  .snotify-icon {@apply w-5 h-5;}
 }
 
-
-.dropify-font-upload:before, .dropify-wrapper .dropify-message span.file-icon:before {
-  content: "\e92f";
-  font-family: 'icomoon' !important;
-  font-size: 24px;
-  margin-right: 10px;
-}
-.dropify-wrapper .dropify-message span.file-icon {
-  @apply flex items-center justify-center;
-}
+.dropify-font-upload:before, .dropify-wrapper .dropify-message span.file-icon:before {content: "\e92f";font-family: 'icomoon' !important;font-size: 24px;margin-right: 10px;}
+.dropify-wrapper .dropify-message span.file-icon {@apply flex items-center justify-center;}
 .dropify-wrapper .dropify-message p {@apply font-bold text-sm text-gray-500 m-0;}
+.dropify-wrapper .dropify-preview .dropify-render img {position: absolute;width: 100%;height: 100%;object-fit: cover;left: 0;top: 0;right: 0;bottom: 0;transform: unset;}
 
-.dropify-wrapper .dropify-preview .dropify-render img {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  transform: unset;
-}
-
-  // primeng's spinner (loader)
-:host ::ng-deep .custom-spinner .p-progress-spinner-circle {
-  animation: custom-progress-spinner-dash 1.5s ease-in-out infinite, custom-progress-spinner-color 6s ease-in-out infinite;
-}
+// primeng's spinner (loader)
+:host ::ng-deep .custom-spinner .p-progress-spinner-circle {animation: custom-progress-spinner-dash 1.5s ease-in-out infinite, custom-progress-spinner-color 6s ease-in-out infinite;}
 
 @keyframes custom-progress-spinner-color {
-  100%,
-  0% {
-    stroke: #16697A;
-  }
-  40% {
-    stroke: #489FB5;
-  }
-  66% {
-    stroke: #82C0CC;
-  }
-  80%,
-  90% {
-    stroke: #FFA62B;
-  }
+  100%,0% {stroke: #16697A;}
+  40% {stroke: #489FB5;}
+  66% {stroke: #82C0CC;}
+  80%,90% {stroke: #FFA62B;}
 }
 
 @keyframes custom-progress-spinner-dash {
-  0% {
-    stroke-dasharray: 1, 200;
-    stroke-dashoffset: 0;
-  }
-  50% {
-    stroke-dasharray: 89, 200;
-    stroke-dashoffset: -35px;
-  }
-  100% {
-    stroke-dasharray: 89, 200;
-    stroke-dashoffset: -124px;
-  }
+  0% {stroke-dasharray: 1, 200;stroke-dashoffset: 0;}
+  50% {stroke-dasharray: 89, 200;stroke-dashoffset: -35px;}
+  100% {stroke-dasharray: 89, 200;stroke-dashoffset: -124px;}
 }
 
 .is-invalid {box-shadow: inset 0 0 4px rgba(255, 0, 0, .4);}
