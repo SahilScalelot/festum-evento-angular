@@ -71,11 +71,11 @@ export class AddEditEventDialogComponent implements OnInit {
   }
 
   addEvent(): any {
-    this.isLoading = true;
     const preparedEventObj: any = this.prepareEventObj(this.newEventForm.value);
     if (!this.validate()) {
       return;
     }
+    this.isLoading = true;
 
     this._createEventService.addEvent(preparedEventObj).subscribe((result: any) => {
       if (result && result.status) {
@@ -95,11 +95,11 @@ export class AddEditEventDialogComponent implements OnInit {
   }
 
   updateEvent(): any {
-    this.isLoading = true;
     const preparedEventObj: any = this.prepareEventObj(this.newEventForm.value);
     if (!this.validate()) {
       return;
     }
+    this.isLoading = true;
 
     this._createEventService.editEvent(this.eventObj.id, preparedEventObj).subscribe((result: any) => {
       if (result && result.status) {

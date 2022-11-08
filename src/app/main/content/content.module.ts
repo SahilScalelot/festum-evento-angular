@@ -12,6 +12,7 @@ import { CalendarModule } from 'primeng/calendar';
 import {ProgressSpinnerModule} from 'primeng/progressspinner';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { OffersComponent } from './offers/offers.component';
 
 const routes: Routes = [
   {
@@ -25,7 +26,8 @@ const routes: Routes = [
     ContentComponent,
     BuySpacePlansComponent,
     ProfileComponent,
-    LandingPageComponent
+    LandingPageComponent,
+    OffersComponent
   ],
   imports: [
     RouterModule.forChild(routes),

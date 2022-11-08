@@ -4,10 +4,10 @@ import {RouterModule, Routes} from '@angular/router';
 import {EventComponent} from "./event.component";
 import {ReactiveFormsModule} from "@angular/forms";
 import {SharedModule} from "../../../shared/shared.module";
-import { EventOverviewComponent } from './event-overview/event-overview.component';
+import {EventOverviewComponent} from './event-overview/event-overview.component';
 import {RatingModule} from 'primeng/rating';
 import {TableModule} from 'primeng/table';
-import { CheckboxModule } from 'primeng/checkbox';
+import {CheckboxModule} from 'primeng/checkbox';
 
 const routes: Routes = [
   {

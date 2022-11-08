@@ -8,7 +8,6 @@ import {EventOverviewComponent} from './main/content/event/event-overview/event-
 import {BuySpacePlansComponent} from './main/content/buy-space-plans/buy-space-plans.component';
 import {ProfileComponent} from './main/content/profile/profile.component';
 import {LandingPageComponent} from './main/content/landing-page/landing-page.component';
-import {OfferOverviewComponent} from './main/content/offers/offer-overview/offer-overview.component';
 
 const routes: Routes = [
 
@@ -68,14 +67,6 @@ const routes: Routes = [
       {
         path: 'profile',
         component: ProfileComponent
-      },
-      {
-        path: 'offers',
-        loadChildren: () => import('../app/main/content/offers/offers.module').then(m => m.OffersModule)
-      },
-      {
-        path: 'offer/:id',
-        component: OfferOverviewComponent
       }
     ]
   },
