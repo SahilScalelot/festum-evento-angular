@@ -6,8 +6,8 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {SharedModule} from "../../../shared/shared.module";
 import {EventOverviewComponent} from './event-overview/event-overview.component';
 import {RatingModule} from 'primeng/rating';
-import {TableModule} from 'primeng/table';
 import {CheckboxModule} from 'primeng/checkbox';
+import { PaginatorModule } from 'primeng/paginator';
 
 const routes: Routes = [
   {
@@ -29,8 +29,8 @@ const routes: Routes = [
     ReactiveFormsModule,
     SharedModule,
     RatingModule,
-    TableModule,
-    CheckboxModule
+    CheckboxModule,
+    PaginatorModule
   ]
 })
 export class EventModule {

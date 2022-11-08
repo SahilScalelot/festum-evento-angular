@@ -30,5 +30,15 @@
   .p-link:focus {@apply shadow-none;}
   .p-datatable .p-paginator-bottom {@apply p-0;}
   .p-paginator .p-paginator-current {@apply mr-auto pl-0;}
-  .p-paginator .p-dropdown {@apply mr-0;}
+  .p-paginator .p-dropdown {@apply mr-0 border-0;}
+  .p-paginator {@apply bg-transparent border-0;}
+
+  .p-paginator .p-dropdown,
+  .p-paginator .p-paginator-first, 
+  .p-paginator .p-paginator-prev, 
+  .p-paginator .p-paginator-next, 
+  .p-paginator .p-paginator-last,
+  .p-paginator .p-paginator-pages .p-paginator-page {
+    @apply rounded;
+  }
 }
