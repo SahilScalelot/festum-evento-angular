@@ -21,7 +21,7 @@ export class TermsAndConditionsStepComponent implements OnInit {
   detailEditor = DecoupledEditor;
   editorConfig: any = {};
   agreeTAndC: boolean = false;
-  registeredEventId: any = 47;
+  registeredEventId: any = '';
 
   eventRegister: any;
 
