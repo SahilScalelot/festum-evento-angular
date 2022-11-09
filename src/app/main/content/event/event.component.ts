@@ -6,6 +6,7 @@ import {EventService} from './event.service';
 import {GlobalFunctions} from "../../common/global-functions";
 import {Router} from "@angular/router";
 import * as _ from "lodash";
+import { PrimeNGConfig } from 'primeng/api';
 
 @Component({
   selector: 'app-event',
@@ -19,12 +20,17 @@ export class EventComponent implements OnInit {
   isLoading: boolean = false;  
   selectedEventIds: any = [];
 
+  pTotal: any;
+  perPageLimit: any = 4;
+  offset: any = 1;
+
   constructor(
     private _eventService: EventService,
     private _sNotify: SnotifyService,
     private _router: Router,
     private _globalService: GlobalService,
     private _globalFunctions: GlobalFunctions,
+    private _primengConfig: PrimeNGConfig,
   ) {
   }
 
@@ -32,11 +38,26 @@ export class EventComponent implements OnInit {
     this.selectedEventIds = [];
     localStorage.removeItem('newEventObj');
     this.getEvent();
+    this._primengConfig.ripple = true;
   }
 
-  getEvent(): void {    
+  // paginate(event: any) {
+  //   const page = event.page + 1;
+  //   this.perPageLimit = event.rows;
+  //   this.getEvent(this.perPageLimit, page);
+  //   console.log(page, this.perPageLimit);
+  //   this.offset = ((this.perPageLimit * page) - this.perPageLimit) + 1;
+  // }
+
+  getEvent(event: any = ''): void {    
     this.isLoading = true;
-    this._eventService.retrieveEvents().subscribe((result: any) => {
+    const page = event ? (event.page + 1) : 1;
+    this.perPageLimit = event ? (event.rows) : this.perPageLimit;
+    this.offset = ((this.perPageLimit * page) - this.perPageLimit) + 1;
+
+    this._eventService.retrieveEvents(this.perPageLimit, page).subscribe((result: any) => {
+      this.pTotal = result.total;
+
       this.events = result.events;
       this.isLoading = false;
     }, (error: any) => {

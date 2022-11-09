@@ -1,16 +1,17 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
 import {AuthGuard} from "./main/auth/auth-guard/auth.guard";
 import {ContentComponent} from "./main/content/content.component";
 import {NoAuthGuard} from "./main/auth/auth-guard/noAuth.guard";
 import {AuthComponent} from "./main/auth/auth.component";
-import { EventOverviewComponent } from './main/content/event/event-overview/event-overview.component';
-import { BuySpacePlansComponent } from './main/content/buy-space-plans/buy-space-plans.component';
-import { ProfileComponent } from './main/content/profile/profile.component';
+import {EventOverviewComponent} from './main/content/event/event-overview/event-overview.component';
+import {BuySpacePlansComponent} from './main/content/buy-space-plans/buy-space-plans.component';
+import {ProfileComponent} from './main/content/profile/profile.component';
+import {LandingPageComponent} from './main/content/landing-page/landing-page.component';
 
 const routes: Routes = [
 
-  { path: '', redirectTo: 'event', pathMatch: 'full' },
+  { path: '', component:  LandingPageComponent},
   {
     path: '',
     canActivate: [NoAuthGuard],
@@ -74,7 +75,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {useHash: true})],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

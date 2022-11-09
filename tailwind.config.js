@@ -22,11 +22,20 @@ module.exports = {
         '40': ['2.5rem', '2.5rem'],
       },
       colors: {
-        brightGray: '#eeeeee',       // gray
-        japaneseIndigo: '#25364F',  // dark
-        quicksilver: '#9BA6A8',   // light-gray
-        magicPotion: '#FE4D5F',    // red    
+        brightGray: '#eeeeee',     // gray
+        japaneseIndigo: '#25364F', // dark
+        quicksilver: '#9BA6A8',    // light-gray
+        magicPotion: '#FE4D5F',    // red
         caribbeanGreen: '#13E1B0', // green
+        ev: {
+          dark: {
+            DEFAULT: '#25364F',
+          },
+          red: {
+            DEFAULT: '#FE4D5F',
+          },
+          gray: '#A6A6A6',
+        },
       },
       boxShadow: {
         'shadow': '0px 0px 10px rgba(0, 0, 0, 0.09)',
@@ -38,6 +47,10 @@ module.exports = {
       }
     },
   },
-  plugins: [],
+  plugins: [
+    require("postcss-import"),
+    require("tailwindcss"),
+    require("autoprefixer"),
+  ],
 }
 

@@ -10,8 +10,8 @@ export class EventService {
 
   constructor(private http: HttpClient,private _globalFunctions: GlobalFunctions) { }
 
-  retrieveEvents(): any {
-    return this.http.get(environment.appURL + 'events/', this._globalFunctions.getAuthorizationHeader());
+  retrieveEvents(limit:any, page: any): any {
+    return this.http.get(environment.appURL + 'events/' + '?limit='+ limit +'&page=' + page, this._globalFunctions.getAuthorizationHeader());
   }
   
   retrieveEventsId(id: any): any {

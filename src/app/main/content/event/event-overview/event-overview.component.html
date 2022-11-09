@@ -229,16 +229,7 @@
             <div *ngIf="events[0].t_and_c != ''" class="space-y-1.5">
               <h3 class="text-lg">Terms & Conditions</h3>
               <div class="p-3.5 xl:p-5 bg-white rounded-md">
-                <div class="flex items-start text-quicksilver font-normal">
-                  <div class="pt-0.5">*</div>
-                  <p class="text-sm font-normal pl-3">{{ events[0].t_and_c }}</p>
-                </div>
-                <div class="flex items-start text-quicksilver font-normal">
-                  <div class="pt-0.5">*</div>
-                  <p class="text-sm font-normal pl-3">Lorem Ipsum is simply dummy text of the printing
-                    and typesetting industry. Lorem Ipsum has been the industry's standard dummy
-                    text ever since the 1500s,</p>
-                </div>
+                <div [innerHtml]="events[0].t_and_c"></div>
               </div>
             </div>
             <!-- Social-Media -->
