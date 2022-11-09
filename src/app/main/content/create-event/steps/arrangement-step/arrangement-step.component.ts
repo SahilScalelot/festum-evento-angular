@@ -17,6 +17,7 @@ export class ArrangementStepComponent implements OnInit {
   constants: any = CONSTANTS;
   occasions: any = [];
   arrangementObj: any = {};
+  isLoading: boolean = false;
   // eventObj: any = {};
   
   @Input() eventObj: any = {};
@@ -33,11 +34,11 @@ export class ArrangementStepComponent implements OnInit {
     this.prepareArrangementObj();
     // this._globalFunctions.loadAccordion();
     this.getSeatingItems();
-
+    
     this._createEventService.isOpenAddEditArrangementDialog$.subscribe((isOpenAddEditArrangementDialog: boolean) => {
       this.isArrangement = isOpenAddEditArrangementDialog;
     });
-
+    this.isArrangement = false;
     // this.occasions = [
     //   {
     //     "id": 1,
@@ -97,10 +98,12 @@ export class ArrangementStepComponent implements OnInit {
   }
 
   getSeatingItems(): void {
+    this.isLoading = true;
     this._createEventService.getSeatingItems().subscribe((result: any) => {
       if (result && result.status) {
         this.seatingItems = result.data || [];
         this.tmpSeatingItems = this._globalFunctions.copyObject(this.seatingItems);
+        this.isLoading = false;
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
       }

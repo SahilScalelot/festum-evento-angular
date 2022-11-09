@@ -26,6 +26,7 @@ export class TermsAndConditionsStepComponent implements OnInit {
   eventRegister: any;
 
   @Input() eventObj: any = {};
+  @Output() newEventObj: EventEmitter<any> = new EventEmitter();
 
   termsAndConditionsObj: any = { terms_and_conditions: {} };
 
@@ -1495,7 +1496,7 @@ export class TermsAndConditionsStepComponent implements OnInit {
     this._prepareForm(this.eventObj);
     // this.prepareTermsAndConditionsEventObj();
 
-    this.termsAndConditionsForm.get('terms_and_conditions').setValue(true);
+    this.termsAndConditionsForm.get('terms_and_conditions').setValue(false);
     // this.termsAndConditionsForm.get('terms_and_conditions').setValue(false);
   }
 
@@ -1774,6 +1775,12 @@ export class TermsAndConditionsStepComponent implements OnInit {
     }
   }
 
+  backBtn(): void {
+    this.eventObj.terms_and_conditions = this.prepareObj(this.termsAndConditionsForm.value);
+    this.newEventObj.emit(this.eventObj);
+    this._router.navigate(['/create-event/personal-details']);    
+  }
+
   personalDetails(): void {
     if (this.eventObj && this.eventObj.personal_details) {
       this.eventObj.personal_details.event_reg = this.registeredEventId;
@@ -1788,6 +1795,11 @@ export class TermsAndConditionsStepComponent implements OnInit {
         this._globalFunctions.errorHanding(error, this, true);
       });
     }
+  }
+
+  prepareObj(personalObj: any = {}): any {
+    const preparedObj: any = personalObj;
+    return preparedObj;
   }
 
 }

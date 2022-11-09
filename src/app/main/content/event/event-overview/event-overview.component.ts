@@ -17,6 +17,7 @@ export class EventOverviewComponent implements OnInit {
   isLoading: boolean = false;
   isOpenPopup: boolean = false;
   isImage: boolean = false;
+  companyIAndV: boolean = false;
   imagesOrVideosArr: Array<any> = [];
 
   overview: boolean = true;
@@ -66,9 +67,10 @@ export class EventOverviewComponent implements OnInit {
     }
   }
 
-  openImageAndVideoDialog(imagesOrVideosArr: Array<any>, isImage: boolean): void {
+  openImageAndVideoDialog(imagesOrVideosArr: Array<any>, isImage: boolean, companyIAndV: boolean): void {
     this.imagesOrVideosArr = imagesOrVideosArr;
     this.isImage = isImage;
+    this.companyIAndV = companyIAndV;
     this.isOpenPopup = true;
   }
 

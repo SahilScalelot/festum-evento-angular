@@ -26,6 +26,7 @@ import {MultiSelectModule} from 'primeng/multiselect';
 import {ReactiveFormsModule} from '@angular/forms';
 import {InputNumberModule} from "primeng/inputnumber";
 import {CheckboxModule} from 'primeng/checkbox';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 const routes: Routes = [
   {path: '', redirectTo: 'add-event', pathMatch: 'full'},
@@ -97,6 +98,7 @@ const routes: Routes = [
     MultiSelectModule,
     CheckboxModule,
     InputNumberModule,
+    MatProgressSpinnerModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyDLgr8YB5IK8dBIEWClexZGzXaB7UlVm7Q',
       libraries: ['places']
