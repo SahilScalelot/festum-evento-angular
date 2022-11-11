@@ -27,6 +27,11 @@ h4,.h4 {@apply font-bold text-base lg:text-xl xl:text-2xl;}
 h5,.h5 {@apply font-bold text-lg xl:text-xl;}
 h6,.h6 {@apply font-bold text-xs;}
 
+input:disabled,
+select:disabled,
+textarea:disabled
+{@apply bg-gray-300 text-gray-500 opacity-40;}
+
 /* button */
 button.secondary,.secondary{@apply bg-magicPotion rounded-md font-bold text-white text-base border border-magicPotion hover:bg-white hover:text-magicPotion;}
 button.primary,.primary{@apply bg-caribbeanGreen rounded-md font-bold text-white text-base border border-caribbeanGreen hover:bg-white hover:text-caribbeanGreen;}

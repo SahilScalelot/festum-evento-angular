@@ -1,4 +1,4 @@
-<p-progressSpinner *ngIf="isLoading" [style]="{width: '50px', height: '50px'}" animationDuration=".5s" strokeWidth="8" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-x-0 top-0 h-full w-full z-50" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
+<p-progressSpinner *ngIf="isLoading" [style]="{width: '50px', height: '50px'}" animationDuration=".5s" strokeWidth="8" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-x-0 top-0 h-full w-full z-40" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
 <div class="wrapper">
   <div class="flex flex-wrap items-center">
     <h2>Events</h2>
@@ -80,7 +80,8 @@
       </div>
     </div>
 
-    <div class="flex flex-wrap items-center justify-center">
+    <p *ngIf="!events || !events.length">No Events Records Found.</p>
+    <div class="flex flex-wrap items-center justify-center" *ngIf="events && events.length">
       <!-- <div class="pagination-festum py-2"><p class="show-text">Showing {{offset}} to {{(((offset - 1) + perPageLimit) < pTotal) ? (offset - 1) + perPageLimit : pTotal}} Of {{ pTotal }} Events.</p></div> -->
       <p-paginator [rows]="perPageLimit" [totalRecords]="pTotal" [rowsPerPageOptions]="[perPageLimit, 6, 10, 20]" (onPageChange)="getEvent($event)"></p-paginator>
     </div>

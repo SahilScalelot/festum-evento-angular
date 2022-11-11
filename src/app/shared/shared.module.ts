@@ -6,6 +6,7 @@ import { ProgressSpinnerModule } from "primeng/progressspinner";
 import { ValidNumberDirective } from "../directives/valid-number.directive";
 import { ValidNumberWithDecimalDirective } from "../directives/valid-number-with-decimal.directive";
 import { ImageAndVideoPreviewComponent } from '../main/content/dialogs/image-and-video-preview/image-and-video-preview.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { ImageAndVideoPreviewComponent } from '../main/content/dialogs/image-and
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    ProgressSpinnerModule
+    ProgressSpinnerModule,
+    MatProgressSpinnerModule
   ],
   exports: [
     CommonModule,

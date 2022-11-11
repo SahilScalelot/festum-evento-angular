@@ -1524,6 +1524,12 @@ export class TermsAndConditionsStepComponent implements OnInit {
     this._modalService.close("tandc");
   }
 
+  backBtn(): void {
+    this.eventObj.terms_and_conditions = this.prepareObj(this.termsAndConditionsForm.value);
+    this.newEventObj.emit(this.eventObj);
+    this._router.navigate(['/create-event/personal-details']);
+  }
+
   saveFullEvent(): void {
     if (this.termsAndConditionsForm.invalid) {
       Object.keys(this.termsAndConditionsForm.controls).forEach((key) => {
@@ -1534,7 +1540,8 @@ export class TermsAndConditionsStepComponent implements OnInit {
     }
     this.termsAndConditionsObj = this._globalFunctions.copyObject(this.termsAndConditionsForm.value);
     this.eventRegister = this.prepareEventObj(this.eventObj);
-    this.registerEvent(this.eventRegister);    
+    this.registerEvent(this.eventRegister);
+
     this._router.navigate(['/events']);
   }
 
@@ -1569,7 +1576,7 @@ export class TermsAndConditionsStepComponent implements OnInit {
     preparedEventObj.permission_letter = permissionLetterEventObj?.permission_letter;
     preparedEventObj.accept_booking = permissionLetterEventObj?.accept_booking;
     
-    preparedEventObj.orgdiscountsId = eventObj?.discounts[0];
+    preparedEventObj.orgdiscountsId = (eventObj && eventObj.discounts && eventObj.discounts.length) ? eventObj.discounts[0] : [];
 
     const posterEventObj: any = eventObj?.photos_and_videos;
     preparedEventObj.poster = posterEventObj?.poster;
@@ -1630,6 +1637,7 @@ export class TermsAndConditionsStepComponent implements OnInit {
 
   registerEvent(eventRegister: any): void {
     this.isLoading = true;
+    this.termsAndConditionsForm.disable();
     const preparedAddEventObj: any = this.prepareFormDataObj(eventRegister);
     this._createEventService.eventRegister(preparedAddEventObj).subscribe((result: any) => {
       if (result && result.status) {
@@ -1643,8 +1651,10 @@ export class TermsAndConditionsStepComponent implements OnInit {
         this._globalFunctions.successErrorHandling(result, this, true);
       }
       this.isLoading = false;
+      this.termsAndConditionsForm.enable();
     }, (error: any) => {
       this.isLoading = false;
+      this.termsAndConditionsForm.enable();
       this._globalFunctions.errorHanding(error, this, true);
     });
   }
@@ -1774,12 +1784,6 @@ export class TermsAndConditionsStepComponent implements OnInit {
         });
       });
     }
-  }
-
-  backBtn(): void {
-    this.eventObj.terms_and_conditions = this.prepareObj(this.termsAndConditionsForm.value);
-    this.newEventObj.emit(this.eventObj);
-    this._router.navigate(['/create-event/personal-details']);
   }
 
   personalDetails(): void {

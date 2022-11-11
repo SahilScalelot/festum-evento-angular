@@ -1,4 +1,4 @@
-<p-progressSpinner *ngIf="isLoading" [style]="{width: '50px', height: '50px'}" animationDuration=".5s" strokeWidth="8" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-x-0 top-0 h-full w-full z-50" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
+<p-progressSpinner *ngIf="isLoading" [style]="{width: '50px', height: '50px'}" animationDuration=".5s" strokeWidth="8" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-x-0 top-0 h-full w-full z-40" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
 <div *ngIf="events && events.length && events[0] && !isLoading" class="">
   <div class="-mt-12 relative -z-10">
     <!-- src="../assets/images/cooking-together-big.png"  -->
@@ -121,36 +121,36 @@
                           </div>
                         </div>
                         <div class="flex flex-wrap items-center">
-                          <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
-                            <span class="block text-xs xl:text-sm text-quicksilver">No of Table</span>
+                          <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2" *ngIf="seating?.no_of_seat">
+                            <span class="block text-xs xl:text-sm text-quicksilver">No of {{seating?.seat?.name}}</span>
                             <span class="block text-base font-bold text-quicksilver">{{seating?.no_of_seat}}</span>
                           </div>
-                          <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
+                          <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2" *ngIf="seating?.seat_location">
                             <span class="block text-xs xl:text-sm text-quicksilver">Location</span>
                             <span class="block text-base font-bold text-quicksilver">{{seating?.seat_location}}</span>
                           </div>
-                          <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
-                            <span class="block text-xs xl:text-sm text-quicksilver">Table Person Capacity</span>
+                          <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2" *ngIf="seating?.table_person_capacity">
+                            <span class="block text-xs xl:text-sm text-quicksilver">{{seating?.seat?.name}} Person Capacity</span>
                             <span class="block text-base font-bold text-quicksilver">{{seating?.table_person_capacity}}</span>
                           </div>
-                          <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
+                          <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2" *ngIf="seating?.table_person_capacity">
                             <span class="block text-xs xl:text-sm text-quicksilver">Total Person Capacity</span>
                             <span class="block text-base font-bold text-quicksilver">{{seating?.table_person_capacity}}</span>
                           </div>
-                          <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
-                            <span class="block text-xs xl:text-sm text-quicksilver">Per Table Price</span>
+                          <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2" *ngIf="seating?.table_price">
+                            <span class="block text-xs xl:text-sm text-quicksilver">Per {{seating?.seat?.name}} Price</span>
                             <span class="block text-base font-bold text-quicksilver">{{seating?.table_price}}</span>
                           </div>
-                          <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
+                          <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2" *ngIf="seating?.price_per_seat">
                             <span class="block text-xs xl:text-sm text-quicksilver">per person price</span>
                             <span class="block text-base font-bold text-quicksilver">{{seating?.price_per_seat}} INR</span>
                           </div>
                           <div class="space-y-1 pr-3 xl:pr-5 mr-3 xl:mr-5 pt-2">
                             <span class="block text-xs xl:text-sm text-quicksilver">Total Amount</span>
-                            <span class="block text-base font-bold text-japaneseIndigo">1000 INR</span>
+                            <span class="block text-base font-bold text-japaneseIndigo">1000 -- {{seating?.price_per_seat * seating?.no_of_seat}} INR</span>
                           </div>
                         </div>
-                        <div>
+                        <div *ngIf="seating?.description">
                           <p>Description</p>
                           <span class="text-base text-quicksilver font-bold">{{seating?.description}}</span>
                         </div>

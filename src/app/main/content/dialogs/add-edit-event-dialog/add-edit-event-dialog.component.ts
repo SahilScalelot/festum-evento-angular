@@ -54,16 +54,16 @@ export class AddEditEventDialogComponent implements OnInit {
     });
   }
 
-  validate(): boolean {
-    if (!this.newEventForm.value.name || this.newEventForm.value.name === "") {
+  validate(preparedEventObj: any): boolean {
+    if (!preparedEventObj.name || preparedEventObj.name === "") {
       this._sNotify.error('Event Name is required!', 'Oops!');
       return false;
     }
-    if (!this.newEventForm.value.event_type || this.newEventForm.value.event_type === "") {
+    if (!preparedEventObj.event_type || preparedEventObj.event_type === "") {
       this._sNotify.error('Event Type is required!', 'Oops!');
       return false;
     }
-    if (!this.newEventForm.value.event_category || this.newEventForm.value.event_category === "") {
+    if (!preparedEventObj.event_category || preparedEventObj.event_category === "") {
       this._sNotify.error('Event Category is required!', 'Oops!');
       return false;
     }
@@ -72,10 +72,11 @@ export class AddEditEventDialogComponent implements OnInit {
 
   addEvent(): any {
     const preparedEventObj: any = this.prepareEventObj(this.newEventForm.value);
-    if (!this.validate()) {
+    if (!this.validate(preparedEventObj)) {
       return;
     }
     this.isLoading = true;
+    this.newEventForm.disable();
 
     this._createEventService.addEvent(preparedEventObj).subscribe((result: any) => {
       if (result && result.status) {
@@ -83,23 +84,27 @@ export class AddEditEventDialogComponent implements OnInit {
         // this._globalService.addEditEvent$.next(this.newEventObj);
         localStorage.setItem('newEventObj', JSON.stringify(this.newEventObj));
         this.isLoading = false;
+        this.newEventForm.enable();
         this.closePopup();
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
         this.isLoading = false;
+        this.newEventForm.enable();
       }
     }, (error: any) => {
       this._globalFunctions.errorHanding(error, this, true);
       this.isLoading = false;
+      this.newEventForm.enable();
     });
   }
 
   updateEvent(): any {
     const preparedEventObj: any = this.prepareEventObj(this.newEventForm.value);
-    if (!this.validate()) {
+    if (!this.validate(preparedEventObj)) {
       return;
     }
     this.isLoading = true;
+    this.newEventForm.disable();
 
     this._createEventService.editEvent(this.eventObj.id, preparedEventObj).subscribe((result: any) => {
       if (result && result.status) {
@@ -112,14 +117,17 @@ export class AddEditEventDialogComponent implements OnInit {
         // this._globalService.addEditEvent$.next(this.newEventObj);
         localStorage.setItem('newEventObj', JSON.stringify(this.newEventObj));
         this.isLoading = false;
+        this.newEventForm.enable();
         this.closePopup();
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
         this.isLoading = false;
+        this.newEventForm.enable();
       }
     }, (error: any) => {
       this._globalFunctions.errorHanding(error, this, true);
       this.isLoading = false;
+      this.newEventForm.enable();
     });
   }
 

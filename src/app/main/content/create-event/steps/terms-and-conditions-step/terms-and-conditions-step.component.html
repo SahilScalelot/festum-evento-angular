@@ -85,10 +85,10 @@
   </div>
   
   <div class="relative">
-    <button class="secondary py-2.5 w-full uppercase anim relative" type="submit" [disabled]="!termsAndConditionsForm.value.terms_and_conditions" (click)="saveFullEvent()">
+    <button class="secondary py-2.5 w-full uppercase anim relative" type="submit" (click)="saveFullEvent()">
       <span [ngClass]="{'opacity-0': termsAndConditionsForm.disabled}">Save</span>
     </button>
-    <div class="absolute inset-0 text-white flex items-center" *ngIf="termsAndConditionsForm.disabled">
+    <div class="absolute inset-0 text-white flex items-center" *ngIf="isLoading">
       <mat-progress-spinner [diameter]="22" [mode]="'indeterminate'" class="mx-auto"></mat-progress-spinner>
     </div>
   </div>
