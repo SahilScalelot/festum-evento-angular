@@ -50,13 +50,9 @@
     <div class="w-full px-2 pt-3 lg:pt-0 inputHolder">
       <label class="input-titel">What’s the Location?</label>
       <div class="bg-white rounded-md location relative">
-        <input #search (keydown.enter)="$event.preventDefault()" autocapitalize="off" autocorrect="off"
-               class="form-control absolute top-1 left-1 right-1 z-10 px-3 py-1.5 text-base rounded"
-               placeholder="Search Nearest Location" spellcheck="off" type="text" type="text"/>
-        <agm-map (mapClick)="mapClicked($event)" [disableDefaultUI]="false" [latitude]="lat" [longitude]="lng"
-                 [zoomControl]="false" [zoom]="zoom">
-          <agm-marker (dragEnd)="markerDragEnd(markers, $event)" (markerClick)="clickedMarker(markers.label)"
-                      [label]="markers.label" [latitude]="lat" [longitude]="lng" [markerDraggable]="true"></agm-marker>
+        <input #search (keydown.enter)="$event.preventDefault()" autocapitalize="off" autocorrect="off" class="form-control absolute top-1 left-1 right-1 z-10 px-3 py-1.5 text-base rounded"placeholder="Search Nearest Location" spellcheck="off" type="text" type="text"/>
+        <agm-map (mapClick)="mapClicked($event)" [disableDefaultUI]="false" [latitude]="lat" [longitude]="lng" [zoomControl]="false" [zoom]="zoom">
+          <agm-marker (dragEnd)="markerDragEnd(markers, $event)" (markerClick)="clickedMarker(markers.label)" [label]="markers.label" [latitude]="lat" [longitude]="lng" [markerDraggable]="true"></agm-marker>
         </agm-map>
         <!-- (click)="googleMap()" -->
         <button (click)="addMapLocation()"
