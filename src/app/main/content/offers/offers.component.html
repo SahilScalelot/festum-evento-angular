@@ -50,17 +50,24 @@
 </div>
 
 <modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="discountDialog" [title]="'Add Shop'" maxWidth="lg:max-w-7xl xl:px-0">
-  <div class="pt-6 space-y-5 relative">
+  <div class="space-y-5 relative">
     <div class="">
       <span (click)="popClose('discountDialog');" class="absolute right-0 -top-8 cursor-pointer text-xl"><i class="icon-close"></i></span>
       <form [formGroup]="addShopForm" class="pt-8">
         <div *ngIf="!isContinue">
-          <div class="upload-holder w-full">
+          <div class="upload-holder w-full h-auto">
+            <span class="text-sm text-quicksilver font-semibold">Add Poster <span class="font-normal">(Max size 10MB)</span></span>
+            <label class="upload upload-popup p-0 relative group" id="shopimgobjUpload">
+              <input #shopimgobj (change)="onFileChange($event)" accept="image/png, image/jpeg, image/gif" class="shopimgobj hidden" formControlName="shopimgobj" id="shopimgobj" type="file"/>
+              <img *ngIf="cropImgPreview" [src]="cropImgPreview" class="absolute inset-0 w-full h-full object-cover z-10 group-hover:-z-10"/>
+            </label>
+          </div>
+          <!-- <div class="upload-holder w-full">
             <label for="upload" class="upload upload-popup">
               <input type="file" [formControlName]="'shop_image'" name="shop_image" id="upload" class="appearance-none hidden"/>
               <span class="input-titel mt-1 text-base"><i class="icon-img_upload mr-2"></i>Add Image</span>
             </label>
-          </div>
+          </div> -->
           <div class="flex flex-wrap justify-between -mx-2">
             <div class="w-full md:w-1/2 px-2 pt-5 inputHolder">
               <span class="input-titel">Shop Name</span>
@@ -310,4 +317,18 @@
       </form>
     </div>
   </div>
+</modal>
+
+<!-- Poster crop -->
+<modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="imgCropper" title="Poster">
+  <div class="flex flex-wrap -mx-4 py-5">
+    <div class="w-full lg:w-1/2 px-4">
+      <image-cropper (imageCropped)="cropImg($event)" [aspectRatio]="2 / 1 " [imageChangedEvent]="imgChangeEvt" [maintainAspectRatio]="true" format="png"></image-cropper>
+    </div>
+    <div class="w-full lg:w-1/2 px-4">
+      <h6 class="text-lg pb-4">{{ 'Image Preview' }}</h6>
+      <img [src]="cropImgPreview" class="responsive-img"/>
+    </div>
+  </div>
+  <button (click)="savePoster(cropImgPreview)" class="secondary w-full uppercase py-2 anim">{{ 'Save Poster' }}</button>
 </modal>
