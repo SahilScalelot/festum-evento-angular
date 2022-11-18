@@ -12,6 +12,7 @@ import { CalendarModule } from 'primeng/calendar';
 import {ProgressSpinnerModule} from 'primeng/progressspinner';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { OffersModule } from './offers/offers.module';
 
 const routes: Routes = [
   {
@@ -32,6 +33,7 @@ const routes: Routes = [
     MatProgressSpinnerModule,
     CommonModule,
     EventModule,
+    OffersModule,
     CreateEventModule,
     ModalModule,
     FormsModule,

@@ -47,6 +47,7 @@ export class LandingPageComponent implements OnInit {
     slidesPerView: 1,
     spaceBetween: 10,
     loop: true,
+    allowTouchMove: false,
   };
 
   constructor(

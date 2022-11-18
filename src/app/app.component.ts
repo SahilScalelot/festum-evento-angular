@@ -13,7 +13,7 @@ export class AppComponent {
   currentUrl: any = {};
 
   constructor(private router: Router) {
-    // localStorage.removeItem('newEventObj');
+    localStorage.removeItem('newEventObj');
     this.router.events.subscribe((event: any) => {
       if (event instanceof NavigationEnd) {
         this.previousUrl = localStorage.getItem('currentUrl');
