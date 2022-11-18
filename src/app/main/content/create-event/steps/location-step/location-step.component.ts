@@ -168,6 +168,7 @@ export class LocationStepComponent implements OnInit {
 
   addMapLocation() {
     this._http.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.finaLatLong.lat},${this.finaLatLong.lng}&key=${CONSTANTS.googleMapApiKey}`).subscribe(async (res: any) => {
+      console.log(res);
       let selectedState: any = {};
       if (selectedState) {
         this.getCity = selectedState.citys;
@@ -175,33 +176,33 @@ export class LocationStepComponent implements OnInit {
       _.each(res.results[0].address_components, (address) => {
         _.each(address.types, (type) => {
           if (type == "premise" || type == "street_number") {
-            this.locationForm.get('flat_number').setValue(address.long_name);
+            this.locationForm.get('flat_number').setValue(address?.long_name);
           }
           if (type == "neighborhood") {
-            this.locationForm.get('street_name').setValue(address.long_name);
+            this.locationForm.get('street_name').setValue(address?.long_name);
           }
           if (type == "sublocality") {
-            this.locationForm.get('area_name').setValue(address.long_name);
+            this.locationForm.get('area_name').setValue(address?.long_name);
           }
           if (type == "administrative_area_level_1") {
-            this.locationForm.get('state').setValue(address.long_name);
-          }
-          if (type == "administrative_area_level_2") {
-            this.locationForm.get('city').setValue(address.long_name);
+            this.locationForm.get('state').setValue(address?.long_name);
           }
           if (type == "administrative_area_level_3") {
-            this.locationForm.get('address').setValue(address.long_name);
+            this.locationForm.get('city').setValue(address?.long_name);
           }
+          // if (type == "administrative_area_level_3") {
+          //   this.locationForm.get('address').setValue(address?.long_name);
+          // }
           // if (type == "plus_code" || type == "locality" || type == "political") {
           //   this.locationForm.get('address').setValue(address.long_name);
           // }
           if (type == "postal_code") {
-            this.locationForm.get('pincode').setValue(address.long_name);
+            this.locationForm.get('pincode').setValue(address?.long_name);
           }
         });
       });
       if (selectedState) {
-        this.getCity = selectedState.citys;
+        this.getCity = selectedState?.citys;
       }
     });
   }

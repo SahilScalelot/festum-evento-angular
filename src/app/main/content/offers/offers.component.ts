@@ -154,12 +154,12 @@ export class OffersComponent implements OnInit {
           if (type == "administrative_area_level_1") {
             this.addShopForm.get('state').setValue(address.long_name);
           }
-          if (type == "administrative_area_level_2") {
+          if (type == "administrative_area_level_3") {
             this.addShopForm.get('city').setValue(address.long_name);
           }
-          if (type == "administrative_area_level_3") {
-            this.addShopForm.get('address').setValue(address.long_name);
-          }
+          // if (type == "administrative_area_level_3") {
+          //   this.addShopForm.get('address').setValue(address.long_name);
+          // }
           // if (type == "plus_code" || type == "locality" || type == "political") {
           //   this.addShopForm.get('address').setValue(address.long_name);
           // }
