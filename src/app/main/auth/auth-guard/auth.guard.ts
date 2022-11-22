@@ -39,7 +39,7 @@ export class AuthGuard implements CanActivate {
       resolve(true);
       this._authService.getLoginUser().subscribe((result: any) => {
         if (result.IsSuccess) {
-          const user = _.clone(result.user);
+          const user = _.clone(result.Data);
           this._globalService.loginUser$.next(user);
           resolve(true);
         } else {

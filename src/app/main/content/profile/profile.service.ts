@@ -14,8 +14,12 @@ export class ProfileService {
     this.isOpenAddEditArrangementDialog$ = new BehaviorSubject<any>(null);
   }
 
+  updateProfilePic(profilePicObj: any, isBusinessProfile: boolean = false): any {
+    return this.http.post(environment.appURL + 'organizer/profile/' + (isBusinessProfile ? 'businessprofilepic' : 'profilepic'), profilePicObj, this._globalFunctions.getFileAuthorizationHeader());
+  }
+
   updateProfile(profileObj: any): any {
-    return this.http.post(environment.appURL + 'authentication/user/', profileObj, this._globalFunctions.getFileAuthorizationHeader());
+    return this.http.post(environment.appURL + 'organizer/profile', profileObj, this._globalFunctions.getAuthorizationHeader());
   }
 
 }

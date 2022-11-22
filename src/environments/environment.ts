@@ -4,11 +4,11 @@
 
 export const environment = {
   production: true,
-  appURL: "http://localhost:3000/",
-  baseImageURL: "http://localhost:3000/",
+  // appURL: "http://localhost:3000/",
+  // baseImageURL: "http://localhost:3000/",
 
-  // appURL: "https://fe.friendsfield.in/",
-  // baseImageURL: "https://fe.friendsfield.in/",
+  appURL: "https://devapi.festumevento.com/",
+  baseImageURL: "https://festumeventos3.s3.ap-south-1.amazonaws.com/",
 };
 
 /*

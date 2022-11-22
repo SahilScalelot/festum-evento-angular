@@ -13,16 +13,19 @@
       <div class="flex items-center">
         <div>
           <div class="w-44 h-44 rounded-full border-8 border-magicPotion relative mr-9">
-            <img *ngIf="!profileObj.isChangeProfilePic"
+            <p-progressSpinner *ngIf="isImageLoading" [style]="{width: '30px', height: '30px'}" animationDuration=".5s" strokeWidth="4"
+             class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-x-0 top-0 h-full w-full z-10 rounded-full"
+              styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
+
+            <!-- <img *ngIf="!profileObj.isChangeProfilePic"
                 [src]="profileObj.profile_pic ? constants.baseImageURL + profileObj.profile_pic : constants.userDefaultImage"
                 (error)="profileObj.profile_pic = constants.userDefaultImage;" [alt]="profileObj.name"
-                class="w-full h-full object-cover rounded-full overflow-hidden" />
-            <img [src]="profile_pic" *ngIf="profileObj.isChangeProfilePic"
-                alt="Personal Profile Image" (error)="profile_pic = constants.userDefaultImage;"
+                class="w-full h-full object-cover rounded-full overflow-hidden" /> -->
+            <img [src]="profile_pic" alt="Personal Profile Image" (error)="profile_pic = constants.userDefaultImage;"
                 class="w-full h-full object-cover rounded-full overflow-hidden">
             <!-- <img [src]="profileImage ? constants.baseImageURL + profileImage : constants.userDefaultImage" alt="Personal Profile Image"
               class="w-full h-full object-cover rounded-full overflow-hidden" /> -->
-            <div class="absolute bottom-0 right-0 flex justify-center items-center w-10 h-10 rounded-full bg-magicPotion z-10">
+            <div class="absolute bottom-0 right-0 flex justify-center items-center w-10 h-10 rounded-full bg-magicPotion z-20">
               <label for="profile_pic">
                 <img src="../assets/images/cameraProfile.png" alt="Personal Profile Image"
                   [class]="isEditProfile ? 'cursor-pointer' : ''" />
@@ -30,7 +33,7 @@
             </div>
           </div>
         </div>
-        <input type='file' id="profile_pic" accept="image/png, image/jpg, image/jpeg" *ngIf="isEditProfile" (change)="onUpdateProfileImage($event);" style="display:none" />
+        <input type='file' id="profile_pic" accept="image/png, image/jpg, image/jpeg" *ngIf="isEditProfile" (change)="onUpdateProfilePic($event);" style="display:none" />
         <div>
           <h4>{{profileObj?.name}}</h4>
           <h5 class="text-xl font-bold text-japaneseIndigo pt-2.5">{{profileObj?.about}}</h5>
@@ -43,8 +46,7 @@
           <div class="w-full lg:w-1/2 px-2 inputHolder pt-3">
             <span class="input-titel">Name</span>
             <input type="text" class="input font-bold" formControlName='name' />
-            <span *ngIf="profileFirstName && profileFirstName.invalid && profileFirstName.touched"
-              [style.color]="'red'">
+            <span *ngIf="profileFirstName && profileFirstName.invalid && profileFirstName.touched" class="text-red-500 text-xs">
               Name is required
             </span>
           </div>
@@ -68,8 +70,8 @@
           <div class="w-full lg:w-1/2 px-2 inputHolder pt-3">
             <span class="input-titel">Date Of Birth</span>
             <p-calendar class="input font-bold" [showIcon]="false" inputId="icon" formControlName='dob' [maxDate]="maxDate" dateFormat="dd-mm-yy"></p-calendar>
-            <!-- <span *ngIf="dob && dob.invalid && dob.touched && submit" [style.color]="'red'">DOB is required</span> -->
-            <span *ngIf="profileDob && profileDob.invalid && profileDob.touched" [style.color]="'red'">
+            <!-- <span *ngIf="dob && dob.invalid && dob.touched && submit" class="text-red-500 text-xs">DOB is required</span> -->
+            <span *ngIf="profileDob && profileDob.invalid && profileDob.touched" class="text-red-500 text-xs">
               <span *ngIf="profileDob?.errors?.required">Date Of Birth is required</span>
             </span>
           </div>
@@ -78,7 +80,7 @@
           <div class="w-full lg:w-1/2 px-2 inputHolder pt-3">
             <span class="input-titel">City</span>
             <input type="text" class="input font-bold" formControlName='city' />
-            <span *ngIf="profileCity && profileCity.invalid && profileCity.touched" [style.color]="'red'">
+            <span *ngIf="profileCity && profileCity.invalid && profileCity.touched" class="text-red-500 text-xs">
               <span *ngIf="profileCity?.errors?.required">
                 City is required
               </span>
@@ -87,7 +89,7 @@
           <div class="w-full lg:w-1/2 px-2 inputHolder pt-3">
             <span class="input-titel">pincode</span>
             <input type="text" class="input font-bold" formControlName='pincode' />
-            <span *ngIf="profilePincode && profilePincode.invalid && profilePincode.touched" [style.color]="'red'">
+            <span *ngIf="profilePincode && profilePincode.invalid && profilePincode.touched" class="text-red-500 text-xs">
               <span *ngIf="profilePincode?.errors?.maxlength">
                 pincode must be 6 characters.
               </span>
@@ -102,7 +104,7 @@
           <div class="w-full lg:w-1/2 px-2 inputHolder pt-3">
             <span class="input-titel">State</span>
             <input type="text" class="input font-bold" formControlName='state' />
-            <span *ngIf="profileState && profileState.invalid && profileState.touched" [style.color]="'red'">
+            <span *ngIf="profileState && profileState.invalid && profileState.touched" class="text-red-500 text-xs">
               <span *ngIf="profileState?.errors?.required">
                 State is required
               </span>
@@ -111,7 +113,7 @@
           <div class="w-full lg:w-1/2 px-2 inputHolder pt-3">
             <span class="input-titel">Country</span>
             <input type="text" class="input font-bold" formControlName='country' />
-            <span *ngIf="profileCountry && profileCountry.invalid && profileCountry.touched" [style.color]="'red'">
+            <span *ngIf="profileCountry && profileCountry.invalid && profileCountry.touched" class="text-red-500 text-xs">
               <span *ngIf="profileCountry?.errors?.required">
                 Country is required
               </span>
@@ -141,12 +143,11 @@
       <div class="flex items-center">
         <div>
           <div class="w-44 h-44 rounded-full border-8 border-magicPotion relative mr-9">
-            <img *ngIf="!businessObj.isChangeBusinessProfilePic"
+            <!-- <img *ngIf="!businessObj.isChangeBusinessProfilePic"
                 [src]="businessObj.business_profile_pic ? constants.baseImageURL + businessObj.business_profile_pic : constants.userDefaultImage"
                 (error)="businessObj.business_profile_pic = constants.userDefaultImage;" [alt]="businessObj.name"
-                class="w-full h-full object-cover rounded-full overflow-hidden" />
-            <img [src]="businessObj.business_profile_pic" *ngIf="businessObj.isChangeBusinessProfilePic"
-                alt="Personal Profile Image" (error)="businessObj.business_profile_pic = constants.userDefaultImage;"
+                class="w-full h-full object-cover rounded-full overflow-hidden" /> -->
+            <img [src]="businessObj.business_profile_pic" alt="Personal Profile Image" (error)="businessObj.business_profile_pic = constants.userDefaultImage;"
                 class="w-full h-full object-cover rounded-full overflow-hidden">
             <!-- <img [src]="businessImage ? businessImage : constants.userDefaultImage" alt="Business Profile Image"
               class="w-full h-full object-cover rounded-full overflow-hidden" /> -->
@@ -160,7 +161,7 @@
           </div>
         </div>
         <input type='file' id="business_profile_pic" accept="image/png, image/jpg, image/jpeg" *ngIf="isEditBusinessProfile"
-          (change)="onUpdateProfileImage($event, true);" style="display:none" />
+          (change)="onUpdateProfilePic($event, true);" style="display:none" />
         <div>
           <h4>Mobina Mirbagheri</h4>
           <h5 class="text-xl font-bold text-japaneseIndigo pt-2.5">Lorem Ipsum is simply dummy text of the printing and
@@ -174,7 +175,7 @@
             <span class="input-titel">Name</span>
             <input type="text" class="input font-bold" formControlName='name' />
             <span *ngIf="businessFirstName && businessFirstName.invalid && businessFirstName.touched"
-              [style.color]="'red'">Name is required</span>
+              class="text-red-500 text-xs">Name is required</span>
           </div>
           <div class="w-full lg:w-1/2 px-2 pt-3 inputHolder">
             <span class="input-titel">Email</span>
@@ -201,7 +202,7 @@
           <div class="w-full lg:w-1/2 px-2 pt-3 inputHolder">
             <span class="input-titel">Address</span>
             <input type="text" class="input font-bold" formControlName='address' />
-            <span *ngIf="businessAddress && businessAddress.invalid && businessAddress.touched" [style.color]="'red'">
+            <span *ngIf="businessAddress && businessAddress.invalid && businessAddress.touched" class="text-red-500 text-xs">
               <span *ngIf="businessAddress.errors?.required">
                 Address is required
               </span>
@@ -213,14 +214,14 @@
             <span class="input-titel">Date Of Birth</span>
             <p-calendar class="input font-bold" [showIcon]="false" inputId="icon" formControlName='dob'
               [maxDate]="maxDate" dateFormat="dd-mm-yy"></p-calendar>
-            <span *ngIf="businessDob && businessDob.invalid && businessDob.touched" [style.color]="'red'">
+            <span *ngIf="businessDob && businessDob.invalid && businessDob.touched" class="text-red-500 text-xs">
               DOB is required
             </span>
           </div>
           <div class="w-full lg:w-1/2 px-2 pt-3 inputHolder">
             <span class="input-titel">Country</span>
             <input type="text" class="input font-bold" formControlName='country' />
-            <span *ngIf="businessCountry && businessCountry.invalid && businessCountry.touched" [style.color]="'red'">
+            <span *ngIf="businessCountry && businessCountry.invalid && businessCountry.touched" class="text-red-500 text-xs">
               <span *ngIf="businessCountry?.errors?.required">
                 Country is required
               </span>
