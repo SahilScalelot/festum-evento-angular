@@ -53,15 +53,16 @@ export class SetNewPasswordComponent implements OnInit {
       var newPassword ={
         mobile:mobile,
         password:this.setNewPasswordForm.value.password,
-        confirm_password:this.setNewPasswordForm.value.confirm_password
       }
+      console.log(newPassword);
+      
       this._auth.changePassword(newPassword).subscribe((result:any)=>{
         if(result.IsSuccess){
           this._sNotify.success('Password change successfully', 'Success');
           this._router.navigate(['/login']);
           this.isLoading = false;
         } else {
-          this._sNotify.error(result.message, 'error');
+          this._sNotify.error(result.Message, 'error');
           // this._globalFunctions.successErrorHandling(result, this, true);
           this.isLoading = false;
         }

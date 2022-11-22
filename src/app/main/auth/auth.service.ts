@@ -27,7 +27,7 @@ export class AuthService {
   }
 
   sendOTP(mobileObj: any, isForgotPwd: boolean = false): Observable<any> {
-    return this._httpClient.post(CONSTANTS.appUrl + 'organizer/register' + (isForgotPwd ? '?forgot_password=true' : ''), mobileObj, this._globalFunctions.getHeader());
+    return this._httpClient.post(CONSTANTS.appUrl + 'organizer/register' + (isForgotPwd ? '/forgotpassword' : ''), mobileObj, this._globalFunctions.getHeader());
   }
 
   verifyCode(verifyOTP: any): Observable<any> {
@@ -35,6 +35,6 @@ export class AuthService {
   }
 
   changePassword(newPassword: any): Observable<any> {
-    return this._httpClient.post(CONSTANTS.appUrl + 'authentication/verifyOtpChangePassword/', newPassword, this._globalFunctions.getHeader());
+    return this._httpClient.post(CONSTANTS.appUrl + 'organizer/register/changepassword', newPassword, this._globalFunctions.getHeader());
   }
 }

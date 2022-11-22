@@ -36,13 +36,13 @@ export class ForgotPasswordComponent implements OnInit {
       this._authService.sendOTP({ mobile: this.phone.value }, true).subscribe((result: any) => {
         if (result && result.IsSuccess) {
           const preparedForgotPwdObj: any = {};
-          preparedForgotPwdObj.smsKey = result.smsKey;
+          preparedForgotPwdObj.smsKey = result.Data.key;
           preparedForgotPwdObj.mobile = this.phone.value;
           localStorage.setItem('forgot-password', JSON.stringify(preparedForgotPwdObj));
           this.isLoading = false;
           this._router.navigate(['/otp']);
         } else {
-          this._sNotify.error(result.message, 'error');
+          this._sNotify.error(result.Message, 'error');
           // this._globalFunctions.successErrorHandling(result, this, true);
           this.isLoading = false;
         }

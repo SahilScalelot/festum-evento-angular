@@ -59,7 +59,7 @@ export class OtpComponent implements OnInit {
         }
         this.isLoading = false;
       } else {
-        this._sNotify.success(result.message, 'error');
+        this._sNotify.success(result.Message, 'error');
         // this._globalFunctions.successErrorHandling(result, this, true);
         this.isLoading = false;
       }
@@ -90,13 +90,11 @@ export class OtpComponent implements OnInit {
 
     this._authService.verifyCode(verifyOTP).subscribe((result: any) => {
       if (result && result.IsSuccess) {
-        console.log('isForgotPwdFlow 1=' + this.isForgotPwdFlow);
         if (this.isForgotPwdFlow) {
           localStorage.removeItem('forgot-password');
-          localStorage.setItem('phone', this.phone);
+          localStorage.setItem('phone', JSON.stringify(verifyOTP.mobile));
           this._router.navigate(['/set-new-password']);
-        } else {          
-          console.log('isForgotPwdFlow 2=' + this.isForgotPwdFlow);
+        } else {
           localStorage.removeItem('forgot-password');
           this.registerUser(verifyOTP);
         }
