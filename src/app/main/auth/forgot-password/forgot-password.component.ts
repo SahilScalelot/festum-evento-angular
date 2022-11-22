@@ -34,7 +34,7 @@ export class ForgotPasswordComponent implements OnInit {
     if (!this.phone.invalid) {
       this.isLoading = true;
       this._authService.sendOTP({ mobile: this.phone.value }, true).subscribe((result: any) => {
-        if (result && result.status) {
+        if (result && result.IsSuccess) {
           const preparedForgotPwdObj: any = {};
           preparedForgotPwdObj.smsKey = result.smsKey;
           preparedForgotPwdObj.mobile = this.phone.value;

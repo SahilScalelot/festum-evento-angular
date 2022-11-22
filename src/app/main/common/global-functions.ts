@@ -32,7 +32,7 @@ export class GlobalFunctions {
   getFileAuthorizationHeader(): any {
     return {
       headers: new HttpHeaders({
-        'authorization': 'Token ' + localStorage.getItem('accessToken')
+        'Authorization': 'bearer ' + localStorage.getItem('accessToken')
       })
     };
   }
@@ -42,7 +42,7 @@ export class GlobalFunctions {
     return {
       headers: new HttpHeaders({
         'content-type': 'application/json',
-        'authorization': 'Token ' + localStorage.getItem('accessToken')
+        'Authorization': 'bearer ' + localStorage.getItem('accessToken')
         // 'token': localStorage.getItem('accessToken'),
       })
     };
@@ -93,6 +93,8 @@ export class GlobalFunctions {
         messageText = error.detail;
       } else if (error.error) {
         messageText = error.error;
+      } else if (error.Message) {
+        messageText = error.Message;
       }
     }
     if (errorResponse.status === CONSTANTS.errorCodes.UNAUTHORIZED ||

@@ -81,7 +81,7 @@ export class DiscountStepComponent implements OnInit {
   getSeatingItems(): void {
     this.isLoading = true;
     this._createEventService.getSeatingItems().subscribe((result: any) => {
-      if (result && result.status) {
+      if (result && result.IsSuccess) {
         this.seatingItems = result.data || [];
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);

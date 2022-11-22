@@ -79,7 +79,7 @@ export class AddEditEventDialogComponent implements OnInit {
     this.newEventForm.disable();
 
     this._createEventService.addEvent(preparedEventObj).subscribe((result: any) => {
-      if (result && result.status) {
+      if (result && result.IsSuccess) {
         this.newEventObj.add_event = result.detail;        
         // this._globalService.addEditEvent$.next(this.newEventObj);
         localStorage.setItem('newEventObj', JSON.stringify(this.newEventObj));
@@ -107,7 +107,7 @@ export class AddEditEventDialogComponent implements OnInit {
     this.newEventForm.disable();
 
     this._createEventService.editEvent(this.eventObj.id, preparedEventObj).subscribe((result: any) => {
-      if (result && result.status) {
+      if (result && result.IsSuccess) {
         const oldEventObj: any = this._globalFunctions.copyObject(this.eventObj);
         oldEventObj.name = this.newEventForm.value.name;
         oldEventObj.event_type = this.newEventForm.value.event_type;

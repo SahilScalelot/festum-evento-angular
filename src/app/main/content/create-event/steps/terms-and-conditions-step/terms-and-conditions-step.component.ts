@@ -1640,7 +1640,7 @@ export class TermsAndConditionsStepComponent implements OnInit {
     this.termsAndConditionsForm.disable();
     const preparedAddEventObj: any = this.prepareFormDataObj(eventRegister);
     this._createEventService.eventRegister(preparedAddEventObj).subscribe((result: any) => {
-      if (result && result.status) {
+      if (result && result.IsSuccess) {
         this.registeredEventId = result?.detail?.id;
         this.addArrangements();
         this.addUploadPhotos();
@@ -1674,7 +1674,7 @@ export class TermsAndConditionsStepComponent implements OnInit {
         arrangementObj.name = this._globalFunctions.copyObject(arrangementObj.name);
         arrangementObj.occasion = this._globalFunctions.copyObject(this.registeredEventId);
         this._createEventService.bookOccasionSeat(arrangementObj).subscribe((result: any) => {
-          if (result && result.status) {
+          if (result && result.IsSuccess) {
             console.log(result);
           } else {
             this._globalFunctions.successErrorHandling(result, this, true);
@@ -1694,7 +1694,7 @@ export class TermsAndConditionsStepComponent implements OnInit {
         photoFormData.append('description', photoObj.details);
         photoFormData.append('event_reg', this.registeredEventId);
         this._createEventService.uploadImages(photoFormData).subscribe((result: any) => {
-          if (result && result.status) {
+          if (result && result.IsSuccess) {
             console.log(result);
           } else {
             this._globalFunctions.successErrorHandling(result, this, true);
@@ -1715,7 +1715,7 @@ export class TermsAndConditionsStepComponent implements OnInit {
         videoFormData.append('thumbnail', '');
         videoFormData.append('event_reg', this.registeredEventId);
         this._createEventService.uploadVideos(videoFormData).subscribe((result: any) => {
-          if (result && result.status) {
+          if (result && result.IsSuccess) {
             console.log(result);
           } else {
             this._globalFunctions.successErrorHandling(result, this, true);
@@ -1734,7 +1734,7 @@ export class TermsAndConditionsStepComponent implements OnInit {
         companyFormData.append(field, (field == 'event_reg') ? this.registeredEventId : value);
       });
       this._createEventService.addCompanyDetail(companyFormData).subscribe((result: any) => {
-        if (result && result.status) {
+        if (result && result.IsSuccess) {
           console.log(result);
           this.addCompanyPhotos(result?.detail?.id);
           this.addCompanyVideos(result?.detail?.id);
@@ -1755,7 +1755,7 @@ export class TermsAndConditionsStepComponent implements OnInit {
         companyPhotoFormData.append('company_id', companyId);
 
         this._createEventService.addCompanyImages(companyPhotoFormData).subscribe((result: any) => {
-          if (result && result.status) {
+          if (result && result.IsSuccess) {
             console.log(result);
           } else {
             this._globalFunctions.successErrorHandling(result, this, true);
@@ -1774,7 +1774,7 @@ export class TermsAndConditionsStepComponent implements OnInit {
         companyVideoFormData.append('video', companyVideo.video);
         companyVideoFormData.append('company_id', companyId);
         this._createEventService.addCompanyVideos(companyVideoFormData).subscribe((result: any) => {
-          if (result && result.status) {
+          if (result && result.IsSuccess) {
             console.log(result);
           } else {
             this._globalFunctions.successErrorHandling(result, this, true);
@@ -1791,7 +1791,7 @@ export class TermsAndConditionsStepComponent implements OnInit {
       this.eventObj.personal_details.event_reg = this.registeredEventId;
       this.eventObj.personal_details.mobile_no = this.eventObj.personal_details?.mobile;
       this._createEventService.addPersonalDetail(this.eventObj.personal_details).subscribe((result: any) => {
-        if (result && result.status) {
+        if (result && result.IsSuccess) {
           console.log(result);
         } else {
           this._globalFunctions.successErrorHandling(result, this, true);

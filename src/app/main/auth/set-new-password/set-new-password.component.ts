@@ -56,7 +56,7 @@ export class SetNewPasswordComponent implements OnInit {
         confirm_password:this.setNewPasswordForm.value.confirm_password
       }
       this._auth.changePassword(newPassword).subscribe((result:any)=>{
-        if(result.status){
+        if(result.IsSuccess){
           this._sNotify.success('Password change successfully', 'Success');
           this._router.navigate(['/login']);
           this.isLoading = false;

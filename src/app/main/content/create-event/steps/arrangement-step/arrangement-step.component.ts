@@ -100,7 +100,7 @@ export class ArrangementStepComponent implements OnInit {
   getSeatingItems(): void {
     this.isLoading = true;
     this._createEventService.getSeatingItems().subscribe((result: any) => {
-      if (result && result.status) {
+      if (result && result.IsSuccess) {
         this.seatingItems = result.data || [];
         this.tmpSeatingItems = this._globalFunctions.copyObject(this.seatingItems);
         this.isLoading = false;

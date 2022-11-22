@@ -239,18 +239,27 @@ export class OffersComponent implements OnInit {
     this._modalService.open(popId);
     $('.shopimgobj').dropify({
       messages: {
-        default: 'Add Poster',
+        default: 'Add Image',
         icon: '<svg width="21" height="17" viewBox="0 0 21 17" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19.6666 0.333496H1.33335C0.59702 0.333496 0 0.930479 0 1.66681V15.3335C0 16.0698 0.59702 16.6668 1.33335 16.6668H19.6666C20.403 16.6668 21 16.0698 21 15.3335V1.66681C21 0.930479 20.403 0.333496 19.6666 0.333496ZM19.6666 1.66681V11.3638L17.0389 8.9748C16.644 8.61581 16.0366 8.63014 15.6593 9.00782L12.9999 11.6668L7.75634 5.40347C7.35998 4.93013 6.63397 4.92548 6.23167 5.39314L1.33335 11.0858V1.66681H19.6666ZM14 5.16682C14 4.15414 14.8206 3.33347 15.8333 3.33347C16.846 3.33347 17.6666 4.15414 17.6666 5.16682C17.6666 6.17949 16.846 7.00012 15.8333 7.00012C14.8206 7.00016 14 6.17949 14 5.16682Z" fill="#A6A6A6"/></svg>',
       }
     });
   }
 
   popClose(popId: string){
+    this.addShopForm.reset();
     this._modalService.close(popId);
     this.isContinue = false;
   }
 
   isContinueClick(): void{
+    if (this.addShopForm.invalid) {
+      // this.addShopForm.controls.markAsDirty();
+      Object.keys(this.addShopForm.controls).forEach((key) => {
+        this.addShopForm.controls[key].touched = true;
+        this.addShopForm.controls[key].markAsDirty();
+      });
+      return;
+    }
     this.isContinue = true;
   }
 
@@ -290,9 +299,9 @@ export class OffersComponent implements OnInit {
       end_date: [addShopObj.end_date, [Validators.required]],
       about_us: [addShopObj.about_us, [Validators.required]],
 
-      flat_number: [addShopObj.flat_number, [Validators.required]],
-      street_name: [addShopObj.street_name, [Validators.required]],
-      area_name: [addShopObj.area_name, [Validators.required]],
+      flat_number: [addShopObj.flat_number],
+      street_name: [addShopObj.street_name],
+      area_name: [addShopObj.area_name],
       city: [addShopObj.city, [Validators.required]],
       state: [addShopObj.state, [Validators.required]],
       pincode: [addShopObj.pincode, [Validators.required, Validators.pattern('^[1-9]{1}[0-9]{2}\\s{0,1}[0-9]{3}$')]],

@@ -95,7 +95,7 @@ export class ProfileComponent implements OnInit {
   // private _getUserDetail(): void {
   //   this.isLoading = true;
   //   this._authService.getLoginUser().subscribe((result: any) => {
-  //     if (result.status) {
+  //     if (result.IsSuccess) {
   //       this.profileObj = result.user;
   //       this._prepareProfileForm();
   //       this.isLoading = false;
@@ -125,7 +125,7 @@ export class ProfileComponent implements OnInit {
       const preparedProfileObj: any = this.preparePersonalProfileObj(this.profileForm.value);
       this.isLoading = true;
       this._profileService.updateProfile(preparedProfileObj).subscribe((result: any) => {
-        if (result && result.status) {
+        if (result && result.IsSuccess) {
           this._globalService.loginUser$.next(result.data);
           this._sNotify.success(result.msg, 'Success');
           this.enableFields();

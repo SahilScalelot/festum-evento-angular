@@ -55,36 +55,45 @@
       <span (click)="popClose('discountDialog');" class="absolute right-0 -top-8 cursor-pointer text-xl"><i class="icon-close"></i></span>
       <form [formGroup]="addShopForm" class="pt-8">
         <div *ngIf="!isContinue">
-          <div class="upload-holder w-full h-auto">
-            <span class="text-sm text-quicksilver font-semibold">Add Poster <span class="font-normal">(Max size 10MB)</span></span>
+          <div class="upload-holder w-full h-auto relative">
+            <span class="text-sm text-quicksilver font-semibold">Add Image <span class="font-normal">(Max size 10MB)</span></span>
             <label class="upload upload-popup p-0 relative group" id="shopimgobjUpload">
-              <input #shopimgobj (change)="onFileChange($event)" accept="image/png, image/jpeg, image/gif" class="shopimgobj hidden" formControlName="shopimgobj" id="shopimgobj" type="file"/>
-              <img *ngIf="cropImgPreview" [src]="cropImgPreview" class="absolute inset-0 w-full h-full object-cover z-10 group-hover:-z-10"/>
+              <input #shopimgobj (change)="onFileChange($event)" accept="image/png, image/jpeg, image/gif" class="shopimgobj hidden" [formControlName]="'shop_image'" name="shop_image" id="shopimgobj" type="file"/>
+              <!-- <img *ngIf="cropImgPreview" [src]="cropImgPreview" class="absolute inset-0 w-full h-full object-cover z-10 group-hover:-z-10"/> -->
             </label>
+            <span class="absolute top-full text-red-500 text-xs" *ngIf="addShopForm.get('shop_image')?.invalid && (addShopForm.get('shop_image')?.dirty && addShopForm.get('shop_image')?.touched)">
+              <span *ngIf="addShopForm.get('shop_image')?.errors?.['required']">
+                Shop Image is required.
+              </span>
+            </span>
           </div>
-          <!-- <div class="upload-holder w-full">
-            <label for="upload" class="upload upload-popup">
-              <input type="file" [formControlName]="'shop_image'" name="shop_image" id="upload" class="appearance-none hidden"/>
-              <span class="input-titel mt-1 text-base"><i class="icon-img_upload mr-2"></i>Add Image</span>
-            </label>
-          </div> -->
           <div class="flex flex-wrap justify-between -mx-2">
-            <div class="w-full md:w-1/2 px-2 pt-5 inputHolder">
+            <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative">
               <span class="input-titel">Shop Name</span>
               <input type="text" [formControlName]="'shop_name'" name="shop_name" class="input" />
+              <span class="absolute top-full text-red-500 text-xs" *ngIf="addShopForm.get('shop_name')?.invalid && (addShopForm.get('shop_name')?.dirty && addShopForm.get('shop_name')?.touched)">
+                <span *ngIf="addShopForm.get('shop_name')?.errors?.['required']">
+                  Shop Name is required.
+                </span>
+              </span>
             </div>
-            <div class="w-full md:w-1/2 px-2 pt-5 inputHolder">
+            <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative">
               <span class="input-titel">Shop Category</span>
               <select [formControlName]="'shop_category'" name="shop_category" class="arrow bg-white py-3 text-japaneseIndigo font-bold rounded-md tracking-wider appearance-none focus-visible:outline-none">
                 <option value="">Select Category</option>
-                <option value="">Select Category</option>
-                <option value="">Select Category</option>
-                <option value="">Select Category</option>
+                <option value="1">Select Category</option>
+                <option value="2">Select Category</option>
+                <option value="3">Select Category</option>
               </select>
+              <span class="absolute top-full text-red-500 text-xs" *ngIf="addShopForm.get('shop_category')?.invalid && (addShopForm.get('shop_category')?.dirty && addShopForm.get('shop_category')?.touched)">
+                <span *ngIf="addShopForm.get('shop_category')?.errors?.['required']">
+                  Shop Category is required.
+                </span>
+              </span>
             </div>
           </div>
           <div class="flex flex-wrap items-end -mx-2">
-            <div class="w-full xl:w-1/2 px-2 pt-5 inputHolder">
+            <div class="w-full xl:w-1/2 px-2 pt-5 inputHolder relative">
               <span class="input-titel">Shop Days</span>
               <div class="weekDays-selector flex flex-wrap">
                 <div class="" *ngFor="let weekday of weekdays" [formArrayName]="'weekdays'">
@@ -92,27 +101,47 @@
                   <label class="cursor-pointer uppercase" [for]="'weekday-'+weekday">{{weekday}}</label>
                 </div>
               </div>
+              <span class="absolute top-full text-red-500 text-xs" *ngIf="addShopForm.get('weekdays')?.invalid && (addShopForm.get('weekdays')?.dirty && addShopForm.get('weekdays')?.touched)">
+                <span *ngIf="addShopForm.get('weekdays')?.errors?.['required']">
+                  Shop Days is required.
+                </span>
+              </span>
             </div>
             <div class="w-full xl:w-1/2 px-2 pt-5 flex space-x-4">
-              <div class="w-full lg:w-1/2">
+              <div class="w-full lg:w-1/2 relative">
                 <span class="input-titel">Start Date</span>
                 <label class="bg-white rounded-md flex space-x-3 relative">
                   <i class="icon-calendar-2 text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0"></i>
                   <input type="date" [formControlName]="'start_date'" name="start_date" class="w-full rounded-md outline-none py-3" />
                 </label>
+                <span class="absolute top-full text-red-500 text-xs" *ngIf="addShopForm.get('start_date')?.invalid && (addShopForm.get('start_date')?.dirty && addShopForm.get('start_date')?.touched)">
+                  <span *ngIf="addShopForm.get('start_date')?.errors?.['required']">
+                    Start Date is required.
+                  </span>
+                </span>
               </div>
-              <div class="w-full lg:w-1/2">
+              <div class="w-full lg:w-1/2 relative">
                 <span class="input-titel">End Date</span>
                 <label class="bg-white rounded-md flex space-x-3 relative">
                   <i class="icon-calendar-2 text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0"></i>
                   <input type="date" [formControlName]="'end_date'" name="end_date" class="w-full rounded-md outline-none py-3" />
                 </label>
+                <span class="absolute top-full text-red-500 text-xs" *ngIf="addShopForm.get('end_date')?.invalid && (addShopForm.get('end_date')?.dirty && addShopForm.get('end_date')?.touched)">
+                  <span *ngIf="addShopForm.get('end_date')?.errors?.['required']">
+                    End Date is required.
+                  </span>
+                </span>
               </div>
             </div>  
           </div>
-          <div class="w-full pt-5">
+          <div class="w-full pt-5 relative">
             <span class="input-titel">About us</span>
             <textarea [formControlName]="'about_us'" name="about_us" cols="30" rows="4" class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md"></textarea>
+            <span class="absolute top-full text-red-500 text-xs" *ngIf="addShopForm.get('about_us')?.invalid && (addShopForm.get('about_us')?.dirty && addShopForm.get('about_us')?.touched)">
+              <span *ngIf="addShopForm.get('about_us')?.errors?.['required']">
+                About us is required.
+              </span>
+            </span>
           </div>
           <div class="pt-5 -mx-2">
             <h5 class="px-2 pb-2">Address</h5>
@@ -184,11 +213,11 @@
         </div>
         <div *ngIf="isContinue">
           <div class="flex items-end flex-wrap -mx-2">
-            <div class="w-full md:w-1/2 px-2 pt-5 inputHolder">
+            <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative">
                 <span class="input-titel">Company name</span>
                 <input type="text" [formControlName]="'company_name'" name="company_name" class="input">
             </div>
-            <div class="w-full md:w-1/2 px-2 pt-5 inputHolder">
+            <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative">
                 <span class="input-titel">Company GST (Optional)</span>
                 <label for="upload" class="upload upload-popup py-3">
                   <input type="file" [formControlName]="'upload_pdf'" name="upload_pdf" name="images" id="upload" class="appearance-none hidden">
@@ -197,11 +226,11 @@
             </div>
           </div>
           <div class="flex items-end flex-wrap -mx-2">
-            <div class="w-full md:w-1/2 px-2 pt-5 inputHolder">
+            <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative">
                 <span class="input-titel">Company Contact No</span>
                 <input type="text" [formControlName]="'company_contact_number'" name="company_contact_number" class="input">
             </div>
-            <div class="w-full md:w-1/2 px-2 pt-5 inputHolder">
+            <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative">
                 <span class="input-titel">Company Email</span>
                 <input type="text" [formControlName]="'company_email'" name="company_email" class="input">
             </div>

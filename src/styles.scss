@@ -130,8 +130,8 @@ input:checked + i{@apply scale-100 duration-300;}
 .radio i{@apply absolute scale-0 origin-center;}
 
 /* arrow icon  */
-//   .arrow{@apply appearance-none w-full;background-image: url('./assets/images/arrow.png');background-repeat: no-repeat;background-position: calc(100% - 17px) center;cursor: pointer;}
-//   .profile-arrow{@apply appearance-none w-full;background-image: url('./assets/images/arrow.png');background-repeat: no-repeat;background-position: calc(100% - 10px) center;cursor: pointer;}
+.arrow{@apply appearance-none w-full;background-image: url('./assets/images/landing-page/svg/arrow.svg');background-repeat: no-repeat;background-position: calc(100% - 17px) center;cursor: pointer;}
+.profile-arrow{@apply appearance-none w-full;background-image: url('./assets/images/landing-page/svg/arrow.svg');background-repeat: no-repeat;background-position: calc(100% - 10px) center;cursor: pointer;}
 
 /* date input */
 input[type="date"]::-webkit-inner-spin-button,input[type="time"]::-webkit-inner-spin-button,
@@ -285,7 +285,7 @@ header.nav-up {@apply py-0 -translate-y-28;}
 .gradiyent-c{background: linear-gradient(282.76deg, #FE4D5F 1.72%, rgba(254, 77, 95, 0.63) 100%);} 
 .dates button{@apply w-[14.28%] py-3 font-semibold;}
 .dates button .selact{@apply p-2 md:p-3.5 text-sm md:text-base rounded-full bg-[#15E0B0] text-white;}
-// .arrow{@apply appearance-none w-full;background-image: url('../assets./images/svg/arrow.svg');background-repeat: no-repeat;background-position: calc(100% - 17px) center;}
+.arrow{@apply appearance-none w-full;background-image: url('./assets/images/landing-page/svg/arrow.svg');background-repeat: no-repeat;background-position: calc(100% - 17px) center;}
 // Landing End
 
 @tailwind utilities;
