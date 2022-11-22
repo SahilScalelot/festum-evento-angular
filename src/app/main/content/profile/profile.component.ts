@@ -143,8 +143,9 @@ export class ProfileComponent implements OnInit {
       this._profileService.updateProfile(preparedProfileObj).subscribe((result: any) => {
         if (result && result.IsSuccess) {
           this._globalService.loginUser$.next(result.Data);
-          this._sNotify.success(result.msg, 'Success');
+          this._sNotify.success(result.Message, 'Success');
           // this.enableFields();
+          this.isEditProfile = false;
           this.isLoading = false;
           // window.location.reload();
         } else {  

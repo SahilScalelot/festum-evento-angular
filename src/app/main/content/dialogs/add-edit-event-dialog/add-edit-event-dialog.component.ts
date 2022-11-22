@@ -80,7 +80,7 @@ export class AddEditEventDialogComponent implements OnInit {
 
     this._createEventService.addEvent(preparedEventObj).subscribe((result: any) => {
       if (result && result.IsSuccess) {
-        this.newEventObj.add_event = result.detail;        
+        this.newEventObj.add_event = result.Data;        
         // this._globalService.addEditEvent$.next(this.newEventObj);
         localStorage.setItem('newEventObj', JSON.stringify(this.newEventObj));
         this.isLoading = false;
@@ -133,10 +133,10 @@ export class AddEditEventDialogComponent implements OnInit {
 
   prepareEventObj(eventObj: any = {}): any {
     const preparedEventObj: any = this._globalFunctions.copyObject(eventObj);
-    preparedEventObj.is_other = false;
+    preparedEventObj.other = false;
     if (preparedEventObj.other_category && preparedEventObj.other_category != '') {
       preparedEventObj.event_category = preparedEventObj.other_category;
-      preparedEventObj.is_other = true;
+      preparedEventObj.other = true;
     }
     return preparedEventObj;
   }

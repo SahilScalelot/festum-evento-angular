@@ -57,7 +57,7 @@ button.primary,.primary{@apply bg-caribbeanGreen rounded-md font-bold text-white
 .input-titel span{@apply text-red-500 text-lg leading-none;}
 .input-titel span.textLow{@apply text-quicksilver text-xs;}
 .input-titel span.textLow-red{@apply text-magicPotion font-bold text-xs;}
-.inputHolder input.input,.inputHolder select,.inputHolder .bgquicksilver,.inputHolder .bgmagicpotion,.inputHolder .bormagicpotion{@apply flex w-full bg-white p-3.5 py-3 outline-none rounded-md;}
+.inputHolder input.input,.inputHolder textarea.input,.inputHolder select,.inputHolder .bgquicksilver,.inputHolder .bgmagicpotion,.inputHolder .bormagicpotion{@apply flex w-full bg-white p-3.5 py-3 outline-none rounded-md;}
 .input-label-holder .input-checkd{@apply text-sm font-bold text-quicksilver flex items-center align-middle;}
 .teb-holder .inputHolder select {@apply py-2.5 w-52 lg:w-72;}
 
@@ -325,7 +325,7 @@ mat-progress-spinner.mat-progress-spinner.mat-spinner.mat-primary.mat-progress-s
 }
 
 .is-invalid {box-shadow: inset 0 0 4px rgba(255, 0, 0, .4);}
-.snotifyToast__inner .snotifyToast__body {@apply break-all;}
+.snotifyToast__inner .snotifyToast__body {@apply whitespace-normal;}
 
 .pagination-festum {@apply  flex items-center justify-between;}
 .pagination-festum .show-text {@apply text-base text-gray-400 normal-case font-medium;}

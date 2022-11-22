@@ -69,7 +69,7 @@
           </div>
           <div class="w-full lg:w-1/2 px-2 inputHolder pt-3">
             <span class="input-titel">Date Of Birth</span>
-            <p-calendar class="input font-bold" [showIcon]="false" inputId="icon" formControlName='dob' [maxDate]="maxDate" dateFormat="dd-mm-yy"></p-calendar>
+            <p-calendar inputStyleClass="input font-bold" [showIcon]="false" inputId="icon" formControlName='dob' [maxDate]="maxDate" dateFormat="dd-mm-yy"></p-calendar>
             <!-- <span *ngIf="dob && dob.invalid && dob.touched && submit" class="text-red-500 text-xs">DOB is required</span> -->
             <span *ngIf="profileDob && profileDob.invalid && profileDob.touched" class="text-red-500 text-xs">
               <span *ngIf="profileDob?.errors?.required">Date Of Birth is required</span>
@@ -120,10 +120,10 @@
             </span>
           </div>
         </div>
-        <div class="w-full pt-3">
+        <div class="w-full inputHolder pt-3">
           <span class="input-titel">About Me</span>
           <textarea cols="30" rows="5" style="font-weight:bold;"
-            class="outline-none flex items-center w-full bg-white resize-none p-2 px-3.5 rounded-md placeholder:text-base placeholder:leading-6 placeholder:font-bold placeholder:text-japaneseIndigo"
+            class="input outline-none flex items-center w-full bg-white resize-none p-2 px-3.5 rounded-md placeholder:text-base placeholder:leading-6 placeholder:font-bold placeholder:text-japaneseIndigo"
             placeholder="Type here..." formControlName="about"></textarea>
         </div>
       </div>
