@@ -7,6 +7,7 @@ import { AgmCoreModule } from '@agm/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ModalModule } from '../../_modal';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { CalendarModule } from 'primeng/calendar';
 
 const routes: Routes = [
   {
@@ -28,6 +29,7 @@ const routes: Routes = [
     ReactiveFormsModule,
     ModalModule,
     ImageCropperModule,
+    CalendarModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyDLgr8YB5IK8dBIEWClexZGzXaB7UlVm7Q',
       libraries: ['places']
