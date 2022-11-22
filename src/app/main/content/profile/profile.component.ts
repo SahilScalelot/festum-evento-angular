@@ -87,7 +87,6 @@ export class ProfileComponent implements OnInit {
       if (user) {
         this.profileObj = user;
         this._prepareProfileForm(this.profileObj);
-        this.profile_pic = this.profileObj.profile_pic;
         this.profile_pic = CONSTANTS.baseImageURL + this.profileObj.profile_pic;
         this.isLoading = false;
       }
