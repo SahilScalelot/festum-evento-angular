@@ -50,9 +50,6 @@ export class AboutEventStepComponent implements OnInit {
     } else {
       this._router.navigate(['/events']);
     }
-    if (!this.eventObj || !this.eventObj.add_event) {
-      this._router.navigate(['/events']);
-    }
   }
 
   private _prepareAboutEventForm(eventObj: any = {}): void {

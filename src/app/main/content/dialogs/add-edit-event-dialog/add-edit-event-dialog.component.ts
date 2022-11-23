@@ -45,9 +45,7 @@ export class AddEditEventDialogComponent implements OnInit {
       event_type: [this.eventObj?.event_type ? this.eventObj.event_type : CONSTANTS.eventType.B2B, Validators.required],
       event_category: [this.eventObj?.event_category ? this.eventObj.event_category : '', Validators.required],
       other_category: [this.eventObj?.other ? this.eventObj.event_category : ''],
-    });
-    console.log(this.eventObj);
-    
+    });    
   }
 
   validate(preparedEventObj: any): boolean {
