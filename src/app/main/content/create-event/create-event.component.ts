@@ -12,7 +12,6 @@ import {CreateEventService} from "./create-event.service";
 })
 export class CreateEventComponent implements OnInit {
   items: MenuItem[] | any;
-  subscription: Subscription | any;
   isAddArrangement: boolean = false;
   currentURL: any = '';
   eventObj: any = {};
@@ -70,16 +69,6 @@ export class CreateEventComponent implements OnInit {
         routerLink: 'terms-and-conditions'
       }
     ];
-
-    this.subscription = this._globalService.paymentComplete$.subscribe((personalInformation) => {
-      console.log('test');
-    });
-  }
-
-  ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
   }
 
   prepareEventObj(): void {
@@ -89,22 +78,10 @@ export class CreateEventComponent implements OnInit {
     } else {
       this._router.navigate(['/events']);
     }
-    // this._globalService.addEditEvent$.subscribe((eventObj: any) => {
-    //   if (eventObj) {
-    //     this.eventObj = eventObj;
-    //   }
-    // });
-    // if (!this.eventObj || !this.eventObj.add_event) {
-    //   this._router.navigate(['/events']);
-    // }
   }
 
   openAddArrangementDialog(): void {
     this._createEventService.isOpenAddEditArrangementDialog$.next(true);
-  }
-
-  onNextStep(newEventObj: any = {}): void {
-    console.log(newEventObj);
   }
 
 }

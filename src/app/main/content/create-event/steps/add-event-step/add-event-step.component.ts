@@ -14,8 +14,7 @@ export class AddEventStepComponent implements OnInit {
   isEditEvent: boolean = false;
   isLoading: boolean = false;
 
-  @Input() eventObj: any = {};
-  @Output() newEventObj: EventEmitter<any> = new EventEmitter();
+  eventObj: any = {};
 
   constructor(
     private _globalService: GlobalService,
@@ -31,26 +30,16 @@ export class AddEventStepComponent implements OnInit {
   }
 
   next(): any {
-    // this._globalService.addEditEvent$.next(this.eventObj);
-    this.newEventObj.emit(this.eventObj);
     this._router.navigate(['/create-event/about-event']);
   }
 
   prepareEventObj(): void {
     if (localStorage.getItem('newEventObj')) {
       const eventString: any = localStorage.getItem('newEventObj');
-      this.eventObj = JSON.parse(eventString);
+      this.eventObj = JSON.parse(eventString);      
     } else {
       this._router.navigate(['/events']);
     }
-    // this._globalService.addEditEvent$.subscribe((eventObj: any) => {
-    //   if (eventObj) {
-    //     this.eventObj = eventObj;
-    //   }
-    // });
-    // if (!this.eventObj || !this.eventObj.add_event) {
-    //   this._router.navigate(['/events']);
-    // }
   }
 
   deleteEvent(eventId: any): void {

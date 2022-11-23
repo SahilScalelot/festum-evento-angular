@@ -42,7 +42,7 @@ export class AddEditEventDialogComponent implements OnInit {
         this.newEventObj = newEventObj;
       }
     }
-    this.isForUpdateEvent = !!(this.eventObj && this.eventObj.id);
+    this.isForUpdateEvent = !!(this.eventObj && this.eventObj._id);
     this.eventObj = this.newEventObj.add_event;
     const eventType: any = (this.eventObj && this.eventObj.event_type) ? this.eventObj.event_type : CONSTANTS.eventType.B2B
     this.eventType = CONSTANTS.unitTypeArr[eventType].options;
@@ -77,11 +77,9 @@ export class AddEditEventDialogComponent implements OnInit {
     }
     this.isLoading = true;
     this.newEventForm.disable();
-
     this._createEventService.addEvent(preparedEventObj).subscribe((result: any) => {
       if (result && result.IsSuccess) {
-        this.newEventObj.add_event = result.Data;        
-        // this._globalService.addEditEvent$.next(this.newEventObj);
+        this.newEventObj.add_event = result.Data;
         localStorage.setItem('newEventObj', JSON.stringify(this.newEventObj));
         this.isLoading = false;
         this.newEventForm.enable();
@@ -99,14 +97,13 @@ export class AddEditEventDialogComponent implements OnInit {
   }
 
   updateEvent(): any {
-    const preparedEventObj: any = this.prepareEventObj(this.newEventForm.value);
+    const preparedEventObj: any = this.prepareEventObj(this.newEventForm.value, true);
     if (!this.validate(preparedEventObj)) {
       return;
     }
     this.isLoading = true;
     this.newEventForm.disable();
-
-    this._createEventService.editEvent(this.eventObj.id, preparedEventObj).subscribe((result: any) => {
+    this._createEventService.addEvent(preparedEventObj).subscribe((result: any) => {
       if (result && result.IsSuccess) {
         const oldEventObj: any = this._globalFunctions.copyObject(this.eventObj);
         oldEventObj.name = this.newEventForm.value.name;
@@ -131,8 +128,11 @@ export class AddEditEventDialogComponent implements OnInit {
     });
   }
 
-  prepareEventObj(eventObj: any = {}): any {
+  prepareEventObj(eventObj: any = {}, isForUpdateEvent: boolean = false): any {
     const preparedEventObj: any = this._globalFunctions.copyObject(eventObj);
+    if (isForUpdateEvent) {
+      preparedEventObj.eventid = this.newEventObj?.add_event?._id || '';
+    }
     preparedEventObj.other = false;
     if (preparedEventObj.other_category && preparedEventObj.other_category != '') {
       preparedEventObj.event_category = preparedEventObj.other_category;
