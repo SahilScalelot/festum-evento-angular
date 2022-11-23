@@ -4,8 +4,8 @@
     <div *ngFor="let occasion of occasions;let i = index;" class="accordion_item h-full p-0 relative">
       <div #accordionClick (click)="toggleAccordion($event, i)" class="title_tab flex justify-between items-center px-5 py-6 max-h-[78px] accordion">
         <div (click)="accordionClick.click()" class="space-x-7 flex items-center">
-          <img [alt]="occasion.seat.name" class="w-10" [src]="constants.baseImageURL + occasion.seat.svg"/>
-          <h4>{{occasion.seat.name}}</h4>
+          <img [alt]="occasion.seat.itemname" class="w-10" [src]="constants.baseImageURL + occasion.seat.itemimage"/>
+          <h4>{{occasion.seat.itemname}}</h4>
         </div>
         <div class="flex items-center space-x-7">
           <a href="javascript:void(0);" (click)="deleteArrangement(occasion.seating_item)"><i class="icon-delete text-lg text-quicksilver"></i></a>
@@ -30,7 +30,7 @@
                 <div class="" *ngFor="let arrangement of occasion.arrangements">
                   <div class="flex flex-wrap items-center">
                     <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-2">
-                      <span class="block text-xs xl:text-sm text-quicksilver">No of {{occasion?.seat?.name}}</span>
+                      <span class="block text-xs xl:text-sm text-quicksilver">No of {{occasion?.seat?.itemname}}</span>
                       <span class="block text-base font-bold text-quicksilver">{{arrangement.no_of_seat}}</span>
                     </div>
                     <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-2">
@@ -38,8 +38,8 @@
                       <span class="block text-base font-bold text-quicksilver">{{((arrangement.seat_location == 'TOP') ? 'T' : (arrangement.seat_location == 'CENTER' ? 'C' : 'B'))}} - {{((arrangement.seat_side == 'LEFT') ? 'L' : (arrangement.seat_side == 'RIGHT' ? 'R' : 'N'))}}</span>
                     </div>
                     <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-2"
-                         *ngIf="occasion?.seat?.name != 'Chair' && occasion?.seat?.name != 'Stands'">
-                      <span class="block text-xs xl:text-sm text-quicksilver">per {{occasion?.seat?.name}} person capacity</span>
+                         *ngIf="(occasion?.seat?.itemname != 'Chair' || occasion?.seat?.itemname != 'chair') && (occasion?.seat?.itemname != 'Stands' || occasion?.seat?.itemname != 'stands')">
+                      <span class="block text-xs xl:text-sm text-quicksilver">per {{occasion?.seat?.itemname}} person capacity</span>
                       <span class="block text-base font-bold text-quicksilver">{{arrangement.table_person_capacity}}</span>
                     </div>
                     <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-2">
@@ -47,8 +47,8 @@
                       <span class="block text-base font-bold text-quicksilver">{{arrangement.person_capacity}}</span>
                     </div>
                     <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-2"
-                         *ngIf="occasion?.seat?.name != 'Chair' && occasion?.seat?.name != 'Stands'">
-                      <span class="block text-xs xl:text-sm text-quicksilver">Per {{occasion?.seat?.name}} Price</span>
+                         *ngIf="(occasion?.seat?.itemname != 'Chair' || occasion?.seat?.itemname != 'chair') && (occasion?.seat?.itemname != 'Stands' || occasion?.seat?.itemname != 'stands')">
+                      <span class="block text-xs xl:text-sm text-quicksilver">Per {{occasion?.seat?.itemname}} Price</span>
                       <span class="block text-base font-bold text-quicksilver">{{arrangement.table_price}}</span>
                     </div>
                     <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-2">
@@ -63,7 +63,7 @@
                       <p>Description</p>
                       <span class="text-base text-quicksilver font-bold">{{arrangement?.description || 'null'}}</span>
                     </div>
-                    <div class="flex items-center pt-4 ml-auto" *ngIf="occasion?.seat?.name != 'Chair' && occasion?.seat?.name != 'Stands'">
+                    <div class="flex items-center pt-4 ml-auto" *ngIf="(occasion?.seat?.itemname != 'Chair' || occasion?.seat?.itemname != 'chair') && (occasion?.seat?.itemname != 'Stands' || occasion?.seat?.itemname != 'stands')">
                       <input class="switch mx-3 order-2" id="on" type="checkbox" [(ngModel)]="arrangement.booking_acceptance"/>
                       <span class="off text-base font-bold anim order-1 text-caribbeanGreen">per table</span>
                       <span class="on text-base font-bold anim order-3">per person</span>

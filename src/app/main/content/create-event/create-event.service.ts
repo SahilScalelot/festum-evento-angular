@@ -126,7 +126,7 @@ export class CreateEventService {
 
   // seats Api
   getSeatingItems(): any {
-    return this.http.get(environment.appURL + 'seats', this._globalFunctions.getAuthorizationHeader());
+    return this.http.get(environment.appURL + 'organizer/item/list', this._globalFunctions.getAuthorizationHeader());
   }
 
   bookOccasionSeat(bookOccasionSeatObj: any): any {

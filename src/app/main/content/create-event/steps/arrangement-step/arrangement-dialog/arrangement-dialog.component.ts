@@ -30,10 +30,6 @@ export class ArrangementDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.isInitial = true;
-    // if (localStorage.getItem('newEventObj')) {
-    //   const eventString: any = localStorage.getItem('newEventObj');
-    //   this.eventObj = JSON.parse(eventString);
-    // }
     this._prepareArrangementForm();
     this.prepareSeatingItems();
     if (this.arrangementObj && this.arrangementObj.seat) {
@@ -77,7 +73,7 @@ export class ArrangementDialogComponent implements OnInit {
         this.arrangements.controls[index].get('total_person')?.setValue((arrangement.number_of_seating_item * arrangement.per_seating_person));
         this.arrangements.controls[index].get('per_person_price')?.setValue(Number((arrangement.per_seating_price / arrangement.per_seating_person).toFixed(2)));
         this.arrangements.controls[index].get('total_amount')?.setValue((arrangement.per_seating_price * arrangement.number_of_seating_item));
-      } else if (this.selectedSeatingObj && (this.selectedSeatingObj.name == 'Chair' || this.selectedSeatingObj.name == 'Stands')) {
+      } else if (this.selectedSeatingObj && (this.selectedSeatingObj.itemname == 'Chair' || this.selectedSeatingObj.itemname == 'chair' || this.selectedSeatingObj.itemname == 'Stands' || this.selectedSeatingObj.itemname == 'stands')) {
         this.arrangements.controls[index].get('total_amount')?.setValue((arrangement.number_of_seating_item * arrangement.per_person_price));
       }
     });
@@ -94,14 +90,14 @@ export class ArrangementDialogComponent implements OnInit {
       (!this.arrangementObj || !this.arrangementObj.seating_item)) {
       const arrangementKeys = Object.keys(_.keyBy(this.eventObj.arrangements, 'seat_id'));
       _.each(arrangementKeys, (key: any) => {
-        this.seatingItems = _.remove(this.seatingItems, (seatingItem: any) => { return seatingItem.id != key; });
+        this.seatingItems = _.remove(this.seatingItems, (seatingItem: any) => { return seatingItem._id != key; });
       });
       this.isInitial = false;
     }
   }
 
   onSeatingItemChange(): void {
-    this.selectedSeatingObj = _.find(this.seatingItems, ['id', Number(this.seatingForm.get('seating_item').value)]);
+    this.selectedSeatingObj = _.find(this.seatingItems, ['_id', this.seatingForm.get('seating_item').value]);
     this.arrangements.controls = [];
     this.addArrangements();
   }
@@ -126,9 +122,9 @@ export class ArrangementDialogComponent implements OnInit {
     const seatingObj = this.seatingForm.value;
     _.each(seatingObj.arrangements, (arrangement: any) => {
       const preparedArrangementObj: any = {};
-      preparedArrangementObj.seat_id = (this.arrangementObj && this.arrangementObj.seating_item) ? this.arrangementObj.seating_item : Number(seatingObj.seating_item);
-      preparedArrangementObj.seat = (this.arrangementObj && this.arrangementObj.seat) ? this.arrangementObj.seat : _.find(this.seatingItems, ['id', Number(seatingObj.seating_item)]);
-      preparedArrangementObj.name = preparedArrangementObj?.seat?.name;
+      preparedArrangementObj.seat_id = (this.arrangementObj && this.arrangementObj.seating_item) ? this.arrangementObj.seating_item : seatingObj.seating_item;
+      preparedArrangementObj.seat = (this.arrangementObj && this.arrangementObj.seat) ? this.arrangementObj.seat : _.find(this.seatingItems, ['_id', seatingObj.seating_item]);
+      preparedArrangementObj.name = preparedArrangementObj?.seat?.itemname;
       preparedArrangementObj.no_of_seat = arrangement.number_of_seating_item;
       preparedArrangementObj.seat_location = arrangement.vertical_location;
       preparedArrangementObj.seat_side = arrangement.horizontal_location;
