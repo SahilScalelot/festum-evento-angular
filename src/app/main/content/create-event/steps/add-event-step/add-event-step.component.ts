@@ -14,7 +14,8 @@ export class AddEventStepComponent implements OnInit {
   isEditEvent: boolean = false;
   isLoading: boolean = false;
 
-  eventObj: any = {};
+  eventId: any;
+  add_event: any = {};
 
   constructor(
     private _globalService: GlobalService,
@@ -27,16 +28,17 @@ export class AddEventStepComponent implements OnInit {
 
   ngOnInit(): void {
     this.prepareEventObj();
+    this.getEvent(this.eventId);    
   }
 
   next(): any {
-    this._router.navigate(['/create-event/about-event']);
+    this._router.navigate(['/events/create/about-event']);
   }
 
   prepareEventObj(): void {
     if (localStorage.getItem('newEventObj')) {
       const eventString: any = localStorage.getItem('newEventObj');
-      this.eventObj = JSON.parse(eventString);      
+      this.eventId = JSON.parse(eventString);      
     } else {
       this._router.navigate(['/events']);
     }
@@ -58,6 +60,27 @@ export class AddEventStepComponent implements OnInit {
       this._globalFunctions.errorHanding(error, this, true);
       this.isLoading = false;
     });
+  }
+
+  getEvent(eventId: any): any {
+    // Open delete confirmation popup
+    this.isLoading = true;    
+    this._createEventService.getEvent(eventId).subscribe((result: any) => {
+      if (result && result.Data) {
+        this.add_event = result.Data;
+        this.isLoading = false;
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+        this.isLoading = false;
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isLoading = false;
+    });
+  }
+
+  editEvent(editedEventObj: boolean): void {
+    this.add_event = editedEventObj;
   }
 
   closePop(flag: boolean): void {

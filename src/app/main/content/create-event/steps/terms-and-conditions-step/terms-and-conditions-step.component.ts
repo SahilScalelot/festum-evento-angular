@@ -1527,7 +1527,7 @@ export class TermsAndConditionsStepComponent implements OnInit {
   backBtn(): void {
     this.eventObj.terms_and_conditions = this.prepareObj(this.termsAndConditionsForm.value);
     this.newEventObj.emit(this.eventObj);
-    this._router.navigate(['/create-event/personal-details']);
+    this._router.navigate(['/events/create/personal-details']);
   }
 
   saveFullEvent(): void {

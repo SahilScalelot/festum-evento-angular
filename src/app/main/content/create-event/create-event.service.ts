@@ -20,7 +20,10 @@ export class CreateEventService {
 
   // Add Event First Step
   addEvent(eventObj: any): any {
-    return this.http.post(environment.appURL + 'organizer/events/create', eventObj, this._globalFunctions.getAuthorizationHeader());
+    return this.http.post(environment.appURL + 'organizer/events/save', eventObj, this._globalFunctions.getAuthorizationHeader());
+  }
+  getEvent(eventId: any): any {
+    return this.http.get(environment.appURL + 'organizer/events?eventid='+eventId, this._globalFunctions.getAuthorizationHeader());
   }
 
   // About Event Step

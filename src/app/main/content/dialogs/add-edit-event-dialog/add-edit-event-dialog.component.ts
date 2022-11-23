@@ -17,6 +17,7 @@ export class AddEditEventDialogComponent implements OnInit {
   @Input() eventObj: any;
   @Output() isAddEventChange = new EventEmitter<boolean>();
   @Output() isEditEventChange = new EventEmitter<boolean>();
+  @Output() editedEvent = new EventEmitter<boolean>();
   @ViewChild('newEventNgForm') newEventNgForm: any;
   eventType: any;
   constants: any = CONSTANTS;
@@ -35,23 +36,18 @@ export class AddEditEventDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (localStorage.getItem('newEventObj')) {
-      let eventString: any = localStorage.getItem('newEventObj');
-      const newEventObj = JSON.parse(eventString);
-      if (newEventObj && newEventObj.add_event) {
-        this.newEventObj = newEventObj;
-      }
-    }
     this.isForUpdateEvent = !!(this.eventObj && this.eventObj._id);
-    this.eventObj = this.newEventObj.add_event;
+    // this.eventObj = this.newEventObj.add_event;
     const eventType: any = (this.eventObj && this.eventObj.event_type) ? this.eventObj.event_type : CONSTANTS.eventType.B2B
     this.eventType = CONSTANTS.unitTypeArr[eventType].options;
     this.newEventForm = this._formBuilder.group({
       name: [this.eventObj?.name ? this.eventObj.name : '', [Validators.required]],
       event_type: [this.eventObj?.event_type ? this.eventObj.event_type : CONSTANTS.eventType.B2B, Validators.required],
       event_category: [this.eventObj?.event_category ? this.eventObj.event_category : '', Validators.required],
-      other_category: [this.eventObj?.other_category ? this.eventObj.other_category : ''],
+      other_category: [this.eventObj?.other ? this.eventObj.event_category : ''],
     });
+    console.log(this.eventObj);
+    
   }
 
   validate(preparedEventObj: any): boolean {
@@ -79,7 +75,7 @@ export class AddEditEventDialogComponent implements OnInit {
     this.newEventForm.disable();
     this._createEventService.addEvent(preparedEventObj).subscribe((result: any) => {
       if (result && result.IsSuccess) {
-        this.newEventObj.add_event = result.Data;
+        this.newEventObj = result.Data._id;
         localStorage.setItem('newEventObj', JSON.stringify(this.newEventObj));
         this.isLoading = false;
         this.newEventForm.enable();
@@ -105,16 +101,9 @@ export class AddEditEventDialogComponent implements OnInit {
     this.newEventForm.disable();
     this._createEventService.addEvent(preparedEventObj).subscribe((result: any) => {
       if (result && result.IsSuccess) {
-        const oldEventObj: any = this._globalFunctions.copyObject(this.eventObj);
-        oldEventObj.name = this.newEventForm.value.name;
-        oldEventObj.event_type = this.newEventForm.value.event_type;
-        oldEventObj.event_category = this.newEventForm.value.event_category;
-        oldEventObj.other_category = this.newEventForm.value.other_category;
-        this.newEventObj.add_event = oldEventObj;
-        // this._globalService.addEditEvent$.next(this.newEventObj);
-        localStorage.setItem('newEventObj', JSON.stringify(this.newEventObj));
         this.isLoading = false;
         this.newEventForm.enable();
+        this.editedEvent.emit(result.Data);
         this.closePopup();
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
@@ -131,7 +120,7 @@ export class AddEditEventDialogComponent implements OnInit {
   prepareEventObj(eventObj: any = {}, isForUpdateEvent: boolean = false): any {
     const preparedEventObj: any = this._globalFunctions.copyObject(eventObj);
     if (isForUpdateEvent) {
-      preparedEventObj.eventid = this.newEventObj?.add_event?._id || '';
+      preparedEventObj.eventid = this.eventObj._id || '';
     }
     preparedEventObj.other = false;
     if (preparedEventObj.other_category && preparedEventObj.other_category != '') {

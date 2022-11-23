@@ -54,7 +54,7 @@ const routes: Routes = [
         component: EventOverviewComponent
       },
       {
-        path: 'create-event',
+        path: 'events/create',
         loadChildren: () => import('../app/main/content/create-event/create-event.module').then(m => m.CreateEventModule)
       },
       {

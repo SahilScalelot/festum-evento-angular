@@ -73,7 +73,7 @@ export class EventComponent implements OnInit {
   closePop(flag: boolean): void {
     this.isAddEvent = flag;
     if (localStorage.getItem('newEventObj')) {
-      this._router.navigate(['/create-event']);
+      this._router.navigate(['/events/create']);
     }
   }
 

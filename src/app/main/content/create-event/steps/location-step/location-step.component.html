@@ -1,3 +1,5 @@
+<p-progressSpinner *ngIf="isLoading" [style]="{width: '50px', height: '50px'}" animationDuration=".5s" strokeWidth="8" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-x-0 top-0 h-full w-full z-40" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
+
 <div class="space-y-5">
   <form [formGroup]="locationForm" class="space-y-5">
     <h5 class="px-2">Address</h5>
@@ -53,8 +55,7 @@
           <agm-marker (dragEnd)="markerDragEnd(markers, $event)" (markerClick)="clickedMarker(markers.label)" [label]="markers.label" [latitude]="lat" [longitude]="lng" [markerDraggable]="true"></agm-marker>
         </agm-map>
         <!-- (click)="googleMap()" -->
-        <button (click)="addMapLocation()"
-            class="secondary flex justify-end ml-auto px-5 py-2 anim uppercase mt-2 absolute bottom-1 right-1">
+        <button (click)="addMapLocation()" class="secondary flex justify-end ml-auto px-5 py-2 anim uppercase mt-2 absolute bottom-1 right-1">
           Location from Google map
         </button>
       </div>
@@ -68,12 +69,12 @@
   </div>
   <!-- pre and next button -->
   <div class="prw-next-btn">
-    <button (click)="onBackButtonClick()" [routerLink]="'/create-event/arrangement'" class="flex items-center active" type="button">
+    <button (click)="onBackButtonClick()" [routerLink]="'/events/create/arrangement'" class="flex items-center active" type="button">
       <i class="icon-left_arrow mr-3"></i>
       <h5>Back</h5>
     </button>
     <!-- [disabled]="!locationForm.valid" -->
-    <button (click)="submitLocation()" class="flex items-center active" type="button">
+    <button (click)="next()" class="flex items-center active" type="button">
       <h5>Next</h5>
       <i class="icon-right_arrow ml-3"></i>
     </button>

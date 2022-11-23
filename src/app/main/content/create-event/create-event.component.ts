@@ -18,7 +18,7 @@ export class CreateEventComponent implements OnInit {
 
   constructor(public _globalService: GlobalService, private _router: Router, private _createEventService: CreateEventService) {
     _router.events.subscribe((event: any) => {
-      this.isAddArrangement = (!this.isAddArrangement && event.url && event.url.includes('/create-event/arrangement'));
+      this.isAddArrangement = (!this.isAddArrangement && event.url && event.url.includes('/events/create/arrangement'));
       if (event instanceof NavigationEnd) {
         this.currentURL = event.urlAfterRedirects;
       }

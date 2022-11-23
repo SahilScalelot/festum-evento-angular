@@ -54,6 +54,15 @@ export class PhotosVideosStepComponent implements OnInit {
       }
     });
 
+    
+    // if (localStorage.getItem('newEventObj')) {
+    //   let eventString: any = localStorage.getItem('newEventObj');
+    //   const newEventObj = JSON.parse(eventString);
+    //   if (newEventObj && newEventObj.add_event) {
+    //     this.newEventObj = newEventObj.add_event._id;
+    //   }
+    // }
+
     if (localStorage.getItem('newEventObj')) {
       // const eventString: any = localStorage.getItem('newEventObj');
       // this.imagesAndVideoObj = JSON.parse(eventString);
@@ -295,7 +304,7 @@ export class PhotosVideosStepComponent implements OnInit {
     // this.imagesAndVideoObj.photos_and_videos = preparedObj;
     // JSON.stringify({ photos_and_videos: preparedObj });
     // localStorage.setItem('newEventObj', JSON.stringify(this.imagesAndVideoObj));
-    this._router.navigate(['/create-event/permission']);
+    this._router.navigate(['/events/create/permission']);
     // // console.log(this.photosAndVideosForm.value);
   }
 

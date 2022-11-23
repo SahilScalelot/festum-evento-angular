@@ -9,6 +9,7 @@ import * as _ from 'lodash';
 import { SnotifyService } from 'ng-snotify';
 import { GlobalService } from 'src/app/services/global.service';
 import {CreateEventService} from "../../create-event.service";
+import { GlobalFunctions } from 'src/app/main/common/global-functions';
 
 @Component({
   selector: 'app-location-step',
@@ -38,6 +39,7 @@ export class LocationStepComponent implements OnInit {
   @Output() newEventObj: EventEmitter<any> = new EventEmitter();
   
   locationObj: any = {event_location: {}};
+  isLoading: boolean = false;
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -50,10 +52,18 @@ export class LocationStepComponent implements OnInit {
     private _sNotify: SnotifyService,
     private _globalService: GlobalService,
     private _createEventService: CreateEventService,
+    private _globalFunctions: GlobalFunctions,
   ) {
   }
 
   ngOnInit(): void {
+    if (localStorage.getItem('newEventObj')) {
+      let eventString: any = localStorage.getItem('newEventObj');
+      const newEventObj = JSON.parse(eventString);
+      if (newEventObj && newEventObj.add_event) {
+        this.newEventObj = newEventObj.add_event._id;
+      }
+    }
     
     this._prepareAboutEventForm(this.eventObj);
     
@@ -168,7 +178,6 @@ export class LocationStepComponent implements OnInit {
 
   addMapLocation() {
     this._http.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.finaLatLong.lat},${this.finaLatLong.lng}&key=${CONSTANTS.googleMapApiKey}`).subscribe(async (res: any) => {
-      console.log(res);
       let selectedState: any = {};
       if (selectedState) {
         this.getCity = selectedState.citys;
@@ -235,11 +244,42 @@ export class LocationStepComponent implements OnInit {
     // console.log(this.eventObj);
     this.newEventObj.emit(this.eventObj);
     // this._globalService.addEditEvent$.next(this.eventObj);
-    this._router.navigate(['/create-event/photos-and-videos']);
+    this._router.navigate(['/events/create/photos-and-videos']);
+  }
+  
+  next(): void {
+    if (this.locationForm.invalid) {
+      Object.keys(this.locationForm.controls).forEach((key) => {
+        this.locationForm.controls[key].touched = true;
+        this.locationForm.controls[key].markAsDirty();
+      });
+      return;
+    }
+    this.isLoading = true;
+    this.locationForm.disable();
+    this.eventObj = this.prepareLocationEventObj(this.locationForm.value);
+    this._createEventService.location(this.eventObj).subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        this.isLoading = false;
+        this.locationForm.enable();
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+        this.isLoading = false;
+        this.locationForm.enable();
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isLoading = false;
+      this.locationForm.enable();
+    });
+    this._router.navigate(['/events/create/photos-and-videos']);
   }
 
   prepareLocationEventObj(locationObj: any = {}): any {
     const preparedLocationEventObj: any = locationObj;
+
+    preparedLocationEventObj.eventid = this.newEventObj;
+    preparedLocationEventObj.flat_no = locationObj.flat_number;
     preparedLocationEventObj.longitude = locationObj.longitude;
     preparedLocationEventObj.latitude = locationObj.latitude;
     return preparedLocationEventObj;

@@ -216,7 +216,7 @@ export class CompanyDetailsStepComponent implements OnInit {
     
     this.eventObj.company_details = this.prepareObj(this.companyForm.value);
     this.newEventObj.emit(this.eventObj);
-    this._router.navigate(['/create-event/personal-details']);
+    this._router.navigate(['/events/create/personal-details']);
   }
 
   isString(val: any): boolean {

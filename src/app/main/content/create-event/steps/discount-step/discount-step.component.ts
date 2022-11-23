@@ -143,6 +143,6 @@ export class DiscountStepComponent implements OnInit {
     this.eventObj.discounts = this.selectedDiscountIds
     this.newEventObj.emit(this.eventObj);
     // this._globalService.addEditEvent$.next(this.selectedDiscountIds);
-    this._router.navigate(['/create-event/company-details']);
+    this._router.navigate(['/events/create/company-details']);
   }
 }
