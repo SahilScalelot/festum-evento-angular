@@ -26,6 +26,8 @@ export class OffersComponent implements OnInit {
   imgChangeEvt: any = '';  
   cropImgPreview: any = '';
   shopImgObj: any = {};
+  posterDropify: any;
+  minDateValue: any = new Date();
 
   constants: any = CONSTANTS;
   zoom: number = CONSTANTS.defaultMapZoom;
@@ -109,7 +111,7 @@ export class OffersComponent implements OnInit {
   savePoster(img: any) {
     this.shopImgObj.image = img;
     // console.log($('#posterUpload').find('.dropify-render').find('.dropify-render').find('img'));
-    $('#shopimgobj').find('.dropify-preview').find('.dropify-render').find('img').attr("src", img);
+    $('#shop-img-obj').find('.dropify-preview').find('.dropify-render').find('img').attr("src", img);
     this._modalService.close("imgCropper");
   }
 
@@ -223,21 +225,9 @@ export class OffersComponent implements OnInit {
     });
   }
 
-  clickedMarker(label: string) {
-    // console.log(`clicked the marker: ${label}`)
-  }
-
-  mapClicked($event: any) {
-    // console.log($event)
-    // this.markers.push({
-    //   lat: $event.coords.lat,
-    //   lng: $event.coords.lng,
-    //   draggable: true
-    // });
-  }
   popupOpen(popId: string){
     this._modalService.open(popId);
-    $('.shopimgobj').dropify({
+    this.posterDropify = $('.shop-img-obj').dropify({
       messages: {
         default: 'Add Image',
         icon: '<svg width="21" height="17" viewBox="0 0 21 17" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19.6666 0.333496H1.33335C0.59702 0.333496 0 0.930479 0 1.66681V15.3335C0 16.0698 0.59702 16.6668 1.33335 16.6668H19.6666C20.403 16.6668 21 16.0698 21 15.3335V1.66681C21 0.930479 20.403 0.333496 19.6666 0.333496ZM19.6666 1.66681V11.3638L17.0389 8.9748C16.644 8.61581 16.0366 8.63014 15.6593 9.00782L12.9999 11.6668L7.75634 5.40347C7.35998 4.93013 6.63397 4.92548 6.23167 5.39314L1.33335 11.0858V1.66681H19.6666ZM14 5.16682C14 4.15414 14.8206 3.33347 15.8333 3.33347C16.846 3.33347 17.6666 4.15414 17.6666 5.16682C17.6666 6.17949 16.846 7.00012 15.8333 7.00012C14.8206 7.00016 14 6.17949 14 5.16682Z" fill="#A6A6A6"/></svg>',
@@ -248,7 +238,21 @@ export class OffersComponent implements OnInit {
   popClose(popId: string){
     this.addShopForm.reset();
     this._modalService.close(popId);
+    const drEvent = this.posterDropify.data('dropify');
+    drEvent.resetPreview();
+    drEvent.clearElement();
+    this.cropImgPreview = null;
     this.isContinue = false;
+
+    this.addShopForm.get('company_name').clearValidators();
+    this.addShopForm.get('company_contact_number').clearValidators();
+    this.addShopForm.get('company_email').clearValidators();
+    this.addShopForm.get('about_our_company').clearValidators();
+
+    this.addShopForm.get('company_name').updateValueAndValidity();
+    this.addShopForm.get('company_contact_number').updateValueAndValidity();
+    this.addShopForm.get('company_email').updateValueAndValidity();
+    this.addShopForm.get('about_our_company').updateValueAndValidity();
   }
 
   isContinueClick(): void{
@@ -260,12 +264,23 @@ export class OffersComponent implements OnInit {
       });
       return;
     }
+    this.addShopForm.get('company_name').setValidators([Validators.required]);
+    this.addShopForm.get('company_contact_number').setValidators([Validators.required]);
+    this.addShopForm.get('company_email').setValidators([Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]);
+    this.addShopForm.get('about_our_company').setValidators([Validators.required]);
     this.isContinue = true;
   }
 
-  addshopoffer(): void {
+  addShopOffer(): void {
+    if (this.addShopForm.invalid) {
+      // this.addShopForm.controls.markAsDirty();
+      Object.keys(this.addShopForm.controls).forEach((key) => {
+        this.addShopForm.controls[key].touched = true;
+        this.addShopForm.controls[key].markAsDirty();
+      });
+      return;
+    }
     console.log(this.addShopForm.value);
-    
   }
 
   gotoEventOverview(event: any, addShopObj: any): void {
@@ -295,8 +310,8 @@ export class OffersComponent implements OnInit {
       shop_name: [addShopObj.shop_name, [Validators.required]],
       shop_category: [addShopObj.shop_category, [Validators.required]],
       weekdays: this._formBuilder.array([], [Validators.required]),
-      start_date: [addShopObj.start_date, [Validators.required]],
-      end_date: [addShopObj.end_date, [Validators.required]],
+      start_date: [addShopObj.start_date || null, [Validators.required]],
+      end_date: [addShopObj.end_date || null, [Validators.required]],
       about_us: [addShopObj.about_us, [Validators.required]],
 
       flat_number: [addShopObj.flat_number],
@@ -306,11 +321,11 @@ export class OffersComponent implements OnInit {
       state: [addShopObj.state, [Validators.required]],
       pincode: [addShopObj.pincode, [Validators.required, Validators.pattern('^[1-9]{1}[0-9]{2}\\s{0,1}[0-9]{3}$')]],
 
-      company_name: [addShopObj.company_name, [Validators.required]],
+      company_name: [addShopObj.company_name],
       upload_pdf: [''],
-      company_contact_number: [addShopObj.company_contact_number, [Validators.required]],
-      company_email: [addShopObj.company_email, [Validators.required]],
-      about_our_company: [addShopObj.about_our_company, [Validators.required]],
+      company_contact_number: [addShopObj.company_contact_number],
+      company_email: [addShopObj.company_email],
+      about_our_company: [addShopObj.about_our_company],
       facebook_link: [addShopObj.facebook_link],
       youtube_link: [addShopObj.youtube_link],
       twitter_link: [addShopObj.twitter_link],

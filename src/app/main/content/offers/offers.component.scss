@@ -23,3 +23,21 @@
     transform: unset;
   }
 }
+
+.p-ngCss {
+  ::ng-deep {
+    .p-inputtext {
+      border: 0 !important;
+    }
+    .p-inputtext:enabled:focus {
+      border: 0 !important;
+      box-shadow: none !important;
+    }
+    // p-calendar span {
+    //   width: 100%!important;
+    // }
+    // p-calendar input {
+    //   width: 100% !important;
+    // }
+  }
+}
