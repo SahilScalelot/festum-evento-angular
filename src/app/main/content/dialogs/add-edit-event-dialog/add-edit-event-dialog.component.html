@@ -36,7 +36,7 @@
             <label class="input-titel">select category</label>
             <select [formControlName]="'event_category'" class="bg-white rounded-md flex w-full space-x-3 outline-0 px-6 py-3 relative arrow">
               <option value=""></option>
-              <option *ngFor="let eventCategoryObj of eventCategories" [value]="eventCategoryObj.categoryname">{{eventCategoryObj.categoryname}}</option>
+              <option *ngFor="let eventCategoryObj of eventCategories" [value]="eventCategoryObj._id">{{eventCategoryObj.categoryname}}</option>
             </select>
           </div>
           <div class="w-full block">
