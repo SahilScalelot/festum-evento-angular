@@ -18,8 +18,10 @@ export class AboutEventStepComponent implements OnInit {
 
   isLoading: boolean = false;
 
-  @Input() eventObj: any = {};
-  @Output() newEventObj: EventEmitter<any> = new EventEmitter();
+  aboutObj: any;
+  eventId: any;
+
+  eventObj: any = {};
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -32,21 +34,15 @@ export class AboutEventStepComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (localStorage.getItem('newEventObj')) {
-      let eventString: any = localStorage.getItem('newEventObj');
-      const newEventObj = JSON.parse(eventString);
-      if (newEventObj && newEventObj.add_event) {
-        this.newEventObj = newEventObj.add_event._id;
-      }
-    }
-    this._prepareAboutEventForm(this.eventObj);
-    this.prepareEventObj();
+    this.getEventId();
+    this.getAboutEvent();
+    this._prepareAboutEventForm(this.aboutObj);
   }
 
-  prepareEventObj(): void {
+  getEventId(): void {
     if (localStorage.getItem('newEventObj')) {
       const eventString: any = localStorage.getItem('newEventObj');
-      this.eventObj = JSON.parse(eventString);
+      this.eventId = JSON.parse(eventString);
     } else {
       this._router.navigate(['/events']);
     }
@@ -54,10 +50,27 @@ export class AboutEventStepComponent implements OnInit {
 
   private _prepareAboutEventForm(eventObj: any = {}): void {
     this.aboutEventForm = this._formBuilder.group({
-      date: [eventObj && eventObj.about_event && eventObj.about_event.event_start_date ? [new Date(eventObj?.about_event?.event_start_date), new Date(eventObj?.about_event?.event_end_date)] : '', [Validators.required]],
-      start_time: [eventObj?.about_event?.event_start_time, [Validators.required]],
-      end_time: [eventObj?.about_event?.event_end_time, [Validators.required]],
-      about_event: [eventObj?.about_event?.about_event],
+      date: [eventObj && eventObj.start_date ? [new Date(eventObj?.start_date), new Date(eventObj?.end_date)] : '', [Validators.required]],
+      start_time: [eventObj?.start_time, [Validators.required]],
+      end_time: [eventObj?.end_time, [Validators.required]],
+      about_event: [eventObj?.about_event],
+    });
+  }
+
+  getAboutEvent(): any {
+    this.isLoading = true;    
+    this._createEventService.getAbout(this.eventId).subscribe((result: any) => {
+      if (result && result.Data) {
+        this.aboutObj = result.Data.about;
+        this._prepareAboutEventForm(this.aboutObj);
+        this.isLoading = false;
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+        this.isLoading = false;
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isLoading = false;
     });
   }
 
@@ -91,7 +104,7 @@ export class AboutEventStepComponent implements OnInit {
 
   prepareAboutEventObj(aboutEventObj: any): any {
     const preparedAboutEventObj: any = {};
-    preparedAboutEventObj.eventid = this.newEventObj;
+    preparedAboutEventObj.eventid = this.eventId;
     preparedAboutEventObj.start_date = moment(aboutEventObj.date[0]).format('YYYY-MM-DD');
     preparedAboutEventObj.end_date = moment(aboutEventObj.date[1]).format('YYYY-MM-DD');
     preparedAboutEventObj.start_time = this.prepareTime(aboutEventObj.start_time);
