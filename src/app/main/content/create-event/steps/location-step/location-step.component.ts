@@ -63,9 +63,7 @@ export class LocationStepComponent implements OnInit {
     }
     this.eventId = localStorage.getItem('eId');
     this.getLocationEvent();
-    this._prepareLocationForm(this.eventObj);
-    
-    
+    this._prepareLocationForm(this.eventObj);    
   }
 
   getLocationEvent(): any {
