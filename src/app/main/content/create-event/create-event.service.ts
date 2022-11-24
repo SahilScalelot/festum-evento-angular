@@ -74,6 +74,9 @@ export class CreateEventService {
   tAndC(eventObj: any): any {
     return this.http.post(environment.appURL + 'organizer/events/tandc', eventObj, this._globalFunctions.getAuthorizationHeader());
   }
+  getTAndC(eventId: any): any {
+    return this.http.get(environment.appURL + 'organizer/events/tandc?eventid='+eventId, this._globalFunctions.getAuthorizationHeader());
+  }
 
   // Images Api
   uploadImages(photoFormData: any): any {

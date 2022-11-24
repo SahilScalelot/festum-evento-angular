@@ -74,9 +74,7 @@ export class LocationStepComponent implements OnInit {
       if (result && result.Data) {
         const eventLocationObj: any = result?.Data?.event_location || {};
         this._prepareLocationForm(eventLocationObj);
-
         this.setLocation(eventLocationObj?.location);
-
         this.isLoading = false;
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
