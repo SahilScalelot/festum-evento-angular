@@ -112,7 +112,7 @@ export class ArrangementDialogComponent implements OnInit {
     if (this.editArrangementObj && this.editArrangementObj.seating_item) {
       preparedSeatingArr = [];
       _.each(this.arrangementsArr, (arrangement: any) => {
-        if (this.editArrangementObj.seating_item != arrangement.seat_id) {
+        if (this.editArrangementObj.seating_item != arrangement.seating_item) {
           preparedSeatingArr.push(arrangement);
         }
       });
@@ -122,12 +122,15 @@ export class ArrangementDialogComponent implements OnInit {
 
     const seatingObj: any = this.seatingForm.value;
     seatingObj.totalCalculations = this.totalArrangementsObj;
-    seatingObj.seat_item_obj = (this.editArrangementObj && this.editArrangementObj.seat) ? this.editArrangementObj.seat : _.find(this.seatingItems, ['_id', seatingObj.seating_item]);
-    this.closePopup(seatingObj);
+    seatingObj.seat_item_obj = (this.editArrangementObj && this.editArrangementObj.seat_item_obj) ? this.editArrangementObj.seat_item_obj : _.find(this.seatingItems, ['_id', seatingObj.seating_item]);
+    seatingObj.seating_item = seatingObj.seat_item_obj._id;
+    preparedSeatingArr.push(seatingObj);
+    this.arrangementsArr = preparedSeatingArr;
+    this.closePopup(this.arrangementsArr);
   }
 
-  closePopup(seatingObj: any = {}): void {
-    this.addEditArrangement.emit(seatingObj);
+  closePopup(arrangementsArr: any = []): void {
+    this.addEditArrangement.emit(arrangementsArr);
     this.isAddEventChange.emit(false);
   }
 
