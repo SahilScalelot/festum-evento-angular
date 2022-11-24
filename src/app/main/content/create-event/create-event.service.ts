@@ -46,6 +46,9 @@ export class CreateEventService {
   location(eventObj: any): any {
     return this.http.post(environment.appURL + 'organizer/events/location', eventObj, this._globalFunctions.getAuthorizationHeader());
   }
+  getLocation(eventId: any): any {
+    return this.http.get(environment.appURL + 'organizer/events/location?eventid='+eventId, this._globalFunctions.getAuthorizationHeader());
+  }
 
   // Media Event Step
   photosAndVideo(eventObj: any): any {

@@ -57,17 +57,47 @@ export class LocationStepComponent implements OnInit {
   ) {
   }
 
-  ngOnInit(): void {    
-    this._prepareAboutEventForm(this.eventObj);
+  ngOnInit(): void {
+    if (!localStorage.getItem('eId') || localStorage.getItem('eId') == '') {
+      this._router.navigate(['/events']);
+    }
+    this.eventId = localStorage.getItem('eId');
+    this.getLocationEvent();
+    this._prepareLocationForm(this.eventObj);
     
-    this.lat = this.eventObj?.event_location?.latitude || CONSTANTS.latitude;
-    this.lng = this.eventObj?.event_location?.longitude || CONSTANTS.longitude;
-    // this.prepareEventObj();
+    
+  }
+
+  getLocationEvent(): any {
+    this.isLoading = true;
+    this._createEventService.getLocation(this.eventId).subscribe((result: any) => {
+      if (result && result.Data) {
+        const eventLocationObj: any = result?.Data?.event_location || {};
+        this._prepareLocationForm(eventLocationObj);
+
+        this.setLocation(eventLocationObj?.location);
+
+        this.isLoading = false;
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+        this.isLoading = false;
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isLoading = false;
+    });
+  }
+
+  setLocation(locationCoordinates: any = {}): void {
+    this.lng = locationCoordinates?.coordinates[0] || CONSTANTS.longitude;
+    this.lat = locationCoordinates?.coordinates[1] || CONSTANTS.latitude;
+    // this.lat = this.eventObj?.latitude || CONSTANTS.latitude;
+    // this.lng = this.eventObj?.longitude || CONSTANTS.longitude;
 
     // this.customJs('assets/js/form-wizard.js').onload = () => {
     // };
     this._mapsAPILoader.load().then(() => {
-      if (!this.eventObj || !this.eventObj.event_location || !this.eventObj.event_location.latitude) {
+      if (!locationCoordinates || !locationCoordinates.coordinates || !locationCoordinates.coordinates.length) {
         this._setCurrentLocation();
       }
       this.geoCoder = new google.maps.Geocoder;
@@ -91,24 +121,17 @@ export class LocationStepComponent implements OnInit {
       });
     });
   }
-  getEventId(): void {
-    if (localStorage.getItem('eId')) {
-      this.eventId = localStorage.getItem('eId');
-    } else {
-      this._router.navigate(['/events']);
-    }
-  }
 
-  private _prepareAboutEventForm(eventObj: any = {}): void {
+  private _prepareLocationForm(eventObj: any = {}): void {
     this.locationForm = this._formBuilder.group({
-      flat_number: [eventObj?.event_location?.flat_number],
-      street_name: [eventObj?.event_location?.street_name],
-      area_name: [eventObj?.event_location?.area_name],
-      latitude: [eventObj?.event_location?.latitude || CONSTANTS.latitude],
-      longitude: [eventObj?.event_location?.longitude || CONSTANTS.longitude],
-      city: [eventObj?.event_location?.city, [Validators.required]],
-      state: [eventObj?.event_location?.state, [Validators.required]],
-      pincode: [eventObj?.event_location?.pincode, [Validators.required, Validators.pattern('^[1-9]{1}[0-9]{2}\\s{0,1}[0-9]{3}$')]],
+      flat_number: [eventObj?.flat_no],
+      street_name: [eventObj?.street_name],
+      area_name: [eventObj?.area_name],
+      longitude: [eventObj?.location?.coordinates[0] || CONSTANTS.longitude],
+      latitude: [eventObj?.location?.coordinates[1] || CONSTANTS.latitude],
+      city: [eventObj?.city, [Validators.required]],
+      state: [eventObj?.state, [Validators.required]],
+      pincode: [eventObj?.pincode, [Validators.required, Validators.pattern('^[1-9]{1}[0-9]{2}\\s{0,1}[0-9]{3}$')]],
     });
   }
 
@@ -208,19 +231,6 @@ export class LocationStepComponent implements OnInit {
     // });
   }
   
-  submitLocation() {
-    if (this.locationForm.invalid) {
-      Object.keys(this.locationForm.controls).forEach((key) => {
-        this.locationForm.controls[key].touched = true;
-        this.locationForm.controls[key].markAsDirty();
-      });
-      return;
-    }
-    
-    this.eventObj.event_location = this.prepareLocationEventObj(this.locationForm.value);
-    // this._router.navigate(['/events/create/photos-and-videos']);
-  }
-  
   next(): void {
     if (this.locationForm.invalid) {
       Object.keys(this.locationForm.controls).forEach((key) => {
@@ -231,11 +241,12 @@ export class LocationStepComponent implements OnInit {
     }
     this.isLoading = true;
     this.locationForm.disable();
-    this.eventObj = this.prepareLocationEventObj(this.locationForm.value);
-    this._createEventService.location(this.eventObj).subscribe((result: any) => {
+    const preparedLocationObj: any = this.prepareLocationEventObj(this.locationForm.value);
+    this._createEventService.location(preparedLocationObj).subscribe((result: any) => {
       if (result && result.IsSuccess) {
         this.isLoading = false;
         this.locationForm.enable();
+        this._router.navigate(['/events/create/photos-and-videos']);
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
         this.isLoading = false;
@@ -246,13 +257,11 @@ export class LocationStepComponent implements OnInit {
       this.isLoading = false;
       this.locationForm.enable();
     });
-    this._router.navigate(['/events/create/photos-and-videos']);
   }
 
   prepareLocationEventObj(locationObj: any = {}): any {
     const preparedLocationEventObj: any = locationObj;
-
-    preparedLocationEventObj.eventid = this.newEventObj;
+    preparedLocationEventObj.eventid = this.eventId;
     preparedLocationEventObj.flat_no = locationObj.flat_number;
     preparedLocationEventObj.longitude = locationObj.longitude;
     preparedLocationEventObj.latitude = locationObj.latitude;
