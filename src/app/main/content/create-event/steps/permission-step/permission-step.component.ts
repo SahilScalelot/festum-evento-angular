@@ -27,14 +27,7 @@ export class PermissionStepComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // if (localStorage.getItem('newEventObj')) {
-    //   const eventString: any = localStorage.getItem('newEventObj');
-    //   this.permissionObj = JSON.parse(eventString);
-    //   this.inputText = this.permissionObj?.permission?.permission_letter?.split('\\', 3)[2];
-    // } else {
-    //   this._router.navigate(['/events']);
-    // }
-    if (!this.eventObj || !this.eventObj.add_event) {
+    if (!localStorage.getItem('eId') || localStorage.getItem('eId') == '') {
       this._router.navigate(['/events']);
     }
     this.permissionForm = this._formBuilder.group({

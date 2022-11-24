@@ -16,12 +16,12 @@ export class ArrangementStepComponent implements OnInit {
   isArrangement: boolean = false;
   constants: any = CONSTANTS;
   occasions: any = [];
-  arrangementObj: any = {};
+  editArrangementObj: any = {};
   isLoading: boolean = false;
-  // eventObj: any = {};
   
+  @Input() arrangementsObj: any = {};
   @Input() eventObj: any = {};
-  @Output() newEventObj: EventEmitter<any> = new EventEmitter();
+  @Output() newArrangementsObj: EventEmitter<any> = new EventEmitter();
 
   constructor(
     public _globalFunctions: GlobalFunctions,
@@ -30,9 +30,10 @@ export class ArrangementStepComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.arrangementObj = {};
+    // if ()
+    this.editArrangementObj = {};
+    this.getArrangements();
     this.prepareArrangementObj();
-    // this._globalFunctions.loadAccordion();
     this.getSeatingItems();
     
     this._createEventService.isOpenAddEditArrangementDialog$.subscribe((isOpenAddEditArrangementDialog: boolean) => {
@@ -97,6 +98,21 @@ export class ArrangementStepComponent implements OnInit {
     // ]
   }
 
+  getArrangements(): void {
+    this.isLoading = true;
+    this._createEventService.getArrangements('test').subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        this.seatingItems = result.Data || [];
+        this.tmpSeatingItems = this._globalFunctions.copyObject(this.seatingItems);
+        this.isLoading = false;
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+    });
+  }
+
   getSeatingItems(): void {
     this.isLoading = true;
     this._createEventService.getSeatingItems().subscribe((result: any) => {
@@ -128,24 +144,22 @@ export class ArrangementStepComponent implements OnInit {
   }
 
   openArrangementPopup(occasionObj: any = {}): void {
-    this.arrangementObj = occasionObj;
+    this.editArrangementObj = occasionObj;
     this.isArrangement = true;
   }
 
   deleteArrangement(occasionId: any = ''): void {
-    // const eventString: any = localStorage.getItem('newEventObj');
     const eventObj: any = this._globalFunctions.copyObject(this.eventObj || {});
     this.eventObj.arrangements = _.remove(eventObj.arrangements, (arrangement: any) => {
       return arrangement.seat_id != occasionId;
     });
-    // localStorage.setItem('newEventObj', JSON.stringify(this.eventObj));
-    this.newEventObj.emit(this.eventObj);
+    this.newArrangementsObj.emit(this.eventObj);
     this.prepareArrangementObj();
   }
 
   closePop(flag: boolean): void {
     this.seatingItems = this._globalFunctions.copyObject(this.tmpSeatingItems);
-    this.arrangementObj = {};
+    this.editArrangementObj = {};
     this.isArrangement = flag;
     this.prepareArrangementObj();
   }
@@ -156,9 +170,6 @@ export class ArrangementStepComponent implements OnInit {
 
   prepareArrangementObj(): void {
     if (this.eventObj) {
-      // const eventString: any = localStorage.getItem('newEventObj');
-      // this.eventObj = JSON.parse(eventString);
-
       const preparedOccasionArr: any = [];
       const occasionGroupBySeatingId: any = _.groupBy(this.eventObj.arrangements, 'seat_id');
       _.each(occasionGroupBySeatingId, (occasionGroup: any) => {
@@ -187,7 +198,6 @@ export class ArrangementStepComponent implements OnInit {
         preparedOccasionArr.push(tmpOccasionObj);
       });
       this.occasions = preparedOccasionArr;
-      // this.occasions = this.eventObj.arrangements;
     } else {
       this._router.navigate(['/events']);
     }

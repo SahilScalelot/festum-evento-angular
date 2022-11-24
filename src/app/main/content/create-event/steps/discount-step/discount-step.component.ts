@@ -20,6 +20,7 @@ export class DiscountStepComponent implements OnInit {
   discountForm: any;
   tmpDiscountObj: any = {};
   selectedDiscountIds: any = [];
+  eventId: any = '';
 
   @Input() eventObj: any = {};
   @Output() newEventObj: EventEmitter<any> = new EventEmitter();
@@ -39,17 +40,16 @@ export class DiscountStepComponent implements OnInit {
     this.tmpDiscountObj = {};
     this.getAllDiscounts();
     this.getSeatingItems();
-    if (!localStorage.getItem('newEventObj')) {
+    if (!localStorage.getItem('eId') || localStorage.getItem('eId') == '') {
       this._router.navigate(['/events']);
     }
 
-    const newEventObj: any = localStorage.getItem('newEventObj');
-    const eventId = JSON.parse(newEventObj).add_event.id;
+    this.eventId = localStorage.getItem('eId');
     this.discountForm = this._formBuilder.group({
       discount_type: [null, [Validators.required]],
       equipment_id: [null],
       discount: [null, [Validators.required]],
-      event_id: [eventId || '', [Validators.required]],
+      event_id: [this.eventId || '', [Validators.required]],
     });
     
     this.selectedDiscountIds = this.eventObj.discounts;
@@ -57,9 +57,7 @@ export class DiscountStepComponent implements OnInit {
 
   getAllDiscounts(): void {
     this.isLoading = true;
-    const newEventObj: any = localStorage.getItem('newEventObj');
-    const eventId = JSON.parse(newEventObj).add_event.id;
-    this._createEventService.getAllDiscounts(eventId).subscribe((result: any) => {
+    this._createEventService.getAllDiscounts(this.eventId).subscribe((result: any) => {
       if (result && result.isSuccess) {
         this.discounts = result.data || [];
         _.each(this.discounts, (discount: any) => {
@@ -94,8 +92,6 @@ export class DiscountStepComponent implements OnInit {
   }
 
   popupOpen(popId: string, discountObj: any = {}, index: number): void {
-    const newEventObj: any = localStorage.getItem('newEventObj');
-    const eventId = JSON.parse(newEventObj).add_event.id;
     this.tmpDiscountObj = this._globalFunctions.copyObject(discountObj);
     this.tmpDiscountObj.discountIndex = index;
 
@@ -103,7 +99,7 @@ export class DiscountStepComponent implements OnInit {
       discount_type: discountObj.discount_type,
       equipment_id: discountObj.equipment_id,
       discount: (discountObj.discount.includes('%')) ? discountObj.discount.replace('%', '') : discountObj.discount,
-      event_id: eventId
+      event_id: this.eventId
     });
     this._modalService.open(popId);
   }

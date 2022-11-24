@@ -1,9 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { SnotifyService } from 'ng-snotify';
 import { GlobalFunctions } from 'src/app/main/common/global-functions';
-import { GlobalService } from 'src/app/services/global.service';
 import { CONSTANTS } from "../../../common/constants";
 import { CreateEventService } from '../../create-event/create-event.service';
 
@@ -19,10 +17,10 @@ export class AddEditEventDialogComponent implements OnInit {
   @Output() isEditEventChange = new EventEmitter<boolean>();
   @Output() editedEvent = new EventEmitter<boolean>();
   @ViewChild('newEventNgForm') newEventNgForm: any;
-  eventType: any;
   constants: any = CONSTANTS;
   newEventForm: any;
-  newEventObj: any = {};
+  selectedEventType: string = '';
+  eventCategories: any;
   isLoading: boolean = false;
   isForUpdateEvent: boolean = false;
 
@@ -30,22 +28,39 @@ export class AddEditEventDialogComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private _createEventService: CreateEventService,
     private _sNotify: SnotifyService,
-    private _globalFunctions: GlobalFunctions,
-    private _globalService: GlobalService
+    private _globalFunctions: GlobalFunctions
   ) {
   }
 
   ngOnInit(): void {
+    this.selectedEventType = CONSTANTS.eventTypeArr[CONSTANTS.eventTypeObj.B2B].value;
+    this.getEventCategories();
     this.isForUpdateEvent = !!(this.eventObj && this.eventObj._id);
-    // this.eventObj = this.newEventObj.add_event;
-    const eventType: any = (this.eventObj && this.eventObj.event_type) ? this.eventObj.event_type : CONSTANTS.eventType.B2B
-    this.eventType = CONSTANTS.unitTypeArr[eventType].options;
     this.newEventForm = this._formBuilder.group({
       name: [this.eventObj?.name ? this.eventObj.name : '', [Validators.required]],
-      event_type: [this.eventObj?.event_type ? this.eventObj.event_type : CONSTANTS.eventType.B2B, Validators.required],
+      event_type: [this.eventObj?.event_type ? this.eventObj.event_type : CONSTANTS.eventTypeArr[CONSTANTS.eventTypeObj.B2B].value, Validators.required],
       event_category: [this.eventObj?.event_category ? this.eventObj.event_category : '', Validators.required],
       other_category: [this.eventObj?.other ? this.eventObj.event_category : ''],
     });    
+  }
+
+  getEventCategories(): void {
+    this.isLoading = true;
+    const eventTypeObj: any = {event_type: this.selectedEventType};
+    this._createEventService.getEventCategories(eventTypeObj).subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        this.eventCategories = result.Data;
+        this.isLoading = false;
+      }
+    }, (error: any) => {
+      // this._globalFunctions.errorHanding(error, this, true);
+      this.isLoading = false;
+    });
+  }
+
+  onChangeEventType(eventType: any): void {
+    this.selectedEventType = eventType;
+    this.getEventCategories();
   }
 
   validate(preparedEventObj: any): boolean {
@@ -73,8 +88,7 @@ export class AddEditEventDialogComponent implements OnInit {
     this.newEventForm.disable();
     this._createEventService.addEvent(preparedEventObj).subscribe((result: any) => {
       if (result && result.IsSuccess) {
-        this.newEventObj = result.Data._id;
-        localStorage.setItem('newEventObj', JSON.stringify(this.newEventObj));
+        localStorage.setItem('eId', result.Data._id);
         this.isLoading = false;
         this.newEventForm.enable();
         this.closePopup();
@@ -129,7 +143,7 @@ export class AddEditEventDialogComponent implements OnInit {
   }
 
   closePopup(): void {
-    if (localStorage.getItem('newEventObj')) {
+    if (localStorage.getItem('eId')) {
       this.isEditEventChange.emit(false);
       this.isAddEventChange.emit(false);
     } else {

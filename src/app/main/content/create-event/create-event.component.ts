@@ -26,7 +26,9 @@ export class CreateEventComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.prepareEventObj();
+    if (!localStorage.getItem('eId') || localStorage.getItem('eId') == '') {
+      this._router.navigate(['/events']);
+    }
     this.items = [
       {
         label: 'Add Event',
@@ -69,15 +71,6 @@ export class CreateEventComponent implements OnInit {
         routerLink: 'terms-and-conditions'
       }
     ];
-  }
-
-  prepareEventObj(): void {
-    if (localStorage.getItem('newEventObj')) {
-      const eventString: any = localStorage.getItem('newEventObj');
-      this.eventObj = JSON.parse(eventString);
-    } else {
-      this._router.navigate(['/events']);
-    }
   }
 
   openAddArrangementDialog(): void {

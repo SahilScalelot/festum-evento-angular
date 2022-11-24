@@ -27,26 +27,7 @@ export class PersonalDetailsStepComponent implements OnInit {
 
   ngOnInit(): void {
     this._prepareAboutEventForm(this.eventObj);
-    // this.prepareEventObj();
   }
-
-  // prepareEventObj(): void {
-  //   // if (localStorage.getItem('newEventObj')) {
-  //   //   const eventString: any = localStorage.getItem('newEventObj');
-  //   //   this.personalObj = JSON.parse(eventString);
-  //   // } else {
-  //   //   this._router.navigate(['/events']);
-  //   // }
-  //   this._globalService.addEditEvent$.subscribe((eventObj: any) => {
-  //     if (eventObj) {
-  //       this.eventObj = eventObj;
-  //       this._prepareAboutEventForm(this.eventObj);
-  //     }
-  //   });
-  //   if (!this.eventObj || !this.eventObj.add_event) {
-  //     // this._router.navigate(['/events']);
-  //   }
-  // }
 
   private _prepareAboutEventForm(eventObj: any = {}): void {
     this.personalDetailForm = this._formBuilder.group({
@@ -77,11 +58,7 @@ export class PersonalDetailsStepComponent implements OnInit {
     }
 
     this.eventObj.personal_details = this.prepareObj(this.personalDetailForm.value);
-    // localStorage.setItem('newEventObj', JSON.stringify(this.eventObj));
-    
-    // console.log(this.eventObj);
     this.newEventObj.emit(this.eventObj);
-    // this._globalService.addEditEvent$.next(this.eventObj);
     this._router.navigate(['create-event/terms-and-conditions']);
   }
 

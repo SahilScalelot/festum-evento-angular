@@ -49,44 +49,16 @@ export class CompanyDetailsStepComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // if (localStorage.getItem('newEventObj')) {
-    //   const eventString: any = localStorage.getItem('newEventObj');
-    //   this.companyObj = JSON.parse(eventString);
-    //   if (this.companyObj) {
-    //     this.photoArr = this.companyObj?.company_details?.photo || [];
-    //     this.videoArr = this.companyObj?.company_details?.video || [];
-    //   }
-    // }
-
     this._prepareAboutEventForm(this.eventObj);
 
-    if (localStorage.getItem('newEventObj')) {
+    if (localStorage.getItem('eId')) {
       this.photoArr = this.eventObj?.company_details?.company_images || [];
       this.videoArr = this.eventObj?.company_details?.company_videos || [];
       this.prepareObj();
     } else {
       this._router.navigate(['/events']);
     }
-    // this.prepareEventObj();
   }
-
-  // prepareEventObj(): void {
-  //   if (localStorage.getItem('newEventObj')) {
-  //     const eventString: any = localStorage.getItem('newEventObj');
-  //     this.eventObj = JSON.parse(eventString);
-  //   } else {
-  //     this._router.navigate(['/events']);
-  //   }
-  //   // this._globalService.addEditEvent$.subscribe((eventObj: any) => {
-  //   //   if (eventObj) {
-  //   //     this.eventObj = eventObj;
-  //   //     this._prepareAboutEventForm(this.eventObj);
-  //   //   }
-  //   // });
-  //   if (!this.eventObj || !this.eventObj.add_event) {
-  //     // this._router.navigate(['/events']);
-  //   }
-  // }
 
   private _prepareAboutEventForm(eventObj: any = {}): void {
     this.companyForm = this._formBuilder.group({
@@ -105,9 +77,7 @@ export class CompanyDetailsStepComponent implements OnInit {
       images: [this.photoArr],
       videos: [this.videoArr],
     });
-    
-    // this.photoArr = this.eventObj?.company_details?.company_images?.images || [];
-    // this.videoArr = this.eventObj?.company_details?.company_videos?.videos || [];
+
     this.inputText = eventObj?.company_details?.company_detail?.gst_name;
   }
 

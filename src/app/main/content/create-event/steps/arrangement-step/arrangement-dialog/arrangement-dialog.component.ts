@@ -20,6 +20,7 @@ export class ArrangementDialogComponent implements OnInit {
   @Input() popClass: any;
   @Input() seatingItems: any;
   @Input() arrangementObj: any;
+  @Input() editArrangementObj: any;
   @Output() isAddEventChange = new EventEmitter<boolean>();
   @Output() newEventObj: EventEmitter<any> = new EventEmitter();
 
@@ -143,7 +144,6 @@ export class ArrangementDialogComponent implements OnInit {
       preparedSeatingArr.push(preparedArrangementObj);
     });
     this.eventObj.arrangements = preparedSeatingArr;
-    // localStorage.setItem('newEventObj', JSON.stringify(this.eventObj));
     this.closePopup();
   }
 

@@ -36,7 +36,7 @@ export class EventComponent implements OnInit {
 
   ngOnInit(): void {
     this.selectedEventIds = [];
-    localStorage.removeItem('newEventObj');
+    localStorage.removeItem('eId');
     this.getEvent();
     this._primengConfig.ripple = true;
   }
@@ -72,7 +72,7 @@ export class EventComponent implements OnInit {
 
   closePop(flag: boolean): void {
     this.isAddEvent = flag;
-    if (localStorage.getItem('newEventObj')) {
+    if (localStorage.getItem('eId')) {
       this._router.navigate(['/events/create']);
     }
   }

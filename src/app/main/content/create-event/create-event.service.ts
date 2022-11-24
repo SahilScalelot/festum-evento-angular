@@ -19,6 +19,9 @@ export class CreateEventService {
   // }
 
   // Add Event First Step
+  getEventCategories(eventTypeObj: any = {}): any {
+    return this.http.post(environment.appURL + 'organizer/categories/list', eventTypeObj, this._globalFunctions.getAuthorizationHeader());
+  }
   addEvent(eventObj: any): any {
     return this.http.post(environment.appURL + 'organizer/events/save', eventObj, this._globalFunctions.getAuthorizationHeader());
   }
@@ -35,8 +38,8 @@ export class CreateEventService {
   }
 
   // Arrangement Event Step
-  arrangement(eventObj: any): any {
-    return this.http.post(environment.appURL + 'organizer/events/arrangement', eventObj, this._globalFunctions.getAuthorizationHeader());
+  getArrangements(eventId: any): any {
+    return this.http.get(environment.appURL + 'organizer/events/arrangement?eventid=' + eventId, this._globalFunctions.getAuthorizationHeader());
   }
 
   // Location Event Step

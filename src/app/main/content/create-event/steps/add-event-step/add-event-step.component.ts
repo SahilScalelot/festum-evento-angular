@@ -36,9 +36,8 @@ export class AddEventStepComponent implements OnInit {
   }
 
   getEventId(): void {
-    if (localStorage.getItem('newEventObj')) {
-      const eventString: any = localStorage.getItem('newEventObj');
-      this.eventId = JSON.parse(eventString);
+    if (localStorage.getItem('eId')) {
+      this.eventId = localStorage.getItem('eId');
     } else {
       this._router.navigate(['/events']);
     }

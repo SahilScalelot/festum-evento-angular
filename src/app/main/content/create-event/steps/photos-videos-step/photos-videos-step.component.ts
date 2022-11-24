@@ -54,18 +54,7 @@ export class PhotosVideosStepComponent implements OnInit {
       }
     });
 
-    
-    // if (localStorage.getItem('newEventObj')) {
-    //   let eventString: any = localStorage.getItem('newEventObj');
-    //   const newEventObj = JSON.parse(eventString);
-    //   if (newEventObj && newEventObj.add_event) {
-    //     this.newEventObj = newEventObj.add_event._id;
-    //   }
-    // }
-
-    if (localStorage.getItem('newEventObj')) {
-      // const eventString: any = localStorage.getItem('newEventObj');
-      // this.imagesAndVideoObj = JSON.parse(eventString);
+    if (localStorage.getItem('eId')) {
       if (this.eventObj?.photos_and_videos?.poster) {
         const newPosterObj: any = {};
         newPosterObj.image = this.eventObj?.photos_and_videos?.poster;
@@ -297,15 +286,7 @@ export class PhotosVideosStepComponent implements OnInit {
   nextStep() {
     this.eventObj.photos_and_videos = this.prepareObj();
     this.newEventObj.emit(this.eventObj);
-
-    // localStorage.setItem('newEventObj', JSON.stringify(this.photosAndVideosForm.value));
-    // const preparedObj = this.prepareObj(this.photosAndVideosForm.value);
-    // // console.log(this.photosAndVideosForm.value);
-    // this.imagesAndVideoObj.photos_and_videos = preparedObj;
-    // JSON.stringify({ photos_and_videos: preparedObj });
-    // localStorage.setItem('newEventObj', JSON.stringify(this.imagesAndVideoObj));
     this._router.navigate(['/events/create/permission']);
-    // // console.log(this.photosAndVideosForm.value);
   }
 
   prepareObj(): any {

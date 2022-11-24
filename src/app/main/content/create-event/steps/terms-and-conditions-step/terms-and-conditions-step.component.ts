@@ -40,9 +40,8 @@ export class TermsAndConditionsStepComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    if (localStorage.getItem('newEventObj')) {
-      const eventString: any = localStorage.getItem('newEventObj');
-      this.termsAndConditionsObj = JSON.parse(eventString);
+    if (localStorage.getItem('eId')) {
+      this.termsAndConditionsObj = localStorage.getItem('eId');
     } else {
       this._router.navigate(['/events']);
     }
@@ -1547,9 +1546,7 @@ export class TermsAndConditionsStepComponent implements OnInit {
 
   prepareEventObj(eventObj: any = {}): any {
     const preparedEventObj: any = {};
-    const newEventObj: any = localStorage.getItem('newEventObj');
-    const eventId = JSON.parse(newEventObj).add_event.id;
-    preparedEventObj.event = eventId;
+    preparedEventObj.event = localStorage.getItem('eId');
 
     const aboutEventObj: any = eventObj?.about_event;
     preparedEventObj.start_date = aboutEventObj?.event_start_date;

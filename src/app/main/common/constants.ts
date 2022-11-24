@@ -30,48 +30,15 @@ export const CONSTANTS = {
   baseImageURL: environment.baseImageURL,
   appUrl: environment.appURL,
 
-  eventType: {
-    B2B: 'B2B',
-    PUBLIC: 'PP',
+  eventTypeObj: {
+    B2B: 0,
+    PUBLIC: 1
   },
 
-  unitTypeArr: <any> {
-    'B2B': <any>{
-      value: <any>'B2B',
-      label: <string>'B2B',
-      options: <any>[
-        "Conference",
-        "Seminar",
-        "VIP Event",
-        "Company Meeting",
-        "Bussiness Gathering",
-        "Trade Show/Expo",
-        "Leadership Event",
-        "Networking Event",
-        "Ceremonies/Galas",
-        "Job Fairs/ Recruting Events",
-        "Products Launch",
-      ]
-    },
-    'PP': <any>{
-      value: <any>'PUBLIC PARTY',
-      label: <string>'PP',
-      options: <any>[
-        "Conventions",
-        "Carity Event",
-        "Opening Ceremonies",
-        "Sport Event",
-        "Award Ceremony",
-        "Fundraising Event",
-        "Music Event",
-        "Talks & Book Presentation",
-        "Local Shoppers Events",
-        "Nightlife Event",
-        "Food & Cooking Event",
-        "Festival Event"
-      ]
-    },
-  },
+  eventTypeArr: [
+    {value: 'b2b', label: 'B2B'},
+    {value: 'public_party', label: 'Public Party'}
+  ],
 
   verticalLocationsObj: {
     TOP: 0,
