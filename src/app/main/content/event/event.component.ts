@@ -55,10 +55,16 @@ export class EventComponent implements OnInit {
     this.perPageLimit = event ? (event.rows) : this.perPageLimit;
     this.offset = ((this.perPageLimit * page) - this.perPageLimit) + 1;
 
-    this._eventService.retrieveEvents(this.perPageLimit, page).subscribe((result: any) => {
+    const filter: any = {
+      page : 1,
+      limit : 10,
+      search: ""
+    }
+    this._eventService.eventsList(filter).subscribe((result: any) => {
       this.pTotal = result.total;
-
-      this.events = result.events;
+      this.events = result.Data.docs;
+      console.log(this.events);
+      
       this.isLoading = false;
     }, (error: any) => {
       this._globalFunctions.errorHanding(error, this, true);
@@ -77,9 +83,10 @@ export class EventComponent implements OnInit {
     }
   }
 
-  editEvent(event: any, eventObj: any): void {
+  editEvent(event: any, eventId: any): void {
     event.stopPropagation();
-    this._router.navigate(['/edit-event/' + eventObj.id]);
+    localStorage.setItem('eId', eventId);
+    this._router.navigate(['/events/create/add-event']);
   }
 
   liveEvent(event: any, eventObj: any): void {

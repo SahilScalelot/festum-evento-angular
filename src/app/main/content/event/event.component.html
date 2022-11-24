@@ -13,41 +13,41 @@
     <div class="space-y-5" *ngIf="!isLoading">
       <div class="w-full flex items-center cursor-pointer" *ngFor="let event of events" (click)="gotoEventOverview($event, event)">
         <div class="">
-          <p-checkbox name="groupname" class="mr-5" [value]="event.id" [(ngModel)]="selectedEventIds" (click)="$event.stopPropagation()"></p-checkbox>
+          <p-checkbox name="groupname" class="mr-5" [value]="event._id" [(ngModel)]="selectedEventIds" (click)="$event.stopPropagation()"></p-checkbox>
         </div>
         <div class="w-full flex items-center">
           <div class="w-full p-4 bg-white rounded">
             <div class="flex items-center flex-wrap xl:flex-nowrap xl:space-x-5">
               <div class="relative w-full lg:max-w-[288px]">
-                <img [src]="constants.baseImageURL + event.poster" alt="{{event.event.name}}" class="w-full"/>
-                <span class="text-base text-white font-bold px-2 py-1 absolute top-2 left-0 bg-magicPotion">{{events[0].event.event_type}}</span>
+                <img [src]="constants.baseImageURL + event.poster" alt="{{event?.name}}" class="w-full h-full"/>
+                <span class="text-base text-white font-bold px-2 py-1 absolute top-2 left-0 bg-magicPotion uppercase">{{constants?.eventTypeArr[constants?.eventTypeObj[event?.event_type]]?.displayLabel}}</span>
               </div>
               <div class="w-full pt-5 xl:pt-0">
                 <div class="flex flex-wrap justify-between border-b-2 pb-4">
                   <div class="w-full lg:w-auto">
                     <div class="flex items-center space-x-2 lg:space-x-4">
-                      <h4 class="text-japaneseIndigo">{{event.event.name}}</h4>
+                      <h4 class="text-japaneseIndigo">{{event?.name}}</h4>
                       <span class="text-xs text-white font-bold bg-magicPotion px-3 rounded-xl py-1">Unverified</span>
                       <span class="text-xs text-white font-bold bg-caribbeanGreen px-3 rounded-xl py-1">Booking Accepting</span>
                     </div>
                     <div class="flex flex-wrap pt-3">
                       <div class="border-brightGray px-2 lg:pl-0 lg:pr-4">
                         <div class="text-xs lg:text-sm font-semibold text-quicksilver pt-3"><i class="icon-calendar mr-1.5"></i>Date</div>
-                        <span class="text-japaneseIndigo text-xs lg:text-sm font-bold">{{event.start_date}} - {{event.end_date}}</span>
+                        <span class="text-japaneseIndigo text-xs lg:text-sm font-bold">{{event?.about?.start_date}} - {{event?.about?.end_date}}</span>
                       </div>
                       <div class="border-l-2 border-brightGray px-2 lg:px-4">
                         <div class="text-xs lg:text-sm font-semibold text-quicksilver pt-3"><i class="icon-time mr-1.5"></i>Time</div>
-                        <span class="text-japaneseIndigo text-xs lg:text-sm font-bold">{{event.start_time}} - {{event.end_time}}</span>
+                        <span class="text-japaneseIndigo text-xs lg:text-sm font-bold">{{event?.about?.start_time}} - {{event?.about?.end_time}}</span>
                       </div>
                       <div class="border-l-2 border-brightGray px-2 lg:px-4">
                         <div class="text-xs lg:text-sm font-semibold text-quicksilver pt-3"><i class="icon-location-1 mr-1.5"></i>Location</div>
-                        <span class="text-japaneseIndigo text-xs lg:text-sm font-bold">{{event.city}}, {{event.state}}</span>
+                        <span class="text-japaneseIndigo text-xs lg:text-sm font-bold">{{event?.event_location?.city}}, {{event?.event_location?.state}}</span>
                       </div>
                     </div>
                   </div>
                   <div class="text-left pt-5 w-full flex justify-between lg:inline-block lg:w-auto lg:pt-0 lg:text-right space-y-3 lg:space-y-5">
                     <label class="flex items-center" (click)="liveEvent($event, event)">
-                      <input type="checkbox" class="switch mr-1.5 lg:mx-3 order-2" [checked]="event.live"/>
+                      <input type="checkbox" class="switch mr-1.5 lg:mx-3 order-2" [checked]="event?.live"/>
                       <span class="text-base font-bold anim order-3">Live</span>
                     </label>
                     <!-- <h3 class="text-right">250 INR</h3>-->
@@ -66,7 +66,7 @@
                     <span class="text-xs font-bold text-quicksilver">521 UnSold</span>
                   </div>
                   <div class="flex space-x-2 pt-4">
-                    <a href="javascript:void(0)" (click)="editEvent($event, event)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-edit text-sm leading-0 text-japaneseIndigo"></i></a>
+                    <a href="javascript:void(0)" (click)="editEvent($event, event._id)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-edit text-sm leading-0 text-japaneseIndigo"></i></a>
                     <a href="javascript:void(0)" (click)="gotoEventOverview($event, event)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-show text-xs leading-0 text-japaneseIndigo"></i></a>
                     <a href="javascript:void(0)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-fill_megaphone text-sm leading-0 text-japaneseIndigo"></i></a>
                     <a href="javascript:void(0)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-online_offer text-xl leading-0 text-japaneseIndigo"></i></a>
