@@ -40,7 +40,7 @@
                     </option>
                   </select>
                 </div>
-                <div *ngIf="seatingForm?.value?.seating_item || arrangementObj?.seating_item" class="">
+                <div *ngIf="seatingForm?.value?.seating_item || editArrangementObj?.seating_item" class="">
                   <label class="input-titel">arrangement</label>
                   <div class="w-full">
                     <div class="bg-white p-7 rounded-md">
@@ -430,7 +430,7 @@
                   <h5>Back</h5>
                 </button>
                 <button class="secondary py-3 px-8 uppercase" type="button" [disabled]="!seatingForm.valid" (click)="addFormData()">
-                  {{(arrangementObj && arrangementObj.seating_item) ? 'Update' : 'Add New'}}
+                  {{(editArrangementObj && editArrangementObj.seating_item) ? 'Update' : 'Add New'}}
                 </button>
               </div>
             </div>

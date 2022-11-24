@@ -1,22 +1,21 @@
 <p-progressSpinner *ngIf="isLoading" [style]="{width: '50px', height: '50px'}" animationDuration=".5s" strokeWidth="8" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-x-0 top-0 h-full w-full z-40" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
 <div class="space-y-5 px-2">
   <div class="accordions w-full space-y-5">
-    <div *ngFor="let occasion of occasions;let i = index;" class="accordion_item h-full p-0 relative">
+    <div *ngFor="let arrangementObj of arrangementsArr;let i = index;" class="accordion_item h-full p-0 relative">
       <div #accordionClick (click)="toggleAccordion($event, i)" class="title_tab flex justify-between items-center px-5 py-6 max-h-[78px] accordion">
         <div (click)="accordionClick.click()" class="space-x-7 flex items-center">
-          <img [alt]="occasion.seat.itemname" class="w-10" [src]="constants.baseImageURL + occasion.seat.itemimage"/>
-          <h4>{{occasion.seat.itemname}}</h4>
+          <img [alt]="arrangementObj.seat_item_obj.itemname" class="w-10" [src]="constants.baseImageURL + arrangementObj.seat_item_obj.itemimage"/>
+          <h4>{{arrangementObj.seat_item_obj.itemname}}</h4>
         </div>
         <div class="flex items-center space-x-7">
-          <a href="javascript:void(0);" (click)="deleteArrangement(occasion.seating_item)"><i class="icon-delete text-lg text-quicksilver"></i></a>
-          <a href="javascript:void(0);" (click)="openArrangementPopup(occasion)"><i class="icon-edit text-lg text-quicksilver"></i></a>
+          <a href="javascript:void(0);" (click)="deleteArrangement(arrangementObj.seating_item)"><i class="icon-delete text-lg text-quicksilver"></i></a>
+          <a href="javascript:void(0);" (click)="openArrangementPopup(arrangementObj)"><i class="icon-edit text-lg text-quicksilver"></i></a>
           <span (click)="accordionClick.click()" class="uper-down flex items-center cursor-pointer">
           <i class="icon-drop_arrow"></i>
           </span>
         </div>
       </div>
-      <div class="border-t panel overflow-y-auto" hide="!occasion.isActive">
-        <!-- {{occasion.childProperties.propertyName}} -->
+      <div class="border-t panel overflow-y-auto">
         <div class="inner_content active i_c space-y-6 px-5 py-6">
           <div class="flex">
             <div class="pr-5">
@@ -27,10 +26,10 @@
                 <h6 class="text-lg text-japaneseIndigo font-bold">Select Item</h6>
               </div>
               <div class="borders">
-                <div class="" *ngFor="let arrangement of occasion.arrangements">
+                <div class="" *ngFor="let arrangement of arrangementObj.arrangements">
                   <div class="flex flex-wrap items-center">
                     <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-2">
-                      <span class="block text-xs xl:text-sm text-quicksilver">No of {{occasion?.seat?.itemname}}</span>
+                      <span class="block text-xs xl:text-sm text-quicksilver">No of {{arrangementObj?.seat_item_obj?.itemname}}</span>
                       <span class="block text-base font-bold text-quicksilver">{{arrangement.no_of_seat}}</span>
                     </div>
                     <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-2">
@@ -38,8 +37,8 @@
                       <span class="block text-base font-bold text-quicksilver">{{((arrangement.seat_location == 'TOP') ? 'T' : (arrangement.seat_location == 'CENTER' ? 'C' : 'B'))}} - {{((arrangement.seat_side == 'LEFT') ? 'L' : (arrangement.seat_side == 'RIGHT' ? 'R' : 'N'))}}</span>
                     </div>
                     <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-2"
-                         *ngIf="(occasion?.seat?.itemname != 'Chair' || occasion?.seat?.itemname != 'chair') && (occasion?.seat?.itemname != 'Stands' || occasion?.seat?.itemname != 'stands')">
-                      <span class="block text-xs xl:text-sm text-quicksilver">per {{occasion?.seat?.itemname}} person capacity</span>
+                         *ngIf="(arrangementObj?.seat_item_obj?.itemname != 'Chair' || arrangementObj?.seat_item_obj?.itemname != 'chair') && (arrangementObj?.seat_item_obj?.itemname != 'Stands' || arrangementObj?.seat_item_obj?.itemname != 'stands')">
+                      <span class="block text-xs xl:text-sm text-quicksilver">per {{arrangementObj?.seat_item_obj?.itemname}} person capacity</span>
                       <span class="block text-base font-bold text-quicksilver">{{arrangement.table_person_capacity}}</span>
                     </div>
                     <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-2">
@@ -47,8 +46,8 @@
                       <span class="block text-base font-bold text-quicksilver">{{arrangement.person_capacity}}</span>
                     </div>
                     <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-2"
-                         *ngIf="(occasion?.seat?.itemname != 'Chair' || occasion?.seat?.itemname != 'chair') && (occasion?.seat?.itemname != 'Stands' || occasion?.seat?.itemname != 'stands')">
-                      <span class="block text-xs xl:text-sm text-quicksilver">Per {{occasion?.seat?.itemname}} Price</span>
+                         *ngIf="(arrangementObj?.seat_item_obj?.itemname != 'Chair' || arrangementObj?.seat_item_obj?.itemname != 'chair') && (arrangementObj?.seat_item_obj?.itemname != 'Stands' || arrangementObj?.seat_item_obj?.itemname != 'stands')">
+                      <span class="block text-xs xl:text-sm text-quicksilver">Per {{arrangementObj?.seat_item_obj?.itemname}} Price</span>
                       <span class="block text-base font-bold text-quicksilver">{{arrangement.table_price}}</span>
                     </div>
                     <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-2">
@@ -63,7 +62,7 @@
                       <p>Description</p>
                       <span class="text-base text-quicksilver font-bold">{{arrangement?.description || 'null'}}</span>
                     </div>
-                    <div class="flex items-center pt-4 ml-auto" *ngIf="(occasion?.seat?.itemname != 'Chair' || occasion?.seat?.itemname != 'chair') && (occasion?.seat?.itemname != 'Stands' || occasion?.seat?.itemname != 'stands')">
+                    <div class="flex items-center pt-4 ml-auto" *ngIf="(arrangementObj?.seat_item_obj?.itemname != 'Chair' || arrangementObj?.seat_item_obj?.itemname != 'chair') && (arrangementObj?.seat_item_obj?.itemname != 'Stands' || arrangementObj?.seat_item_obj?.itemname != 'stands')">
                       <input class="switch mx-3 order-2" id="on" type="checkbox" [(ngModel)]="arrangement.booking_acceptance"/>
                       <span class="off text-base font-bold anim order-1 text-caribbeanGreen">per table</span>
                       <span class="on text-base font-bold anim order-3">per person</span>
@@ -79,8 +78,8 @@
             </div>
             <div class="w-full space-y-2">
               <p>Food</p>
-              <span class="text-lg font-bold text-japaneseIndigo capitalize">{{occasion.food}}</span>
-              <p>{{occasion.food_description}}</p>
+              <span class="text-lg font-bold text-japaneseIndigo capitalize">{{arrangementObj.food}}</span>
+              <p>{{arrangementObj.food_description}}</p>
             </div>
           </div>
           <div class="flex">
@@ -89,8 +88,8 @@
             </div>
             <div class="w-full space-y-2">
               <p>Equipment</p>
-              <span class="text-lg font-bold text-japaneseIndigo capitalize">{{occasion.equipment ? 'Not Include' : 'Include'}}</span>
-              <p>{{occasion.equipment_description}}</p>
+              <span class="text-lg font-bold text-japaneseIndigo capitalize">{{arrangementObj.equipment ? 'Not Include' : 'Include'}}</span>
+              <p>{{arrangementObj.equipment_description}}</p>
             </div>
           </div>
         </div>
@@ -111,13 +110,12 @@
       <h5>Back</h5>
     </button>
     <!-- [disabled]="!occasions || !occasions.length" -->
-    <button  [routerLink]="'/events/create/location'" class="flex items-center active" type="button"
-    (click)="onNextStep()">
+    <button  [routerLink]="'/events/create/location'" class="flex items-center active" type="button" (click)="onNextStep()">
       <h5>Next</h5>
       <i class="icon-right_arrow ml-3"></i>
     </button>
   </div>
 </div>
 
-<app-arrangement-dialog (isAddEventChange)="closePop($event)" *ngIf="isArrangement" [popClass]="'active'" [seatingItems]="seatingItems"
- [editArrangementObj]="editArrangementObj" [arrangementObj]="arrangementsObj"></app-arrangement-dialog>
+<app-arrangement-dialog (isAddEventChange)="closePop($event)" (addEditArrangement)="addEditArrangement($event)" *ngIf="isArrangement"
+ [popClass]="'active'" [seatingItems]="seatingItems" [editArrangementObj]="editArrangementObj" [arrangementsArr]="arrangementsArr"></app-arrangement-dialog>

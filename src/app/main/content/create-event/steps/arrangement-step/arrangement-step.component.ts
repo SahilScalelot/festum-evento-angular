@@ -15,14 +15,12 @@ export class ArrangementStepComponent implements OnInit {
   tmpSeatingItems: any = [];
   isArrangement: boolean = false;
   constants: any = CONSTANTS;
-  occasions: any = [];
   editArrangementObj: any = {};
   eventId: any = '';
   isLoading: boolean = false;
+  arrangementsArr: any = [];
   
-  @Input() arrangementsObj: any = {};
-  @Input() eventObj: any = {};
-  @Output() newArrangementsObj: EventEmitter<any> = new EventEmitter();
+  @Input() arrangementObj: any = {};
 
   constructor(
     public _globalFunctions: GlobalFunctions,
@@ -37,7 +35,7 @@ export class ArrangementStepComponent implements OnInit {
     this.eventId = localStorage.getItem('eId');
     this.editArrangementObj = {};
     this.getArrangements();
-    this.prepareArrangementObj();
+    // this.prepareArrangementObj();
     this.getSeatingItems();
     
     this._createEventService.isOpenAddEditArrangementDialog$.subscribe((isOpenAddEditArrangementDialog: boolean) => {
@@ -50,7 +48,51 @@ export class ArrangementStepComponent implements OnInit {
     this.isLoading = true;
     this._createEventService.getArrangements(this.eventId).subscribe((result: any) => {
       if (result && result.IsSuccess) {
-        // this.occasions = result.Data || [];
+        this.arrangementsArr = result.Data.arrangements || [];
+      //   this.arrangementsArr = [
+      //     {
+      //         "seating_item": "637dc1ace3a8bce0935160da",
+      //         "arrangements": [
+      //             {
+      //                 "number_of_seating_item": 0,
+      //                 "vertical_location": "TOP",
+      //                 "horizontal_location": "NONE",
+      //                 "per_seating_person": 0,
+      //                 "total_person": 0,
+      //                 "per_seating_price": 0,
+      //                 "per_person_price": 0,
+      //                 "total_amount": 0,
+      //                 "description": "",
+      //                 "booking_acceptance": false
+      //             }
+      //         ],
+      //         "food": "VEG",
+      //         "food_description": "",
+      //         "equipment": false,
+      //         "equipment_description": null,
+      //         "totalCalculations": {
+      //             "total_number_of_seating_items": 0,
+      //             "total_per_seating_persons": 0,
+      //             "total_persons": 0,
+      //             "per_seating_price": 0,
+      //             "per_person_price": 0,
+      //             "total_amount": 0,
+      //             "total_booked": 0
+      //         },
+      //         "seat_item_obj": {
+      //             "_id": "637dc1ace3a8bce0935160da",
+      //             "createdBy": "637b0cf22d89166c49573d39",
+      //             "updatedBy": "637b0cf22d89166c49573d39",
+      //             "itemname": "Sofa",
+      //             "itemimage": "637477038e96c599daafa8f0/event/IMG/IMG-6003094906743134.png",
+      //             "description": "testing item as Sofa",
+      //             "status": true,
+      //             "createdAt": "2022-11-23T06:46:04.552Z",
+      //             "updatedAt": "2022-11-23T06:46:04.552Z",
+      //             "__v": 0
+      //         }
+      //     }
+      // ];
         this.isLoading = false;
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
@@ -81,7 +123,7 @@ export class ArrangementStepComponent implements OnInit {
 
     if (panel && panel.style) {
       element.classList.toggle("active");
-      this.occasions[index].isActive = !this.occasions[index].isActive;
+      this.arrangementsArr[index].isActive = !this.arrangementsArr[index].isActive;
       if (panel.style.maxHeight) {
         panel.style.maxHeight = null;
       } else {
@@ -90,25 +132,31 @@ export class ArrangementStepComponent implements OnInit {
     }
   }
 
-  openArrangementPopup(occasionObj: any = {}): void {
-    this.editArrangementObj = occasionObj;
+  openArrangementPopup(arrangementObj: any = {}): void {
+    this.editArrangementObj = arrangementObj;
     this.isArrangement = true;
   }
 
   deleteArrangement(occasionId: any = ''): void {
-    const eventObj: any = this._globalFunctions.copyObject(this.eventObj || {});
-    this.eventObj.arrangements = _.remove(eventObj.arrangements, (arrangement: any) => {
-      return arrangement.seat_id != occasionId;
-    });
-    this.newArrangementsObj.emit(this.eventObj);
-    this.prepareArrangementObj();
+    // const eventObj: any = this._globalFunctions.copyObject(this.eventObj || {});
+    // this.eventObj.arrangements = _.remove(eventObj.arrangements, (arrangement: any) => {
+    //   return arrangement.seat_id != occasionId;
+    // });
+    // this.prepareArrangementObj();
   }
 
   closePop(flag: boolean): void {
     this.seatingItems = this._globalFunctions.copyObject(this.tmpSeatingItems);
     this.editArrangementObj = {};
     this.isArrangement = flag;
-    this.prepareArrangementObj();
+    // this.prepareArrangementObj();
+  }
+
+  addEditArrangement(addEditArrangement: any = {}): void {
+    if (addEditArrangement && addEditArrangement.seating_item) {
+      console.log(addEditArrangement);
+      this.arrangementsArr.push(addEditArrangement);
+    }
   }
 
   onNextStep(): void {
@@ -116,9 +164,9 @@ export class ArrangementStepComponent implements OnInit {
   }
 
   prepareArrangementObj(): void {
-    if (this.eventObj) {
+    if (this.arrangementObj) {
       const preparedOccasionArr: any = [];
-      const occasionGroupBySeatingId: any = _.groupBy(this.eventObj.arrangements, 'seat_id');
+      const occasionGroupBySeatingId: any = _.groupBy(this.arrangementObj.arrangements, 'seat_id');
       _.each(occasionGroupBySeatingId, (occasionGroup: any) => {
         const tmpOccasionObj: any = {};
         tmpOccasionObj.seat = occasionGroup[0].seat;
@@ -144,7 +192,7 @@ export class ArrangementStepComponent implements OnInit {
         });
         preparedOccasionArr.push(tmpOccasionObj);
       });
-      this.occasions = preparedOccasionArr;
+      this.arrangementsArr = preparedOccasionArr;
     } else {
       this._router.navigate(['/events']);
     }
