@@ -30,33 +30,33 @@
                   <div class="flex flex-wrap items-center">
                     <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-2">
                       <span class="block text-xs xl:text-sm text-quicksilver">No of {{arrangementObj?.seat_item_obj?.itemname}}</span>
-                      <span class="block text-base font-bold text-quicksilver">{{arrangement.no_of_seat}}</span>
+                      <span class="block text-base font-bold text-quicksilver">{{arrangement.number_of_seating_item}}</span>
                     </div>
                     <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-2">
                       <span class="block text-xs xl:text-sm text-quicksilver">Location</span>
-                      <span class="block text-base font-bold text-quicksilver">{{((arrangement.seat_location == 'TOP') ? 'T' : (arrangement.seat_location == 'CENTER' ? 'C' : 'B'))}} - {{((arrangement.seat_side == 'LEFT') ? 'L' : (arrangement.seat_side == 'RIGHT' ? 'R' : 'N'))}}</span>
+                      <span class="block text-base font-bold text-quicksilver">{{((arrangement.vertical_location == 'TOP') ? 'T' : (arrangement.vertical_location == 'CENTER' ? 'C' : 'B'))}} - {{((arrangement.horizontal_location == 'LEFT') ? 'L' : (arrangement.horizontal_location == 'RIGHT' ? 'R' : 'N'))}}</span>
                     </div>
                     <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-2"
                          *ngIf="(arrangementObj?.seat_item_obj?.itemname != 'Chair' || arrangementObj?.seat_item_obj?.itemname != 'chair') && (arrangementObj?.seat_item_obj?.itemname != 'Stands' || arrangementObj?.seat_item_obj?.itemname != 'stands')">
                       <span class="block text-xs xl:text-sm text-quicksilver">per {{arrangementObj?.seat_item_obj?.itemname}} person capacity</span>
-                      <span class="block text-base font-bold text-quicksilver">{{arrangement.table_person_capacity}}</span>
+                      <span class="block text-base font-bold text-quicksilver">{{arrangement.per_seating_person}}</span>
                     </div>
                     <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-2">
                       <span class="block text-xs xl:text-sm text-quicksilver">Total person capacity</span>
-                      <span class="block text-base font-bold text-quicksilver">{{arrangement.person_capacity}}</span>
+                      <span class="block text-base font-bold text-quicksilver">{{arrangement.total_person}}</span>
                     </div>
                     <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-2"
                          *ngIf="(arrangementObj?.seat_item_obj?.itemname != 'Chair' || arrangementObj?.seat_item_obj?.itemname != 'chair') && (arrangementObj?.seat_item_obj?.itemname != 'Stands' || arrangementObj?.seat_item_obj?.itemname != 'stands')">
                       <span class="block text-xs xl:text-sm text-quicksilver">Per {{arrangementObj?.seat_item_obj?.itemname}} Price</span>
-                      <span class="block text-base font-bold text-quicksilver">{{arrangement.table_price}}</span>
+                      <span class="block text-base font-bold text-quicksilver">{{arrangement.per_seating_price}}</span>
                     </div>
                     <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-2">
                       <span class="block text-xs xl:text-sm text-quicksilver">per person price</span>
-                      <span class="block text-base font-bold text-quicksilver">{{arrangement.price_per_seat}} INR</span>
+                      <span class="block text-base font-bold text-quicksilver">{{arrangement.per_person_price}} INR</span>
                     </div>
                     <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-2">
                       <span class="block text-xs xl:text-sm text-quicksilver">Total Amount</span>
-                      <span class="block text-base font-bold text-japaneseIndigo">{{arrangement.total_booking_count}} INR</span>
+                      <span class="block text-base font-bold text-japaneseIndigo">{{arrangement.total_amount}} INR</span>
                     </div>
                     <div class="space-y-1 pr-3 xl:pr-5 mr-3 xl:mr-5 mb-2">
                       <p>Description</p>
