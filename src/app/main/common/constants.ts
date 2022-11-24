@@ -31,13 +31,13 @@ export const CONSTANTS = {
   appUrl: environment.appURL,
 
   eventTypeObj: {
-    B2B: 0,
-    PUBLIC: 1
+    b2b: 0,
+    public_party: 1
   },
 
   eventTypeArr: [
-    {value: 'b2b', label: 'B2B'},
-    {value: 'public_party', label: 'Public Party'}
+    {value: 'b2b', label: 'B2B', displayLabel: 'B2B'},
+    {value: 'public_party', label: 'Public Party', displayLabel: 'PP'}
   ],
 
   verticalLocationsObj: {

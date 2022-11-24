@@ -1,9 +1,9 @@
-import {Component, OnInit, EventEmitter, Input, Output} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { SnotifyService } from 'ng-snotify';
 import { GlobalService } from 'src/app/services/global.service';
-import {CreateEventService} from "../../create-event.service";
-import {GlobalFunctions} from "../../../../common/global-functions";
+import { CreateEventService } from "../../create-event.service";
+import { GlobalFunctions } from "../../../../common/global-functions";
+import { CONSTANTS } from 'src/app/main/common/constants';
 
 @Component({
   selector: 'app-add-event-step',
@@ -13,13 +13,12 @@ import {GlobalFunctions} from "../../../../common/global-functions";
 export class AddEventStepComponent implements OnInit {
   isEditEvent: boolean = false;
   isLoading: boolean = false;
-
+  constants: any = CONSTANTS;
   eventId: any;
-  add_event: any = {};
+  addEditEvent: any = {};
 
   constructor(
     private _globalService: GlobalService,
-    private _sNotifyService: SnotifyService,
     private _createEventService: CreateEventService,
     private _globalFunctions: GlobalFunctions,
     private _router: Router
@@ -27,20 +26,16 @@ export class AddEventStepComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getEventId();
-    this.getEvent(this.eventId);    
+    if (localStorage.getItem('eId')) {
+      this.eventId = localStorage.getItem('eId');
+      this.getEvent(this.eventId);
+    } else {
+      this._router.navigate(['/events']);
+    }
   }
 
   next(): any {
     this._router.navigate(['/events/create/about-event']);
-  }
-
-  getEventId(): void {
-    if (localStorage.getItem('eId')) {
-      this.eventId = localStorage.getItem('eId');
-    } else {
-      this._router.navigate(['/events']);
-    }
   }
 
   deleteEvent(eventId: any): void {
@@ -65,7 +60,7 @@ export class AddEventStepComponent implements OnInit {
     this.isLoading = true;
     this._createEventService.getEvent(eventId).subscribe((result: any) => {
       if (result && result.Data) {
-        this.add_event = result.Data;
+        this.addEditEvent = result.Data;
         this.isLoading = false;
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
@@ -78,11 +73,10 @@ export class AddEventStepComponent implements OnInit {
   }
 
   editEvent(editedEventObj: boolean): void {
-    this.add_event = editedEventObj;
+    this.addEditEvent = editedEventObj;
   }
 
   closePop(flag: boolean): void {
-    // this.prepareEventObj();
     this.isEditEvent = flag;
   }
 

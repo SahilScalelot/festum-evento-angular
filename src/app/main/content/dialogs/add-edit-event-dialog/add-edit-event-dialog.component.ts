@@ -33,14 +33,14 @@ export class AddEditEventDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.selectedEventType = CONSTANTS.eventTypeArr[CONSTANTS.eventTypeObj.B2B].value;
+    this.selectedEventType = this.eventObj?.event_type ? this.eventObj.event_type : CONSTANTS.eventTypeArr[CONSTANTS.eventTypeObj.b2b].value;
     this.getEventCategories();
     this.isForUpdateEvent = !!(this.eventObj && this.eventObj._id);
     this.newEventForm = this._formBuilder.group({
       name: [this.eventObj?.name ? this.eventObj.name : '', [Validators.required]],
-      event_type: [this.eventObj?.event_type ? this.eventObj.event_type : CONSTANTS.eventTypeArr[CONSTANTS.eventTypeObj.B2B].value, Validators.required],
-      event_category: [this.eventObj?.event_category ? this.eventObj.event_category : '', Validators.required],
-      other_category: [this.eventObj?.other ? this.eventObj.event_category : ''],
+      event_type: [this.selectedEventType, Validators.required],
+      event_category: [this.eventObj?.event_category ? ((this.eventObj.event_category?._id) ? this.eventObj.event_category._id : '') : ''],
+      other: [this.eventObj?.other ? this.eventObj.other : ''],
     });    
   }
 
@@ -60,6 +60,9 @@ export class AddEditEventDialogComponent implements OnInit {
 
   onChangeEventType(eventType: any): void {
     this.selectedEventType = eventType;
+    if (this.eventObj && this.eventObj.event_category && this.eventObj.event_category.event_type != eventType) {
+      this.newEventForm.get('event_category').setValue('');
+    }
     this.getEventCategories();
   }
 
@@ -72,7 +75,7 @@ export class AddEditEventDialogComponent implements OnInit {
       this._sNotify.error('Event Type is required!', 'Oops!');
       return false;
     }
-    if (!preparedEventObj.event_category || preparedEventObj.event_category === "") {
+    if ((!preparedEventObj.event_category || preparedEventObj.event_category === "") && (!preparedEventObj.other || preparedEventObj.other === "")) {
       this._sNotify.error('Event Category is required!', 'Oops!');
       return false;
     }
@@ -133,11 +136,6 @@ export class AddEditEventDialogComponent implements OnInit {
     const preparedEventObj: any = this._globalFunctions.copyObject(eventObj);
     if (isForUpdateEvent) {
       preparedEventObj.eventid = this.eventObj._id || '';
-    }
-    preparedEventObj.other = false;
-    if (preparedEventObj.other_category && preparedEventObj.other_category != '') {
-      preparedEventObj.event_category = preparedEventObj.other_category;
-      preparedEventObj.other = true;
     }
     return preparedEventObj;
   }

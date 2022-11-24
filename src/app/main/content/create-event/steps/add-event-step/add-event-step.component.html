@@ -5,15 +5,15 @@
    [ngClass]="{'border-magicPotion bg-red-50': (i + 1) === selectedEventIndex}"
     *ngFor="let event of events; let i = index" (click)="selectEvent(event, i + 1)">-->
     <!-- hover:bg-red-50 border-magicPotion bg-red-50 -->
-  <div *ngIf="add_event" class="w-full bg-white pl-5 py-4 flex justify-between border shadow">
+  <div *ngIf="addEditEvent" class="w-full bg-white pl-5 py-4 flex justify-between border shadow">
     <div class="space-y-2">
-      <h4>{{add_event.name}}</h4>
-      <span class="text-sm text-magicPotion font-bold">{{add_event.event_category}}</span>
+      <h4>{{addEditEvent.name}}</h4>
+      <span class="text-sm text-magicPotion font-bold">{{addEditEvent.event_category ? addEditEvent.event_category?.categoryname : addEditEvent.other}}</span>
     </div>
     <div class="flex items-start space-x-5">
-      <a (click)="deleteEvent(add_event.id)" href="javascript:void(0)"><i class="icon-delete text-quicksilver"></i></a>
+      <a (click)="deleteEvent(addEditEvent.id)" href="javascript:void(0)"><i class="icon-delete text-quicksilver"></i></a>
       <a (click)="isEditEvent = true" href="javascript:void(0)"><i class="icon-edit text-quicksilver"></i></a>
-      <span class="bg-magicPotion text-xs font-bold px-2 py-1 text-white">{{add_event.event_type}}</span>
+      <span class="bg-magicPotion text-xs font-bold px-2 py-1 text-white">{{constants?.eventTypeArr[constants?.eventTypeObj[addEditEvent?.event_type]]?.displayLabel}}</span>
     </div>
   </div>
 </div>
@@ -36,4 +36,4 @@
   </div>
 </div>
 
-<app-add-edit-event-dialog (isEditEventChange)="closePop($event)" (editedEvent)="editEvent($event)" *ngIf="isEditEvent" [eventObj]="add_event" [popClass]="'active'"></app-add-edit-event-dialog>
+<app-add-edit-event-dialog (isEditEventChange)="closePop($event)" (editedEvent)="editEvent($event)" *ngIf="isEditEvent" [eventObj]="addEditEvent" [popClass]="'active'"></app-add-edit-event-dialog>
