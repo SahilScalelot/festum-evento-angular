@@ -78,18 +78,19 @@ export class ArrangementDialogComponent implements OnInit {
         this.arrangements.controls[index].get('total_amount')?.setValue((arrangement.number_of_seating_item * arrangement.per_person_price));
       }
     });
-    this.totalArrangementsObj.totalNumberOfSeatingItems = _.sumBy(this.arrangements.value, 'number_of_seating_item');
-    this.totalArrangementsObj.totalPerSeatingPersons = _.sumBy(this.arrangements.value, 'per_seating_person');
-    this.totalArrangementsObj.totalPersons = _.sumBy(this.arrangements.value, 'total_person');
+    this.totalArrangementsObj.total_number_of_seating_items = _.sumBy(this.arrangements.value, 'number_of_seating_item');
+    this.totalArrangementsObj.total_per_seating_persons = _.sumBy(this.arrangements.value, 'per_seating_person');
+    this.totalArrangementsObj.total_persons = _.sumBy(this.arrangements.value, 'total_person');
     this.totalArrangementsObj.per_seating_price = _.sumBy(this.arrangements.value, 'per_seating_price');
     this.totalArrangementsObj.per_person_price = _.sumBy(this.arrangements.value, 'per_person_price');
     this.totalArrangementsObj.total_amount = _.sumBy(this.arrangements.value, 'total_amount');
+    this.totalArrangementsObj.total_booked = 0;
   }
 
   prepareSeatingItems(): void {
     if (this.isInitial && this.eventObj && this.eventObj.arrangements && this.eventObj.arrangements.length &&
-      (!this.arrangementObj || !this.arrangementObj.seating_item)) {
-      const arrangementKeys = Object.keys(_.keyBy(this.eventObj.arrangements, 'seat_id'));
+      (!this.arrangementObj || !this.arrangementObj.seating_item)) {        
+      const arrangementKeys = Object.keys(_.keyBy(this.eventObj.arrangements, '_id'));
       _.each(arrangementKeys, (key: any) => {
         this.seatingItems = _.remove(this.seatingItems, (seatingItem: any) => { return seatingItem._id != key; });
       });
@@ -120,31 +121,33 @@ export class ArrangementDialogComponent implements OnInit {
       preparedSeatingArr = this.eventObj?.arrangements || [];
     }
 
-    const seatingObj = this.seatingForm.value;
-    _.each(seatingObj.arrangements, (arrangement: any) => {
-      const preparedArrangementObj: any = {};
-      preparedArrangementObj.seat_id = (this.arrangementObj && this.arrangementObj.seating_item) ? this.arrangementObj.seating_item : seatingObj.seating_item;
-      preparedArrangementObj.seat = (this.arrangementObj && this.arrangementObj.seat) ? this.arrangementObj.seat : _.find(this.seatingItems, ['_id', seatingObj.seating_item]);
-      preparedArrangementObj.name = preparedArrangementObj?.seat?.itemname;
-      preparedArrangementObj.no_of_seat = arrangement.number_of_seating_item;
-      preparedArrangementObj.seat_location = arrangement.vertical_location;
-      preparedArrangementObj.seat_side = arrangement.horizontal_location;
-      preparedArrangementObj.table_person_capacity = arrangement.per_seating_person;
-      preparedArrangementObj.person_capacity = arrangement.total_person;
-      preparedArrangementObj.table_price = arrangement.per_seating_price;
-      preparedArrangementObj.price_per_seat = arrangement.per_person_price;
-      preparedArrangementObj.total_booking_count = arrangement.total_amount;
-      preparedArrangementObj.description = arrangement.description;
-      preparedArrangementObj.seat_food = seatingObj.food;
-      preparedArrangementObj.seat_food_description = seatingObj.food_description;
-      preparedArrangementObj.seat_equipment_description = seatingObj.equipment_description;
-      preparedArrangementObj.booking_acceptance = arrangement.booking_acceptance ? 'PERPERSON' : 'PERTABLE';
-      preparedArrangementObj.seat_equipment = seatingObj.equipment;
+    const seatingObj: any = this.seatingForm.value;
+    seatingObj.totalCalculations = this.totalArrangementsObj;
+    console.log(seatingObj);
+    // _.each(seatingObj.arrangements, (arrangement: any) => {
+    //   const preparedArrangementObj: any = {};
+    //   preparedArrangementObj.seat_id = (this.arrangementObj && this.arrangementObj.seating_item) ? this.arrangementObj.seating_item : seatingObj.seating_item;
+    //   preparedArrangementObj.seat = (this.arrangementObj && this.arrangementObj.seat) ? this.arrangementObj.seat : _.find(this.seatingItems, ['_id', seatingObj.seating_item]);
+    //   preparedArrangementObj.name = preparedArrangementObj?.seat?.itemname;
+    //   preparedArrangementObj.no_of_seat = arrangement.number_of_seating_item;
+    //   preparedArrangementObj.seat_location = arrangement.vertical_location;
+    //   preparedArrangementObj.seat_side = arrangement.horizontal_location;
+    //   preparedArrangementObj.table_person_capacity = arrangement.per_seating_person;
+    //   preparedArrangementObj.person_capacity = arrangement.total_person;
+    //   preparedArrangementObj.table_price = arrangement.per_seating_price;
+    //   preparedArrangementObj.price_per_seat = arrangement.per_person_price;
+    //   preparedArrangementObj.total_booking_count = arrangement.total_amount;
+    //   preparedArrangementObj.description = arrangement.description;
+    //   preparedArrangementObj.seat_food = seatingObj.food;
+    //   preparedArrangementObj.seat_food_description = seatingObj.food_description;
+    //   preparedArrangementObj.seat_equipment_description = seatingObj.equipment_description;
+    //   preparedArrangementObj.booking_acceptance = arrangement.booking_acceptance ? 'PERPERSON' : 'PERTABLE';
+    //   preparedArrangementObj.seat_equipment = seatingObj.equipment;
 
-      preparedSeatingArr.push(preparedArrangementObj);
-    });
-    this.eventObj.arrangements = preparedSeatingArr;
-    this.closePopup();
+    //   preparedSeatingArr.push(preparedArrangementObj);
+    // });
+    // this.eventObj.arrangements = preparedSeatingArr;
+    // this.closePopup();
   }
 
   closePopup(): void {

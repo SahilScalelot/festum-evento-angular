@@ -17,6 +17,7 @@ export class ArrangementStepComponent implements OnInit {
   constants: any = CONSTANTS;
   occasions: any = [];
   editArrangementObj: any = {};
+  eventId: any = '';
   isLoading: boolean = false;
   
   @Input() arrangementsObj: any = {};
@@ -30,7 +31,10 @@ export class ArrangementStepComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // if ()
+    if (!localStorage.getItem('eId') || localStorage.getItem('eId') == '') {
+      this._router.navigate(['/events']);
+    }
+    this.eventId = localStorage.getItem('eId');
     this.editArrangementObj = {};
     this.getArrangements();
     this.prepareArrangementObj();
@@ -40,70 +44,13 @@ export class ArrangementStepComponent implements OnInit {
       this.isArrangement = isOpenAddEditArrangementDialog;
     });
     this.isArrangement = false;
-    // this.occasions = [
-    //   {
-    //     "id": 1,
-    //     "seat": {
-    //       "id": 1,
-    //       "name": "Chair",
-    //       "svg": "/media/image/events/seating_arrangement/chair.svg",
-    //       "timestamp": "2021-08-15T06:22:41.229676Z",
-    //       "sequence": 1,
-    //       "is_active": true
-    //     },
-    //     "name": "Best Chair",
-    //     "no_of_seat": 50,
-    //     "seat_location": "TOP",
-    //     "seat_side": "LEFT",
-    //     "table_person_capacity": 12,
-    //     "person_capacity": 1,
-    //     "table_price": 250,
-    //     "price_per_seat": "350.50",
-    //     "total_booking_count": 6,
-    //     "description": "this is logn description for seat",
-    //     "booking_acceptance": "",
-    //     "seat_food": "VEG",
-    //     "seat_food_description": "this is logn description for Food",
-    //     "seat_equipment": true,
-    //     "seat_equipment_description": "this is logn description for equipment",
-    //     "occasion": 43
-    //   },
-    //   {
-    //     "id": 2,
-    //     "seat": {
-    //       "id": 2,
-    //       "name": "Chair",
-    //       "svg": "/media/image/events/seating_arrangement/chair.svg",
-    //       "timestamp": "2021-08-15T06:22:41.229676Z",
-    //       "sequence": 1,
-    //       "is_active": true
-    //     },
-    //     "name": "Good Chair",
-    //     "no_of_seat": 100,
-    //     "seat_location": "CENTER",
-    //     "seat_side": "NONE",
-    //     "table_person_capacity": 12,
-    //     "person_capacity": 1,
-    //     "table_price": 250,
-    //     "price_per_seat": "250.50",
-    //     "total_booking_count": 12,
-    //     "description": "this is logn description for seat",
-    //     "booking_acceptance": "",
-    //     "seat_food": "VEG",
-    //     "seat_food_description": "this is logn description for Food",
-    //     "seat_equipment": true,
-    //     "seat_equipment_description": "this is logn description for equipment",
-    //     "occasion": 43
-    //   },
-    // ]
   }
 
   getArrangements(): void {
     this.isLoading = true;
-    this._createEventService.getArrangements('test').subscribe((result: any) => {
+    this._createEventService.getArrangements(this.eventId).subscribe((result: any) => {
       if (result && result.IsSuccess) {
-        this.seatingItems = result.Data || [];
-        this.tmpSeatingItems = this._globalFunctions.copyObject(this.seatingItems);
+        // this.occasions = result.Data || [];
         this.isLoading = false;
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
