@@ -38,11 +38,11 @@ export class AddEventStepComponent implements OnInit {
     this._router.navigate(['/events/create/about-event']);
   }
 
-  deleteEvent(eventId: any): void {
+  deleteEvent(): void {
     // Open delete confirmation popup
     this.isLoading = true;
-    this._createEventService.deleteEvent(eventId).subscribe((result: any) => {
-      if (result && result.delete) {
+    this._createEventService.deleteEvent(this.eventId).subscribe((result: any) => {
+      if (result && result.IsSuccess) {
         this._globalService.addEditEvent$.next(null);
         this._router.navigate(['/events']);
         this.isLoading = false;
@@ -59,7 +59,7 @@ export class AddEventStepComponent implements OnInit {
   getEvent(eventId: any): any {
     this.isLoading = true;
     this._createEventService.getEvent(eventId).subscribe((result: any) => {
-      if (result && result.Data) {
+      if (result && result.IsSuccess) {
         this.addEditEvent = result.Data;
         this.isLoading = false;
       } else {

@@ -11,7 +11,7 @@
       <span class="text-sm text-magicPotion font-bold">{{addEditEvent.event_category ? addEditEvent.event_category?.categoryname : addEditEvent.other}}</span>
     </div>
     <div class="flex items-start space-x-5">
-      <a (click)="deleteEvent(addEditEvent.id)" href="javascript:void(0)"><i class="icon-delete text-quicksilver"></i></a>
+      <a (click)="deleteEvent()" href="javascript:void(0)"><i class="icon-delete text-quicksilver"></i></a>
       <a (click)="isEditEvent = true" href="javascript:void(0)"><i class="icon-edit text-quicksilver"></i></a>
       <span class="bg-magicPotion text-xs font-bold px-2 py-1 text-white">{{constants?.eventTypeArr[constants?.eventTypeObj[addEditEvent?.event_type]]?.displayLabel}}</span>
     </div>

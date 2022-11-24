@@ -113,7 +113,7 @@ export class CreateEventService {
   }
   
   deleteEvent(eventId: any): any {
-    return this.http.delete(environment.appURL + 'org/event/delete/' + eventId, this._globalFunctions.getAuthorizationHeader());
+    return this.http.post(environment.appURL + 'organizer/events/remove', {eventid: eventId}, this._globalFunctions.getAuthorizationHeader());
   }
   // Company Detail Api
   addCompanyDetail(companyDetailObj: any): any {
