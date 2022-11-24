@@ -27,7 +27,7 @@ export class AddEventStepComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.prepareEventObj();
+    this.getEventId();
     this.getEvent(this.eventId);    
   }
 
@@ -35,10 +35,10 @@ export class AddEventStepComponent implements OnInit {
     this._router.navigate(['/events/create/about-event']);
   }
 
-  prepareEventObj(): void {
+  getEventId(): void {
     if (localStorage.getItem('newEventObj')) {
       const eventString: any = localStorage.getItem('newEventObj');
-      this.eventId = JSON.parse(eventString);      
+      this.eventId = JSON.parse(eventString);
     } else {
       this._router.navigate(['/events']);
     }
@@ -63,8 +63,7 @@ export class AddEventStepComponent implements OnInit {
   }
 
   getEvent(eventId: any): any {
-    // Open delete confirmation popup
-    this.isLoading = true;    
+    this.isLoading = true;
     this._createEventService.getEvent(eventId).subscribe((result: any) => {
       if (result && result.Data) {
         this.add_event = result.Data;
@@ -84,7 +83,7 @@ export class AddEventStepComponent implements OnInit {
   }
 
   closePop(flag: boolean): void {
-    this.prepareEventObj();
+    // this.prepareEventObj();
     this.isEditEvent = flag;
   }
 

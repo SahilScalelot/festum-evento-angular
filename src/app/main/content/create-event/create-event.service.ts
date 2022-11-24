@@ -30,6 +30,9 @@ export class CreateEventService {
   about(eventObj: any): any {
     return this.http.post(environment.appURL + 'organizer/events/about', eventObj, this._globalFunctions.getAuthorizationHeader());
   }
+  getAbout(eventId: any): any {
+    return this.http.get(environment.appURL + 'organizer/events/about?eventid='+eventId, this._globalFunctions.getAuthorizationHeader());
+  }
 
   // Arrangement Event Step
   arrangement(eventObj: any): any {

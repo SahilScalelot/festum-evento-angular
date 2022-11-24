@@ -35,7 +35,8 @@ export class LocationStepComponent implements OnInit {
   @ViewChild('search') public searchElementRef: ElementRef | any;
 
   
-  @Input() eventObj: any = {};
+  eventId: any;
+  eventObj: any = {};
   @Output() newEventObj: EventEmitter<any> = new EventEmitter();
   
   locationObj: any = {event_location: {}};
@@ -56,15 +57,7 @@ export class LocationStepComponent implements OnInit {
   ) {
   }
 
-  ngOnInit(): void {
-    if (localStorage.getItem('newEventObj')) {
-      let eventString: any = localStorage.getItem('newEventObj');
-      const newEventObj = JSON.parse(eventString);
-      if (newEventObj && newEventObj.add_event) {
-        this.newEventObj = newEventObj.add_event._id;
-      }
-    }
-    
+  ngOnInit(): void {    
     this._prepareAboutEventForm(this.eventObj);
     
     this.lat = this.eventObj?.event_location?.latitude || CONSTANTS.latitude;
@@ -98,21 +91,14 @@ export class LocationStepComponent implements OnInit {
       });
     });
   }
-
-  // prepareEventObj(): void {
-    // if (localStorage.getItem('newEventObj')) {
-    //   const eventString: any = localStorage.getItem('newEventObj');
-    //   this.eventObj = JSON.parse(eventString);
-    // } else {
-    //   this._router.navigate(['/events']);
-    // }
-    // this._globalService.addEditEvent$.subscribe((eventObj: any) => {
-    //   if (eventObj) {
-    //     this.eventObj = eventObj;
-    //     this._prepareAboutEventForm(this.eventObj);
-    //   }
-    // });
-  // }
+  getEventId(): void {
+    if (localStorage.getItem('newEventObj')) {
+      const eventString: any = localStorage.getItem('newEventObj');
+      this.eventId = JSON.parse(eventString);
+    } else {
+      this._router.navigate(['/events']);
+    }
+  }
 
   private _prepareAboutEventForm(eventObj: any = {}): void {
     this.locationForm = this._formBuilder.group({
@@ -199,12 +185,6 @@ export class LocationStepComponent implements OnInit {
           if (type == "administrative_area_level_3") {
             this.locationForm.get('city').setValue(address?.long_name);
           }
-          // if (type == "administrative_area_level_3") {
-          //   this.locationForm.get('address').setValue(address?.long_name);
-          // }
-          // if (type == "plus_code" || type == "locality" || type == "political") {
-          //   this.locationForm.get('address').setValue(address.long_name);
-          // }
           if (type == "postal_code") {
             this.locationForm.get('pincode').setValue(address?.long_name);
           }
@@ -239,12 +219,7 @@ export class LocationStepComponent implements OnInit {
     }
     
     this.eventObj.event_location = this.prepareLocationEventObj(this.locationForm.value);
-    // localStorage.setItem('newEventObj', JSON.stringify(this.eventObj));
-    
-    // console.log(this.eventObj);
-    this.newEventObj.emit(this.eventObj);
-    // this._globalService.addEditEvent$.next(this.eventObj);
-    this._router.navigate(['/events/create/photos-and-videos']);
+    // this._router.navigate(['/events/create/photos-and-videos']);
   }
   
   next(): void {
