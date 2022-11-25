@@ -2,8 +2,8 @@
   <div class="upload-holder w-full h-auto">
     <span class="text-sm text-quicksilver font-semibold">Add Poster <span class="font-normal">(Max size 10MB)</span></span>
     <label class="upload upload-popup p-0 relative group" id="posterUpload">
-      <input #poster (change)="onFileChange($event,'poster')" accept="image/png, image/jpeg, image/gif" class="poster hidden" formControlName="poster" id="poster" type="file"/>
-      <!-- <img *ngIf="cropImgPreview" [src]="cropImgPreview" class="absolute inset-0 w-full h-full object-cover z-10 group-hover:-z-10"/> -->
+      <input #poster (change)="onPosterChange($event)" accept="image/png, image/jpeg, image/gif" class="poster hidden" formControlName="poster" id="poster" type="file"/>
+      <img *ngIf="uploadedPoster" [src]="constants.baseImageURL + uploadedPoster" class="absolute inset-0 w-full h-full object-cover z-10 group-hover:-z-10"/>
     </label>
   </div>
   <div class="media-upload-holder pt-5">
@@ -75,7 +75,8 @@
 
 <!-- Poster crop -->
 <modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="imgCropper" title="Poster">
-  <div class="flex flex-wrap -mx-4 py-5">
+  <div class="flex flex-wrap -mx-4 py-5 relative">
+    <span (click)="popClose('imgCropper');" class="absolute right-4 top-[-30px] cursor-pointer text-xl"><i class="icon-close"></i></span>
     <div class="w-full lg:w-1/2 px-4">
       <image-cropper (imageCropped)="cropImg($event)" [aspectRatio]="2 / 1 " [imageChangedEvent]="imgChangeEvt" [maintainAspectRatio]="true" format="png"></image-cropper>
     </div>

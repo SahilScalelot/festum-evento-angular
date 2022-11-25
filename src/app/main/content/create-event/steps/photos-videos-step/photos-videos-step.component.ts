@@ -1,11 +1,12 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
+import { GlobalFunctions } from 'src/app/main/common/global-functions';
+import { CreateEventService } from '../../create-event.service';
+import { CONSTANTS } from "../../../../common/constants";
 import { ModalService } from 'src/app/main/_modal';
 import { SnotifyService } from "ng-snotify";
-import { CONSTANTS } from "../../../../common/constants";
 import { Router } from '@angular/router';
-import { GlobalFunctions } from 'src/app/main/common/global-functions';
 import * as _ from 'lodash';
 
 declare var $: any;
@@ -18,11 +19,16 @@ declare var $: any;
 export class PhotosVideosStepComponent implements OnInit {
   @ViewChild('photosNgForm') photosNgForm: any;
 
+  constants: any = CONSTANTS;
+  eventId: any = '';
   imgChangeEvt: any = '';
   cropImgPreview: any = '';
   photosAndVideosForm: any;
   photoForm: any;
   videoForm: any;
+  uploadedPoster: any = '';
+  isLoading: boolean = false;
+  isPosterLoading: boolean = false;
 
   posterObj: any = {};
   photoArr: any = [];
@@ -43,6 +49,7 @@ export class PhotosVideosStepComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private _sNotify: SnotifyService,
     private _globalFunctions: GlobalFunctions,
+    private _createEventService: CreateEventService,
     private _router: Router
   ) { }
 
@@ -55,6 +62,8 @@ export class PhotosVideosStepComponent implements OnInit {
     });
 
     if (localStorage.getItem('eId')) {
+      this.eventId = localStorage.getItem('eId');
+      this.getPhotosAndVedios();
       if (this.eventObj?.photos_and_videos?.poster) {
         const newPosterObj: any = {};
         newPosterObj.image = this.eventObj?.photos_and_videos?.poster;
@@ -88,6 +97,24 @@ export class PhotosVideosStepComponent implements OnInit {
     // this.preImg = this.imagesAndVideoObj?.photos_and_videos?.photo[0].image.split(',', 2)[1]
     // this.imageSource = this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/png;base64, ${this.preImg}`);
     // console.log(this.imagesAndVideoObj?.photos_and_videos?.photo);
+  }
+
+  getPhotosAndVedios(): void {
+    this.isLoading = true;
+    this._createEventService.getPhotosAndVideos(this.eventId).subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        // const eventLocationObj: any = result?.Data?.event_location || {};
+        // this._prepareLocationForm(eventLocationObj);
+        // this.setLocation(eventLocationObj?.location);
+        this.isLoading = false;
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+        this.isLoading = false;
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isLoading = false;
+    });
   }
 
   prepareDefaultImagesAndPosterAndVideos(): void {
@@ -141,11 +168,33 @@ export class PhotosVideosStepComponent implements OnInit {
     this.inputText = event?.target?.files[0]?.name;
   }
 
+  onPosterChange(event: any): any {
+    this.imgChangeEvt = event;
+    if (event.target.files.length > 0) {
+      const poster = event.target.files[0];
+      if (poster != undefined) {
+        if (poster.type != 'image/jpeg' && poster.type != 'image/jpg' && poster.type != 'image/png') {
+          this._sNotify.error('Poster type is Invalid.', 'Oops!');
+          return false;
+        }
+
+        const image_size = poster.size / 1024 / 1024;
+        if (image_size > CONSTANTS.maxPosterSizeInMB) {
+          this._sNotify.error('Maximum Poster Size is ' + CONSTANTS.maxImageSizeInMB + 'MB.', 'Oops!');
+          return false;
+        }
+        this.posterObj.image = poster;
+        this.posterObj.name = poster.name;
+        this._modalService.open("imgCropper");
+      }
+    }
+  }
+
   async onFileChange(event: any, imageFor: string, key = 0) {
     if (event) {
-      this.imgChangeEvt = event;
       switch (imageFor) {
         case 'poster':
+          this.imgChangeEvt = event;
           if (event.target.files.length > 0) {
             const file = event.target.files[0];
             this.posterObj.image = file;
@@ -190,15 +239,45 @@ export class PhotosVideosStepComponent implements OnInit {
   }
 
   savePoster(img: any) {
-    this.posterObj.image = img;
-    // console.log($('#posterUpload').find('.dropify-render').find('.dropify-render').find('img'));
-    $('#posterUpload').find('.dropify-preview').find('.dropify-render').find('img').attr("src", img);
-
-    this._modalService.close("imgCropper");
+    if (img && img != '') {
+      const preparedPoserFromBaseType: any = this._globalFunctions.base64ToImage(img, this.posterObj.name);
+      if (preparedPoserFromBaseType) {
+        const posterFormData = new FormData();
+        posterFormData.append('file', preparedPoserFromBaseType);
+        this._createEventService.uploadBanner(posterFormData).subscribe((result: any) => {
+          if (result && result.IsSuccess) {
+            this.posterObj.image = img;
+            $('#posterUpload').find('.dropify-preview').find('.dropify-render').find('img').attr("src", img);
+            this.uploadedPoster = result.Data.url;
+            this.inputText = _.last(_.split(result.Data.url, '/'));
+            this._sNotify.success('File Uploaded Successfully.', 'Success');
+            this.isPosterLoading = false;
+            this._modalService.close("imgCropper");
+          } else {
+            this._globalFunctions.successErrorHandling(result, this, true);
+            this.isPosterLoading = false;
+          }
+        }, (error: any) => {
+          this._globalFunctions.errorHanding(error, this, true);
+          this.isPosterLoading = false;
+        });
+      } else {
+        this._sNotify.success('Something went wrong!', 'Oops');
+      }
+    }
   }
 
   cropImg(e: ImageCroppedEvent) {
     this.cropImgPreview = e.base64;
+  }
+
+  popClose(popId: any): any {
+    // let drEvent: any = $('.poster').dropify();
+    // drEvent = drEvent.data('dropify');
+    // drEvent.resetPreview();
+    // drEvent.clearElement();
+    $('.dropify-clear').click();
+    this._modalService.close(popId);
   }
 
   uploadImage(): any {

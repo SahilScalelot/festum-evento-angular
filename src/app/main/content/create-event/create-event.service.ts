@@ -30,7 +30,7 @@ export class CreateEventService {
     return this.http.post(environment.appURL + 'organizer/events/about', eventObj, this._globalFunctions.getAuthorizationHeader());
   }
   getAbout(eventId: any): any {
-    return this.http.get(environment.appURL + 'organizer/events/about?eventid='+eventId, this._globalFunctions.getAuthorizationHeader());
+    return this.http.get(environment.appURL + 'organizer/events/about?eventid=' + eventId, this._globalFunctions.getAuthorizationHeader());
   }
 
   // Arrangement Event Step
@@ -46,12 +46,15 @@ export class CreateEventService {
     return this.http.post(environment.appURL + 'organizer/events/location', eventObj, this._globalFunctions.getAuthorizationHeader());
   }
   getLocation(eventId: any): any {
-    return this.http.get(environment.appURL + 'organizer/events/location?eventid='+eventId, this._globalFunctions.getAuthorizationHeader());
+    return this.http.get(environment.appURL + 'organizer/events/location?eventid=' + eventId, this._globalFunctions.getAuthorizationHeader());
   }
 
   // Media Event Step
   photosAndVideo(eventObj: any): any {
     return this.http.post(environment.appURL + 'organizer/events/media', eventObj, this._globalFunctions.getAuthorizationHeader());
+  }
+  getPhotosAndVideos(eventId: any): any {
+    return this.http.get(environment.appURL + 'organizer/events/media?eventid=' + eventId, this._globalFunctions.getAuthorizationHeader());
   }
 
   // Permission Event Step
@@ -69,7 +72,7 @@ export class CreateEventService {
     return this.http.post(environment.appURL + 'organizer/events/personaldetail', eventObj, this._globalFunctions.getAuthorizationHeader());
   }
   getPersonalDetail(eventId: any): any {
-    return this.http.get(environment.appURL + 'organizer/events/personaldetail?eventid='+eventId, this._globalFunctions.getAuthorizationHeader());
+    return this.http.get(environment.appURL + 'organizer/events/personaldetail?eventid=' + eventId, this._globalFunctions.getAuthorizationHeader());
   }
 
   // Terms And Conditions Event Step
@@ -77,7 +80,7 @@ export class CreateEventService {
     return this.http.post(environment.appURL + 'organizer/events/tandc', eventObj, this._globalFunctions.getAuthorizationHeader());
   }
   getTAndC(eventId: any): any {
-    return this.http.get(environment.appURL + 'organizer/events/tandc?eventid='+eventId, this._globalFunctions.getAuthorizationHeader());
+    return this.http.get(environment.appURL + 'organizer/events/tandc?eventid=' + eventId, this._globalFunctions.getAuthorizationHeader());
   }
 
   // Banner Api

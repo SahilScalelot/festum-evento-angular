@@ -64,6 +64,7 @@ export const CONSTANTS = {
     {value: 'RIGHT', label: 'Right'},
   ],
 
+  maxPosterSizeInMB: 10,
   maxImageSizeInMB: 5,
   maxVideoSizeInMB: 512,
   maxCompanyVideoSizeInMB: 2,
