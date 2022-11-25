@@ -17,8 +17,7 @@ import { GlobalFunctions } from 'src/app/main/common/global-functions';
   styleUrls: ['./location-step.component.scss']
 })
 export class LocationStepComponent implements OnInit {
-  
-  // eventObj: any = {};
+  eventId: any;
   locationForm: any;
   constants: any = CONSTANTS;
   zoom: number = CONSTANTS.defaultMapZoom;
@@ -27,17 +26,13 @@ export class LocationStepComponent implements OnInit {
   lng: number = 0;
   address: string = '';
   getState: any;
-  getCity: any;
   autocomplete: any;
-  private geoCoder: any;
+  getCity: any;
   finaLatLong: any = {lat: CONSTANTS.latitude, lng: CONSTANTS.longitude};
   map: google.maps.Map | any;
-  @ViewChild('search') public searchElementRef: ElementRef | any;
-
   
-  eventId: any;
-  eventObj: any = {};
-  @Output() newEventObj: EventEmitter<any> = new EventEmitter();
+  private geoCoder: any;
+  @ViewChild('search') public searchElementRef: ElementRef | any;
   
   locationObj: any = {event_location: {}};
   isLoading: boolean = false;
@@ -63,7 +58,7 @@ export class LocationStepComponent implements OnInit {
     }
     this.eventId = localStorage.getItem('eId');
     this.getLocationEvent();
-    this._prepareLocationForm(this.eventObj);    
+    this._prepareLocationForm();    
   }
 
   getLocationEvent(): any {
@@ -85,10 +80,8 @@ export class LocationStepComponent implements OnInit {
   }
 
   setLocation(locationCoordinates: any = {}): void {
-    this.lng = locationCoordinates?.coordinates[0] || CONSTANTS.longitude;
-    this.lat = locationCoordinates?.coordinates[1] || CONSTANTS.latitude;
-    // this.lat = this.eventObj?.latitude || CONSTANTS.latitude;
-    // this.lng = this.eventObj?.longitude || CONSTANTS.longitude;
+    this.lng = (locationCoordinates && locationCoordinates.coordinates && locationCoordinates.coordinates.length) ? locationCoordinates?.coordinates[0] : CONSTANTS.longitude;
+    this.lat = (locationCoordinates && locationCoordinates.coordinates && locationCoordinates.coordinates.length) ? locationCoordinates?.coordinates[1] : CONSTANTS.latitude;
 
     // this.customJs('assets/js/form-wizard.js').onload = () => {
     // };
@@ -118,29 +111,29 @@ export class LocationStepComponent implements OnInit {
     });
   }
 
-  private _prepareLocationForm(eventObj: any = {}): void {
+  private _prepareLocationForm(locationObj: any = {}): void {
     this.locationForm = this._formBuilder.group({
-      flat_number: [eventObj?.flat_no],
-      street_name: [eventObj?.street_name],
-      area_name: [eventObj?.area_name],
-      longitude: [eventObj?.location?.coordinates[0] || CONSTANTS.longitude],
-      latitude: [eventObj?.location?.coordinates[1] || CONSTANTS.latitude],
-      city: [eventObj?.city, [Validators.required]],
-      state: [eventObj?.state, [Validators.required]],
-      pincode: [eventObj?.pincode, [Validators.required, Validators.pattern('^[1-9]{1}[0-9]{2}\\s{0,1}[0-9]{3}$')]],
+      flat_number: [locationObj?.flat_no || ''],
+      street_name: [locationObj?.street_name || ''],
+      area_name: [locationObj?.area_name || ''],
+      longitude: [(locationObj && locationObj.location && locationObj.location.coordinates && locationObj.location.coordinates.length) ? locationObj.location.coordinates[0] : CONSTANTS.longitude],
+      latitude: [(locationObj && locationObj.location && locationObj.location.coordinates && locationObj.location.coordinates.length) ? locationObj.location.coordinates[1] : CONSTANTS.latitude],
+      city: [locationObj?.city || '', [Validators.required]],
+      state: [locationObj?.state || '', [Validators.required]],
+      pincode: [locationObj?.pincode || '', [Validators.required, Validators.pattern('^[1-9]{1}[0-9]{2}\\s{0,1}[0-9]{3}$')]],
     });
   }
 
   // Custom script loading
-  customJs(src: string): HTMLScriptElement {
-    const script = document.createElement("script");
-    script.type = 'text/javascript';
-    script.src = src;
-    script.async = true;
-    script.defer = true;
-    this._renderer.appendChild(document.body, script);
-    return script;
-  }
+  // customJs(src: string): HTMLScriptElement {
+  //   const script = document.createElement("script");
+  //   script.type = 'text/javascript';
+  //   script.src = src;
+  //   script.async = true;
+  //   script.defer = true;
+  //   this._renderer.appendChild(document.body, script);
+  //   return script;
+  // }
 
   // Get Current Location Coordinates
   private _setCurrentLocation() {
@@ -153,13 +146,13 @@ export class LocationStepComponent implements OnInit {
     }
   }
 
-  markerDragEnd(latLong: marker, $event: any) {
+  markerDragEnd($event: any) {
     this.finaLatLong = {lat: $event.coords.lat, lng: $event.coords.lng};
-    this.lat = $event.coords.lat;
-    this.lng = $event.coords.lng;
+    this.lat = $event?.coords?.lat;
+    this.lng = $event?.coords?.lng;
     this.locationForm.patchValue({
-      latitude: $event.coords.lat,
-      longitude: $event.coords.lng
+      latitude: this.lat,
+      longitude: this.lng
     });
     
     this.getAddress(this.lat, this.lng);
