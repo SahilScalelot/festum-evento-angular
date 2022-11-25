@@ -34,6 +34,9 @@ export class CreateEventService {
   }
 
   // Arrangement Event Step
+  arrangements(eventObj: any): any {
+    return this.http.post(environment.appURL + 'organizer/events/arrangement', eventObj, this._globalFunctions.getAuthorizationHeader());
+  }
   getArrangements(eventId: any): any {
     return this.http.get(environment.appURL + 'organizer/events/arrangement?eventid=' + eventId, this._globalFunctions.getAuthorizationHeader());
   }
@@ -75,6 +78,11 @@ export class CreateEventService {
   }
   getTAndC(eventId: any): any {
     return this.http.get(environment.appURL + 'organizer/events/tandc?eventid='+eventId, this._globalFunctions.getAuthorizationHeader());
+  }
+
+  // Banner Api
+  uploadBanner(photoFormData: any): any {
+    return this.http.post(environment.appURL + 'organizer/events/banner', photoFormData, this._globalFunctions.getFileAuthorizationHeader());
   }
 
   // Images Api

@@ -12,16 +12,18 @@
           </span>
         </span>
       </div>
-      <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative">
+      <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative group">
         <span class="input-titel">Company GST (Optional)</span>
+        <p-progressSpinner *ngIf="isPdfLoading" [style]="{width: '20px', height: '20px'}" animationDuration=".5s" strokeWidth="4" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-x-1 bottom-0 top-10 z-20" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
         <label class="upload upload-popup py-3">
           <input (change)="onChangePDF($event)" [formControlName]="'gst'" accept="application/pdf" class="appearance-none hidden" id="company_gst" name="images" type="file"/>
           <span class="input-titel text-base p-0">
             <i class="icon-pdf_upload mr-2"></i> 
-            <span>{{inputText ? inputText : 'Upload PDF'}}</span>
+            <span class="normal-case">{{inputText ? inputText : 'Upload PDF'}}</span>
             <!-- <span>{{companyObj?.company_details?.gst}}</span> -->
           </span>
         </label>
+        <a *ngIf="inputText" class="absolute right-4 bottom-3 py-0.5 px-2 normal-case text-gray-400 anim hover:text-magicPotion text-sm font-semibold hidden border border-current group-hover:inline-block" [href]="constants.baseImageURL + gstPdf" target="_blank" title="View File">View</a>
         <span class="absolute top-full text-red-500 text-xs" *ngIf="isInValidPDF">
           Please upload only PDF file. 
         </span>

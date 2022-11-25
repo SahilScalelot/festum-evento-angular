@@ -4,14 +4,14 @@
     <div *ngFor="let arrangementObj of arrangementsArr;let i = index;" class="accordion_item h-full p-0 relative">
       <div #accordionClick (click)="toggleAccordion($event, i)" class="title_tab flex justify-between items-center px-5 py-6 max-h-[78px] accordion">
         <div (click)="accordionClick.click()" class="space-x-7 flex items-center">
-          <img [alt]="arrangementObj.seat_item_obj.itemname" class="w-10" [src]="constants.baseImageURL + arrangementObj.seat_item_obj.itemimage"/>
-          <h4>{{arrangementObj.seat_item_obj.itemname}}</h4>
+          <img [alt]="arrangementObj.seating_item.itemname" class="w-10" [src]="constants.baseImageURL + arrangementObj.seating_item.itemimage"/>
+          <h4>{{arrangementObj.seating_item.itemname}}</h4>
         </div>
         <div class="flex items-center space-x-7">
           <a href="javascript:void(0);" (click)="deleteArrangement(arrangementObj.seating_item)"><i class="icon-delete text-lg text-quicksilver"></i></a>
           <a href="javascript:void(0);" (click)="openArrangementPopup(arrangementObj)"><i class="icon-edit text-lg text-quicksilver"></i></a>
           <span (click)="accordionClick.click()" class="uper-down flex items-center cursor-pointer">
-          <i class="icon-drop_arrow"></i>
+            <i class="icon-drop_arrow"></i>
           </span>
         </div>
       </div>
@@ -29,7 +29,7 @@
                 <div class="" *ngFor="let arrangement of arrangementObj.arrangements">
                   <div class="flex flex-wrap items-center">
                     <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-2">
-                      <span class="block text-xs xl:text-sm text-quicksilver">No of {{arrangementObj?.seat_item_obj?.itemname}}</span>
+                      <span class="block text-xs xl:text-sm text-quicksilver">No of {{arrangementObj?.seating_item?.itemname}}</span>
                       <span class="block text-base font-bold text-quicksilver">{{arrangement.number_of_seating_item}}</span>
                     </div>
                     <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-2">
@@ -37,8 +37,8 @@
                       <span class="block text-base font-bold text-quicksilver">{{((arrangement.vertical_location == 'TOP') ? 'T' : (arrangement.vertical_location == 'CENTER' ? 'C' : 'B'))}} - {{((arrangement.horizontal_location == 'LEFT') ? 'L' : (arrangement.horizontal_location == 'RIGHT' ? 'R' : 'N'))}}</span>
                     </div>
                     <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-2"
-                         *ngIf="(arrangementObj?.seat_item_obj?.itemname != 'Chair' || arrangementObj?.seat_item_obj?.itemname != 'chair') && (arrangementObj?.seat_item_obj?.itemname != 'Stands' || arrangementObj?.seat_item_obj?.itemname != 'stands')">
-                      <span class="block text-xs xl:text-sm text-quicksilver">per {{arrangementObj?.seat_item_obj?.itemname}} person capacity</span>
+                         *ngIf="(arrangementObj?.seating_item?.itemname != 'Chair' || arrangementObj?.seating_item?.itemname != 'chair') && (arrangementObj?.seating_item?.itemname != 'Stands' || arrangementObj?.seating_item?.itemname != 'stands')">
+                      <span class="block text-xs xl:text-sm text-quicksilver">per {{arrangementObj?.seating_item?.itemname}} person capacity</span>
                       <span class="block text-base font-bold text-quicksilver">{{arrangement.per_seating_person}}</span>
                     </div>
                     <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-2">
@@ -46,8 +46,8 @@
                       <span class="block text-base font-bold text-quicksilver">{{arrangement.total_person}}</span>
                     </div>
                     <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-2"
-                         *ngIf="(arrangementObj?.seat_item_obj?.itemname != 'Chair' || arrangementObj?.seat_item_obj?.itemname != 'chair') && (arrangementObj?.seat_item_obj?.itemname != 'Stands' || arrangementObj?.seat_item_obj?.itemname != 'stands')">
-                      <span class="block text-xs xl:text-sm text-quicksilver">Per {{arrangementObj?.seat_item_obj?.itemname}} Price</span>
+                         *ngIf="(arrangementObj?.seating_item?.itemname != 'Chair' || arrangementObj?.seating_item?.itemname != 'chair') && (arrangementObj?.seating_item?.itemname != 'Stands' || arrangementObj?.seating_item?.itemname != 'stands')">
+                      <span class="block text-xs xl:text-sm text-quicksilver">Per {{arrangementObj?.seating_item?.itemname}} Price</span>
                       <span class="block text-base font-bold text-quicksilver">{{arrangement.per_seating_price}}</span>
                     </div>
                     <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-2">
@@ -62,7 +62,7 @@
                       <p>Description</p>
                       <span class="text-base text-quicksilver font-bold">{{arrangement?.description || 'null'}}</span>
                     </div>
-                    <div class="flex items-center pt-4 ml-auto" *ngIf="(arrangementObj?.seat_item_obj?.itemname != 'Chair' || arrangementObj?.seat_item_obj?.itemname != 'chair') && (arrangementObj?.seat_item_obj?.itemname != 'Stands' || arrangementObj?.seat_item_obj?.itemname != 'stands')">
+                    <div class="flex items-center pt-4 ml-auto" *ngIf="(arrangementObj?.seating_item?.itemname != 'Chair' || arrangementObj?.seating_item?.itemname != 'chair') && (arrangementObj?.seating_item?.itemname != 'Stands' || arrangementObj?.seating_item?.itemname != 'stands')">
                       <input class="switch mx-3 order-2" id="on" type="checkbox" [(ngModel)]="arrangement.booking_acceptance"/>
                       <span class="off text-base font-bold anim order-1 text-caribbeanGreen">per table</span>
                       <span class="on text-base font-bold anim order-3">per person</span>
@@ -110,7 +110,7 @@
       <h5>Back</h5>
     </button>
     <!-- [disabled]="!occasions || !occasions.length" -->
-    <button  [routerLink]="'/events/create/location'" class="flex items-center active" type="button" (click)="onNextStep()">
+    <button class="flex items-center active" type="button" (click)="onNextStep()">
       <h5>Next</h5>
       <i class="icon-right_arrow ml-3"></i>
     </button>

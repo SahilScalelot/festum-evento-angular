@@ -111,7 +111,27 @@ export class ArrangementStepComponent implements OnInit {
   }
 
   onNextStep(): void {
-    // this.newEventObj.emit(this.eventObj);
+    // this._router.navigate(['events/create/location']);
+    this.isLoading = true;
+    const preparedObj: any = this.prepareObj(this.arrangementsArr);
+    this._createEventService.arrangements(preparedObj).subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        this.isLoading = false;
+        this._router.navigate(['events/create/location']);
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+        this.isLoading = false;
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isLoading = false;
+    });
   }
-
+  
+  prepareObj(arrangementsArr: any = []): any {
+    const preparedObj: any = {};
+    preparedObj.eventid = this.eventId;
+    preparedObj.arrangements = arrangementsArr;
+    return preparedObj;
+  }
 }
