@@ -20,16 +20,22 @@ export class CompanyDetailsStepComponent implements OnInit {
   imgChangeEvt: any = '';
 
   isLoading: boolean = false;
+  isPdfLoading: boolean = false;
+  constants: any = CONSTANTS;
 
   companyForm: any;
   inputText: any;
+
 
   pdfObj: any = [];
   photoArr: any = [];
   photoObj: any = [];
   videoObj: any = [];
   videoArr: any = [];
-  permissionObj: any = [];
+
+  eventId: any;
+  personalDetailsObj: any = {};
+  gstPdf: any;
   
   allPhotosFilesArr: any = [];
   allVideosFilesArr: any = [];
@@ -49,15 +55,20 @@ export class CompanyDetailsStepComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this._prepareAboutEventForm(this.eventObj);
-
-    if (localStorage.getItem('eId')) {
-      this.photoArr = this.eventObj?.company_details?.company_images || [];
-      this.videoArr = this.eventObj?.company_details?.company_videos || [];
-      this.prepareObj();
-    } else {
+    
+    if (!localStorage.getItem('eId') || localStorage.getItem('eId') == '') {
       this._router.navigate(['/events']);
     }
+    this.eventId = localStorage.getItem('eId');
+    
+    // if (localStorage.getItem('eId')) {
+    //   this.photoArr = this.eventObj?.company_details?.company_images || [];
+    //   this.videoArr = this.eventObj?.company_details?.company_videos || [];
+    //   this.prepareObj();
+    // } else {
+    //   this._router.navigate(['/events']);
+    // }
+    this._prepareAboutEventForm(this.eventObj);
   }
 
   private _prepareAboutEventForm(eventObj: any = {}): void {
@@ -73,9 +84,25 @@ export class CompanyDetailsStepComponent implements OnInit {
       city: [eventObj?.company_details?.company_detail?.city, [Validators.required]],
       state: [eventObj?.company_details?.company_detail?.state, [Validators.required]],
       pincode: [eventObj?.company_details?.company_detail?.pincode, [Validators.required, Validators.pattern('^[1-9]{1}[0-9]{2}\\s{0,1}[0-9]{3}$')]],
-      event_reg: [],
-      images: [this.photoArr],
+      photos: [this.photoArr],
       videos: [this.videoArr],
+
+      // "photos" : [
+      //     {
+      //         "url" : "637477038e96c599daafa8f0/event/IMG/IMG-758333552065751.jpeg"
+      //     }, 
+      //     {
+      //         "url" : "637477038e96c599daafa8f0/event/IMG/IMG-3013547270526469.jpeg"
+      //     }
+      // ],
+      // "videos" : [
+      //     {
+      //         "url" : "637477038e96c599daafa8f0/event/VID/VID-16738184478292295.mp4"
+      //     },
+      //     {
+      //        "url" : "637477038e96c599daafa8f0/event/VID/VID-7058096398714531.mp4"
+      //     }
+      // ]
     });
 
     this.inputText = eventObj?.company_details?.company_detail?.gst_name;
@@ -83,6 +110,7 @@ export class CompanyDetailsStepComponent implements OnInit {
 
   onChangePDF(event: any): any {
     const pdfUpload = $('#company_gst')[0].files[0];
+    const pdfFormData = new FormData();
     this.isInValidPDF = false;
     if (pdfUpload != undefined) {
       if (pdfUpload != undefined && pdfUpload.type != 'application/pdf') {
@@ -91,19 +119,30 @@ export class CompanyDetailsStepComponent implements OnInit {
         this.isInValidPDF = true;
         return false;
       }      
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        this.pdfObj.push({ pdfUpload: e.target.result });
-      };
-      reader.readAsDataURL(pdfUpload);
-      this.inputText = event?.target?.files[0]?.name;
+      pdfFormData.append('file', pdfUpload);
+      // this.inputText = event?.target?.files[0]?.name;
       // this.companyForm.get('gst').setValue(this.inputText);
+      this.isPdfLoading = true;
+      this._createEventService.documentUpload(pdfFormData).subscribe((result: any) => {
+        if (result && result.IsSuccess) {
+          this.gstPdf = result.Data.url;
+          this.inputText = _.last(_.split(result.Data.url, '/'));
+          this._sNotify.success('File Uploaded Successfully.', 'Success');
+          this.isPdfLoading = false;
+        } else {
+          this._globalFunctions.successErrorHandling(result, this, true);
+          this.isPdfLoading = false;
+        }
+      }, (error: any) => {
+        this._globalFunctions.errorHanding(error, this, true);
+        this.isPdfLoading = false;
+      });
     }
   }
 
   uploadImage(): any {
     const image = $('#create-photo-upload')[0].files[0];
-
+    const imgFormData = new FormData();
     if (image != undefined) {
       if (image.type != 'image/jpeg' && image.type != 'image/jpg' && image.type != 'image/png') {
         this._sNotify.error('Image type is Invalid.', 'Oops!');
@@ -131,6 +170,24 @@ export class CompanyDetailsStepComponent implements OnInit {
       this.allPhotosFilesArr.push({ image: image });
       $('#create-photo-upload').val(null);
     }
+    
+    imgFormData.append('file', image);
+    this.isPdfLoading = true;
+    this._createEventService.uploadImages(imgFormData).subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        const photo = result.Data.url;
+        this.photoArr.push(photo);
+        this._sNotify.success('File Uploaded Successfully.', 'Success');
+        this.isPdfLoading = false;
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+        this.isPdfLoading = false;
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isPdfLoading = false;
+    });
+
   }
 
   uploadVideo(): any {
@@ -176,17 +233,32 @@ export class CompanyDetailsStepComponent implements OnInit {
 
   nextStep(): void {
     if (this.companyForm.invalid) {
-      // this.companyForm.controls.markAsDirty();
       Object.keys(this.companyForm.controls).forEach((key) => {
         this.companyForm.controls[key].touched = true;
         this.companyForm.controls[key].markAsDirty();
       });
       return;
     }
+    // this.isLoading = true;
+    // this.companyForm.disable();
+    const preparedLocationObj: any = this.prepareObj(this.companyForm.value);
+    console.log(preparedLocationObj);
     
-    this.eventObj.company_details = this.prepareObj(this.companyForm.value);
-    this.newEventObj.emit(this.eventObj);
-    this._router.navigate(['/events/create/personal-details']);
+    // this._createEventService.companyDetail(preparedLocationObj).subscribe((result: any) => {
+    //   if (result && result.IsSuccess) {
+    //     this.isLoading = false;
+    //     this.companyForm.enable();
+    //     this._router.navigate(['/events/create/personal-details']);
+    //   } else {
+    //     this._globalFunctions.successErrorHandling(result, this, true);
+    //     this.isLoading = false;
+    //     this.companyForm.enable();
+    //   }
+    // }, (error: any) => {
+    //   this._globalFunctions.errorHanding(error, this, true);
+    //   this.isLoading = false;
+    //   this.companyForm.enable();
+    // });
   }
 
   isString(val: any): boolean {
@@ -194,6 +266,13 @@ export class CompanyDetailsStepComponent implements OnInit {
   }
   
   prepareObj(companyObj: any = {}): any {
+    const preparedObj: any = companyObj;
+    preparedObj.eventid = this.eventId;
+    preparedObj.gst = this.gstPdf;
+    // preparedObj.photos = this.eventId;
+    // preparedObj.videos = this.eventId;
+    return preparedObj;
+
     const companyFormData = this._globalFunctions.copyObject(this.companyForm.value);
     delete companyFormData.images;
     delete companyFormData.videos;
@@ -232,9 +311,7 @@ export class CompanyDetailsStepComponent implements OnInit {
       }
     });
     companyObj = {
-      company_detail: companyFormData,
-      company_images: this.allPhotosFilesArr,
-      company_videos: this.allVideosFilesArr
+      companydetail: companyFormData,
     }
     return companyObj;
   }
