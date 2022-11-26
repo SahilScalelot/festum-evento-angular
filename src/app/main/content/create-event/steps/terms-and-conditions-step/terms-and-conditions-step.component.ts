@@ -147,7 +147,7 @@ export class TermsAndConditionsStepComponent implements OnInit {
   getTAndCEvent(): any {
     this.isLoading = true;
     this._createEventService.getTAndC(this.eventId).subscribe((result: any) => {
-      if (result && result.Data) {
+      if (result && result.IsSuccess) {
         const eventLocationObj: any = result?.Data?.tandc || {};
         this._prepareTAndCForm(eventLocationObj);
         this.isLoading = false;

@@ -66,6 +66,9 @@ export class CreateEventService {
   companyDetail(eventObj: any): any {
     return this.http.post(environment.appURL + 'organizer/events/companydetail', eventObj, this._globalFunctions.getAuthorizationHeader());
   }
+  getCompanyDetail(eventId: any): any {
+    return this.http.get(environment.appURL + 'organizer/events/companydetail?eventid=' + eventId, this._globalFunctions.getAuthorizationHeader());
+  }
 
   // Personal Detail Event Step
   personalDetail(eventObj: any): any {

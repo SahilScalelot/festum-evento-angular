@@ -58,7 +58,7 @@ export class PersonalDetailsStepComponent implements OnInit {
   getPersonalDetailsEvent(): any {
     this.isLoading = true;
     this._createEventService.getPersonalDetail(this.eventId).subscribe((result: any) => {
-      if (result && result.Data) {
+      if (result && result.IsSuccess) {
         const eventLocationObj: any = result?.Data?.personaldetail || {};
         this._preparePersonalDetailsEventForm(eventLocationObj);
         this.isLoading = false;

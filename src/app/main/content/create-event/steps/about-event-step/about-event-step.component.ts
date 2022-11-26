@@ -59,7 +59,7 @@ export class AboutEventStepComponent implements OnInit {
   getAboutEvent(): any {
     this.isLoading = true;
     this._createEventService.getAbout(this.eventId).subscribe((result: any) => {
-      if (result && result.Data) {
+      if (result && result.IsSuccess) {
         this.aboutObj = result.Data.about;
         this._prepareAboutEventForm(this.aboutObj);
         this.isLoading = false;
