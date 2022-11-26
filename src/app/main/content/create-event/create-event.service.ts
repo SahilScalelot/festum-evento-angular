@@ -61,6 +61,9 @@ export class CreateEventService {
   permission(eventObj: any): any {
     return this.http.post(environment.appURL + 'organizer/events/permission', eventObj, this._globalFunctions.getAuthorizationHeader());
   }
+  getPermission(eventId: any): any {
+    return this.http.get(environment.appURL + 'organizer/events/permission?eventid=' + eventId, this._globalFunctions.getAuthorizationHeader());
+  }
   
   // Company Detail Event Step
   companyDetail(eventObj: any): any {

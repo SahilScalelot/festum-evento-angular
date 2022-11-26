@@ -1,6 +1,8 @@
+<p-progressSpinner *ngIf="isLoading" [style]="{width: '50px', height: '50px'}" animationDuration=".5s" strokeWidth="8" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-x-0 top-0 h-full w-full z-40" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
 <form [formGroup]="permissionForm" class="space-y-5">
   <div class="upload-holder w-full h-full relative">
     <span class="text-sm text-quicksilver font-semibold">Add Permission Letter</span>
+    <p-progressSpinner *ngIf="isPdfLoading" [style]="{width: '20px', height: '20px'}" animationDuration=".5s" strokeWidth="4" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-x-0 bottom-0 top-6 z-20" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
     <label class="upload upload-popup py-9">
       <input (change)="onChangePDF($event)" [formControlName]="'permission_letter'" accept="application/pdf" class="appearance-none hidden" id="permission_letter" name="permission_letter" type="file"/>
       <div class="flex justify-center text-left items-start">
@@ -9,6 +11,7 @@
         <span *ngIf="!inputText" class="input-titel mt-1 font-bold text-sm">Permission Letter for verification <br/>Attached pdf only</span>
       </div>
     </label>
+    <a *ngIf="inputText" class="absolute right-4 bottom-3 py-0.5 px-2 normal-case text-gray-400 anim hover:text-magicPotion text-sm font-semibold hidden border border-current group-hover:inline-block" [href]="constants.baseImageURL + permissionPdf" target="_blank" title="View File">View</a>
     <span class="absolute top-full text-red-500 text-xs" *ngIf="permissionForm.get('permission_letter')?.invalid && (permissionForm.get('permission_letter')?.dirty && permissionForm.get('permission_letter')?.touched)">
       <span *ngIf="permissionForm.get('permission_letter')?.errors?.['required']">Permission letter is required</span>
     </span>

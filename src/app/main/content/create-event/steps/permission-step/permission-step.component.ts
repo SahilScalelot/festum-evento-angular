@@ -3,7 +3,9 @@ import {CONSTANTS} from "../../../../common/constants";
 import {FormBuilder, Validators} from "@angular/forms";
 import {SnotifyService} from "ng-snotify";
 import {Router} from "@angular/router";
-
+import { CreateEventService } from '../../create-event.service';
+import { GlobalFunctions } from 'src/app/main/common/global-functions';
+import * as _ from 'lodash';
 declare var $: any;
 
 @Component({
@@ -14,7 +16,13 @@ declare var $: any;
 export class PermissionStepComponent implements OnInit {
   permissionForm: any;
   inputText: any;
-  constants: any = CONSTANTS;
+  constants: any = CONSTANTS;  
+  isInValidPDF: boolean = false;
+  isPdfLoading: boolean = false;  
+  isLoading: boolean = false;  
+
+  permissionPdf: any;
+  eventId: any;
 
   @Input() eventObj: any = {};
   @Output() newEventObj: EventEmitter<any> = new EventEmitter();
@@ -23,6 +31,8 @@ export class PermissionStepComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private _sNotify: SnotifyService,
     private _router: Router,
+    private _globalFunctions: GlobalFunctions,
+    private _createEventService: CreateEventService,
   ) {
   }
 
@@ -30,17 +40,67 @@ export class PermissionStepComponent implements OnInit {
     if (!localStorage.getItem('eId') || localStorage.getItem('eId') == '') {
       this._router.navigate(['/events']);
     }
+    this.eventId = localStorage.getItem('eId');
+    this.getCompanyDetailsEvent();    
+    this._preparePermissionForm(this.eventObj);
+  }
+
+  private _preparePermissionForm(eventObj: any = {}): void {
     this.permissionForm = this._formBuilder.group({
       permission_letter: [null],
-      accept_booking: [this.eventObj?.permission?.accept_booking || false]
+      accept_booking: [eventObj?.accept_booking || false]
     });
-    this.inputText = this.eventObj?.permission?.permission_letter_name;
+    this.inputText = eventObj?.company_details?.company_detail?.gst_name;
   }
 
-  onChangePDF(event: any): void {
-    this.inputText = event?.target?.files[0]?.name;
+  getCompanyDetailsEvent(): any {
+    this.isLoading = true;
+    this._createEventService.getPermission(this.eventId).subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        const eventLocationObj: any = result?.Data || {};
+        this._preparePermissionForm(eventLocationObj);
+        this.permissionPdf = eventLocationObj.permission_letter;
+        this.inputText = _.last(_.split(eventLocationObj.permission_letter, '/'));
+        this.isLoading = false;
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+        this.isLoading = false;
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isLoading = false;
+    });
   }
 
+  onChangePDF(event: any): any {
+    const pdfUpload = $('#permission_letter')[0].files[0];
+    const pdfFormData = new FormData();
+    this.isInValidPDF = false;
+    if (pdfUpload != undefined) {
+      if (pdfUpload != undefined && pdfUpload.type != 'application/pdf') {
+        // this._sNotify.error('File type is Invalid.', 'Oops!');
+        $('#permission_letter').focus();
+        this.isInValidPDF = true;
+        return false;
+      }      
+      pdfFormData.append('file', pdfUpload);
+      this.isPdfLoading = true;
+      this._createEventService.documentUpload(pdfFormData).subscribe((result: any) => {
+        if (result && result.IsSuccess) {
+          this.permissionPdf = result.Data.url;
+          this.inputText = _.last(_.split(result.Data.url, '/'));
+          this._sNotify.success('File Uploaded Successfully.', 'Success');
+          this.isPdfLoading = false;
+        } else {
+          this._globalFunctions.successErrorHandling(result, this, true);
+          this.isPdfLoading = false;
+        }
+      }, (error: any) => {
+        this._globalFunctions.errorHanding(error, this, true);
+        this.isPdfLoading = false;
+      });
+    }
+  }
   submitPermissionForm(): void {
     this.permissionForm.get('permission_letter').setErrors({'required': false});
     if (((!this.eventObj || !this.eventObj.permission || !this.eventObj.permission.permission_letter) &&
@@ -60,26 +120,33 @@ export class PermissionStepComponent implements OnInit {
       // let formData:FormData = new FormData();
       // formData.append('permission_letter', pdf, pdf.name);
       // this.permissionForm.get('permission_letter').setValue(pdf);
-    // }
-    // localStorage.setItem('newEventObj', JSON.stringify(this.permissionForm.value))
-    this.eventObj.permission = this.preparePermissionObj(this.permissionForm.value);
-    // JSON.stringify({ permission: preparedObj });
-    // localStorage.setItem('newEventObj', JSON.stringify(this.permissionObj));
-    this.newEventObj.emit(this.eventObj);
-    this._router.navigate(['create-event/discount']);
+    // }    
+    this.isLoading = true;
+    this.permissionForm.disable();
+    const preparedCompanyDetailsObj: any = this.preparePermissionObj(this.permissionForm.value);    
+    this._createEventService.permission(preparedCompanyDetailsObj).subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        this.isLoading = false;
+        this.permissionForm.enable();
+        this._router.navigate(['/events/create/discount']);
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+        this.isLoading = false;
+        this.permissionForm.enable();
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isLoading = false;
+      this.permissionForm.enable();
+    });
   }
 
+  
   preparePermissionObj(permissionObj: any = {}): any {
-    const preparedPermissionObj: any = permissionObj;
-    const pdf = $('#permission_letter')[0].files[0];
-    if (pdf != undefined) {
-      preparedPermissionObj.permission_letter = pdf;
-      preparedPermissionObj.permission_letter_name = pdf.name;
-    } else if (this.eventObj?.permission?.permission_letter) {
-      preparedPermissionObj.permission_letter = this.eventObj?.permission?.permission_letter;
-      preparedPermissionObj.permission_letter_name = preparedPermissionObj.permission_letter.name;
-    }
-    return preparedPermissionObj;
+    const preparedObj: any = permissionObj;
+    preparedObj.eventid = this.eventId;
+    preparedObj.permission_letter = this.permissionPdf;
+    return preparedObj;
   }
 
 }

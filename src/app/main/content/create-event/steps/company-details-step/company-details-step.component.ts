@@ -56,7 +56,7 @@ export class CompanyDetailsStepComponent implements OnInit {
     private _globalService: GlobalService,
   ) {}
 
-  ngOnInit(): void {    
+  ngOnInit(): void {
     if (!localStorage.getItem('eId') || localStorage.getItem('eId') == '') {
       this._router.navigate(['/events']);
     }
@@ -90,7 +90,6 @@ export class CompanyDetailsStepComponent implements OnInit {
     this._createEventService.getCompanyDetail(this.eventId).subscribe((result: any) => {
       if (result && result.IsSuccess) {
         const eventLocationObj: any = result?.Data?.companydetail || {};
-        console.log(eventLocationObj);
         this._prepareCompanyDetailsForm(eventLocationObj);
         this.gstPdf = eventLocationObj.gst;
         this.inputText = _.last(_.split(eventLocationObj.gst, '/'));
