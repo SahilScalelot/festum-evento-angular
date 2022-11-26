@@ -64,7 +64,7 @@ export class LocationStepComponent implements OnInit {
   getLocationEvent(): any {
     this.isLoading = true;
     this._createEventService.getLocation(this.eventId).subscribe((result: any) => {
-      if (result && result.Data) {
+      if (result && result.IsSuccess) {
         const eventLocationObj: any = result?.Data?.event_location || {};
         this._prepareLocationForm(eventLocationObj);
         this.setLocation(eventLocationObj?.location);

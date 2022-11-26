@@ -16,7 +16,7 @@
         <span class="input-titel">Company GST (Optional)</span>
         <p-progressSpinner *ngIf="isPdfLoading" [style]="{width: '20px', height: '20px'}" animationDuration=".5s" strokeWidth="4" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-x-1 bottom-0 top-10 z-20" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
         <label class="upload upload-popup py-3">
-          <input (change)="onChangePDF($event)" [formControlName]="'gst'" accept="application/pdf" class="appearance-none hidden" id="company_gst" name="images" type="file"/>
+          <input (change)="onChangePDF($event)" [formControlName]="'company_gst'" accept="application/pdf" class="appearance-none hidden" id="company_gst" name="images" type="file"/>
           <span class="input-titel text-base p-0">
             <i class="icon-pdf_upload mr-2"></i> 
             <span class="normal-case">{{inputText ? inputText : 'Upload PDF'}}</span>
@@ -114,11 +114,12 @@
           <div class="flex flex-wrap h-full pt-2">
             <div *ngFor="let photo of photoArr; let i = index" class="upload-box mr-2.5 mb-2.5">
               <div class="rounded relative overflow-hidden h-full w-full">
-                <img [alt]="'add-photo-' + i" [src]="photo.image" *ngIf="isString(photo.image)" class="object-cover w-full h-full"/>
+                <img [alt]="'add-photo-' + i" [src]="constants.baseImageURL + photo.url" *ngIf="isString(photo.url)" class="object-cover w-full h-full"/>
                 <button (click)="removeImage(i)">Remove</button>
               </div>
             </div>
-            <div class="upload-holder" *ngIf="photoArr.length < 5">
+            <div class="upload-holder relative" *ngIf="photoArr.length < 5">
+              <p-progressSpinner *ngIf="isImgLoading" [style]="{width: '20px', height: '20px'}" animationDuration=".5s" strokeWidth="4" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-0 z-20" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
               <label class="upload-photo">
                 <input (change)="uploadImage()" accept="image/png, image/jpeg, image/gif" class="appearance-none hidden" id="create-photo-upload" multiple name="images" type="file"/>
                 <i class="icon-img_upload text-base text-quicksilver"></i>
@@ -135,12 +136,13 @@
             <div *ngFor="let video of videoArr; let i = index" class="upload-box mr-2.5 mb-2.5">
               <div class="rounded relative overflow-hidden h-full w-full">
                 <video class="w-full h-full object-cover" height="100%" width="100%">
-                  <source [src]="video.video" *ngIf="isString(video.video)" type="video/mp4">
+                  <source [src]="constants.baseImageURL + video.url" *ngIf="isString(video.url)" type="video/mp4">
                 </video>
                 <button (click)="removeVideo(i)">Remove</button>
               </div>
             </div>
-            <div class="upload-holder" *ngIf="videoArr.length < 1">
+            <div class="upload-holder relative" *ngIf="videoArr.length < 1">
+              <p-progressSpinner *ngIf="isVideoLoading" [style]="{width: '20px', height: '20px'}" animationDuration=".5s" strokeWidth="4" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-0 z-20" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
               <label class="upload-photo">
                 <input (change)="uploadVideo()" accept="video/mp4" class="appearance-none hidden" id="create-video-upload" name="videos" type="file"/>
                 <i class="icon-video_upload text-base text-quicksilver"></i>
