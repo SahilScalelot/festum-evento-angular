@@ -32,8 +32,9 @@ export class ArrangementDialogComponent implements OnInit {
     this.isInitial = true;
     this._prepareArrangementForm();
     this.prepareSeatingItems();
-    if (this.editArrangementObj && this.editArrangementObj.seat_item_obj) {
-      this.selectedSeatingObj = this.editArrangementObj.seat_item_obj;
+    if (this.editArrangementObj && this.editArrangementObj.seating_item) {
+      this.selectedSeatingObj = this.editArrangementObj.seating_item;
+
     }
   }
 
@@ -89,7 +90,7 @@ export class ArrangementDialogComponent implements OnInit {
   prepareSeatingItems(): void {
     if (this.isInitial && this.arrangementsArr && this.arrangementsArr.length &&
       (!this.editArrangementObj || !this.editArrangementObj.seating_item)) {
-      const arrangementKeys = Object.keys(_.keyBy(this.arrangementsArr, 'seating_item'));
+      const arrangementKeys = Object.keys(_.keyBy(this.arrangementsArr, 'seating_item._id'));
       _.each(arrangementKeys, (key: any) => {
         this.seatingItems = _.remove(this.seatingItems, (seatingItem: any) => { return seatingItem._id != key; });
       });
@@ -122,8 +123,8 @@ export class ArrangementDialogComponent implements OnInit {
 
     const seatingObj: any = this.seatingForm.value;
     seatingObj.totalCalculations = this.totalArrangementsObj;
-    seatingObj.seat_item_obj = (this.editArrangementObj && this.editArrangementObj.seat_item_obj) ? this.editArrangementObj.seat_item_obj : _.find(this.seatingItems, ['_id', seatingObj.seating_item]);
-    seatingObj.seating_item = seatingObj.seat_item_obj._id;
+    seatingObj.seating_item = (this.editArrangementObj && this.editArrangementObj.seating_item) ? this.editArrangementObj.seating_item : _.find(this.seatingItems, ['_id', seatingObj.seating_item]);
+    seatingObj.seating_item_id = seatingObj.seating_item._id;
     preparedSeatingArr.push(seatingObj);
     this.arrangementsArr = preparedSeatingArr;
     this.closePopup(this.arrangementsArr);
@@ -136,7 +137,8 @@ export class ArrangementDialogComponent implements OnInit {
 
   private _prepareArrangementForm(): void {
     this.seatingForm = this._formBuilder.group({
-      seating_item: [{ value: this.editArrangementObj?.seating_item || null, disabled: (this.editArrangementObj && this.editArrangementObj.seating_item) }, [Validators.required]],
+      seating_item: [{ value: (this.editArrangementObj && this.editArrangementObj.seating_item) ?
+          ((this.editArrangementObj.seating_item._id) ? this.editArrangementObj.seating_item._id : this.editArrangementObj.seating_item) : null, disabled: (this.editArrangementObj && this.editArrangementObj.seating_item) }, [Validators.required]],
       arrangements: this._formBuilder.array([]),
       food: [this.editArrangementObj?.food || 'VEG', [Validators.required]],
       food_description: [this.editArrangementObj?.food_description || ''],
