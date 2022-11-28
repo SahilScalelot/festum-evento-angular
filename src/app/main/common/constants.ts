@@ -65,7 +65,7 @@ export const CONSTANTS = {
   ],
 
   maxPosterSizeInMB: 10,
-  maxImageSizeInMB: 5,
+  maxImageSizeInMB: 3,
   maxVideoSizeInMB: 512,
   maxCompanyVideoSizeInMB: 2,
   defaultMapZoom: 12,
