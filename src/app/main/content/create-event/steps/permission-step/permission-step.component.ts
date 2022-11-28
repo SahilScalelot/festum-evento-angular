@@ -21,6 +21,7 @@ export class PermissionStepComponent implements OnInit {
   isPdfLoading: boolean = false;  
   isLoading: boolean = false;  
 
+  permissionObj: any;
   permissionPdf: any;
   eventId: any;
 
@@ -57,10 +58,11 @@ export class PermissionStepComponent implements OnInit {
     this.isLoading = true;
     this._createEventService.getPermission(this.eventId).subscribe((result: any) => {
       if (result && result.IsSuccess) {
-        const eventLocationObj: any = result?.Data || {};
-        this._preparePermissionForm(eventLocationObj);
-        this.permissionPdf = eventLocationObj.permission_letter;
-        this.inputText = _.last(_.split(eventLocationObj.permission_letter, '/'));
+        const eventPermissionObj: any = result?.Data || {};
+        this.permissionObj = eventPermissionObj;
+        this._preparePermissionForm(eventPermissionObj);
+        this.permissionPdf = eventPermissionObj.permission_letter;
+        this.inputText = _.last(_.split(eventPermissionObj.permission_letter, '/'));
         this.isLoading = false;
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
@@ -103,10 +105,8 @@ export class PermissionStepComponent implements OnInit {
   }
   submitPermissionForm(): void {
     this.permissionForm.get('permission_letter').setErrors({'required': false});
-    if (((!this.eventObj || !this.eventObj.permission || !this.eventObj.permission.permission_letter) &&
-      (!this.permissionForm.value || !this.permissionForm.value.permission_letter)) ||
-      (this.eventObj && this.eventObj.permission && (!this.eventObj.permission.permission_letter ||
-        typeof (this.eventObj.permission.permission_letter) != 'object'))) {
+    if (((!this.permissionObj || !this.permissionObj.permission_letter) && (!this.permissionForm.value || !this.permissionForm.value.permission_letter)) ||
+      (this.permissionObj && (!this.permissionObj.permission_letter || this.permissionObj.permission_letter == ''))) {
       // this.permissionForm.controls.markAsDirty();
       Object.keys(this.permissionForm.controls).forEach((key) => {
         this.permissionForm.controls[key].touched = true;
@@ -114,13 +114,7 @@ export class PermissionStepComponent implements OnInit {
       });
       this.permissionForm.get('permission_letter').setErrors({'required': true});
       return;
-    }
-    // if (pdf != undefined) {
-      // this is for upload formData
-      // let formData:FormData = new FormData();
-      // formData.append('permission_letter', pdf, pdf.name);
-      // this.permissionForm.get('permission_letter').setValue(pdf);
-    // }    
+    }  
     this.isLoading = true;
     this.permissionForm.disable();
     const preparedCompanyDetailsObj: any = this.preparePermissionObj(this.permissionForm.value);    

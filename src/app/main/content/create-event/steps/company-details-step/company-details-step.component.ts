@@ -256,7 +256,7 @@ export class CompanyDetailsStepComponent implements OnInit {
     }
     this.isLoading = true;
     this.companyForm.disable();
-    const preparedCompanyDetailsObj: any = this.prepareObj(this.companyForm.value);    
+    const preparedCompanyDetailsObj: any = this.prepareObj(this.companyForm.value);
     this._createEventService.companyDetail(preparedCompanyDetailsObj).subscribe((result: any) => {
       if (result && result.IsSuccess) {
         this.isLoading = false;
