@@ -40,6 +40,9 @@ export class CreateEventService {
   getArrangements(eventId: any): any {
     return this.http.get(environment.appURL + 'organizer/events/arrangement?eventid=' + eventId, this._globalFunctions.getAuthorizationHeader());
   }
+  getSeatingItems(): any {
+    return this.http.get(environment.appURL + 'organizer/item/list', this._globalFunctions.getAuthorizationHeader());
+  }
 
   // Location Event Step
   location(eventObj: any): any {
@@ -63,6 +66,11 @@ export class CreateEventService {
   }
   getPermission(eventId: any): any {
     return this.http.get(environment.appURL + 'organizer/events/permission?eventid=' + eventId, this._globalFunctions.getAuthorizationHeader());
+  }
+  
+  // Discounts Apis
+  getDiscounts(): any {
+    return this.http.get(environment.appURL + 'organizer/discount/list', this._globalFunctions.getAuthorizationHeader());
   }
   
   // Company Detail Event Step
@@ -109,65 +117,8 @@ export class CreateEventService {
     return this.http.post(environment.appURL + 'organizer/events/document', pdfFormData, this._globalFunctions.getFileAuthorizationHeader());
   }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  eventRegister(eventObj: any): any {
-    return this.http.post(environment.appURL + 'event/register/', eventObj, this._globalFunctions.getFileAuthorizationHeader());
-  }
-  editEvent(eventId: any, eventObj: any): any {
-    return this.http.put(environment.appURL + 'org/event/' + eventId, eventObj, this._globalFunctions.getAuthorizationHeader());
-  }
-  
+  // Delete Event
   deleteEvent(eventId: any): any {
     return this.http.post(environment.appURL + 'organizer/events/remove', {eventid: eventId}, this._globalFunctions.getAuthorizationHeader());
   }
-  // Company Detail Api
-  addCompanyDetail(companyDetailObj: any): any {
-    return this.http.post(environment.appURL + 'event/companydetail', companyDetailObj, this._globalFunctions.getFileAuthorizationHeader());
-  }
-
-  addCompanyImages(companyImageObj: any): any {
-    return this.http.post(environment.appURL + 'event/companydetail/image', companyImageObj, this._globalFunctions.getFileAuthorizationHeader());
-  }
-
-  addCompanyVideos(companyVideoObj: any): any {
-    return this.http.post(environment.appURL + 'event/companydetail/video', companyVideoObj, this._globalFunctions.getFileAuthorizationHeader());
-  }
-
-  // Personal Detail Api
-  addPersonalDetail(personalDetail: any): any {
-    return this.http.post(environment.appURL + 'event/personaldetail', personalDetail, this._globalFunctions.getAuthorizationHeader());
-  }
-
-  // seats Api
-  getSeatingItems(): any {
-    return this.http.get(environment.appURL + 'organizer/item/list', this._globalFunctions.getAuthorizationHeader());
-  }
-
-  bookOccasionSeat(bookOccasionSeatObj: any): any {
-    return this.http.post(environment.appURL + 'seat/booking', bookOccasionSeatObj, this._globalFunctions.getAuthorizationHeader());
-  }
-
-  // Discounts Apis
-  getAllDiscounts(eventId: any): any {
-    return this.http.get(environment.appURL + 'org/discount?event_id=' + eventId, this._globalFunctions.getAuthorizationHeader());
-  }
-
-  updateDiscount(eventId: any, discountId: any, discountObj: any): any {
-    return this.http.put(environment.appURL + 'org/discount/' + discountId + '?event_id=' + eventId, discountObj, this._globalFunctions.getAuthorizationHeader());
-  }
-
 }

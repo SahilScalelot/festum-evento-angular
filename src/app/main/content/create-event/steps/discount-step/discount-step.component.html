@@ -1,14 +1,14 @@
 <p-progressSpinner *ngIf="isLoading" [style]="{width: '50px', height: '50px'}" animationDuration=".5s" strokeWidth="8" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-x-0 top-0 h-full w-full z-40" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
 <div class="space-y-5">
-  <div class="flex items-center" *ngFor="let discount of discounts; let i = index">
+  <div class="flex items-center" *ngFor="let discount of getDiscounts; let i = index">
     <div class="">
-      <p-checkbox name="groupname" class="mr-5" [value]="discount.id" [(ngModel)]="selectedDiscountIds"></p-checkbox>
+      <p-checkbox name="groupname" class="mr-5" [value]="discount._id" [(ngModel)]="selectedDiscountIds"></p-checkbox>
     </div>
     <div class="bg-gradient-to-r p-5 pr-8 rounded-lg overflow-hidden max-w-[calc(100%-48px)] w-full"
-         [ngClass]="(discount.discount_type == 'discount_on_total_bill') ? 'from-[#13e1b094] to-[#13E1B0]' : ((discount.discount_type == 'discount_on_equipment_or_item') ? ' from-[#20C0E894] to-[#20C0E8]' : 'from-[#FABA1594] to-[#FABA15]')">
+         [ngClass]="(discount.discounttype == 'discount_on_total_bill') ? 'from-[#13e1b094] to-[#13E1B0]' : ((discount.discounttype == 'discount_on_equipment_or_item') ? ' from-[#20C0E894] to-[#20C0E8]' : 'from-[#FABA1594] to-[#FABA15]')">
       <div class="flex justify-between items-center">
         <div>
-          <h2 class="text-white">{{discount.name}}</h2>
+          <h2 class="text-white">{{discount.discountname}}</h2>
           <div class="text-[40px] text-black font-bold">{{discount.discount}}</div>
           <span class="text-xs text-white font-normal">4 Event can be posted or one with max 30 day</span>
         </div>
@@ -43,17 +43,17 @@
 </div>
 
 <modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="discountDialog"
-       [title]="(discountForm.value.discount_type == 'discount_on_total_bill') ? 'Discount On Total Bill' : ((discountForm.value.discount_type == 'discount_on_equipment_or_item') ? 'Discount On Equipment Or Item' : 'Advance And Discount Confirmation')" maxWidth="lg:max-w-3xl" *ngIf="discountForm">
+       [title]="(discountForm.value.discounttype == 'discount_on_total_bill') ? 'Discount On Total Bill' : ((discountForm.value.discounttype == 'discount_on_equipment_or_item') ? 'Discount On Equipment Or Item' : 'Advance And Discount Confirmation')" maxWidth="lg:max-w-3xl" *ngIf="discountForm">
   <div class="pt-6 space-y-5">
     <form class="flex flex-wrap" [formGroup]="discountForm">
-      <div class="w-full lg:w-1/2 inputHolder px-2.5" *ngIf="discountForm.value.discount_type == 'discount_on_equipment_or_item'">
+      <div class="w-full lg:w-1/2 inputHolder px-2.5" *ngIf="discountForm.value.discounttype == 'discount_on_equipment_or_item'">
         <label class="input-titel">Equipment Or Item</label>
         <p-multiSelect [options]="seatingItems" optionLabel="name" optionValue="id" display="chip" class="w-full input" [formControlName]="'equipment_id'"></p-multiSelect>
       </div>
-      <div class="w-full inputHolder" [class]="(discountForm.value.discount_type == 'discount_on_equipment_or_item') ? 'lg:w-1/2 px-2.5' : ''">
-        <label class="input-titel" *ngIf="discountForm.value.discount_type == 'discount_on_total_bill'">Discount On Total Bill</label>
-        <label class="input-titel" *ngIf="discountForm.value.discount_type == 'discount_on_equipment_or_item'">Discount</label>
-        <label class="input-titel" *ngIf="discountForm.value.discount_type == 'advance_and_discount_confirmation'">Advance Payment</label>
+      <div class="w-full inputHolder" [class]="(discountForm.value.discounttype == 'discount_on_equipment_or_item') ? 'lg:w-1/2 px-2.5' : ''">
+        <label class="input-titel" *ngIf="discountForm.value.discounttype == 'discount_on_total_bill'">Discount On Total Bill</label>
+        <label class="input-titel" *ngIf="discountForm.value.discounttype == 'discount_on_equipment_or_item'">Discount</label>
+        <label class="input-titel" *ngIf="discountForm.value.discounttype == 'advance_and_discount_confirmation'">Advance Payment</label>
 
         <p-inputNumber class="input option w-full" type="text" [formControlName]="'discount'" suffix="%" [min]="0" [max]="100"></p-inputNumber>
       </div>
