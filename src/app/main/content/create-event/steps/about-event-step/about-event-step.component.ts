@@ -88,6 +88,7 @@ export class AboutEventStepComponent implements OnInit {
       if (result && result.IsSuccess) {
         this.isLoading = false;
         this.aboutEventForm.enable();
+        this._router.navigate(['/events/create/arrangement']);
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
         this.isLoading = false;
@@ -98,7 +99,6 @@ export class AboutEventStepComponent implements OnInit {
       this.isLoading = false;
       this.aboutEventForm.enable();
     });
-    this._router.navigate(['/events/create/arrangement']);
   }
 
   prepareAboutEventObj(aboutEventObj: any): any {
