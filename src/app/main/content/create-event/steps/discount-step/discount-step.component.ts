@@ -16,7 +16,7 @@ import { GlobalService } from 'src/app/services/global.service';
 export class DiscountStepComponent implements OnInit {
   isLoading: boolean = false;
   seatingItems: any = [];
-  discounts: any = [];
+  getDiscounts: any = [];
   discountForm: any;
   tmpDiscountObj: any = {};
   selectedDiscountIds: any = [];
@@ -37,35 +37,33 @@ export class DiscountStepComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.tmpDiscountObj = {};
-    this.getAllDiscounts();
-    this.getSeatingItems();
     if (!localStorage.getItem('eId') || localStorage.getItem('eId') == '') {
       this._router.navigate(['/events']);
     }
-
     this.eventId = localStorage.getItem('eId');
+    this.tmpDiscountObj = {};
+    this.getAllDiscounts();
+    // this.getSeatingItems();
     this.discountForm = this._formBuilder.group({
       discount_type: [null, [Validators.required]],
       equipment_id: [null],
       discount: [null, [Validators.required]],
       event_id: [this.eventId || '', [Validators.required]],
     });
-    
     this.selectedDiscountIds = this.eventObj.discounts;
   }
 
   getAllDiscounts(): void {
     this.isLoading = true;
-    this._createEventService.getAllDiscounts(this.eventId).subscribe((result: any) => {
-      if (result && result.isSuccess) {
-        this.discounts = result.data || [];
-        _.each(this.discounts, (discount: any) => {
-          discount.name = discount.discount_type.replace(/_/g, ' ');
-          if (discount.discount_type == 'discount_on_equipment_or_item') {
-            discount.equipment_id = _.map(discount.equipment_id, 'equipment_id');
-          }
-        });
+    this._createEventService.getDiscounts().subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        this.getDiscounts = result.Data || [];
+        // _.each(this.getDiscounts, (discount: any) => {
+        //   discount.name = discount.discount_type.replace(/_/g, ' ');
+        //   if (discount.discount_type == 'discount_on_equipment_or_item') {
+        //     discount.equipment_id = _.map(discount.equipment_id, 'equipment_id');
+        //   }
+        // });
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
       }
@@ -76,20 +74,20 @@ export class DiscountStepComponent implements OnInit {
     });
   }
 
-  getSeatingItems(): void {
-    this.isLoading = true;
-    this._createEventService.getSeatingItems().subscribe((result: any) => {
-      if (result && result.IsSuccess) {
-        this.seatingItems = result.data || [];
-      } else {
-        this._globalFunctions.successErrorHandling(result, this, true);
-      }
-      this.isLoading = false;
-    }, (error: any) => {
-      this.isLoading = false;
-      this._globalFunctions.errorHanding(error, this, true);
-    });
-  }
+  // getSeatingItems(): void {
+  //   this.isLoading = true;
+  //   this._createEventService.getSeatingItems().subscribe((result: any) => {
+  //     if (result && result.IsSuccess) {
+  //       this.seatingItems = result.data || [];
+  //     } else {
+  //       this._globalFunctions.successErrorHandling(result, this, true);
+  //     }
+  //     this.isLoading = false;
+  //   }, (error: any) => {
+  //     this.isLoading = false;
+  //     this._globalFunctions.errorHanding(error, this, true);
+  //   });
+  // }
 
   popupOpen(popId: string, discountObj: any = {}, index: number): void {
     this.tmpDiscountObj = this._globalFunctions.copyObject(discountObj);
@@ -109,25 +107,25 @@ export class DiscountStepComponent implements OnInit {
     const discountObj: any = this.discountForm.value;
     discountObj.discount = discountObj.discount.toString() + '%';
 
-    this._createEventService.updateDiscount(discountObj.event_id, this.tmpDiscountObj.id, discountObj).subscribe((result: any) => {
-      if (result && result.isSuccess) {
-        const discounts = this._globalFunctions.copyObject(this.discounts);
-        discounts[this.tmpDiscountObj.discountIndex] = this.tmpDiscountObj;
-        discounts[this.tmpDiscountObj.discountIndex].equipment_id = discountObj.equipment_id;
-        discounts[this.tmpDiscountObj.discountIndex].discount = discountObj.discount;
-        this.discounts = this._globalFunctions.copyObject(discounts);
+    // this._createEventService.updateDiscount(discountObj.event_id, this.tmpDiscountObj.id, discountObj).subscribe((result: any) => {
+    //   if (result && result.isSuccess) {
+    //     const discounts = this._globalFunctions.copyObject(this.discounts);
+    //     discounts[this.tmpDiscountObj.discountIndex] = this.tmpDiscountObj;
+    //     discounts[this.tmpDiscountObj.discountIndex].equipment_id = discountObj.equipment_id;
+    //     discounts[this.tmpDiscountObj.discountIndex].discount = discountObj.discount;
+    //     this.discounts = this._globalFunctions.copyObject(discounts);
 
-        this._sNotify.success(result.message, 'Success');
-        this._modalService.close("discountDialog");
-        this.tmpDiscountObj = {};
-        this.isLoading = false;
-      } else {
-        this._globalFunctions.successErrorHandling(result, this, true);
-      }
-    }, (error: any) => {
-      this.isLoading = false;
-      this._globalFunctions.errorHanding(error, this, true);
-    });
+    //     this._sNotify.success(result.message, 'Success');
+    //     this._modalService.close("discountDialog");
+    //     this.tmpDiscountObj = {};
+    //     this.isLoading = false;
+    //   } else {
+    //     this._globalFunctions.successErrorHandling(result, this, true);
+    //   }
+    // }, (error: any) => {
+    //   this.isLoading = false;
+    //   this._globalFunctions.errorHanding(error, this, true);
+    // });
   }
 
   closePop(): any {

@@ -220,7 +220,6 @@ export class PhotosVideosStepComponent implements OnInit {
         this.isPhotoLoading = true;
         this._createEventService.uploadImages(photoFormData).subscribe((result: any) => {
           if (result && result.IsSuccess) {
-            console.log(this.posterImageAndVideoObj);
             this.posterImageAndVideoObj.photos.push({url: result.Data.url, description: this.photoForm.value?.description});
             this._sNotify.success('Image Uploaded Successfully.', 'Success');
             this.isPhotoLoading = false;
@@ -297,24 +296,19 @@ export class PhotosVideosStepComponent implements OnInit {
   }
 
   nextStep() {
-    console.log(this.posterImageAndVideoObj);
-    // this.eventObj.photos_and_videos = this.prepareObj();
-    // this.newEventObj.emit(this.eventObj);
-    // this._router.navigate(['/events/create/permission']);
-  }
-
-  prepareObj(): any {
-    let posterObj: any = {};
-    if (this.posterObj && this.posterObj.image && typeof (this.posterObj.image) == 'string') {
-      posterObj = this._globalFunctions.base64ToImage(this.posterObj.image, this.posterObj.name);
-    } else {
-      posterObj = this.posterObj.image;
-    }
-    const preparedObj: any = {};
-    preparedObj.poster = posterObj;
-    preparedObj.photos = this.allPhotosFilesArr;
-    preparedObj.videos = this.allVideosFilesArr;
-    return preparedObj;
+    this.isLoading = true;
+    this._createEventService.photosAndVideo(this.posterImageAndVideoObj).subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        this.isLoading = false;
+        this._router.navigate(['/events/create/permission']);
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+        this.isLoading = false;
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isLoading = false;
+    });
   }
 
 }

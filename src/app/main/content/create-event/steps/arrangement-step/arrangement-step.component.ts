@@ -111,13 +111,13 @@ export class ArrangementStepComponent implements OnInit {
   }
 
   onNextStep(): void {
-    // this._router.navigate(['events/create/location']);
+    
     this.isLoading = true;
     const preparedObj: any = this.prepareObj(this.arrangementsArr);
     this._createEventService.arrangements(preparedObj).subscribe((result: any) => {
       if (result && result.IsSuccess) {
         this.isLoading = false;
-        this._router.navigate(['events/create/location']);
+        this._router.navigate(['/events/create/location']);
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
         this.isLoading = false;
@@ -131,7 +131,12 @@ export class ArrangementStepComponent implements OnInit {
   prepareObj(arrangementsArr: any = []): any {
     const preparedObj: any = {};
     preparedObj.eventid = this.eventId;
-    preparedObj.arrangements = arrangementsArr;
+    preparedObj.arrangements = [];
+    arrangementsArr.forEach((arrangement: any) => {
+      const tmpArrangement: any = arrangement;
+      tmpArrangement.seating_item = arrangement.seating_item._id;
+      preparedObj.arrangements.push(arrangement);
+    });
     return preparedObj;
   }
 }

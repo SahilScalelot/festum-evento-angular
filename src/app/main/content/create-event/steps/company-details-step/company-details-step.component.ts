@@ -28,7 +28,7 @@ export class CompanyDetailsStepComponent implements OnInit {
   companyForm: any;
   inputText: any;
 
-
+  companyDetailObj: any = {};
   pdfObj: any = [];
   photoArr: any = [];
   photoObj: any = [];
@@ -36,16 +36,12 @@ export class CompanyDetailsStepComponent implements OnInit {
   videoArr: any = [];
 
   eventId: any;
-  personalDetailsObj: any = {};
   gstPdf: any;
   
   allPhotosFilesArr: any = [];
   allVideosFilesArr: any = [];
 
   isInValidPDF: boolean = false;
-
-  @Input() eventObj: any = {};
-  @Output() newEventObj: EventEmitter<any> = new EventEmitter();
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -62,39 +58,39 @@ export class CompanyDetailsStepComponent implements OnInit {
     }
     this.eventId = localStorage.getItem('eId');
     this.getCompanyDetailsEvent();
-    this._prepareCompanyDetailsForm(this.eventObj);
+    this._prepareCompanyDetailsForm();
   }
 
-  private _prepareCompanyDetailsForm(eventObj: any = {}): void {
+  private _prepareCompanyDetailsForm(companyDetailObj: any = {}): void {
     this.companyForm = this._formBuilder.group({
-      name: [eventObj?.name, [Validators.minLength(2)]],
-      gst: [this.gstPdf],
-      contact_no: [eventObj?.contact_no, [Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
-      email: [eventObj?.email, [Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
-      about: [eventObj?.about, [Validators.required]],
-      flat_no: [eventObj?.flat_no],
-      street: [eventObj?.street],
-      area: [eventObj?.area],
-      city: [eventObj?.city, [Validators.required]],
-      state: [eventObj?.state, [Validators.required]],
-      pincode: [eventObj?.pincode, [Validators.required, Validators.pattern('^[1-9]{1}[0-9]{2}\\s{0,1}[0-9]{3}$')]],
-      photos: [this.photoArr],
-      videos: [this.videoArr],
+      name: [companyDetailObj?.name || '', [Validators.minLength(2)]],
+      gst: [this.gstPdf || ''],
+      contact_no: [companyDetailObj?.contact_no || '', [Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
+      email: [companyDetailObj?.email || '', [Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
+      about: [companyDetailObj?.about || '', [Validators.required]],
+      flat_no: [companyDetailObj?.flat_no || ''],
+      street: [companyDetailObj?.street || ''],
+      area: [companyDetailObj?.area || ''],
+      city: [companyDetailObj?.city || '', [Validators.required]],
+      state: [companyDetailObj?.state || '', [Validators.required]],
+      pincode: [companyDetailObj?.pincode || '', [Validators.required, Validators.pattern('^[1-9]{1}[0-9]{2}\\s{0,1}[0-9]{3}$')]],
+      photos: [this.photoArr || []],
+      videos: [this.videoArr || []],
     });
 
-    this.inputText = eventObj?.company_details?.company_detail?.gst_name;
+    this.inputText = companyDetailObj?.company_details?.company_detail?.gst_name;
   }
   
   getCompanyDetailsEvent(): any {
     this.isLoading = true;
     this._createEventService.getCompanyDetail(this.eventId).subscribe((result: any) => {
       if (result && result.IsSuccess) {
-        const eventLocationObj: any = result?.Data?.companydetail || {};
-        this._prepareCompanyDetailsForm(eventLocationObj);
-        this.gstPdf = eventLocationObj.gst;
-        this.inputText = _.last(_.split(eventLocationObj.gst, '/'));
-        this.photoArr = eventLocationObj.photos;
-        this.videoArr = eventLocationObj.videos;
+        const companyDetailObj: any = result?.Data?.companydetail || {};
+        this._prepareCompanyDetailsForm(companyDetailObj);
+        this.gstPdf = companyDetailObj.gst;
+        this.inputText = _.last(_.split(companyDetailObj.gst, '/'));
+        this.photoArr = companyDetailObj.photos || [];
+        this.videoArr = companyDetailObj.videos || [];
         this.isLoading = false;
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
@@ -256,7 +252,7 @@ export class CompanyDetailsStepComponent implements OnInit {
     }
     this.isLoading = true;
     this.companyForm.disable();
-    const preparedCompanyDetailsObj: any = this.prepareObj(this.companyForm.value);    
+    const preparedCompanyDetailsObj: any = this.prepareObj(this.companyForm.value);
     this._createEventService.companyDetail(preparedCompanyDetailsObj).subscribe((result: any) => {
       if (result && result.IsSuccess) {
         this.isLoading = false;

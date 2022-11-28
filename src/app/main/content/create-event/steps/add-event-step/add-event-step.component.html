@@ -36,4 +36,12 @@
   </div>
 </div>
 
+<!-- Close -->
+<modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="delete-event-pop" title="Poster">
+  <div class="flex flex-wrap -mx-4 py-5 relative">
+    <h6 class="text-lg pb-4">{{ 'Image Preview' }}</h6>
+  </div>
+  <!-- <button class="secondary w-full uppercase py-2 anim" [disabled]="isPosterLoading">{{ isPosterLoading ? 'Please wait...' : 'Save Poster' }}</button> -->
+</modal>
+
 <app-add-edit-event-dialog (isEditEventChange)="closePop($event)" (editedEvent)="editEvent($event)" *ngIf="isEditEvent" [eventObj]="addEditEvent" [popClass]="'active'"></app-add-edit-event-dialog>
