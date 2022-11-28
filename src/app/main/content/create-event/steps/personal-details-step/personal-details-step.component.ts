@@ -39,19 +39,19 @@ export class PersonalDetailsStepComponent implements OnInit {
 
   private _preparePersonalDetailsEventForm(personalDetailsObj: any = {}): void {
     this.personalDetailForm = this._formBuilder.group({
-      full_name: [personalDetailsObj?.full_name, [Validators.required]],
-      mobile_no: [personalDetailsObj?.mobile_no, [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
-      is_mobile_hidden: [personalDetailsObj?.is_mobile_hidden],
-      alt_mobile_no: [personalDetailsObj?.alt_mobile_no, [Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
-      is_alt_mobile_hidden: [personalDetailsObj?.is_alt_mobile_hidden],
-      email: [personalDetailsObj?.email, [Validators.required,Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
-      is_email_hidden: [personalDetailsObj?.is_email_hidden],
-      flat_no: [personalDetailsObj?.flat_no],
-      street: [personalDetailsObj?.street],
-      area: [personalDetailsObj?.area],
-      state: [personalDetailsObj?.state, [Validators.required]],
-      city: [personalDetailsObj?.city, [Validators.required]],
-      pincode: [personalDetailsObj?.pincode, [Validators.required, Validators.pattern('^[1-9]{1}[0-9]{2}\\s{0,1}[0-9]{3}$')]],
+      full_name: [personalDetailsObj?.full_name || '', [Validators.required]],
+      mobile_no: [personalDetailsObj?.mobile_no || '', [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
+      is_mobile_hidden: [personalDetailsObj?.is_mobile_hidden || false],
+      alt_mobile_no: [personalDetailsObj?.alt_mobile_no || '', [Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
+      is_alt_mobile_hidden: [personalDetailsObj?.is_alt_mobile_hidden || false],
+      email: [personalDetailsObj?.email || '', [Validators.required,Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
+      is_email_hidden: [personalDetailsObj?.is_email_hidden || false],
+      flat_no: [personalDetailsObj?.flat_no || ''],
+      street: [personalDetailsObj?.street || ''],
+      area: [personalDetailsObj?.area || ''],
+      state: [personalDetailsObj?.state || '', [Validators.required]],
+      city: [personalDetailsObj?.city || '', [Validators.required]],
+      pincode: [personalDetailsObj?.pincode || '', [Validators.required, Validators.pattern('^[1-9]{1}[0-9]{2}\\s{0,1}[0-9]{3}$')]],
     });
   }
 
