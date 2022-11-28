@@ -41,10 +41,10 @@ export class EventOverviewComponent implements OnInit {
   getEvent(): void {
     this.isLoading = true;
     const eventId = this._activatedRoute.snapshot.paramMap.get('id');
-    this._eventService.retrieveEventsId(eventId).subscribe((result: any) => {
-      this.events = result.events;
+    this._eventService.getSingleEvents(eventId).subscribe((result: any) => {
+      this.events = result.Data;
       // console.log(this.events[0].t_and_c);
-      this.t_and_c = this.events[0].t_and_c
+      // this.t_and_c = this.events[0].t_and_c
       setTimeout(() => {
         this._globalFunctions.loadAccordion();
         // this._globalFunctions.loadTabsJs();
