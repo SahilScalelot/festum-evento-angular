@@ -72,6 +72,12 @@ export class CreateEventService {
   getDiscounts(): any {
     return this.http.get(environment.appURL + 'organizer/discount/list', this._globalFunctions.getAuthorizationHeader());
   }
+  getDiscountByEventId(eventId: any): any {
+    return this.http.get(environment.appURL + 'organizer/events/discount?eventid=' + eventId, this._globalFunctions.getAuthorizationHeader());
+  }
+  createDiscount(discountObj: any): any {
+    return this.http.post(environment.appURL + 'organizer/events/discount', discountObj, this._globalFunctions.getAuthorizationHeader());
+  }
   
   // Company Detail Event Step
   companyDetail(eventObj: any): any {
