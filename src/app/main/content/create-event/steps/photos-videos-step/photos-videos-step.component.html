@@ -15,7 +15,7 @@
           <button (click)="removeImage(i)">Remove</button>
         </div>
       </div>
-      <div (click)="openUploadPhotoDialog()" class="upload-holder" *ngIf="photoArr.length < 15">
+      <div (click)="openUploadPhotoDialog()" class="upload-holder" *ngIf="posterImageAndVideoObj.photos.length < 15">
         <label class="upload-photo" for="event-upload1">
           <!-- <input type="file" id="photo" name="photo" (change)="onFileChange($event, 'photo')" id="event-upload1" class="appearance-none hidden" accept="image/png, image/jpeg, image/gif" /> -->
           <i class="icon-img_upload text-base text-quicksilver"></i>
@@ -37,7 +37,7 @@
         </div>
       </div>
       <!-- *ngIf="videoArr.i <= 2" -->
-      <div (click)="openUploadVideoDialog()" class="upload-holder" *ngIf="videoArr.length < 2">
+      <div (click)="openUploadVideoDialog()" class="upload-holder" *ngIf="posterImageAndVideoObj.videos.length < 2">
         <label class="upload-photo" for="event-upload1">
           <!-- <input type="file" id="photo" name="photo" (change)="onFileChange($event, 'photo')" id="event-upload1" class="appearance-none hidden" accept="image/png, image/jpeg, image/gif" /> -->
           <i class="icon-video_upload text-base text-quicksilver"></i>
@@ -52,26 +52,41 @@
 </form>
 
 <div class="mt-auto">
-  <!-- advisement -->
   <div class="w-full mt-5">
     <img alt="ring-ad" class="w-full object-cover" src="assets/images/banner-ads.png"/>
   </div>
-  <!-- pre and next button -->
   <div class="prw-next-btn">
     <button [routerLink]="'/events/create/location'" class="flex items-center active" type="button">
       <i class="icon-left_arrow mr-3"></i>
       <h5>Back</h5>
     </button>
-    <!-- <button [routerLink]="'/events/create/permission'" class="flex items-center active" type="button">
-      <h5>Next</h5>
-      <i class="icon-right_arrow ml-3"></i>
-    </button> -->
     <button (click)="nextStep()" class="flex items-center active" type="button">
       <h5>Next</h5>
       <i class="icon-right_arrow ml-3"></i>
     </button>
   </div>
 </div>
+
+<!-- Close -->
+<modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="delete-event-pop" title="Are you sure?" isCloseHidden="hidden" isTitleHidden="hidden">
+  <div class="flex flex-wrap relative">
+    <div class="w-full pb-8">
+      <h3 class="w-full pb-2 normal-case">Delete Event</h3>
+      <p class="normal-case">Are you sure you want to delete</p>
+    </div>
+    <div class="flex items-center justify-end space-x-5 w-full">
+      <button type="button" class="primary py-2 px-14 anim uppercase" (click)="close()">Cancel</button>    
+      <div class="relative">
+        <button class="secondary py-2 px-14 anim uppercase" type="submit" (click)="deleteEvent()">
+          <span [ngClass]="{'opacity-0': isDeleteLoading}">Delete</span>
+        </button>
+        <div class="absolute inset-0 text-white flex items-center" *ngIf="isDeleteLoading">
+          <mat-progress-spinner [diameter]="22" [mode]="'indeterminate'" class="mx-auto"></mat-progress-spinner>
+        </div>
+      </div>
+    </div>
+  </div>
+</modal>
 
 <!-- Poster crop -->
 <modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="imgCropper" title="Poster">

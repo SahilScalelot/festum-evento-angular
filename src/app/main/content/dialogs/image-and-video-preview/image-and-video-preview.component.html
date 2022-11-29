@@ -6,10 +6,10 @@
         <div class="swiper-slide" *ngFor="let exData of expectedProp">
           <div class="swiper-slide-container w-full flex flex-wrap py-5">
             <div class="w-full rounded-md overflow-hidden h-full" [ngClass]="{'md:w-1/2': !isCompanyImagesAndVideo}">
-              <a [href]="constants.baseImageURL + exData.image" *ngIf="isImageOrVideoFlag" class="w-full h-full block">
-                <img [src]="constants.baseImageURL + exData.image" class="w-full h-full object-contain" />
+              <a [href]="constants.baseImageURL + exData.url" *ngIf="isImageOrVideoFlag" class="w-full h-full block">
+                <img [src]="constants.baseImageURL + exData.url" class="w-full h-full object-contain" />
               </a>
-              <video width="800" id="video1" height="600" controls [src]="constants.baseImageURL + exData.video" *ngIf="!isImageOrVideoFlag" class="w-full h-full"></video>
+              <video width="800" id="video1" height="600" controls [src]="constants.baseImageURL + exData.url" *ngIf="!isImageOrVideoFlag" class="w-full h-full"></video>
             </div>
             <div class="w-full md:w-1/2 pl-10 space-y-4" *ngIf="!isCompanyImagesAndVideo">
               <h4 class="font-medium">{{exData.description}}</h4>
@@ -24,8 +24,9 @@
       <div class="swiper-wrapper space-x-3">
         <div class="swiper-slide" *ngFor="let exDataThumb of expectedProp">
           <div class="rounded-md overflow-hidden w-28 h-28">
-            <img [src]="constants.baseImageURL + exDataThumb.image" class="w-full h-full object-cover" alt="" *ngIf="isImageOrVideoFlag" />
-            <img [src]="constants.baseImageURL + exDataThumb.thumbnail" class="w-full h-full object-cover" alt="" *ngIf="!isImageOrVideoFlag" />
+            <img [src]="constants.baseImageURL + exDataThumb.url" class="w-full h-full object-cover" alt="" *ngIf="isImageOrVideoFlag" />
+            <!-- <img [src]="constants.baseImageURL + exDataThumb.thumbnail" class="w-full h-full object-cover" alt="" *ngIf="!isImageOrVideoFlag" /> -->
+            <video [src]="constants.baseImageURL + exDataThumb.url" *ngIf="!isImageOrVideoFlag" class="w-full h-full object-cover"></video>
           </div>
         </div>
       </div>

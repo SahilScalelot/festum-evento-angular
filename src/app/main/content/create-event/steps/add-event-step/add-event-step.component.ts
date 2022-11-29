@@ -40,15 +40,12 @@ export class AddEventStepComponent implements OnInit {
   next(): any {
     this._router.navigate(['/events/create/about-event']);
   }
-
-
   deletePop(): void {
     this._modalService.open("delete-event-pop");
   }
   close(): void {
     this._modalService.close("delete-event-pop");
   }
-  
   deleteEvent(): void {
     // Open delete confirmation popup
     this.isDeleteLoading = true;

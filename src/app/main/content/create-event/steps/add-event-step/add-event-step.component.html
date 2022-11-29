@@ -55,7 +55,6 @@
       </div>
     </div>
   </div>
-  <!-- <button class="secondary w-full uppercase py-2 anim" [disabled]="isPosterLoading">{{ isPosterLoading ? 'Please wait...' : 'Save Poster' }}</button> -->
 </modal>
 
 <app-add-edit-event-dialog (isEditEventChange)="closePop($event)" (editedEvent)="editEvent($event)" *ngIf="isEditEvent" [eventObj]="addEditEvent" [popClass]="'active'"></app-add-edit-event-dialog>

@@ -33,20 +33,16 @@ export class PhotosVideosStepComponent implements OnInit {
   isPosterLoading: boolean = false;
   isPhotoLoading: boolean = false;
   isVideoLoading: boolean = false;
+  
+  isDeleteLoading: boolean = false;
+  deleteItemObj: any = {};
 
   posterObj: any = {};
-  photoArr: any = [];
-  videoArr: any = [];
-  allPhotosFilesArr: any = [];
-  allVideosFilesArr: any = [];
 
   editPhotoObj: any;
   imagesAndVideoObj: any = { photos_and_videos: {} };
   inputText: any;
   drEvent: any;
-
-  @Input() eventObj: any = {};
-  @Output() newEventObj: EventEmitter<any> = new EventEmitter();
 
   constructor(
     private _modalService: ModalService,
@@ -309,20 +305,45 @@ export class PhotosVideosStepComponent implements OnInit {
   }
 
   removeImage(index: number) {
-    this.posterImageAndVideoObj.photos.splice(index, 1);
-    this.allPhotosFilesArr.splice(index, 1);
+    this.deleteItemObj = {index: index, type: 'photos'};
+    this._modalService.open("delete-event-pop");
+    // this.posterImageAndVideoObj.photos.splice(index: index, 1);
+    // this.allPhotosFilesArr.splice(index, 1);
   }
 
   removeVideo(index: number) {
-    this.posterImageAndVideoObj.videos.splice(index, 1);
-    this.allVideosFilesArr.splice(index, 1);
+    this.deleteItemObj = {index: index, type: 'videos'};
+    this._modalService.open("delete-event-pop");
+    // this.posterImageAndVideoObj.videos.splice(index, 1);
+    // this.allVideosFilesArr.splice(index, 1);
   }
 
   nextStep() {
-    console.log(this.posterImageAndVideoObj);
-    // this.eventObj.photos_and_videos = this.prepareObj();
-    // this.newEventObj.emit(this.eventObj);
-    // this._router.navigate(['/events/create/permission']);
+    this.isLoading = true;
+    this._createEventService.photosAndVideo(this.posterImageAndVideoObj).subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        this.isLoading = false;
+        this._router.navigate(['/events/create/permission']);
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+        this.isLoading = false;
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isLoading = false;
+    });
+  }
+  
+  close(): void {
+    this._modalService.close("delete-event-pop");
+  }
+
+  deleteEvent(): void {
+    this.isDeleteLoading = true;
+    this.posterImageAndVideoObj[this.deleteItemObj.type].splice(this.deleteItemObj.index, 1);
+    this.isDeleteLoading = false;
+    this.deleteItemObj = {};    
+    this._modalService.close("delete-event-pop");
   }
 
 }
