@@ -26,8 +26,8 @@ export class ModalComponent implements OnInit, OnDestroy {
     @Input() id: any;
     @Input() title: any;
     @Input() maxWidth: any;
-    @Input() isCloseHidden: any;
-    @Input() isTitleHidden: any;
+    @Input() isCloseHidden: boolean = false;
+    @Input() isTitleHidden: boolean = false;
     // @Input() title: string;
     @Input() class: any;
     // @Input() class: string;

@@ -2,9 +2,9 @@
 <div class="table-cell align-middle relative z-50" [@fade]="state">
   <div class="popin max-w-2xl w-full mx-auto max-h-[calc(100vh-55px)] overflow-y-auto lg:px-9 {{maxWidth}}">
     <div class="bg-brightGray p-10">
-      <div class="flex justify-between items-center" [ngClass]="(!isTitleHidden == !isCloseHidden) ? 'hidden' : ''">
-        <h2 [ngClass]="isTitleHidden">{{title}}</h2>
-        <div [ngClass]="isCloseHidden">
+      <div class="flex {{(isTitleHidden && !isCloseHidden) ? 'justify-end' :  'justify-between'}} items-center" *ngIf="isTitleHidden || isCloseHidden">
+        <h2 *ngIf="!isTitleHidden">{{title}}</h2>
+        <div *ngIf="!isCloseHidden">
           <a href="javascript:void(0);" (click)="close();" class="text-xl"><i class="icon-close"></i></a>
         </div>
       </div>
