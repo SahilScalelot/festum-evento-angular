@@ -4,6 +4,7 @@ import { GlobalService } from 'src/app/services/global.service';
 import { CreateEventService } from "../../create-event.service";
 import { GlobalFunctions } from "../../../../common/global-functions";
 import { CONSTANTS } from 'src/app/main/common/constants';
+import { ModalService } from 'src/app/main/_modal';
 
 @Component({
   selector: 'app-add-event-step',
@@ -13,15 +14,17 @@ import { CONSTANTS } from 'src/app/main/common/constants';
 export class AddEventStepComponent implements OnInit {
   isEditEvent: boolean = false;
   isLoading: boolean = false;
+  isDeleteLoading: boolean = false;
   constants: any = CONSTANTS;
   eventId: any;
   addEditEvent: any = {};
 
   constructor(
-    private _globalService: GlobalService,
     private _createEventService: CreateEventService,
     private _globalFunctions: GlobalFunctions,
-    private _router: Router
+    private _globalService: GlobalService,
+    private _modalService: ModalService,
+    private _router: Router,
   ) {
   }
 
@@ -38,21 +41,30 @@ export class AddEventStepComponent implements OnInit {
     this._router.navigate(['/events/create/about-event']);
   }
 
+
+  deletePop(): void {
+    this._modalService.open("delete-event-pop");
+  }
+  close(): void {
+    this._modalService.close("delete-event-pop");
+  }
+  
   deleteEvent(): void {
     // Open delete confirmation popup
-    this.isLoading = true;
+    this.isDeleteLoading = true;
     this._createEventService.deleteEvent(this.eventId).subscribe((result: any) => {
       if (result && result.IsSuccess) {
         this._globalService.addEditEvent$.next(null);
         this._router.navigate(['/events']);
-        this.isLoading = false;
+        this.isDeleteLoading = false;
+        this._modalService.close("delete-event-pop");
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
-        this.isLoading = false;
+        this.isDeleteLoading = false;
       }
     }, (error: any) => {
       this._globalFunctions.errorHanding(error, this, true);
-      this.isLoading = false;
+      this.isDeleteLoading = false;
     });
   }
 

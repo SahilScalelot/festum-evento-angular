@@ -11,7 +11,7 @@
       <span class="text-sm text-magicPotion font-bold">{{addEditEvent.event_category ? addEditEvent.event_category?.categoryname : addEditEvent.other}}</span>
     </div>
     <div class="flex items-start space-x-5">
-      <a (click)="deleteEvent()" href="javascript:void(0)"><i class="icon-delete text-quicksilver"></i></a>
+      <a (click)="deletePop()" href="javascript:void(0)"><i class="icon-delete text-quicksilver"></i></a>
       <a (click)="isEditEvent = true" href="javascript:void(0)"><i class="icon-edit text-quicksilver"></i></a>
       <span class="bg-magicPotion text-xs font-bold px-2 py-1 text-white">{{constants?.eventTypeArr[constants?.eventTypeObj[addEditEvent?.event_type]]?.displayLabel}}</span>
     </div>
@@ -37,9 +37,23 @@
 </div>
 
 <!-- Close -->
-<modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="delete-event-pop" title="Poster">
-  <div class="flex flex-wrap -mx-4 py-5 relative">
-    <h6 class="text-lg pb-4">{{ 'Image Preview' }}</h6>
+<modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="delete-event-pop" title="Are you sure?" isCloseHidden="hidden" isTitleHidden="hidden">
+  <div class="flex flex-wrap relative">
+    <div class="w-full pb-8">
+      <h3 class="w-full pb-2 normal-case">Delete Event</h3>
+      <p class="normal-case">Are you sure you want to delete {{addEditEvent.name}}</p>
+    </div>
+    <div class="flex items-center justify-end space-x-5 w-full">
+      <button type="button" class="primary py-2 px-14 anim uppercase" (click)="close()">Cancel</button>    
+      <div class="relative">
+        <button class="secondary py-2 px-14 anim uppercase" type="submit" (click)="deleteEvent()">
+          <span [ngClass]="{'opacity-0': isDeleteLoading}">Delete</span>
+        </button>
+        <div class="absolute inset-0 text-white flex items-center" *ngIf="isDeleteLoading">
+          <mat-progress-spinner [diameter]="22" [mode]="'indeterminate'" class="mx-auto"></mat-progress-spinner>
+        </div>
+      </div>
+    </div>
   </div>
   <!-- <button class="secondary w-full uppercase py-2 anim" [disabled]="isPosterLoading">{{ isPosterLoading ? 'Please wait...' : 'Save Poster' }}</button> -->
 </modal>
