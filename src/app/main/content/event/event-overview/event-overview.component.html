@@ -257,23 +257,23 @@
                   >
               <span class="block text-base lg:text-xl font-bold">Social Media</span>
               <div class="flex items-center space-x-5 p-5 lg:p-7 bg-white rounded-lg">
-                <a *ngIf="events?.tandc?.facebook != ''" href="{{ events?.tandc?.facebook }}">
-                  <img alt="facebook" src="../assets/images/facebook.png" />
+                <a *ngIf="events?.tandc?.facebook != ''" [href]="events?.tandc?.facebook" target="_blank">
+                  <img class="w-10 h-10 object-cover" alt="facebook" src="../assets/images/facebook.png" />
                 </a>
-                <a *ngIf="events?.tandc?.twitter != ''" href="{{ events?.tandc?.twitter }}">
-                  <img alt="twiiter" src="../assets/images/twiiter.png" />
+                <a *ngIf="events?.tandc?.twitter != ''" [href]="events?.tandc?.twitter" target="_blank">
+                  <img class="w-10 h-10 object-cover" alt="twiiter" src="../assets/images/twiiter.png" />
                 </a>
-                <a *ngIf="events?.tandc?.youtube != ''" href="{{ events?.tandc?.youtube }}">
-                  <img alt="youtube" src="../assets/images/youtube.png" />
+                <a *ngIf="events?.tandc?.youtube != ''" [href]="events?.tandc?.youtube" target="_blank">
+                  <img class="w-10 h-10 object-cover" alt="youtube" src="../assets/images/youtube.png" />
                 </a>
-                <a *ngIf="events?.tandc?.pinterest != ''" href="{{ events?.tandc?.pinterest }}">
-                  <img alt="pinterest" src="../assets/images/pinterest.png" />
+                <a *ngIf="events?.tandc?.pinterest != ''" [href]="events?.tandc?.pinterest" target="_blank">
+                  <img class="w-10 h-10 object-cover" alt="pinterest" src="../assets/images/pinterest.png" />
                 </a>
-                <a *ngIf="events?.tandc?.instagram != ''" href="{{ events?.tandc?.instagram }}">
-                  <img alt="instagram" src="../assets/images/instagram.png" />
+                <a *ngIf="events?.tandc?.instagram != ''" [href]="events?.tandc?.instagram" target="_blank">
+                  <img class="w-10 h-10 object-cover" alt="instagram" src="../assets/images/instagram.png" />
                 </a>
-                <a *ngIf="events?.tandc?.linkedin != ''" href="{{ events?.tandc?.linkedin }}">
-                  <img alt="linkdin" src="../assets/images/linked.png" />
+                <a *ngIf="events?.tandc?.linkedin != ''" [href]="events?.tandc?.linkedin" target="_blank">
+                  <img class="w-10 h-10 object-cover" alt="linkdin" src="../assets/images/linked.png" />
                 </a>
               </div>
             </div>
