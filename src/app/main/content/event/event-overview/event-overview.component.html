@@ -384,15 +384,9 @@
             <!-- map-content  -->
             <div class="w-full p-2.5 bg-white rounded-md">
               <div class="relative">
-                <iframe allowfullscreen=""
-                        class="min-h-[170px] xl:min-h-[220px]"
-                        height="100%" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
-                        src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d14875.88775631223!2d72.81608609999999!3d21.2329613!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1655442825672!5m2!1sen!2sin"
-                        style="border:0;"
-                        width="100%"></iframe>
-                <!-- <agm-map (mapClick)="mapClicked($event)" [disableDefaultUI]="false" [latitude]="lat" [longitude]="lng" [zoomControl]="false" [zoom]="zoom">
-                  <agm-marker (dragEnd)="markerDragEnd(markers, $event)" (markerClick)="clickedMarker(markers.label)" [label]="markers.label" [latitude]="lat" [longitude]="lng" [markerDraggable]="true"></agm-marker>
-                </agm-map> -->
+                <agm-map [latitude]="events?.event_location?.location?.coordinates[1]" [longitude]="events?.event_location?.location?.coordinates[0]" [zoom]="zoom" class="w-full h-56">
+                  <agm-marker [latitude]="events?.event_location?.location?.coordinates[1]" [longitude]="events?.event_location?.location?.coordinates[0]"></agm-marker>
+                </agm-map>
                 <a class="w-10 h-10 flex items-center justify-center text-xl bg-white shadow-sm absolute right-4 bottom-4 text-magicPotion" href="javascript:void(0);"><i class="icon-map"></i></a>
               </div>
               <div class="p-3.5 xl:p-5">

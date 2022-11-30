@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
+import {MapsAPILoader} from "@agm/core";
 import {CONSTANTS} from 'src/app/main/common/constants';
 import {GlobalFunctions} from 'src/app/main/common/global-functions';
 import {EventService} from '../event.service';
@@ -24,7 +25,10 @@ export class EventOverviewComponent implements OnInit {
   attendee: boolean = false;
   reviews: boolean = false;
 
-  t_and_c: any; 
+  zoom: number = CONSTANTS.defaultMapZoom;
+  // initial center position for the map
+  lat: number = 0;
+  lng: number = 0;
 
   constructor(
     private _eventService: EventService,
@@ -78,5 +82,7 @@ export class EventOverviewComponent implements OnInit {
   closePop(flag: boolean): void {
     this.isOpenPopup = flag;
   }
+
+  // Map
 
 }

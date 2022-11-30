@@ -5,7 +5,7 @@
       <div class="swiper-wrapper">
         <div class="swiper-slide" *ngFor="let exData of expectedProp">
           <div class="swiper-slide-container w-full flex flex-wrap py-5">
-            <div class="w-full rounded-md overflow-hidden h-full" [ngClass]="{'md:w-1/2': !isCompanyImagesAndVideo}">
+            <div class="w-full rounded-md overflow-hidden h-full bg-white p-1" [ngClass]="{'md:w-1/2': !isCompanyImagesAndVideo}">
               <a [href]="constants.baseImageURL + exData.url" *ngIf="isImageOrVideoFlag" class="w-full h-full block">
                 <img [src]="constants.baseImageURL + exData.url" class="w-full h-full object-contain" />
               </a>
@@ -23,7 +23,7 @@
     <div class="swiper-container gallery-thumbs bg-black">
       <div class="swiper-wrapper space-x-3">
         <div class="swiper-slide" *ngFor="let exDataThumb of expectedProp">
-          <div class="rounded-md overflow-hidden w-28 h-28">
+          <div class="rounded-md overflow-hidden w-28 h-28 bg-white">
             <img [src]="constants.baseImageURL + exDataThumb.url" class="w-full h-full object-cover" alt="" *ngIf="isImageOrVideoFlag" />
             <!-- <img [src]="constants.baseImageURL + exDataThumb.thumbnail" class="w-full h-full object-cover" alt="" *ngIf="!isImageOrVideoFlag" /> -->
             <video [src]="constants.baseImageURL + exDataThumb.url" *ngIf="!isImageOrVideoFlag" class="w-full h-full object-cover"></video>

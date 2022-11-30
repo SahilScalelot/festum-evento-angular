@@ -15,7 +15,7 @@
           <button (click)="removeImage(i)">Remove</button>
         </div>
       </div>
-      <div (click)="openUploadPhotoDialog()" class="upload-holder" *ngIf="posterImageAndVideoObj.photos.length < 15">
+      <div (click)="openUploadPhotoDialog()" class="upload-holder" *ngIf="posterImageAndVideoObj?.photos?.length < 15">
         <label class="upload-photo" for="event-upload1">
           <!-- <input type="file" id="photo" name="photo" (change)="onFileChange($event, 'photo')" id="event-upload1" class="appearance-none hidden" accept="image/png, image/jpeg, image/gif" /> -->
           <i class="icon-img_upload text-base text-quicksilver"></i>

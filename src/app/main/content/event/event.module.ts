@@ -8,6 +8,7 @@ import {EventOverviewComponent} from './event-overview/event-overview.component'
 import {RatingModule} from 'primeng/rating';
 import {CheckboxModule} from 'primeng/checkbox';
 import { PaginatorModule } from 'primeng/paginator';
+import { AgmCoreModule } from '@agm/core';
 
 const routes: Routes = [
   {
@@ -30,7 +31,11 @@ const routes: Routes = [
     SharedModule,
     RatingModule,
     CheckboxModule,
-    PaginatorModule
+    PaginatorModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyDLgr8YB5IK8dBIEWClexZGzXaB7UlVm7Q',
+      libraries: ['places']
+    }),
   ]
 })
 export class EventModule {

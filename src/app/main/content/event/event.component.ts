@@ -62,9 +62,7 @@ export class EventComponent implements OnInit {
     }
     this._eventService.eventsList(filter).subscribe((result: any) => {
       this.pTotal = result.total;
-      this.events = result.Data.docs;
-      console.log(this.events);
-      
+      this.events = result.Data.docs;      
       this.isLoading = false;
     }, (error: any) => {
       this._globalFunctions.errorHanding(error, this, true);
