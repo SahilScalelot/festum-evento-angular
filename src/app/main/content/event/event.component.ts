@@ -49,7 +49,7 @@ export class EventComponent implements OnInit {
   //   this.offset = ((this.perPageLimit * page) - this.perPageLimit) + 1;
   // }
 
-  getEvent(event: any = ''): void {    
+  getEvent(event: any = ''): void {
     this.isLoading = true;
     const page = event ? (event.page + 1) : 1;
     this.perPageLimit = event ? (event.rows) : this.perPageLimit;
@@ -62,7 +62,7 @@ export class EventComponent implements OnInit {
     }
     this._eventService.eventsList(filter).subscribe((result: any) => {
       this.pTotal = result.total;
-      this.events = result.Data.docs;      
+      this.events = result.Data.docs;
       this.isLoading = false;
     }, (error: any) => {
       this._globalFunctions.errorHanding(error, this, true);

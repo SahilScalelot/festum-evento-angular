@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {RouterModule, Routes} from '@angular/router';
 import {OfferOverviewComponent} from './offer-overview/offer-overview.component';
@@ -8,6 +8,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ModalModule } from '../../_modal';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { CalendarModule } from 'primeng/calendar';
+import { RatingModule } from 'primeng/rating';
+import { PaginatorModule } from 'primeng/paginator';
 
 const routes: Routes = [
   {
@@ -30,10 +32,15 @@ const routes: Routes = [
     ModalModule,
     ImageCropperModule,
     CalendarModule,
+    RatingModule,
+    PaginatorModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyDLgr8YB5IK8dBIEWClexZGzXaB7UlVm7Q',
       libraries: ['places']
     }),
+  ],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA
   ]
 })
 export class OffersModule { }
