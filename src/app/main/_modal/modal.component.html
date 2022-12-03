@@ -1,6 +1,6 @@
 <div (click)="close();" class="modal-background fixed inset-0 w-full h-full -z-30"></div>
-<div class="table-cell align-middle relative z-50" [@fade]="state">
-  <div class="popin max-w-2xl w-full mx-auto max-h-[calc(100vh-55px)] overflow-y-auto lg:px-9 {{maxWidth}}">
+<div class="table-cell align-middle relative z-50 lg:px-9" [@fade]="state">
+  <div class="popin max-w-2xl w-full mx-auto max-h-[calc(100vh-55px)] overflow-y-auto {{maxWidth}}">
     <div class="bg-brightGray p-10">
       <div class="flex {{(isTitleHidden && !isCloseHidden) ? 'justify-end' :  'justify-between'}} items-center" *ngIf="!isTitleHidden || !isCloseHidden">
         <h2 *ngIf="!isTitleHidden">{{title}}</h2>
