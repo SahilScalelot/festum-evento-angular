@@ -45,7 +45,10 @@
               "src/assets/js/dropify.js"
             ],
             "allowedCommonJsDependencies": [
-              "lodash"
+              "lodash",
+              "moment",
+              "html2canvas",
+              "@ckeditor/ckeditor5-build-decoupled-document"
             ]
           },
           "configurations": {
