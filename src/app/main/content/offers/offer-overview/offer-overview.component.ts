@@ -13,6 +13,7 @@ import * as _ from 'lodash';
 export class OfferOverviewComponent implements OnInit {
   addOfferForm: any;
   constants: any = CONSTANTS;
+  positiveMaxNumber: any = Number.POSITIVE_INFINITY;
 
   constructor(
     private _modalService: ModalService,

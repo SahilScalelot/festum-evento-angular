@@ -483,14 +483,14 @@
             <div *ngFor="let productOfferObj of allProductConditions.controls; let i = index" [formGroupName]="i">
               <div class="flex flex-wrap items-center -mx-2">
                 <div class="inputHolder w-full lg:w-1/2 px-2 pt-2.5">
-                  <input type="text" placeholder="Person Limitation" [formControlName]="'person_limitation'" class="input" />
+                  <input type="number" placeholder="Person Limitation" [formControlName]="'person_limitation'" class="input" fuseValidNumber/>
                 </div>
                 <div class="w-full lg:w-1/2 flex items-center px-2 pt-2.5 space-x-5">
                   <label for="" class="flex items-center w-full bg-white p-2 px-3.5 rounded-md">
                     <div class="w-full pr-4">
-                      <input type="text" class="w-full outline-none text-spiroDiscoBall font-bold text-base" [formControlName]="'discount'"
-                       [placeholder]="(productOfferObj && productOfferObj.value && productOfferObj.value.discount_type &&
-                        productOfferObj.value.discount_type == constants.discountTypeArr[constants.discountTypeObj.percentage].value) ? 'Percentage' : 'Rupee'" />
+                      <input type="number" class="w-full outline-none text-spiroDiscoBall font-bold text-base capitalize" [formControlName]="'discount'"
+                       [placeholder]="productOfferObj && productOfferObj.value && productOfferObj.value.discount_type" [min]="0"
+                       [max]="(productOfferObj?.value?.discount_type == constants.discountTypeArr[constants.discountTypeObj.percentage].value) ? 100 : positiveMaxNumber" fuseValidNumber/>
                     </div>
                     <div class="selectPrice flex items-center space-x-3">
                       <label *ngFor="let discountType of constants.discountTypeArr" class="block cursor-pointer">
