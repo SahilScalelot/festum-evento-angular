@@ -50,7 +50,7 @@ const routes: Routes = [
         loadChildren: () => import('../app/main/content/event/event.module').then(m => m.EventModule)
       },
       {
-        path: 'event/:id',
+        path: 'events/:id',
         component: EventOverviewComponent
       },
       {

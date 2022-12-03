@@ -80,6 +80,9 @@ export class EventOverviewComponent implements OnInit {
     this.isOpenPopup = flag;
   }
 
-  // Map
-
+  editEvent(event: any, eventId: any): void {
+    event.stopPropagation();
+    localStorage.setItem('eId', eventId);
+    this._router.navigate(['/events/create/add-event']);
+  }
 }

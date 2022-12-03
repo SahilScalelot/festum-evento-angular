@@ -83,7 +83,7 @@
     <p *ngIf="!events || !events.length">No Events Records Found.</p>
     <div class="flex flex-wrap items-center justify-center" *ngIf="events && events.length">
       <!-- <div class="pagination-festum py-2"><p class="show-text">Showing {{offset}} to {{(((offset - 1) + perPageLimit) < pTotal) ? (offset - 1) + perPageLimit : pTotal}} Of {{ pTotal }} Events.</p></div> -->
-      <p-paginator [rows]="perPageLimit" [totalRecords]="pTotal" [rowsPerPageOptions]="[perPageLimit, 6, 10, 20]" (onPageChange)="getEvent($event)"></p-paginator>
+      <p-paginator [rows]="paging.limit" [totalRecords]="paging.totalDocs" [rowsPerPageOptions]="[4, 6, 10, 20]" (onPageChange)="getEvent($event)"></p-paginator>
     </div>
 
     <!-- event_offer_banner -->

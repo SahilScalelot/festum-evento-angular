@@ -20,7 +20,7 @@
       <div class="w-full md:w-1/2 space-y-3">
         <h3 class="text-right">250 INR</h3>
         <div class="flex space-x-2 justify-end">
-          <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" href="javascript:void(0);"><i class="icon-edit text-sm leading-0 text-japaneseIndigo"></i></a>
+          <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" (click)="editEvent($event, events._id)" href="javascript:void(0);"><i class="icon-edit text-sm leading-0 text-japaneseIndigo"></i></a>
           <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" href="javascript:void(0);"><i class="icon-fill_megaphone text-sm leading-0 text-japaneseIndigo"></i></a>
           <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" href="javascript:void(0);"><i class="icon-share text-sm leading-0 text-japaneseIndigo"></i></a>
         </div>
@@ -95,7 +95,7 @@
                   <div class="title_tab flex justify-between items-center px-5 py-6 max-h-[78px]">
                     <div class="space-x-7 flex items-center">
                       <div class="w-10 text-center">
-                        <img alt="table" class="mx-auto max-w-full object-contain" [src]="constants.baseImageURL + seating?.seating_item?.itemimage"/>
+                        <img alt="{{seating?.seating_item?.itemname}}" class="mx-auto h-10 max-w-full object-contain" [src]="constants.baseImageURL + seating?.seating_item?.itemimage"/>
                       </div>
                       <h4>{{seating?.seating_item?.itemname}}</h4>
                     </div>

@@ -5,14 +5,15 @@
       <div class="swiper-wrapper">
         <div class="swiper-slide" *ngFor="let exData of expectedProp">
           <div class="swiper-slide-container w-full flex flex-wrap py-5">
-            <div class="w-full rounded-md overflow-hidden h-full bg-white p-1" [ngClass]="{'md:w-1/2': !isCompanyImagesAndVideo}">
+            <div class="w-full rounded-md overflow-hidden h-full bg-white p-1" [ngClass]="{'md:w-1/2': (!isCompanyImagesAndVideo && exData && exData.description)}">
               <a [href]="constants.baseImageURL + exData.url" *ngIf="isImageOrVideoFlag" class="w-full h-full block">
                 <img [src]="constants.baseImageURL + exData.url" class="w-full h-full object-contain" />
               </a>
               <video width="800" id="video1" height="600" controls [src]="constants.baseImageURL + exData.url" *ngIf="!isImageOrVideoFlag" class="w-full h-full"></video>
             </div>
-            <div class="w-full md:w-1/2 pl-10 space-y-4" *ngIf="!isCompanyImagesAndVideo">
-              <h4 class="font-medium">{{exData.description}}</h4>
+            <div class="w-full md:w-1/2 pl-10 space-y-4 max-h-full overflow-y-auto" *ngIf="!isCompanyImagesAndVideo">
+              <p>{{exData.description}}</p>
+              <!-- <h4 class="font-medium"></h4> -->
             </div>
           </div>
         </div>

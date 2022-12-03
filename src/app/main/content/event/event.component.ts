@@ -21,6 +21,7 @@ export class EventComponent implements OnInit {
   selectedEventIds: any = [];
 
   pTotal: any;
+  paging: any;
   perPageLimit: any = 4;
   offset: any = 1;
 
@@ -52,16 +53,15 @@ export class EventComponent implements OnInit {
   getEvent(event: any = ''): void {
     this.isLoading = true;
     const page = event ? (event.page + 1) : 1;
-    this.perPageLimit = event ? (event.rows) : this.perPageLimit;
-    this.offset = ((this.perPageLimit * page) - this.perPageLimit) + 1;
-
+    // this.perPageLimit = event ? (event.rows) : this.perPageLimit;
+    // this.offset = ((this.perPageLimit * page) - this.perPageLimit) + 1;
     const filter: any = {
-      page : 1,
-      limit : 10,
+      page : page || '1',
+      limit : event?.rows || '4',
       search: ""
     }
     this._eventService.eventsList(filter).subscribe((result: any) => {
-      this.pTotal = result.total;
+      this.paging = result.Data;
       this.events = result.Data.docs;
       this.isLoading = false;
     }, (error: any) => {
@@ -100,7 +100,7 @@ export class EventComponent implements OnInit {
 
   gotoEventOverview(event: any, eventObj: any): void {
     event.stopPropagation();
-    this._router.navigate(['/event/' + eventObj.id]);
+    this._router.navigate(['/events/' + eventObj.id]);
   }
 
 }
