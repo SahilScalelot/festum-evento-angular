@@ -105,9 +105,9 @@
             <div class="w-full xl:w-1/2 px-2 pt-5 inputHolder relative">
               <span class="input-titel">Shop Days <span>*</span></span>
               <div class="weekDays-selector flex flex-wrap">
-                <div class="" *ngFor="let weekday of shopDays" [formArrayName]="'shop_days'">
-                  <input type="checkbox" name="weekday" [value]="'day-'+weekday" [id]="'weekday-' + weekday" class="weekday" (change)="onCheckboxChange($event)" />
-                  <label class="cursor-pointer uppercase" [for]="'weekday-' + weekday">{{'day-'+weekday}}</label>
+                <div class="" *ngFor="let weekday of weekDays" [formArrayName]="'shop_days'">
+                  <input type="checkbox" name="weekday" [value]="weekday.value" [id]="weekday.value" class="weekday" [checked]="weekday.isSelected" (change)="onCheckboxChange($event)" />
+                  <label class="cursor-pointer uppercase" [for]="weekday.value">{{weekday.value}}</label>
                 </div>
               </div>
               <span class="absolute top-full text-red-500 text-xs" *ngIf="addShopForm.get('shop_days')?.invalid && (addShopForm.get('shop_days')?.dirty && addShopForm.get('shop_days')?.touched)">
@@ -264,7 +264,7 @@
                         </svg>
                       </div>
                     </div>
-                    <input type="text" [formControlName]="'facebook_link'" name="facebook_link" class="w-full outline-none" placeholder="Enter URL">
+                    <input type="text" [(ngModel)]="socialLinks.facebook_link" [ngModelOptions]="{standalone: true}" name="facebook_link" class="w-full outline-none" placeholder="Enter URL">
                   </div>
                 </div>
                 <div class="w-full md:w-1/2 p-2">
@@ -284,7 +284,7 @@
                         </svg>
                       </div>
                     </div>
-                    <input type="text" [formControlName]="'youtube_link'" name="youtube_link" class="w-full outline-none" placeholder="Enter URL">
+                    <input type="text" [(ngModel)]="socialLinks.youtube_link" [ngModelOptions]="{standalone: true}" name="youtube_link" class="w-full outline-none" placeholder="Enter URL">
                   </div>
                 </div>
                 <div class="w-full md:w-1/2 p-2">
@@ -296,7 +296,7 @@
                         </svg>
                       </div>
                     </div>
-                    <input type="text" [formControlName]="'twitter_link'" name="twitter_link" class="w-full outline-none" placeholder="Enter URL">
+                    <input type="text" [(ngModel)]="socialLinks.twitter_link" [ngModelOptions]="{standalone: true}" name="twitter_link" class="w-full outline-none" placeholder="Enter URL">
                   </div>
                 </div>
                 <div class="w-full md:w-1/2 p-2">
@@ -308,7 +308,7 @@
                         </svg>
                       </div>
                     </div>
-                    <input type="text" [formControlName]="'pinterest_link'" name="pinterest_link" class="w-full outline-none" placeholder="Enter URL">
+                    <input type="text" [(ngModel)]="socialLinks.pinterest_link" [ngModelOptions]="{standalone: true}" name="pinterest_link" class="w-full outline-none" placeholder="Enter URL">
                   </div>
                 </div>
                 <div class="w-full md:w-1/2 p-2">
@@ -333,7 +333,7 @@
                         </svg>
                       </div>
                     </div>
-                    <input type="text" [formControlName]="'instagram_link'" name="instagram_link" class="w-full outline-none" placeholder="Enter URL">
+                    <input type="text" [(ngModel)]="socialLinks.instagram_link" [ngModelOptions]="{standalone: true}" name="instagram_link" class="w-full outline-none" placeholder="Enter URL">
                   </div>
                 </div>
                 <div class="w-full md:w-1/2 p-2">
@@ -345,14 +345,14 @@
                         </svg>
                       </div>
                     </div>
-                    <input type="text" [formControlName]="'linkedin_link'" name="linkedin_link" class="w-full outline-none" placeholder="Enter URL">
+                    <input type="text" [(ngModel)]="socialLinks.linkedin_link" [ngModelOptions]="{standalone: true}" name="linkedin_link" class="w-full outline-none" placeholder="Enter URL">
                   </div>
                 </div>
               </div>
             </div>
           </div>
           <div class="flex justify-end pt-5">
-            <a href="javascript:void(0);" (click)="addShopOffer()" class="secondary py-3 px-7 uppercase text-lg font-bold">SAVE</a>
+            <button (click)="addShopOffer()" [disabled]="isLoading" class="secondary py-3 px-7 uppercase text-lg font-bold">SAVE</button>
           </div>
         </div>
       </form>

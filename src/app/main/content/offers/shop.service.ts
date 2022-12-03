@@ -23,6 +23,11 @@ export class ShopService {
     return this.http.post(environment.appURL + 'organizer/shops', filter, this._globalFunctions.getFileAuthorizationHeader());
   }
 
+  // Add Edit Shop
+  addEditOfflineShop(shopObj: any = {}): any {
+    return this.http.post(environment.appURL + 'organizer/shops/save', shopObj, this._globalFunctions.getAuthorizationHeader());
+  }
+
   // Banner Api
   uploadBanner(photoFormData: any): any {
     return this.http.post(environment.appURL + 'organizer/shops/banner', photoFormData, this._globalFunctions.getFileAuthorizationHeader());

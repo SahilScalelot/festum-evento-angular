@@ -33,7 +33,7 @@ export class OffersComponent implements OnInit {
   isPosterLoading: boolean = false;
   isCropperLoading: boolean = false;
 
-  shopDays: any = ['su', 'mo', 'tu', 'we', 'th', 'fr', 'sr'];
+  weekDays: any = [];
   shopId: any = '';
   imgChangeEvt: any = '';
   cropImgPreview: any = '';
@@ -80,6 +80,15 @@ export class OffersComponent implements OnInit {
 
   ngOnInit(): void {
     localStorage.removeItem('eId');
+    this.weekDays = [
+      { value: 'su' },
+      { value: 'mo' },
+      { value: 'tu' },
+      { value: 'we' },
+      { value: 'th' },
+      { value: 'fr' },
+      { value: 'sr' }
+    ];
     this.getOfflineShops();
     this.getShopCategories();
     this.prepareDefaultImagesAndPosterAndVideos();
@@ -276,7 +285,7 @@ export class OffersComponent implements OnInit {
     this.drEvent = $('#poster').dropify(this.dropifyOption);
     this.drEvent.on('dropify.afterClear', (event: any, element: any) => {
       this.banner?.setValue('');
-    });
+    }); 
     if (this.shopId && this.shopId != '') {
       this.getOfflineShopByShopId(this.shopId);
     }
@@ -380,7 +389,6 @@ export class OffersComponent implements OnInit {
   }
 
   isContinueClick(): void {
-    console.log(this.addShopForm.value);
     if (this.addShopForm.invalid) {
       Object.keys(this.addShopForm.controls).forEach((key) => {
         this.addShopForm.controls[key].touched = true;
@@ -427,10 +435,13 @@ export class OffersComponent implements OnInit {
     const preparedShopObj: any = this._globalFunctions.copyObject(shopObj);
     preparedShopObj.start_date = moment(shopObj.start_date).format('YYYY-MM-DD');
     preparedShopObj.end_date = moment(shopObj.end_date).format('YYYY-MM-DD');
+    preparedShopObj.longitude = this.lng;
+    preparedShopObj.latitude = this.lat;
+    // preparedShopObj.social_media_links = this.socialLinks;
     return preparedShopObj;
   }
 
-  addShopOffer(): void {
+  addShopOffer(): any {
     if (this.addShopForm.invalid) {
       Object.keys(this.addShopForm.controls).forEach((key) => {
         this.addShopForm.controls[key].touched = true;
@@ -438,8 +449,23 @@ export class OffersComponent implements OnInit {
       });
       return;
     }
+    if (this.isLoading) {
+      return false;
+    }
+    this.isLoading = true;
     const preparedShopObj: any = this.prepareShopObj(this.addShopForm.value);
-    console.log(preparedShopObj);
+    this._shopService.addEditOfflineShop(preparedShopObj).subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        this.getOfflineShops();
+        this.closeAddEditShopDialog();
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+      }
+      this.isLoading = false;
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isLoading = false;
+    });
   }
 
   gotoShopOverview(event: any, addShopObj: any): void {
@@ -448,14 +474,14 @@ export class OffersComponent implements OnInit {
   }
 
   onCheckboxChange(e: any): void {
-    const shopDays: FormArray = this.addShopForm.get('shop_days') as FormArray;
+    const weekDays: FormArray = this.addShopForm.get('shop_days') as FormArray;
     if (e.target.checked) {
-      shopDays.push(new FormControl(e.target.value));
+      weekDays.push(new FormControl(e.target.value));
     } else {
       let i: number = 0;
-      shopDays.controls.forEach((item: any) => {
+      weekDays.controls.forEach((item: any) => {
         if (item.value == e.target.value) {
-          shopDays.removeAt(i);
+          weekDays.removeAt(i);
           return;
         }
         i++;
@@ -465,7 +491,7 @@ export class OffersComponent implements OnInit {
 
   private _prepareShopForm(addShopObj: any = {}): void {
     this.addShopForm = this._formBuilder.group({
-      shopid: [''],
+      shopid: [(this.shopId && this.shopId != '') ? this.shopId : ''],
       banner: ['', [Validators.required]],
       shop_name: [addShopObj?.shop_name || '', [Validators.required]],
       shop_category: [(addShopObj.shop_category && addShopObj.shop_category != '') ? addShopObj.shop_category : '', [Validators.required]],
@@ -486,14 +512,15 @@ export class OffersComponent implements OnInit {
       gst_file: [''],
       contact_number: [addShopObj?.contact_number || ''],
       emailid: [addShopObj?.emailid || ''],
-      about: [addShopObj?.about || ''],
-      facebook_link: [addShopObj?.facebook_link || ''],
-      youtube_link: [addShopObj?.youtube_link || ''],
-      twitter_link: [addShopObj?.twitter_link || ''],
-      pinterest_link: [addShopObj?.pinterest_link || ''],
-      instagram_link: [addShopObj?.instagram_link || ''],
-      linkedin_link: [addShopObj?.linkedin_link || ''],
+      about: [addShopObj?.about || '']
     });
+
+    if (addShopObj && addShopObj.shop_days && addShopObj.shop_days.length) {
+      this.weekDays = this.weekDays.map((dayObj: any) => {
+        dayObj.isSelected = !!(addShopObj.shop_days.indexOf(dayObj.value) != -1);
+        return dayObj;
+      });
+    }
   }
 
   markers: marker = {
