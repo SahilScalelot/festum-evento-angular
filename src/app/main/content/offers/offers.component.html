@@ -2,7 +2,7 @@
   <!-- title-holder  -->
   <div class="flex items-center justify-between pb-2.5">
     <h2>Offers</h2>
-    <button class="secondary px-7 py-3" (click)="popupOpen('discountDialog')"><i class="icon-plus"></i><span class="pl-5">Add Shop</span></button>
+    <button class="secondary px-7 py-3" (click)="openAddEditShopDialog($event)"><i class="icon-plus"></i><span class="pl-5">Add Shop</span></button>
   </div>
   <!-- main-content -->
   <div class="space-y-5 pt-10">
@@ -36,7 +36,7 @@
         </div>
         <div class="w-full xl:w-2/12 flex justify-end space-x-2 pt-5 xl:pt-0">
           <a href="javascript:void(0);" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-fill_megaphone text-base text-black"></i></a>
-          <a href="javascript:void(0);" (click)="editShop($event, shop._id)" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-edit text-base text-black"></i></a>
+          <a href="javascript:void(0);" (click)="openAddEditShopDialog($event, shop._id)" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-edit text-base text-black"></i></a>
           <a href="javascript:void(0);" (click)="gotoShopOverview($event, shop)" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-show text-base text-black"></i></a>
           <a href="javascript:void(0);" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-delete_fill text-base text-black"></i></a>
         </div>
@@ -46,7 +46,7 @@
     <p *ngIf="!shops || !shops.length">No Shops Records Found.</p>
     <div class="flex flex-wrap items-center justify-center" *ngIf="shops && shops.length">
       <!-- <div class="pagination-festum py-2"><p class="show-text">Showing {{offset}} to {{(((offset - 1) + perPageLimit) < pTotal) ? (offset - 1) + perPageLimit : pTotal}} Of {{ pTotal }} Events.</p></div> -->
-      <p-paginator [rows]="perPageLimit" [totalRecords]="pTotal" [rowsPerPageOptions]="[perPageLimit, 6, 10, 20]" (onPageChange)="getShop($event)"></p-paginator>
+      <p-paginator [rows]="perPageLimit" [totalRecords]="pTotal" [rowsPerPageOptions]="[perPageLimit, 6, 10, 20]" (onPageChange)="getOfflineShops($event)"></p-paginator>
     </div>
 
     <!-- ad banner -->
@@ -56,20 +56,15 @@
   </div>
 </div>
 
-
-
-
-
-
-
-<modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="discountDialog" [title]="'Add Shop'" maxWidth="lg:max-w-7xl xl:px-0" [isCloseHidden]="true">
+<!-- Add Edit Shop Dialog -->
+<modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="shopDialog" [title]="(shopId && shopId != '') ? 'Edit Shop' : 'Add Shop'" maxWidth="lg:max-w-7xl xl:px-0" [isCloseHidden]="true">
   <div class="space-y-5 relative">
     <div class="">
-      <span (click)="popClose('discountDialog');" class="absolute right-0 -top-8 cursor-pointer text-xl"><i class="icon-close"></i></span>
+      <span (click)="closeAddEditShopDialog();" class="absolute right-0 -top-8 cursor-pointer text-xl"><i class="icon-close"></i></span>
       <form [formGroup]="addShopForm" class="p-ngCss pt-8">
         <div *ngIf="!isContinue">
           <div class="upload-holder w-full h-auto relative">
-            <span class="text-sm text-quicksilver font-semibold">Add Image <span class="font-normal input-titel inline-block">(Max size 10MB)<span>*</span></span></span>
+            <span class="text-sm text-quicksilver font-semibold">Add Image <span class="font-normal input-titel inline-block">(Max size 10MB) <span>*</span></span></span>
             <label class="upload upload-popup p-0 relative group" id="shop-img-obj-upload">
               <input #poster (change)="onPosterChange($event)" accept="image/png, image/jpeg, image/gif" class="poster hidden" name="banner" id="poster" type="file" />
             </label>
@@ -81,7 +76,7 @@
           </div>
           <div class="flex flex-wrap justify-between -mx-2">
             <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative">
-              <span class="input-titel">Shop Name<span>*</span></span>
+              <span class="input-titel">Shop Name <span>*</span></span>
               <input type="text" [formControlName]="'shop_name'" name="shop_name" class="input" />
               <span class="absolute top-full text-red-500 text-xs" *ngIf="addShopForm.get('shop_name')?.invalid && (addShopForm.get('shop_name')?.dirty && addShopForm.get('shop_name')?.touched)">
                 <span *ngIf="addShopForm.get('shop_name')?.errors?.['required']">
@@ -90,12 +85,14 @@
               </span>
             </div>
             <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative">
-              <span class="input-titel">Shop Category<span>*</span></span>
-              <select [formControlName]="'shop_category'" name="shop_category" class="arrow bg-white py-3 text-japaneseIndigo font-bold rounded-md tracking-wider appearance-none focus-visible:outline-none">
-                <option value="">Select Category</option>
-                <option value="1">Select Category</option>
-                <option value="2">Select Category</option>
-                <option value="3">Select Category</option>
+              <span class="input-titel">Shop Category <span>*</span></span>
+              <select [formControlName]="'shop_category'"
+                      class="arrow bg-white py-3 text-japaneseIndigo font-bold rounded-md tracking-wider appearance-none focus-visible:outline-none"
+                      name="shop_category">
+                <option value="">Select Shop Category</option>
+                <option *ngFor="let shopCategory of shopCategories" [value]="shopCategory._id">
+                  {{shopCategory.categoryname}}
+                </option>
               </select>
               <span class="absolute top-full text-red-500 text-xs" *ngIf="addShopForm.get('shop_category')?.invalid && (addShopForm.get('shop_category')?.dirty && addShopForm.get('shop_category')?.touched)">
                 <span *ngIf="addShopForm.get('shop_category')?.errors?.['required']">
@@ -106,11 +103,11 @@
           </div>
           <div class="flex flex-wrap items-end -mx-2">
             <div class="w-full xl:w-1/2 px-2 pt-5 inputHolder relative">
-              <span class="input-titel">Shop Days<span>*</span></span>
+              <span class="input-titel">Shop Days <span>*</span></span>
               <div class="weekDays-selector flex flex-wrap">
-                <div class="" *ngFor="let weekday of shop_days" [formArrayName]="'shop_days'">
-                  <input type="checkbox" name="weekday" [value]="'day-'+weekday" [id]="'weekday-'+weekday" class="weekday" (change)="onCheckboxChange($event)" />
-                  <label class="cursor-pointer uppercase" [for]="'weekday-'+weekday">{{weekday}}</label>
+                <div class="" *ngFor="let weekday of shopDays" [formArrayName]="'shop_days'">
+                  <input type="checkbox" name="weekday" [value]="'day-'+weekday" [id]="'weekday-' + weekday" class="weekday" (change)="onCheckboxChange($event)" />
+                  <label class="cursor-pointer uppercase" [for]="'weekday-' + weekday">{{'day-'+weekday}}</label>
                 </div>
               </div>
               <span class="absolute top-full text-red-500 text-xs" *ngIf="addShopForm.get('shop_days')?.invalid && (addShopForm.get('shop_days')?.dirty && addShopForm.get('shop_days')?.touched)">
@@ -121,7 +118,7 @@
             </div>
             <div class="w-full xl:w-1/2 px-2 pt-5 flex space-x-4">
               <div class="w-full lg:w-1/2 relative">
-                <span class="input-titel">Start Time<span>*</span></span>
+                <span class="input-titel">Start Time <span>*</span></span>
                 <label class="bg-white rounded-md flex space-x-3 relative">
                   <i class="icon-calendar-2 text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0"></i>
                   <p-calendar class="w-full" [formControlName]="'start_date'" [minDate]="minDateValue" name="start_date" inputId="start_date"></p-calendar>
@@ -133,7 +130,7 @@
                 </span>
               </div>
               <div class="w-full lg:w-1/2 relative">
-                <span class="input-titel">End Date<span>*</span></span>
+                <span class="input-titel">End Date <span>*</span></span>
                 <label class="bg-white rounded-md flex space-x-3 relative">
                   <i class="icon-calendar-2 text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0"></i>
                   <p-calendar class="w-full" [formControlName]="'end_date'" [minDate]="addShopForm.get('start_date').value ? addShopForm.get('start_date').value : minDateValue" name="end_date" inputId="end_date"></p-calendar>
@@ -147,13 +144,8 @@
             </div>
           </div>
           <div class="w-full pt-5 relative">
-            <span class="input-titel">About us<span>*</span></span>
+            <span class="input-titel">About us</span>
             <textarea [formControlName]="'about_shop'" name="about_shop" cols="30" rows="4" class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md"></textarea>
-            <span class="absolute top-full text-red-500 text-xs" *ngIf="addShopForm.get('about_shop')?.invalid && (addShopForm.get('about_shop')?.dirty && addShopForm.get('about_shop')?.touched)">
-              <span *ngIf="addShopForm.get('about_shop')?.errors?.['required']">
-                About us is required.
-              </span>
-            </span>
           </div>
           <div class="pt-5 -mx-2">
             <h5 class="px-2 pb-2">Address</h5>
@@ -226,13 +218,8 @@
         <div *ngIf="isContinue">
           <div class="flex items-end flex-wrap -mx-2">
             <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative">
-              <span class="input-titel">Company name <span>*</span></span>
+              <span class="input-titel">Company name</span>
               <input type="text" [formControlName]="'company_name'" name="company_name" class="input">
-              <span class="absolute top-full text-red-500 text-xs" *ngIf="addShopForm.get('company_name')?.invalid && (addShopForm.get('company_name')?.dirty && addShopForm.get('company_name')?.touched)">
-                <span *ngIf="addShopForm.get('company_name')?.errors?.['required']">
-                  Company name is required.
-                </span>
-              </span>
             </div>
             <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative group">
               <span class="input-titel">Company GST (Optional)</span>
@@ -252,35 +239,17 @@
           </div>
           <div class="flex items-end flex-wrap -mx-2">
             <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative">
-              <span class="input-titel">Company Contact No <span>*</span></span>
+              <span class="input-titel">Company Contact No</span>
               <input type="text" [formControlName]="'contact_number'" name="contact_number" class="input">
-              <span class="absolute top-full text-red-500 text-xs" *ngIf="addShopForm.get('contact_number')?.invalid && (addShopForm.get('contact_number')?.dirty && addShopForm.get('contact_number')?.touched)">
-                <span *ngIf="addShopForm.get('contact_number')?.errors?.['required']">
-                  Company Contact No is required.
-                </span>
-              </span>
             </div>
             <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative">
-              <span class="input-titel">Company Email <span>*</span></span>
+              <span class="input-titel">Company Email</span>
               <input type="text" [formControlName]="'emailid'" name="emailid" class="input">
-              <span class="absolute top-full text-red-500 text-xs" *ngIf="addShopForm.get('emailid')?.invalid && (addShopForm.get('emailid')?.dirty && addShopForm.get('emailid')?.touched)">
-                <span *ngIf="addShopForm.get('emailid')?.errors?.['required']">
-                  Company Email is required.
-                </span>
-                <span *ngIf="addShopForm.get('emailid')?.errors?.['pattern']">
-                  Please enter valid Company Email.
-                </span>
-              </span>
             </div>
           </div>
           <div class="w-full pt-5 inputHolder relative">
-            <span class="input-titel">About Our Company <span>*</span></span>
+            <span class="input-titel">About Our Company</span>
             <textarea cols="30" rows="4" [formControlName]="'about'" name="about" class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md"></textarea>
-            <span class="absolute top-full text-red-500 text-xs" *ngIf="addShopForm.get('about')?.invalid && (addShopForm.get('about')?.dirty && addShopForm.get('about')?.touched)">
-              <span *ngIf="addShopForm.get('about')?.errors?.['required']">
-                About Our Company is required.
-              </span>
-            </span>
           </div>
           <div class="w-full pt-5 lg:pt-12">
             <h5>Social Media</h5>

@@ -1,17 +1,17 @@
-import {Component, ElementRef, NgZone, OnInit, Renderer2, ViewChild, EventEmitter, Input, Output} from '@angular/core';
-import {MapsAPILoader} from "@agm/core";
-import {HttpClient} from "@angular/common/http";
-import {FormArray, FormBuilder, FormControl, Validators} from "@angular/forms";
-import {Router} from "@angular/router";
-import * as _ from 'lodash';
-import { SnotifyService } from 'ng-snotify';
-import { GlobalService } from 'src/app/services/global.service';
-import { ModalService } from '../../_modal';
-import { CONSTANTS } from '../../common/constants';
-import { ImageCroppedEvent } from 'ngx-image-cropper';
-import { ShopService } from './shop.service';
-import { GlobalFunctions } from '../../common/global-functions';
+import { Component, ElementRef, NgZone, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { FormArray, FormBuilder, FormControl, Validators } from "@angular/forms";
 import { CompressImageService } from 'src/app/services/compress-image.service';
+import { GlobalFunctions } from '../../common/global-functions';
+import { ImageCroppedEvent } from 'ngx-image-cropper';
+import { CONSTANTS } from '../../common/constants';
+import { HttpClient } from "@angular/common/http";
+import { ShopService } from './shop.service';
+import { ModalService } from '../../_modal';
+import { SnotifyService } from 'ng-snotify';
+import { MapsAPILoader } from "@agm/core";
+import { Router } from "@angular/router";
+import * as moment from 'moment';
+import * as _ from 'lodash';
 import { take } from 'rxjs';
 declare var $: any;
 
@@ -21,27 +21,29 @@ declare var $: any;
   styleUrls: ['./offers.component.scss']
 })
 export class OffersComponent implements OnInit {
-
-  addShopForm: any;
-  shop_days: any = ['su','mo','tu','we','th','fr','sr'];
+  shops: any = [];
   addShopObj: any = {};
+  addShopForm: any;
+  shopCategories: any = [];
+  constants: any = CONSTANTS;
+  isLoading: boolean = false;
   isContinue: boolean = false;
-  
+  isInValidPDF: boolean = false;
+  isPdfLoading: boolean = false;
   isPosterLoading: boolean = false;
   isCropperLoading: boolean = false;
 
-  imgChangeEvt: any = '';  
+  shopDays: any = ['su', 'mo', 'tu', 'we', 'th', 'fr', 'sr'];
+  shopId: any = '';
+  imgChangeEvt: any = '';
   cropImgPreview: any = '';
   shopImgObj: any = {};
   posterDropify: any;
-  
   posterObj: any = {};
   dropifyOption: any = {};
   drEvent: any;
 
   minDateValue: any = new Date();
-
-  constants: any = CONSTANTS;
   zoom: number = CONSTANTS.defaultMapZoom;
   // initial center position for the map
   lat: number = 0;
@@ -51,19 +53,15 @@ export class OffersComponent implements OnInit {
   getCity: any;
   autocomplete: any;
   private geoCoder: any;
-  finaLatLong: any = {lat: CONSTANTS.latitude, lng: CONSTANTS.longitude};
+  finaLatLong: any = { lat: CONSTANTS.latitude, lng: CONSTANTS.longitude };
   map: google.maps.Map | any;
   @ViewChild('search') public searchElementRef: ElementRef | any;
 
   inputText: any;
-  shops: any = [];
-  isLoading: boolean = false;
   pTotal: any;
   perPageLimit: any = 4;
   offset: any = 1;
-  
-  isInValidPDF: boolean = false;
-  isPdfLoading: boolean = false;
+  socialLinks: any = {};
   gstPdf: any;
 
   constructor(
@@ -75,7 +73,6 @@ export class OffersComponent implements OnInit {
     private _router: Router,
     private _http: HttpClient,
     private _sNotify: SnotifyService,
-    private _globalService: GlobalService,
     private _shopService: ShopService,
     private _globalFunctions: GlobalFunctions,
     private _compressImage: CompressImageService
@@ -83,10 +80,20 @@ export class OffersComponent implements OnInit {
 
   ngOnInit(): void {
     localStorage.removeItem('eId');
-    this.getShop();
+    this.getOfflineShops();
+    this.getShopCategories();
     this.prepareDefaultImagesAndPosterAndVideos();
-    this._prepareAddShopForm(this.addShopObj);
-    
+    this._prepareShopForm(this.addShopObj);
+
+    this.socialLinks = {
+      facebook_link: '',
+      youtube_link: '',
+      twitter_link: '',
+      pinterest_link: '',
+      instagram_link: '',
+      linkedin_link: ''
+    }
+
     this.lat = this.addShopObj?.event_location?.latitude || CONSTANTS.latitude;
     this.lng = this.addShopObj?.event_location?.longitude || CONSTANTS.longitude;
     this._mapsAPILoader.load().then(() => {
@@ -94,50 +101,36 @@ export class OffersComponent implements OnInit {
         this._setCurrentLocation();
       }
       this.geoCoder = new google.maps.Geocoder;
+      this.autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement);
+      this.autocomplete.addListener("place_changed", () => {
+        this._ngZone.run(() => {
+          //get the place result
+          let place: any = this.autocomplete.getPlace();
+
+          //verify result
+          if (!place.geometry) {
+            return;
+          }
+          //set latitude, longitude and zoom
+          this.lat = place.geometry.location.lat();
+          this.lng = place.geometry.location.lng();
+
+          this.finaLatLong.lat = place.geometry.location.lat();
+          this.finaLatLong.lng = place.geometry.location.lng();
+        });
+      });
     });
   }
 
-  onChangePDF(event: any): any {
-    const pdfUpload = $('#company_gst')[0].files[0];
-    const pdfFormData = new FormData();
-    this.isInValidPDF = false;
-    if (pdfUpload != undefined) {
-      if (pdfUpload != undefined && pdfUpload.type != 'application/pdf') {
-        // this._sNotify.error('File type is Invalid.', 'Oops!');
-        $('#company_gst').focus();
-        this.isInValidPDF = true;
-        return false;
-      }      
-      pdfFormData.append('file', pdfUpload);
-      // this.inputText = event?.target?.files[0]?.name;
-      // this.companyForm.get('gst').setValue(this.inputText);
-      this.isPdfLoading = true;
-      // this._createEventService.documentUpload(pdfFormData).subscribe((result: any) => {
-      //   if (result && result.IsSuccess) {
-      //     this.gstPdf = result.Data.url;
-      //     this.inputText = _.last(_.split(result.Data.url, '/'));
-      //     this._sNotify.success('File Uploaded Successfully.', 'Success');
-      //     this.isPdfLoading = false;
-      //   } else {
-      //     this._globalFunctions.successErrorHandling(result, this, true);
-      //     this.isPdfLoading = false;
-      //   }
-      // }, (error: any) => {
-      //   this._globalFunctions.errorHanding(error, this, true);
-      //   this.isPdfLoading = false;
-      // });
-    }
-  }
-
-  getShop(shop: any = ''): void {
+  getOfflineShops(shop: any = ''): void {
     this.isLoading = true;
     const page = shop ? (shop.page + 1) : 1;
     this.perPageLimit = shop ? (shop.rows) : this.perPageLimit;
     this.offset = ((this.perPageLimit * page) - this.perPageLimit) + 1;
 
     const filter: any = {
-      page : 1,
-      limit : 10,
+      page: 1,
+      limit: 10,
       search: ""
     }
     this._shopService.offlineShopList(filter).subscribe((result: any) => {
@@ -150,89 +143,24 @@ export class OffersComponent implements OnInit {
     });
   }
 
-  editShop(event: any, shopId: any): void {
-    event.stopPropagation();
-    localStorage.setItem('sId', shopId);
-    // this._router.navigate(['/events/create/add-event']);
-  }
-  
-  onPosterChange(event: any): any {
-    this.imgChangeEvt = event;
-    if (event.target.files.length > 0) {
-      const poster = event.target.files[0];
-      if (poster != undefined) {
-        if (poster.type != 'image/jpeg' && poster.type != 'image/jpg' && poster.type != 'image/png') {
-          this._sNotify.error('Poster type is Invalid.', 'Oops!');
-          return false;
-        }
-
-        const image_size = poster.size / 1024 / 1024;
-        if (image_size > CONSTANTS.maxPosterSizeInMB) {
-          this._sNotify.error('Maximum Poster Size is ' + CONSTANTS.maxImageSizeInMB + 'MB.', 'Oops!');
-          return false;
-        }
-        this.posterObj.image = poster;
-        this.posterObj.name = poster.name;
-        this._modalService.open("imgCropper");
-        this.isCropperLoading = true;
+  getShopCategories(): void {
+    this.isLoading = true;
+    this._shopService.getShopCategories().subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        this.shopCategories = result.Data;
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
       }
-    }
-  }
-
-  savePoster(img: any) {
-    if (img && img != '' && !this.isPosterLoading) {
-      const preparedPoserFromBaseType: any = this._globalFunctions.base64ToImage(img, this.posterObj.name);
-      this._compressImage.compress(preparedPoserFromBaseType).pipe(take(1)).subscribe((compressedImage: any) => {
-        if (compressedImage) {
-          const posterFormData = new FormData();
-          posterFormData.append('file', compressedImage);
-          this.isPosterLoading = true;
-          this._shopService.uploadBanner(posterFormData).subscribe((result: any) => {
-            if (result && result.IsSuccess) {
-              this.posterObj.image = img;
-              this.setPosterInDropify(result.Data.url);
-              this.inputText = _.last(_.split(result.Data.url, '/'));
-              this._sNotify.success('File Uploaded Successfully.', 'Success');
-              this.isPosterLoading = false;
-              this._modalService.close("imgCropper");
-            } else {
-              this._globalFunctions.successErrorHandling(result, this, true);
-              this.isPosterLoading = false;
-            }
-          }, (error: any) => {
-            this._globalFunctions.errorHanding(error, this, true);
-            this.isPosterLoading = false;
-          });
-        } else {
-          this._sNotify.success('Something went wrong!', 'Oops');
-        }
-      });
-    }
-  }
-
-  setPosterInDropify(image: any = ''): void {
-    const imageUrl = CONSTANTS.baseImageURL + image;
-    this.drEvent = this.drEvent.data('dropify');
-    this.drEvent.resetPreview();
-    this.drEvent.clearElement();
-    this.drEvent.settings.defaultFile = imageUrl;
-    this.drEvent.destroy();
-    this.drEvent.init();
-
-    this.dropifyOption.defaultFile = imageUrl;
-    this.drEvent = $('.poster').dropify(this.dropifyOption);
-    console.log(this.addShopForm);
-    
-    this.addShopForm?.get('banner')?.setValue(image);
-  }
-
-  cropImg(e: ImageCroppedEvent) {
-    this.cropImgPreview = e.base64;
+      this.isLoading = false;
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isLoading = false;
+    });
   }
 
   prepareDefaultImagesAndPosterAndVideos(): void {
     if (this.shopImgObj && this.shopImgObj.image) {
-      if (typeof(this.shopImgObj.image) == 'string') {
+      if (typeof (this.shopImgObj.image) == 'string') {
         this.savePoster(this.shopImgObj);
       } else {
         const image: any = this.shopImgObj.image;
@@ -270,19 +198,19 @@ export class OffersComponent implements OnInit {
   }
 
   markerDragEnd(latLong: marker, $event: any) {
-    this.finaLatLong = {lat: $event.coords.lat, lng: $event.coords.lng};
+    this.finaLatLong = { lat: $event.coords.lat, lng: $event.coords.lng };
     this.lat = $event.coords.lat;
     this.lng = $event.coords.lng;
     this.addShopForm.patchValue({
       latitude: $event.coords.lat,
       longitude: $event.coords.lng
     });
-    
+
     this.getAddress(this.lat, this.lng);
   }
 
   getAddress(latitude: any, longitude: any) {
-    this.geoCoder.geocode({'location': {lat: latitude, lng: longitude}}, (results: any, status: any) => {
+    this.geoCoder.geocode({ 'location': { lat: latitude, lng: longitude } }, (results: any, status: any) => {
       if (status === 'OK') {
         if (results[0]) {
           this.zoom = CONSTANTS.defaultMapZoom;
@@ -302,8 +230,8 @@ export class OffersComponent implements OnInit {
       if (selectedState) {
         this.getCity = selectedState.citys;
       }
-      _.each(res.results[0].address_components, (address) => {
-        _.each(address.types, (type) => {0
+      _.each(res.results[0].address_components, (address: any) => {
+        _.each(address.types, (type: any) => {
           if (type == "premise" || type == "street_number") {
             this.addShopForm.get('flat_no').setValue(address.long_name);
           }
@@ -330,9 +258,15 @@ export class OffersComponent implements OnInit {
     });
   }
 
-  popupOpen(popId: string){
-    this._modalService.open(popId);
-    
+  get banner(): any {
+    return this.addShopForm?.get('banner');
+  }
+
+  openAddEditShopDialog(event: any, shopId: string = ''): void {
+    event.stopPropagation();
+    this._modalService.open('shopDialog');
+    this.shopId = shopId;
+
     this.dropifyOption = {
       messages: {
         default: 'Add Poster',
@@ -341,31 +275,112 @@ export class OffersComponent implements OnInit {
     };
     this.drEvent = $('#poster').dropify(this.dropifyOption);
     this.drEvent.on('dropify.afterClear', (event: any, element: any) => {
-      this.addShopForm?.get('banner')?.setValue('');
+      this.banner?.setValue('');
+    });
+    if (this.shopId && this.shopId != '') {
+      this.getOfflineShopByShopId(this.shopId);
+    }
+  }
+
+  getOfflineShopByShopId(shopId: any = ''): void {
+    this.isLoading = true;
+    this._shopService.getOfflineShopByShopId(shopId).subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        this._prepareShopForm(result.Data);
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+      }
+      this.isLoading = false;
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isLoading = false;
     });
   }
 
-  popClose(popId: string){
+  closeAddEditShopDialog(): void {
     this.addShopForm.reset();
-    this._modalService.close(popId);
-    const drEvent = this.posterDropify.data('dropify');
-    drEvent.resetPreview();
-    drEvent.clearElement();
+    this._prepareShopForm();
+    $('.dropify-clear').click();
+    this._modalService.close('shopDialog');
     this.cropImgPreview = null;
+    this.shopId = '';
     this.isContinue = false;
-
-    this.addShopForm.get('company_name').clearValidators();
-    this.addShopForm.get('contact_number').clearValidators();
-    this.addShopForm.get('emailid').clearValidators();
-    this.addShopForm.get('about').clearValidators();
-
-    this.addShopForm.get('company_name').updateValueAndValidity();
-    this.addShopForm.get('contact_number').updateValueAndValidity();
-    this.addShopForm.get('emailid').updateValueAndValidity();
-    this.addShopForm.get('about').updateValueAndValidity();
   }
 
-  isContinueClick(): void{
+  onPosterChange(event: any): any {
+    this.imgChangeEvt = event;
+    if (event.target.files.length > 0) {
+      const poster = event.target.files[0];
+      if (poster != undefined) {
+        if (poster.type != 'image/jpeg' && poster.type != 'image/jpg' && poster.type != 'image/png') {
+          this._sNotify.error('Poster type is Invalid.', 'Oops!');
+          return false;
+        }
+
+        const image_size = poster.size / 1024 / 1024;
+        if (image_size > CONSTANTS.maxPosterSizeInMB) {
+          this._sNotify.error('Maximum Poster Size is ' + CONSTANTS.maxImageSizeInMB + 'MB.', 'Oops!');
+          return false;
+        }
+        this.posterObj.image = poster;
+        this.posterObj.name = poster.name;
+        this._modalService.open("imgCropper");
+        this.isCropperLoading = true;
+      }
+    }
+  }
+
+  savePoster(img: any): void {
+    if (img && img != '' && !this.isPosterLoading) {
+      const preparedPoserFromBaseType: any = this._globalFunctions.base64ToImage(img, this.posterObj.name);
+      this._compressImage.compress(preparedPoserFromBaseType).pipe(take(1)).subscribe((compressedImage: any) => {
+        if (compressedImage) {
+          const posterFormData = new FormData();
+          posterFormData.append('file', compressedImage);
+          this.isPosterLoading = true;
+          this._shopService.uploadBanner(posterFormData).subscribe((result: any) => {
+            if (result && result.IsSuccess) {
+              this.posterObj.image = img;
+              this.setPosterInDropify(result.Data.url);
+              // this.inputText = _.last(_.split(result.Data.url, '/'));
+              this._sNotify.success('File Uploaded Successfully.', 'Success');
+              this.isPosterLoading = false;
+              this._modalService.close("imgCropper");
+            } else {
+              this._globalFunctions.successErrorHandling(result, this, true);
+              this.isPosterLoading = false;
+            }
+          }, (error: any) => {
+            this._globalFunctions.errorHanding(error, this, true);
+            this.isPosterLoading = false;
+          });
+        } else {
+          this._sNotify.success('Something went wrong!', 'Oops');
+        }
+      });
+    }
+  }
+
+  setPosterInDropify(image: any = ''): void {
+    const imageUrl = CONSTANTS.baseImageURL + image;
+    this.drEvent = this.drEvent.data('dropify');
+    this.drEvent.resetPreview();
+    this.drEvent.clearElement();
+    this.drEvent.settings.defaultFile = imageUrl;
+    this.drEvent.destroy();
+    this.drEvent.init();
+
+    this.dropifyOption.defaultFile = imageUrl;
+    this.drEvent = $('.poster').dropify(this.dropifyOption);
+    this.banner?.setValue(image);
+  }
+
+  cropImg(e: ImageCroppedEvent) {
+    this.cropImgPreview = e.base64;
+  }
+
+  isContinueClick(): void {
+    console.log(this.addShopForm.value);
     if (this.addShopForm.invalid) {
       Object.keys(this.addShopForm.controls).forEach((key) => {
         this.addShopForm.controls[key].touched = true;
@@ -373,13 +388,48 @@ export class OffersComponent implements OnInit {
       });
       return;
     }
-    this.addShopForm.get('company_name').setValidators([Validators.required]);
-    this.addShopForm.get('contact_number').setValidators([Validators.required]);
-    this.addShopForm.get('emailid').setValidators([Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]);
-    this.addShopForm.get('about').setValidators([Validators.required]);
     this.isContinue = true;
   }
-  
+
+  onChangePDF(event: any): any {
+    const pdfUpload = $('#company_gst')[0].files[0];
+    const pdfFormData = new FormData();
+    this.isInValidPDF = false;
+    if (pdfUpload != undefined) {
+      if (pdfUpload != undefined && pdfUpload.type != 'application/pdf') {
+        // this._sNotify.error('File type is Invalid.', 'Oops!');
+        $('#company_gst').focus();
+        this.isInValidPDF = true;
+        return false;
+      }
+      pdfFormData.append('file', pdfUpload);
+      // this.inputText = event?.target?.files[0]?.name;
+      // this.companyForm.get('gst').setValue(this.inputText);
+      this.isPdfLoading = true;
+      // this._createEventService.documentUpload(pdfFormData).subscribe((result: any) => {
+      //   if (result && result.IsSuccess) {
+      //     this.gstPdf = result.Data.url;
+      //     this.inputText = _.last(_.split(result.Data.url, '/'));
+      //     this._sNotify.success('File Uploaded Successfully.', 'Success');
+      //     this.isPdfLoading = false;
+      //   } else {
+      //     this._globalFunctions.successErrorHandling(result, this, true);
+      //     this.isPdfLoading = false;
+      //   }
+      // }, (error: any) => {
+      //   this._globalFunctions.errorHanding(error, this, true);
+      //   this.isPdfLoading = false;
+      // });
+    }
+  }
+
+  prepareShopObj(shopObj: any): any {
+    const preparedShopObj: any = this._globalFunctions.copyObject(shopObj);
+    preparedShopObj.start_date = moment(shopObj.start_date).format('YYYY-MM-DD');
+    preparedShopObj.end_date = moment(shopObj.end_date).format('YYYY-MM-DD');
+    return preparedShopObj;
+  }
+
   addShopOffer(): void {
     if (this.addShopForm.invalid) {
       Object.keys(this.addShopForm.controls).forEach((key) => {
@@ -388,7 +438,8 @@ export class OffersComponent implements OnInit {
       });
       return;
     }
-    console.log(this.addShopForm.value);
+    const preparedShopObj: any = this.prepareShopObj(this.addShopForm.value);
+    console.log(preparedShopObj);
   }
 
   gotoShopOverview(event: any, addShopObj: any): void {
@@ -397,14 +448,14 @@ export class OffersComponent implements OnInit {
   }
 
   onCheckboxChange(e: any): void {
-    const shop_days: FormArray = this.addShopForm.get('shop_days') as FormArray;
+    const shopDays: FormArray = this.addShopForm.get('shop_days') as FormArray;
     if (e.target.checked) {
-      shop_days.push(new FormControl(e.target.value));
+      shopDays.push(new FormControl(e.target.value));
     } else {
       let i: number = 0;
-      shop_days.controls.forEach((item: any) => {
+      shopDays.controls.forEach((item: any) => {
         if (item.value == e.target.value) {
-          shop_days.removeAt(i);
+          shopDays.removeAt(i);
           return;
         }
         i++;
@@ -412,36 +463,36 @@ export class OffersComponent implements OnInit {
     }
   }
 
-  private _prepareAddShopForm(addShopObj: any = {}): void {
+  private _prepareShopForm(addShopObj: any = {}): void {
     this.addShopForm = this._formBuilder.group({
       shopid: [''],
       banner: ['', [Validators.required]],
-      shop_name: [addShopObj.shop_name, [Validators.required]],
-      shop_category: [addShopObj.shop_category, [Validators.required]],
-      shop_days: this._formBuilder.array([], [Validators.required]),
-      start_date: [addShopObj.start_date || null, [Validators.required]],
-      end_date: [addShopObj.end_date || null, [Validators.required]],
-      about_shop: [addShopObj.about_shop, [Validators.required]],
-      flat_no: [addShopObj.flat_no],
-      street_name: [addShopObj.street_name],
-      area_name: [addShopObj.area_name],
-      city: [addShopObj.city, [Validators.required]],
-      state: [addShopObj.state, [Validators.required]],
-      pincode: [addShopObj.pincode, [Validators.required, Validators.pattern('^[1-9]{1}[0-9]{2}\\s{0,1}[0-9]{3}$')]],
+      shop_name: [addShopObj?.shop_name || '', [Validators.required]],
+      shop_category: [(addShopObj.shop_category && addShopObj.shop_category != '') ? addShopObj.shop_category : '', [Validators.required]],
+      shop_days: this._formBuilder.array((addShopObj.shop_days && addShopObj.shop_days.length) ? addShopObj.shop_days : [], [Validators.required]),
+      start_date: [(addShopObj.start_date) ? new Date(addShopObj.start_date) : '', [Validators.required]],
+      end_date: [(addShopObj.end_date) ? new Date(addShopObj.end_date) : '', [Validators.required]],
+      about_shop: [addShopObj?.about_shop || ''],
+      flat_no: [addShopObj?.flat_no || ''],
+      street_name: [addShopObj?.street_name || ''],
+      area_name: [addShopObj?.area_name || ''],
+      city: [addShopObj?.city || '', [Validators.required]],
+      state: [addShopObj?.state || '', [Validators.required]],
+      pincode: [addShopObj?.pincode || '', [Validators.required, Validators.pattern('^[1-9]{1}[0-9]{2}\\s{0,1}[0-9]{3}$')]],
       longitude: [this.lng],
       latitude: [this.lat],
 
-      company_name: [addShopObj.company_name],
+      company_name: [addShopObj?.company_name || ''],
       gst_file: [''],
-      contact_number: [addShopObj.contact_number],
-      emailid: [addShopObj.emailid],
-      about: [addShopObj.about],
-      facebook_link: [addShopObj.facebook_link],
-      youtube_link: [addShopObj.youtube_link],
-      twitter_link: [addShopObj.twitter_link],
-      pinterest_link: [addShopObj.pinterest_link],
-      instagram_link: [addShopObj.instagram_link],
-      linkedin_link: [addShopObj.linkedin_link],
+      contact_number: [addShopObj?.contact_number || ''],
+      emailid: [addShopObj?.emailid || ''],
+      about: [addShopObj?.about || ''],
+      facebook_link: [addShopObj?.facebook_link || ''],
+      youtube_link: [addShopObj?.youtube_link || ''],
+      twitter_link: [addShopObj?.twitter_link || ''],
+      pinterest_link: [addShopObj?.pinterest_link || ''],
+      instagram_link: [addShopObj?.instagram_link || ''],
+      linkedin_link: [addShopObj?.linkedin_link || ''],
     });
   }
 
