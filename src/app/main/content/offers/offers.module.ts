@@ -10,6 +10,7 @@ import { ImageCropperModule } from 'ngx-image-cropper';
 import { CalendarModule } from 'primeng/calendar';
 import { RatingModule } from 'primeng/rating';
 import { PaginatorModule } from 'primeng/paginator';
+import { CheckboxModule } from 'primeng/checkbox';
 
 const routes: Routes = [
   {
@@ -34,6 +35,7 @@ const routes: Routes = [
     CalendarModule,
     RatingModule,
     PaginatorModule,
+    CheckboxModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyDLgr8YB5IK8dBIEWClexZGzXaB7UlVm7Q',
       libraries: ['places']

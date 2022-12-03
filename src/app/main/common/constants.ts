@@ -64,6 +64,16 @@ export const CONSTANTS = {
     {value: 'RIGHT', label: 'Right'},
   ],
 
+  discountTypeObj: {
+    percentage: 0,
+    rupee: 1
+  },
+
+  discountTypeArr: [
+    {value: 'percentage', label: 'Percentage', displayLabel: '%'},
+    {value: 'rupee', label: 'Rupee', displayLabel: '₹'}
+  ],
+
   maxPosterSizeInMB: 10,
   maxImageSizeInMB: 3,
   maxVideoSizeInMB: 512,
@@ -71,5 +81,7 @@ export const CONSTANTS = {
   defaultMapZoom: 12,
   latitude: 21.228125,
   longitude: 72.833771,
-  googleMapApiKey: 'AIzaSyDLgr8YB5IK8dBIEWClexZGzXaB7UlVm7Q'
+  googleMapApiKey: 'AIzaSyDLgr8YB5IK8dBIEWClexZGzXaB7UlVm7Q',
+
+  maxOfferOnAllProductsLimit: 7,
 };
