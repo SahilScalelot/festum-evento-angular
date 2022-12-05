@@ -59,6 +59,7 @@ export class OffersComponent implements OnInit {
 
   inputText: any;
   pTotal: any;
+  paging: any;
   perPageLimit: any = 4;
   offset: any = 1;
   socialLinks: any = {};
@@ -134,16 +135,15 @@ export class OffersComponent implements OnInit {
   getOfflineShops(shop: any = ''): void {
     this.isLoading = true;
     const page = shop ? (shop.page + 1) : 1;
-    this.perPageLimit = shop ? (shop.rows) : this.perPageLimit;
-    this.offset = ((this.perPageLimit * page) - this.perPageLimit) + 1;
-
+    // this.perPageLimit = shop ? (shop.rows) : this.perPageLimit;
+    // this.offset = ((this.perPageLimit * page) - this.perPageLimit) + 1;
     const filter: any = {
-      page: 1,
-      limit: 10,
+      page : page || '1',
+      limit : shop?.rows || '4',
       search: ""
     }
     this._shopService.offlineShopList(filter).subscribe((result: any) => {
-      this.pTotal = result.total;
+      this.paging = result.Data;
       this.shops = result.Data.docs;
       this.isLoading = false;
     }, (error: any) => {
@@ -275,7 +275,7 @@ export class OffersComponent implements OnInit {
     event.stopPropagation();
     this._modalService.open('shopDialog');
     this.shopId = shopId;
-
+    console.log(shopId);
     this.dropifyOption = {
       messages: {
         default: 'Add Poster',
@@ -296,6 +296,11 @@ export class OffersComponent implements OnInit {
     this._shopService.getOfflineShopByShopId(shopId).subscribe((result: any) => {
       if (result && result.IsSuccess) {
         this._prepareShopForm(result.Data);
+        this.gstPdf = result.Data.companydetails.gst_file;
+        this.inputText = _.last(_.split(result.Data.companydetails.gst_file, '/'));
+        if (result?.Data?.banner) {
+          this.setPosterInDropify(result?.Data?.banner);
+        }
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
       }
@@ -325,7 +330,6 @@ export class OffersComponent implements OnInit {
           this._sNotify.error('Poster type is Invalid.', 'Oops!');
           return false;
         }
-
         const image_size = poster.size / 1024 / 1024;
         if (image_size > CONSTANTS.maxPosterSizeInMB) {
           this._sNotify.error('Maximum Poster Size is ' + CONSTANTS.maxImageSizeInMB + 'MB.', 'Oops!');
@@ -399,35 +403,32 @@ export class OffersComponent implements OnInit {
     this.isContinue = true;
   }
 
-  onChangePDF(event: any): any {
+  onChangePDF(shop: any): any {
     const pdfUpload = $('#company_gst')[0].files[0];
     const pdfFormData = new FormData();
     this.isInValidPDF = false;
     if (pdfUpload != undefined) {
       if (pdfUpload != undefined && pdfUpload.type != 'application/pdf') {
-        // this._sNotify.error('File type is Invalid.', 'Oops!');
         $('#company_gst').focus();
         this.isInValidPDF = true;
         return false;
       }
       pdfFormData.append('file', pdfUpload);
-      // this.inputText = event?.target?.files[0]?.name;
-      // this.companyForm.get('gst').setValue(this.inputText);
       this.isPdfLoading = true;
-      // this._createEventService.documentUpload(pdfFormData).subscribe((result: any) => {
-      //   if (result && result.IsSuccess) {
-      //     this.gstPdf = result.Data.url;
-      //     this.inputText = _.last(_.split(result.Data.url, '/'));
-      //     this._sNotify.success('File Uploaded Successfully.', 'Success');
-      //     this.isPdfLoading = false;
-      //   } else {
-      //     this._globalFunctions.successErrorHandling(result, this, true);
-      //     this.isPdfLoading = false;
-      //   }
-      // }, (error: any) => {
-      //   this._globalFunctions.errorHanding(error, this, true);
-      //   this.isPdfLoading = false;
-      // });
+      this._shopService.documentUpload(pdfFormData).subscribe((result: any) => {
+        if (result && result.IsSuccess) {
+          this.gstPdf = result.Data.url;
+          this.inputText = _.last(_.split(result.Data.url, '/'));
+          this._sNotify.success('File Uploaded Successfully.', 'Success');
+          this.isPdfLoading = false;
+        } else {
+          this._globalFunctions.successErrorHandling(result, this, true);
+          this.isPdfLoading = false;
+        }
+      }, (error: any) => {
+        this._globalFunctions.errorHanding(error, this, true);
+        this.isPdfLoading = false;
+      });
     }
   }
 
@@ -437,7 +438,8 @@ export class OffersComponent implements OnInit {
     preparedShopObj.end_date = moment(shopObj.end_date).format('YYYY-MM-DD');
     preparedShopObj.longitude = this.lng;
     preparedShopObj.latitude = this.lat;
-    // preparedShopObj.social_media_links = this.socialLinks;
+    preparedShopObj.gst_file = this.gstPdf;
+    preparedShopObj.social_media_links = this.socialLinks;
     return preparedShopObj;
   }
 
@@ -470,7 +472,7 @@ export class OffersComponent implements OnInit {
 
   gotoShopOverview(event: any, addShopObj: any): void {
     // event.stopPropagation();
-    this._router.navigate(['/offline-shop-offers/' + addShopObj]);
+    this._router.navigate(['/offline-shop-offers/' + addShopObj._id]);
   }
 
   onCheckboxChange(e: any): void {
@@ -494,7 +496,7 @@ export class OffersComponent implements OnInit {
       shopid: [(this.shopId && this.shopId != '') ? this.shopId : ''],
       banner: ['', [Validators.required]],
       shop_name: [addShopObj?.shop_name || '', [Validators.required]],
-      shop_category: [(addShopObj.shop_category && addShopObj.shop_category != '') ? addShopObj.shop_category : '', [Validators.required]],
+      shop_category: [(addShopObj.shop_category && addShopObj.shop_category._id) ? addShopObj.shop_category._id : '', [Validators.required]],
       shop_days: this._formBuilder.array((addShopObj.shop_days && addShopObj.shop_days.length) ? addShopObj.shop_days : [], [Validators.required]),
       start_date: [(addShopObj.start_date) ? new Date(addShopObj.start_date) : '', [Validators.required]],
       end_date: [(addShopObj.end_date) ? new Date(addShopObj.end_date) : '', [Validators.required]],
@@ -508,11 +510,11 @@ export class OffersComponent implements OnInit {
       longitude: [this.lng],
       latitude: [this.lat],
 
-      company_name: [addShopObj?.company_name || ''],
-      gst_file: [''],
-      contact_number: [addShopObj?.contact_number || ''],
-      emailid: [addShopObj?.emailid || ''],
-      about: [addShopObj?.about || '']
+      company_name: [addShopObj?.companydetails?.company_name || ''],
+      gst_file: [this.gstPdf || ''],
+      contact_number: [addShopObj?.companydetails?.contact_number || ''],
+      emailid: [addShopObj?.companydetails?.emailid || ''],
+      about: [addShopObj?.companydetails?.about || '']
     });
 
     if (addShopObj && addShopObj.shop_days && addShopObj.shop_days.length) {

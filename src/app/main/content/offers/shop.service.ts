@@ -33,6 +33,11 @@ export class ShopService {
     return this.http.post(environment.appURL + 'organizer/shops/banner', photoFormData, this._globalFunctions.getFileAuthorizationHeader());
   }
 
+  // Banner Api
+  documentUpload(photoFormData: any): any {
+    return this.http.post(environment.appURL + 'organizer/shops/document', photoFormData, this._globalFunctions.getFileAuthorizationHeader());
+  }
+
   getOfflineShopByShopId(shopId: any): any {
     return this.http.post(environment.appURL + 'organizer/shops/getone', { shopid: shopId }, this._globalFunctions.getAuthorizationHeader());
   }

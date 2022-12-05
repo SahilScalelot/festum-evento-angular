@@ -332,3 +332,5 @@ mat-progress-spinner.mat-progress-spinner.mat-spinner.mat-primary.mat-progress-s
 .pagination-festum ul {@apply flex items-center text-gray-400 space-x-1;}
 .pagination-festum .btns {@apply w-10 xl:w-12 h-10 xl:h-12 text-base flex items-center justify-center bg-white rounded hover:text-magicPotion hover:shadow-md transition-all duration-300 cursor-pointer;}
 .pagination-festum .btns:disabled {@apply text-gray-400 opacity-50;}
+
+.p-datepicker-touch-ui, .p-calendar .p-datepicker-touch-ui {min-width: 0 !important;max-width: 660px;width: 100%;}

@@ -4,6 +4,8 @@ import { CONSTANTS } from 'src/app/main/common/constants';
 import { GlobalFunctions } from 'src/app/main/common/global-functions';
 import { ModalService } from 'src/app/main/_modal';
 import * as _ from 'lodash';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ShopService } from '../shop.service';
 
 @Component({
   selector: 'app-offer-overview',
@@ -15,16 +17,61 @@ export class OfferOverviewComponent implements OnInit {
   constants: any = CONSTANTS;
   positiveMaxNumber: any = Number.POSITIVE_INFINITY;
 
+  weekdays: any = [
+    { value: 'su' },
+    { value: 'mo' },
+    { value: 'tu' },
+    { value: 'we' },
+    { value: 'th' },
+    { value: 'fr' },
+    { value: 'sr' }
+  ];
+  
+  shopId: any;
+  shopObj: any;
+  
+  isLoading: boolean = false;
+
+  zoom: number = CONSTANTS.defaultMapZoom;
+  lat: number = 0;
+  lng: number = 0;
+
   constructor(
     private _modalService: ModalService,
     private _globalFunctions: GlobalFunctions,
     private _formBuilder: FormBuilder,
+    private _router: Router,
+    private _shopService: ShopService,
+    private _activatedRoute: ActivatedRoute,
   ) { }
 
   ngOnInit(): void {
+    this.shopId = this._activatedRoute.snapshot.paramMap.get('id');
+
+    this.getShop();
     this._prepareAddOfferForm();
     // get function ma response ne prepare karti vakhate
     // this.offerOnAllProducts.setValue([(preparedOfferObj.offer_on_all_products) ? 'true' : '']);
+  }
+  getShop(): void {
+    this.isLoading = true;
+    this._shopService.getOfflineShopByShopId(this.shopId).subscribe((result: any) => {
+      this.shopObj = result.Data;
+      console.log(this.shopObj);
+      
+      this.weekdays = this.weekdays.map((dayObj: any) => {
+        dayObj.isSelected = !!(this.shopObj.shop_days.indexOf(dayObj.value) != -1);
+        return dayObj;
+      });
+      setTimeout(() => {
+        this._globalFunctions.loadAccordion();
+        // this._globalFunctions.loadTabsJs();
+      }, 0);
+      this.isLoading = false;
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isLoading = false;
+    });
   }
 
   get offerOnAllProducts(): any {
