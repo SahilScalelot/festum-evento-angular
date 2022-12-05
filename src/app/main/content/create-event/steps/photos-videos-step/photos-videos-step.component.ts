@@ -128,7 +128,7 @@ export class PhotosVideosStepComponent implements OnInit {
 
         const image_size = poster.size / 1024 / 1024;
         if (image_size > CONSTANTS.maxPosterSizeInMB) {
-          this._sNotify.error('Maximum Poster Size is ' + CONSTANTS.maxImageSizeInMB + 'MB.', 'Oops!');
+          this._sNotify.error('Maximum Poster Size is ' + CONSTANTS.maxPosterSizeInMB + 'MB.', 'Oops!');
           return false;
         }
         this.posterObj.image = poster;

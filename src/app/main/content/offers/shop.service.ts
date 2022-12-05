@@ -45,4 +45,15 @@ export class ShopService {
   // retrieveUser(): any {
   //   return this.http.get(environment.appURL + 'events/', this._globalFunctions.getAuthorizationHeader());
   // }
+
+  // Upload Offline Offer's Poster, Image, Video
+  uploadPoster(posterFormData: any): any {
+    return this.http.post(environment.appURL + 'organizer/offlineoffer/banner', posterFormData, this._globalFunctions.getFileAuthorizationHeader());
+  }
+  uploadVideo(videoFormData: any): any {
+    return this.http.post(environment.appURL + 'organizer/offlineoffer/video', videoFormData, this._globalFunctions.getFileAuthorizationHeader());
+  }
+  uploadImage(imageFormData: any): any {
+    return this.http.post(environment.appURL + 'organizer/offlineoffer/image', imageFormData, this._globalFunctions.getFileAuthorizationHeader());
+  }
 }

@@ -38,7 +38,6 @@ export class OffersComponent implements OnInit {
   imgChangeEvt: any = '';
   cropImgPreview: any = '';
   shopImgObj: any = {};
-  posterDropify: any;
   posterObj: any = {};
   dropifyOption: any = {};
   drEvent: any;
@@ -58,9 +57,7 @@ export class OffersComponent implements OnInit {
   @ViewChild('search') public searchElementRef: ElementRef | any;
 
   inputText: any;
-  pTotal: any;
   paging: any;
-  perPageLimit: any = 4;
   offset: any = 1;
   socialLinks: any = {};
   gstPdf: any;
@@ -102,7 +99,7 @@ export class OffersComponent implements OnInit {
       pinterest_link: '',
       instagram_link: '',
       linkedin_link: ''
-    }
+    };
 
     this.lat = this.addShopObj?.event_location?.latitude || CONSTANTS.latitude;
     this.lng = this.addShopObj?.event_location?.longitude || CONSTANTS.longitude;
@@ -135,13 +132,11 @@ export class OffersComponent implements OnInit {
   getOfflineShops(shop: any = ''): void {
     this.isLoading = true;
     const page = shop ? (shop.page + 1) : 1;
-    // this.perPageLimit = shop ? (shop.rows) : this.perPageLimit;
-    // this.offset = ((this.perPageLimit * page) - this.perPageLimit) + 1;
     const filter: any = {
       page : page || '1',
       limit : shop?.rows || '4',
       search: ""
-    }
+    };
     this._shopService.offlineShopList(filter).subscribe((result: any) => {
       this.paging = result.Data;
       this.shops = result.Data.docs;
@@ -275,7 +270,6 @@ export class OffersComponent implements OnInit {
     event.stopPropagation();
     this._modalService.open('shopDialog');
     this.shopId = shopId;
-    console.log(shopId);
     this.dropifyOption = {
       messages: {
         default: 'Add Poster',
@@ -285,7 +279,7 @@ export class OffersComponent implements OnInit {
     this.drEvent = $('#poster').dropify(this.dropifyOption);
     this.drEvent.on('dropify.afterClear', (event: any, element: any) => {
       this.banner?.setValue('');
-    }); 
+    });
     if (this.shopId && this.shopId != '') {
       this.getOfflineShopByShopId(this.shopId);
     }

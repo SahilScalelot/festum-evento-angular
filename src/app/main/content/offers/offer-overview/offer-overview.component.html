@@ -22,7 +22,7 @@
         </div>
       </div>
       <div class="space-y-5">
-        <button class="secondary px-3 lg:px-7 py-3" (click)="popupOpen('discountDialog')"><i class="icon-plus"></i><span class="pl-2 lg:pl-5 whitespace-nowrap">Create Offer</span></button>
+        <button class="secondary px-3 lg:px-7 py-3" (click)="openAddEditOfferDialog()"><i class="icon-plus"></i><span class="pl-2 lg:pl-5 whitespace-nowrap">Create Offer</span></button>
         <div class="flex justify-end space-x-2">
           <a href="javascript:void(0);" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-fill_megaphone text-base text-black"></i></a>
           <a href="javascript:void(0);" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-edit text-base text-black"></i></a>
@@ -297,9 +297,9 @@
   </div>
 </div>
 
-<modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="discountDialog" [title]="'Add Shop'" maxWidth="lg:max-w-7xl xl:px-0" [isCloseHidden]="false">
+<modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="offerDialog" [title]="(offerId && offerId != '') ? 'Edit Offer' : 'Add Offer'" maxWidth="lg:max-w-7xl xl:px-0" [isCloseHidden]="false">
   <div class="space-y-5 relative">
-    <form [formGroup]="addOfferForm" class="">
+    <form [formGroup]="addEditOfferForm" class="">
       <!-- <span (click)="popClose('discountDialog');" class="absolute right-0 -top-8 cursor-pointer text-xl"><i class="icon-close"></i></span> -->
       
         <div class="flex flex-wrap items-end -mx-2">
@@ -330,20 +330,34 @@
         </div>
         <div class="flex flex-wrap items-end -mx-2">
           <div class="upload-holder w-full md:w-1/2 h-full px-2 pt-5">
-            <div>
+            <label class="upload upload-popup p-0 relative group" id="shop-img-obj-upload">
+              <input (change)="onPosterChange($event)" accept="image/png, image/jpeg, image/gif" class="poster-upload hidden" name="poster" id="poster-upload" type="file" />
+            </label>
+            <span class="absolute top-full text-red-500 text-xs" *ngIf="addEditOfferForm.get('poster')?.invalid && (addEditOfferForm.get('poster')?.dirty && addEditOfferForm.get('poster')?.touched)">
+              <span *ngIf="addEditOfferForm.get('poster')?.errors?.['required']">
+                Poster is required.
+              </span>
+            </span>
+
+            <!--<div>
               <label for="upload" class="upload upload-popup py-14">
                 <input type="file" name="images" id="upload" class="appearance-none hidden" />
                 <span class="input-titel mt-1 text-base"><i class="icon-img_upload mr-2"></i>Add Poster</span>
               </label>
-            </div>
+            </div>-->
           </div>
           <div class="upload-holder w-full md:w-1/2 h-full px-2 pt-5">
-            <div>
-              <label for="upload" class="upload upload-popup py-14">
-                <input type="file" name="images" id="upload" class="appearance-none hidden" />
-                <span class="input-titel mt-1 text-base"><i class="icon-video_upload mr-2"></i>Add Video</span>
-              </label>
-            </div>
+            <label class="upload upload-popup p-0 relative group" id="video-upload-obj">
+              <input (change)="onVideoChange($event)" accept="video/mp4" class="video-upload hidden" name="videos" id="video-upload" type="file" />
+            </label>
+            <span class="absolute top-full text-red-500 text-xs" *ngIf="addEditOfferForm.get('video')?.invalid && (addEditOfferForm.get('video')?.dirty && addEditOfferForm.get('video')?.touched)">
+              <span *ngIf="addEditOfferForm.get('video')?.errors?.['required']">
+                Video is required.
+              </span>
+            </span>
+            <!--<label for="video-upload" class="upload upload-popup p-0 relative group">
+              <input (change)="onVideoChange($event)" accept="video/mp4" id="video-upload" class="video-upload appearance-none hidden" name="videos" type="file"/>
+            </label>-->
           </div>
         </div>
         <div class="w-full pt-5">
