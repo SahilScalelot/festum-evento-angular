@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder } from '@angular/forms';
+import {FormArray, FormBuilder, Validators} from '@angular/forms';
 import { CONSTANTS } from 'src/app/main/common/constants';
 import { GlobalFunctions } from 'src/app/main/common/global-functions';
 import { ModalService } from 'src/app/main/_modal';
@@ -23,11 +23,14 @@ export class ShopOverviewComponent implements OnInit {
   shopObj: any;
   offerObj: any;
   dropifyOption: any = {};
+  editorConfig: any = {};
   drPosterEvent: any;
   drVideoEvent: any;
   lat: number = 0;
   lng: number = 0;
   zoom: number = CONSTANTS.defaultMapZoom;
+  isTAndC: boolean = false;
+  isAddUserWiseOffers: boolean = false;
   isLoading: boolean = false;
   isUploadPosterLoading: boolean = false;
   isUploadVideoLoading: boolean = false;
@@ -44,6 +47,8 @@ export class ShopOverviewComponent implements OnInit {
   offerId: any;
   paging: any;
   shopOffer: any;
+  minDateValue: any = new Date();
+  offerImageArray: any = new Array(3);
 
   get offerOnAllProducts(): any {
     return this.addEditOfferForm.get('offer_on_all_products');
@@ -56,6 +61,9 @@ export class ShopOverviewComponent implements OnInit {
   }
   get video(): any {
     return this.addEditOfferForm?.get('video');
+  }
+  get allProductImages(): any {
+    return this.addEditOfferForm?.get('all_product_images');
   }
 
   constructor(
@@ -75,8 +83,87 @@ export class ShopOverviewComponent implements OnInit {
     this.getShop();
     this.offlineShopOfferList();
     this._prepareAddEditOfferForm();
+    this.editorConfig = {
+      toolbar: [
+        'heading', '|',
+        'fontsize', 'fontfamily', '|',
+        'fontColor', 'fontBackgroundColor', '|',
+        'bold', 'italic', 'underline', 'strikethrough', '|',
+        'alignment', '|',
+        'outdent', 'indent', '|',
+        'numberedList', 'bulletedList', '|',
+        'link', 'mediaembed', 'blockquote', 'insertTable', '|',
+        'undo', 'redo'
+      ],
+      mediaEmbed: { previewsInData: true },
+      table: { contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells'] },
+      language: 'en',
+      alignment: { options: ['left', 'right', 'center', 'justify'] },
+      fontSize: { options: ['tiny', 'small', 'default', 'big', 'huge'] },
+      fontColor: {
+        columns: 6,
+        colors: [
+          { color: '#f05a28', label: 'Theme Orange', class: 'orange' },
+          { color: 'hsl(0, 0%, 0%)', label: 'Black' },
+          { color: 'hsl(0, 0%, 30%)', label: 'Dim grey' },
+          { color: 'hsl(0, 0%, 60%)', label: 'Grey' },
+          { color: 'hsl(0, 0%, 90%)', label: 'Light grey' },
+          { color: 'hsl(0, 0%, 100%)', label: 'White', hasBorder: true },
+          { color: '#f8696b', label: 'Red 1' },
+          { color: '#FFD800', label: 'Yellow 1' },
+          { color: '#63be7b', label: 'Green 1' },
+          { color: '#f44336', label: 'Red 2' },
+          { color: '#ff9100', label: 'Yellow 2' },
+          { color: '#4caf50', label: 'Green 2' },
+          { color: 'hsl(0, 75%, 60%)', label: 'Red' },
+          { color: 'hsl(30, 75%, 60%)', label: 'Orange' },
+          { color: 'hsl(60, 75%, 60%)', label: 'Yellow' },
+          { color: 'hsl(90, 75%, 60%)', label: 'Light green' },
+          { color: 'hsl(120, 75%, 60%)', label: 'Green' },
+          { color: 'hsl(150, 75%, 60%)', label: 'Aquamarine' },
+          { color: 'hsl(180, 75%, 60%)', label: 'Turquoise' },
+          { color: 'hsl(210, 75%, 60%)', label: 'Light blue' },
+          { color: 'hsl(240, 75%, 60%)', label: 'Blue' },
+          { color: 'hsl(270, 75%, 60%)', label: 'Purple' }
+        ]
+      },
+      fontBackgroundColor: {
+        columns: 6,
+        colors: [
+          { color: '#f05a28', label: 'Theme Orange' },
+          { color: 'hsl(0, 0%, 0%)', label: 'Black' },
+          { color: 'hsl(0, 0%, 30%)', label: 'Dim grey' },
+          { color: 'hsl(0, 0%, 60%)', label: 'Grey' },
+          { color: 'hsl(0, 0%, 90%)', label: 'Light grey' },
+          { color: 'hsl(0, 0%, 100%)', label: 'White', hasBorder: true },
+          { color: '#f8696b', label: 'Red 1' },
+          { color: '#FFD800', label: 'Yellow 1' },
+          { color: '#63be7b', label: 'Green 1' },
+          { color: '#f44336', label: 'Red 2' },
+          { color: '#ff9100', label: 'Yellow 2' },
+          { color: '#4caf50', label: 'Green 2' },
+          { color: 'hsl(0, 75%, 60%)', label: 'Red' },
+          { color: 'hsl(30, 75%, 60%)', label: 'Orange' },
+          { color: 'hsl(60, 75%, 60%)', label: 'Yellow' },
+          { color: 'hsl(90, 75%, 60%)', label: 'Light green' },
+          { color: 'hsl(120, 75%, 60%)', label: 'Green' },
+          { color: 'hsl(150, 75%, 60%)', label: 'Aquamarine' },
+          { color: 'hsl(180, 75%, 60%)', label: 'Turquoise' },
+          { color: 'hsl(210, 75%, 60%)', label: 'Light blue' },
+          { color: 'hsl(240, 75%, 60%)', label: 'Blue' },
+          { color: 'hsl(270, 75%, 60%)', label: 'Purple' }
+        ]
+      }
+    };
     // get function ma response ne prepare karti vakhate
     // this.offerOnAllProducts.setValue([(preparedOfferObj.offer_on_all_products) ? 'true' : '']);
+  }
+
+  onTextEditorReady(editor: any, fieldForSetData: any): void {
+    editor.ui.getEditableElement().parentElement.insertBefore(
+        editor.ui.view.toolbar.element,
+        editor.ui.getEditableElement()
+    );
   }
 
   getShop(): void {
@@ -108,9 +195,12 @@ export class ShopOverviewComponent implements OnInit {
       search: ""
     };
     this._offlineShopsService.offlineShopOfferList(filter).subscribe((result: any) => {
-      console.log(result);
-      this.paging = result.Data;
-      this.shopOffer = result.Data.docs;
+      if (result && result.IsSuccess) {
+        this.paging = result.Data;
+        this.shopOffer = result.Data.docs;
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+      }
       this.isLoading = false;
     }, (error: any) => {
       this._globalFunctions.errorHanding(error, this, true);
@@ -141,7 +231,83 @@ export class ShopOverviewComponent implements OnInit {
     });
   }
 
+  onFileChange(event: any): any {
+    const file = event.target.files[0];
+    if (!this.isUploadImageLoading && file != undefined) {
+      if (file.type != 'image/jpeg' && file.type != 'image/jpg' && file.type != 'image/png') {
+        this._sNotify.error('Image type is Invalid.', 'Oops!');
+        return false;
+      }
+      const image_size = file.size / 1024 / 1024;
+      if (image_size > CONSTANTS.maxImageSizeInMB) {
+        this._sNotify.error('Maximum Image Size is ' + CONSTANTS.maxImageSizeInMB + 'MB.', 'Oops!');
+        return false;
+      }
+
+      const imageFormData = new FormData();
+      imageFormData.append('file', file);
+      this.isUploadImageLoading = true;
+      this._offlineShopsService.uploadImage(imageFormData).subscribe((result: any) => {
+        if (result && result.IsSuccess) {
+          this.allProductImages.value.push({url: result.Data.url});
+          this._sNotify.success('File Uploaded Successfully.', 'Success');
+        } else {
+          this._globalFunctions.successErrorHandling(result, this, true);
+        }
+        this.isUploadImageLoading = false;
+      }, (error: any) => {
+        this._globalFunctions.errorHanding(error, this, true);
+        this.isUploadImageLoading = false;
+      });
+    }
+  }
+
+  removeImage(index: number):void {
+    this.allProductImages.value.splice(index, 1);
+  }
+
+  onContinueClick(): void {
+    console.log(this.addEditOfferForm.value);
+    if (this.addEditOfferForm.invalid) {
+      Object.keys(this.addEditOfferForm.controls).forEach((key) => {
+        this.addEditOfferForm.controls[key].touched = true;
+        this.addEditOfferForm.controls[key].markAsDirty();
+      });
+      return;
+    }
+    if (this.addEditOfferForm.value && this.addEditOfferForm.value.offer_on_all_products &&
+        this.addEditOfferForm.value.offer_on_all_products.length && this.addEditOfferForm.value.offer_on_all_products[0] == 'true') {
+      this.isTAndC = true;
+      this.isAddUserWiseOffers = false;
+    } else {
+      this.isTAndC = false;
+      this.isAddUserWiseOffers = true;
+    }
+    // if (this.addEditOfferForm.value && this.addEditOfferForm) {
+    //   this.isContinue = true;
+    // } else {
+    //
+    // }
+
+  }
+
+  prepareOfferObj(offerObj: any): any {
+    const preparedOfferObj: any = this._globalFunctions.copyObject(offerObj);
+    preparedOfferObj.start_date = moment(offerObj.start_date).format('YYYY-MM-DD');
+    preparedOfferObj.end_date = moment(offerObj.end_date).format('YYYY-MM-DD');
+    preparedOfferObj.offer_on_all_products = (offerObj && offerObj.offer_on_all_products && offerObj.offer_on_all_products.length  && (offerObj.offer_on_all_products[0] == 'true' || offerObj.offer_on_all_products[0] == true));
+    return preparedOfferObj;
+  }
+
   addEditOffer(): any {
+    console.log(this.addEditOfferForm);
+    if (this.addEditOfferForm.invalid) {
+      Object.keys(this.addEditOfferForm.controls).forEach((key) => {
+        this.addEditOfferForm.controls[key].touched = true;
+        this.addEditOfferForm.controls[key].markAsDirty();
+      });
+      return;
+    }
     const preparedOfferObj: any = this.prepareOfferObj(this.addEditOfferForm.value);
     console.log(preparedOfferObj);
   }
@@ -250,9 +416,9 @@ export class ShopOverviewComponent implements OnInit {
   addProductLimitation(productLimitationObj: any = {}): void {
     if (this.allProductConditions.length < CONSTANTS.maxOfferOnAllProductsLimit) {
       const productLimitation: any = this._formBuilder.group({
-        person_limitation: [productLimitationObj?.person_limitation || ''],
-        discount: [productLimitationObj?.discount || ''],
-        discount_type: [productLimitationObj?.discount_type || CONSTANTS.discountTypeArr[CONSTANTS.discountTypeObj.percentage].value]
+        person_limitation: [productLimitationObj?.person_limitation || '', [Validators.required]],
+        discount: [productLimitationObj?.discount || '', [Validators.required]],
+        discount_type: [productLimitationObj?.discount_type || CONSTANTS.discountTypeArr[CONSTANTS.discountTypeObj.percentage].value, [Validators.required]]
       });
       this.allProductConditions.push(productLimitation);
     }
@@ -265,22 +431,15 @@ export class ShopOverviewComponent implements OnInit {
     }
   }
 
-  prepareOfferObj(offerFormObj: any = {}): any {
-    const offerObj = this._globalFunctions.copyObject(offerFormObj);
-    offerObj.offer_on_all_products = !!(offerFormObj && offerFormObj.offer_on_all_products && offerFormObj.offer_on_all_products.length  && (offerFormObj.offer_on_all_products[0] == 'true' || offerFormObj.offer_on_all_products[0] == true));
-
-    return offerObj;
-  }
-
   private _prepareAddEditOfferForm(offerObj: any = {}): void {
     this.addEditOfferForm = this._formBuilder.group({
       // offerid: [""],
-      offer_title: [""],
-      start_date: [""],
-      end_date: [""],
+      offer_title: ["", [Validators.required]],
+      start_date: ["", [Validators.required]],
+      end_date: ["", [Validators.required]],
       poster: [""],
       video: [""],
-      description: [""],
+      description: ["", [Validators.required]],
       status: [""],
       offer_on_all_products: [''],
       all_product_images: [],
