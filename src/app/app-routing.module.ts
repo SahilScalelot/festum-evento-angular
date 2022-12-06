@@ -9,6 +9,7 @@ import {BuySpacePlansComponent} from './main/content/buy-space-plans/buy-space-p
 import {ProfileComponent} from './main/content/profile/profile.component';
 import {LandingPageComponent} from './main/content/landing-page/landing-page.component';
 import { OfferOverviewComponent } from './main/content/offers/offer-overview/offer-overview.component';
+import { ShopOfferOverviewComponent } from './main/content/offers/offer-overview/shop-offer-overview/shop-offer-overview.component';
 
 const routes: Routes = [
 
@@ -66,8 +67,12 @@ const routes: Routes = [
         loadChildren: () => import('../app/main/content/offers/offers.module').then(m => m.OffersModule)
       },
       {
-        path: 'offline-shop-offers/:id',
+        path: 'offline-shop-offers/:shopId',
         component: OfferOverviewComponent
+      },
+      {
+        path: 'offline-shop-offers/:shopId/shop-offer/:offerId',
+        component: ShopOfferOverviewComponent
       },
       {
         path: 'buy-space-plans',

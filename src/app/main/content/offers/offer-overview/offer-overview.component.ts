@@ -30,6 +30,7 @@ export class OfferOverviewComponent implements OnInit {
   shopId: any;
   shopObj: any;
   
+  offerId: any;
   isLoading: boolean = false;
 
   zoom: number = CONSTANTS.defaultMapZoom;
@@ -46,7 +47,8 @@ export class OfferOverviewComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.shopId = this._activatedRoute.snapshot.paramMap.get('id');
+    this.shopId = this._activatedRoute.snapshot.paramMap.get('shopId');
+    this.offerId = this._activatedRoute.snapshot.paramMap.get('offerId');
 
     this.getShop();
     this._prepareAddOfferForm();
@@ -141,5 +143,10 @@ export class OfferOverviewComponent implements OnInit {
     } else {
       this.addProductLimitation();
     }
+  }
+
+  gotoShopOfferOverview(event: any, addShopObj: any, shopOfferId: any): void {
+    // event.stopPropagation();
+    this._router.navigate(['/offline-shop-offers/' + addShopObj._id + '/shop-offer/' + shopOfferId]);
   }
 }
