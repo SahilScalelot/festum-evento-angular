@@ -264,37 +264,57 @@
 
 <modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="offerDialog" [title]="(offerId && offerId != '') ? 'Edit Offer' : 'Add Offer'" maxWidth="lg:max-w-7xl xl:px-0" [isCloseHidden]="false">
   <div class="space-y-5 relative">
-    <form [formGroup]="addEditOfferForm" class="">
+    <form [formGroup]="addEditOfferForm" class="p-ngCss">
       <!-- <span (click)="popClose('discountDialog');" class="absolute right-0 -top-8 cursor-pointer text-xl"><i class="icon-close"></i></span> -->
-      
+      <div *ngIf="!isTAndC && !isAddUserWiseOffers">
         <div class="flex flex-wrap items-end -mx-2">
-          <div class="w-full lg:w-1/2 px-2 pt-5 inputHolder">
-            <span class="input-titel">Offer Title </span>
-            <input type="text" class="input" formControlName="offer_title" />
+          <div class="w-full lg:w-1/2 px-2 pt-5 inputHolder relative">
+            <span class="input-titel">Offer Title <span>*</span></span>
+            <input type="text" class="input" [formControlName]="'offer_title'" />
+            <span class="absolute top-full text-red-500 text-xs" *ngIf="addEditOfferForm.get('offer_title')?.invalid && (addEditOfferForm.get('offer_title')?.dirty && addEditOfferForm.get('offer_title')?.touched)">
+              <span *ngIf="addEditOfferForm.get('offer_title')?.errors?.['required']">
+                Offer title is required.
+              </span>
+            </span>
           </div>
           <div class="w-full lg:w-1/2 px-2 pt-5 flex space-x-4">
-            <div class="w-full lg:w-1/2">
-              <span class="input-titel">Start Date</span>
+            <div class="w-full lg:w-1/2 relative">
+              <span class="input-titel">Start Time <span>*</span></span>
               <label class="bg-white rounded-md flex space-x-3 relative">
                 <i class="icon-calendar-2 text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0"></i>
-                <p-calendar class="w-full" [formControlName]="'start_date'" name="start_date" inputId="start_date"></p-calendar>
+                <p-calendar class="w-full" [formControlName]="'start_date'" [touchUI]="true" [minDate]="minDateValue"
+                            name="start_date" inputId="start_date"></p-calendar>
               </label>
+              <span class="absolute top-full text-red-500 text-xs"
+                    *ngIf="addEditOfferForm.get('start_date')?.invalid && (addEditOfferForm.get('start_date')?.dirty && addEditOfferForm.get('start_date')?.touched)">
+                <span *ngIf="addEditOfferForm.get('start_date')?.errors?.['required']">
+                  Start date is required.
+                </span>
+              </span>
               <!-- <label class="bg-white rounded-md flex space-x-3 relative">
                 <i class="icon-calendar-2 text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0"></i>
                 <input type="date" class="w-full rounded-md outline-none py-3" formControlName="start_date" />
               </label> -->
             </div>
-            <div class="w-full lg:w-1/2">
-              <span class="input-titel">End Date</span>
+            <div class="w-full lg:w-1/2 relative">
+              <span class="input-titel">End Date <span>*</span></span>
               <label class="bg-white rounded-md flex space-x-3 relative">
                 <i class="icon-calendar-2 text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0"></i>
-                <input type="date" class="w-full rounded-md outline-none py-3" formControlName="end_date" />
+                <p-calendar class="w-full" [formControlName]="'end_date'" [touchUI]="true"
+                            [minDate]="addEditOfferForm.get('start_date').value ? addEditOfferForm.get('start_date').value : minDateValue"
+                            name="end_date" inputId="end_date"></p-calendar>
               </label>
+              <span class="absolute top-full text-red-500 text-xs"
+                    *ngIf="addEditOfferForm.get('end_date')?.invalid && (addEditOfferForm.get('end_date')?.dirty && addEditOfferForm.get('end_date')?.touched)">
+                  <span *ngIf="addEditOfferForm.get('end_date')?.errors?.['required']">
+                    End date is required.
+                  </span>
+                </span>
             </div>
           </div>
         </div>
         <div class="flex flex-wrap items-end -mx-2">
-          <div class="upload-holder w-full md:w-1/2 h-full px-2 pt-5">
+          <div class="upload-holder w-full md:w-1/2 h-full px-2 pt-5 relative">
             <label class="upload upload-popup p-0 relative group" id="shop-img-obj-upload">
               <input (change)="onPosterChange($event)" accept="image/png, image/jpeg, image/gif" class="poster-upload hidden" name="poster" id="poster-upload" type="file" />
             </label>
@@ -303,31 +323,21 @@
                 Poster is required.
               </span>
             </span>
-
-            <!--<div>
-              <label for="upload" class="upload upload-popup py-14">
-                <input type="file" name="images" id="upload" class="appearance-none hidden" />
-                <span class="input-titel mt-1 text-base"><i class="icon-img_upload mr-2"></i>Add Poster</span>
-              </label>
-            </div>-->
           </div>
           <div class="upload-holder w-full md:w-1/2 h-full px-2 pt-5">
             <label class="upload upload-popup p-0 relative group" id="video-upload-obj">
               <input (change)="onVideoChange($event)" accept="video/mp4" class="video-upload hidden" name="videos" id="video-upload" type="file" />
             </label>
-            <span class="absolute top-full text-red-500 text-xs" *ngIf="addEditOfferForm.get('video')?.invalid && (addEditOfferForm.get('video')?.dirty && addEditOfferForm.get('video')?.touched)">
-              <span *ngIf="addEditOfferForm.get('video')?.errors?.['required']">
-                Video is required.
-              </span>
-            </span>
-            <!--<label for="video-upload" class="upload upload-popup p-0 relative group">
-              <input (change)="onVideoChange($event)" accept="video/mp4" id="video-upload" class="video-upload appearance-none hidden" name="videos" type="file"/>
-            </label>-->
           </div>
         </div>
-        <div class="w-full pt-5">
-          <span class="input-titel">Offer Description</span>
-          <textarea cols="30" rows="4" class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md" formControlName="description"></textarea>
+        <div class="w-full pt-5 relative">
+          <span class="input-titel">Offer Description <span>*</span></span>
+          <textarea cols="30" rows="4" class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md" [formControlName]="'description'"></textarea>
+          <span class="absolute top-full text-red-500 text-xs" *ngIf="addEditOfferForm.get('description')?.invalid && (addEditOfferForm.get('description')?.dirty && addEditOfferForm.get('description')?.touched)">
+            <span *ngIf="addEditOfferForm.get('description')?.errors?.['required']">
+              Offer description is required.
+            </span>
+          </span>
         </div>
         <div class="flex items-start pt-9">
           <p-checkbox name="offer_on_all_products" [value]="'true'" formControlName="offer_on_all_products"></p-checkbox>
@@ -339,26 +349,19 @@
         <!-- Offer On Shop All Products -->
         <div class="" *ngIf="offerOnAllProducts?.value[0] == 'true' || offerOnAllProducts?.value[0] == true">
           <div class="flex items-center space-x-5 pt-3">
-            <div class="upload-holder">
-              <label for="event-upload1" class="upload-photo">
-                <input type="file" name="images" id="event-upload1" class="appearance-none hidden">
+            <div *ngFor="let item of offerImageArray;let i =index" class="upload-box mr-2.5 mb-2.5">
+              <label for="image-upload-{{i}}" class="upload-photo"
+                     *ngIf="!allProductImages.value || !allProductImages.value.length || !allProductImages.value[i]">
+                <input type="file" accept="image/png, image/jpeg, image/gif" name="image-upload-{{i}}" id="image-upload-{{i}}"
+                       class="appearance-none hidden" (change)="onFileChange($event)" />
                 <i class="icon-img_upload text-base text-quicksilver"></i>
                 <div class="mt-1 flex items-baseline justify-center"><span class="input-titel pt-1">Add Photos</span></div>
               </label>
-            </div>
-            <div class="upload-holder">
-              <label for="event-upload1" class="upload-photo">
-                <input type="file" name="images" id="event-upload1" class="appearance-none hidden" />
-                <i class="icon-img_upload text-base text-quicksilver"></i>
-                <div class="mt-1 flex items-baseline justify-center"><span class="input-titel pt-1">Add Photos</span></div>
-              </label>
-            </div>
-            <div class="upload-holder">
-              <label for="event-upload1" class="upload-photo">
-                <input type="file" name="images" id="event-upload1" class="appearance-none hidden" />
-                <i class="icon-img_upload text-base text-quicksilver"></i>
-                <div class="mt-1 flex items-baseline justify-center"><span class="input-titel pt-1">Add Photos</span></div>
-              </label>
+              <div class="rounded relative overflow-hidden h-full w-full"
+                   *ngIf="allProductImages.value && allProductImages.value.length && allProductImages.value[i] && allProductImages.value[i].url">
+                <img [alt]="'add-photo-' + i" [src]="allProductImages.value[i].url" class="object-cover w-full h-full"/>
+                <button (click)="removeImage(i)">Remove</button>
+              </div>
             </div>
           </div>
           <div class="w-full pt-5" formArrayName="all_product_conditions">
@@ -396,9 +399,200 @@
         </div>
         <!-- Btn Continue -->
         <div class="flex justify-end pt-5">
-          <a href="javascript:void(0);" class="secondary py-3 px-12 uppercase text-lg font-bold" (click)="addEditOffer()">continue</a>
+          <button class="secondary py-3 px-12 uppercase text-lg font-bold" [disabled]="isLoading || isUploadPosterLoading || isUploadVideoLoading || isUploadImageLoading"
+                  (click)="onContinueClick()">continue</button>
         </div>
-
+      </div>
+      <div *ngIf="isAddUserWiseOffers">
+        <div class="w-full pt-5 inputHolder">
+          <span class="input-titel">Select Offer Type</span>
+          <select name="All Category"
+                  class="arrow bg-white py-3 text-japaneseIndigo font-bold rounded-md tracking-wider appearance-none focus-visible:outline-none">
+            <option value="">Limited Person</option>
+            <option value="">Select Category</option>
+            <option value="">Select Category</option>
+            <option value="">Select Category</option>
+          </select>
+        </div>
+        <div class="w-full pt-5">
+          <span class="input-titel">Offer Products</span>
+          <div class="bg-white p-5 lg:p-7 offerProducts rounded-md space-y-5">
+            <div class="flex items-center -mx-2">
+              <div class="upload-holder w-28 h-28 mr-2.5">
+                <label for="upload1" class="upload-photo w-28 h-28 bg-brightGray">
+                  <input type="file" name="images" id="upload1" class="appearance-none hidden"/>
+                  <i class="icon-img_upload text-base text-quicksilver"></i>
+                  <div class="mt-1 flex items-baseline justify-center"><span class="input-titel pt-1">Add Photos</span>
+                  </div>
+                </label>
+              </div>
+              <div class="w-full flex flex-wrap items-center">
+                <div class="input-holder-2 w-1/2 xl:w-1/3 px-2">
+                  <input type="text" class="input input-holder-2 p-3.5 rounded-md" placeholder="Add Products Name"/>
+                </div>
+                <div class="input-holder-2 w-1/2 xl:w-1/3 px-2">
+                  <input type="text" class="input input-holder-2 p-3.5 rounded-md" placeholder="Add Products Name"/>
+                </div>
+                <div class="w-1/2 xl:w-1/3 flex items-center px-2 pt-2.5 xl:pt-0">
+                  <label for="" class="flex items-center w-full bg-white p-2 px-3.5 rounded-md">
+                    <div class="w-full pr-4">
+                      <input type="text" class="input-holder-2" placeholder="Percentage"/>
+                    </div>
+                    <div class="selectPrice flex items-center space-x-3">
+                      <label class="block cursor-pointer">
+                        <input type="radio" name="Percentage" value="perDay" class="hidden" checked/>
+                        <span class="text-sm text-quicksilver py-2 px-3 bg-white shadow-lg whitespace-nowrap font-bold rounded block">%</span>
+                      </label>
+                      <label class="block cursor-pointer">
+                        <input type="radio" name="Percentage" value="perHour" class="hidden"/>
+                        <span class="text-sm text-quicksilver py-2 px-3 bg-white shadow-lg whitespace-nowrap font-bold rounded block">₹</span>
+                      </label>
+                    </div>
+                  </label>
+                  <div class="pl-5">
+                    <button class="border-2 border-magicPotion w-7 h-7 rounded-full flex justify-center items-center">
+                      <span class="border border-magicPotion flex border-x-8 border-y-5 bg-magicPotion rounded"></span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="flex items-center -mx-2">
+              <div class="upload-holder w-28 h-28 mr-2.5">
+                <label for="upload1" class="upload-photo w-28 h-28 bg-brightGray">
+                  <input type="file" name="images" id="upload1" class="appearance-none hidden"/>
+                  <i class="icon-img_upload text-base text-quicksilver"></i>
+                  <div class="mt-1 flex items-baseline justify-center"><span class="input-titel pt-1">Add Photos</span>
+                  </div>
+                </label>
+              </div>
+              <div class="w-full flex flex-wrap items-center">
+                <div class="input-holder-2 w-1/2 xl:w-1/3 px-2">
+                  <input type="text" class="input input-holder-2 p-3.5 rounded-md" placeholder="Add Products Name"/>
+                </div>
+                <div class="input-holder-2 w-1/2 xl:w-1/3 px-2">
+                  <input type="text" class="input input-holder-2 p-3.5 rounded-md" placeholder="Add Products Name"/>
+                </div>
+                <div class="w-1/2 xl:w-1/3 flex items-center px-2 pt-2.5 xl:pt-0">
+                  <label for="" class="flex items-center w-full bg-white p-2 px-3.5 rounded-md">
+                    <div class="w-full pr-4">
+                      <input type="text" class="input-holder-2" placeholder="Percentage"/>
+                    </div>
+                    <div class="selectPrice flex items-center space-x-3">
+                      <label class="block cursor-pointer">
+                        <input type="radio" name="Percentage2" value="perDay" class="hidden" checked/>
+                        <span class="text-sm text-quicksilver py-2 px-3 bg-white shadow-lg whitespace-nowrap font-bold rounded block">%</span>
+                      </label>
+                      <label class="block cursor-pointer">
+                        <input type="radio" name="Percentage2" value="perHour" class="hidden"/>
+                        <span class="text-sm text-quicksilver py-2 px-3 bg-white shadow-lg whitespace-nowrap font-bold rounded block">₹</span>
+                      </label>
+                    </div>
+                  </label>
+                  <div class="pl-5">
+                    <button class="border-2 border-magicPotion w-7 h-7 rounded-full flex justify-center items-center">
+                      <span class="border border-magicPotion flex border-x-8 border-y-5 bg-magicPotion rounded"></span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="flex items-center -mx-2">
+              <div class="upload-holder w-28 h-28 mr-2.5">
+                <label for="upload1" class="upload-photo w-28 h-28 bg-brightGray">
+                  <input type="file" name="images" id="upload1" class="appearance-none hidden">
+                  <i class="icon-img_upload text-base text-quicksilver"></i>
+                  <div class="mt-1 flex items-baseline justify-center"><span class="input-titel pt-1">Add Photos</span>
+                  </div>
+                </label>
+              </div>
+              <div class="w-full flex flex-wrap items-center">
+                <div class="input-holder-2 w-1/2 xl:w-1/3 px-2">
+                  <input type="text" class="input input-holder-2 p-3.5 rounded-md" placeholder="Add Products Name"/>
+                </div>
+                <div class="input-holder-2 w-1/2 xl:w-1/3 px-2">
+                  <input type="text" class="input input-holder-2 p-3.5 rounded-md" placeholder="Add Products Name"/>
+                </div>
+                <div class="w-1/2 xl:w-1/3 flex items-center px-2 pt-2.5 xl:pt-0">
+                  <label for="" class="flex items-center w-full bg-white p-2 px-3.5 rounded-md">
+                    <div class="w-full pr-4">
+                      <input type="text" class="input-holder-2" placeholder="Percentage"/>
+                    </div>
+                    <div class="selectPrice flex items-center space-x-3">
+                      <label class="block cursor-pointer">
+                        <input type="radio" name="Percentage3 value=" perDay" class="hidden" checked />
+                        <span class="text-sm text-quicksilver py-2 px-3 bg-white shadow-lg whitespace-nowrap font-bold rounded block">%</span>
+                      </label>
+                      <label class="block cursor-pointer">
+                        <input type="radio" name="Percentage3 value=" perHour" class="hidden" />
+                        <span class="text-sm text-quicksilver py-2 px-3 bg-white shadow-lg whitespace-nowrap font-bold rounded block">₹</span>
+                      </label>
+                    </div>
+                  </label>
+                  <div class="pl-5">
+                    <button class="border-2 border-japaneseIndigo w-7 h-7 rounded-full flex justify-center items-center">
+                      <i class="icon-plus_round leading-0"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="flex items-center -mx-2">
+              <div class="upload-holder w-28 h-28 mr-2.5">
+                <label for="upload1" class="upload-photo w-28 h-28 bg-brightGray">
+                  <input type="file" name="images" id="upload1" class="appearance-none hidden">
+                  <i class="icon-img_upload text-base text-quicksilver"></i>
+                  <div class="mt-1 flex items-baseline justify-center"><span class="input-titel pt-1">Add Photos</span>
+                  </div>
+                </label>
+              </div>
+              <div class="w-full flex flex-wrap items-center">
+                <div class="input-holder-2 w-1/2 xl:w-1/3 px-2">
+                  <input type="text" class="input input-holder-2 p-3.5 rounded-md" placeholder="Add Products Name"/>
+                </div>
+                <div class="input-holder-2 w-1/2 xl:w-1/3 px-2">
+                  <input type="text" class="input input-holder-2 p-3.5 rounded-md" placeholder="Add Products Name"/>
+                </div>
+                <div class="w-1/2 xl:w-1/3 flex items-center px-2 pt-2.5 xl:pt-0">
+                  <label for="" class="flex items-center w-full bg-white p-2 px-3.5 rounded-md">
+                    <div class="w-full pr-4">
+                      <input type="text" class="input-holder-2" placeholder="Percentage"/>
+                    </div>
+                    <div class="selectPrice flex items-center space-x-3">
+                      <label class="block cursor-pointer">
+                        <input type="radio" name="Percentage4" value="perDay" class="hidden" checked/>
+                        <span class="text-sm text-quicksilver py-2 px-3 bg-white shadow-lg whitespace-nowrap font-bold rounded block">%</span>
+                      </label>
+                      <label class="block cursor-pointer">
+                        <input type="radio" name="Percentage4" value="perHour" class="hidden"/>
+                        <span class="text-sm text-quicksilver py-2 px-3 bg-white shadow-lg whitespace-nowrap font-bold rounded block">₹</span>
+                      </label>
+                    </div>
+                  </label>
+                  <div class="pl-5">
+                    <button class="border-2 border-japaneseIndigo w-7 h-7 rounded-full flex justify-center items-center">
+                      <i class="icon-plus_round leading-0"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flex justify-end pt-5">
+          <a href="javascript:void(0);" class="secondary py-3 px-5 uppercase text-lg font-bold">Save and Continue</a>
+        </div>
+      </div>
+      <div *ngIf="isTAndC">
+        <div class="w-full space-y-2.5">
+          <h5>Terms And Conditions</h5>
+          <div class="w-full bg-white rounded">
+<!--            <ckeditor (ready)="onTextEditorReady($event, 't_and_c')" [config]="editorConfig"-->
+<!--                      [editor]="detailEditor" [formControlName]="'t_and_c'"-->
+<!--                      class="h-44 text-editor" id="t_and_c" name="t_and_c"></ckeditor>-->
+          </div>
+        </div>
+      </div>
     </form>
   </div>
 </modal>
