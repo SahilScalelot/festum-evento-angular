@@ -8,8 +8,8 @@ import {EventOverviewComponent} from './main/content/event/event-overview/event-
 import {BuySpacePlansComponent} from './main/content/buy-space-plans/buy-space-plans.component';
 import {ProfileComponent} from './main/content/profile/profile.component';
 import {LandingPageComponent} from './main/content/landing-page/landing-page.component';
-import { OfferOverviewComponent } from './main/content/offers/offer-overview/offer-overview.component';
-import { ShopOfferOverviewComponent } from './main/content/offers/offer-overview/shop-offer-overview/shop-offer-overview.component';
+import { ShopOverviewComponent } from './main/content/offline-shops/shop-overview/shop-overview.component';
+import { OfferOverviewComponent } from './main/content/offline-shops/shop-overview/offer-overview/offer-overview.component';
 
 const routes: Routes = [
 
@@ -63,16 +63,16 @@ const routes: Routes = [
         loadChildren: () => import('../app/main/content/create-event/create-event.module').then(m => m.CreateEventModule)
       },
       {
-        path: 'offline-shop-offers',
-        loadChildren: () => import('../app/main/content/offers/offers.module').then(m => m.OffersModule)
+        path: 'offline-shops',
+        loadChildren: () => import('./main/content/offline-shops/offline-shops.module').then(m => m.OfflineShopsModule)
       },
       {
-        path: 'offline-shop-offers/:shopId',
+        path: 'offline-shops/:shopId',
+        component: ShopOverviewComponent
+      },
+      {
+        path: 'offline-shops/:shopId/offer-overview/:offerId',
         component: OfferOverviewComponent
-      },
-      {
-        path: 'offline-shop-offers/:shopId/shop-offer/:offerId',
-        component: ShopOfferOverviewComponent
       },
       {
         path: 'buy-space-plans',

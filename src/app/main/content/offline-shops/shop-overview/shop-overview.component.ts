@@ -4,18 +4,18 @@ import { CONSTANTS } from 'src/app/main/common/constants';
 import { GlobalFunctions } from 'src/app/main/common/global-functions';
 import { ModalService } from 'src/app/main/_modal';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ShopService } from '../shop.service';
+import { OfflineShopsService } from '../offline-shops.service';
 import { SnotifyService } from "ng-snotify";
 import * as moment from 'moment';
 import * as _ from 'lodash';
 declare var $: any;
 
 @Component({
-  selector: 'app-offer-overview',
-  templateUrl: './offer-overview.component.html',
-  styleUrls: ['./offer-overview.component.scss']
+  selector: 'app-shop-overview',
+  templateUrl: './shop-overview.component.html',
+  styleUrls: ['./shop-overview.component.scss']
 })
-export class OfferOverviewComponent implements OnInit {
+export class ShopOverviewComponent implements OnInit {
   addEditOfferForm: any;
   constants: any = CONSTANTS;
   positiveMaxNumber: any = Number.POSITIVE_INFINITY;
@@ -61,7 +61,7 @@ export class OfferOverviewComponent implements OnInit {
     private _globalFunctions: GlobalFunctions,
     private _formBuilder: FormBuilder,
     private _router: Router,
-    private _shopService: ShopService,
+    private _offlineShopsService: OfflineShopsService,
     private _activatedRoute: ActivatedRoute,
     private _sNotify: SnotifyService,
   ) { }
@@ -78,7 +78,7 @@ export class OfferOverviewComponent implements OnInit {
 
   getShop(): void {
     this.isLoading = true;
-    this._shopService.getOfflineShopByShopId(this.shopId).subscribe((result: any) => {
+    this._offlineShopsService.getOfflineShopByShopId(this.shopId).subscribe((result: any) => {
       this.shopObj = result.Data;
       this.weekdays = this.weekdays.map((dayObj: any) => {
         dayObj.isSelected = (this.shopObj.shop_days.indexOf(dayObj.value) != -1);
@@ -141,7 +141,7 @@ export class OfferOverviewComponent implements OnInit {
           const photoFormData = new FormData();
           photoFormData.append('file', poster);
           this.isUploadPosterLoading = true;
-          this._shopService.uploadPoster(photoFormData).subscribe((result: any) => {
+          this._offlineShopsService.uploadPoster(photoFormData).subscribe((result: any) => {
             if (result && result.IsSuccess) {
               this.setPosterInDropify(result.Data.url);
               this._sNotify.success('Poster Uploaded Successfully.', 'Success');
@@ -192,7 +192,7 @@ export class OfferOverviewComponent implements OnInit {
           const videoFormData = new FormData();
           videoFormData.append('file', video);
           this.isUploadVideoLoading = true;
-          this._shopService.uploadVideo(videoFormData).subscribe((result: any) => {
+          this._offlineShopsService.uploadVideo(videoFormData).subscribe((result: any) => {
             if (result && result.IsSuccess) {
               this.setVideoInDropify(result.Data.url);
               this._sNotify.success('Video Uploaded Successfully.', 'Success');
@@ -278,6 +278,6 @@ export class OfferOverviewComponent implements OnInit {
 
   gotoShopOfferOverview(event: any, addShopObj: any, shopOfferId: any): void {
     // event.stopPropagation();
-    this._router.navigate(['/offline-shop-offers/' + addShopObj + '/shop-offer/' + shopOfferId]);
+    this._router.navigate(['/offline-shops/' + addShopObj + '/offer-overview/' + shopOfferId]);
   }
 }

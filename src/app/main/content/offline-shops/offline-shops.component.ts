@@ -5,7 +5,7 @@ import { GlobalFunctions } from '../../common/global-functions';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { CONSTANTS } from '../../common/constants';
 import { HttpClient } from "@angular/common/http";
-import { ShopService } from './shop.service';
+import { OfflineShopsService } from './offline-shops.service';
 import { ModalService } from '../../_modal';
 import { SnotifyService } from 'ng-snotify';
 import { MapsAPILoader } from "@agm/core";
@@ -16,11 +16,11 @@ import { take } from 'rxjs';
 declare var $: any;
 
 @Component({
-  selector: 'app-offers',
-  templateUrl: './offers.component.html',
-  styleUrls: ['./offers.component.scss']
+  selector: 'app-offline-shops',
+  templateUrl: './offline-shops.component.html',
+  styleUrls: ['./offline-shops.component.scss']
 })
-export class OffersComponent implements OnInit {
+export class OfflineShopsComponent implements OnInit {
   shops: any = [];
   addShopObj: any = {};
   addShopForm: any;
@@ -71,7 +71,7 @@ export class OffersComponent implements OnInit {
     private _router: Router,
     private _http: HttpClient,
     private _sNotify: SnotifyService,
-    private _shopService: ShopService,
+    private _offlineShopsService: OfflineShopsService,
     private _globalFunctions: GlobalFunctions,
     private _compressImage: CompressImageService
   ) { }
@@ -137,7 +137,7 @@ export class OffersComponent implements OnInit {
       limit : shop?.rows || '4',
       search: ""
     };
-    this._shopService.offlineShopList(filter).subscribe((result: any) => {
+    this._offlineShopsService.offlineShopList(filter).subscribe((result: any) => {
       this.paging = result.Data;
       this.shops = result.Data.docs;
       this.isLoading = false;
@@ -149,7 +149,7 @@ export class OffersComponent implements OnInit {
 
   getShopCategories(): void {
     this.isLoading = true;
-    this._shopService.getShopCategories().subscribe((result: any) => {
+    this._offlineShopsService.getShopCategories().subscribe((result: any) => {
       if (result && result.IsSuccess) {
         this.shopCategories = result.Data;
       } else {
@@ -287,7 +287,7 @@ export class OffersComponent implements OnInit {
 
   getOfflineShopByShopId(shopId: any = ''): void {
     this.isLoading = true;
-    this._shopService.getOfflineShopByShopId(shopId).subscribe((result: any) => {
+    this._offlineShopsService.getOfflineShopByShopId(shopId).subscribe((result: any) => {
       if (result && result.IsSuccess) {
         this._prepareShopForm(result.Data);
         this.gstPdf = result.Data.companydetails.gst_file;
@@ -345,7 +345,7 @@ export class OffersComponent implements OnInit {
           const posterFormData = new FormData();
           posterFormData.append('file', compressedImage);
           this.isPosterLoading = true;
-          this._shopService.uploadBanner(posterFormData).subscribe((result: any) => {
+          this._offlineShopsService.uploadBanner(posterFormData).subscribe((result: any) => {
             if (result && result.IsSuccess) {
               this.posterObj.image = img;
               this.setPosterInDropify(result.Data.url);
@@ -409,7 +409,7 @@ export class OffersComponent implements OnInit {
       }
       pdfFormData.append('file', pdfUpload);
       this.isPdfLoading = true;
-      this._shopService.documentUpload(pdfFormData).subscribe((result: any) => {
+      this._offlineShopsService.documentUpload(pdfFormData).subscribe((result: any) => {
         if (result && result.IsSuccess) {
           this.gstPdf = result.Data.url;
           this.inputText = _.last(_.split(result.Data.url, '/'));
@@ -450,7 +450,7 @@ export class OffersComponent implements OnInit {
     }
     this.isLoading = true;
     const preparedShopObj: any = this.prepareShopObj(this.addShopForm.value);
-    this._shopService.addEditOfflineShop(preparedShopObj).subscribe((result: any) => {
+    this._offlineShopsService.addEditOfflineShop(preparedShopObj).subscribe((result: any) => {
       if (result && result.IsSuccess) {
         this.getOfflineShops();
         this.closeAddEditShopDialog();
@@ -466,7 +466,7 @@ export class OffersComponent implements OnInit {
 
   gotoShopOverview(event: any, addShopObj: any): void {
     // event.stopPropagation();
-    this._router.navigate(['/offline-shop-offers/' + addShopObj._id]);
+    this._router.navigate(['/offline-shops/' + addShopObj._id]);
   }
 
   onCheckboxChange(e: any): void {

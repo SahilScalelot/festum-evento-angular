@@ -1,8 +1,8 @@
 import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {RouterModule, Routes} from '@angular/router';
-import {OfferOverviewComponent} from './offer-overview/offer-overview.component';
-import {OffersComponent} from './offers.component';
+import {ShopOverviewComponent} from './shop-overview/shop-overview.component';
+import {OfflineShopsComponent} from './offline-shops.component';
 import { AgmCoreModule } from '@agm/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ModalModule } from '../../_modal';
@@ -12,19 +12,19 @@ import { RatingModule } from 'primeng/rating';
 import { PaginatorModule } from 'primeng/paginator';
 import { CheckboxModule } from 'primeng/checkbox';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { ShopOfferOverviewComponent } from './offer-overview/shop-offer-overview/shop-offer-overview.component';
+import { OfferOverviewComponent } from './shop-overview/offer-overview/offer-overview.component';
 
 const routes: Routes = [
   {
-    path: '', component: OffersComponent
+    path: '', component: OfflineShopsComponent
   }
 ];
 
 @NgModule({
   declarations: [
-    OfferOverviewComponent,
-    OffersComponent,
-    ShopOfferOverviewComponent
+    ShopOverviewComponent,
+    OfflineShopsComponent,
+    OfferOverviewComponent
   ],
   imports: [
     RouterModule.forChild(routes),
@@ -46,4 +46,4 @@ const routes: Routes = [
     CUSTOM_ELEMENTS_SCHEMA
   ]
 })
-export class OffersModule { }
+export class OfflineShopsModule { }
