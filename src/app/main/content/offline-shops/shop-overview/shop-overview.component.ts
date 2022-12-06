@@ -6,6 +6,8 @@ import { ModalService } from 'src/app/main/_modal';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OfflineShopsService } from '../offline-shops.service';
 import { SnotifyService } from "ng-snotify";
+// @ts-ignore
+import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
 import * as moment from 'moment';
 import * as _ from 'lodash';
 declare var $: any;
@@ -49,6 +51,7 @@ export class ShopOverviewComponent implements OnInit {
   shopOffer: any;
   minDateValue: any = new Date();
   offerImageArray: any = new Array(3);
+  detailEditor = DecoupledEditor;
 
   get offerOnAllProducts(): any {
     return this.addEditOfferForm.get('offer_on_all_products');
@@ -159,7 +162,7 @@ export class ShopOverviewComponent implements OnInit {
     // this.offerOnAllProducts.setValue([(preparedOfferObj.offer_on_all_products) ? 'true' : '']);
   }
 
-  onTextEditorReady(editor: any, fieldForSetData: any): void {
+  onTextEditorReady(editor: any): void {
     editor.ui.getEditableElement().parentElement.insertBefore(
         editor.ui.view.toolbar.element,
         editor.ui.getEditableElement()
@@ -290,12 +293,20 @@ export class ShopOverviewComponent implements OnInit {
       this.isTAndC = false;
       this.isAddUserWiseOffers = true;
     }
-    // if (this.addEditOfferForm.value && this.addEditOfferForm) {
-    //   this.isContinue = true;
-    // } else {
-    //
+  }
+
+  onSaveAndContinueClick(): void {
+    console.log(this.addEditOfferForm.value);
+    // if (this.addEditOfferForm.invalid) {
+    //   Object.keys(this.addEditOfferForm.controls).forEach((key) => {
+    //     this.addEditOfferForm.controls[key].touched = true;
+    //     this.addEditOfferForm.controls[key].markAsDirty();
+    //   });
+    //   return;
     // }
 
+    this.isTAndC = true;
+    this.isAddUserWiseOffers = false;
   }
 
   prepareOfferObj(offerObj: any): any {
@@ -366,7 +377,7 @@ export class ShopOverviewComponent implements OnInit {
 
     this.dropifyOption.defaultFile = posterUrl;
     this.drPosterEvent = $('.poster-upload').dropify(this.dropifyOption);
-      this.poster?.setValue(poster);
+    this.poster?.setValue(poster);
   }
 
   onVideoChange(event: any): any {
@@ -447,7 +458,7 @@ export class ShopOverviewComponent implements OnInit {
       poster: [""],
       video: [""],
       description: ["", [Validators.required]],
-      status: [""],
+      status: [false],
       offer_on_all_products: [''],
       all_product_images: [],
       all_product_conditions: this._formBuilder.array([]),

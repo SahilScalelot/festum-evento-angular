@@ -263,7 +263,7 @@
 </div>
 
 <modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="offerDialog"
-       [title]="(offerId && offerId != '') ? 'Edit Offer' : 'Add Offer'" maxWidth="lg:max-w-7xl xl:px-0" [isCloseHidden]="false">
+       [title]="(!isTAndC) ? (((offerId && offerId != '') ? 'Edit Offer' : (isAddUserWiseOffers ? 'Add' : 'Create') + ' Offer') + (isAddUserWiseOffers ? ' Product' : '')) : (isTAndC ? 'Terms And Conditions' : '')" maxWidth="lg:max-w-7xl xl:px-0" [isCloseHidden]="false">
   <div class="space-y-5 relative">
     <form [formGroup]="addEditOfferForm" class="p-ngCss">
        <span (click)="closeAddEditOfferDialog();" class="absolute right-0 -top-8 cursor-pointer text-xl"><i class="icon-close"></i></span>
@@ -581,17 +581,29 @@
           </div>
         </div>
         <div class="flex justify-end pt-5">
-          <a href="javascript:void(0);" class="secondary py-3 px-5 uppercase text-lg font-bold">Save and Continue</a>
+          <button (click)="onSaveAndContinueClick()" class="secondary py-3 px-5 uppercase text-lg font-bold">Save and Continue</button>
         </div>
       </div>
       <div *ngIf="isTAndC">
-        <div class="w-full space-y-2.5">
+        <div class="w-full space-y-2.5 pt-2">
           <h5>Terms And Conditions</h5>
           <div class="w-full bg-white rounded">
-<!--            <ckeditor (ready)="onTextEditorReady($event, 't_and_c')" [config]="editorConfig"-->
-<!--                      [editor]="detailEditor" [formControlName]="'t_and_c'"-->
-<!--                      class="h-44 text-editor" id="t_and_c" name="t_and_c"></ckeditor>-->
+           <ckeditor (ready)="onTextEditorReady($event)" [config]="editorConfig" [editor]="detailEditor" [formControlName]="'tandc'"
+                     class="h-44 text-editor" id="tandc" name="tandc"></ckeditor>
           </div>
+          <div class="block w-full">
+            <label class="inline-flex items-end cursor-pointer">
+              <div class="checkbox rounded bg-white">
+                <input type="checkbox" [formControlName]="'status'" name="status"/>
+                <i class="icon-right text-white"></i>
+              </div>
+              <span class="input-titel text-base ml-4">Accept Your Terms and Conditions</span>
+            </label>
+          </div>
+        </div>
+        <div class="flex justify-end pt-5">
+          <button (click)="addEditOffer()" class="secondary py-3 px-5 uppercase text-lg font-bold"
+           [disabled]="isLoading || isUploadPosterLoading || isUploadImageLoading || isUploadVideoLoading || !addEditOfferForm.get('status').value">Save</button>
         </div>
       </div>
     </form>
