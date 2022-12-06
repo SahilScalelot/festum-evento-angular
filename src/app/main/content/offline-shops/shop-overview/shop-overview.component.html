@@ -262,10 +262,11 @@
   </div>
 </div>
 
-<modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="offerDialog" [title]="(offerId && offerId != '') ? 'Edit Offer' : 'Add Offer'" maxWidth="lg:max-w-7xl xl:px-0" [isCloseHidden]="false">
+<modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="offerDialog"
+       [title]="(offerId && offerId != '') ? 'Edit Offer' : 'Add Offer'" maxWidth="lg:max-w-7xl xl:px-0" [isCloseHidden]="false">
   <div class="space-y-5 relative">
     <form [formGroup]="addEditOfferForm" class="p-ngCss">
-      <!-- <span (click)="popClose('discountDialog');" class="absolute right-0 -top-8 cursor-pointer text-xl"><i class="icon-close"></i></span> -->
+       <span (click)="closeAddEditOfferDialog();" class="absolute right-0 -top-8 cursor-pointer text-xl"><i class="icon-close"></i></span>
       <div *ngIf="!isTAndC && !isAddUserWiseOffers">
         <div class="flex flex-wrap items-end -mx-2">
           <div class="w-full lg:w-1/2 px-2 pt-5 inputHolder relative">
@@ -520,11 +521,11 @@
                     </div>
                     <div class="selectPrice flex items-center space-x-3">
                       <label class="block cursor-pointer">
-                        <input type="radio" name="Percentage3 value=" perDay" class="hidden" checked />
+                        <input type="radio" name="Percentage3" value="perDay" class="hidden" checked />
                         <span class="text-sm text-quicksilver py-2 px-3 bg-white shadow-lg whitespace-nowrap font-bold rounded block">%</span>
                       </label>
                       <label class="block cursor-pointer">
-                        <input type="radio" name="Percentage3 value=" perHour" class="hidden" />
+                        <input type="radio" name="Percentage3" value="perHour" class="hidden" />
                         <span class="text-sm text-quicksilver py-2 px-3 bg-white shadow-lg whitespace-nowrap font-bold rounded block">₹</span>
                       </label>
                     </div>

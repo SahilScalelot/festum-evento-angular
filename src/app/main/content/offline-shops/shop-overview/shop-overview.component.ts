@@ -231,6 +231,13 @@ export class ShopOverviewComponent implements OnInit {
     });
   }
 
+  closeAddEditOfferDialog(): void {
+    $('.dropify-clear').click();
+    this.isTAndC = false;
+    this.isAddUserWiseOffers = false;
+    this._modalService.close('offerDialog');
+  }
+
   onFileChange(event: any): any {
     const file = event.target.files[0];
     if (!this.isUploadImageLoading && file != undefined) {
@@ -268,13 +275,13 @@ export class ShopOverviewComponent implements OnInit {
 
   onContinueClick(): void {
     console.log(this.addEditOfferForm.value);
-    if (this.addEditOfferForm.invalid) {
-      Object.keys(this.addEditOfferForm.controls).forEach((key) => {
-        this.addEditOfferForm.controls[key].touched = true;
-        this.addEditOfferForm.controls[key].markAsDirty();
-      });
-      return;
-    }
+    // if (this.addEditOfferForm.invalid) {
+    //   Object.keys(this.addEditOfferForm.controls).forEach((key) => {
+    //     this.addEditOfferForm.controls[key].touched = true;
+    //     this.addEditOfferForm.controls[key].markAsDirty();
+    //   });
+    //   return;
+    // }
     if (this.addEditOfferForm.value && this.addEditOfferForm.value.offer_on_all_products &&
         this.addEditOfferForm.value.offer_on_all_products.length && this.addEditOfferForm.value.offer_on_all_products[0] == 'true') {
       this.isTAndC = true;
