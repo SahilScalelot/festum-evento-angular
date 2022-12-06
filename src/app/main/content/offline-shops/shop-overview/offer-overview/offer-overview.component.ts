@@ -18,6 +18,12 @@ export class OfferOverviewComponent implements OnInit {
   offerObj: any;
   shopId: any;
   offerId: any;
+  
+  overview: boolean = true;
+  attendee: boolean = false;
+  reviews: boolean = false;
+  
+  popUp: boolean = false;
   // Loadings
   isLoading: boolean = false;
 
@@ -56,7 +62,6 @@ export class OfferOverviewComponent implements OnInit {
     };
     this._offlineShopsService.getOfflineOffer(offerId).subscribe((result: any) => {
       if (result && result.IsSuccess) {
-        console.log(result.Data);
         this.offerObj = result.Data;
       }
       this.isLoading = false;
@@ -81,10 +86,24 @@ export class OfferOverviewComponent implements OnInit {
       this.isLoading = false;
     });
   }
-
   
-  openUploadVideoDialog(popId: string = ''): void {
-    this._modalService.open(popId);
+  openUploadVideoDialog(): void {
+    this.popUp = true;    
+  }
+  
+  closeDialog():void {
+    this.popUp = false;
+  }
+
+  onTabChange(tabVarName: any): void {
+    this.overview = this.attendee = this.reviews = false;
+    if (tabVarName == 'overview') {
+      this.overview = true;
+    } else if (tabVarName == 'attendee') {
+      this.attendee = true;
+    } else if (tabVarName == 'reviews') {
+      this.reviews = true;
+    }
   }
 
 }

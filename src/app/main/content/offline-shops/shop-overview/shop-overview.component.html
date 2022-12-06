@@ -33,9 +33,9 @@
     <!-- tab-holder  -->
     <div class="">
       <div class="teb-holder teb-box flex justify-between w-full">
-        <div>
-          <button type="button" data-tab="overview" class="overview active" onclick="addActive('#review-form', 'hidden');">Overview</button>
-          <button type="button" data-tab="reviews" class="review" onclick="removeActive('#review-form', 'hidden');">Reviews</button>
+        <div class="teb-holder">
+          <button [class]="overview ? 'active' : ''" (click)="onTabChange('overview')" type="button">Overview</button>
+          <button [class]="reviews ? 'active' : ''" (click)="onTabChange('reviews')" type="button">Reviews</button>
         </div>
         <form id="review-form" action="" class="review-form hidden">
           <div class="w-full inputHolder">
@@ -53,7 +53,7 @@
     <!-- tab-contents-holder -->
     <div class="pt-3.5 lg:pt-7">
       <!--overview-tab-contents -->
-      <div class="relative tab-main active" id="overview">
+      <div class="relative tab-main" [class]="!reviews ? 'active' : ''" *ngIf="!reviews">
         <div class="flex flex-wrap">
           <!-- left-bar -->
           <div class="w-full lg:w-8/12 lg:pr-3 xl:pr-5 space-y-7">
@@ -169,7 +169,7 @@
         </div>
       </div>
       <!-- Reviews-Teb-Content -->
-      <div class="w-full space-y-2.5 tab-main" id="reviews">
+      <div class="w-full space-y-2.5 tab-main" [class]="reviews ? 'active' : ''">
         <div class="w-full space-y-2">
           <div class="bg-white rounded-lg p-7 lg:flex">
             <div>
@@ -520,11 +520,11 @@
                     </div>
                     <div class="selectPrice flex items-center space-x-3">
                       <label class="block cursor-pointer">
-                        <input type="radio" name="Percentage3 value=" perDay" class="hidden" checked />
+                        <input type="radio" name="Percentage3" value="perDay" class="hidden" checked />
                         <span class="text-sm text-quicksilver py-2 px-3 bg-white shadow-lg whitespace-nowrap font-bold rounded block">%</span>
                       </label>
                       <label class="block cursor-pointer">
-                        <input type="radio" name="Percentage3 value=" perHour" class="hidden" />
+                        <input type="radio" name="Percentage3" value="perHour" class="hidden" />
                         <span class="text-sm text-quicksilver py-2 px-3 bg-white shadow-lg whitespace-nowrap font-bold rounded block">₹</span>
                       </label>
                     </div>

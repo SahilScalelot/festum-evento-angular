@@ -50,6 +50,9 @@ export class ShopOverviewComponent implements OnInit {
   minDateValue: any = new Date();
   offerImageArray: any = new Array(3);
 
+  overview: boolean = true;
+  reviews: boolean = false;
+
   get offerOnAllProducts(): any {
     return this.addEditOfferForm.get('offer_on_all_products');
   }
@@ -267,7 +270,6 @@ export class ShopOverviewComponent implements OnInit {
   }
 
   onContinueClick(): void {
-    console.log(this.addEditOfferForm.value);
     if (this.addEditOfferForm.invalid) {
       Object.keys(this.addEditOfferForm.controls).forEach((key) => {
         this.addEditOfferForm.controls[key].touched = true;
@@ -461,5 +463,13 @@ export class ShopOverviewComponent implements OnInit {
   gotoShopOfferOverview(event: any, addShopObj: any, offerId: any): void {
     // event.stopPropagation();
     this._router.navigate(['/offline-shops/' + addShopObj + '/offer-overview/' + offerId._id]);
+  }
+  onTabChange(tabVarName: any): void {
+    this.overview = this.reviews = false;
+    if (tabVarName == 'overview') {
+      this.overview = true;
+    } else if (tabVarName == 'reviews') {
+      this.reviews = true;
+    }
   }
 }
