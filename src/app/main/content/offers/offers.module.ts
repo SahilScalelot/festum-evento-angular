@@ -12,20 +12,19 @@ import { RatingModule } from 'primeng/rating';
 import { PaginatorModule } from 'primeng/paginator';
 import { CheckboxModule } from 'primeng/checkbox';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { ShopOfferOverviewComponent } from './offer-overview/shop-offer-overview/shop-offer-overview.component';
 
 const routes: Routes = [
   {
     path: '', component: OffersComponent
-  },
-  {
-    path: 'offline-shop-offers-overview', component: OfferOverviewComponent
   }
 ];
 
 @NgModule({
   declarations: [
     OfferOverviewComponent,
-    OffersComponent
+    OffersComponent,
+    ShopOfferOverviewComponent
   ],
   imports: [
     RouterModule.forChild(routes),
