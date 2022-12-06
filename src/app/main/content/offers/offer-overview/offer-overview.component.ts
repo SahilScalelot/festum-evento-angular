@@ -278,6 +278,6 @@ export class OfferOverviewComponent implements OnInit {
 
   gotoShopOfferOverview(event: any, addShopObj: any, shopOfferId: any): void {
     // event.stopPropagation();
-    this._router.navigate(['/offline-shop-offers/' + addShopObj._id + '/shop-offer/' + shopOfferId]);
+    this._router.navigate(['/offline-shop-offers/' + addShopObj + '/shop-offer/' + shopOfferId]);
   }
 }
