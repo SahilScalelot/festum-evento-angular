@@ -23,28 +23,35 @@ export class OfflineShopsService {
     return this.http.post(environment.appURL + 'organizer/shops', filter, this._globalFunctions.getFileAuthorizationHeader());
   }
 
+  // Get Shop By Id
+  getOfflineShopByShopId(shopId: any): any {
+    return this.http.post(environment.appURL + 'organizer/shops/getone', { shopid: shopId }, this._globalFunctions.getAuthorizationHeader());
+  }
+
   // Add Edit Shop
   addEditOfflineShop(shopObj: any = {}): any {
     return this.http.post(environment.appURL + 'organizer/shops/save', shopObj, this._globalFunctions.getAuthorizationHeader());
   }
 
-  // Banner Api
+  // Banner Upload Api
   uploadBanner(photoFormData: any): any {
     return this.http.post(environment.appURL + 'organizer/shops/banner', photoFormData, this._globalFunctions.getFileAuthorizationHeader());
   }
 
-  // Banner Api
+  // Document Upload Api
   documentUpload(photoFormData: any): any {
     return this.http.post(environment.appURL + 'organizer/shops/document', photoFormData, this._globalFunctions.getFileAuthorizationHeader());
   }
 
-  getOfflineShopByShopId(shopId: any): any {
-    return this.http.post(environment.appURL + 'organizer/shops/getone', { shopid: shopId }, this._globalFunctions.getAuthorizationHeader());
+  // Offline Shop Offer List
+  offlineShopOfferList(filter: any): any {
+    return this.http.post(environment.appURL + 'organizer/offlineoffer', filter, this._globalFunctions.getFileAuthorizationHeader());
   }
 
-  // retrieveUser(): any {
-  //   return this.http.get(environment.appURL + 'events/', this._globalFunctions.getAuthorizationHeader());
-  // }
+  // Save Offline Offer
+  saveOfflineOffer(shopId: any): any {
+    return this.http.post(environment.appURL + 'organizer/offlineoffer/save', { shopid: shopId }, this._globalFunctions.getAuthorizationHeader());
+  }
 
   // Upload Offline Offer's Poster, Image, Video
   uploadPoster(posterFormData: any): any {

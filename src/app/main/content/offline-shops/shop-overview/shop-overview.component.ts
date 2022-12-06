@@ -42,6 +42,8 @@ export class ShopOverviewComponent implements OnInit {
     { value: 'sr' }
   ];
   offerId: any;
+  paging: any;
+  shopOffer: any;
 
   get offerOnAllProducts(): any {
     return this.addEditOfferForm.get('offer_on_all_products');
@@ -71,6 +73,7 @@ export class ShopOverviewComponent implements OnInit {
     this.offerId = this._activatedRoute.snapshot.paramMap.get('offerId');
 
     this.getShop();
+    this.offlineShopOfferList();
     this._prepareAddEditOfferForm();
     // get function ma response ne prepare karti vakhate
     // this.offerOnAllProducts.setValue([(preparedOfferObj.offer_on_all_products) ? 'true' : '']);
@@ -88,6 +91,26 @@ export class ShopOverviewComponent implements OnInit {
         this._globalFunctions.loadAccordion();
         // this._globalFunctions.loadTabsJs();
       }, 0);
+      this.isLoading = false;
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isLoading = false;
+    });
+  }
+
+  offlineShopOfferList(shop: any = ''): void {
+    this.isLoading = true;
+    const page = shop ? (shop.page + 1) : 1;
+    const filter: any = {
+      shopid : this.shopId || '',
+      page : page || '1',
+      limit : shop?.rows || '4',
+      search: ""
+    };
+    this._offlineShopsService.offlineShopOfferList(filter).subscribe((result: any) => {
+      console.log(result);
+      this.paging = result.Data;
+      this.shopOffer = result.Data.docs;
       this.isLoading = false;
     }, (error: any) => {
       this._globalFunctions.errorHanding(error, this, true);
@@ -276,8 +299,8 @@ export class ShopOverviewComponent implements OnInit {
     }
   }
 
-  gotoShopOfferOverview(event: any, addShopObj: any, shopOfferId: any): void {
+  gotoShopOfferOverview(event: any, addShopObj: any, offerId: any): void {
     // event.stopPropagation();
-    this._router.navigate(['/offline-shops/' + addShopObj + '/offer-overview/' + shopOfferId]);
+    this._router.navigate(['/offline-shops/' + addShopObj + '/offer-overview/' + offerId._id]);
   }
 }
