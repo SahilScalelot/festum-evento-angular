@@ -407,12 +407,9 @@
       <div *ngIf="isAddUserWiseOffers">
         <div class="w-full pt-5 inputHolder">
           <span class="input-titel">Select Offer Type</span>
-          <select name="All Category"
-                  class="arrow bg-white py-3 text-japaneseIndigo font-bold rounded-md tracking-wider appearance-none focus-visible:outline-none">
-            <option value="">Limited Person</option>
-            <option value="">Select Category</option>
-            <option value="">Select Category</option>
-            <option value="">Select Category</option>
+          <select name="All Category" class="arrow bg-white py-3 text-japaneseIndigo font-bold rounded-md tracking-wider appearance-none focus-visible:outline-none">
+            <option value="unlimited">Unlimited Person</option>
+            <option value="limited">Limited Person</option>
           </select>
         </div>
         <div class="w-full pt-5">
