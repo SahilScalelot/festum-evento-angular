@@ -34,6 +34,7 @@ export class ShopOverviewComponent implements OnInit {
   isTAndC: boolean = false;
   isAddUserWiseOffers: boolean = false;
   isLoading: boolean = false;
+  isSaveLoading: boolean = false;
   isUploadPosterLoading: boolean = false;
   isUploadVideoLoading: boolean = false;
   isUploadImageLoading: boolean = false;
@@ -167,8 +168,8 @@ export class ShopOverviewComponent implements OnInit {
 
   onTextEditorReady(editor: any): void {
     editor.ui.getEditableElement().parentElement.insertBefore(
-        editor.ui.view.toolbar.element,
-        editor.ui.getEditableElement()
+      editor.ui.view.toolbar.element,
+      editor.ui.getEditableElement()
     );
   }
 
@@ -331,6 +332,21 @@ export class ShopOverviewComponent implements OnInit {
     }
     const preparedOfferObj: any = this.prepareOfferObj(this.addEditOfferForm.value);
     console.log(preparedOfferObj);
+    
+    this.isSaveLoading = true;
+    this._offlineShopsService.saveOfflineOffer(preparedOfferObj).subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        this.setPosterInDropify(result.Data.url);
+        this._sNotify.success('Poster Uploaded Successfully.', 'Success');
+        this.isSaveLoading = false;
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+      }
+      this.isSaveLoading = false;
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isSaveLoading = false;
+    });
   }
 
   onPosterChange(event: any): any {

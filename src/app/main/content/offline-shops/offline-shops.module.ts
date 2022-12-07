@@ -14,6 +14,7 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { OfferOverviewComponent } from './shop-overview/offer-overview/offer-overview.component';
 import { CKEditorModule } from "@ckeditor/ckeditor5-angular";
+import { ImageModule } from 'primeng/image';
 
 const routes: Routes = [
   {
@@ -39,6 +40,7 @@ const routes: Routes = [
     CheckboxModule,
     CKEditorModule,
     ProgressSpinnerModule,
+    ImageModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyDLgr8YB5IK8dBIEWClexZGzXaB7UlVm7Q',
       libraries: ['places']

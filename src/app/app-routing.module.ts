@@ -75,6 +75,10 @@ const routes: Routes = [
         component: OfferOverviewComponent
       },
       {
+        path: 'online-offers',
+        loadChildren: () => import('./main/content/online-offers/online-offers.module').then(m => m.OnlineOffersModule)
+      },
+      {
         path: 'buy-space-plans',
         component: BuySpacePlansComponent
       },

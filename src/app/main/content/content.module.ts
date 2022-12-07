@@ -26,7 +26,7 @@ const routes: Routes = [
     ContentComponent,
     BuySpacePlansComponent,
     ProfileComponent,
-    LandingPageComponent
+    LandingPageComponent,
   ],
   imports: [
     RouterModule.forChild(routes),

@@ -36,7 +36,7 @@
             <h3 class="text-lg">Photos and Videos</h3>
             <div class="flex space-x-5">
               <div class="w-1/2 rounded overflow-hidden" *ngIf="offerObj?.poster">
-                <img [src]="constants.baseImageURL + offerObj?.poster" [alt]="offerObj?.offer_title" class="w-full h-full object-cover" />
+                <p-image [src]="constants.baseImageURL + offerObj?.poster" [alt]="offerObj?.offer_title" imageClass="w-full h-full object-cover" styleClass="w-full h-full" [preview]="true"></p-image>
               </div>
               <div class="w-1/2 rounded overflow-hidden relative">
                 <div class="brick w-full max-w-full relative">
@@ -68,9 +68,9 @@
             <h3 class="text-lg mb-3">offer description</h3>
             <div class="bg-white space-y-5 p-7 rounded-md">
               <div class="flex items-center space-x-3">
-                <a [href]="constants.baseImageURL + prod_imgs.url" target="_blank" *ngFor="let prod_imgs of offerObj?.all_product_images; let i = index">
-                  <img [src]="constants.baseImageURL + prod_imgs.url" [alt]="'product-'+i" class="rounded" />
-                </a>
+                <span *ngFor="let prod_imgs of offerObj?.all_product_images; let i = index" class="block w-36 h-24">
+                  <p-image [src]="constants.baseImageURL + prod_imgs.url" [alt]="'product-'+i" imageClass="w-full h-full object-cover rounded" styleClass="w-full h-full" [preview]="true"></p-image>
+                </span>
               </div>
               <div class="space-y-5">
                 <div class="flex items-center justify-between" *ngFor="let product of offerObj?.all_product_conditions; let i = index">

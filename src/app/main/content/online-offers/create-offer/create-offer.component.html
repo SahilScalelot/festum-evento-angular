@@ -1,0 +1,184 @@
+
+        <div class="wrapper">
+          <div class="space-y-8 h-full">
+            <!-- title-holder  -->
+            <div class="flex justify-between items-center">
+              <a href="javascript:void(0);" class="flex items-center">
+                <i class="icon-left_arrow mr-4 text-2xl"></i>
+                <h2>Create Offer</h2>
+              </a>
+              <button class="secondary anim px-5 py-3">Save and Continue</button>
+            </div>
+            <!-- main-content  -->
+            <div class="space-y-5 ">
+              <div class="flex items-end flex-wrap -mx-2">
+                <div class="w-full lg:w-1/2 px-2 py-2 lg:py-0 inputHolder">
+                  <span class="input-titel">Online shop Name</span>
+                  <input type="text" class="input" />
+                </div>
+                <div class="w-full lg:w-1/2 px-2 py-2 lg:py-0 inputHolder">
+                  <span class="input-titel">Offer</span>
+                  <label for="" class="flex items-center w-full bg-white p-2 px-3.5 rounded-md">
+                    <div class="w-full pr-4">
+                      <input type="text" class="w-full outline-none text-spiroDiscoBall font-bold text-base"
+                        placeholder="Percentage" />
+                    </div>
+                    <div class="selectPrice flex items-center space-x-3">
+                      <label class="block cursor-pointer">
+                        <input type="radio" name="price_miu" value="perDay" class="hidden" checked="" />
+                        <span
+                          class="text-sm text-quicksilver py-2 px-3 bg-white shadow-lg whitespace-nowrap font-bold rounded block">%</span>
+                      </label>
+                      <label class="block cursor-pointer">
+                        <input type="radio" name="price_miu" value="perHour" class="hidden" />
+                        <span
+                          class="text-sm text-quicksilver py-2 px-3 bg-white shadow-lg whitespace-nowrap font-bold rounded block">₹</span>
+                      </label>
+                    </div>
+                  </label>
+                </div>
+              </div>
+              <div class="flex flex-wrap items-end -mx-2">
+                <div class="w-full lg:w-1/2 px-2 pt-5 flex space-x-4">
+                  <div class="w-full lg:w-1/2">
+                    <span class="input-titel">Offer Start Date</span>
+                    <label class="bg-white rounded-md flex space-x-3 relative">
+                      <i class="icon-calendar-2 text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0"></i>
+                      <input type="date" class="w-full rounded-md outline-none py-3" />
+                    </label>
+                  </div>
+                  <div class="w-full lg:w-1/2">
+                    <span class="input-titel">Offer End Date</span>
+                    <label class="bg-white rounded-md flex space-x-3 relative">
+                      <i class="icon-calendar-2 text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0"></i>
+                      <input type="date" class="w-full rounded-md outline-none py-3">
+                    </label>
+                  </div>
+                </div>
+                <div class="w-full lg:w-1/2 px-2 pt-5 inputHolder">
+                  <span class="input-titel">Product Name</span>
+                  <input type="text" class="input" />
+                </div>
+              </div>
+              <div class="flex flex-wrap items-center -mx-2">
+                <div class="w-full lg:w-1/2 px-2 pt-5">
+                  <span class="input-titel">Add Poster <span class="textLow">(Max size 10MB)</span></span>
+                  <label for="upload" class="upload upload-popup py-10">
+                    <input type="file" name="images" id="upload" class="appearance-none hidden" />
+                    <span class="input-titel mt-1 text-base"><i class="icon-img_upload mr-2"></i>Add Poster</span>
+                  </label>
+                </div>
+                <div class="w-full lg:w-1/2 px-2 pt-5">
+                  <span class="input-titel">Offer Product Image</span>
+                  <div class="flex space-x-3">
+                    <div class="upload-holder">
+                      <label for="upload1" class="upload-photo">
+                        <input type="file" name="images" id="upload1" class="appearance-none hidden" />
+                        <i class="icon-img_upload text-base text-quicksilver"></i>
+                        <div class="mt-1 flex items-baseline justify-center"><span class="input-titel pt-1">Add
+                            Photos</span></div>
+                      </label>
+                    </div>
+                    <div class="upload-holder">
+                      <label for="upload1" class="upload-photo">
+                        <input type="file" name="images" id="upload1" class="appearance-none hidden" />
+                        <i class="icon-img_upload text-base text-quicksilver"></i>
+                        <div class="mt-1 flex items-baseline justify-center"><span class="input-titel pt-1">Add
+                            Photos</span></div>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="w-full">
+                <span class="input-titel">Product Description</span>
+                <textarea  cols="30" rows="4"
+                  class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md placeholder:text-sm placeholder:text-[#a6a6a6] placeholder:font-bold"></textarea>
+              </div>
+              <div class="w-full pt-5">
+                <div class="bg-white p-3.5 lg:p-7 offerProducts rounded-md w-full">
+                  <div class="flex items-center -mx-2">
+                    <div class="w-full lg:w-1/2 px-2 inputHolder">
+                      <span class="input-titel">select platform</span>
+                      <select name="All Category"
+                        class="arrow bgquicksilver py-3 text-japaneseIndigo font-bold rounded-md tracking-wider appearance-none focus-visible:outline-none">
+                        <option value=""></option>
+                        <option value="">Select Category</option>
+                        <option value="">Select Category</option>
+                        <option value="">Select Category</option>
+                      </select>
+                    </div>
+                    <div class="w-full lg:w-1/2 px-2">
+                      <span class="input-titel">enter platform product link</span>
+                      <div class="w-full flex items-center space-x-5">
+                        <div class="w-full inputHolder">
+                          <input type="text" class="bgquicksilver" />
+                        </div>
+                        <div>
+                          <button
+                            class="border-2 border-magicPotion w-7 h-7 rounded-full flex justify-center items-center">
+                            <span
+                              class="border border-magicPotion flex border-x-8 border-y-5 bg-magicPotion rounded"></span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="flex items-center -mx-2">
+                    <div class="w-full lg:w-1/2 px-2 pt-7 inputHolder">
+                      <span class="input-titel">select platform</span>
+                      <select class="js-example-basic-single w-full">
+                        <option value="AL">Instagram page</option>
+                        <option value="WY">Facebook page</option>
+                        <option value="WY">Amazon</option>
+                        <option value="WY">Flipkart</option>
+                      </select>
+                    </div>
+                    <div class="w-full lg:w-1/2 px-2 pt-7">
+                      <span class="input-titel">enter platform product link</span>
+                      <div class="w-full flex items-center space-x-5">
+                        <div class="w-full inputHolder">
+                          <input type="text" class="bgquicksilver" />
+                        </div>
+                        <div>
+                          <button
+                            class="border-2 border-japaneseIndigo w-7 h-7 rounded-full flex justify-center items-center">
+                            <i class="icon-plus_round leading-0"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="flex items-end flex-wrap -mx-2">
+                <div class="w-full lg:w-1/2 px-2 py-2 lg:py-0 inputHolder">
+                  <span class="input-titel">Company name</span>
+                  <input type="text" class="input" />
+                </div>
+                <div class="w-full lg:w-1/2 px-2 pt-5 inputHolder">
+                  <span class="input-titel">Company GST (Optional)</span>
+                  <label for="upload" class="upload upload-popup py-3">
+                    <input type="file" name="images" id="upload" class="appearance-none hidden" />
+                    <span class="input-titel text-base p-0"><i class="icon-pdf_upload mr-2"></i>Upload PDF</span>
+                  </label>
+                </div>
+              </div>
+              <div class="flex items-end flex-wrap -mx-2">
+                <div class="w-full lg:w-1/2 px-2 py-2 lg:py-0 inputHolder">
+                  <span class="input-titel">Company Contact No</span>
+                  <input type="text" class="input" />
+                </div>
+                <div class="w-full lg:w-1/2 px-2 py-2 lg:py-0 inputHolder">
+                  <span class="input-titel">Company Email</span>
+                  <input type="text" class="input" />
+                </div>
+              </div>
+              <div class="w-full">
+                <span class="input-titel">About Our Company</span>
+                <textarea  cols="30" rows="4"
+                  class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md placeholder:text-sm placeholder:text-[#a6a6a6] placeholder:font-bold"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
