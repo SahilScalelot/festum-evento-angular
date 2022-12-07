@@ -72,6 +72,9 @@ export class ShopOverviewComponent implements OnInit {
   get allProductImages(): any {
     return this.addEditOfferForm?.get('all_product_images');
   }
+  get offerType(): any {
+    return this.addEditOfferForm?.get('offer_type');
+  }
 
   constructor(
     private _modalService: ModalService,
@@ -481,17 +484,15 @@ export class ShopOverviewComponent implements OnInit {
       offer_on_all_products: [''],
       all_product_images: [],
       all_product_conditions: this._formBuilder.array([]),
-      offer_type: [""],
-      // offer_type_conditions: [],
+      offer_type: ["unlimited"],
+      offer_type_conditions: [],
       tandc: [""],
     });
 
-    if (offerObj && offerObj.arrangements) {
+    if (offerObj && offerObj.all_product_conditions && offerObj.all_product_conditions.length) {
       _.each(offerObj.all_product_conditions, (productOffer: any) => {
         this.addProductLimitation(productOffer);
       });
-    } else {
-      this.addProductLimitation();
     }
   }
 

@@ -74,6 +74,16 @@ export const CONSTANTS = {
     {value: 'rupee', label: 'Rupee', displayLabel: '₹'}
   ],
 
+  offerTypeObj: {
+    unlimited: 0,
+    limited: 1
+  },
+
+  offerTypeArr: [
+    {value: 'unlimited', label: 'Unlimited Person'},
+    {value: 'limited', label: 'Limited Person'}
+  ],
+
   maxPosterSizeInMB: 10,
   maxImageSizeInMB: 3,
   maxVideoSizeInMB: 512,
