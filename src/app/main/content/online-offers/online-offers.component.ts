@@ -13,11 +13,18 @@ export class OnlineOffersComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    localStorage.removeItem('oOId');
+    localStorage.removeItem('eId');
   }
-  offerOverview(offerId: string = ''): void {
-    console.log(offerId);
-    
+
+  editOffer(event: any, offerId: any): void {
+    event.stopPropagation();
     localStorage.setItem('oOId', offerId);
-    this._router.navigate(['/offer-overview']);
+    this._router.navigate(['/online-offers/create-offer']);
+  }
+  
+  offerOverview(event: any, offerObj: any): void {
+    event.stopPropagation();
+    this._router.navigate(['/online-offers/' + offerObj ]);
   }
 }
