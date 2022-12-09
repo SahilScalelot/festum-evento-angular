@@ -266,7 +266,7 @@
 <modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="offerDialog"
        [title]="(!isTAndC) ? (((offerId && offerId != '') ? 'Edit Offer' : (isAddUserWiseOffers ? 'Add' : 'Create') + ' Offer') + (isAddUserWiseOffers ? ' Product' : '')) : (isTAndC ? 'Terms And Conditions' : '')" maxWidth="lg:max-w-7xl xl:px-0" [isCloseHidden]="false">
   <div class="space-y-5 relative">
-    <form [formGroup]="addEditOfferForm" class="p-ngCss">
+    <form #offerNgForm="ngForm" [formGroup]="addEditOfferForm" class="p-ngCss">
        <span (click)="closeAddEditOfferDialog();" class="absolute right-0 -top-8 cursor-pointer text-xl"><i class="icon-close"></i></span>
       <div *ngIf="!isTAndC && !isAddUserWiseOffers">
         <div class="flex flex-wrap items-end -mx-2">
@@ -283,7 +283,7 @@
             <div class="w-full lg:w-1/2 relative">
               <span class="input-titel">Start Time <span>*</span></span>
               <label class="bg-white rounded-md flex space-x-3 relative">
-                <i class="icon-calendar-2 text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0"></i>
+                <i class="icon-calendar-2 text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0 z-10"></i>
                 <p-calendar class="w-full" [formControlName]="'start_date'" [touchUI]="true" [minDate]="minDateValue"
                             name="start_date" inputId="start_date"></p-calendar>
               </label>
@@ -293,25 +293,21 @@
                   Start date is required.
                 </span>
               </span>
-              <!-- <label class="bg-white rounded-md flex space-x-3 relative">
-                <i class="icon-calendar-2 text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0"></i>
-                <input type="date" class="w-full rounded-md outline-none py-3" formControlName="start_date" />
-              </label> -->
             </div>
             <div class="w-full lg:w-1/2 relative">
               <span class="input-titel">End Date <span>*</span></span>
               <label class="bg-white rounded-md flex space-x-3 relative">
-                <i class="icon-calendar-2 text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0"></i>
+                <i class="icon-calendar-2 text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0 z-10"></i>
                 <p-calendar class="w-full" [formControlName]="'end_date'" [touchUI]="true"
                             [minDate]="addEditOfferForm.get('start_date').value ? addEditOfferForm.get('start_date').value : minDateValue"
                             name="end_date" inputId="end_date"></p-calendar>
               </label>
               <span class="absolute top-full text-red-500 text-xs"
                     *ngIf="addEditOfferForm.get('end_date')?.invalid && (addEditOfferForm.get('end_date')?.dirty && addEditOfferForm.get('end_date')?.touched)">
-                  <span *ngIf="addEditOfferForm.get('end_date')?.errors?.['required']">
-                    End date is required.
-                  </span>
+                <span *ngIf="addEditOfferForm.get('end_date')?.errors?.['required']">
+                  End date is required.
                 </span>
+              </span>
             </div>
           </div>
         </div>
@@ -342,15 +338,16 @@
           </span>
         </div>
         <div class="flex items-start pt-9">
-          <p-checkbox name="offer_on_all_products" [value]="'true'" formControlName="offer_on_all_products"></p-checkbox>
+          <p-checkbox name="offer_on_all_products" [value]="'true'" formControlName="offer_on_all_products"
+                      (onChange)="onSelectOfferOnAllProduct($event)"></p-checkbox>
           <div class="ml-4">
             <span class="block text-base text-black font-bold">Select if you have offer on shop all products</span>
             <span class=" text-sm text-quicksilver">Don't select if you have offer on specific products</span>
           </div>
         </div>
         <!-- Offer On Shop All Products -->
-        <div class="" *ngIf="offerOnAllProducts?.value[0] == 'true' || offerOnAllProducts?.value[0] == true">
-          <div class="flex items-center space-x-5 pt-3">
+        <div class="" *ngIf="offerOnAllProducts && offerOnAllProducts.value && (offerOnAllProducts.value[0] == 'true' || offerOnAllProducts?.value[0] == true)">
+          <div class="flex items-center pt-3 relative">
             <div *ngFor="let item of offerImageArray;let i =index" class="upload-box mr-2.5 mb-2.5">
               <label for="image-upload-{{i}}" class="upload-photo"
                      *ngIf="!allProductImages.value || !allProductImages.value.length || !allProductImages.value[i]">
@@ -361,20 +358,32 @@
               </label>
               <div class="rounded relative overflow-hidden h-full w-full"
                    *ngIf="allProductImages.value && allProductImages.value.length && allProductImages.value[i] && allProductImages.value[i].url">
-                <img [alt]="'add-photo-' + i" [src]="allProductImages.value[i].url" class="object-cover w-full h-full"/>
+                <img [alt]="'add-photo-' + i" [src]="constants.baseImageURL + allProductImages.value[i].url" class="object-cover w-full h-full"/>
                 <button (click)="removeImage(i)">Remove</button>
               </div>
             </div>
+            <span class="absolute top-full text-red-500 text-xs"
+                  *ngIf="addEditOfferForm.get('all_product_images')?.invalid && (addEditOfferForm.get('all_product_images')?.dirty && addEditOfferForm.get('all_product_images')?.touched)">
+              <span *ngIf="addEditOfferForm.get('all_product_images')?.errors?.['required']">
+                At least one image is required.
+              </span>
+            </span>
           </div>
           <div class="w-full pt-5" formArrayName="all_product_conditions">
             <span class="text-sm text-quicksilver">Note: For unlimited person fill zero</span>
             
             <div *ngFor="let productOfferObj of allProductConditions.controls; let i = index" [formGroupName]="i">
               <div class="flex flex-wrap items-center -mx-2">
-                <div class="inputHolder w-full lg:w-1/2 px-2 pt-2.5">
+                <div class="inputHolder w-full lg:w-1/2 px-2 pt-2.5 relative">
                   <input type="text" placeholder="Person Limitation" [formControlName]="'person_limitation'" class="input" />
+                  <span class="absolute top-full text-red-500 text-xs ml-0"
+                        *ngIf="allProductConditions.controls[i].get('person_limitation')?.invalid && (allProductConditions.controls[i].get('person_limitation')?.dirty && allProductConditions.controls[i].get('person_limitation')?.touched)">
+                    <span *ngIf="allProductConditions.controls[i].get('person_limitation')?.errors?.['required']">
+                      Person limitation is required.
+                    </span>
+                  </span>
                 </div>
-                <div class="w-full lg:w-1/2 flex items-center px-2 pt-2.5 space-x-5">
+                <div class="w-full lg:w-1/2 flex items-center px-2 pt-2.5 relative">
                   <label for="" class="flex items-center w-full bg-white p-2 px-3.5 rounded-md">
                     <div class="w-full pr-4">
                       <input type="number" class="w-full outline-none text-spiroDiscoBall font-bold text-base capitalize" [formControlName]="'discount'"
@@ -388,12 +397,16 @@
                       </label>
                     </div>
                   </label>
-                  <div>
+                  <div class="pl-2">
                     <button (click)="addProductLimitation()" *ngIf="i == (allProductConditions.controls.length - 1) && (allProductConditions.controls.length < constants.maxOfferOnAllProductsLimit)" class="border-2 border-japaneseIndigo w-7 h-7 rounded-full flex justify-center items-center"><i class="icon-plus_round leading-0"></i></button>
                     <button (click)="removeProductLimitation(i)" *ngIf="i != (allProductConditions.controls.length - 1) || (allProductConditions.controls.length == constants.maxOfferOnAllProductsLimit)" class="border-2 border-magicPotion w-7 h-7 rounded-full flex justify-center items-center"><span class="border border-magicPotion flex border-x-8 border-y-5 bg-magicPotion rounded"></span></button>
                   </div>
-                  <div class="addDeleteBtn">
-                  </div>
+                  <span class="absolute top-full text-red-500 text-xs"
+                        *ngIf="allProductConditions.controls[i].get('discount')?.invalid && (allProductConditions.controls[i].get('discount')?.dirty && allProductConditions.controls[i].get('discount')?.touched)">
+                    <span *ngIf="allProductConditions.controls[i].get('discount')?.errors?.['required']">
+                      Discount is required.
+                    </span>
+                  </span>
                 </div>
               </div>
             </div>
@@ -408,59 +421,93 @@
       <div *ngIf="isAddUserWiseOffers">
         <div class="w-full pt-5 inputHolder">
           <span class="input-titel">Select Offer Type</span>
-          <select name="All Category" [formControlName]="'offer_type'"
+          <select name="All Category" [formControlName]="'offer_type'" (change)="onOfferTypeChange()"
                   class="arrow bg-white py-3 text-japaneseIndigo font-bold rounded-md tracking-wider appearance-none focus-visible:outline-none">
             <option  *ngFor="let offerType of constants.offerTypeArr" [value]="offerType.value">{{offerType.label}}</option>
           </select>
         </div>
         <div class="w-full pt-5">
           <span class="input-titel">Offer Products</span>
-          <div class="bg-white p-5 lg:p-7 offerProducts rounded-md space-y-5">
-
-            <div class="flex items-center -mx-2">
-              <div class="upload-holder w-28 h-28 mr-2.5">
-                <label for="upload1" class="upload-photo w-28 h-28 bg-brightGray">
-                  <input type="file" name="images" id="upload1" class="appearance-none hidden"/>
+          <div class="bg-white p-5 lg:p-7 offerProducts rounded-md space-y-5" formArrayName="offer_type_conditions">
+            <div class="flex items-center -mx-2" *ngFor="let productOfferObj of offerTypeConditions.controls; let i = index" [formGroupName]="i">
+              <div class="upload-holder w-28 h-28 mr-2.5 relative">
+                <label for="offer-image-upload-{{i}}" class="upload-photo w-28 h-28 bg-brightGray"
+                       *ngIf="!productOfferObj.value || !productOfferObj.value.url || productOfferObj.value.url == ''">
+                  <input type="file" accept="image/png, image/jpeg, image/gif" name="offer-image-upload-{{i}}" id="offer-image-upload-{{i}}"
+                         class="appearance-none hidden" (change)="onFileChange($event, true, i)" />
                   <i class="icon-img_upload text-base text-quicksilver"></i>
-                  <div class="mt-1 flex items-baseline justify-center"><span class="input-titel pt-1">Add Photos</span>
-                  </div>
+                  <div class="mt-1 flex items-baseline justify-center"><span class="input-titel pt-1">Add Photos</span></div>
                 </label>
+                <div class="rounded relative overflow-hidden h-full w-full"
+                     *ngIf="productOfferObj.value && productOfferObj.value.url && productOfferObj.value.url != ''">
+                  <img [alt]="'offer-photo-' + i" [src]="constants.baseImageURL + productOfferObj.value.url" class="object-cover w-full h-full"/>
+                  <button (click)="removeImage(i)">Remove</button>
+                </div>
+
+                <span class="absolute top-full text-red-500 text-xs ml-0"
+                      *ngIf="offerTypeConditions.controls[i].get('url')?.invalid && (offerTypeConditions.controls[i].get('url')?.dirty && offerTypeConditions.controls[i].get('url')?.touched)">
+                  <span *ngIf="offerTypeConditions.controls[i].get('url')?.errors?.['required']">
+                    Product photo is required.
+                  </span>
+                </span>
               </div>
               <div class="w-full flex flex-wrap items-center">
-                <div class="input-holder-2 w-1/2 xl:w-1/3 px-2">
-                  <input type="text" class="input input-holder-2 p-3.5 rounded-md" placeholder="Add Products Name"/>
+                <div class="input-holder-2 w-1/2 px-2 relative"
+                     [ngClass]="{'xl:w-1/3': (offerType.value == constants.offerTypeArr[constants.offerTypeObj.limited].value)}">
+                  <input type="text" class="input input-holder-2 p-3.5 rounded-md" [formControlName]="'product_name'" placeholder="Add Products Name"/>
+
+                  <span class="absolute top-full text-red-500 text-xs ml-0"
+                        *ngIf="offerTypeConditions.controls[i].get('product_name')?.invalid && (offerTypeConditions.controls[i].get('product_name')?.dirty && offerTypeConditions.controls[i].get('product_name')?.touched)">
+                    <span *ngIf="offerTypeConditions.controls[i].get('product_name')?.errors?.['required']">
+                      Product name is required.
+                    </span>
+                  </span>
                 </div>
-                <div class="input-holder-2 w-1/2 xl:w-1/3 px-2" *ngIf="offerType.value == constants.offerTypeArr[constants.offerTypeObj.unlimited].value">
-                  <input type="text" class="input input-holder-2 p-3.5 rounded-md" placeholder="Person Limitation"/>
+                <div class="input-holder-2 w-1/2 xl:w-1/3 px-2 relative" *ngIf="offerType.value == constants.offerTypeArr[constants.offerTypeObj.limited].value">
+                  <input type="text" class="input input-holder-2 p-3.5 rounded-md" [formControlName]="'person_limitation'" placeholder="Person Limitation"/>
+
+                  <span class="absolute top-full text-red-500 text-xs ml-0"
+                        *ngIf="offerTypeConditions.controls[i].get('person_limitation')?.invalid && (offerTypeConditions.controls[i].get('person_limitation')?.dirty && offerTypeConditions.controls[i].get('person_limitation')?.touched)">
+                    <span *ngIf="offerTypeConditions.controls[i].get('person_limitation')?.errors?.['required']">
+                      Person limitation is required.
+                    </span>
+                  </span>
                 </div>
-                <div class="w-1/2 xl:w-1/3 flex items-center px-2 pt-2.5 xl:pt-0">
+                <div class="w-1/2 flex items-center px-2 relative"
+                     [ngClass]="{'xl:w-1/3 pt-2.5 xl:pt-0': (offerType.value == constants.offerTypeArr[constants.offerTypeObj.limited].value)}">
                   <label for="" class="flex items-center w-full bg-white p-2 px-3.5 rounded-md">
                     <div class="w-full pr-4">
-                      <input type="text" class="input-holder-2" placeholder="Percentage"/>
+                      <input type="text" class="input-holder-2 capitalize" [formControlName]="'discount'"
+                             [placeholder]="productOfferObj && productOfferObj.value && productOfferObj.value.discount_type" [min]="0"
+                             [max]="(productOfferObj?.value?.discount_type == constants.discountTypeArr[constants.discountTypeObj.percentage].value) ? 100 : positiveMaxNumber" fuseValidNumber/>
                     </div>
                     <div class="selectPrice flex items-center space-x-3">
-                      <label class="block cursor-pointer">
-                        <input type="radio" name="Percentage" value="perDay" class="hidden" checked/>
-                        <span class="text-sm text-quicksilver py-2 px-3 bg-white shadow-lg whitespace-nowrap font-bold rounded block">%</span>
-                      </label>
-                      <label class="block cursor-pointer">
-                        <input type="radio" name="Percentage" value="perHour" class="hidden"/>
-                        <span class="text-sm text-quicksilver py-2 px-3 bg-white shadow-lg whitespace-nowrap font-bold rounded block">₹</span>
+                      <label *ngFor="let discountType of constants.discountTypeArr" class="block cursor-pointer">
+                        <input type="radio" [name]="'discount-type-' + i" [formControlName]="'discount_type'" [value]="discountType.value" class="hidden" />
+                        <span class="text-sm text-quicksilver py-2 px-3 bg-white shadow-lg whitespace-nowrap font-bold rounded block">{{discountType.displayLabel}}</span>
                       </label>
                     </div>
                   </label>
                   <div class="pl-5">
-                    <button class="border-2 border-magicPotion w-7 h-7 rounded-full flex justify-center items-center">
+                    <button (click)="addProductOffer({}, offerType.value)" *ngIf="i == (offerTypeConditions.controls.length - 1)"
+                            class="border-2 border-japaneseIndigo w-7 h-7 rounded-full flex justify-center items-center">
+                      <i class="icon-plus_round leading-0"></i>
+                    </button>
+                    <button (click)="removeProductOffer(i)" *ngIf="i != (offerTypeConditions.controls.length - 1)"
+                            class="border-2 border-magicPotion w-7 h-7 rounded-full flex justify-center items-center">
                       <span class="border border-magicPotion flex border-x-8 border-y-5 bg-magicPotion rounded"></span>
                     </button>
-                    <!--<button class="border-2 border-japaneseIndigo w-7 h-7 rounded-full flex justify-center items-center">
-                      <i class="icon-plus_round leading-0"></i>
-                    </button>-->
                   </div>
+
+                  <span class="absolute top-full text-red-500 text-xs ml-0"
+                        *ngIf="offerTypeConditions.controls[i].get('discount')?.invalid && (offerTypeConditions.controls[i].get('discount')?.dirty && offerTypeConditions.controls[i].get('discount')?.touched)">
+                    <span *ngIf="offerTypeConditions.controls[i].get('discount')?.errors?.['required']">
+                      Discount is required.
+                    </span>
+                  </span>
                 </div>
               </div>
             </div>
-
           </div>
         </div>
         <div class="flex justify-end pt-5">
@@ -468,11 +515,18 @@
         </div>
       </div>
       <div *ngIf="isTAndC">
-        <div class="w-full space-y-2.5 pt-2">
+        <div class="w-full space-y-4 pt-2">
           <h5>Terms And Conditions</h5>
-          <div class="w-full bg-white rounded">
-           <ckeditor (ready)="onTextEditorReady($event)" [config]="editorConfig" [editor]="detailEditor" [formControlName]="'tandc'"
+          <div class="w-full bg-white rounded relative">
+            <ckeditor (ready)="onTextEditorReady($event)" [config]="editorConfig" [editor]="detailEditor" [formControlName]="'tandc'"
                      class="h-44 text-editor" id="tandc" name="tandc"></ckeditor>
+
+            <span class="absolute top-full text-red-500 text-xs ml-0"
+                  *ngIf="addEditOfferForm.get('tandc')?.invalid && (addEditOfferForm.get('tandc')?.dirty && addEditOfferForm.get('tandc')?.touched)">
+              <span *ngIf="addEditOfferForm.get('tandc')?.errors?.['required']">
+                Terms and conditions is required.
+              </span>
+            </span>
           </div>
           <div class="block w-full">
             <label class="inline-flex items-end cursor-pointer">

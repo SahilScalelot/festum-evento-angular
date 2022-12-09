@@ -15,6 +15,8 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { OfferOverviewComponent } from './shop-overview/offer-overview/offer-overview.component';
 import { CKEditorModule } from "@ckeditor/ckeditor5-angular";
 import { ImageModule } from 'primeng/image';
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import { SharedModule } from "../../../shared/shared.module";
 
 const routes: Routes = [
   {
@@ -41,6 +43,8 @@ const routes: Routes = [
     CKEditorModule,
     ProgressSpinnerModule,
     ImageModule,
+    MatProgressSpinnerModule,
+    SharedModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyDLgr8YB5IK8dBIEWClexZGzXaB7UlVm7Q',
       libraries: ['places']
