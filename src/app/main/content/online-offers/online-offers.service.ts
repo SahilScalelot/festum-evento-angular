@@ -26,6 +26,11 @@ export class OnlineOffersService {
   }
 
   // Banner Upload Api
+  uploadDocument(documentFormData: any): any {
+    return this.http.post(environment.appURL + 'organizer/onlineoffer/document', documentFormData, this._globalFunctions.getFileAuthorizationHeader());
+  }
+
+  // Banner Upload Api
   uploadBanner(bannerFormData: any): any {
     return this.http.post(environment.appURL + 'organizer/onlineoffer/banner', bannerFormData, this._globalFunctions.getFileAuthorizationHeader());
   }

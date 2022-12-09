@@ -284,8 +284,7 @@
               <span class="input-titel">Start Time <span>*</span></span>
               <label class="bg-white rounded-md flex space-x-3 relative">
                 <i class="icon-calendar-2 text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0 z-10"></i>
-                <p-calendar class="w-full" [formControlName]="'start_date'" [touchUI]="true" [minDate]="minDateValue"
-                            name="start_date" inputId="start_date"></p-calendar>
+                <p-calendar class="w-full" [formControlName]="'start_date'" [touchUI]="true" [minDate]="minDateValue" name="start_date" inputId="start_date"></p-calendar>
               </label>
               <span class="absolute top-full text-red-500 text-xs"
                     *ngIf="addEditOfferForm.get('start_date')?.invalid && (addEditOfferForm.get('start_date')?.dirty && addEditOfferForm.get('start_date')?.touched)">
@@ -298,9 +297,7 @@
               <span class="input-titel">End Date <span>*</span></span>
               <label class="bg-white rounded-md flex space-x-3 relative">
                 <i class="icon-calendar-2 text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0 z-10"></i>
-                <p-calendar class="w-full" [formControlName]="'end_date'" [touchUI]="true"
-                            [minDate]="addEditOfferForm.get('start_date').value ? addEditOfferForm.get('start_date').value : minDateValue"
-                            name="end_date" inputId="end_date"></p-calendar>
+                <p-calendar class="w-full" [formControlName]="'end_date'" [touchUI]="true" [minDate]="addEditOfferForm.get('start_date').value ? addEditOfferForm.get('start_date').value : minDateValue" name="end_date" inputId="end_date"></p-calendar>
               </label>
               <span class="absolute top-full text-red-500 text-xs"
                     *ngIf="addEditOfferForm.get('end_date')?.invalid && (addEditOfferForm.get('end_date')?.dirty && addEditOfferForm.get('end_date')?.touched)">
@@ -384,9 +381,9 @@
                   </span>
                 </div>
                 <div class="w-full lg:w-1/2 flex items-center px-2 pt-2.5 relative">
-                  <label for="" class="flex items-center w-full bg-white p-2 px-3.5 rounded-md">
+                  <div class="flex items-center w-full bg-white p-2 px-3.5 rounded-md">
                     <div class="w-full pr-4">
-                      <input type="number" class="w-full outline-none text-spiroDiscoBall font-bold text-base capitalize" [formControlName]="'discount'"
+                      <input type="text" class="w-full outline-none text-spiroDiscoBall font-bold text-base capitalize" [formControlName]="'discount'"
                        [placeholder]="productOfferObj && productOfferObj.value && productOfferObj.value.discount_type" [min]="0"
                        [max]="(productOfferObj?.value?.discount_type == constants.discountTypeArr[constants.discountTypeObj.percentage].value) ? 100 : positiveMaxNumber" fuseValidNumber/>
                     </div>
@@ -396,7 +393,7 @@
                         <span class="text-sm text-quicksilver py-2 px-3 bg-white shadow-lg whitespace-nowrap font-bold rounded block">{{discountType.displayLabel}}</span>
                       </label>
                     </div>
-                  </label>
+                  </div>
                   <div class="pl-2">
                     <button (click)="addProductLimitation()" *ngIf="i == (allProductConditions.controls.length - 1) && (allProductConditions.controls.length < constants.maxOfferOnAllProductsLimit)" class="border-2 border-japaneseIndigo w-7 h-7 rounded-full flex justify-center items-center"><i class="icon-plus_round leading-0"></i></button>
                     <button (click)="removeProductLimitation(i)" *ngIf="i != (allProductConditions.controls.length - 1) || (allProductConditions.controls.length == constants.maxOfferOnAllProductsLimit)" class="border-2 border-magicPotion w-7 h-7 rounded-full flex justify-center items-center"><span class="border border-magicPotion flex border-x-8 border-y-5 bg-magicPotion rounded"></span></button>

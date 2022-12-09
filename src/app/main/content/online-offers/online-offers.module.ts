@@ -4,6 +4,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { OnlineOffersComponent } from './online-offers.component';
 import { OfferOverviewComponent } from './offer-overview/offer-overview.component';
 import { CreateOfferComponent } from './create-offer/create-offer.component';
+import { CalendarModule } from 'primeng/calendar';
+import { ReactiveFormsModule } from '@angular/forms';
+import { SharedModule } from "../../../shared/shared.module";
 
 const routes: Routes = [
   {
@@ -25,7 +28,10 @@ const routes: Routes = [
   ],
   imports: [
     RouterModule.forChild(routes),
-    CommonModule
+    CommonModule,
+    CalendarModule,
+    ReactiveFormsModule,
+    SharedModule
   ]
 })
 export class OnlineOffersModule { }
