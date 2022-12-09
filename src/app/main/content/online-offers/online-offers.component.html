@@ -17,7 +17,7 @@
     </div>
   </div>
   <div class="space-y-5 pt-10">
-    <div class="w-full p-4 bg-white rounded" (click)="offerOverview('4sd5d231cv')">
+    <div class="w-full p-4 bg-white rounded" (click)="offerOverview($event, '4sd5d231cv')">
       <div class="flex flex-wrap xl:flex-nowrap xl:space-x-5">
         <img src="../assets/images/bigsale.png" alt="big sale" />
         <div class="w-full pt-5 xl:pt-0">
@@ -64,7 +64,7 @@
             </div>
             <div class="flex space-x-2">
               <a href="javascript:void(0);" class="bg-brightGray text-xl px-2 py-1 text-center rounded"><i class="icon-show text-base text-japaneseIndigo"></i></a>
-              <a href="javascript:void(0);" class="bg-brightGray text-xl px-2 py-1 text-center rounded"><i class="icon-edit text-base text-japaneseIndigo"></i></a>
+              <a href="javascript:void(0);" (click)="editOffer($event, '2s2df158')" class="bg-brightGray text-xl px-2 py-1 text-center rounded"><i class="icon-edit text-base text-japaneseIndigo"></i></a>
               <a href="javascript:void(0);" class="bg-brightGray text-xl px-2 py-1 text-center rounded"><i class="icon-fill_megaphone text-base text-japaneseIndigo"></i></a>
               <a href="javascript:void(0);" class="bg-brightGray text-xl px-2 py-1 text-center rounded"><i class="icon-share text-base text-japaneseIndigo"></i></a>
               <a href="javascript:void(0);" class="bg-brightGray text-xl px-2 py-1 text-center rounded"><i class="icon-delete_fill text-base text-japaneseIndigo"></i></a>

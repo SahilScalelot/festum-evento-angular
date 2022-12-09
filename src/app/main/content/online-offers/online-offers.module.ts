@@ -13,7 +13,7 @@ const routes: Routes = [
     path: 'create-offer', component: CreateOfferComponent
   },
   {
-    path: 'offer-overview', component: OfferOverviewComponent
+    path: ':id', component: OfferOverviewComponent
   }
 ];
 

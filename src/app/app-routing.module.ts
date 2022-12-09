@@ -51,10 +51,6 @@ const routes: Routes = [
         loadChildren: () => import('../app/main/content/event/event.module').then(m => m.EventModule)
       },
       {
-        path: 'events/:id',
-        component: EventOverviewComponent
-      },
-      {
         path: 'events/create',
         loadChildren: () => import('../app/main/content/create-event/create-event.module').then(m => m.CreateEventModule)
       },

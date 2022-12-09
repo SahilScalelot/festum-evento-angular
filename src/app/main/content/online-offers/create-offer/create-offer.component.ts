@@ -17,10 +17,11 @@ export class CreateOfferComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    if (!localStorage.getItem('oOId') || localStorage.getItem('oOId') == '') {
-      this._router.navigate(['/online-offers']);
+    if (localStorage.getItem('oOId') || localStorage.getItem('oOId') == '') {
+      this.offerId = localStorage.getItem('oOId');
+      console.log(this.offerId);
+      
     }
-    this.offerId = localStorage.getItem('oOId');
 
   }
 
