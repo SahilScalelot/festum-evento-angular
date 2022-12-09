@@ -1,76 +1,94 @@
 
         <div class="wrapper">
-          <div class="space-y-8 h-full">
+          <div class="h-full">
             <!-- title-holder  -->
             <div class="flex justify-between items-center">
               <a href="javascript:void(0);" class="flex items-center"  routerLink="/online-offers">
                 <i class="icon-left_arrow mr-4 text-2xl"></i>
-                <h2>Create Offer</h2>
+                <h2>{{(offerId && offerId != '') ? 'Edit' : 'Create'}} Offer</h2>
               </a>
-              <button class="secondary anim px-5 py-3">Save and Continue</button>
+              <button class="secondary anim px-5 py-3" (click)="saveAndContinue()">Save and Continue</button>
             </div>
             <!-- main-content  -->
-            <div class="space-y-5 ">
-              <div class="flex items-end flex-wrap -mx-2">
-                <div class="w-full lg:w-1/2 px-2 py-2 lg:py-0 inputHolder">
+            <form class="p-ngCss pt-3" [formGroup]="addEditOfferForm">
+              <div class="flex flex-wrap -mx-2">
+                <div class="w-full lg:w-1/2 px-2 pt-5 inputHolder">
                   <span class="input-titel">Online shop Name</span>
-                  <input type="text" class="input" />
+                  <input type="text" name="shop_name" formControlName="shop_name" class="input" />
                 </div>
-                <div class="w-full lg:w-1/2 px-2 py-2 lg:py-0 inputHolder">
+                <div class="w-full lg:w-1/2 px-2 pt-5 inputHolder">
                   <span class="input-titel">Offer</span>
-                  <label for="" class="flex items-center w-full bg-white p-2 px-3.5 rounded-md">
+                  <div class="flex items-center w-full bg-white p-2 px-3.5 rounded-md">
                     <div class="w-full pr-4">
-                      <input type="text" class="w-full outline-none text-spiroDiscoBall font-bold text-base"
-                        placeholder="Percentage" />
+                      <input type="text" class="w-full outline-none text-spiroDiscoBall font-bold text-base capitalize" [formControlName]="'offer_amount'"
+                       [placeholder]="addEditOfferForm && addEditOfferForm.value && addEditOfferForm.value.offer_type" [min]="0"
+                       [max]="(addEditOfferForm?.value?.offer_type == constants.discountTypeArr[constants.discountTypeObj.percentage].value) ? 100 : positiveMaxNumber" fuseValidNumber/>
                     </div>
                     <div class="selectPrice flex items-center space-x-3">
-                      <label class="block cursor-pointer">
-                        <input type="radio" name="price_miu" value="perDay" class="hidden" checked="" />
-                        <span
-                          class="text-sm text-quicksilver py-2 px-3 bg-white shadow-lg whitespace-nowrap font-bold rounded block">%</span>
-                      </label>
-                      <label class="block cursor-pointer">
-                        <input type="radio" name="price_miu" value="perHour" class="hidden" />
-                        <span
-                          class="text-sm text-quicksilver py-2 px-3 bg-white shadow-lg whitespace-nowrap font-bold rounded block">₹</span>
+                      <label *ngFor="let discountType of constants.discountTypeArr" class="block cursor-pointer">
+                        <input type="radio" [name]="'price_plus'" [formControlName]="'offer_type'" [value]="discountType.value" class="hidden" />
+                        <span class="text-sm text-quicksilver py-2 px-3 bg-white shadow-lg whitespace-nowrap font-bold rounded block">{{discountType.displayLabel}}</span>
                       </label>
                     </div>
-                  </label>
+                  </div>
                 </div>
-              </div>
-              <div class="flex flex-wrap items-end -mx-2">
                 <div class="w-full lg:w-1/2 px-2 pt-5 flex space-x-4">
                   <div class="w-full lg:w-1/2">
                     <span class="input-titel">Offer Start Date</span>
                     <label class="bg-white rounded-md flex space-x-3 relative">
-                      <i class="icon-calendar-2 text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0"></i>
-                      <input type="date" class="w-full rounded-md outline-none py-3" />
+                      <i class="icon-calendar-2 text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0 z-10"></i>
+                      <p-calendar class="input w-full" formControlName="start_date" [touchUI]="true" [minDate]="minDateValue" name="start_date" inputId="start_date"></p-calendar>
                     </label>
+                    <span class="absolute top-full text-red-500 text-xs" *ngIf="addEditOfferForm.get('start_date')?.invalid && (addEditOfferForm.get('start_date')?.dirty && addEditOfferForm.get('start_date')?.touched)">
+                      <span *ngIf="addEditOfferForm.get('start_date')?.errors?.['required']">
+                        Start date is required.
+                      </span>
+                    </span>
                   </div>
                   <div class="w-full lg:w-1/2">
                     <span class="input-titel">Offer End Date</span>
                     <label class="bg-white rounded-md flex space-x-3 relative">
-                      <i class="icon-calendar-2 text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0"></i>
-                      <input type="date" class="w-full rounded-md outline-none py-3">
+                      <i class="icon-calendar-2 text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0 z-10"></i>
+                      <p-calendar class="input w-full" formControlName="end_date" [touchUI]="true" [minDate]="addEditOfferForm.get('start_date').value ? addEditOfferForm.get('start_date').value : minDateValue" name="end_date" inputId="end_date"></p-calendar>
                     </label>
+                    <span class="absolute top-full text-red-500 text-xs" *ngIf="addEditOfferForm.get('end_date')?.invalid && (addEditOfferForm.get('end_date')?.dirty && addEditOfferForm.get('end_date')?.touched)">
+                      <span *ngIf="addEditOfferForm.get('end_date')?.errors?.['required']">
+                        End date is required.
+                      </span>
+                    </span>
                   </div>
                 </div>
                 <div class="w-full lg:w-1/2 px-2 pt-5 inputHolder">
                   <span class="input-titel">Product Name</span>
-                  <input type="text" class="input" />
+                  <input type="text" name="product_name" formControlName="product_name" class="input" />
                 </div>
-              </div>
-              <div class="flex flex-wrap items-center -mx-2">
                 <div class="w-full lg:w-1/2 px-2 pt-5">
                   <span class="input-titel">Add Poster <span class="textLow">(Max size 10MB)</span></span>
                   <label for="upload" class="upload upload-popup py-10">
                     <input type="file" name="images" id="upload" class="appearance-none hidden" />
                     <span class="input-titel mt-1 text-base"><i class="icon-img_upload mr-2"></i>Add Poster</span>
+                    <!-- <img [alt]="'add-photo'" [src]="constants.baseImageURL + photo.url" *ngIf="" class="object-cover w-full h-full"/> -->
                   </label>
                 </div>
                 <div class="w-full lg:w-1/2 px-2 pt-5">
                   <span class="input-titel">Offer Product Image</span>
-                  <div class="flex space-x-3">
+                  <div class="flex flex-wrap h-full">
+                    <div *ngFor="let photo of photoArr; let i = index" class="upload-box mr-2.5 mb-2.5">
+                      <div class="rounded relative overflow-hidden h-full w-full">
+                        <img [alt]="'add-photo-' + i" [src]="constants.baseImageURL + photo.url" *ngIf="isString(photo.url)" class="object-cover w-full h-full"/>
+                        <button (click)="removeImage(i)">Remove</button>
+                      </div>
+                    </div>
+                    <div class="upload-holder relative" *ngIf="photoArr.length < 2">
+                      <p-progressSpinner *ngIf="isImgLoading" [style]="{width: '20px', height: '20px'}" animationDuration=".5s" strokeWidth="4" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-0 z-20" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
+                      <label class="upload-photo">
+                        <input (change)="uploadImage()" accept="image/png, image/jpeg, image/gif" class="appearance-none hidden" id="create-photo-upload" multiple name="images" type="file"/>
+                        <i class="icon-img_upload text-base text-quicksilver"></i>
+                        <div class="mt-1 flex items-baseline justify-center"><span class="input-titel pt-1">Add Photos</span></div>
+                      </label>
+                    </div>
+                  </div>
+                  <!-- <div class="flex space-x-3">
                     <div class="upload-holder">
                       <label for="upload1" class="upload-photo">
                         <input type="file" name="images" id="upload1" class="appearance-none hidden" />
@@ -87,98 +105,99 @@
                             Photos</span></div>
                       </label>
                     </div>
-                  </div>
+                  </div> -->
                 </div>
-              </div>
-              <div class="w-full">
-                <span class="input-titel">Product Description</span>
-                <textarea  cols="30" rows="4"
-                  class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md placeholder:text-sm placeholder:text-[#a6a6a6] placeholder:font-bold"></textarea>
-              </div>
-              <div class="w-full pt-5">
-                <div class="bg-white p-3.5 lg:p-7 offerProducts rounded-md w-full">
-                  <div class="flex items-center -mx-2">
-                    <div class="w-full lg:w-1/2 px-2 inputHolder">
-                      <span class="input-titel">select platform</span>
-                      <select name="All Category"
-                        class="arrow bgquicksilver py-3 text-japaneseIndigo font-bold rounded-md tracking-wider appearance-none focus-visible:outline-none">
-                        <option value=""></option>
-                        <option value="">Select Category</option>
-                        <option value="">Select Category</option>
-                        <option value="">Select Category</option>
-                      </select>
-                    </div>
-                    <div class="w-full lg:w-1/2 px-2">
-                      <span class="input-titel">enter platform product link</span>
-                      <div class="w-full flex items-center space-x-5">
-                        <div class="w-full inputHolder">
-                          <input type="text" class="bgquicksilver" />
+                <div class="w-full px-2 pt-5">
+                  <span class="input-titel">Product Description</span>
+                  <textarea name="description" formControlName="description" cols="30" rows="4" class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md placeholder:text-sm placeholder:text-[#a6a6a6] placeholder:font-bold"></textarea>
+                </div>
+                <div class="w-full px-2 pt-5">
+                  <div class="bg-white p-3.5 lg:p-7 offerProducts rounded-md w-full">
+                    <div class="flex items-center -mx-2">
+                      <div class="w-full lg:w-1/2 px-2 inputHolder">
+                        <span class="input-titel">select platform</span>
+                        <select name="All Category" class="arrow bgquicksilver py-3 text-japaneseIndigo font-bold rounded-md tracking-wider appearance-none focus-visible:outline-none">
+                          <option value=""></option>
+                          <option value="">Select Category</option>
+                          <option value="">Select Category</option>
+                          <option value="">Select Category</option>
+                        </select>
+                      </div>
+                      <div class="w-full lg:w-1/2 px-2">
+                        <span class="input-titel">enter platform product link</span>
+                        <div class="w-full flex items-center space-x-5">
+                          <div class="w-full inputHolder">
+                            <input type="text" class="bgquicksilver" />
+                          </div>
+                          <div>
+                            <button
+                              class="border-2 border-magicPotion w-7 h-7 rounded-full flex justify-center items-center">
+                              <span
+                                class="border border-magicPotion flex border-x-8 border-y-5 bg-magicPotion rounded"></span>
+                            </button>
+                          </div>
                         </div>
-                        <div>
-                          <button
-                            class="border-2 border-magicPotion w-7 h-7 rounded-full flex justify-center items-center">
-                            <span
-                              class="border border-magicPotion flex border-x-8 border-y-5 bg-magicPotion rounded"></span>
-                          </button>
+                      </div>
+                    </div>
+                    <div class="flex items-center -mx-2">
+                      <div class="w-full lg:w-1/2 px-2 pt-7 inputHolder">
+                        <span class="input-titel">select platform</span>
+                        <select class="js-example-basic-single w-full">
+                          <option value="AL">Instagram page</option>
+                          <option value="WY">Facebook page</option>
+                          <option value="WY">Amazon</option>
+                          <option value="WY">Flipkart</option>
+                        </select>
+                      </div>
+                      <div class="w-full lg:w-1/2 px-2 pt-7">
+                        <span class="input-titel">enter platform product link</span>
+                        <div class="w-full flex items-center space-x-5">
+                          <div class="w-full inputHolder">
+                            <input type="text" class="bgquicksilver" />
+                          </div>
+                          <div>
+                            <button
+                              class="border-2 border-japaneseIndigo w-7 h-7 rounded-full flex justify-center items-center">
+                              <i class="icon-plus_round leading-0"></i>
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div class="flex items-center -mx-2">
-                    <div class="w-full lg:w-1/2 px-2 pt-7 inputHolder">
-                      <span class="input-titel">select platform</span>
-                      <select class="js-example-basic-single w-full">
-                        <option value="AL">Instagram page</option>
-                        <option value="WY">Facebook page</option>
-                        <option value="WY">Amazon</option>
-                        <option value="WY">Flipkart</option>
-                      </select>
-                    </div>
-                    <div class="w-full lg:w-1/2 px-2 pt-7">
-                      <span class="input-titel">enter platform product link</span>
-                      <div class="w-full flex items-center space-x-5">
-                        <div class="w-full inputHolder">
-                          <input type="text" class="bgquicksilver" />
-                        </div>
-                        <div>
-                          <button
-                            class="border-2 border-japaneseIndigo w-7 h-7 rounded-full flex justify-center items-center">
-                            <i class="icon-plus_round leading-0"></i>
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="flex items-end flex-wrap -mx-2">
-                <div class="w-full lg:w-1/2 px-2 py-2 lg:py-0 inputHolder">
-                  <span class="input-titel">Company name</span>
-                  <input type="text" class="input" />
                 </div>
                 <div class="w-full lg:w-1/2 px-2 pt-5 inputHolder">
+                  <span class="input-titel">Company name</span>
+                  <input type="text" name="company_name" formControlName="company_name" class="input" />
+                </div>
+                <div class="w-full lg:w-1/2 px-2 pt-5 inputHolder relative group">
                   <span class="input-titel">Company GST (Optional)</span>
-                  <label for="upload" class="upload upload-popup py-3">
-                    <input type="file" name="images" id="upload" class="appearance-none hidden" />
-                    <span class="input-titel text-base p-0"><i class="icon-pdf_upload mr-2"></i>Upload PDF</span>
+                  <p-progressSpinner *ngIf="isPdfLoading" [style]="{width: '20px', height: '20px'}" animationDuration=".5s" strokeWidth="4" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-x-1 bottom-0 top-10 z-20" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
+                  <label class="upload upload-popup py-3">
+                    <input (change)="onChangePDF($event)" accept="application/pdf" class="appearance-none hidden" id="company_gst" name="images" type="file"/>
+                    <span class="input-titel text-base p-0">
+                      <i class="icon-pdf_upload mr-2"></i> 
+                      <span class="normal-case">{{inputText ? inputText : 'Upload PDF'}}</span>
+                    </span>
                   </label>
+                  <a *ngIf="inputText" class="absolute right-4 bottom-3 py-0.5 px-2 normal-case text-gray-400 anim hover:text-magicPotion text-sm font-semibold hidden border border-current group-hover:inline-block" [href]="constants.baseImageURL + gstPdf" target="_blank" title="View File">View</a>
+                  <span class="absolute top-full text-red-500 text-xs" *ngIf="isInValidPDF">
+                    Please upload only PDF file. 
+                  </span>
                 </div>
-              </div>
-              <div class="flex items-end flex-wrap -mx-2">
-                <div class="w-full lg:w-1/2 px-2 py-2 lg:py-0 inputHolder">
+                <div class="w-full lg:w-1/2 px-2 pt-5 inputHolder">
                   <span class="input-titel">Company Contact No</span>
-                  <input type="text" class="input" />
+                  <input type="tel" name="company_contact_no" formControlName="company_contact_no" class="input" fuseValidNumber />
                 </div>
-                <div class="w-full lg:w-1/2 px-2 py-2 lg:py-0 inputHolder">
+                <div class="w-full lg:w-1/2 px-2 pt-5 inputHolder">
                   <span class="input-titel">Company Email</span>
-                  <input type="text" class="input" />
+                  <input type="email" name="company_email" formControlName="company_email" class="input" />
+                </div>
+                <div class="w-full px-2 pt-5">
+                  <span class="input-titel">About Our Company</span>
+                  <textarea name="about_company" formControlName="about_company" cols="30" rows="4" class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md placeholder:text-sm placeholder:text-[#a6a6a6] placeholder:font-bold"></textarea>
                 </div>
               </div>
-              <div class="w-full">
-                <span class="input-titel">About Our Company</span>
-                <textarea  cols="30" rows="4"
-                  class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md placeholder:text-sm placeholder:text-[#a6a6a6] placeholder:font-bold"></textarea>
-              </div>
-            </div>
+            </form>
           </div>
         </div>
