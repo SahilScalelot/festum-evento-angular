@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import {FormArray, FormBuilder, Validators} from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { CONSTANTS } from 'src/app/main/common/constants';
 import { GlobalFunctions } from 'src/app/main/common/global-functions';
 import { ModalService } from 'src/app/main/_modal';
@@ -56,6 +56,7 @@ export class ShopOverviewComponent implements OnInit {
 
   overview: boolean = true;
   reviews: boolean = false;
+  @ViewChild('offerNgForm') offerNgForm: any;
 
   get offerOnAllProducts(): any {
     return this.addEditOfferForm.get('offer_on_all_products');
@@ -74,6 +75,9 @@ export class ShopOverviewComponent implements OnInit {
   }
   get offerType(): any {
     return this.addEditOfferForm?.get('offer_type');
+  }
+  get offerTypeConditions(): any {
+    return this.addEditOfferForm.get('offer_type_conditions') as FormArray;
   }
 
   constructor(
@@ -245,10 +249,25 @@ export class ShopOverviewComponent implements OnInit {
     $('.dropify-clear').click();
     this.isTAndC = false;
     this.isAddUserWiseOffers = false;
+    this.offerNgForm.resetForm();
+    this.allProductConditions.clear();
+    this.offerTypeConditions.clear();
+
+    // this.addEditOfferForm.get('tandc').clearValidators();
+    // this.addEditOfferForm.get('tandc').updateValueAndValidity();
+    this.offerType.setValue(CONSTANTS.offerTypeArr[CONSTANTS.offerTypeObj.unlimited].value);
     this._modalService.close('offerDialog');
   }
 
-  onFileChange(event: any): any {
+  onSelectOfferOnAllProduct(event: any = {}): void {
+    if (event.checked && event.checked.length && event.checked[0] && event.checked[0] == 'true') {
+      this.addProductLimitation();
+    } else {
+      this.allProductConditions.clear();
+    }
+  }
+
+  onFileChange(event: any, isProductFormValidation: boolean = false, index: any = -1): any {
     const file = event.target.files[0];
     if (!this.isUploadImageLoading && file != undefined) {
       if (file.type != 'image/jpeg' && file.type != 'image/jpg' && file.type != 'image/png') {
@@ -261,12 +280,26 @@ export class ShopOverviewComponent implements OnInit {
         return false;
       }
 
+      this.uploadImage(file, isProductFormValidation, index);
+    }
+  }
+
+  uploadImage(file: any, isProductFormValidation: boolean = false, index: any): void {
+    if (file != undefined) {
       const imageFormData = new FormData();
       imageFormData.append('file', file);
       this.isUploadImageLoading = true;
       this._offlineShopsService.uploadImage(imageFormData).subscribe((result: any) => {
         if (result && result.IsSuccess) {
-          this.allProductImages.value.push({url: result.Data.url});
+          if (isProductFormValidation && index != -1) {
+            this.offerTypeConditions.get(index.toString()).patchValue({
+              url: result.Data.url
+            });
+          } else {
+            const newProductImages = this.allProductImages?.value || [];
+            newProductImages.push({url: result.Data.url});
+            this.allProductImages.setValue(newProductImages);
+          }
           this._sNotify.success('File Uploaded Successfully.', 'Success');
         } else {
           this._globalFunctions.successErrorHandling(result, this, true);
@@ -283,35 +316,62 @@ export class ShopOverviewComponent implements OnInit {
     this.allProductImages.value.splice(index, 1);
   }
 
-  onContinueClick(): void {
-    console.log(this.addEditOfferForm.value);
-    // if (this.addEditOfferForm.invalid) {
-    //   Object.keys(this.addEditOfferForm.controls).forEach((key) => {
-    //     this.addEditOfferForm.controls[key].touched = true;
-    //     this.addEditOfferForm.controls[key].markAsDirty();
-    //   });
-    //   return;
-    // }
-    if (this.addEditOfferForm.value && this.addEditOfferForm.value.offer_on_all_products &&
-        this.addEditOfferForm.value.offer_on_all_products.length && this.addEditOfferForm.value.offer_on_all_products[0] == 'true') {
+  checkValidation(isForTAndC: boolean = false, isProductFormValidation: boolean = false): any {
+    if (this.addEditOfferForm.invalid) {
+      Object.keys(this.addEditOfferForm.controls).forEach((key) => {
+        this.addEditOfferForm.controls[key].touched = true;
+        this.addEditOfferForm.controls[key].markAsDirty();
+      });
+      if (isForTAndC) {
+        if (!this.allProductImages || !this.allProductImages.value || !this.allProductImages.value.length) {
+          this.allProductImages.setErrors({'required': true});
+        } else {
+          this.allProductImages.setErrors(null);
+        }
+        Object.keys(this.allProductConditions.controls).forEach((key) => {
+          Object.keys(this.allProductConditions.controls[key].controls).forEach((subKey) => {
+            this.allProductConditions.controls[key].controls[subKey].touched = true;
+            this.allProductConditions.controls[key].controls[subKey].markAsDirty();
+          });
+        });
+      } else if (isProductFormValidation) {
+        Object.keys(this.offerTypeConditions.controls).forEach((key) => {
+          Object.keys(this.offerTypeConditions.controls[key].controls).forEach((subKey) => {
+            this.offerTypeConditions.controls[key].controls[subKey].touched = true;
+            this.offerTypeConditions.controls[key].controls[subKey].markAsDirty();
+          });
+        });
+      }
+      return false;
+    }
+    return true;
+  }
+
+  onContinueClick(): any {
+    const isForTAndC: boolean = !!(this.offerOnAllProducts && this.offerOnAllProducts.value && this.offerOnAllProducts.value.length && this.offerOnAllProducts.value[0] == 'true');
+    if (!this.checkValidation(isForTAndC)) {
+      return false;
+    }
+    if (isForTAndC) {
+      this.addEditOfferForm.get('tandc').setValidators([Validators.required]);
+      this.addEditOfferForm.get('tandc').updateValueAndValidity();
       this.isTAndC = true;
       this.isAddUserWiseOffers = false;
     } else {
+      this.addProductOffer({}, this.offerType.value);
       this.isTAndC = false;
       this.isAddUserWiseOffers = true;
     }
   }
 
-  onSaveAndContinueClick(): void {
-    console.log(this.addEditOfferForm.value);
-    // if (this.addEditOfferForm.invalid) {
-    //   Object.keys(this.addEditOfferForm.controls).forEach((key) => {
-    //     this.addEditOfferForm.controls[key].touched = true;
-    //     this.addEditOfferForm.controls[key].markAsDirty();
-    //   });
-    //   return;
-    // }
+  onSaveAndContinueClick(): any {
+    const isForTAndC: boolean = !!(this.offerOnAllProducts && this.offerOnAllProducts.value && this.offerOnAllProducts.value.length && this.offerOnAllProducts.value[0] == 'true');
+    if (!this.checkValidation(isForTAndC, true)) {
+      return false;
+    }
 
+    this.addEditOfferForm.get('tandc').setValidators([Validators.required]);
+    this.addEditOfferForm.get('tandc').updateValueAndValidity();
     this.isTAndC = true;
     this.isAddUserWiseOffers = false;
   }
@@ -325,17 +385,11 @@ export class ShopOverviewComponent implements OnInit {
   }
 
   addEditOffer(): any {
-    console.log(this.addEditOfferForm);
-    if (this.addEditOfferForm.invalid) {
-      Object.keys(this.addEditOfferForm.controls).forEach((key) => {
-        this.addEditOfferForm.controls[key].touched = true;
-        this.addEditOfferForm.controls[key].markAsDirty();
-      });
-      return;
+    const isForTAndC: boolean = !!(this.offerOnAllProducts && this.offerOnAllProducts.value && this.offerOnAllProducts.value.length && this.offerOnAllProducts.value[0] == 'true');
+    if (!this.checkValidation(isForTAndC, true)) {
+      return false;
     }
     const preparedOfferObj: any = this.prepareOfferObj(this.addEditOfferForm.value);
-    console.log(preparedOfferObj);
-    
     this.isSaveLoading = true;
     this._offlineShopsService.saveOfflineOffer(preparedOfferObj).subscribe((result: any) => {
       if (result && result.IsSuccess) {
@@ -471,22 +525,48 @@ export class ShopOverviewComponent implements OnInit {
     }
   }
 
+  onOfferTypeChange(): void {
+    this.offerTypeConditions.clear();
+    this.addProductOffer({}, this.offerType.value);
+  }
+
+  addProductOffer(productOfferObj: any = {}, personType: any = ''): void {
+    const isLimitedPersons: boolean = (personType == CONSTANTS.offerTypeArr[CONSTANTS.offerTypeObj.limited].value);
+    const productOffer: any = this._formBuilder.group({
+      url: [productOfferObj?.url || '', [Validators.required]],
+      product_name: [productOfferObj?.person_name || '', [Validators.required]],
+      discount: [productOfferObj?.discount || '', [Validators.required]],
+      discount_type: [productOfferObj?.discount_type || CONSTANTS.discountTypeArr[CONSTANTS.discountTypeObj.percentage].value, [Validators.required]]
+    });
+    if (isLimitedPersons) {
+      productOffer.addControl('person_limitation', new FormControl(productOfferObj?.person_limitation || '', Validators.required));
+    }
+    this.offerTypeConditions.push(productOffer);
+  }
+
+  removeProductOffer(index: any): void {
+    if (this.offerTypeConditions.get(index.toString())) {
+      this.offerTypeConditions.removeAt(index.toString());
+      this.offerTypeConditions.updateValueAndValidity();
+    }
+  }
+
   private _prepareAddEditOfferForm(offerObj: any = {}): void {
     this.addEditOfferForm = this._formBuilder.group({
       // offerid: [""],
-      offer_title: ["", [Validators.required]],
-      start_date: ["", [Validators.required]],
-      end_date: ["", [Validators.required]],
-      poster: [""],
-      video: [""],
-      description: ["", [Validators.required]],
+      offer_title: [offerObj?.offer_title || "", [Validators.required]],
+      start_date: [offerObj?.start_date || "", [Validators.required]],
+      end_date: [offerObj?.end_date || "", [Validators.required]],
+      poster: [offerObj?.poster || "", [Validators.required]],
+      video: [offerObj?.video || ""],
+      description: [offerObj?.description || "", [Validators.required]],
       status: [false],
       offer_on_all_products: [''],
       all_product_images: [],
       all_product_conditions: this._formBuilder.array([]),
-      offer_type: ["unlimited"],
-      offer_type_conditions: [],
-      tandc: [""],
+      offer_type: [offerObj?.offer_type || CONSTANTS.offerTypeArr[CONSTANTS.offerTypeObj.unlimited].value],
+      offer_type_conditions: this._formBuilder.array([]),
+      tandc: [offerObj?.tandc || ""],
     });
 
     if (offerObj && offerObj.all_product_conditions && offerObj.all_product_conditions.length) {
@@ -500,6 +580,7 @@ export class ShopOverviewComponent implements OnInit {
     // event.stopPropagation();
     this._router.navigate(['/offline-shops/' + addShopObj + '/offer-overview/' + offerId._id]);
   }
+
   onTabChange(tabVarName: any): void {
     this.overview = this.reviews = false;
     if (tabVarName == 'overview') {
