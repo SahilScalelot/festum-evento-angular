@@ -7,6 +7,10 @@ import { CreateOfferComponent } from './create-offer/create-offer.component';
 import { CalendarModule } from 'primeng/calendar';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from "../../../shared/shared.module";
+import { ModalModule } from '../../_modal';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ImageCropperModule } from 'ngx-image-cropper';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 const routes: Routes = [
   {
@@ -31,7 +35,11 @@ const routes: Routes = [
     CommonModule,
     CalendarModule,
     ReactiveFormsModule,
-    SharedModule
+    SharedModule,
+    ModalModule,
+    MatProgressSpinnerModule,
+    ImageCropperModule,
+    CKEditorModule
   ]
 })
 export class OnlineOffersModule { }

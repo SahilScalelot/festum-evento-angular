@@ -62,8 +62,6 @@
 </div>
 
 <!-- Add Edit Shop Dialog -->
-<modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden"
-       id="shopDialog" [title]="(shopId && shopId != '') ? 'Edit Shop' : 'Add Shop'" maxWidth="lg:max-w-7xl xl:px-0" [isCloseHidden]="true">
-  <app-add-edit-shop-dialog *ngIf="isOpenAddEditShop" [shopId]="shopId"
-                            (closeAddEditFormEvent)="closeAddEditFormEvent($event)"></app-add-edit-shop-dialog>
+<modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="shopDialog" [title]="(shopId && shopId != '') ? 'Edit Shop' : 'Add Shop'" maxWidth="lg:max-w-7xl xl:px-0" [isCloseHidden]="true">
+  <app-add-edit-shop-dialog *ngIf="isOpenAddEditShop" [shopId]="shopId" (closeAddEditFormEvent)="closeAddEditFormEvent($event)"></app-add-edit-shop-dialog>
 </modal>

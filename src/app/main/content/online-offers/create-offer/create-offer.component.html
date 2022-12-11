@@ -1,203 +1,270 @@
-
-        <div class="wrapper">
-          <div class="h-full">
-            <!-- title-holder  -->
-            <div class="flex justify-between items-center">
-              <a href="javascript:void(0);" class="flex items-center"  routerLink="/online-offers">
-                <i class="icon-left_arrow mr-4 text-2xl"></i>
-                <h2>{{(offerId && offerId != '') ? 'Edit' : 'Create'}} Offer</h2>
-              </a>
-              <button class="secondary anim px-5 py-3" (click)="saveAndContinue()">Save and Continue</button>
+<div class="wrapper">
+  <div class="h-full">
+    <!-- title-holder  -->
+    <div class="flex justify-between items-center">
+      <a href="javascript:void(0);" class="flex items-center"  routerLink="/online-offers">
+        <i class="icon-left_arrow mr-4 text-2xl"></i>
+        <h2>{{(offerId && offerId != '') ? 'Edit' : 'Create'}} Offer</h2>
+      </a>
+      <button class="secondary anim px-5 py-3" (click)="saveAndContinue()">Save and Continue</button>
+    </div>
+    <!-- main-content  -->
+    <form class="p-ngCss pt-3" [formGroup]="addEditOfferForm">
+      <div class="flex flex-wrap -mx-2">
+        <div class="w-full lg:w-1/2 px-2 pt-5 inputHolder relative">
+          <span class="input-titel">Online shop Name<span>*</span></span>
+          <input type="text" name="shop_name" formControlName="shop_name" class="input" />
+          <span class="absolute top-full text-red-500 text-xs" *ngIf="addEditOfferForm.get('shop_name')?.invalid && (addEditOfferForm.get('shop_name')?.dirty && addEditOfferForm.get('shop_name')?.touched)">
+            <span *ngIf="addEditOfferForm.get('shop_name')?.errors?.['required']">
+              Start date is required.
+            </span>
+          </span>
+        </div>
+        <div class="w-full lg:w-1/2 px-2 pt-5 inputHolder relative">
+          <span class="input-titel">Offer<span>*</span></span>
+          <div class="flex items-center w-full bg-white p-2 px-3.5 rounded-md">
+            <div class="w-full pr-4">
+              <input type="text" class="w-full outline-none text-spiroDiscoBall font-bold text-base capitalize" [formControlName]="'offer_amount'"
+                [placeholder]="addEditOfferForm && addEditOfferForm.value && addEditOfferForm.value.offer_type" [min]="0"
+                [max]="(addEditOfferForm?.value?.offer_type == constants.discountTypeArr[constants.discountTypeObj.percentage].value) ? 100 : positiveMaxNumber" fuseValidNumber/>
             </div>
-            <!-- main-content  -->
-            <form class="p-ngCss pt-3" [formGroup]="addEditOfferForm">
-              <div class="flex flex-wrap -mx-2">
-                <div class="w-full lg:w-1/2 px-2 pt-5 inputHolder">
-                  <span class="input-titel">Online shop Name</span>
-                  <input type="text" name="shop_name" formControlName="shop_name" class="input" />
-                </div>
-                <div class="w-full lg:w-1/2 px-2 pt-5 inputHolder">
-                  <span class="input-titel">Offer</span>
-                  <div class="flex items-center w-full bg-white p-2 px-3.5 rounded-md">
-                    <div class="w-full pr-4">
-                      <input type="text" class="w-full outline-none text-spiroDiscoBall font-bold text-base capitalize" [formControlName]="'offer_amount'"
-                       [placeholder]="addEditOfferForm && addEditOfferForm.value && addEditOfferForm.value.offer_type" [min]="0"
-                       [max]="(addEditOfferForm?.value?.offer_type == constants.discountTypeArr[constants.discountTypeObj.percentage].value) ? 100 : positiveMaxNumber" fuseValidNumber/>
-                    </div>
-                    <div class="selectPrice flex items-center space-x-3">
-                      <label *ngFor="let discountType of constants.discountTypeArr" class="block cursor-pointer">
-                        <input type="radio" [name]="'price_plus'" [formControlName]="'offer_type'" [value]="discountType.value" class="hidden" />
-                        <span class="text-sm text-quicksilver py-2 px-3 bg-white shadow-lg whitespace-nowrap font-bold rounded block">{{discountType.displayLabel}}</span>
-                      </label>
-                    </div>
-                  </div>
-                </div>
-                <div class="w-full lg:w-1/2 px-2 pt-5 flex space-x-4">
-                  <div class="w-full lg:w-1/2">
-                    <span class="input-titel">Offer Start Date</span>
-                    <label class="bg-white rounded-md flex space-x-3 relative">
-                      <i class="icon-calendar-2 text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0 z-10"></i>
-                      <p-calendar class="input w-full" formControlName="start_date" [touchUI]="true" [minDate]="minDateValue" name="start_date" inputId="start_date"></p-calendar>
-                    </label>
-                    <span class="absolute top-full text-red-500 text-xs" *ngIf="addEditOfferForm.get('start_date')?.invalid && (addEditOfferForm.get('start_date')?.dirty && addEditOfferForm.get('start_date')?.touched)">
-                      <span *ngIf="addEditOfferForm.get('start_date')?.errors?.['required']">
-                        Start date is required.
-                      </span>
-                    </span>
-                  </div>
-                  <div class="w-full lg:w-1/2">
-                    <span class="input-titel">Offer End Date</span>
-                    <label class="bg-white rounded-md flex space-x-3 relative">
-                      <i class="icon-calendar-2 text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0 z-10"></i>
-                      <p-calendar class="input w-full" formControlName="end_date" [touchUI]="true" [minDate]="addEditOfferForm.get('start_date').value ? addEditOfferForm.get('start_date').value : minDateValue" name="end_date" inputId="end_date"></p-calendar>
-                    </label>
-                    <span class="absolute top-full text-red-500 text-xs" *ngIf="addEditOfferForm.get('end_date')?.invalid && (addEditOfferForm.get('end_date')?.dirty && addEditOfferForm.get('end_date')?.touched)">
-                      <span *ngIf="addEditOfferForm.get('end_date')?.errors?.['required']">
-                        End date is required.
-                      </span>
-                    </span>
-                  </div>
-                </div>
-                <div class="w-full lg:w-1/2 px-2 pt-5 inputHolder">
-                  <span class="input-titel">Product Name</span>
-                  <input type="text" name="product_name" formControlName="product_name" class="input" />
-                </div>
-                <div class="w-full lg:w-1/2 px-2 pt-5">
-                  <span class="input-titel">Add Poster <span class="textLow">(Max size 10MB)</span></span>
-                  <label for="upload" class="upload upload-popup py-10">
-                    <input type="file" name="images" id="upload" class="appearance-none hidden" />
-                    <span class="input-titel mt-1 text-base"><i class="icon-img_upload mr-2"></i>Add Poster</span>
-                    <!-- <img [alt]="'add-photo'" [src]="constants.baseImageURL + photo.url" *ngIf="" class="object-cover w-full h-full"/> -->
-                  </label>
-                </div>
-                <div class="w-full lg:w-1/2 px-2 pt-5">
-                  <span class="input-titel">Offer Product Image</span>
-                  <div class="flex flex-wrap h-full">
-                    <div *ngFor="let photo of photoArr; let i = index" class="upload-box mr-2.5 mb-2.5">
-                      <div class="rounded relative overflow-hidden h-full w-full">
-                        <img [alt]="'add-photo-' + i" [src]="constants.baseImageURL + photo.url" *ngIf="isString(photo.url)" class="object-cover w-full h-full"/>
-                        <button (click)="removeImage(i)">Remove</button>
-                      </div>
-                    </div>
-                    <div class="upload-holder relative" *ngIf="photoArr.length < 2">
-                      <p-progressSpinner *ngIf="isImgLoading" [style]="{width: '20px', height: '20px'}" animationDuration=".5s" strokeWidth="4" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-0 z-20" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
-                      <label class="upload-photo">
-                        <input (change)="uploadImage()" accept="image/png, image/jpeg, image/gif" class="appearance-none hidden" id="create-photo-upload" multiple name="images" type="file"/>
-                        <i class="icon-img_upload text-base text-quicksilver"></i>
-                        <div class="mt-1 flex items-baseline justify-center"><span class="input-titel pt-1">Add Photos</span></div>
-                      </label>
-                    </div>
-                  </div>
-                  <!-- <div class="flex space-x-3">
-                    <div class="upload-holder">
-                      <label for="upload1" class="upload-photo">
-                        <input type="file" name="images" id="upload1" class="appearance-none hidden" />
-                        <i class="icon-img_upload text-base text-quicksilver"></i>
-                        <div class="mt-1 flex items-baseline justify-center"><span class="input-titel pt-1">Add
-                            Photos</span></div>
-                      </label>
-                    </div>
-                    <div class="upload-holder">
-                      <label for="upload1" class="upload-photo">
-                        <input type="file" name="images" id="upload1" class="appearance-none hidden" />
-                        <i class="icon-img_upload text-base text-quicksilver"></i>
-                        <div class="mt-1 flex items-baseline justify-center"><span class="input-titel pt-1">Add
-                            Photos</span></div>
-                      </label>
-                    </div>
-                  </div> -->
-                </div>
-                <div class="w-full px-2 pt-5">
-                  <span class="input-titel">Product Description</span>
-                  <textarea name="description" formControlName="description" cols="30" rows="4" class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md placeholder:text-sm placeholder:text-[#a6a6a6] placeholder:font-bold"></textarea>
-                </div>
-                <div class="w-full px-2 pt-5">
-                  <div class="bg-white p-3.5 lg:p-7 offerProducts rounded-md w-full">
-                    <div class="flex items-center -mx-2">
-                      <div class="w-full lg:w-1/2 px-2 inputHolder">
-                        <span class="input-titel">select platform</span>
-                        <select name="All Category" class="arrow bgquicksilver py-3 text-japaneseIndigo font-bold rounded-md tracking-wider appearance-none focus-visible:outline-none">
-                          <option value=""></option>
-                          <option value="">Select Category</option>
-                          <option value="">Select Category</option>
-                          <option value="">Select Category</option>
-                        </select>
-                      </div>
-                      <div class="w-full lg:w-1/2 px-2">
-                        <span class="input-titel">enter platform product link</span>
-                        <div class="w-full flex items-center space-x-5">
-                          <div class="w-full inputHolder">
-                            <input type="text" class="bgquicksilver" />
-                          </div>
-                          <div>
-                            <button
-                              class="border-2 border-magicPotion w-7 h-7 rounded-full flex justify-center items-center">
-                              <span
-                                class="border border-magicPotion flex border-x-8 border-y-5 bg-magicPotion rounded"></span>
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="flex items-center -mx-2">
-                      <div class="w-full lg:w-1/2 px-2 pt-7 inputHolder">
-                        <span class="input-titel">select platform</span>
-                        <select class="js-example-basic-single w-full">
-                          <option value="AL">Instagram page</option>
-                          <option value="WY">Facebook page</option>
-                          <option value="WY">Amazon</option>
-                          <option value="WY">Flipkart</option>
-                        </select>
-                      </div>
-                      <div class="w-full lg:w-1/2 px-2 pt-7">
-                        <span class="input-titel">enter platform product link</span>
-                        <div class="w-full flex items-center space-x-5">
-                          <div class="w-full inputHolder">
-                            <input type="text" class="bgquicksilver" />
-                          </div>
-                          <div>
-                            <button
-                              class="border-2 border-japaneseIndigo w-7 h-7 rounded-full flex justify-center items-center">
-                              <i class="icon-plus_round leading-0"></i>
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="w-full lg:w-1/2 px-2 pt-5 inputHolder">
-                  <span class="input-titel">Company name</span>
-                  <input type="text" name="company_name" formControlName="company_name" class="input" />
-                </div>
-                <div class="w-full lg:w-1/2 px-2 pt-5 inputHolder relative group">
-                  <span class="input-titel">Company GST (Optional)</span>
-                  <p-progressSpinner *ngIf="isPdfLoading" [style]="{width: '20px', height: '20px'}" animationDuration=".5s" strokeWidth="4" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-x-1 bottom-0 top-10 z-20" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
-                  <label class="upload upload-popup py-3">
-                    <input (change)="onChangePDF($event)" accept="application/pdf" class="appearance-none hidden" id="company_gst" name="images" type="file"/>
-                    <span class="input-titel text-base p-0">
-                      <i class="icon-pdf_upload mr-2"></i> 
-                      <span class="normal-case">{{inputText ? inputText : 'Upload PDF'}}</span>
-                    </span>
-                  </label>
-                  <a *ngIf="inputText" class="absolute right-4 bottom-3 py-0.5 px-2 normal-case text-gray-400 anim hover:text-magicPotion text-sm font-semibold hidden border border-current group-hover:inline-block" [href]="constants.baseImageURL + gstPdf" target="_blank" title="View File">View</a>
-                  <span class="absolute top-full text-red-500 text-xs" *ngIf="isInValidPDF">
-                    Please upload only PDF file. 
-                  </span>
-                </div>
-                <div class="w-full lg:w-1/2 px-2 pt-5 inputHolder">
-                  <span class="input-titel">Company Contact No</span>
-                  <input type="tel" name="company_contact_no" formControlName="company_contact_no" class="input" fuseValidNumber />
-                </div>
-                <div class="w-full lg:w-1/2 px-2 pt-5 inputHolder">
-                  <span class="input-titel">Company Email</span>
-                  <input type="email" name="company_email" formControlName="company_email" class="input" />
-                </div>
-                <div class="w-full px-2 pt-5">
-                  <span class="input-titel">About Our Company</span>
-                  <textarea name="about_company" formControlName="about_company" cols="30" rows="4" class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md placeholder:text-sm placeholder:text-[#a6a6a6] placeholder:font-bold"></textarea>
-                </div>
-              </div>
-            </form>
+            <div class="selectPrice flex items-center space-x-3">
+              <label *ngFor="let discountType of constants.discountTypeArr" class="block cursor-pointer">
+                <input type="radio" [name]="'price_plus'" [formControlName]="'offer_type'" [value]="discountType.value" class="hidden" />
+                <span class="text-sm text-quicksilver py-2 px-3 bg-white shadow-lg whitespace-nowrap font-bold rounded block">{{discountType.displayLabel}}</span>
+              </label>
+            </div>
+          </div>
+          <span class="absolute top-full text-red-500 text-xs" *ngIf="addEditOfferForm.get('offer_amount')?.invalid && (addEditOfferForm.get('offer_amount')?.dirty && addEditOfferForm.get('offer_amount')?.touched)">
+            <span *ngIf="addEditOfferForm.get('offer_amount')?.errors?.['required']">
+              Start date is required.
+            </span>
+          </span>
+        </div>
+        <div class="w-full lg:w-1/2 px-2 pt-5 flex space-x-4">
+          <div class="w-full lg:w-1/2 relative">
+            <span class="input-titel">Offer Start Date<span>*</span></span>
+            <label class="bg-white rounded-md flex space-x-3 relative">
+              <i class="icon-calendar-2 text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0 z-10"></i>
+              <p-calendar class="input w-full" formControlName="start_date" [touchUI]="true" [minDate]="minDateValue" name="start_date" inputId="start_date"></p-calendar>
+            </label>
+            <span class="absolute top-full text-red-500 text-xs" *ngIf="addEditOfferForm.get('start_date')?.invalid && (addEditOfferForm.get('start_date')?.dirty && addEditOfferForm.get('start_date')?.touched)">
+              <span *ngIf="addEditOfferForm.get('start_date')?.errors?.['required']">
+                Start date is required.
+              </span>
+            </span>
+          </div>
+          <div class="w-full lg:w-1/2 relative">
+            <span class="input-titel">Offer End Date<span>*</span></span>
+            <label class="bg-white rounded-md flex space-x-3 relative">
+              <i class="icon-calendar-2 text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0 z-10"></i>
+              <p-calendar class="input w-full" formControlName="end_date" [touchUI]="true" [minDate]="addEditOfferForm.get('start_date').value ? addEditOfferForm.get('start_date').value : minDateValue" name="end_date" inputId="end_date"></p-calendar>
+            </label>
+            <span class="absolute top-full text-red-500 text-xs" *ngIf="addEditOfferForm.get('end_date')?.invalid && (addEditOfferForm.get('end_date')?.dirty && addEditOfferForm.get('end_date')?.touched)">
+              <span *ngIf="addEditOfferForm.get('end_date')?.errors?.['required']">
+                End date is required.
+              </span>
+            </span>
           </div>
         </div>
+        <div class="w-full lg:w-1/2 px-2 pt-5 inputHolder relative">
+          <span class="input-titel">Product Name<span>*</span></span>
+          <input type="text" name="product_name" formControlName="product_name" class="input" />
+          <span class="absolute top-full text-red-500 text-xs" *ngIf="addEditOfferForm.get('product_name')?.invalid && (addEditOfferForm.get('product_name')?.dirty && addEditOfferForm.get('product_name')?.touched)">
+            <span *ngIf="addEditOfferForm.get('product_name')?.errors?.['required']">
+              Start date is required.
+            </span>
+          </span>
+        </div>
+        <div class="w-full lg:w-1/2 px-2 pt-5">
+          <div class="upload-holder w-full h-auto">
+            <span class="text-sm text-quicksilver font-semibold">Add Poster <span class="font-normal">(Max size 10MB)</span></span>
+            <label class="upload upload-popup p-0 relative group" id="posterUpload">
+              <input #poster (change)="onPosterChange($event)" accept="image/png, image/jpeg, image/gif" class="poster hidden" id="poster" type="file" />
+              <!-- <img *ngIf="posterImageAndVideoObj.banner" [src]="constants.baseImageURL + posterImageAndVideoObj.banner" class="absolute inset-0 w-full h-full object-cover z-10 group-hover:-z-10"/>-->
+            </label>
+          </div>
+        </div>
+        <div class="w-full lg:w-1/2 px-2 pt-5">
+          <span class="input-titel">Offer Product Image<span>*</span></span>
+          <div class="flex flex-wrap h-full">
+            <div *ngFor="let photo of photoArr; let i = index" class="upload-box mr-2.5 mb-2.5">
+              <div class="rounded relative overflow-hidden h-full w-full">
+                <img [alt]="'add-photo-' + i" [src]="constants.baseImageURL + photo.url" *ngIf="isString(photo.url)" class="object-cover w-full h-full"/>
+                <button (click)="removeImage(i)">Remove</button>
+              </div>
+            </div>
+            <div class="upload-holder relative" *ngIf="photoArr.length < 2">
+              <p-progressSpinner *ngIf="isImgLoading" [style]="{width: '20px', height: '20px'}" animationDuration=".5s" strokeWidth="4" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-0 z-20" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
+              <label class="upload-photo">
+                <input (change)="uploadImage()" accept="image/png, image/jpeg, image/gif" class="appearance-none hidden" id="create-photo-upload" multiple name="images" type="file"/>
+                <i class="icon-img_upload text-base text-quicksilver"></i>
+                <div class="mt-1 flex items-baseline justify-center"><span class="input-titel pt-1">Add Photos</span></div>
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="w-full px-2 pt-5">
+          <span class="input-titel">Product Description</span>
+          <textarea name="description" formControlName="description" cols="30" rows="4" class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md placeholder:text-sm placeholder:text-[#a6a6a6] placeholder:font-bold"></textarea>
+        </div>
+        <div class="w-full px-2 pt-5">
+          <div class="bg-white p-3.5 lg:p-7 offerProducts rounded-md w-full">
+            <div class="flex items-center -mx-2">
+              <div class="w-full lg:w-1/2 px-2 inputHolder">
+                <span class="input-titel">select platform</span>
+                <select name="All Category" class="arrow bgquicksilver py-3 text-japaneseIndigo font-bold rounded-md tracking-wider appearance-none focus-visible:outline-none">
+                  <option value=""></option>
+                  <option value="">Select Category</option>
+                  <option value="">Select Category</option>
+                  <option value="">Select Category</option>
+                </select>
+              </div>
+              <div class="w-full lg:w-1/2 px-2">
+                <span class="input-titel">enter platform product link</span>
+                <div class="w-full flex items-center space-x-5">
+                  <div class="w-full inputHolder">
+                    <input type="text" class="bgquicksilver" />
+                  </div>
+                  <div>
+                    <button class="border-2 border-magicPotion w-7 h-7 rounded-full flex justify-center items-center">
+                      <span class="border border-magicPotion flex border-x-8 border-y-5 bg-magicPotion rounded"></span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="flex items-center -mx-2">
+              <div class="w-full lg:w-1/2 px-2 pt-7 inputHolder">
+                <span class="input-titel">select platform</span>
+                <select class="js-example-basic-single w-full">
+                  <option value="AL">Instagram page</option>
+                  <option value="WY">Facebook page</option>
+                  <option value="WY">Amazon</option>
+                  <option value="WY">Flipkart</option>
+                </select>
+              </div>
+              <div class="w-full lg:w-1/2 px-2 pt-7">
+                <span class="input-titel">enter platform product link</span>
+                <div class="w-full flex items-center space-x-5">
+                  <div class="w-full inputHolder">
+                    <input type="text" class="bgquicksilver" />
+                  </div>
+                  <div>
+                    <button
+                      class="border-2 border-japaneseIndigo w-7 h-7 rounded-full flex justify-center items-center">
+                      <i class="icon-plus_round leading-0"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="w-full lg:w-1/2 px-2 pt-5 inputHolder">
+          <span class="input-titel">Company name</span>
+          <input type="text" name="company_name" formControlName="company_name" class="input" />
+        </div>
+        <div class="w-full lg:w-1/2 px-2 pt-5 inputHolder relative group">
+          <span class="input-titel">Company GST (Optional)</span>
+          <p-progressSpinner *ngIf="isPdfLoading" [style]="{width: '20px', height: '20px'}" animationDuration=".5s" strokeWidth="4" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-x-1 bottom-0 top-10 z-20" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
+          <label class="upload upload-popup py-3">
+            <input (change)="onChangePDF($event)" accept="application/pdf" class="appearance-none hidden" id="company_gst" name="images" type="file"/>
+            <span class="input-titel text-base p-0">
+              <i class="icon-pdf_upload mr-2"></i> 
+              <span class="normal-case">{{inputText ? inputText : 'Upload PDF'}}</span>
+            </span>
+          </label>
+          <a *ngIf="inputText" class="absolute right-4 bottom-3 py-0.5 px-2 normal-case text-gray-400 anim hover:text-magicPotion text-sm font-semibold hidden border border-current group-hover:inline-block" [href]="constants.baseImageURL + gstPdf" target="_blank" title="View File">View</a>
+          <span class="absolute top-full text-red-500 text-xs" *ngIf="isInValidPDF">
+            Please upload only PDF file. 
+          </span>
+        </div>
+        <div class="w-full lg:w-1/2 px-2 pt-5 inputHolder">
+          <span class="input-titel">Company Contact No</span>
+          <input type="tel" name="company_contact_no" formControlName="company_contact_no" class="input" fuseValidNumber />
+        </div>
+        <div class="w-full lg:w-1/2 px-2 pt-5 inputHolder">
+          <span class="input-titel">Company Email</span>
+          <input type="email" name="company_email" formControlName="company_email" class="input" />
+        </div>
+        <div class="w-full px-2 pt-5">
+          <span class="input-titel">About Our Company</span>
+          <textarea name="about_company" formControlName="about_company" cols="30" rows="4" class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md placeholder:text-sm placeholder:text-[#a6a6a6] placeholder:font-bold"></textarea>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<!-- Close -->
+<modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="delete-event-pop" title="Are you sure?" [isCloseHidden]="true" [isTitleHidden]="true">
+  <div class="flex flex-wrap relative">
+    <div class="w-full pb-8">
+      <h3 class="w-full pb-2 normal-case">Delete Event</h3>
+      <p class="normal-case">Are you sure you want to delete</p>
+    </div>
+    <div class="flex items-center justify-end space-x-5 w-full">
+      <button type="button" class="primary py-2 px-14 anim uppercase" (click)="close()">Cancel</button>    
+      <div class="relative">
+        <button class="secondary py-2 px-14 anim uppercase" type="submit" (click)="deleteEvent()">
+          <span [ngClass]="{'opacity-0': isDeleteLoading}">Delete</span>
+        </button>
+        <div class="absolute inset-0 text-white flex items-center" *ngIf="isDeleteLoading">
+          <mat-progress-spinner [diameter]="22" [mode]="'indeterminate'" class="mx-auto"></mat-progress-spinner>
+        </div>
+      </div>
+    </div>
+  </div>
+</modal>
+
+<!-- Poster crop -->
+<!-- <modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="imgCropper" title="Poster">
+  <div class="flex flex-wrap -mx-4 py-5 relative">
+    <span (click)="popClose('imgCropper');" class="absolute right-4 top-[-30px] cursor-pointer text-xl"><i class="icon-close"></i></span>
+    <div class="w-full lg:w-1/2 px-4">
+      <image-cropper (imageCropped)="cropImg($event)" (imageLoaded)="imageLoaded()" [aspectRatio]="2 / 1 " [imageChangedEvent]="imgChangeEvt" [maintainAspectRatio]="true" format="png"></image-cropper>
+    </div>
+    <div class="w-full lg:w-1/2 px-4">
+      <h6 class="text-lg pb-4">{{ 'Image Preview' }}</h6>
+      <img [src]="cropImgPreview" *ngIf="!isCropperLoading" class="responsive-img"/>
+    </div>
+  </div>
+  <button (click)="savePoster(cropImgPreview)" class="secondary w-full uppercase py-2 anim" [disabled]="isPosterLoading">{{ isPosterLoading ? 'Please wait...' : 'Save Poster' }}</button>
+</modal> -->
+
+<!-- Photo -->
+<modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="tAndC" title="Terms And Conditions">
+  <!-- <div>
+    <div class="w-full space-y-4 pt-2">
+      <h5>Terms And Conditions</h5>
+      <div class="w-full bg-white rounded relative">
+        <ckeditor (ready)="onTextEditorReady($event)" [config]="editorConfig" [editor]="detailEditor" [formControlName]="'tandc'" class="h-44 text-editor" id="tandc" name="tandc"></ckeditor>
+        <span class="absolute top-full text-red-500 text-xs ml-0" *ngIf="addEditOfferForm.get('tandc')?.invalid && (addEditOfferForm.get('tandc')?.dirty && addEditOfferForm.get('tandc')?.touched)">
+          <span *ngIf="addEditOfferForm.get('tandc')?.errors?.['required']">
+            Terms and conditions is required.
+          </span>
+        </span>
+      </div>
+      <div class="block w-full">
+        <label class="inline-flex items-end cursor-pointer">
+          <div class="checkbox rounded bg-white">
+            <input type="checkbox" [formControlName]="'status'" name="status"/>
+            <i class="icon-right text-white"></i>
+          </div>
+          <span class="input-titel text-base ml-4">Accept Your Terms and Conditions</span>
+        </label>
+      </div>
+    </div>
+    <div class="flex justify-end pt-5">
+      <div class="relative">
+        <button (click)="addEditOffer()" class="secondary py-3 px-5 uppercase text-lg font-bold" [disabled]="isLoading || isUploadPosterLoading || isUploadImageLoading || isUploadVideoLoading || isSaveLoading || !addEditOfferForm.get('status').value">Save</button>
+        <div class="absolute inset-0 text-white flex items-center" *ngIf="isSaveLoading">
+          <mat-progress-spinner [diameter]="22" [mode]="'indeterminate'" class="mx-auto"></mat-progress-spinner>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button (click)="uploadImage()" class="secondary w-full uppercase py-2 anim" [disabled]="isPhotoLoading">{{ isPhotoLoading ? 'Please wait...' : 'Submit' }}</button> -->
+</modal>

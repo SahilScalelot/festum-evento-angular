@@ -264,15 +264,11 @@
 </div>
 
 <!-- Add Edit Offer Dialog -->
-<modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="offerDialog"
-       [title]="(!isTAndC) ? (((offerId && offerId != '') ? 'Edit Offer' : (isAddUserWiseOffers ? 'Add' : 'Create') + ' Offer') + (isAddUserWiseOffers ? ' Product' : '')) : (isTAndC ? 'Terms And Conditions' : '')" maxWidth="lg:max-w-7xl xl:px-0" [isCloseHidden]="false">
-  <app-add-edit-shop-offer-dialog *ngIf="isOpenAddEditOffer" [shopId]="shopId" [offerId]="offerId" (flagsEvent)="setFlags($event)"
-                            (closeAddEditOfferFormEvent)="closeAddEditOfferFormEvent($event)"></app-add-edit-shop-offer-dialog>
+<modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="offerDialog" [title]="(!isTAndC) ? (((offerId && offerId != '') ? 'Edit Offer' : (isAddUserWiseOffers ? 'Add' : 'Create') + ' Offer') + (isAddUserWiseOffers ? ' Product' : '')) : (isTAndC ? 'Terms And Conditions' : '')" maxWidth="lg:max-w-7xl xl:px-0" [isCloseHidden]="false">
+  <app-add-edit-shop-offer-dialog *ngIf="isOpenAddEditOffer" [shopId]="shopId" [offerId]="offerId" (flagsEvent)="setFlags($event)" (closeAddEditOfferFormEvent)="closeAddEditOfferFormEvent($event)"></app-add-edit-shop-offer-dialog>
 </modal>
 
 <!-- Add Edit Shop Dialog -->
-<modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden"
-       id="shopDialog" [title]="'Edit Shop'" maxWidth="lg:max-w-7xl xl:px-0" [isCloseHidden]="true">
-  <app-add-edit-shop-dialog *ngIf="isOpenAddEditShop" [shopId]="shopId"
-                            (closeAddEditFormEvent)="closeAddEditFormEvent($event)"></app-add-edit-shop-dialog>
+<modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="shopDialog" [title]="'Edit Shop'" maxWidth="lg:max-w-7xl xl:px-0" [isCloseHidden]="true">
+  <app-add-edit-shop-dialog *ngIf="isOpenAddEditShop" [shopId]="shopId" (closeAddEditFormEvent)="closeAddEditFormEvent($event)"></app-add-edit-shop-dialog>
 </modal>
