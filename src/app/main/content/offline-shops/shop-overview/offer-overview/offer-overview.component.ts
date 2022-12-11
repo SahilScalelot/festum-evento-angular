@@ -18,15 +18,14 @@ export class OfferOverviewComponent implements OnInit {
   offerObj: any;
   shopId: any;
   offerId: any;
-  
   overview: boolean = true;
   attendee: boolean = false;
   reviews: boolean = false;
-  
   popUp: boolean = false;
-  // Loadings
+  isOpenAddEditOffer: boolean = false;
+  isTAndC: boolean = false;
+  isAddUserWiseOffers: boolean = false;
   isLoading: boolean = false;
-
   weekdays: any = [
     { value: 'su' },
     { value: 'mo' },
@@ -56,11 +55,11 @@ export class OfferOverviewComponent implements OnInit {
 
   getShopOfferById(): void {
     this.isLoading = true;
-    const offerId: any = {
+    const offerObj: any = {
       shopid : this.shopId || '',
       offlineofferid : this.offerId || '',
     };
-    this._offlineShopsService.getOfflineOffer(offerId).subscribe((result: any) => {
+    this._offlineShopsService.getOfflineOffer(offerObj).subscribe((result: any) => {
       if (result && result.IsSuccess) {
         this.offerObj = result.Data;
       }
@@ -70,6 +69,7 @@ export class OfferOverviewComponent implements OnInit {
       this.isLoading = false;
     });
   }
+
   getShopById(): void {
     this.isLoading = true;
     this._offlineShopsService.getOfflineShopByShopId(this.shopId).subscribe((result: any) => {
@@ -93,6 +93,27 @@ export class OfferOverviewComponent implements OnInit {
   
   closeDialog():void {
     this.popUp = false;
+  }
+
+  openAddEditOfferDialog(event: any): any {
+    event.stopPropagation();
+    this.isOpenAddEditOffer = true;
+    this._modalService.open('offerDialog');
+  }
+
+  closeAddEditOfferFormEvent(isReload: any): any {
+    if (isReload) {
+      this.getShopOfferById();
+    }
+    this.isOpenAddEditOffer = false;
+    this._modalService.close('offerDialog');
+  }
+
+  setFlags(flagObj: any): void {
+    if (flagObj) {
+      this.isTAndC = flagObj.isTAndC;
+      this.isAddUserWiseOffers = flagObj.isAddUserWiseOffers;
+    }
   }
 
   onTabChange(tabVarName: any): void {
