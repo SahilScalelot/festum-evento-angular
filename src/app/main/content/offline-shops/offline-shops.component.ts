@@ -13,9 +13,11 @@ import { Router } from "@angular/router";
 export class OfflineShopsComponent implements OnInit {
   shops: any = [];
   addShopObj: any = {};
+  tmpShopObj: any = {};
   addShopForm: any;
   constants: any = CONSTANTS;
   isLoading: boolean = false;
+  isDeleteLoading: boolean = false;
   weekDays: any = [];
   shopId: any = '';
   minDateValue: any = new Date();
@@ -82,4 +84,44 @@ export class OfflineShopsComponent implements OnInit {
     this._router.navigate(['/offline-shops/' + addShopObj._id]);
   }
 
+
+  removeOfflineShops(shop: any = ''): void {
+    this.isLoading = true;
+    const page = shop ? (shop.page + 1) : 1;
+    const filter: any = {
+      page : page || '1',
+      limit : shop?.rows || '4',
+      search: ""
+    };
+  }
+
+  openDeleteDialog(event: any, shopObj: any): void {
+    event.stopPropagation();
+    this.tmpShopObj = shopObj;
+    this._modalService.open("delete-shop-pop");
+  }
+
+  closeDeleteDialog(): void {
+    this.tmpShopObj = {};
+    this._modalService.close("delete-shop-pop");
+  }
+
+  deleteOfflineShops(): void {
+    // Open delete confirmation popup
+    this.isDeleteLoading = true;
+    this._offlineShopsService.removeOfflineShop(this.tmpShopObj._id).subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        this.getOfflineShops();
+        this.isDeleteLoading = false;
+        this.closeDeleteDialog();
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+        this.isDeleteLoading = false;
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isDeleteLoading = false;
+    });
+  }
+  
 }

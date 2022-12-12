@@ -251,6 +251,11 @@ export class AddEditShopDialogComponent implements OnInit {
         if (result?.Data?.banner) {
           this.setPosterInDropify(result?.Data?.banner);
         }
+        this.shopObj.company_name = result?.Data?.companydetails?.company_name;
+        this.shopObj.contact_number = result?.Data?.companydetails?.contact_number;
+        this.shopObj.emailid = result?.Data?.companydetails?.emailid;
+        this.shopObj.about = result?.Data?.companydetails?.about;
+        this.socialLinks = result?.Data?.companydetails?.social_media_links;
         setTimeout(() => {
           this.lat = this.shopObj?.location?.coordinates[1] || CONSTANTS.latitude;
           this.lng = this.shopObj?.location?.coordinates[0] || CONSTANTS.longitude;

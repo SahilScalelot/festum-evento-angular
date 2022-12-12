@@ -26,6 +26,7 @@ export class OfferOverviewComponent implements OnInit {
   isTAndC: boolean = false;
   isAddUserWiseOffers: boolean = false;
   isLoading: boolean = false;
+  isDeleteLoading: boolean = false;
   weekdays: any = [
     { value: 'su' },
     { value: 'mo' },
@@ -125,6 +126,34 @@ export class OfferOverviewComponent implements OnInit {
     } else if (tabVarName == 'reviews') {
       this.reviews = true;
     }
+  }
+
+  
+  closeDeleteDialog(): void {
+    this._modalService.close("delete-shop-offer-pop");
+  }
+  
+  openOfflineShopsOffer(event: any): void {
+    event.stopPropagation();
+    this._modalService.open("delete-shop-offer-pop");
+  }
+
+  deleteOfflineShopsOffer(): void {
+    this.isDeleteLoading = true;
+    this._offlineShopsService.removeOfflineOffer(this.offerObj).subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        this.isDeleteLoading = false;
+        this._sNotify.success(result.Message, 'Success');
+        this.closeDeleteDialog();
+        this._router.navigate(['/offline-shops/' + this.shopId]);
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+        this.isDeleteLoading = false;
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isDeleteLoading = false;
+    });
   }
 
 }

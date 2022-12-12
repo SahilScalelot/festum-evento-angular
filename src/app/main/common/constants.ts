@@ -80,8 +80,8 @@ export const CONSTANTS = {
   },
 
   offerTypeArr: [
-    {value: 'unlimited', label: 'Unlimited Person'},
-    {value: 'limited', label: 'Limited Person'}
+    {value: 'unlimited_person', label: 'Unlimited Person'},
+    {value: 'limited_person', label: 'Limited Person'}
   ],
 
   maxPosterSizeInMB: 10,

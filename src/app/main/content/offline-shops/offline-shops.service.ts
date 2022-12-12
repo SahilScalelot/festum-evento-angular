@@ -57,6 +57,14 @@ export class OfflineShopsService {
   saveOfflineOffer(shopObj: any): any {
     return this.http.post(environment.appURL + 'organizer/offlineoffer/save', shopObj, this._globalFunctions.getAuthorizationHeader());
   }
+  // Save Offline Offer
+  removeOfflineShop(shopId: any): any {
+    return this.http.post(environment.appURL + 'organizer/shops/remove', {shopid: shopId}, this._globalFunctions.getAuthorizationHeader());
+  }
+  // Save Offline Offer
+  removeOfflineOffer(shopObj: any): any {
+    return this.http.post(environment.appURL + 'organizer/offlineoffer/remove', {shopid: shopObj.shopid, offlineofferid: shopObj._id}, this._globalFunctions.getAuthorizationHeader());
+  }
 
   // Upload Offline Offer's Poster, Image, Video
   uploadPoster(posterFormData: any): any {

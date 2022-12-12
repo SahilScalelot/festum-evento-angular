@@ -146,21 +146,21 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
         return false;
       }      
       pdfFormData.append('file', pdfUpload);
-      // this.isPdfLoading = true;
-      // this._onlineOffersService.uploadDocument(pdfFormData).subscribe((result: any) => {
-      //   if (result && result.IsSuccess) {
-      //     this.gstPdf = result.Data.url;
-      //     this.inputText = _.last(_.split(result.Data.url, '/'));
-      //     this._sNotify.success('File Uploaded Successfully.', 'Success');
-      //     this.isPdfLoading = false;
-      //   } else {
-      //     this._globalFunctions.successErrorHandling(result, this, true);
-      //     this.isPdfLoading = false;
-      //   }
-      // }, (error: any) => {
-      //   this._globalFunctions.errorHanding(error, this, true);
-      //   this.isPdfLoading = false;
-      // });
+      this.isPdfLoading = true;
+      this._onlineOffersService.uploadDocument(pdfFormData).subscribe((result: any) => {
+        if (result && result.IsSuccess) {
+          this.gstPdf = result.Data.url;
+          this.inputText = _.last(_.split(result.Data.url, '/'));
+          this._sNotify.success('File Uploaded Successfully.', 'Success');
+          this.isPdfLoading = false;
+        } else {
+          this._globalFunctions.successErrorHandling(result, this, true);
+          this.isPdfLoading = false;
+        }
+      }, (error: any) => {
+        this._globalFunctions.errorHanding(error, this, true);
+        this.isPdfLoading = false;
+      });
     }
   }
 
@@ -212,7 +212,7 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
       description: [addEditOfferObj?.description || ''],
       product_links: [addEditOfferObj?.product_links || '', [Validators.required]],
       company_name: [addEditOfferObj?.company_name || '', [Validators.required]],
-      company_gst: [addEditOfferObj?.company_gst || ''],
+      company_gst: [this.gstPdf || ''],
       company_contact_no: [addEditOfferObj?.company_contact_no || '', [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
       company_email: [addEditOfferObj?.company_email || '', [Validators.required,Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
       about_company: [addEditOfferObj?.about_company || ''],

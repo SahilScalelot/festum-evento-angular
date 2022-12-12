@@ -25,6 +25,11 @@ export class OnlineOffersService {
     return this.http.post(environment.appURL + 'organizer/onlineoffer/getone', offerId, this._globalFunctions.getAuthorizationHeader());
   }
 
+  // Get Online Offer By Id Api
+  removeOnlineOfferById(offerId: any): any {
+    return this.http.post(environment.appURL + 'organizer/onlineoffer/remove', offerId, this._globalFunctions.getAuthorizationHeader());
+  }
+
   // Banner Upload Api
   uploadDocument(documentFormData: any): any {
     return this.http.post(environment.appURL + 'organizer/onlineoffer/document', documentFormData, this._globalFunctions.getFileAuthorizationHeader());

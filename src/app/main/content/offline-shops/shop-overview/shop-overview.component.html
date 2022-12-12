@@ -26,7 +26,7 @@
         <div class="flex justify-end space-x-2">
           <a href="javascript:void(0);" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-fill_megaphone text-base text-black"></i></a>
           <a href="javascript:void(0);" (click)="openAddEditShopDialog($event)" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-edit text-base text-black"></i></a>
-          <a href="javascript:void(0);" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-delete_fill text-base text-black"></i></a>
+          <a href="javascript:void(0);" (click)="openDeleteDialog($event, shopId)" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-delete_fill text-base text-black"></i></a>
         </div>
       </div>
     </div>
@@ -65,8 +65,8 @@
             <!-- Rainy season sale -->
             <div class="space-y-2.5">
               <div class="w-full p-2.5 bg-white rounded" *ngFor="let offer of shopOffer" (click)="gotoShopOfferOverview($event, shopId, offer)">
-                <div class="flex flex-wrap xl:flex-nowrap">
-                  <div class="relative w-full xl:max-w-[200px]">
+                <div class="flex flex-wrap items-center xl:flex-nowrap">
+                  <div class="relative w-full xl:max-w-[200px] h-full xl:max-h-32 overflow-hidden">
                     <img [src]="constants.baseImageURL + offer?.poster" [alt]="offer?.offer_title" class="w-full h-full object-cover pb-5 lg:pb-0" />
                   </div>
                   <div class="w-full xl:pl-5 pt-4 xl:pt-0 space-y-2">
@@ -91,10 +91,10 @@
                       <div>
                         <div class="w-full xl:w-2/12 flex space-x-2 pt-5 xl:pt-0">
                           <a href="javascript:void(0);" (click)="openAddEditOfferDialog($event, offer._id)" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-edit text-base text-black"></i></a>
-                          <a href="javascript:void(0);" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-show text-base text-black"></i></a>
+                          <a href="javascript:void(0);" (click)="gotoShopOfferOverview($event, shopId, offer)" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-show text-base text-black"></i></a>
                           <a href="javascript:void(0);" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-share text-base text-black"></i></a>
                           <a href="javascript:void(0);" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-fill_megaphone text-base text-black"></i></a>
-                          <a href="javascript:void(0);" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-delete_fill text-base text-black"></i></a>
+                          <a href="javascript:void(0);" (click)="openOfflineShopsOffer($event, offer)" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-delete_fill text-base text-black"></i></a>
                         </div>
                       </div>
                     </div>
@@ -271,4 +271,46 @@
 <!-- Add Edit Shop Dialog -->
 <modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="shopDialog" [title]="'Edit Shop'" maxWidth="lg:max-w-7xl xl:px-0" [isCloseHidden]="true">
   <app-add-edit-shop-dialog *ngIf="isOpenAddEditShop" [shopId]="shopId" (closeAddEditFormEvent)="closeAddEditFormEvent($event)"></app-add-edit-shop-dialog>
+</modal>
+
+<!-- Close -->
+<modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="delete-shop-pop" title="Are you sure?" [isCloseHidden]="true" [isTitleHidden]="true">
+  <div class="flex flex-wrap relative">
+    <div class="w-full pb-8">
+      <h3 class="w-full pb-2 normal-case">Delete Event</h3>
+      <p class="normal-case">Are you sure you want to delete {{shopObj?.shop_name}}</p>
+    </div>
+    <div class="flex items-center justify-end space-x-5 w-full">
+      <button type="button" class="primary py-2 px-14 anim uppercase" (click)="closeDeleteDialog()">Cancel</button>    
+      <div class="relative">
+        <button class="secondary py-2 px-14 anim uppercase" type="submit" (click)="deleteOfflineShops()">
+          <span [ngClass]="{'opacity-0': isDeleteLoading}">Delete</span>
+        </button>
+        <div class="absolute inset-0 text-white flex items-center" *ngIf="isDeleteLoading">
+          <mat-progress-spinner [diameter]="22" [mode]="'indeterminate'" class="mx-auto"></mat-progress-spinner>
+        </div>
+      </div>
+    </div>
+  </div>
+</modal>
+
+<!-- Close -->
+<modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="delete-shop-offer-pop" title="Are you sure?" [isCloseHidden]="true" [isTitleHidden]="true">
+  <div class="flex flex-wrap relative">
+    <div class="w-full pb-8">
+      <h3 class="w-full pb-2 normal-case">Delete Event</h3>
+      <p class="normal-case">Are you sure you want to delete {{tmpOfferObj?.offer_title}}</p>
+    </div>
+    <div class="flex items-center justify-end space-x-5 w-full">
+      <button type="button" class="primary py-2 px-14 anim uppercase" (click)="closeDeleteDialog()">Cancel</button>    
+      <div class="relative">
+        <button class="secondary py-2 px-14 anim uppercase" type="submit" (click)="deleteOfflineShopsOffer()">
+          <span [ngClass]="{'opacity-0': isDeleteLoading}">Delete</span>
+        </button>
+        <div class="absolute inset-0 text-white flex items-center" *ngIf="isDeleteLoading">
+          <mat-progress-spinner [diameter]="22" [mode]="'indeterminate'" class="mx-auto"></mat-progress-spinner>
+        </div>
+      </div>
+    </div>
+  </div>
 </modal>

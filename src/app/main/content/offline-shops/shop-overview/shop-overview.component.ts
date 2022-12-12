@@ -4,6 +4,7 @@ import { GlobalFunctions } from 'src/app/main/common/global-functions';
 import { ModalService } from 'src/app/main/_modal';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OfflineShopsService } from '../offline-shops.service';
+import { SnotifyService } from 'ng-snotify';
 
 @Component({
   selector: 'app-shop-overview',
@@ -14,10 +15,12 @@ export class ShopOverviewComponent implements OnInit {
   constants: any = CONSTANTS;
   shopId: any;
   shopObj: any;
+  tmpOfferObj: any;
   lat: number = 0;
   lng: number = 0;
   zoom: number = CONSTANTS.defaultMapZoom;
   isTAndC: boolean = false;
+  isDeleteLoading: boolean = false;
   isAddUserWiseOffers: boolean = false;
   isLoading: boolean = false;
   weekdays: any = [
@@ -37,13 +40,15 @@ export class ShopOverviewComponent implements OnInit {
   reviews: boolean = false;
   isOpenAddEditShop: boolean = false;
   isOpenAddEditOffer: boolean = false;
+  isDeleteOffer: boolean = false;
 
   constructor(
     private _modalService: ModalService,
     private _globalFunctions: GlobalFunctions,
     private _router: Router,
     private _offlineShopsService: OfflineShopsService,
-    private _activatedRoute: ActivatedRoute
+    private _activatedRoute: ActivatedRoute,
+    private _sNotify: SnotifyService,
   ) { }
 
   ngOnInit(): void {
@@ -150,5 +155,62 @@ export class ShopOverviewComponent implements OnInit {
     } else if (tabVarName == 'reviews') {
       this.reviews = true;
     }
+  }
+  
+  openDeleteDialog(event: any, offerObj: any, isDeleteOffer: boolean = false): void {
+    event.stopPropagation();
+    this.isDeleteOffer = isDeleteOffer;
+    if (isDeleteOffer) {
+      this.tmpOfferObj = offerObj;
+    }
+    this._modalService.open("delete-shop-pop");
+  }
+
+  closeDeleteDialog(): void {
+    this.tmpOfferObj = {};
+    this._modalService.close("delete-shop-pop");
+    this._modalService.close("delete-shop-offer-pop");
+  }
+
+  deleteOfflineShops(): void {
+    this.isDeleteLoading = true;
+    this._offlineShopsService.removeOfflineShop(this.shopId).subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        this._router.navigate(['/offline-shops']);
+        this.isDeleteLoading = false;
+        this.closeDeleteDialog();
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+        this.isDeleteLoading = false;
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isDeleteLoading = false;
+    });
+  }
+  
+  openOfflineShopsOffer(event: any, offerObj: any, isDeleteOffer: boolean = false): void {
+    event.stopPropagation();    
+    // this.isDeleteOffer = isDeleteOffer;
+    this.tmpOfferObj = offerObj;
+    this._modalService.open("delete-shop-offer-pop");
+  }
+
+  deleteOfflineShopsOffer(): void {
+    this.isDeleteLoading = true;
+    this._offlineShopsService.removeOfflineOffer(this.tmpOfferObj).subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        this.offlineShopOfferList();
+        this.isDeleteLoading = false;
+        this._sNotify.success(result.Message, 'Success');
+        this.closeDeleteDialog();
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+        this.isDeleteLoading = false;
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isDeleteLoading = false;
+    });
   }
 }
