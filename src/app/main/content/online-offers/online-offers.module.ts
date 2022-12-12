@@ -11,6 +11,7 @@ import { ModalModule } from '../../_modal';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { PaginatorModule } from "primeng/paginator";
 
 const routes: Routes = [
   {
@@ -38,6 +39,7 @@ const routes: Routes = [
     SharedModule,
     ModalModule,
     MatProgressSpinnerModule,
+    PaginatorModule,
     ImageCropperModule,
     CKEditorModule
   ]

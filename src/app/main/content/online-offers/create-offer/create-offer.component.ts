@@ -4,10 +4,15 @@ import { Router } from '@angular/router';
 import { SnotifyService } from 'ng-snotify';
 import { CONSTANTS } from 'src/app/main/common/constants';
 import { GlobalFunctions } from 'src/app/main/common/global-functions';
-// import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
 import { OnlineOffersService } from '../online-offers.service';
 import { ModalService } from 'src/app/main/_modal';
+// @ts-ignore
+import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
+import {CompressImageService} from "../../../../services/compress-image.service";
+import {ImageCroppedEvent} from "ngx-image-cropper";
+import { take } from 'rxjs';
 import * as _ from 'lodash';
+import * as moment from "moment";
 declare var $: any;
 
 @Component({
@@ -20,27 +25,51 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
   positiveMaxNumber: any = Number.POSITIVE_INFINITY;
   inputText: any;
   gstPdf: any;
-  // detailEditor = DecoupledEditor;
-
+  detailEditor = DecoupledEditor;
+  isLoading: boolean = false;
   isImgLoading: boolean = false;
+  isIconLoading: boolean = false;
   isPdfLoading: boolean = false;
   isInValidPDF: boolean = false;
   isCropperLoading: boolean = false;
   isDeleteLoading: boolean = false;
-
-  imgChangeEvt: any;
-  posterObj: any;
-
-  photoArr: any = [];
-  allPhotosFilesArr: any = [];
-  
-  addEditOfferForm: any;
-  offerId: any;
-  
+  isSaveLoading: boolean = false;
+  isPlatformLoading: boolean = false;
   minDateValue: any = new Date();
-  
+  imgChangeEvt: any;
+  posterObj: any = {};
+  addEditOfferForm: any;
+  tandcForm: any;
+  offerId: any;
+  offerObj: any;
+  platformObj: any = {};
   dropifyOption: any = {};
   drEvent: any;
+  cropImgPreview: any = '';
+  isPosterLoading: boolean = false;
+  editorConfig: any = {};
+  platformArr: any = [];
+  socialLinks: any = {
+    facebook_link: '',
+    youtube_link: '',
+    twitter_link: '',
+    pinterest_link: '',
+    instagram_link: '',
+    linkedin_link: ''
+  };
+
+  get poster(): any {
+    return this.addEditOfferForm?.get('poster');
+  }
+  get images(): any {
+    return this.addEditOfferForm?.get('images');
+  }
+  get companyGST(): any {
+    return this.addEditOfferForm?.get('company_gst');
+  }
+  get productLinks(): any {
+    return this.addEditOfferForm?.get('product_links');
+  }
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -49,9 +78,83 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
     private _onlineOffersService: OnlineOffersService,
     private _globalFunctions: GlobalFunctions,
     private _modalService: ModalService,
+    private _compressImageService: CompressImageService,
   ) { }
   
   ngOnInit(): void {
+    this.getPlatformList();
+    this.editorConfig = {
+      toolbar: [
+        'heading', '|',
+        'fontsize', 'fontfamily', '|',
+        'fontColor', 'fontBackgroundColor', '|',
+        'bold', 'italic', 'underline', 'strikethrough', '|',
+        'alignment', '|',
+        'outdent', 'indent', '|',
+        'numberedList', 'bulletedList', '|',
+        'link', 'mediaembed', 'blockquote', 'insertTable', '|',
+        'undo', 'redo'
+      ],
+      mediaEmbed: { previewsInData: true },
+      table: { contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells'] },
+      language: 'en',
+      alignment: { options: ['left', 'right', 'center', 'justify'] },
+      fontSize: { options: ['tiny', 'small', 'default', 'big', 'huge'] },
+      fontColor: {
+        columns: 6,
+        colors: [
+          { color: '#f05a28', label: 'Theme Orange', class: 'orange' },
+          { color: 'hsl(0, 0%, 0%)', label: 'Black' },
+          { color: 'hsl(0, 0%, 30%)', label: 'Dim grey' },
+          { color: 'hsl(0, 0%, 60%)', label: 'Grey' },
+          { color: 'hsl(0, 0%, 90%)', label: 'Light grey' },
+          { color: 'hsl(0, 0%, 100%)', label: 'White', hasBorder: true },
+          { color: '#f8696b', label: 'Red 1' },
+          { color: '#FFD800', label: 'Yellow 1' },
+          { color: '#63be7b', label: 'Green 1' },
+          { color: '#f44336', label: 'Red 2' },
+          { color: '#ff9100', label: 'Yellow 2' },
+          { color: '#4caf50', label: 'Green 2' },
+          { color: 'hsl(0, 75%, 60%)', label: 'Red' },
+          { color: 'hsl(30, 75%, 60%)', label: 'Orange' },
+          { color: 'hsl(60, 75%, 60%)', label: 'Yellow' },
+          { color: 'hsl(90, 75%, 60%)', label: 'Light green' },
+          { color: 'hsl(120, 75%, 60%)', label: 'Green' },
+          { color: 'hsl(150, 75%, 60%)', label: 'Aquamarine' },
+          { color: 'hsl(180, 75%, 60%)', label: 'Turquoise' },
+          { color: 'hsl(210, 75%, 60%)', label: 'Light blue' },
+          { color: 'hsl(240, 75%, 60%)', label: 'Blue' },
+          { color: 'hsl(270, 75%, 60%)', label: 'Purple' }
+        ]
+      },
+      fontBackgroundColor: {
+        columns: 6,
+        colors: [
+          { color: '#f05a28', label: 'Theme Orange' },
+          { color: 'hsl(0, 0%, 0%)', label: 'Black' },
+          { color: 'hsl(0, 0%, 30%)', label: 'Dim grey' },
+          { color: 'hsl(0, 0%, 60%)', label: 'Grey' },
+          { color: 'hsl(0, 0%, 90%)', label: 'Light grey' },
+          { color: 'hsl(0, 0%, 100%)', label: 'White', hasBorder: true },
+          { color: '#f8696b', label: 'Red 1' },
+          { color: '#FFD800', label: 'Yellow 1' },
+          { color: '#63be7b', label: 'Green 1' },
+          { color: '#f44336', label: 'Red 2' },
+          { color: '#ff9100', label: 'Yellow 2' },
+          { color: '#4caf50', label: 'Green 2' },
+          { color: 'hsl(0, 75%, 60%)', label: 'Red' },
+          { color: 'hsl(30, 75%, 60%)', label: 'Orange' },
+          { color: 'hsl(60, 75%, 60%)', label: 'Yellow' },
+          { color: 'hsl(90, 75%, 60%)', label: 'Light green' },
+          { color: 'hsl(120, 75%, 60%)', label: 'Green' },
+          { color: 'hsl(150, 75%, 60%)', label: 'Aquamarine' },
+          { color: 'hsl(180, 75%, 60%)', label: 'Turquoise' },
+          { color: 'hsl(210, 75%, 60%)', label: 'Light blue' },
+          { color: 'hsl(240, 75%, 60%)', label: 'Blue' },
+          { color: 'hsl(270, 75%, 60%)', label: 'Purple' }
+        ]
+      }
+    };
     this.dropifyOption = {
       messages: {
         default: 'Add Poster',
@@ -60,108 +163,59 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
     };
     this.drEvent = $('#poster').dropify(this.dropifyOption);
     this.drEvent.on('dropify.afterClear', (event: any, element: any) => {
-      // this.posterImageAndVideoObj.banner = '';
+      this.poster?.setValue('');
     });
-
-    if (localStorage.getItem('oOId') || localStorage.getItem('oOId') == '') {
-      this.offerId = localStorage.getItem('oOId');
-    }
     this._prepareAddEditOfferForm();
+    if (localStorage.getItem('oOId') && localStorage.getItem('oOId') != '') {
+      this.offerId = localStorage.getItem('oOId');
+      this.getOnlineShopOfferByOfferId(this.offerId);
+    }
   }
 
   ngOnDestroy(): void {
     localStorage.removeItem('oOId');
   }
 
-  uploadImage(): any {
-    const image = $('#create-photo-upload')[0].files[0];
-    const imgFormData = new FormData();
-    if (image != undefined) {
-      if (image.type != 'image/jpeg' && image.type != 'image/jpg' && image.type != 'image/png') {
-        this._sNotify.error('Image type is Invalid.', 'Oops!');
-        $('#create-photo-upload').focus();
-        return false;
+  getPlatformList(): void {
+    this.isLoading = true;
+    this._onlineOffersService.getPlatformList().subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        const platformArr: any = result?.Data || {};
+        this.isLoading = false;
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+        this.isLoading = false;
       }
-      const image_size = image.size / 1024 / 1024;
-      if (image_size > CONSTANTS.maxImageSizeInMB) {
-        this._sNotify.error('Maximum Image Size is ' + CONSTANTS.maxImageSizeInMB + 'MB.', 'Oops!');
-        $('#create-photo-upload').focus();
-        return false;
-      }
-      if (this.photoArr && this.photoArr.length && this.photoArr.length >= 2) {
-        this._sNotify.error('Maximum 5 images can upload!', 'Oops!');
-        return false;
-      }
-      imgFormData.append('file', image);
-      this.isImgLoading = true;
-      this._onlineOffersService.imageUpload(imgFormData).subscribe((result: any) => {
-        if (result && result.IsSuccess) {
-          const photo = result.Data.url;
-          this.photoArr.push({ url: photo });
-          this._sNotify.success('Image Uploaded Successfully.', 'Success');
-          this.isImgLoading = false;
-        } else {
-          this._globalFunctions.successErrorHandling(result, this, true);
-          this.isImgLoading = false;
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isLoading = false;
+    });
+  }
+
+  getOnlineShopOfferByOfferId(offerId: any = ''): void {
+    this.isLoading = true;
+    this._onlineOffersService.getOnlineOfferById(offerId).subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        const offerObj: any = result?.Data || {};
+        this._prepareAddEditOfferForm(offerObj || {});
+        if (offerObj.poster) {
+          this.setPosterInDropify(offerObj.poster);
         }
-      }, (error: any) => {
-        this._globalFunctions.errorHanding(error, this, true);
-        this.isImgLoading = false;
-      });
-      $('#create-photo-upload').val(null);
-    }
-  }
-
-  removeImage(index: number) {
-    this.photoArr.splice(index, 1);
-    this.allPhotosFilesArr.splice(index, 1);
-    this._modalService.open("delete-event-pop");
-  }
-
-  close(): void {
-    this._modalService.close("delete-event-pop");
-  }
-
-  deleteEvent(): void {
-    this.isDeleteLoading = true;
-    // this.posterImageAndVideoObj[this.deleteItemObj.type].splice(this.deleteItemObj.index, 1);
-    this.isDeleteLoading = false;
-    // this.deleteItemObj = {};
-    this._modalService.close("delete-event-pop");
-  }
-
-
-  isString(val: any): boolean {
-    return typeof val === 'string';
-  }
-
-  onChangePDF(event: any): any {
-    const pdfUpload = $('#company_gst')[0].files[0];
-    const pdfFormData = new FormData();
-    this.isInValidPDF = false;
-    if (pdfUpload != undefined) {
-      if (pdfUpload != undefined && pdfUpload.type != 'application/pdf') {
-        $('#company_gst').focus();
-        this.isInValidPDF = true;
-        return false;
-      }      
-      pdfFormData.append('file', pdfUpload);
-      this.isPdfLoading = true;
-      this._onlineOffersService.uploadDocument(pdfFormData).subscribe((result: any) => {
-        if (result && result.IsSuccess) {
-          this.gstPdf = result.Data.url;
-          this.inputText = _.last(_.split(result.Data.url, '/'));
-          this._sNotify.success('File Uploaded Successfully.', 'Success');
-          this.isPdfLoading = false;
-        } else {
-          this._globalFunctions.successErrorHandling(result, this, true);
-          this.isPdfLoading = false;
+        if (offerObj.company_gst) {
+          this.inputText = _.last(_.split(offerObj.company_gst, '/'));
         }
-      }, (error: any) => {
-        this._globalFunctions.errorHanding(error, this, true);
-        this.isPdfLoading = false;
-      });
-    }
+        if (offerObj.social_media_links) {
+          this.socialLinks = offerObj.social_media_links;
+        }
+        this.isLoading = false;
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+        this.isLoading = false;
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isLoading = false;
+    });
   }
 
   onPosterChange(event: any): any {
@@ -186,16 +240,290 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
     }
   }
 
-  saveAndContinue():void {
-    if (this.addEditOfferForm.invalid) {
+  cropImg(e: ImageCroppedEvent) {
+    this.cropImgPreview = e.base64;
+  }
+
+  imageLoaded(): void {
+    this.isCropperLoading = false;
+  }
+
+  savePoster(img: any) {
+    if (img && img != '' && !this.isPosterLoading) {
+      const preparedPoserFromBaseType: any = this._globalFunctions.base64ToImage(img, this.posterObj.name);
+      this._compressImageService.compress(preparedPoserFromBaseType).pipe(take(1)).subscribe((compressedImage: any) => {
+        if (compressedImage) {
+          const posterFormData = new FormData();
+          posterFormData.append('file', compressedImage);
+          this.isPosterLoading = true;
+          this._onlineOffersService.uploadBanner(posterFormData).subscribe((result: any) => {
+            if (result && result.IsSuccess) {
+              this.posterObj.image = img;
+              this.setPosterInDropify(result.Data.url);
+              this._sNotify.success('File Uploaded Successfully.', 'Success');
+              this.isPosterLoading = false;
+              this._modalService.close("imgCropper");
+            } else {
+              this._globalFunctions.successErrorHandling(result, this, true);
+              this.isPosterLoading = false;
+            }
+          }, (error: any) => {
+            this._globalFunctions.errorHanding(error, this, true);
+            this.isPosterLoading = false;
+          });
+        } else {
+          this._sNotify.success('Something went wrong!', 'Oops');
+        }
+      });
+    }
+  }
+
+  setPosterInDropify(image: any = ''): void {
+    const imageUrl = CONSTANTS.baseImageURL + image;
+    this.drEvent = this.drEvent.data('dropify');
+    this.drEvent.resetPreview();
+    this.drEvent.clearElement();
+    this.drEvent.settings.defaultFile = imageUrl;
+    this.drEvent.destroy();
+    this.drEvent.init();
+
+    this.dropifyOption.defaultFile = imageUrl;
+    this.drEvent = $('.poster').dropify(this.dropifyOption);
+    this.poster.setValue(image);
+  }
+
+  popClose(popId: any): any {
+    $('.dropify-clear').click();
+    this._modalService.close(popId);
+  }
+
+  uploadImage(): any {
+    const image = $('#create-photo-upload')[0].files[0];
+    const imgFormData = new FormData();
+    if (image != undefined) {
+      if (image.type != 'image/jpeg' && image.type != 'image/jpg' && image.type != 'image/png') {
+        this._sNotify.error('Image type is Invalid.', 'Oops!');
+        $('#create-photo-upload').focus();
+        return false;
+      }
+      const image_size = image.size / 1024 / 1024;
+      if (image_size > CONSTANTS.maxImageSizeInMB) {
+        this._sNotify.error('Maximum Image Size is ' + CONSTANTS.maxImageSizeInMB + 'MB.', 'Oops!');
+        $('#create-photo-upload').focus();
+        return false;
+      }
+      if (this.images && this.images.value && this.images.value.length && this.images.value.length >= 2) {
+        this._sNotify.error('Maximum 2 images can upload!', 'Oops!');
+        return false;
+      }
+      imgFormData.append('file', image);
+      this.isImgLoading = true;
+      this._onlineOffersService.imageUpload(imgFormData).subscribe((result: any) => {
+        if (result && result.IsSuccess) {
+          const newImages = this.images?.value || [];
+          newImages.push({url: result.Data.url});
+          this.images.setValue(newImages);
+          this._sNotify.success('Image Uploaded Successfully.', 'Success');
+          this.isImgLoading = false;
+        } else {
+          this._globalFunctions.successErrorHandling(result, this, true);
+          this.isImgLoading = false;
+        }
+      }, (error: any) => {
+        this._globalFunctions.errorHanding(error, this, true);
+        this.isImgLoading = false;
+      });
+      $('#create-photo-upload').val(null);
+    }
+  }
+
+  removeImage(index: number) {
+    this.images.value.splice(index, 1);
+    this._modalService.open("delete-event-pop");
+  }
+
+  close(): void {
+    this._modalService.close("delete-event-pop");
+  }
+
+  deleteEvent(): void {
+    this.isDeleteLoading = true;
+    // this.posterImageAndVideoObj[this.deleteItemObj.type].splice(this.deleteItemObj.index, 1);
+    this.isDeleteLoading = false;
+    // this.deleteItemObj = {};
+    this._modalService.close("delete-event-pop");
+  }
+
+  onChangePDF(event: any): any {
+    const pdfUpload = $('#company_gst')[0].files[0];
+    const pdfFormData = new FormData();
+    this.isInValidPDF = false;
+    if (pdfUpload != undefined) {
+      if (pdfUpload.type != 'application/pdf') {
+        $('#company_gst').focus();
+        this.isInValidPDF = true;
+        return false;
+      }      
+      pdfFormData.append('file', pdfUpload);
+      this.isPdfLoading = true;
+      this._onlineOffersService.uploadDocument(pdfFormData).subscribe((result: any) => {
+        if (result && result.IsSuccess) {
+          this.companyGST.setValue(result.Data.url);
+          this.inputText = _.last(_.split(result.Data.url, '/'));
+          this._sNotify.success('File Uploaded Successfully.', 'Success');
+          this.isPdfLoading = false;
+        } else {
+          this._globalFunctions.successErrorHandling(result, this, true);
+          this.isPdfLoading = false;
+        }
+      }, (error: any) => {
+        this._globalFunctions.errorHanding(error, this, true);
+        this.isPdfLoading = false;
+      });
+    }
+  }
+
+  validateForm(isTandC: boolean = false): any {
+    if (!isTandC && this.addEditOfferForm.invalid) {
       Object.keys(this.addEditOfferForm.controls).forEach((key) => {
         this.addEditOfferForm.controls[key].touched = true;
         this.addEditOfferForm.controls[key].markAsDirty();
       });
-      return;
-    }
 
+      Object.keys(this.productLinks.controls).forEach((key) => {
+        Object.keys(this.productLinks.controls[key].controls).forEach((subKey) => {
+          this.productLinks.controls[key].controls[subKey].touched = true;
+          this.productLinks.controls[key].controls[subKey].markAsDirty();
+        });
+      });
+      return false;
+    } else if (isTandC) {
+      Object.keys(this.tandcForm.controls).forEach((key) => {
+        this.tandcForm.controls[key].touched = true;
+        this.tandcForm.controls[key].markAsDirty();
+      });
+      return false;
+    }
+    return true;
+  }
+
+  saveAndContinue(): any {
     console.log(this.addEditOfferForm.value);
+    if (!this.validateForm()) {
+      return false;
+    }
+    this._modalService.open("tAndC");
+  }
+
+  onTextEditorReady(editor: any): void {
+    editor.ui.getEditableElement().parentElement.insertBefore(
+      editor.ui.view.toolbar.element,
+      editor.ui.getEditableElement()
+    );
+  }
+
+  prepareOfferObj(onlineShopOfferObj: any = {}): any {
+    const preparedOnlineShopOfferObj: any = this._globalFunctions.copyObject(onlineShopOfferObj);
+    preparedOnlineShopOfferObj.tandc = this.tandcForm?.value?.tandc;
+    preparedOnlineShopOfferObj.social_media_links = this.socialLinks;
+    preparedOnlineShopOfferObj.status = this.tandcForm?.value?.status;
+    preparedOnlineShopOfferObj.start_date = moment(onlineShopOfferObj.start_date).format('YYYY-MM-DD');
+    preparedOnlineShopOfferObj.end_date = moment(onlineShopOfferObj.end_date).format('YYYY-MM-DD');
+    return preparedOnlineShopOfferObj;
+  }
+
+  addEditOnlineShopOffer(): any {
+    if (!this.validateForm(true)) {
+      return false;
+    }
+    const preparedOnlineShopOfferObj: any = this.prepareOfferObj(this.addEditOfferForm.value);
+    console.log(preparedOnlineShopOfferObj);
+    this._modalService.close("tAndC");
+  }
+
+  addProductLink(tempPlatformObj: any = {}): void {
+    const platformObj = this._formBuilder.group({
+      platform: [tempPlatformObj?.platform || '', [Validators.required]],
+      product_link: [tempPlatformObj?.product_link || '', [Validators.required]],
+    });
+    this.productLinks.push(platformObj);
+  }
+
+  removeProductLink(index: any): void {
+    if (this.productLinks.get(index.toString())) {
+      this.productLinks.removeAt(index.toString());
+      this.productLinks.updateValueAndValidity();
+    }
+  }
+
+  onChangePlatformImage(event: any): any {
+    if (!event || !event.target || !event.target.files || !event.target.files.length) {
+      return false;
+    }
+    const image = event.target.files[0];
+    const imgFormData = new FormData();
+    if (image != undefined) {
+      if (image.type != 'image/jpeg' && image.type != 'image/jpg' && image.type != 'image/png') {
+        this._sNotify.error('Image type is Invalid.', 'Oops!');
+        return false;
+      }
+      const image_size = image.size / 1024;
+      if (image_size > CONSTANTS.maxIconSizeInKB) {
+        this._sNotify.error('Maximum Image Size is ' + CONSTANTS.maxIconSizeInKB + 'KB.', 'Oops!');
+        return false;
+      }
+      imgFormData.append('file', image);
+      this.isIconLoading = true;
+      this._onlineOffersService.uploadPlatformImage(imgFormData).subscribe((result: any) => {
+        if (result && result.IsSuccess) {
+          this.platformObj.platformimage = result.Data.url;
+          this._sNotify.success('Platform Icon Uploaded Successfully.', 'Success');
+          this.isIconLoading = false;
+        } else {
+          this._globalFunctions.successErrorHandling(result, this, true);
+          this.isIconLoading = false;
+        }
+      }, (error: any) => {
+        this._globalFunctions.errorHanding(error, this, true);
+        this.isIconLoading = false;
+      });
+    }
+  }
+
+  validatePlatformObj(): any {
+    if (!this.platformObj.platformimage || this.platformObj.platformimage == '') {
+      this._sNotify.error('Platform icon is required', 'Oops!');
+      return false;
+    }
+    if (!this.platformObj.name || this.platformObj.name == '') {
+      this._sNotify.error('Platform name is required', 'Oops!');
+      return false;
+    }
+    return true;
+  }
+
+  addPlatform(): any {
+    this.isPlatformLoading = true;
+    if (!this.validatePlatformObj()) {
+      this.isPlatformLoading = false;
+      return false;
+    }
+    this.platformObj.platformid = '';
+    this.platformObj.description = '';
+    this.platformObj.status = true;
+    this._onlineOffersService.savePlatform(this.platformObj).subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        this.platformArr.push(result.Data);
+        this._sNotify.success('Platform Saved Successfully.', 'Success');
+        this.isPlatformLoading = false;
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+        this.isPlatformLoading = false;
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isPlatformLoading = false;
+    });
   }
 
   private _prepareAddEditOfferForm(addEditOfferObj: any = {}): void {
@@ -204,20 +532,30 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
       shop_name: [addEditOfferObj?.shop_name || '', [Validators.required]],
       offer_amount: [addEditOfferObj?.offer_amount || '', [Validators.required]],
       offer_type: [addEditOfferObj?.discount_type || CONSTANTS.discountTypeArr[CONSTANTS.discountTypeObj.percentage].value, [Validators.required]],
-      start_date: [addEditOfferObj?.start_date || '', [Validators.required]],
-      end_date: [addEditOfferObj?.end_date || '', [Validators.required]],
+      start_date: [(addEditOfferObj.start_date) ? new Date(addEditOfferObj.start_date) : '', [Validators.required]],
+      end_date: [(addEditOfferObj.end_date) ? new Date(addEditOfferObj.end_date) : '', [Validators.required]],
       product_name: [addEditOfferObj?.product_name || '', [Validators.required]],
       poster: [addEditOfferObj?.poster || '', [Validators.required]],
       images: [addEditOfferObj?.images || '', [Validators.required]],
       description: [addEditOfferObj?.description || ''],
-      product_links: [addEditOfferObj?.product_links || '', [Validators.required]],
+      product_links: this._formBuilder.array([]),
       company_name: [addEditOfferObj?.company_name || '', [Validators.required]],
-      company_gst: [this.gstPdf || ''],
+      company_gst: [addEditOfferObj?.company_gst || ''],
       company_contact_no: [addEditOfferObj?.company_contact_no || '', [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
       company_email: [addEditOfferObj?.company_email || '', [Validators.required,Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
-      about_company: [addEditOfferObj?.about_company || ''],
-      status: [addEditOfferObj?.status || ''],
-      tandc: [addEditOfferObj?.tandc || ''],
+      about_company: [addEditOfferObj?.about_company || '']
     });
+    if (addEditOfferObj && addEditOfferObj.product_links) {
+      _.each(addEditOfferObj.product_links, (platformObj: any) => {
+        this.addProductLink(platformObj);
+      });
+    } else {
+      this.addProductLink();
+    }
+
+    this.tandcForm = this._formBuilder.group({
+      tandc: [addEditOfferObj?.tandc || ''],
+      status: [addEditOfferObj?.status || '', [Validators.required]],
+    })
   }
 }
