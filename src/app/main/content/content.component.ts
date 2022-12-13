@@ -13,6 +13,8 @@ import { ModalService } from '../_modal';
 })
 export class ContentComponent implements OnInit {
   loginUser: any = {};
+  selectedLanguage: any = 'us-english';
+  languageModel: boolean = false;
   constants: any = CONSTANTS;
 
   @ViewChild('screenShort') screenShort: any;
@@ -50,5 +52,14 @@ export class ContentComponent implements OnInit {
   }
   openBarcode() {
     this._modalService.open('Barcode');
+  }
+
+  openLanguageModel() {
+    this.languageModel = true;
+  }
+
+  closeLanguageModel() {
+    console.log(this.selectedLanguage);
+    this.languageModel = false;
   }
 }

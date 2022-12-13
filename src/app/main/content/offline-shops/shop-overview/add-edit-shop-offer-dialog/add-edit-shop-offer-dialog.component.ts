@@ -72,78 +72,8 @@ export class AddEditShopOfferDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this._prepareOfferForm();
-    this.editorConfig = {
-      toolbar: [
-        'heading', '|',
-        'fontsize', 'fontfamily', '|',
-        'fontColor', 'fontBackgroundColor', '|',
-        'bold', 'italic', 'underline', 'strikethrough', '|',
-        'alignment', '|',
-        'outdent', 'indent', '|',
-        'numberedList', 'bulletedList', '|',
-        'link', 'mediaembed', 'blockquote', 'insertTable', '|',
-        'undo', 'redo'
-      ],
-      mediaEmbed: { previewsInData: true },
-      table: { contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells'] },
-      language: 'en',
-      alignment: { options: ['left', 'right', 'center', 'justify'] },
-      fontSize: { options: ['tiny', 'small', 'default', 'big', 'huge'] },
-      fontColor: {
-        columns: 6,
-        colors: [
-          { color: '#f05a28', label: 'Theme Orange', class: 'orange' },
-          { color: 'hsl(0, 0%, 0%)', label: 'Black' },
-          { color: 'hsl(0, 0%, 30%)', label: 'Dim grey' },
-          { color: 'hsl(0, 0%, 60%)', label: 'Grey' },
-          { color: 'hsl(0, 0%, 90%)', label: 'Light grey' },
-          { color: 'hsl(0, 0%, 100%)', label: 'White', hasBorder: true },
-          { color: '#f8696b', label: 'Red 1' },
-          { color: '#FFD800', label: 'Yellow 1' },
-          { color: '#63be7b', label: 'Green 1' },
-          { color: '#f44336', label: 'Red 2' },
-          { color: '#ff9100', label: 'Yellow 2' },
-          { color: '#4caf50', label: 'Green 2' },
-          { color: 'hsl(0, 75%, 60%)', label: 'Red' },
-          { color: 'hsl(30, 75%, 60%)', label: 'Orange' },
-          { color: 'hsl(60, 75%, 60%)', label: 'Yellow' },
-          { color: 'hsl(90, 75%, 60%)', label: 'Light green' },
-          { color: 'hsl(120, 75%, 60%)', label: 'Green' },
-          { color: 'hsl(150, 75%, 60%)', label: 'Aquamarine' },
-          { color: 'hsl(180, 75%, 60%)', label: 'Turquoise' },
-          { color: 'hsl(210, 75%, 60%)', label: 'Light blue' },
-          { color: 'hsl(240, 75%, 60%)', label: 'Blue' },
-          { color: 'hsl(270, 75%, 60%)', label: 'Purple' }
-        ]
-      },
-      fontBackgroundColor: {
-        columns: 6,
-        colors: [
-          { color: '#f05a28', label: 'Theme Orange' },
-          { color: 'hsl(0, 0%, 0%)', label: 'Black' },
-          { color: 'hsl(0, 0%, 30%)', label: 'Dim grey' },
-          { color: 'hsl(0, 0%, 60%)', label: 'Grey' },
-          { color: 'hsl(0, 0%, 90%)', label: 'Light grey' },
-          { color: 'hsl(0, 0%, 100%)', label: 'White', hasBorder: true },
-          { color: '#f8696b', label: 'Red 1' },
-          { color: '#FFD800', label: 'Yellow 1' },
-          { color: '#63be7b', label: 'Green 1' },
-          { color: '#f44336', label: 'Red 2' },
-          { color: '#ff9100', label: 'Yellow 2' },
-          { color: '#4caf50', label: 'Green 2' },
-          { color: 'hsl(0, 75%, 60%)', label: 'Red' },
-          { color: 'hsl(30, 75%, 60%)', label: 'Orange' },
-          { color: 'hsl(60, 75%, 60%)', label: 'Yellow' },
-          { color: 'hsl(90, 75%, 60%)', label: 'Light green' },
-          { color: 'hsl(120, 75%, 60%)', label: 'Green' },
-          { color: 'hsl(150, 75%, 60%)', label: 'Aquamarine' },
-          { color: 'hsl(180, 75%, 60%)', label: 'Turquoise' },
-          { color: 'hsl(210, 75%, 60%)', label: 'Light blue' },
-          { color: 'hsl(240, 75%, 60%)', label: 'Blue' },
-          { color: 'hsl(270, 75%, 60%)', label: 'Purple' }
-        ]
-      }
-    };
+    this.editorConfig = CONSTANTS.editorConfig;
+
     setTimeout(() => {
       this.dropifyOption = {
         messages: {
