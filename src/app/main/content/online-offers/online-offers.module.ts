@@ -13,6 +13,7 @@ import { ImageCropperModule } from 'ngx-image-cropper';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { PaginatorModule } from "primeng/paginator";
 import { NgSelectModule } from "@ng-select/ng-select";
+import { DropdownModule } from 'primeng/dropdown';
 
 const routes: Routes = [
   {
@@ -44,6 +45,8 @@ const routes: Routes = [
     ImageCropperModule,
     CKEditorModule,
     NgSelectModule
+    CKEditorModule,
+    DropdownModule
   ]
 })
 export class OnlineOffersModule { }

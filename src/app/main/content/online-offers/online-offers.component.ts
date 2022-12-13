@@ -14,6 +14,8 @@ export class OnlineOffersComponent implements OnInit {
   constants: any = CONSTANTS;
   isLoading: boolean = false;
   pageObj: any;
+  platformsArr: any = [];
+  platformsId: any = '';
 
   constructor(
     private _router: Router,
@@ -24,6 +26,7 @@ export class OnlineOffersComponent implements OnInit {
   ngOnInit(): void {
     localStorage.removeItem('oOId');
     localStorage.removeItem('eId');
+    this.getPlatformList();
     this.getOnlineShopOffers();
   }
 
@@ -33,7 +36,7 @@ export class OnlineOffersComponent implements OnInit {
     const filter: any = {
       page : page || '1',
       limit : event?.rows || '4',
-      search: ""
+      search: this.platformsId || ""
     };
     this._onlineOffersService.onlineOffersList(filter).subscribe((result: any) => {
       if (result && result.IsSuccess) {
@@ -44,6 +47,22 @@ export class OnlineOffersComponent implements OnInit {
         this._globalFunctions.successErrorHandling(result, this, true);
       }
       this.isLoading = false;
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isLoading = false;
+    });
+  }
+
+  getPlatformList(): void {
+    this.isLoading = true;
+    this._onlineOffersService.getPlatformList().subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        this.platformsArr = result?.Data || {};
+        this.isLoading = false;
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+        this.isLoading = false;
+      }
     }, (error: any) => {
       this._globalFunctions.errorHanding(error, this, true);
       this.isLoading = false;

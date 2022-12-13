@@ -335,3 +335,5 @@ mat-progress-spinner.mat-progress-spinner.mat-spinner.mat-primary.mat-progress-s
 .pagination-festum .btns:disabled {@apply text-gray-400 opacity-50;}
 
 .p-datepicker-touch-ui, .p-calendar .p-datepicker-touch-ui {min-width: 0 !important;max-width: 660px;width: 100%;}
+
+.p-dropdown-panel ul.p-dropdown-items .p-dropdown-item {@apply py-1;}
