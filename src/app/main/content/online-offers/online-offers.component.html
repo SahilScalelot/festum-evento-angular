@@ -1,3 +1,4 @@
+<p-progressSpinner *ngIf="isLoading" [style]="{width: '50px', height: '50px'}" animationDuration=".5s" strokeWidth="8" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-x-0 top-0 h-full w-full z-40" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
 <div class="wrapper">
   <div class="flex flex-wrap items-center">
     <h2>Offers</h2>
@@ -17,8 +18,8 @@
     </div>
   </div>
   <div class="space-y-5 pt-10">
-    <div class="w-full p-4 bg-white rounded" (click)="offerOverview($event, '4sd5d231cv')">
-      <div class="flex flex-wrap xl:flex-nowrap xl:space-x-5">
+    <div class="w-full p-4 bg-white rounded" *ngIf="!isLoading">
+      <div class="flex flex-wrap xl:flex-nowrap xl:space-x-5" *ngFor="let shopOffer of shopOffers" (click)="offerOverview($event, shopOffer)">
         <img src="../assets/images/bigsale.png" alt="big sale" />
         <div class="w-full pt-5 xl:pt-0">
           <div class="flex justify-between border-b-2 pb-4">
@@ -64,7 +65,7 @@
             </div>
             <div class="flex space-x-2">
               <a href="javascript:void(0);" class="bg-brightGray text-xl px-2 py-1 text-center rounded"><i class="icon-show text-base text-japaneseIndigo"></i></a>
-              <a href="javascript:void(0);" (click)="editOffer($event, '2s2df158')" class="bg-brightGray text-xl px-2 py-1 text-center rounded"><i class="icon-edit text-base text-japaneseIndigo"></i></a>
+              <a href="javascript:void(0);" (click)="editOffer($event, shopOffer)" class="bg-brightGray text-xl px-2 py-1 text-center rounded"><i class="icon-edit text-base text-japaneseIndigo"></i></a>
               <a href="javascript:void(0);" class="bg-brightGray text-xl px-2 py-1 text-center rounded"><i class="icon-fill_megaphone text-base text-japaneseIndigo"></i></a>
               <a href="javascript:void(0);" class="bg-brightGray text-xl px-2 py-1 text-center rounded"><i class="icon-share text-base text-japaneseIndigo"></i></a>
               <a href="javascript:void(0);" class="bg-brightGray text-xl px-2 py-1 text-center rounded"><i class="icon-delete_fill text-base text-japaneseIndigo"></i></a>
@@ -73,6 +74,13 @@
         </div>
       </div>
     </div>
+
+    <p *ngIf="!shopOffers || !shopOffers.length">No Shops Records Found, add new shop.</p>
+    <div class="flex flex-wrap items-center justify-center" *ngIf="shopOffers && shopOffers.length">
+      <!-- <div class="pagination-festum py-2"><p class="show-text">Showing {{offset}} to {{(((offset - 1) + perPageLimit) < pTotal) ? (offset - 1) + perPageLimit : pTotal}} Of {{ pTotal }} Events.</p></div> -->
+      <p-paginator [rows]="pageObj.limit" [totalRecords]="pageObj.totalDocs" [rowsPerPageOptions]="[4, 6, 10, 20]" (onPageChange)="getOnlineShopOffers($event)"></p-paginator>
+    </div>
+
     <!-- advisement -->
     <div class="w-full mt-5">
       <img src="assets/images/banner-ads.png" alt="ring-ad" class="w-full object-cover" />
