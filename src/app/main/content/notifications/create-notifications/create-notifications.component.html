@@ -1,0 +1,63 @@
+<div class="wrapper min-h-full">
+  <div class="space-y-8 h-full">
+    <!-- title-holder  -->
+    <div class="flex justify-between items-center">
+      <a href="javascript:void(0);" class="flex items-center"><i class="icon-left_arrow mr-4 text-2xl"></i>
+        <h2>Create New Notification</h2>
+      </a>
+    </div>
+    <!-- main-content  -->
+    <div class="space-y-5">
+      <div class="flex items-end flex-wrap -mx-2">
+        <div class="w-full md:w-1/2 px-2 inputHolder">
+          <span class="input-titel text-xl text-japaneseIndigo font-bold"> Notification Title</span>
+          <input type="text" class="input" />
+        </div>
+        <div class="w-full md:w-1/2 px-2 inputHolder">
+          <span class="input-titel text-xl text-japaneseIndigo font-bold">Link</span>
+          <input type="text" class="input" />
+        </div>
+      </div>
+      <div class="upload-holder w-full">
+        <h5 class="flex items-end">Photo</h5>
+        <label for="upload2" class="upload py-3">
+          <input type="file" name="images" id="upload2" class="appearance-none hidden" />
+          <div class="mt-1 flex items-center justify-center"><i class="icon-img_upload text-quicksilver text-lg mr-2"></i>
+            <span class="input-titel pt-1">Upload Images</span>
+          </div>
+        </label>
+      </div>
+      <div class="w-full space-y-2.5">
+        <h5>Description</h5>
+        <div class="w-full bg-white rounded">
+          <div class="p-8 w-full border-b-2 border-brightGray flex items-center space-x-6">
+            <div class="flex space-x-2.5">
+              <button type="button"><i class="icon-bold"></i></button>
+              <button type="button"><i class="icon-capitals"></i></button>
+              <button type="button"><i class="icon-underline"></i></button>
+              <button type="button"><i class="icon-italic"></i></button>
+            </div>
+            <div class="flex space-x-2.5">
+              <button type="button"><i class="icon-left_alignment"></i></button>
+              <button type="button"><i class="icon-center_alignment"></i></button>
+              <button type="button"><i class="icon-right_alignment"></i></button>
+            </div>
+            <div class="flex space-x-2.5">
+              <button type="button"><i class="icon-list_no text-xl"></i></button>
+              <button type="button"><i class="icon-list_point text-xl"></i></button>
+              <button type="button"><i class="icon-list_abc text-xl"></i></button>
+            </div>
+          </div>
+          <textarea cols="30" rows="5" class="w-full outline-none p-7 py-5"></textarea>
+        </div>
+      </div>
+      <div class="text-right">
+        <button class="bg-japaneseIndigo rounded-lg text-white capitalize hover:bg-transparent border border-japaneseIndigo hover:text-japaneseIndigo px-8 py-2 anim">preview</button>
+      </div>
+      <div class="prw-next-btn">
+        <button type="button" class="flex items-center"><i class="icon-left_arrow mr-3"></i><h5>Back</h5></button>
+        <button class="secondary px-6 py-2 anim">Done</button>
+      </div>
+    </div>
+  </div>
+</div>

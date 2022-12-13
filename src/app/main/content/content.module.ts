@@ -14,8 +14,6 @@ import { LandingPageComponent } from './landing-page/landing-page.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { OfflineShopsModule } from './offline-shops/offline-shops.module';
 import {RadioButtonModule} from 'primeng/radiobutton';
-import { NotificationsComponent } from './notifications/notifications.component';
-
 
 const routes: Routes = [
   {
@@ -30,7 +28,6 @@ const routes: Routes = [
     BuySpacePlansComponent,
     ProfileComponent,
     LandingPageComponent,
-    NotificationsComponent,
   ],
   imports: [
     RouterModule.forChild(routes),

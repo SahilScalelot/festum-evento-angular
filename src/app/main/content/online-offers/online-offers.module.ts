@@ -12,6 +12,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { PaginatorModule } from "primeng/paginator";
+import { DropdownModule } from 'primeng/dropdown';
 
 const routes: Routes = [
   {
@@ -41,7 +42,8 @@ const routes: Routes = [
     MatProgressSpinnerModule,
     PaginatorModule,
     ImageCropperModule,
-    CKEditorModule
+    CKEditorModule,
+    DropdownModule
   ]
 })
 export class OnlineOffersModule { }

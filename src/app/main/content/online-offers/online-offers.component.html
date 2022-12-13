@@ -3,17 +3,9 @@
   <div class="flex flex-wrap items-center">
     <h2>Offers</h2>
     <div class="flex whitespace-nowrap space-x-5 ml-auto">
-      <form action="">
-        <div class="w-40 lg:w-52 inputHolder">
-          <select name="All Category"
-            class="arrow bg-white text-japaneseIndigo font-bold rounded-md tracking-wider appearance-none focus-visible:outline-none">
-            <option value="">All plateform</option>
-            <option value="">Select Category</option>
-            <option value="">Select Category</option>
-            <option value="">Select Category</option>
-          </select>
-        </div>
-      </form>
+      <div class="w-40 lg:w-52">
+        <p-dropdown styleClass="w-full border-0 font-bold" [(ngModel)]="platformsId" panelStyleClass="p-0" [options]="platformsArr" placeholder="All platforms" optionLabel="name" optionValue="_id" [showClear]="true" (onChange)="getOnlineShopOffers()"></p-dropdown>
+      </div>
       <button class="secondary anim px-4 lg:px-8 py-2" routerLink="/online-offers/create-offer"><i class="icon-plus mr-2 lg:mr-3"></i>Create New</button>
     </div>
   </div>
@@ -75,7 +67,7 @@
       </div>
     </div>
 
-    <p *ngIf="!shopOffers || !shopOffers.length">No Shops Records Found, add new shop.</p>
+    <p *ngIf="!shopOffers || !shopOffers.length">No Offers Records Found, Create new Offers.</p>
     <div class="flex flex-wrap items-center justify-center" *ngIf="shopOffers && shopOffers.length">
       <!-- <div class="pagination-festum py-2"><p class="show-text">Showing {{offset}} to {{(((offset - 1) + perPageLimit) < pTotal) ? (offset - 1) + perPageLimit : pTotal}} Of {{ pTotal }} Events.</p></div> -->
       <p-paginator [rows]="pageObj.limit" [totalRecords]="pageObj.totalDocs" [rowsPerPageOptions]="[4, 6, 10, 20]" (onPageChange)="getOnlineShopOffers($event)"></p-paginator>

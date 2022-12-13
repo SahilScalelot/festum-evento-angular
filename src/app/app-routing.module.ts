@@ -75,6 +75,14 @@ const routes: Routes = [
         loadChildren: () => import('./main/content/online-offers/online-offers.module').then(m => m.OnlineOffersModule)
       },
       {
+        path: 'live-stream',
+        loadChildren: () => import('./main/content/online-offers/online-offers.module').then(m => m.OnlineOffersModule)
+      },
+      {
+        path: 'notifications',
+        loadChildren: () => import('./main/content/notifications/notifications.module').then(m => m.NotificationsModule)
+      },
+      {
         path: 'buy-space-plans',
         component: BuySpacePlansComponent
       },
