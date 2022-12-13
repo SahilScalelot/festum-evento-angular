@@ -80,12 +80,13 @@ export const CONSTANTS = {
   },
 
   offerTypeArr: [
-    {value: 'unlimited', label: 'Unlimited Person'},
-    {value: 'limited', label: 'Limited Person'}
+    {value: 'unlimited_person', label: 'Unlimited Person'},
+    {value: 'limited_person', label: 'Limited Person'}
   ],
 
   maxPosterSizeInMB: 10,
   maxImageSizeInMB: 3,
+  maxIconSizeInKB: 500,
   maxVideoSizeInMB: 512,
   maxCompanyVideoSizeInMB: 2,
   defaultMapZoom: 12,

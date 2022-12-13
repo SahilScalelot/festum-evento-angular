@@ -17,6 +17,8 @@ import { CKEditorModule } from "@ckeditor/ckeditor5-angular";
 import { ImageModule } from 'primeng/image';
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { SharedModule } from "../../../shared/shared.module";
+import { AddEditShopDialogComponent } from "./add-edit-shop-dialog/add-edit-shop-dialog.component";
+import { AddEditShopOfferDialogComponent } from "./shop-overview/add-edit-shop-offer-dialog/add-edit-shop-offer-dialog.component";
 
 const routes: Routes = [
   {
@@ -28,7 +30,9 @@ const routes: Routes = [
   declarations: [
     ShopOverviewComponent,
     OfflineShopsComponent,
-    OfferOverviewComponent
+    OfferOverviewComponent,
+    AddEditShopDialogComponent,
+    AddEditShopOfferDialogComponent
   ],
   imports: [
     RouterModule.forChild(routes),

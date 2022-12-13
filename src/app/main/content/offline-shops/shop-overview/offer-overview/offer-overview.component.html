@@ -12,9 +12,9 @@
     </div>
     <div class="space-y-5">
       <div class="flex justify-end space-x-2">
-        <a href="javascript:void(0);" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-edit text-base text-black"></i></a>
+        <a href="javascript:void(0);" (click)="openAddEditOfferDialog($event)" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-edit text-base text-black"></i></a>
         <a href="javascript:void(0);" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-share text-base text-black"></i></a>
-        <a href="javascript:void(0);" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-delete_fill text-base text-black"></i></a>
+        <a href="javascript:void(0);" (click)="openOfflineShopsOffer($event)" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-delete_fill text-base text-black"></i></a>
       </div>
     </div>
   </div>
@@ -35,11 +35,11 @@
           <div class="bg-white p-7 space-y-2.5 rounded-md">
             <h3 class="text-lg">Photos and Videos</h3>
             <div class="flex space-x-5">
-              <div class="w-1/2 rounded overflow-hidden" *ngIf="offerObj?.poster">
+              <div class="w-1/2 rounded overflow-hidden h-52" *ngIf="offerObj?.poster">
                 <p-image [src]="constants.baseImageURL + offerObj?.poster" [alt]="offerObj?.offer_title" imageClass="w-full h-full object-cover" styleClass="w-full h-full" [preview]="true"></p-image>
               </div>
-              <div class="w-1/2 rounded overflow-hidden relative">
-                <div class="brick w-full max-w-full relative">
+              <div class="w-1/2 rounded overflow-hidden relative h-52">
+                <div class="brick w-full max-w-full h-full relative">
                   <video [src]="constants.baseImageURL + offerObj?.video" class="w-full h-full object-cover"></video>
                   <div class="cursor-pointer w-7 h-7 flex justify-center items-center bg-white rounded-full absolute right-2.5 bottom-2.5" (click)="openUploadVideoDialog()">
                     <i class="icon-play text-magicPotion"></i>
@@ -82,36 +82,16 @@
           </div>
           <!-- Colorful T-shirt -->
           <div class="space-y-2.5" *ngIf="!offerObj?.offer_on_all_products">
-            <div class="bg-white flex items-center justify-between p-2.5 rounded-md">
+            <div class="bg-white flex items-center justify-between p-2.5 rounded-md" *ngFor="let offer of offerObj?.offer_type_conditions">
               <div class="flex items-center space-x-3">
-                <img src="../assets/images/product.png" alt="product" class="w-12 h-12 rounded" />
-                <p class="text-sm font-bold text-japaneseIndigo">Colorful T-shirt</p>
+                <img [src]="constants.baseImageURL + offer?.url" [alt]="offer?.product_name" class="w-12 h-12 rounded" />
+                <p class="text-sm font-bold text-japaneseIndigo">{{offer?.product_name}}</p>
               </div>
               <div class="text-sm">
-                <p class="font-bold text-magicPotion text-right">30% Off</p>
+                <p class="font-bold text-magicPotion text-right">{{offer?.discount}}{{(offer?.discount_type == constants.discountTypeArr[constants.discountTypeObj.percentage].value) ? "%" : "₹" }} Off</p>
                 <span class="text-quicksilver font-light">for unlimited pearson</span>
               </div>
-            </div>
-            <div class="bg-white flex items-center justify-between p-2.5 rounded-md">
-              <div class="flex items-center space-x-3">
-                <img src="../assets/images/product.png" alt="product" class="w-12 h-12 rounded" />
-                <p class="text-sm font-bold text-japaneseIndigo">Colorful T-shirt</p>
-              </div>
-              <div class="text-sm">
-                <p class="font-bold text-magicPotion text-right">30% Off</p>
-                <span class="text-quicksilver font-light">for unlimited pearson</span>
-              </div>
-            </div>
-            <div class="bg-white flex items-center justify-between p-2.5 rounded-md">
-              <div class="flex items-center space-x-3">
-                <img src="../assets/images/product.png" alt="product" class="w-12 h-12 rounded" />
-                <p class="text-sm font-bold text-japaneseIndigo">Colorful T-shirt</p>
-              </div>
-              <div class="text-sm">
-                <p class="font-bold text-magicPotion text-right">30% Off</p>
-                <span class="text-quicksilver font-light">for 300 pearson</span>
-              </div>
-            </div>
+            </div>  
           </div>
           <!-- ad banner -->
           <div class="mt-5">
@@ -332,3 +312,32 @@
     </div>
   </div>
 </div>
+
+<!-- Add Edit Offer Dialog -->
+<modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="offerDialog"
+       [title]="(!isTAndC) ? (((offerId && offerId != '') ? 'Edit Offer' : (isAddUserWiseOffers ? 'Add' : 'Create') + ' Offer') + (isAddUserWiseOffers ? ' Product' : '')) : (isTAndC ? 'Terms And Conditions' : '')"
+       maxWidth="lg:max-w-7xl xl:px-0" [isCloseHidden]="false">
+  <app-add-edit-shop-offer-dialog *ngIf="isOpenAddEditOffer" [shopId]="shopId" [offerId]="offerId" (flagsEvent)="setFlags($event)"
+                                  (closeAddEditOfferFormEvent)="closeAddEditOfferFormEvent($event)"></app-add-edit-shop-offer-dialog>
+</modal>
+
+<!-- Close -->
+<modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="delete-shop-offer-pop" title="Are you sure?" [isCloseHidden]="true" [isTitleHidden]="true">
+  <div class="flex flex-wrap relative">
+    <div class="w-full pb-8">
+      <h3 class="w-full pb-2 normal-case">Delete Event</h3>
+      <p class="normal-case">Are you sure you want to delete {{offerObj?.offer_title}}</p>
+    </div>
+    <div class="flex items-center justify-end space-x-5 w-full">
+      <button type="button" class="primary py-2 px-14 anim uppercase" (click)="closeDeleteDialog()">Cancel</button>    
+      <div class="relative">
+        <button class="secondary py-2 px-14 anim uppercase" type="submit" (click)="deleteOfflineShopsOffer()">
+          <span [ngClass]="{'opacity-0': isDeleteLoading}">Delete</span>
+        </button>
+        <div class="absolute inset-0 text-white flex items-center" *ngIf="isDeleteLoading">
+          <mat-progress-spinner [diameter]="22" [mode]="'indeterminate'" class="mx-auto"></mat-progress-spinner>
+        </div>
+      </div>
+    </div>
+  </div>
+</modal>

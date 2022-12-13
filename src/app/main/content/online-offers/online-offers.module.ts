@@ -4,6 +4,14 @@ import { RouterModule, Routes } from '@angular/router';
 import { OnlineOffersComponent } from './online-offers.component';
 import { OfferOverviewComponent } from './offer-overview/offer-overview.component';
 import { CreateOfferComponent } from './create-offer/create-offer.component';
+import { CalendarModule } from 'primeng/calendar';
+import { ReactiveFormsModule } from '@angular/forms';
+import { SharedModule } from "../../../shared/shared.module";
+import { ModalModule } from '../../_modal';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ImageCropperModule } from 'ngx-image-cropper';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { PaginatorModule } from "primeng/paginator";
 
 const routes: Routes = [
   {
@@ -25,7 +33,15 @@ const routes: Routes = [
   ],
   imports: [
     RouterModule.forChild(routes),
-    CommonModule
+    CommonModule,
+    CalendarModule,
+    ReactiveFormsModule,
+    SharedModule,
+    ModalModule,
+    MatProgressSpinnerModule,
+    PaginatorModule,
+    ImageCropperModule,
+    CKEditorModule
   ]
 })
 export class OnlineOffersModule { }

@@ -22,7 +22,17 @@ export class OnlineOffersService {
 
   // Get Online Offer By Id Api
   getOnlineOfferById(offerId: any): any {
-    return this.http.post(environment.appURL + 'organizer/onlineoffer/getone', offerId, this._globalFunctions.getAuthorizationHeader());
+    return this.http.post(environment.appURL + 'organizer/onlineoffer/getone', {onlineofferid: offerId}, this._globalFunctions.getAuthorizationHeader());
+  }
+
+  // Get Online Offer By Id Api
+  removeOnlineOfferById(offerId: any): any {
+    return this.http.post(environment.appURL + 'organizer/onlineoffer/remove', offerId, this._globalFunctions.getAuthorizationHeader());
+  }
+
+  // Banner Upload Api
+  uploadDocument(documentFormData: any): any {
+    return this.http.post(environment.appURL + 'organizer/onlineoffer/document', documentFormData, this._globalFunctions.getFileAuthorizationHeader());
   }
 
   // Banner Upload Api
@@ -35,8 +45,16 @@ export class OnlineOffersService {
     return this.http.post(environment.appURL + 'organizer/onlineoffer/image', imageFormData, this._globalFunctions.getFileAuthorizationHeader());
   }
 
-  // Video Upload Api
-  videoUpload(videoFormData: any): any {
-    return this.http.post(environment.appURL + 'organizer/onlineoffer/video', videoFormData, this._globalFunctions.getFileAuthorizationHeader());
+  // Platform Apis
+  getPlatformList(): any {
+    return this.http.get(environment.appURL + 'organizer/platform/list', this._globalFunctions.getAuthorizationHeader());
+  }
+
+  uploadPlatformImage(imageFormData: any): any {
+    return this.http.post(environment.appURL + 'organizer/platform/image', imageFormData, this._globalFunctions.getFileAuthorizationHeader());
+  }
+
+  savePlatform(platformObj: any): any {
+    return this.http.post(environment.appURL + 'organizer/platform/save', platformObj, this._globalFunctions.getAuthorizationHeader());
   }
 }
