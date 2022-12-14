@@ -75,8 +75,8 @@ export class OnlineOffersComponent implements OnInit {
     this._router.navigate(['/online-offers/create-offer']);
   }
   
-  offerOverview(event: any, offerObj: any): void {
+  offerOverview(event: any, offerId: any): void {
     event.stopPropagation();
-    this._router.navigate(['/online-offers/' + offerObj._id ]);
+    this._router.navigate(['/online-offers/' + offerId]);
   }
 }

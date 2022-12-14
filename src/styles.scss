@@ -42,6 +42,8 @@ button.primary,.primary{@apply bg-caribbeanGreen rounded-md font-bold text-white
 .nav a {@apply flex items-center text-base font-bold space-x-4 border-l-[3px] border-transparent px-4 py-2.5 hover:border-current hover:text-magicPotion hover:bg-[rgba(254,77,95,0.3)] transition-all duration-300;}
 .nav a.active {@apply text-magicPotion border-magicPotion bg-[rgba(254,77,95,0.3)];}
 
+.right-top-menu a {@apply flex items-center border-b-[3px] border-transparent px-3 py-1.5 hover:border-current hover:text-magicPotion hover:bg-[rgba(254,77,95,0.3)] transition-all duration-300 -mb-1 rounded;}
+.right-top-menu a.active {@apply text-magicPotion border-magicPotion bg-[rgba(254,77,95,0.3)];}
 /* rightInContent */
 .rightInContent {@apply py-12 overflow-y-auto h-[calc(100vh-76px)];}
 
@@ -337,3 +339,5 @@ mat-progress-spinner.mat-progress-spinner.mat-spinner.mat-primary.mat-progress-s
 .p-datepicker-touch-ui, .p-calendar .p-datepicker-touch-ui {min-width: 0 !important;max-width: 660px;width: 100%;}
 
 .p-dropdown-panel ul.p-dropdown-items .p-dropdown-item {@apply py-1;}
+
+.addsBox {@apply hidden;}

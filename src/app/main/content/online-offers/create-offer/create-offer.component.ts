@@ -330,7 +330,7 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
         });
       });
       return false;
-    } else if (isTandC) {
+    } else if (isTandC && this.tandcForm.invalid) {
       Object.keys(this.tandcForm.controls).forEach((key) => {
         this.tandcForm.controls[key].touched = true;
         this.tandcForm.controls[key].markAsDirty();
@@ -341,7 +341,6 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
   }
 
   saveAndContinue(): any {
-    console.log(this.addEditOfferForm.value);
     if (!this.validateForm()) {
       return false;
     }
@@ -370,13 +369,26 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
       return false;
     }
     const preparedOnlineShopOfferObj: any = this.prepareOfferObj(this.addEditOfferForm.value);
-    console.log(preparedOnlineShopOfferObj);
-    this._modalService.close("tAndC");
+    this.isLoading = true;
+    this._onlineOffersService.createOnlineOffer(preparedOnlineShopOfferObj).subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        this._modalService.close("tAndC");
+        this._sNotify.success('Platform Icon Uploaded Successfully.', 'Success');
+        this._router.navigate(['/online-offers']);
+        this.isLoading = false;
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+        this.isLoading = false;
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isLoading = false;
+    });
   }
 
   addProductLink(tempPlatformObj: any = {}): void {
     const platformObj = this._formBuilder.group({
-      platform: [tempPlatformObj?.platform || '', [Validators.required]],
+      platform: [tempPlatformObj?.platform?._id || '', [Validators.required]],
       product_link: [tempPlatformObj?.product_link || '', [Validators.required]],
     });
     this.productLinks.push(platformObj);
@@ -489,7 +501,7 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
 
     this.tandcForm = this._formBuilder.group({
       tandc: [addEditOfferObj?.tandc || ''],
-      status: [addEditOfferObj?.status || '', [Validators.required]],
+      status: ['', [Validators.required]],
     })
   }
 }

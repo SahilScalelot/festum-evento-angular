@@ -1,23 +1,23 @@
 <div class="-mt-12 relative -z-10">
-  <img src="../assets/images/bbigsale.jpg" alt="dashboard-bg" class="w-full object-cover" />
+  <img [src]="constants.baseImageURL + offerObj?.poster" [alt]="offerObj?.shop_name" class="w-full object-cover max-h-80" />
 </div>
 <div class="wrapper -mt-14 z-10">
   <div class="lg:flex items-end justify-between bg-white py-5 px-7 rounded-md">
     <div>
-      <h2 class="pb-2 lg:pb-5">Shopname A</h2>
+      <h2 class="pb-2 lg:pb-5">{{offerObj?.shop_name}}</h2>
       <div class="w-full flex flex-wrap space-y-2 xl:space-y-0">
         <div class="border-brightGray pr-2.5 lg:pr-5">
           <div class="text-sm font-semibold text-quicksilver">
             <i class="icon-calendar mr-1.5"></i>Offer Date
           </div>
-          <span class="text-japaneseIndigo text-sm font-bold">July 23, 2021 - July 30, 2021</span>
+          <span class="text-japaneseIndigo text-sm font-bold">{{offerObj?.start_date | date:'MMM dd, yyyy'}} - {{offerObj?.end_date | date:'MMM dd, yyyy'}}</span>
         </div>
         <div class="border-l-2 border-brightGray px-2 lg:px-4">
           <div class="text-sm font-semibold text-quicksilver">
             <i class="icon-online_offer mr-1.5"></i>Offer Status
           </div>
           <div class="flex items-center">
-            <input type="checkbox" id="on" class="switch mx-3 order-2" />
+            <input type="checkbox" id="on" class="switch mx-3 order-2" [checked]="offerObj?.status" />
             <span class="off text-base font-bold anim order-1 text-caribbeanGreen">On</span>
             <span class="on text-base font-bold anim order-3">Off</span>
           </div>
@@ -25,7 +25,7 @@
       </div>
     </div>
     <div class="flex justify-end space-x-2 mt-2.5">
-      <a href="javascript:void(0);" class="bg-brightGray px-2 py-1 text-center rounded" (click)="editOffer($event, '2s2df158')">
+      <a href="javascript:void(0);" class="bg-brightGray px-2 py-1 text-center rounded" (click)="editOffer($event, offerObj?._id)">
         <i class="icon-edit text-base text-black"></i>
       </a>
       <a href="javascript:void(0);" class="bg-brightGray px-2 py-1 text-center rounded">
@@ -47,156 +47,84 @@
             <div class="space-y-2.5">
               <p class="text-lg text-japaneseIndigo font-bold">Product Image</p>
               <div class="flex space-x-5 items-center">
-                <img src="../assets/images/shoes.png" alt="product" />
-                <img src="../assets/images/shoes.png" alt="product" />
+                <span *ngFor="let prod_imgs of offerObj?.images; let i = index" class="block w-40 h-40">
+                  <p-image [src]="constants.baseImageURL + prod_imgs.url" [alt]="'product-'+i" imageClass="w-full h-full object-cover rounded" styleClass="w-full h-full" [preview]="true"></p-image>
+                </span>
               </div>
             </div>
             <div class="space-y-2.5">
-              <p class="text-lg text-japaneseIndigo font-bold">Product Image</p>
-              <span class="text-sm text-quicksilver">Shoes123</span>
+              <p class="text-lg text-japaneseIndigo font-bold">Product Name</p>
+              <span class="text-sm text-quicksilver">{{offerObj?.product_name}}</span>
             </div>
             <div class="space-y-2.5">
               <p class="text-lg text-japaneseIndigo font-bold">Product Description</p>
-              <span class="text-sm text-quicksilver">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</span>
+              <span class="text-sm text-quicksilver">{{offerObj?.description}}</span>
             </div>
           </div>
           <div class="space-y-3">
             <h5>Platform & Product Link</h5>
             <div class="bg-white p-7 space-y-2.5 rounded-md">
-              <div class="flex items-center justify-between bg-brightGray py-3 px-4 rounded-md">
+              <div class="flex items-center justify-between bg-brightGray py-3 px-4 rounded-md" *ngFor="let platform of offerObj?.product_links; let i = index">
                 <div class="flex items-center space-x-2.5">
-                  <img src="../assets/images/flipkard-icon.png" alt="flipkart" />
-                  <input type="text" class="w-full outline-none bg-transparent" value="https://flipkart.com" />
+                  <img [src]="constants.baseImageURL + platform.platform.platformimage" [alt]="platform.platform.name" class="w-7 h-7 object-contain" />
+                  <input type="text" class="w-full outline-none bg-transparent" [value]="platform.product_link" readonly />
                 </div>
                 <div class="text-xl leading-0">
-                  <a href="javascript:void(0);" class="px-3">
+                  <a href="javascript:void(0);" class="px-3" title="Copy" (click)="copyLink(platform.product_link)">
                     <i class="icon-copy"></i>
                   </a>
-                  <a href="javascript:void(0);" class="px-3 border-x border-quicksilver">
+                  <a [href]="platform.product_link" class="px-3 border-x border-quicksilver" target="_blank" title="View This Link">
                     <i class="icon-big_screen"></i>
                   </a>
-                  <a href="javascript:void(0);" class="px-3">
-                    <i class="icon-share_border"></i>
-                  </a>
-                </div>
-              </div>
-              <div class="flex items-center justify-between bg-brightGray py-3 px-4 rounded-md">
-                <div class="flex items-center space-x-2.5">
-                  <img src="../assets/images/amzon-icon.png" alt="amzon" />
-                  <input type="text" class="w-full outline-none bg-transparent" value="https://flipkart.com" />
-                </div>
-                <div class="text-xl leading-0">
-                  <a href="javascript:void(0);" class="px-3">
-                    <i class="icon-copy"></i>
-                  </a>
-                  <a href="javascript:void(0);" class="px-3 border-x border-quicksilver">
-                    <i class="icon-big_screen"></i>
-                  </a>
-                  <a href="javascript:void(0);" class="px-3">
-                    <i class="icon-share_border"></i>
-                  </a>
-                </div>
-              </div>
-              <div class="flex items-center justify-between bg-brightGray py-3 px-4 rounded-md">
-                <div class="flex items-center space-x-2.5">
-                  <img src="../assets/images/myntra-icon.png" alt="myntra" />
-                  <input type="text" class="w-full outline-none bg-transparent" value="https://flipkart.com" />
-                </div>
-                <div class="text-xl leading-0">
-                  <a href="javascript:void(0);" class="px-3">
-                    <i class="icon-copy"></i>
-                  </a>
-                  <a href="javascript:void(0);" class="px-3 border-x border-quicksilver">
-                    <i class="icon-big_screen"></i>
-                  </a>
-                  <a href="javascript:void(0);" class="px-3">
-                    <i class="icon-share_border"></i>
-                  </a>
-                </div>
-              </div>
-              <div class="flex items-center justify-between bg-brightGray py-3 px-4 rounded-md">
-                <div class="flex items-center space-x-2.5">
-                  <img src="../assets/images/flipkard-icon.png" alt="flipkart" />
-                  <input type="text" class="w-full outline-none bg-transparent" value="https://flipkart.com" />
-                </div>
-                <div class="text-xl leading-0">
-                  <a href="javascript:void(0);" class="px-3">
-                    <i class="icon-copy"></i>
-                  </a>
-                  <a href="javascript:void(0);" class="px-3 border-x border-quicksilver">
-                    <i class="icon-big_screen"></i>
-                  </a>
-                  <a href="javascript:void(0);" class="px-3">
+                  <a href="javascript:void(0);" class="px-3" title="Share">
                     <i class="icon-share_border"></i>
                   </a>
                 </div>
               </div>
             </div>
           </div>
-          <div class="mt-5">
-            <img src="assets/images/banner-ads.png" alt="add banner" />
+          <div class="w-full mt-5 addsBox">
+            <img src="/assets/images/banner-ads.png" alt="ring-ad" class="w-full object-cover" />
           </div>
-          <div class="space-y-4">
+          <div class="space-y-4" *ngIf="offerObj?.company_name || offerObj?.about_company">
             <h5>Company Name</h5>
             <div class="p-7 bg-white rounded-md space-y-1">
-              <h3 class="text-lg">About Shop</h3>
-              <p class="text-quicksilver text-sm font-normal">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+              <h3 class="text-lg">{{offerObj?.company_name}}</h3>
+              <p class="text-quicksilver text-sm font-normal">{{offerObj?.about_company}}</p>
             </div>
           </div>
-          <div class="space-y-4">
+          <div class="space-y-4" *ngIf="offerObj?.tandc">
             <h5>Terms & Conditions</h5>
-            <div class="p-3 bg-white rounded-md space-y-1">
-              <div class="flex">
-                <span class="text-quicksilver pr-1">*</span>
-                <p class="text-quicksilver text-sm font-normal">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's</p>
-              </div>
-              <div class="flex pt-2">
-                <span class="text-quicksilver pr-1">*</span>
-                <p class="text-quicksilver text-sm font-normal">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,</p>
-              </div>
-              <div class="flex pt-2">
-                <span class="text-quicksilver pr-1">*</span>
-                <p class="text-quicksilver text-sm font-normal">when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,</p>
-              </div>
-              <div class="flex pt-2">
-                <span class="text-quicksilver pr-1">*</span>
-                <p class="text-quicksilver text-sm font-normal">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's</p>
-              </div>
-              <div class="flex pt-2">
-                <span class="text-quicksilver pr-1">*</span>
-                <p class="text-quicksilver text-sm font-normal">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,</p>
-              </div>
-              <div class="flex pt-2">
-                <span class="text-quicksilver pr-1">*</span>
-                <p class="text-quicksilver text-sm font-normal">when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,</p>
-              </div>
-              <div class="flex pt-2">
-                <span class="text-quicksilver pr-1">*</span>
-                <p class="text-quicksilver text-sm font-normal">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,</p>
-              </div>
-              <div class="flex pt-2">
-                <span class="text-quicksilver pr-1">*</span>
-                <p class="text-quicksilver text-sm font-normal">when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, </p>
-              </div>
-            </div>
+            <div class="p-3 bg-white rounded-md space-y-1" [innerHtml]="offerObj?.tandc"></div>
           </div>
-          <div class="space-y-4">
-            <h5>Social Media</h5>
-            <div class="p-7 bg-white rounded-md space-y-1 flex items-center space-x-7">
-              <a href="javascript:void(0);">
-                <img src="../assets/images/twiiter.png" alt="twiiter" />
+          <!-- Social-Media -->
+          <div class="w-full space-y-3"
+          *ngIf="offerObj?.social_media_links?.facebook_link && offerObj?.social_media_links?.facebook_link != '' ||
+                offerObj?.social_media_links?.twitter_link && offerObj?.social_media_links?.twitter_link != '' ||
+                offerObj?.social_media_links?.youtube_link && offerObj?.social_media_links?.youtube_link != '' ||
+                offerObj?.social_media_links?.pinterest_link && offerObj?.social_media_links?.pinterest_link != '' ||
+                offerObj?.social_media_links?.instagram_link && offerObj?.social_media_links?.instagram_link != '' ||
+                offerObj?.social_media_links?.linkedin_link && offerObj?.social_media_links?.linkedin_link != ''"
+                >
+            <span class="block text-base lg:text-xl font-bold">Social Media</span>
+            <div class="flex items-center space-x-5 p-5 lg:p-7 bg-white rounded-lg">
+              <a *ngIf="offerObj?.social_media_links?.facebook_link != ''" [href]="offerObj?.social_media_links?.facebook_link" target="_blank">
+                <img class="w-10 h-10 object-cover" alt="facebook" src="../assets/images/facebook.png" />
               </a>
-              <a href="javascript:void(0);">
-                <img src="../assets/images/linked.png" alt="linked" />
+              <a *ngIf="offerObj?.social_media_links?.twitter_link != ''" [href]="offerObj?.social_media_links?.twitter_link" target="_blank">
+                <img class="w-10 h-10 object-cover" alt="twiiter" src="../assets/images/twiiter.png" />
               </a>
-              <a href="javascript:void(0);">
-                <img src="../assets/images/facebook.png" alt="facebook" />
+              <a *ngIf="offerObj?.social_media_links?.youtube_link != ''" [href]="offerObj?.social_media_links?.youtube_link" target="_blank">
+                <img class="w-10 h-10 object-cover" alt="youtube" src="../assets/images/youtube.png" />
               </a>
-              <a href="javascript:void(0);">
-                <img src="../assets/images/whatapp.png" alt="whatsapp" />
+              <a *ngIf="offerObj?.social_media_links?.pinterest_link != ''" [href]="offerObj?.social_media_links?.pinterest_link" target="_blank">
+                <img class="w-10 h-10 object-cover" alt="pinterest" src="../assets/images/pinterest.png" />
               </a>
-              <a href="javascript:void(0);">
-                <img src="../assets/images/instagram.png" alt="instagram" />
+              <a *ngIf="offerObj?.social_media_links?.instagram_link != ''" [href]="offerObj?.social_media_links?.instagram_link" target="_blank">
+                <img class="w-10 h-10 object-cover" alt="instagram" src="../assets/images/instagram.png" />
+              </a>
+              <a *ngIf="offerObj?.social_media_links?.linkedin_link != ''" [href]="offerObj?.social_media_links?.linkedin_link" target="_blank">
+                <img class="w-10 h-10 object-cover" alt="linkdin" src="../assets/images/linked.png" />
               </a>
             </div>
           </div>
@@ -204,7 +132,7 @@
         <div class="w-full lg:w-4/12 lg:pl-3 xl:pl-5 space-y-7 sticky top-0 mt-7 lg:mt-0">
           <div class="bg-gradient-to-r from-[#13e1b094] to-[#13E1B0] space-y-3.5 rounded-md p-5 relative">
             <h3 class="text-white font-normal">Discount On Products</h3>
-            <h1>20% Discount </h1>
+            <h1>{{offerObj?.offer_amount}}{{(offerObj?.offer_type == 'percentage') ? '%' : '₹'}} Discount </h1>
             <div class="w-44 flex items-center bg-white border border-dashed border-caribbeanGreen px-2.5 py-2 space-x-2">
               <span class="text-xs text-japaneseIndigo font-bold">Offer Code : </span>
               <span class="text-xs text-caribbeanGreen font-bold">FGY4256</span>
@@ -239,8 +167,8 @@
               </div>
             </div>
           </div>
-          <div class="mt-5">
-            <img src="../assets/images/ad.png" alt="ad" class="w-full" />
+          <div class="w-full mt-5 addsBox">
+            <img src="/assets/images/ad.png" alt="ring-ad" class="w-full object-cover" />
           </div>
         </div>
       </div>

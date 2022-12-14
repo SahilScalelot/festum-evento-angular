@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CONSTANTS } from 'src/app/main/common/constants';
+import { GlobalFunctions } from 'src/app/main/common/global-functions';
+import { OnlineOffersService } from '../online-offers.service';
+import { Clipboard } from '@angular/cdk/clipboard';
+import { SnotifyService } from 'ng-snotify';
 
 @Component({
   selector: 'app-offer-overview',
@@ -8,21 +13,49 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class OfferOverviewComponent implements OnInit {
   offerId: any;
+  offerObj: any;
+  constants: any = CONSTANTS;
+  isLoading: boolean = false;
 
   constructor(
     private _router: Router,
     private _activatedRoute: ActivatedRoute,
+    private _onlineOffersService: OnlineOffersService,
+    private _globalFunctions: GlobalFunctions,
+    private _clipboard: Clipboard,
+    private _sNotify: SnotifyService,
   ) { }
 
   ngOnInit(): void {
     this.offerId = this._activatedRoute.snapshot.paramMap.get('id');
+    this.getOnlineShopOfferByOfferId(this.offerId);
+  }
 
+  copyLink(copyText: any) {
+    this._clipboard.copy(copyText);
+    this._sNotify.success('Link Copied.');
   }
   
   editOffer(event: any, offerId: any): void {
     event.stopPropagation();
     localStorage.setItem('oOId', offerId);
     this._router.navigate(['/online-offers/create-offer']);
+  }
+
+  getOnlineShopOfferByOfferId(offerId: any = ''): void {
+    this.isLoading = true;
+    this._onlineOffersService.getOnlineOfferById(offerId).subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        this.offerObj = result.Data
+        this.isLoading = false;
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+        this.isLoading = false;
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isLoading = false;
+    });
   }
 
 }

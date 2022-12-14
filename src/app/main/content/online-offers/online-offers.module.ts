@@ -14,6 +14,7 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { PaginatorModule } from "primeng/paginator";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { DropdownModule } from 'primeng/dropdown';
+import { ImageModule } from 'primeng/image';
 
 const routes: Routes = [
   {
@@ -44,9 +45,9 @@ const routes: Routes = [
     PaginatorModule,
     ImageCropperModule,
     CKEditorModule,
-    NgSelectModule
-    CKEditorModule,
-    DropdownModule
+    NgSelectModule,
+    DropdownModule,
+    ImageModule,
   ]
 })
 export class OnlineOffersModule { }
