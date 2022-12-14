@@ -13,7 +13,8 @@ const routes: Routes = [
     path: 'create', component: CreateNotificationsComponent
   },
   {
-    path: ':id', component: CreateNotificationsComponent
+    path: 'promote',
+    loadChildren: () => import('./promote/promote.module').then(m => m.PromoteModule)
   }
 ];
 
