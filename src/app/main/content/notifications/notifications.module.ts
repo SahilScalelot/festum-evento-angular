@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { NotificationsComponent } from './notifications.component';
 import { CreateNotificationsComponent } from './create-notifications/create-notifications.component';
+import { PaginatorModule } from 'primeng/paginator';
 
 const routes: Routes = [
   {
@@ -24,7 +25,8 @@ const routes: Routes = [
   ],
   imports: [
     RouterModule.forChild(routes),
-    CommonModule
+    CommonModule,
+    PaginatorModule
   ]
 })
 export class NotificationsModule { }
