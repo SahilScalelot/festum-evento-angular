@@ -363,7 +363,7 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
     this._onlineOffersService.createOnlineOffer(preparedOnlineShopOfferObj).subscribe((result: any) => {
       if (result && result.IsSuccess) {
         this._modalService.close("tAndC");
-        this._sNotify.success('Platform Icon Uploaded Successfully.', 'Success');
+        this._sNotify.success('Online Service Created Successfully.', 'Success');
         this._router.navigate(['/online-offers']);
         this.isLoading = false;
       } else {

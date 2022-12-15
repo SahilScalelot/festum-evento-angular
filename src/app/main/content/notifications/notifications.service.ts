@@ -15,8 +15,13 @@ export class NotificationsService {
     return this.http.post(environment.appURL + 'organizer/notification', {onlineofferid: offerId}, this._globalFunctions.getAuthorizationHeader());
   }
 
+  // Create Notification Api
+  createNotification(notificationObj: any): any {
+    return this.http.post(environment.appURL + 'organizer/notification/save', notificationObj, this._globalFunctions.getAuthorizationHeader());
+  }
+
   // Get Notification By Id Api
-  getOnlineOfferById(notificationId: any): any {
+  getNotificationById(notificationId: any): any {
     return this.http.post(environment.appURL + 'organizer/notification/getone', {notificationid: notificationId}, this._globalFunctions.getAuthorizationHeader());
   }
 
