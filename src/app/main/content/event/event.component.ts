@@ -61,8 +61,12 @@ export class EventComponent implements OnInit {
       search: ""
     }
     this._eventService.eventsList(filter).subscribe((result: any) => {
-      this.paging = result.Data;
-      this.events = result.Data.docs;
+      if (result && result.IsSuccess) {
+        this.paging = result.Data;
+        this.events = result.Data.docs;
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+      }
       this.isLoading = false;
     }, (error: any) => {
       this._globalFunctions.errorHanding(error, this, true);

@@ -226,30 +226,8 @@
   </div>
 </div>
 
-
-<!-- Close -->
-<modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="delete-event-pop" title="Are you sure?" [isCloseHidden]="true" [isTitleHidden]="true">
-  <div class="flex flex-wrap relative">
-    <div class="w-full pb-8">
-      <h3 class="w-full pb-2 normal-case">Delete Event</h3>
-      <p class="normal-case">Are you sure you want to delete</p>
-    </div>
-    <div class="flex items-center justify-end space-x-5 w-full">
-      <button type="button" class="primary py-2 px-14 anim uppercase" (click)="close()">Cancel</button>
-      <div class="relative">
-        <button class="secondary py-2 px-14 anim uppercase" type="submit" (click)="deleteEvent()">
-          <span [ngClass]="{'opacity-0': isDeleteLoading}">Delete</span>
-        </button>
-        <div class="absolute inset-0 text-white flex items-center" *ngIf="isDeleteLoading">
-          <mat-progress-spinner [diameter]="22" [mode]="'indeterminate'" class="mx-auto"></mat-progress-spinner>
-        </div>
-      </div>
-    </div>
-  </div>
-</modal>
-
 <!-- Poster crop -->
- <modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="imgCropper" title="Poster">
+<modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="imgCropper" title="Poster">
   <div class="flex flex-wrap -mx-4 py-5 relative">
     <span (click)="popClose('imgCropper');" class="absolute right-4 top-[-30px] cursor-pointer text-xl"><i class="icon-close"></i></span>
     <div class="w-full lg:w-1/2 px-4">
@@ -268,14 +246,14 @@
   <form [formGroup]="tandcForm">
     <div class="w-full space-y-4 pt-2">
       <div class="w-full bg-white rounded relative">
-        <ckeditor (ready)="onTextEditorReady($event)" [config]="editorConfig" [editor]="detailEditor" [formControlName]="'tandc'" class="h-44 text-editor" id="tandc-editor" name="tandc"></ckeditor>
-        <span class="absolute top-full text-red-500 text-xs ml-0" *ngIf="addEditOfferForm.get('tandc')?.invalid && (addEditOfferForm.get('tandc')?.dirty && addEditOfferForm.get('tandc')?.touched)">
-          <span *ngIf="tandcForm.get('tandc')?.errors?.['required']">
+        <ckeditor (ready)="onTextEditorReady($event)" [config]="editorConfig" [editor]="detailEditor" [formControlName]="'t_and_c'" class="h-44 text-editor" id="t_and_c-editor" name="t_and_c"></ckeditor>
+        <span class="absolute top-full text-red-500 text-xs ml-0" *ngIf="tandcForm.get('t_and_c')?.invalid && (tandcForm.get('t_and_c')?.dirty && tandcForm.get('t_and_c')?.touched)">
+          <span *ngIf="tandcForm.get('t_and_c')?.errors?.['required']">
             Terms and conditions is required.
           </span>
         </span>
       </div>
-      <div class="block w-full">
+      <div class="block w-full relative pt-4">
         <label class="inline-flex items-end cursor-pointer">
           <div class="checkbox rounded bg-white">
             <input type="checkbox" [formControlName]="'status'" name="status"/>
@@ -283,6 +261,11 @@
           </div>
           <span class="input-titel text-base ml-4">Accept Your Terms and Conditions</span>
         </label>
+        <span class="absolute top-full text-red-500 text-xs ml-0 left-0" *ngIf="tandcForm.get('status')?.invalid && (tandcForm.get('status')?.dirty && tandcForm.get('status')?.touched)">
+          <span *ngIf="tandcForm.get('status')?.errors?.['required']">
+            Please accept your terms and conditions.
+          </span>
+        </span>
       </div>
     </div>
     <div class="w-full pt-5 lg:pt-6">
@@ -298,7 +281,7 @@
                   </svg>
                 </div>
               </div>
-              <input type="text" [(ngModel)]="socialLinks.facebook_link" [ngModelOptions]="{standalone: true}" name="facebook_link" class="w-full outline-none" placeholder="Enter URL">
+              <input type="text" formControlName="facebook" name="facebook_link" class="w-full outline-none" placeholder="Enter URL">
             </div>
           </div>
           <div class="w-full md:w-1/2 p-2">
@@ -318,7 +301,7 @@
                   </svg>
                 </div>
               </div>
-              <input type="text" [(ngModel)]="socialLinks.youtube_link" [ngModelOptions]="{standalone: true}" name="youtube_link" class="w-full outline-none" placeholder="Enter URL">
+              <input type="text" formControlName="youtube" name="youtube_link" class="w-full outline-none" placeholder="Enter URL">
             </div>
           </div>
           <div class="w-full md:w-1/2 p-2">
@@ -330,7 +313,7 @@
                   </svg>
                 </div>
               </div>
-              <input type="text" [(ngModel)]="socialLinks.twitter_link" [ngModelOptions]="{standalone: true}" name="twitter_link" class="w-full outline-none" placeholder="Enter URL">
+              <input type="text" formControlName="twitter" name="twitter_link" class="w-full outline-none" placeholder="Enter URL">
             </div>
           </div>
           <div class="w-full md:w-1/2 p-2">
@@ -342,7 +325,7 @@
                   </svg>
                 </div>
               </div>
-              <input type="text" [(ngModel)]="socialLinks.pinterest_link" [ngModelOptions]="{standalone: true}" name="pinterest_link" class="w-full outline-none" placeholder="Enter URL">
+              <input type="text" formControlName="pinterest" name="pinterest_link" class="w-full outline-none" placeholder="Enter URL">
             </div>
           </div>
           <div class="w-full md:w-1/2 p-2">
@@ -367,7 +350,7 @@
                   </svg>
                 </div>
               </div>
-              <input type="text" [(ngModel)]="socialLinks.instagram_link" [ngModelOptions]="{standalone: true}" name="instagram_link" class="w-full outline-none" placeholder="Enter URL">
+              <input type="text" formControlName="instagram" name="instagram_link" class="w-full outline-none" placeholder="Enter URL">
             </div>
           </div>
           <div class="w-full md:w-1/2 p-2">
@@ -379,7 +362,7 @@
                   </svg>
                 </div>
               </div>
-              <input type="text" [(ngModel)]="socialLinks.linkedin_link" [ngModelOptions]="{standalone: true}" name="linkedin_link" class="w-full outline-none" placeholder="Enter URL">
+              <input type="text" formControlName="linkedin" name="linkedin_link" class="w-full outline-none" placeholder="Enter URL">
             </div>
           </div>
         </div>
@@ -387,11 +370,32 @@
     </div>
     <div class="flex justify-end pt-5">
       <div class="relative">
-        <button (click)="addEditOnlineShopOffer()" class="secondary py-3 px-5 uppercase text-lg font-bold" [disabled]="isLoading || isImgLoading || isPdfLoading || isInValidPDF || isSaveLoading || !tandcForm.get('status').value">Save</button>
+        <button (click)="addEditOnlineShopOffer()" class="secondary py-3 px-5 uppercase text-lg font-bold" [disabled]="isLoading || isImgLoading || isPdfLoading || isInValidPDF || isSaveLoading">Save</button>
         <div class="absolute inset-0 text-white flex items-center" *ngIf="isSaveLoading">
           <mat-progress-spinner [diameter]="22" [mode]="'indeterminate'" class="mx-auto"></mat-progress-spinner>
         </div>
       </div>
     </div>
   </form>
+</modal>
+
+<!-- Images and Video Delete conformation -->
+<modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="delete-image-pop" title="Are you sure?" [isCloseHidden]="true" [isTitleHidden]="true">
+  <div class="flex flex-wrap relative">
+    <div class="w-full pb-8">
+      <h3 class="w-full pb-2 normal-case">Delete Product Image</h3>
+      <p class="normal-case">Are you sure you want to delete Product Image</p>
+    </div>
+    <div class="flex items-center justify-end space-x-5 w-full">
+      <button type="button" class="primary py-2 px-14 anim uppercase" (click)="close()">Cancel</button>    
+      <div class="relative">
+        <button class="secondary py-2 px-14 anim uppercase" type="submit" (click)="deleteImage()">
+          <span [ngClass]="{'opacity-0': isDeleteLoading}">Delete</span>
+        </button>
+        <div class="absolute inset-0 text-white flex items-center" *ngIf="isDeleteLoading">
+          <mat-progress-spinner [diameter]="22" [mode]="'indeterminate'" class="mx-auto"></mat-progress-spinner>
+        </div>
+      </div>
+    </div>
+  </div>
 </modal>

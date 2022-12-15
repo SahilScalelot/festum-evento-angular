@@ -50,14 +50,7 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
   isPosterLoading: boolean = false;
   editorConfig: any = {};
   platformArr: any = [];
-  socialLinks: any = {
-    facebook_link: '',
-    youtube_link: '',
-    twitter_link: '',
-    pinterest_link: '',
-    instagram_link: '',
-    linkedin_link: ''
-  };
+  deleteItemObj: any = {};
 
   get poster(): any {
     return this.addEditOfferForm?.get('poster');
@@ -136,9 +129,6 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
         }
         if (offerObj.company_gst) {
           this.inputText = _.last(_.split(offerObj.company_gst, '/'));
-        }
-        if (offerObj.social_media_links) {
-          this.socialLinks = offerObj.social_media_links;
         }
         this.isLoading = false;
       } else {
@@ -271,20 +261,21 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
   }
 
   removeImage(index: number) {
-    this.images.value.splice(index, 1);
-    this._modalService.open("delete-event-pop");
+    this.deleteItemObj = {index: index, type: 'photo'};
+    this._modalService.open("delete-image-pop");
   }
 
   close(): void {
-    this._modalService.close("delete-event-pop");
+    this._modalService.close("delete-image-pop");
+    this.deleteItemObj = {};
   }
 
-  deleteEvent(): void {
+  deleteImage(): void {
     this.isDeleteLoading = true;
-    // this.posterImageAndVideoObj[this.deleteItemObj.type].splice(this.deleteItemObj.index, 1);
+    this.images.value.splice(this.deleteItemObj.index, 1);
     this.isDeleteLoading = false;
-    // this.deleteItemObj = {};
-    this._modalService.close("delete-event-pop");
+    this.deleteItemObj = {};
+    this._modalService.close("delete-image-pop");
   }
 
   onChangePDF(event: any): any {
@@ -356,9 +347,8 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
 
   prepareOfferObj(onlineShopOfferObj: any = {}): any {
     const preparedOnlineShopOfferObj: any = this._globalFunctions.copyObject(onlineShopOfferObj);
-    preparedOnlineShopOfferObj.tandc = this.tandcForm?.value?.tandc;
-    preparedOnlineShopOfferObj.social_media_links = this.socialLinks;
-    preparedOnlineShopOfferObj.status = this.tandcForm?.value?.status;
+    preparedOnlineShopOfferObj.tandc = this.tandcForm?.value;
+    preparedOnlineShopOfferObj.status = true;
     preparedOnlineShopOfferObj.start_date = moment(onlineShopOfferObj.start_date).format('YYYY-MM-DD');
     preparedOnlineShopOfferObj.end_date = moment(onlineShopOfferObj.end_date).format('YYYY-MM-DD');
     return preparedOnlineShopOfferObj;
@@ -458,7 +448,7 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
     this.platformObj.status = true;
     this._onlineOffersService.savePlatform(this.platformObj).subscribe((result: any) => {
       if (result && result.IsSuccess) {
-        this.platformArr = [...this.platformArr, this.platformObj];
+        this.platformArr = [...this.platformArr, result.Data];
         this._sNotify.success('Platform Saved Successfully.', 'Success');
         this.platformObj = {};
         this.isPlatformLoading = false;
@@ -500,7 +490,13 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
     }
 
     this.tandcForm = this._formBuilder.group({
-      tandc: [addEditOfferObj?.tandc || ''],
+      t_and_c: [addEditOfferObj?.tandc?.t_and_c || '', [Validators.required]],
+      facebook: [addEditOfferObj?.tandc?.facebook || ''],
+      twitter: [addEditOfferObj?.tandc?.twitter || ''],
+      youtube: [addEditOfferObj?.tandc?.youtube || ''],
+      pinterest: [addEditOfferObj?.tandc?.pinterest || ''],
+      instagram: [addEditOfferObj?.tandc?.instagram || ''],
+      linkedin: [addEditOfferObj?.tandc?.linkedin || ''],
       status: ['', [Validators.required]],
     })
   }

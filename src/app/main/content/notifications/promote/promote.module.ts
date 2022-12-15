@@ -6,23 +6,28 @@ import { UserTypesComponent } from './user-types/user-types.component';
 import { UsersComponent } from './users/users.component';
 import { PublishDateAndTimeComponent } from './publish-date-and-time/publish-date-and-time.component';
 import { BillDetailsComponent } from './bill-details/bill-details.component';
+import { StepsModule } from 'primeng/steps';
 
 const routes: Routes = [
   {
-    path: '', component: PromoteComponent
+    path: '',
+    component: PromoteComponent,
+    children: [
+      {
+        path: 'user-type', component: UserTypesComponent
+      },
+      {
+        path: 'users', component: UsersComponent
+      },
+      {
+        path: 'publish-date-and-time', component: PublishDateAndTimeComponent
+      },
+      {
+        path: 'bill-details', component: BillDetailsComponent
+      }
+    ]
   },
-  {
-    path: 'user-type', component: UserTypesComponent
-  },
-  {
-    path: 'users', component: UsersComponent
-  },
-  {
-    path: 'publish-date-and-time', component: PublishDateAndTimeComponent
-  },
-  {
-    path: 'bill-details', component: BillDetailsComponent
-  }
+  
 ];
 
 @NgModule({
@@ -30,11 +35,13 @@ const routes: Routes = [
     UserTypesComponent,
     UsersComponent,
     PublishDateAndTimeComponent,
-    BillDetailsComponent
+    BillDetailsComponent,
+    PromoteComponent
   ],
   imports: [
     RouterModule.forChild(routes),
-    CommonModule
+    CommonModule,
+    StepsModule
   ]
 })
 export class PromoteModule { }

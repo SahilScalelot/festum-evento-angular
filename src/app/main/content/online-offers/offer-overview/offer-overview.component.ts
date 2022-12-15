@@ -5,6 +5,7 @@ import { GlobalFunctions } from 'src/app/main/common/global-functions';
 import { OnlineOffersService } from '../online-offers.service';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { SnotifyService } from 'ng-snotify';
+import { ModalService } from 'src/app/main/_modal';
 
 @Component({
   selector: 'app-offer-overview',
@@ -16,6 +17,7 @@ export class OfferOverviewComponent implements OnInit {
   offerObj: any;
   constants: any = CONSTANTS;
   isLoading: boolean = false;
+  isDeleteLoading: boolean = false;
 
   constructor(
     private _router: Router,
@@ -24,6 +26,7 @@ export class OfferOverviewComponent implements OnInit {
     private _globalFunctions: GlobalFunctions,
     private _clipboard: Clipboard,
     private _sNotify: SnotifyService,
+    private _modalService: ModalService,
   ) { }
 
   ngOnInit(): void {
@@ -55,6 +58,31 @@ export class OfferOverviewComponent implements OnInit {
     }, (error: any) => {
       this._globalFunctions.errorHanding(error, this, true);
       this.isLoading = false;
+    });
+  }
+
+  // Delete Online Offer
+  deletePop(): void {
+    this._modalService.open("delete-offer-pop");
+  }
+  close(): void {
+    this._modalService.close("delete-offer-pop");
+  }
+  deleteEvent(): void {
+    // Open delete confirmation popup
+    this.isDeleteLoading = true;
+    this._onlineOffersService.removeOnlineOfferById(this.offerId).subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        this._router.navigate(['/online-offers']);
+        this.isDeleteLoading = false;
+        this._modalService.close("delete-offer-pop");
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+        this.isDeleteLoading = false;
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isDeleteLoading = false;
     });
   }
 

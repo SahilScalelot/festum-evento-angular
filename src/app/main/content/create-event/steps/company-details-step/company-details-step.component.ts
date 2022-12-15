@@ -7,6 +7,7 @@ import { GlobalFunctions } from 'src/app/main/common/global-functions';
 import { GlobalService } from 'src/app/services/global.service';
 import { CreateEventService } from '../../create-event.service';
 import * as _ from 'lodash';
+import { ModalService } from 'src/app/main/_modal';
 
 declare var $: any;
 
@@ -18,12 +19,13 @@ declare var $: any;
 
 export class CompanyDetailsStepComponent implements OnInit {
   imgChangeEvt: any = '';
-
+  constants: any = CONSTANTS;
   isLoading: boolean = false;
   isPdfLoading: boolean = false;
   isImgLoading: boolean = false;
   isVideoLoading: boolean = false;
-  constants: any = CONSTANTS;
+  isDeleteLoading: boolean = false;
+  deleteItemObj: any = {};
 
   companyForm: any;
   inputText: any;
@@ -50,6 +52,7 @@ export class CompanyDetailsStepComponent implements OnInit {
     private _sNotify: SnotifyService,
     private _createEventService: CreateEventService,
     private _globalService: GlobalService,
+    private _modalService: ModalService,
   ) {}
 
   ngOnInit(): void {
@@ -233,13 +236,42 @@ export class CompanyDetailsStepComponent implements OnInit {
   }
 
   removeImage(index: number) {
-    this.photoArr.splice(index, 1);
-    this.allPhotosFilesArr.splice(index, 1);
+    // this.photoArr.splice(index, 1);
+    // this.allPhotosFilesArr.splice(index, 1);
+    this.deleteItemObj = {index: index, type: 'photo'};
+    this._modalService.open("delete-event-pop");
   }
 
   removeVideo(index: number) {
-    this.videoArr.splice(index, 1);
-    this.allVideosFilesArr.splice(index, 1);
+    // this.videoArr.splice(index, 1);
+    // this.allVideosFilesArr.splice(index, 1);
+    this.deleteItemObj = {index: index, type: 'video'};
+    this._modalService.open("delete-event-pop");
+  }
+
+  close(): void {
+    this.deleteItemObj = {};
+    this._modalService.close("delete-event-pop");
+  }
+
+  deleteEvent(): void {
+    this.isDeleteLoading = true;
+
+    switch (this.deleteItemObj.type) {
+      case 'photo':
+        this.photoArr.splice(this.deleteItemObj.index, 1);
+        break;
+      case 'video':
+        this.videoArr.splice(this.deleteItemObj.index, 1);
+        break;
+    }
+    // if (this.deleteItemObj.type == 'photo') {
+    //   this.photoArr.splice(this.deleteItemObj.index, 1);
+    // }
+    // const preparedCompanyDetailsObj: any = this.prepareObj(this.companyForm.value);
+    // preparedCompanyDetailsObj[this.deleteItemObj.type + 's'].splice(this.deleteItemObj.index, 1);
+    this.isDeleteLoading = false;
+    this.close();
   }
 
   nextStep(): void {

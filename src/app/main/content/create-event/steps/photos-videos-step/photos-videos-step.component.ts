@@ -313,14 +313,14 @@ export class PhotosVideosStepComponent implements OnInit {
   }
 
   removeImage(index: number) {
-    this.deleteItemObj = {index: index, type: 'photos'};
+    this.deleteItemObj = {index: index, type: 'photo'};
     this._modalService.open("delete-event-pop");
     // this.posterImageAndVideoObj.photos.splice(index: index, 1);
     // this.allPhotosFilesArr.splice(index, 1);
   }
 
   removeVideo(index: number) {
-    this.deleteItemObj = {index: index, type: 'videos'};
+    this.deleteItemObj = {index: index, type: 'video'};
     this._modalService.open("delete-event-pop");
     // this.posterImageAndVideoObj.videos.splice(index, 1);
     // this.allVideosFilesArr.splice(index, 1);
@@ -343,15 +343,15 @@ export class PhotosVideosStepComponent implements OnInit {
   }
   
   close(): void {
+    this.deleteItemObj = {};
     this._modalService.close("delete-event-pop");
   }
 
   deleteEvent(): void {
     this.isDeleteLoading = true;
-    this.posterImageAndVideoObj[this.deleteItemObj.type].splice(this.deleteItemObj.index, 1);
+    this.posterImageAndVideoObj[this.deleteItemObj.type + 's'].splice(this.deleteItemObj.index, 1);
     this.isDeleteLoading = false;
-    this.deleteItemObj = {};    
-    this._modalService.close("delete-event-pop");
+    this.close();
   }
 
 }

@@ -8,7 +8,7 @@
       </a>
     </div>
     <!-- step-progress-bar  -->
-    <div class="w-full overflow-hidden">
+    <!-- <div class="w-full overflow-hidden">
       <ul class="flex justify-between step-progress-holder">
         <li>
           <div>
@@ -41,6 +41,9 @@
           <h3>Payment</h3>
         </li>
       </ul>
+    </div> -->
+    <div class="w-full overflow-hidden overflow-x-auto capitalize">
+      <p-steps [model]="items" [readonly]="true"></p-steps>
     </div>
     <!-- select your Business -->
     <div class="">

@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { NotificationsComponent } from './notifications.component';
 import { CreateNotificationsComponent } from './create-notifications/create-notifications.component';
-import { PromoteComponent } from './promote/promote.component';
 
 const routes: Routes = [
   {
@@ -22,7 +21,6 @@ const routes: Routes = [
   declarations: [
     NotificationsComponent,
     CreateNotificationsComponent,
-    PromoteComponent,
   ],
   imports: [
     RouterModule.forChild(routes),

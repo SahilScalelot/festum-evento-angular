@@ -34,7 +34,7 @@
       <a href="javascript:void(0);" class="bg-brightGray px-2 py-1 text-center rounded">
         <i class="icon-share text-base text-black"></i>
       </a>
-      <a href="javascript:void(0);" class="bg-brightGray px-2 py-1 text-center rounded">
+      <a href="javascript:void(0);" class="bg-brightGray px-2 py-1 text-center rounded" (click)="deletePop()">
         <i class="icon-delete_fill text-base text-black"></i>
       </a>
     </div>
@@ -95,35 +95,35 @@
           </div>
           <div class="space-y-4" *ngIf="offerObj?.tandc">
             <h5>Terms & Conditions</h5>
-            <div class="p-3 bg-white rounded-md space-y-1" [innerHtml]="offerObj?.tandc"></div>
+            <div class="p-3 lg:p-7 bg-white rounded-md space-y-1" [innerHtml]="offerObj?.tandc?.t_and_c"></div>
           </div>
           <!-- Social-Media -->
           <div class="w-full space-y-3"
-          *ngIf="offerObj?.social_media_links?.facebook_link && offerObj?.social_media_links?.facebook_link != '' ||
-                offerObj?.social_media_links?.twitter_link && offerObj?.social_media_links?.twitter_link != '' ||
-                offerObj?.social_media_links?.youtube_link && offerObj?.social_media_links?.youtube_link != '' ||
-                offerObj?.social_media_links?.pinterest_link && offerObj?.social_media_links?.pinterest_link != '' ||
-                offerObj?.social_media_links?.instagram_link && offerObj?.social_media_links?.instagram_link != '' ||
-                offerObj?.social_media_links?.linkedin_link && offerObj?.social_media_links?.linkedin_link != ''"
+          *ngIf="offerObj?.tandc?.facebook && offerObj?.tandc?.facebook != '' ||
+                offerObj?.tandc?.twitter && offerObj?.tandc?.twitter != '' ||
+                offerObj?.tandc?.youtube && offerObj?.tandc?.youtube != '' ||
+                offerObj?.tandc?.pinterest && offerObj?.tandc?.pinterest != '' ||
+                offerObj?.tandc?.instagram && offerObj?.tandc?.instagram != '' ||
+                offerObj?.tandc?.linkedin && offerObj?.tandc?.linkedin != ''"
                 >
             <span class="block text-base lg:text-xl font-bold">Social Media</span>
             <div class="flex items-center space-x-5 p-5 lg:p-7 bg-white rounded-lg">
-              <a *ngIf="offerObj?.social_media_links?.facebook_link != ''" [href]="offerObj?.social_media_links?.facebook_link" target="_blank">
+              <a *ngIf="offerObj?.tandc?.facebook != ''" [href]="offerObj?.tandc?.facebook" target="_blank">
                 <img class="w-10 h-10 object-cover" alt="facebook" src="../assets/images/facebook.png" />
               </a>
-              <a *ngIf="offerObj?.social_media_links?.twitter_link != ''" [href]="offerObj?.social_media_links?.twitter_link" target="_blank">
+              <a *ngIf="offerObj?.tandc?.twitter != ''" [href]="offerObj?.tandc?.twitter" target="_blank">
                 <img class="w-10 h-10 object-cover" alt="twiiter" src="../assets/images/twiiter.png" />
               </a>
-              <a *ngIf="offerObj?.social_media_links?.youtube_link != ''" [href]="offerObj?.social_media_links?.youtube_link" target="_blank">
+              <a *ngIf="offerObj?.tandc?.youtube != ''" [href]="offerObj?.tandc?.youtube" target="_blank">
                 <img class="w-10 h-10 object-cover" alt="youtube" src="../assets/images/youtube.png" />
               </a>
-              <a *ngIf="offerObj?.social_media_links?.pinterest_link != ''" [href]="offerObj?.social_media_links?.pinterest_link" target="_blank">
+              <a *ngIf="offerObj?.tandc?.pinterest != ''" [href]="offerObj?.tandc?.pinterest" target="_blank">
                 <img class="w-10 h-10 object-cover" alt="pinterest" src="../assets/images/pinterest.png" />
               </a>
-              <a *ngIf="offerObj?.social_media_links?.instagram_link != ''" [href]="offerObj?.social_media_links?.instagram_link" target="_blank">
+              <a *ngIf="offerObj?.tandc?.instagram != ''" [href]="offerObj?.tandc?.instagram" target="_blank">
                 <img class="w-10 h-10 object-cover" alt="instagram" src="../assets/images/instagram.png" />
               </a>
-              <a *ngIf="offerObj?.social_media_links?.linkedin_link != ''" [href]="offerObj?.social_media_links?.linkedin_link" target="_blank">
+              <a *ngIf="offerObj?.tandc?.linkedin != ''" [href]="offerObj?.tandc?.linkedin" target="_blank">
                 <img class="w-10 h-10 object-cover" alt="linkdin" src="../assets/images/linked.png" />
               </a>
             </div>
@@ -175,3 +175,24 @@
     </div>
   </div>
 </div>
+
+<!-- Delete Online Offer -->
+<modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="delete-offer-pop" title="Are you sure?" [isCloseHidden]="true" [isTitleHidden]="true">
+  <div class="flex flex-wrap relative">
+    <div class="w-full pb-8">
+      <h3 class="w-full pb-2 normal-case">Delete Event</h3>
+      <p class="normal-case">Are you sure you want to delete {{offerObj?.name}}</p>
+    </div>
+    <div class="flex items-center justify-end space-x-5 w-full">
+      <button type="button" class="primary py-2 px-14 anim uppercase" (click)="close()">Cancel</button>    
+      <div class="relative">
+        <button class="secondary py-2 px-14 anim uppercase" type="submit" (click)="deleteEvent()">
+          <span [ngClass]="{'opacity-0': isDeleteLoading}">Delete</span>
+        </button>
+        <div class="absolute inset-0 text-white flex items-center" *ngIf="isDeleteLoading">
+          <mat-progress-spinner [diameter]="22" [mode]="'indeterminate'" class="mx-auto"></mat-progress-spinner>
+        </div>
+      </div>
+    </div>
+  </div>
+</modal>
