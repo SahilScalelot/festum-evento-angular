@@ -8,6 +8,7 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { PaginatorModule } from "primeng/paginator";
 import { ProgressSpinnerModule } from "primeng/progressspinner";
 import { ModalModule } from "../../_modal";
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 const routes: Routes = [
   {
@@ -35,6 +36,7 @@ const routes: Routes = [
     ReactiveFormsModule,
     PaginatorModule,
     ProgressSpinnerModule,
+    MatProgressSpinnerModule,
   ]
 })
 export class NotificationsModule { }
