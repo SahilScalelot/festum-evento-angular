@@ -3,7 +3,11 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { NotificationsComponent } from './notifications.component';
 import { CreateNotificationsComponent } from './create-notifications/create-notifications.component';
-import { PaginatorModule } from 'primeng/paginator';
+import { CKEditorModule } from "@ckeditor/ckeditor5-angular";
+import { ReactiveFormsModule } from "@angular/forms";
+import { PaginatorModule } from "primeng/paginator";
+import { ProgressSpinnerModule } from "primeng/progressspinner";
+import { ModalModule } from "../../_modal";
 
 const routes: Routes = [
   {
@@ -26,7 +30,11 @@ const routes: Routes = [
   imports: [
     RouterModule.forChild(routes),
     CommonModule,
-    PaginatorModule
+    ModalModule,
+    CKEditorModule,
+    ReactiveFormsModule,
+    PaginatorModule,
+    ProgressSpinnerModule,
   ]
 })
 export class NotificationsModule { }
