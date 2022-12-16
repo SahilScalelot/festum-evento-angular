@@ -83,7 +83,7 @@
     <div class="bg-white p-7 rounded-md w-full">
       <div class="flex justify-between items-start">
         <div class="relative w-full md:max-w-[128px]">
-          <img [src]="constants.baseImageURL + image.value" alt="Notification" class="w-32 h-32 object-cover" />
+          <img [src]="!!(image?.value) ? constants.baseImageURL + image.value : constants.defaultImage" alt="Notification" class="w-32 h-32 object-cover" />
         </div>
         <div class="pl-5 w-full md:max-w-[clac(100%-128px)]">
           <div class="flex justify-between">

@@ -26,6 +26,7 @@ export const CONSTANTS = {
   },
 
   userDefaultImage: './assets/images/profile.jpg',
+  defaultImage: './assets/images/dummy-image.jpg',
 
   baseImageURL: environment.baseImageURL,
   appUrl: environment.appURL,

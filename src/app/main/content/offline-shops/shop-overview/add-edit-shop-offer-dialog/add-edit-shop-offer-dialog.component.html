@@ -92,7 +92,7 @@
             </label>
             <div class="rounded relative overflow-hidden h-full w-full"
                  *ngIf="allProductImages.value && allProductImages.value.length && allProductImages.value[i] && allProductImages.value[i].url">
-              <img [alt]="'add-photo-' + i" [src]="constants.baseImageURL + allProductImages.value[i].url" class="object-cover w-full h-full"/>
+              <img [alt]="'add-photo-' + i" [src]="!!(allProductImages?.value[i]?.url) ? constants.baseImageURL + allProductImages.value[i].url : constants.defaultImage" class="object-cover w-full h-full"/>
               <button (click)="removeImage(i)">Remove</button>
             </div>
           </div>
@@ -180,7 +180,7 @@
               </label>
               <div class="rounded relative overflow-hidden w-28 h-28"
                    *ngIf="productOfferObj.value && productOfferObj.value.url && productOfferObj.value.url != ''">
-                <img [alt]="'offer-photo-' + i" [src]="constants.baseImageURL + productOfferObj.value.url" class="object-cover w-full h-full"/>
+                <img [alt]="'offer-photo-' + i" [src]="!!(productOfferObj?.value?.url) ? constants.baseImageURL + productOfferObj.value.url : constants.defaultImage" class="object-cover w-full h-full"/>
                 <button (click)="removeImage(i)">Remove</button>
               </div>
 

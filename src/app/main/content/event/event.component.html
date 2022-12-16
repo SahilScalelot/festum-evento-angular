@@ -19,7 +19,7 @@
           <div class="w-full p-4 bg-white rounded">
             <div class="flex items-center flex-wrap xl:flex-nowrap xl:space-x-5">
               <div class="relative w-full lg:max-w-[288px]">
-                <img [src]="constants.baseImageURL + event.banner" alt="{{event?.name}}" class="w-full h-full"/>
+                <img [src]="!!(event?.banner) ? constants.baseImageURL + event.banner : constants.defaultImage" alt="{{event?.name}}" class="w-full h-full"/>
                 <span class="text-base text-white font-bold px-2 py-1 absolute top-2 left-0 bg-magicPotion uppercase">{{constants?.eventTypeArr[constants?.eventTypeObj[event?.event_type]]?.displayLabel}}</span>
               </div>
               <div class="w-full pt-5 xl:pt-0">

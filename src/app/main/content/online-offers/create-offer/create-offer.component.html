@@ -101,7 +101,7 @@
           <div class="flex flex-wrap h-full relative">
             <div *ngFor="let photo of images.value; let i = index" class="upload-box mr-2.5 mb-2.5">
               <div class="rounded relative overflow-hidden h-full w-full">
-                <img [alt]="'add-photo-' + i" [src]="constants.baseImageURL + photo.url" class="object-cover w-full h-full"/>
+                <img [alt]="'add-photo-' + i" [src]="!!(photo?.url) ? constants.baseImageURL + photo.url : constants.defaultImage" class="object-cover w-full h-full"/>
                 <button (click)="removeImage(i)">Remove</button>
               </div>
             </div>
@@ -137,7 +137,7 @@
                       <div class="pr-2.5">
                         <span (click)="platformImage.click()" class="w-10 h-10 flex items-center justify-center border border-gray-300 rounded cursor-pointer">
                           <svg *ngIf="!platformObj || !platformObj.platformimage || platformObj.platformimage == ''" width="20" height="16" viewBox="0 0 20 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18.7073 0.222656H1.26831C0.567898 0.222656 0 0.791211 0 1.49248V14.5084C0 15.2096 0.567898 15.7782 1.26831 15.7782H18.7073C19.4078 15.7782 19.9757 15.2096 19.9757 14.5084V1.49248C19.9757 0.791211 19.4078 0.222656 18.7073 0.222656ZM18.7073 1.49248V10.7277L16.2078 8.45247C15.8321 8.11057 15.2544 8.12422 14.8955 8.48392L12.3658 11.0163L7.378 5.0512C7.00097 4.6004 6.31038 4.59597 5.9277 5.04136L1.26831 10.463V1.49248H18.7073ZM13.3171 4.82582C13.3171 3.86137 14.0977 3.07978 15.061 3.07978C16.0243 3.07978 16.8049 3.86137 16.8049 4.82582C16.8049 5.79027 16.0243 6.57183 15.061 6.57183C14.0977 6.57186 13.3171 5.79027 13.3171 4.82582Z" fill="#A6A6A6"/></svg>
-                          <img *ngIf="platformObj && platformObj.platformimage && platformObj.platformimage != ''" [src]="constants.baseImageURL + platformObj.platformimage"
+                          <img *ngIf="platformObj && platformObj.platformimage && platformObj.platformimage != ''" [src]="!!(platformObj?.platformimage) ? constants.baseImageURL + platformObj.platformimage : constants.defaultImage"
                                [alt]="(platformObj && platformObj.name && platformObj.name != '') ? platformObj.name : 'Platform Image'" class="w-full h-full object-cover" />
                           <input type="file" #platformImage id="platform-image" name="platform-image" (change)="onChangePlatformImage($event)" class="appearance-none hidden" accept="image/png, image/jpeg, image/jpg, image/x-icon" />
                         </span>

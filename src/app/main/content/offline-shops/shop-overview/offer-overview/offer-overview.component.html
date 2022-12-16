@@ -1,5 +1,5 @@
 <div class="-mt-12 relative -z-10">
-  <img [src]="constants.baseImageURL + offerObj?.poster" [alt]="offerObj?.offer_title" class="w-full object-cover max-h-80" />
+  <img [src]="!!(offerObj?.poster) ? constants.baseImageURL + offerObj.poster : constants.defaultImage" [alt]="offerObj?.offer_title" class="w-full object-cover max-h-80" />
 </div>
 <div class="wrapper -mt-14 z-10">
   <div class="flex items-center justify-between bg-white py-5 px-7 rounded-md">
@@ -36,11 +36,11 @@
             <h3 class="text-lg">Photos and Videos</h3>
             <div class="flex space-x-5">
               <div class="w-1/2 rounded overflow-hidden h-52" *ngIf="offerObj?.poster">
-                <p-image [src]="constants.baseImageURL + offerObj?.poster" [alt]="offerObj?.offer_title" imageClass="w-full h-full object-cover" styleClass="w-full h-full" [preview]="true"></p-image>
+                <p-image [src]="!!(offerObj?.poster) ? constants.baseImageURL + offerObj.poster : constants.defaultImage" [alt]="offerObj?.offer_title" imageClass="w-full h-full object-cover" styleClass="w-full h-full" [preview]="true"></p-image>
               </div>
               <div class="w-1/2 rounded overflow-hidden relative h-52">
                 <div class="brick w-full max-w-full h-full relative">
-                  <video [src]="constants.baseImageURL + offerObj?.video" class="w-full h-full object-cover"></video>
+                  <video [src]="!!(offerObj?.video) ? constants.baseImageURL + offerObj.video : constants.defaultImage" class="w-full h-full object-cover"></video>
                   <div class="cursor-pointer w-7 h-7 flex justify-center items-center bg-white rounded-full absolute right-2.5 bottom-2.5" (click)="openUploadVideoDialog()">
                     <i class="icon-play text-magicPotion"></i>
                   </div>
@@ -50,7 +50,7 @@
                     <div class="max-w-7xl px-5 mx-auto">
                       <div class="space-y-5 relative">
                         <span (click)="closeDialog();" class="absolute right-0 -top-8 cursor-pointer text-xl text-white"><i class="icon-close"></i></span>
-                        <video [src]="constants.baseImageURL + offerObj?.video" class="w-full h-full object-cover" controls></video>
+                        <video [src]="!!(offerObj?.video) ? constants.baseImageURL + offerObj.video : constants.defaultImage" class="w-full h-full object-cover" controls></video>
                       </div>
                     </div>
                   </div>
@@ -69,7 +69,7 @@
             <div class="bg-white space-y-5 p-7 rounded-md">
               <div class="flex items-center space-x-3">
                 <span *ngFor="let prod_imgs of offerObj?.all_product_images; let i = index" class="block w-36 h-24">
-                  <p-image [src]="constants.baseImageURL + prod_imgs.url" [alt]="'product-'+i" imageClass="w-full h-full object-cover rounded" styleClass="w-full h-full" [preview]="true"></p-image>
+                  <p-image [src]="!!(prod_imgs?.url) ? constants.baseImageURL + prod_imgs.url : constants.defaultImage"[alt]="'product-'+i" imageClass="w-full h-full object-cover rounded" styleClass="w-full h-full" [preview]="true"></p-image>
                 </span>
               </div>
               <div class="space-y-5">
@@ -84,7 +84,7 @@
           <div class="space-y-2.5" *ngIf="!offerObj?.offer_on_all_products">
             <div class="bg-white flex items-center justify-between p-2.5 rounded-md" *ngFor="let offer of offerObj?.offer_type_conditions">
               <div class="flex items-center space-x-3">
-                <img [src]="constants.baseImageURL + offer?.url" [alt]="offer?.product_name" class="w-12 h-12 rounded" />
+                <img [src]="!!(offer?.url) ? constants.baseImageURL + offer.url : constants.defaultImage" [alt]="offer?.product_name" class="w-12 h-12 rounded" />
                 <p class="text-sm font-bold text-japaneseIndigo">{{offer?.product_name}}</p>
               </div>
               <div class="text-sm">

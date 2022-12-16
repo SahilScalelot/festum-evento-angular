@@ -4,11 +4,11 @@
     <div *ngFor="let arrangementObj of arrangementsArr;let i = index;" class="accordion_item h-full p-0 relative">
       <div #accordionClick (click)="toggleAccordion($event, i)" class="title_tab flex justify-between items-center px-5 py-6 max-h-[78px] accordion">
         <div (click)="accordionClick.click()" class="space-x-7 flex items-center">
-          <img [alt]="arrangementObj.seating_item.itemname" class="w-10" [src]="constants.baseImageURL + arrangementObj.seating_item.itemimage"/>
-          <h4>{{arrangementObj.seating_item.itemname}}</h4>
+          <img [alt]="arrangementObj?.seating_item?.itemname" class="w-10" [src]="!!(arrangementObj?.seating_item?.itemimage) ? constants.baseImageURL + arrangementObj.seating_item.itemimage : constants.defaultImage"/>
+          <h4>{{arrangementObj?.seating_item.itemname}}</h4>
         </div>
         <div class="flex items-center space-x-7">
-          <a href="javascript:void(0);" (click)="deleteArrangement(arrangementObj.seating_item)"><i class="icon-delete text-lg text-quicksilver"></i></a>
+          <a href="javascript:void(0);" (click)="deleteArrangement(arrangementObj?.seating_item)"><i class="icon-delete text-lg text-quicksilver"></i></a>
           <a href="javascript:void(0);" (click)="openArrangementPopup(arrangementObj)"><i class="icon-edit text-lg text-quicksilver"></i></a>
           <span (click)="accordionClick.click()" class="uper-down flex items-center cursor-pointer">
             <i class="icon-drop_arrow"></i>
@@ -26,7 +26,7 @@
                 <h6 class="text-lg text-japaneseIndigo font-bold">Select Item</h6>
               </div>
               <div class="borders">
-                <div class="" *ngFor="let arrangement of arrangementObj.arrangements">
+                <div class="" *ngFor="let arrangement of arrangementObj?.arrangements">
                   <div class="flex flex-wrap items-center">
                     <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-2">
                       <span class="block text-xs xl:text-sm text-quicksilver">No of {{arrangementObj?.seating_item?.itemname}}</span>
@@ -78,8 +78,8 @@
             </div>
             <div class="w-full space-y-2">
               <p>Food</p>
-              <span class="text-lg font-bold text-japaneseIndigo capitalize">{{arrangementObj.food}}</span>
-              <p>{{arrangementObj.food_description}}</p>
+              <span class="text-lg font-bold text-japaneseIndigo capitalize">{{arrangementObj?.food}}</span>
+              <p>{{arrangementObj?.food_description}}</p>
             </div>
           </div>
           <div class="flex">
@@ -88,8 +88,8 @@
             </div>
             <div class="w-full space-y-2">
               <p>Equipment</p>
-              <span class="text-lg font-bold text-japaneseIndigo capitalize">{{arrangementObj.equipment ? 'Not Include' : 'Include'}}</span>
-              <p>{{arrangementObj.equipment_description}}</p>
+              <span class="text-lg font-bold text-japaneseIndigo capitalize">{{arrangementObj?.equipment ? 'Not Include' : 'Include'}}</span>
+              <p>{{arrangementObj?.equipment_description}}</p>
             </div>
           </div>
         </div>

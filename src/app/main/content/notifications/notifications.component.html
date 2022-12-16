@@ -26,16 +26,16 @@
         </div>
       </div>
       <div class="bg-white p-5 rounded-md" *ngFor="let notification of notificationObj">
-        <div class="flex justify-between items-center">
+        <div class="flex justify-between items-start">
           <div class="relative w-full md:max-w-[128px]">
-            <img [src]="constants?.baseImageURL + notification?.poster" [alt]="notification?.notification_title" class="w-32 h-32 object-cover pb-5 lg:pb-0" />
+            <img [src]="constants?.baseImageURL + notification?.banner" [alt]="notification?.notification_title" class="w-32 h-32 object-cover pb-5 lg:pb-0" />
           </div>
-          <div class="pl-5">
+          <div class="pl-5 w-full md:max-w-[clac(100%-128px)]">
             <div class="flex justify-between">
               <h4>{{notification?.notification_title}}</h4>
               <a href="javascript:void(0);"><i class="icon-more font-bold text-base"></i></a>
             </div>
-            <p class="text-gray-400 text-base pt-3 font-medium">{{notification?.description}}</p>
+            <p class="text-gray-400 text-base pt-3 font-medium" [innerHTML]="notification?.description"></p>
             <div class="flex justify-end">
               <button class="secondary flex items-center px-3 py-1.5 anim" (click)="promoteNotification(notification?._id)"><i class="icon-fill_megaphone mr-2"></i><span>Promote</span></button>
             </div>

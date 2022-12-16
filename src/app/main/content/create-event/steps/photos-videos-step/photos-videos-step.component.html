@@ -3,7 +3,7 @@
     <span class="text-sm text-quicksilver font-semibold">Add Poster <span class="font-normal">(Max size 10MB)</span></span>
     <label class="upload upload-popup p-0 relative group" id="posterUpload">
       <input #poster (change)="onPosterChange($event)" accept="image/png, image/jpeg, image/gif" class="poster hidden" id="poster" type="file" />
-<!--      <img *ngIf="posterImageAndVideoObj.banner" [src]="constants.baseImageURL + posterImageAndVideoObj.banner" class="absolute inset-0 w-full h-full object-cover z-10 group-hover:-z-10"/>-->
+<!--      <img *ngIf="posterImageAndVideoObj.banner" [src]="!!(posterImageAndVideoObj?.banner) ? constants.baseImageURL + posterImageAndVideoObj.banner : constants.defaultImage" class="absolute inset-0 w-full h-full object-cover z-10 group-hover:-z-10"/>-->
     </label>
   </div>
   <div class="media-upload-holder pt-5">
@@ -11,7 +11,7 @@
     <div class="flex flex-wrap h-full pt-2">
       <div *ngFor="let photo of posterImageAndVideoObj.photos; let i = index" class="upload-box mr-2.5 mb-2.5">
         <div class="rounded relative overflow-hidden h-full w-full">
-          <img [alt]="'add-photo-' + i" [src]="constants.baseImageURL + photo.url" *ngIf="photo.url" class="object-cover w-full h-full"/>
+          <img [alt]="'add-photo-' + i" [src]="!!(photo?.url) ? constants.baseImageURL + photo.url : constants.defaultImage" *ngIf="photo.url" class="object-cover w-full h-full"/>
           <button (click)="removeImage(i)">Remove</button>
         </div>
       </div>
@@ -31,7 +31,7 @@
         <div class="rounded relative overflow-hidden h-full w-full">
           <!-- <iframe [src]="video.video" frameborder="0" class="w-full h-full"></iframe> -->
           <video width="100%" height="100%" class="w-full h-full object-cover">
-            <source [src]="constants.baseImageURL + video.url" *ngIf="video.url" type="video/mp4">
+            <source [src]="!!(video?.url) ? constants.baseImageURL + video.url : constants.defaultImage" *ngIf="video.url" type="video/mp4">
           </video>
           <button (click)="removeVideo(i)">Remove</button>
         </div>

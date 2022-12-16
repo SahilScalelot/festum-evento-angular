@@ -2,7 +2,7 @@
 <div *ngIf="events && !isLoading" class="">
   <div class="-mt-12 relative -z-10">
     <!-- src="../assets/images/cooking-together-big.png"  -->
-    <img [src]="constants.baseImageURL + events.banner" alt="cooking-together-bg" class="w-full object-cover max-h-80"/>
+    <img [src]="!!(events?.banner) ? constants.baseImageURL + events.banner : constants.defaultImage" alt="cooking-together-bg" class="w-full object-cover max-h-80"/>
   </div>
   <div class="wrapper min-h-full -mt-14 z-10">
     <div class="flex items-center justify-between bg-white py-5 px-7 rounded-md">
@@ -63,7 +63,7 @@
                 <div class="flex flex-wrap -mx-2">
                   <div *ngFor="let img of events.photos" class="w-full lg:w-2/12 p-2 ov-p">
                     <div class="rounded relative overflow-hidden bg-white h-24">
-                      <img [src]="constants.baseImageURL + img.url" alt="upload-1" class="w-full h-full object-cover"/>
+                      <img [src]="!!(img?.url) ? constants.baseImageURL + img.url : constants.defaultImage" alt="upload-1" class="w-full h-full object-cover"/>
                     </div>
                   </div>
                 </div>
@@ -81,7 +81,7 @@
                 <div class="flex flex-wrap -mx-2">
                   <div *ngFor="let video of events.videos" class="w-full lg:w-1/5 p-2 ov-p">
                     <div class="rounded relative overflow-hidden h-28">
-                      <video [src]="constants.baseImageURL + video.url" class="w-full h-full object-cover bg-white"></video>
+                      <video [src]="!!(video?.url) ? constants.baseImageURL + video.url : constants.defaultImage" class="w-full h-full object-cover bg-white"></video>
                     </div>
                   </div>
                 </div>
@@ -95,7 +95,7 @@
                   <div class="title_tab flex justify-between items-center px-5 py-6 max-h-[78px]">
                     <div class="space-x-7 flex items-center">
                       <div class="w-10 text-center">
-                        <img alt="{{seating?.seating_item?.itemname}}" class="mx-auto h-10 max-w-full object-contain" [src]="constants.baseImageURL + seating?.seating_item?.itemimage"/>
+                        <img alt="{{seating?.seating_item?.itemname}}" class="mx-auto h-10 max-w-full object-contain" [src]="!!(seating?.seating_item?.itemimage) ? constants.baseImageURL + seating.seating_item.itemimage : constants.defaultImage"/>
                       </div>
                       <h4>{{seating?.seating_item?.itemname}}</h4>
                     </div>
@@ -215,7 +215,7 @@
                 <div class="flex flex-wrap -mx-2">
                   <div *ngFor="let img of events.companydetail.photos" class="w-full lg:w-2/12 p-2 ov-p">
                     <div class="rounded relative overflow-hidden bg-white h-24">
-                      <img [src]="constants.baseImageURL + img.url" alt="upload-1" class="w-full h-full object-cover"/>
+                      <img [src]="!!(img?.url) ? constants.baseImageURL + img.url : constants.defaultImage" alt="upload-1" class="w-full h-full object-cover"/>
                     </div>
                   </div>
                 </div>
@@ -233,7 +233,7 @@
                 <div class="flex flex-wrap -mx-2">
                   <div *ngFor="let video of events.companydetail.videos" class="w-full lg:w-1/5 p-2 ov-p">
                     <div class="rounded relative overflow-hidden h-28">
-                      <video [src]="constants.baseImageURL + video.url" class="w-full h-full object-cover bg-white"></video>
+                      <video [src]="!!(video?.url) ? constants.baseImageURL + video.url : constants.defaultImage" class="w-full h-full object-cover bg-white"></video>
                     </div>
                   </div>
                 </div>

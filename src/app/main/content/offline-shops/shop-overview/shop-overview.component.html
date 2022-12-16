@@ -1,7 +1,7 @@
 <!-- Content In -->
 <div class=" pt-0">
   <div class="-mt-12 relative -z-10">
-    <img [src]="constants.baseImageURL + shopObj?.banner" [alt]="shopObj?.shop_name" class="w-full object-cover max-h-80" />
+    <img [src]="!!(shopObj?.banner) ? constants.baseImageURL + shopObj.banner : constants.defaultImage" [alt]="shopObj?.shop_name" class="w-full object-cover max-h-80" />
   </div>
   <div class="wrapper -mt-14 z-10">
     <div class="flex justify-between bg-white py-5 px-7 rounded-md">
@@ -67,7 +67,7 @@
               <div class="w-full p-2.5 bg-white rounded" *ngFor="let offer of shopOffer" (click)="gotoShopOfferOverview($event, shopId, offer)">
                 <div class="flex flex-wrap items-center xl:flex-nowrap">
                   <div class="relative w-full xl:max-w-[200px] h-full xl:max-h-32 overflow-hidden">
-                    <img [src]="constants.baseImageURL + offer?.poster" [alt]="offer?.offer_title" class="w-full h-full object-cover pb-5 lg:pb-0" />
+                    <img [src]="!!(offer?.poster) ? constants.baseImageURL + offer.poster : constants.defaultImage" [alt]="offer?.offer_title" class="w-full h-full object-cover pb-5 lg:pb-0" />
                   </div>
                   <div class="w-full xl:pl-5 pt-4 xl:pt-0 space-y-2">
                     <div class="flex items-start justify-between">

@@ -47,7 +47,7 @@ export class ArrangementStepComponent implements OnInit {
     this.isLoading = true;
     this._createEventService.getArrangements(this.eventId).subscribe((result: any) => {
       if (result && result.IsSuccess) {
-        this.arrangementsArr = result.Data.arrangements || [];
+        this.arrangementsArr = result.Data.seating_arrangements || [];
         this.isLoading = false;
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
@@ -131,11 +131,11 @@ export class ArrangementStepComponent implements OnInit {
   prepareObj(arrangementsArr: any = []): any {
     const preparedObj: any = {};
     preparedObj.eventid = this.eventId;
-    preparedObj.arrangements = [];
+    preparedObj.seating_arrangements = [];
     arrangementsArr.forEach((arrangement: any) => {
       const tmpArrangement: any = arrangement;
       tmpArrangement.seating_item = arrangement.seating_item._id;
-      preparedObj.arrangements.push(arrangement);
+      preparedObj.seating_arrangements.push(arrangement);
     });
     return preparedObj;
   }

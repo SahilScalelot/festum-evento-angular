@@ -169,7 +169,7 @@ export class PhotosVideosStepComponent implements OnInit {
             if (result && result.IsSuccess) {
               this.posterObj.image = img;
               this.setPosterInDropify(result.Data.url);
-              this.inputText = _.last(_.split(result.Data.url, '/'));
+              // this.inputText = _.last(_.split(result.Data.url, '/'));
               this._sNotify.success('File Uploaded Successfully.', 'Success');
               this.isPosterLoading = false;
               this._modalService.close("imgCropper");

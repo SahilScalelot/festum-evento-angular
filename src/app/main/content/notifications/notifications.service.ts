@@ -11,8 +11,8 @@ export class NotificationsService {
   constructor(private http: HttpClient, private _globalFunctions: GlobalFunctions) { }
 
   // Notification List Api
-  getNotificationList(offerId: any): any {
-    return this.http.post(environment.appURL + 'organizer/notification', {onlineofferid: offerId}, this._globalFunctions.getAuthorizationHeader());
+  getNotificationList(filter: any): any {
+    return this.http.post(environment.appURL + 'organizer/notification', filter, this._globalFunctions.getAuthorizationHeader());
   }
 
   // Create Notification Api

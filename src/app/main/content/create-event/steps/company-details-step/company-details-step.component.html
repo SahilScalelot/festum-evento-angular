@@ -114,7 +114,7 @@
           <div class="flex flex-wrap h-full pt-2">
             <div *ngFor="let photo of photoArr; let i = index" class="upload-box mr-2.5 mb-2.5">
               <div class="rounded relative overflow-hidden h-full w-full">
-                <img [alt]="'add-photo-' + i" [src]="constants.baseImageURL + photo.url" *ngIf="isString(photo.url)" class="object-cover w-full h-full"/>
+                <img [alt]="'add-photo-' + i" [src]="!!(photo?.url) ? constants.baseImageURL + photo.url : constants.defaultImage" *ngIf="isString(photo.url)" class="object-cover w-full h-full"/>
                 <button (click)="removeImage(i)">Remove</button>
               </div>
             </div>
@@ -136,7 +136,7 @@
             <div *ngFor="let video of videoArr; let i = index" class="upload-box mr-2.5 mb-2.5">
               <div class="rounded relative overflow-hidden h-full w-full">
                 <video class="w-full h-full object-cover" height="100%" width="100%">
-                  <source [src]="constants.baseImageURL + video.url" *ngIf="isString(video.url)" type="video/mp4">
+                  <source [src]="!!(video?.url) ? constants.baseImageURL + video.url : constants.defaultImage" *ngIf="isString(video.url)" type="video/mp4">
                 </video>
                 <button (click)="removeVideo(i)">Remove</button>
               </div>

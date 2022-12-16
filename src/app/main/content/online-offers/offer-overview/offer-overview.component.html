@@ -1,5 +1,5 @@
 <div class="-mt-12 relative -z-10">
-  <img [src]="constants.baseImageURL + offerObj?.poster" [alt]="offerObj?.shop_name" class="w-full object-cover max-h-80" />
+  <img [src]="!!(offerObj?.poster) ? constants.baseImageURL + offerObj.poster : constants.defaultImage" [alt]="offerObj?.shop_name" class="w-full object-cover max-h-80" />
 </div>
 <div class="wrapper -mt-14 z-10">
   <div class="lg:flex items-end justify-between bg-white py-5 px-7 rounded-md">
@@ -48,7 +48,7 @@
               <p class="text-lg text-japaneseIndigo font-bold">Product Image</p>
               <div class="flex space-x-5 items-center">
                 <span *ngFor="let prod_imgs of offerObj?.images; let i = index" class="block w-40 h-40">
-                  <p-image [src]="constants.baseImageURL + prod_imgs.url" [alt]="'product-'+i" imageClass="w-full h-full object-cover rounded" styleClass="w-full h-full" [preview]="true"></p-image>
+                  <p-image [src]="!!(prod_imgs?.url) ? constants.baseImageURL + prod_imgs.url : constants.defaultImage" [alt]="'product-'+i" imageClass="w-full h-full object-cover rounded" styleClass="w-full h-full" [preview]="true"></p-image>
                 </span>
               </div>
             </div>
@@ -66,7 +66,7 @@
             <div class="bg-white p-7 space-y-2.5 rounded-md">
               <div class="flex items-center justify-between bg-brightGray py-3 px-4 rounded-md" *ngFor="let platform of offerObj?.product_links; let i = index">
                 <div class="flex items-center space-x-2.5">
-                  <img [src]="constants.baseImageURL + platform.platform.platformimage" [alt]="platform.platform.name" class="w-7 h-7 object-contain" />
+                  <img [src]="!!(platform?.platform?.platformimage) ? constants.baseImageURL + platform.platform.platformimage : constants.defaultImage" [alt]="platform.platform.name" class="w-7 h-7 object-contain" />
                   <input type="text" class="w-full outline-none bg-transparent" [value]="platform.product_link" readonly />
                 </div>
                 <div class="text-xl leading-0">
