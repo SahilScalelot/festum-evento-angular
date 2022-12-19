@@ -1,0 +1,92 @@
+<!-- main-content  -->
+<div class="space-y-5">
+  <div class="w-full flex items-end flex-wrap">
+    <div class="w-full lg:w-1/2 px-2 py-2 lg:py-0 inputHolder">
+      <span class="input-titel">Event Name</span>
+      <input type="text" class="input" />
+    </div>
+    <div class="w-full lg:w-1/2 px-2 py-2 lg:py-0 inputHolder">
+      <span class="input-titel">Event Category</span>
+      <select name="All Category" class="arrow bg-white pl-5 pr-11 py-3 text-japaneseIndigo font-bold rounded-md tracking-wider appearance-none focus-visible:outline-none">
+        <option value="">Select Category</option>
+        <option value="">Event Category 2</option>
+        <option value="">Event Category 3</option>
+        <option value="">Event Category 4</option>
+      </select>
+    </div>
+  </div>
+  <div class="w-full px-2">
+    <span class="input-titel">Event Description</span>
+    <textarea  cols="30" rows="4" class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md placeholder:text-sm placeholder:text-[#a6a6a6] placeholder:font-bold" placeholder="Type here"></textarea>
+  </div>
+  <div class="flex flex-wrap items-end justify-between">
+    <div class="w-full lg:w-1/2 px-2 py-2 lg:py-0">
+      <span class="input-titel">Event Date</span>
+      <label for="date" class="bg-white rounded-md flex space-x-3 w-full relative">
+      <i class="icon-calendar-2 text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0"></i>
+      <input type="date" id="date" class="w-full rounded-md outline-none py-4" />
+      </label>
+    </div>
+    <div class="w-full lg:w-1/2 px-2 py-2 lg:py-0">
+      <div class="flex -mx-3">
+        <div class="w-1/2 px-3">
+          <span class="input-titel">Start Time</span>
+          <label for="start-time" class="bg-white rounded-md flex space-x-3 w-full relative">
+          <i class="icon-time text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0"></i>
+          <input type="time" id="start-time" class="w-full rounded-md outline-none py-4" />
+          </label>
+        </div>
+        <div class="w-1/2 px-3">
+          <span class="input-titel">Start Time</span>
+          <label for="end-time" class="bg-white rounded-md flex space-x-3 w-full relative">
+          <i class="icon-time text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0"></i>
+          <input type="time" id="end-time" class="w-full rounded-md outline-none py-4" />
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="w-full">
+    <span class="input-titel">Event Type</span>
+    <div class="flex pt-2">
+      <div class="flex items-center">
+        <label for="free-user" class="interested_in flex items-center text-black mb-0 cursor-pointer">
+        <input id="free-user" name="event_type" type="radio" class="circle sky rounded-full">
+        <b class="text-japaneseIndigo cursor-pointer text-sm font-medium capitalize pl-2">Free for user</b>
+        </label>
+      </div>
+      <div class="flex items-center ml-8">
+        <label for="paid-user" class="interested_in flex items-center text-black mb-0 cursor-pointer">
+        <input id="paid-user" name="event_type" type="radio" class="circle sky rounded-full" checked />
+        <b class="text-japaneseIndigo cursor-pointer text-sm font-medium capitalize pl-2">Paid for user</b>
+        </label>
+      </div>
+    </div>
+  </div>
+  <div class="w-full">
+    <span class="text-sm text-quicksilver font-semibold capitalize block tracking-wider">Join live streaming price</span>
+    <span class="text-xs text-quicksilver font-medium inline-block mb-3">How Much Amount You Have To Take From The User?</span>
+    <label class="w-full lg:w-1/2 bg-white rounded-md flex space-x-3 relative">
+    <input type="text" class="w-full rounded-md outline-none px-3 py-4" />
+    <button class="secondary anim px-5 py-2 m-2 right-4 absolute"><a href="javascript:void(0);" class="capitalize">Per/User</a></button>
+    </label>
+  </div>
+</div>
+
+<div class="mt-auto">
+  <!-- advisement -->
+  <div class="w-full mt-5 addsBox">
+    <img src="/assets/images/banner-ads.png" alt="ring-ad" class="w-full object-cover" />
+  </div>
+  <!-- next preview button -->
+  <div class="prw-next-btn mt-auto">
+    <button type="button" class="flex items-center">
+      <i class="icon-left_arrow mr-3"></i>
+      <h5>Back</h5>
+    </button>
+    <button type="button" class="flex items-center active">
+      <h5>Next</h5>
+      <i class="icon-right_arrow ml-3"></i>
+    </button>
+  </div>
+</div>

@@ -1,0 +1,18 @@
+<div class="wrapper flex flex-col min-h-full">
+  <div class="space-y-8">
+    <!-- title-holder  -->
+    <div class="flex justify-between items-center">
+      <div class="flex items-center">
+        <i routerLink=".." class="icon-left_arrow cursor-pointer mr-4 text-2xl"></i>
+        <h2>Create Stream</h2>
+      </div>
+    </div>
+    <div class="w-full overflow-hidden overflow-x-auto capitalize">
+      <p-steps [model]="items" [readonly]="false"></p-steps>
+    </div>
+  </div>
+  <!-- main-content  -->
+  <div class="outletPortal pt-8 max-h-full overflow-auto">
+    <router-outlet></router-outlet>
+  </div>
+</div>

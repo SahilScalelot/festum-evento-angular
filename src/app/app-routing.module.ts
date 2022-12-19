@@ -76,7 +76,7 @@ const routes: Routes = [
       },
       {
         path: 'live-stream',
-        loadChildren: () => import('./main/content/online-offers/online-offers.module').then(m => m.OnlineOffersModule)
+        loadChildren: () => import('./main/content/live-stream/live-stream.module').then(m => m.LiveStreamModule)
       },
       {
         path: 'notifications',
