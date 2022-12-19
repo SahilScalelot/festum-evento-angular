@@ -1,17 +1,17 @@
-<div class="">
+<form [formGroup]="dateAndTimeForm" class="p-ngCss">
   <div class="flex flex-wrap lg:pt-0  items-end justify-between">
     <div class="w-full lg:w-1/2 lg:pr-3.5">
       <h5 class="pb-3">Date</h5>
-      <label class="bg-white rounded-md flex space-x-3 relative">
-        <i class="icon-calendar flex items-center pl-5 absolute left-0 inset-y-0"></i>
-        <input type="date" class="left w-full rounded-md outline-none appearance-none pl-10 py-4" />
+      <label class="bg-white rounded-md flex space-x-3 relative cursor-text">
+        <i class="icon-calendar flex items-center pl-5 absolute left-0 inset-y-0 z-10"></i>
+        <p-calendar class="left w-full rounded-md outline-none appearance-none pl-10 py-2" [formControlName]="'notification_date'" name="date" [minDate]="minDateValue" [readonlyInput]="true" inputId="date"></p-calendar>
       </label>
     </div>
     <div class="w-full lg:w-1/2 lg:pl-3.5 pt-5 lg:pt-0">
       <h5 class="pb-3">Time</h5>
-      <label class="bg-white rounded-md flex space-x-3 relative">
+      <label class="bg-white rounded-md flex space-x-3 relative cursor-text">
         <i class="icon-time flex items-center pl-5 absolute left-0 inset-y-0"></i>
-        <input type="time" class="left w-full rounded-md outline-none appearance-none pl-10 py-4" />
+        <p-calendar class="left w-full rounded-md outline-none appearance-none pl-10 py-2" [timeOnly]="true" [hourFormat]="'12'" inputId="timeonly" [formControlName]="'notification_time'"></p-calendar>
       </label>
     </div>
   </div>
@@ -19,27 +19,27 @@
     <h5 class="pb-4">Select category</h5>
     <div class="flex items-center pb-7">
       <label class="checkbox w-8">
-        <input type="radio" name="category" id="Notification" checked />
+        <input type="checkbox" name="is_notification" id="is_notification" [formControlName]="'is_notification'" />
         <i class="icon-right text-white"></i>
       </label>
       <span class="text-base font-bold text-japaneseIndigo pl-4">Notification</span>
     </div>
     <div class="flex items-center pb-7">
       <label class="checkbox w-8">
-        <input type="radio" name="category" id="SMS" />
+        <input type="checkbox" name="is_sms" id="is_sms" [formControlName]="'is_sms'" />
         <i class="icon-right text-white"></i>
       </label>
       <span class="text-base font-bold text-japaneseIndigo pl-4">SMS</span>
     </div>
     <div class="flex items-center">
       <label class="checkbox w-8">
-        <input type="radio" name="category" id="Email" />
+        <input type="checkbox" name="is_email" id="is_email" [formControlName]="'is_email'" />
         <i class="icon-right text-white"></i>
       </label>
       <span class="text-base font-bold text-japaneseIndigo pl-4">Email</span>
     </div>
   </div>
-</div>
+</form>
 
 <div class="mt-auto">
   <!-- advisement -->
@@ -48,11 +48,11 @@
   </div>
   <!-- next preview button -->
   <div class="prw-next-btn mt-auto">
-    <button type="button" class="flex items-center">
+    <button type="button" class="flex items-center" (click)="onBackClick()">
       <i class="icon-left_arrow mr-3"></i>
       <h5>Back</h5>
     </button>
-    <button type="button" class="flex items-center active">
+    <button type="button" class="flex items-center active" (click)="onNextClick()">
       <h5>Next</h5>
       <i class="icon-right_arrow ml-3"></i>
     </button>

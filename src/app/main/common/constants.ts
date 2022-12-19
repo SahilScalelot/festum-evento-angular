@@ -158,6 +158,24 @@ export const CONSTANTS = {
     {value: 'limited_person', label: 'Limited Person'}
   ],
 
+  userType: {
+    EVENT_USERS: 0,
+    SHOP_USERS: 1,
+    ONLINE_OFFER_USERS: 2,
+    LIVE_STREAM_USERS: 3,
+    ALL_USERS: 4,
+    EXISTING_USERS: 5,
+  },
+
+  userTypeArr: [
+    {value: 'eventusers', url: '/assets/images/event-user.png', type: 'Event User'},
+    {value: 'shopusers', url: '/assets/images/shope-user.png', type: 'Shop User'},
+    {value: 'onlineofferusers', url: '/assets/images/online-shop-user.png', type: 'online shop offers user'},
+    {value: 'livestreamusers', url: '/assets/images/live-streaming-user.png', type: 'live streaming user'},
+    {value: 'allusers', url: '/assets/images/all-user.png', type: 'All User'},
+    {value: 'existingusers', url: '/assets/images/existing-user.png', type: 'Existing User'}
+  ],
+
   maxPosterSizeInMB: 10,
   maxImageSizeInMB: 3,
   maxIconSizeInKB: 500,

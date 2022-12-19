@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { result } from 'lodash';
 import { SnotifyService } from 'ng-snotify';
 import { GlobalFunctions } from 'src/app/main/common/global-functions';
 import { PromoteService } from '../promote.service';
+import {CONSTANTS} from "../../../../common/constants";
 
 @Component({
   selector: 'app-user-types',
@@ -12,20 +12,10 @@ import { PromoteService } from '../promote.service';
   styleUrls: ['./user-types.component.scss']
 })
 export class UserTypesComponent implements OnInit {
-  userTypesForm: any;
   nId: any;
-  notificationObj: any;
-
+  constants: any = CONSTANTS;
+  userTypesForm: any;
   isLoading: boolean = false;
-
-  userTypes: any = [
-    {value: 'eventusers', url: '/assets/images/event-user.png', type: 'Event User'},
-    {value: 'shopusers', url: '/assets/images/shope-user.png', type: 'Shop User'},
-    {value: 'onlineofferusers', url: '/assets/images/online-shop-user.png', type: 'online shop offers user'},
-    {value: 'livestreamusers', url: '/assets/images/live-streaming-user.png', type: 'live streaming user'},
-    {value: 'allusers', url: '/assets/images/all-user.png', type: 'All User'},
-    {value: 'existingusers', url: '/assets/images/existing-user.png', type: 'Existing User'}
-  ];
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -37,17 +27,19 @@ export class UserTypesComponent implements OnInit {
 
   ngOnInit(): void {
     this.nId = localStorage.getItem('nId');
-    this._prepareUserTypesForm(this.notificationObj);
-    this.getNotificationById();
+    if (this.nId && this.nId != '') {
+      this._prepareUserTypesForm();
+      this.getNotificationById();
+    } else {
+      this._router.navigate(['notifications']);
+    }
   }
 
   getNotificationById(): void {
     this.isLoading = true;
     this._promoteService.getNotificationById(this.nId).subscribe((result: any) => {
       if (result && result.IsSuccess) {
-        console.log(result);
-        this.notificationObj = this._globalFunctions.copyObject(result.Data);
-        console.log(this.notificationObj);
+        this._prepareUserTypesForm(result.Data);
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
       }
@@ -58,7 +50,7 @@ export class UserTypesComponent implements OnInit {
     });
   }
 
-  validate(): boolean {
+  validateNotificationObj(): boolean {
     if (!this.userTypesForm.value.notificationid || this.userTypesForm.value.notificationid === "") {
       this._sNotify.error('Notification Id is required!', 'Oops!');
       return false;
@@ -71,13 +63,23 @@ export class UserTypesComponent implements OnInit {
   }
   
   next(): any {
-    if (!this.validate()) {
-      return;
+    if (this.isLoading || !this.validateNotificationObj()) {
+      return false;
     }
-    console.log(this.userTypesForm.value);
+    this.isLoading = true;
     this._promoteService.saveUserType(this.userTypesForm.value).subscribe((result: any) => {
-      console.log(result);
-    })
+      if (result && result.IsSuccess) {
+        this._sNotify.success('User Type Selected Successfully.', 'Success');
+        this._router.navigate(['/notifications/promote/users']);
+        this.isLoading = false;
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+        this.isLoading = false;
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isLoading = false;
+    });
   }
 
   private _prepareUserTypesForm(userTypesObj: any = {}): void {

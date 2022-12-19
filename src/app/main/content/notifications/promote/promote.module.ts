@@ -8,6 +8,7 @@ import { PublishDateAndTimeComponent } from './publish-date-and-time/publish-dat
 import { BillDetailsComponent } from './bill-details/bill-details.component';
 import { StepsModule } from 'primeng/steps';
 import { ReactiveFormsModule } from '@angular/forms';
+import { CalendarModule } from "primeng/calendar";
 
 const routes: Routes = [
   {
@@ -43,7 +44,8 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     CommonModule,
     StepsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CalendarModule,
   ]
 })
 export class PromoteModule { }
