@@ -41,9 +41,7 @@ export class NotificationsComponent implements OnInit {
       search: ""
     };
     this._notificationsService.getNotificationList(filter).subscribe((result: any) => {
-      if (result && result.IsSuccess) {
-        console.log(this.notificationObj);
-        
+      if (result && result.IsSuccess) {        
         this.notificationObj = this._globalFunctions.copyObject(result.Data.docs);
         // this.paging = this._globalFunctions.copyObject(result.Data);
         this.paging = result.Data;

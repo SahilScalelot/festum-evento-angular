@@ -93,7 +93,7 @@
               <p class="text-quicksilver text-sm font-normal">{{offerObj?.about_company}}</p>
             </div>
           </div>
-          <div class="space-y-4" *ngIf="offerObj?.tandc">
+          <div class="space-y-4" *ngIf="offerObj?.tandc" id="tAndC">
             <h5>Terms & Conditions</h5>
             <div class="p-3 lg:p-7 bg-white rounded-md space-y-1" [innerHtml]="offerObj?.tandc?.t_and_c"></div>
           </div>
@@ -133,14 +133,7 @@
           <div class="bg-gradient-to-r from-[#13e1b094] to-[#13E1B0] space-y-3.5 rounded-md p-5 relative">
             <h3 class="text-white font-normal">Discount On Products</h3>
             <h1>{{offerObj?.offer_amount}}{{(offerObj?.offer_type == 'percentage') ? '%' : '₹'}} Discount </h1>
-            <div class="w-44 flex items-center bg-white border border-dashed border-caribbeanGreen px-2.5 py-2 space-x-2">
-              <span class="text-xs text-japaneseIndigo font-bold">Offer Code : </span>
-              <span class="text-xs text-caribbeanGreen font-bold">FGY4256</span>
-              <a href="javascript:void(0);">
-                <i class="icon-copy text-caribbeanGreen"></i>
-              </a>
-            </div>
-            <span class="text-white flex">T&C Apply*</span>
+            <span class="text-white flex" title="Scroll Down Terms & Conditions">T&C Apply*</span>
             <img src="../assets/images/event-subscription.png" alt="event" class="absolute bottom-7 -right-1" />
           </div>
           <div class="bg-white p-7 rounded-md space-y-7">
