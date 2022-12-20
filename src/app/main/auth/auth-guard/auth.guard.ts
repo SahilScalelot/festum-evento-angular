@@ -38,8 +38,8 @@ export class AuthGuard implements CanActivate {
     return new Promise((resolve, reject) => {
       resolve(true);
       this._authService.getLoginUser().subscribe((result: any) => {
-        if (result.status) {
-          const user = _.clone(result.user);
+        if (result.IsSuccess) {
+          const user = _.clone(result.Data);
           this._globalService.loginUser$.next(user);
           resolve(true);
         } else {
@@ -56,7 +56,7 @@ export class AuthGuard implements CanActivate {
   }
 
   redirectLogin(): void {
-    localStorage.clear();
-    this._router.navigate(['login']);
+    // localStorage.clear();
+    // this._router.navigate(['login']);
   }
 }

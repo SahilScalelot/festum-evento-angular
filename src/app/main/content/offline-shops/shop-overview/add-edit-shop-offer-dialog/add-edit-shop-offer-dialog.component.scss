@@ -1,0 +1,62 @@
+.location {
+  agm-map {
+    height: 400px !important;
+    width: 100%;
+  }
+}
+::ng-deep {
+  .dropify-wrapper .dropify-message span.file-icon {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 16px;
+  }
+  .dropify-wrapper .dropify-preview .dropify-render img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    transform: unset;
+  }
+
+  // ck-editor css
+  .ck-editor__editable_inline {
+    min-height: 350px !important;
+  }
+  .ck.ck-editor__editable.ck-focused:not(.ck-editor__nested-editable) {
+    border: none;
+    box-shadow: none;
+  }
+  .ck-reset_all :not(.ck-reset_all-excluded *), .ck.ck-reset_all {
+    margin: 4px 0;
+  }
+  .ck.ck-toolbar {
+    border: 0 none;
+    border-bottom: 1px solid #EEEEEE;
+  }
+  .ck.ck-toolbar .ck.ck-toolbar__separator {
+    background: #EEEEEE;
+  }
+}
+
+.p-ngCss {
+  ::ng-deep {
+    .p-inputtext {
+      border: 0 !important;
+    }
+    .p-inputtext:enabled:focus {
+      border: 0 !important;
+      box-shadow: none !important;
+    }
+    // p-calendar span {
+    //   width: 100%!important;
+    // }
+    // p-calendar input {
+    //   width: 100% !important;
+    // }
+  }
+}

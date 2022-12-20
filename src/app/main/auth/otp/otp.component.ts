@@ -48,8 +48,8 @@ export class OtpComponent implements OnInit {
   resendOtp(): any {
     this.isLoading = true;
     this._authService.sendOTP({ mobile: this.phone }, this.isForgotPwdFlow).subscribe((result: any) => {
-      if (result && result.status) {
-        this.smsKey = result.smsKey;
+      if (result && result.IsSuccess) {
+        this.smsKey = result.smsKey;        
         if (this.isForgotPwdFlow) {
           this.forgotPwdObj.smsKey = result.smsKey;
           localStorage.setItem('forgot-password', JSON.stringify(this.forgotPwdObj));
@@ -59,7 +59,7 @@ export class OtpComponent implements OnInit {
         }
         this.isLoading = false;
       } else {
-        this._sNotify.success(result.message, 'error');
+        this._sNotify.success(result.Message, 'error');
         // this._globalFunctions.successErrorHandling(result, this, true);
         this.isLoading = false;
       }
@@ -89,18 +89,18 @@ export class OtpComponent implements OnInit {
     };
 
     this._authService.verifyCode(verifyOTP).subscribe((result: any) => {
-      if (result && result.status) {
+      if (result && result.IsSuccess) {
         if (this.isForgotPwdFlow) {
           localStorage.removeItem('forgot-password');
-          localStorage.setItem('phone', this.phone);
+          localStorage.setItem('phone', JSON.stringify(verifyOTP.mobile));
           this._router.navigate(['/set-new-password']);
         } else {
           localStorage.removeItem('forgot-password');
-          this.registerUser();
+          this.registerUser(verifyOTP);
         }
         this.isLoading = false;
       } else {
-        this._sNotify.error(result.message, 'error');
+        this._sNotify.error(result.Message, 'error');
         // this._globalFunctions.successErrorHandling(result, this, true);
         this.isLoading = false;
       }
@@ -110,16 +110,16 @@ export class OtpComponent implements OnInit {
     });
   }
 
-  registerUser(): any {
-    this.isLoading = true;
-    this._authService.register(this.registerObj).subscribe((result: any) => {
-      if (result.status) {
+  registerUser(verifyOTP: any): any {
+    this.isLoading = true;    
+    this._authService.verifyCode(verifyOTP).subscribe((result: any) => {
+      if (result.IsSuccess) {
         localStorage.removeItem('register');
         this._sNotify.success('Organizer registered successfully', 'Success');
         this._router.navigate(['login']);
         this.isLoading = false;
       } else {
-        this._sNotify.error(result.message, 'error');
+        this._sNotify.error(result.Message, 'error');
         // this._globalFunctions.successErrorHandling(result, this, true);
         this.isLoading = false;
       }

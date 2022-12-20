@@ -1,4 +1,4 @@
-<p-progressSpinner *ngIf="isLoading" [style]="{width: '50px', height: '50px'}" animationDuration=".5s" strokeWidth="8" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-x-0 top-0 h-full w-full z-50" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
+<p-progressSpinner *ngIf="isLoading" [style]="{width: '50px', height: '50px'}" animationDuration=".5s" strokeWidth="8" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-x-0 top-0 h-full w-full z-40" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
 <div class="px-2">
   <!-- company details  -->
   <form [formGroup]="companyForm">
@@ -12,16 +12,18 @@
           </span>
         </span>
       </div>
-      <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative">
+      <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative group">
         <span class="input-titel">Company GST (Optional)</span>
+        <p-progressSpinner *ngIf="isPdfLoading" [style]="{width: '20px', height: '20px'}" animationDuration=".5s" strokeWidth="4" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-x-1 bottom-0 top-10 z-20" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
         <label class="upload upload-popup py-3">
-          <input (change)="onChangePDF($event)" [formControlName]="'gst'" accept="application/pdf" class="appearance-none hidden" id="company-gst" name="images" type="file"/>
+          <input (change)="onChangePDF($event)" accept="application/pdf" class="appearance-none hidden" id="company_gst" name="images" type="file"/>
           <span class="input-titel text-base p-0">
             <i class="icon-pdf_upload mr-2"></i> 
-            <span>{{inputText ? inputText : 'Upload PDF'}}</span>
+            <span class="normal-case">{{inputText ? inputText : 'Upload PDF'}}</span>
             <!-- <span>{{companyObj?.company_details?.gst}}</span> -->
           </span>
         </label>
+        <a *ngIf="inputText" class="absolute right-4 bottom-3 py-0.5 px-2 normal-case text-gray-400 anim hover:text-magicPotion text-sm font-semibold hidden border border-current group-hover:inline-block" [href]="constants.baseImageURL + gstPdf" target="_blank" title="View File">View</a>
         <span class="absolute top-full text-red-500 text-xs" *ngIf="isInValidPDF">
           Please upload only PDF file. 
         </span>
@@ -47,9 +49,14 @@
         </span>
       </div>
     </div>
-    <div class="w-full pt-5">
-      <span class="input-titel">About Our Company</span>
+    <div class="w-full pt-5 relative">
+      <span class="input-titel">About Our Company<span class="text-magicPotion">*</span></span>
       <textarea [formControlName]="'about'" class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md" cols="30" rows="4"></textarea>
+      <span class="absolute top-full text-red-500 text-xs" *ngIf="companyForm.get('about')?.invalid && (companyForm.get('about')?.dirty && companyForm.get('about')?.touched)">
+        <span *ngIf="companyForm.get('about')?.errors?.['required']">
+          About is required.
+        </span>
+      </span>
     </div>
     <!-- Address  -->
     <div class="pt-5 -mx-2">
@@ -107,11 +114,12 @@
           <div class="flex flex-wrap h-full pt-2">
             <div *ngFor="let photo of photoArr; let i = index" class="upload-box mr-2.5 mb-2.5">
               <div class="rounded relative overflow-hidden h-full w-full">
-                <img [alt]="'add-photo-' + i" [src]="photo.image" class="object-cover w-full h-full"/>
+                <img [alt]="'add-photo-' + i" [src]="!!(photo?.url) ? constants.baseImageURL + photo.url : constants.defaultImage" *ngIf="isString(photo.url)" class="object-cover w-full h-full"/>
                 <button (click)="removeImage(i)">Remove</button>
               </div>
             </div>
-            <div class="upload-holder" *ngIf="photoArr.length < 5">
+            <div class="upload-holder relative" *ngIf="photoArr.length < 5">
+              <p-progressSpinner *ngIf="isImgLoading" [style]="{width: '20px', height: '20px'}" animationDuration=".5s" strokeWidth="4" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-0 z-20" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
               <label class="upload-photo">
                 <input (change)="uploadImage()" accept="image/png, image/jpeg, image/gif" class="appearance-none hidden" id="create-photo-upload" multiple name="images" type="file"/>
                 <i class="icon-img_upload text-base text-quicksilver"></i>
@@ -128,12 +136,13 @@
             <div *ngFor="let video of videoArr; let i = index" class="upload-box mr-2.5 mb-2.5">
               <div class="rounded relative overflow-hidden h-full w-full">
                 <video class="w-full h-full object-cover" height="100%" width="100%">
-                  <source [src]="video.video" type="video/mp4">
+                  <source [src]="!!(video?.url) ? constants.baseImageURL + video.url : constants.defaultImage" *ngIf="isString(video.url)" type="video/mp4">
                 </video>
                 <button (click)="removeVideo(i)">Remove</button>
               </div>
             </div>
-            <div class="upload-holder" *ngIf="videoArr.length < 1">
+            <div class="upload-holder relative" *ngIf="videoArr.length < 1">
+              <p-progressSpinner *ngIf="isVideoLoading" [style]="{width: '20px', height: '20px'}" animationDuration=".5s" strokeWidth="4" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-0 z-20" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
               <label class="upload-photo">
                 <input (change)="uploadVideo()" accept="video/mp4" class="appearance-none hidden" id="create-video-upload" name="videos" type="file"/>
                 <i class="icon-video_upload text-base text-quicksilver"></i>
@@ -150,18 +159,39 @@
 </div>
 <div class="mt-auto">
   <!-- advisement -->
-  <div class="w-full mt-5">
-    <img alt="ring-ad" class="w-full object-cover" src="assets/images/banner-ads.png"/>
+  <div class="w-full mt-5 addsBox">
+    <img src="/assets/images/banner-ads.png" alt="ring-ad" class="w-full object-cover" />
   </div>
   <!-- pre and next button -->
   <div class="prw-next-btn">
-    <button [routerLink]="'/create-event/discount'" class="flex items-center active" type="button">
+    <button [routerLink]="'/events/create/discount'" class="flex items-center active" type="button">
       <i class="icon-left_arrow mr-3"></i>
       <h5>Back</h5>
     </button>
-    <button (click)="nextStep()" class="flex items-center active" type="button">
+    <button (click)="nextStep()" class="flex items-center active" type="button" [disabled]="isLoading || isPdfLoading || isImgLoading || isVideoLoading">
       <h5>Next</h5>
       <i class="icon-right_arrow ml-3"></i>
     </button>
   </div>
 </div>
+
+<!-- Images and Video Delete conformation -->
+<modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="delete-event-pop" title="Are you sure?" [isCloseHidden]="true" [isTitleHidden]="true">
+  <div class="flex flex-wrap relative">
+    <div class="w-full pb-8">
+      <h3 class="w-full pb-2 normal-case">Delete {{deleteItemObj.type}}</h3>
+      <p class="normal-case">Are you sure you want to delete {{deleteItemObj.type}}</p>
+    </div>
+    <div class="flex items-center justify-end space-x-5 w-full">
+      <button type="button" class="primary py-2 px-14 anim uppercase" (click)="close()">Cancel</button>    
+      <div class="relative">
+        <button class="secondary py-2 px-14 anim uppercase" type="submit" (click)="deleteEvent()">
+          <span [ngClass]="{'opacity-0': isDeleteLoading}">Delete</span>
+        </button>
+        <div class="absolute inset-0 text-white flex items-center" *ngIf="isDeleteLoading">
+          <mat-progress-spinner [diameter]="22" [mode]="'indeterminate'" class="mx-auto"></mat-progress-spinner>
+        </div>
+      </div>
+    </div>
+  </div>
+</modal>

@@ -15,6 +15,7 @@ declare let $: any;
 })
 export class ProfileComponent implements OnInit {
   isLoading: boolean = false;
+  isImageLoading: boolean = false;
   constants: any = CONSTANTS;
   isEditProfile: boolean = false;
   isEditBusinessProfile: boolean = false;
@@ -86,7 +87,7 @@ export class ProfileComponent implements OnInit {
       if (user) {
         this.profileObj = user;
         this._prepareProfileForm(this.profileObj);
-        this.profile_pic = this.profileObj.profile_pic;
+        this.profile_pic = CONSTANTS.baseImageURL + this.profileObj.profile_pic;
         this.isLoading = false;
       }
     });
@@ -95,7 +96,7 @@ export class ProfileComponent implements OnInit {
   // private _getUserDetail(): void {
   //   this.isLoading = true;
   //   this._authService.getLoginUser().subscribe((result: any) => {
-  //     if (result.status) {
+  //     if (result.IsSuccess) {
   //       this.profileObj = result.user;
   //       this._prepareProfileForm();
   //       this.isLoading = false;
@@ -103,32 +104,48 @@ export class ProfileComponent implements OnInit {
   //   });
   // }
 
-  onUpdateProfileImage(event: any, isBusinessProfile: boolean = false): void {
-    this.profileObj[isBusinessProfile ? 'isChangeBusinessProfilePic' : 'isChangeProfilePic'] = true;
-    
+  onUpdateProfilePic(event: any, isBusinessProfile: boolean = false): void {
     if (event.target.files && event.target.files[0]) {
+      this.isImageLoading = true;
       const file = event.target.files[0];
-      const reader: any = new FileReader();
-      reader.onload = () => {
-        this[!isBusinessProfile ? 'profile_pic' : 'business_profile_pic'] = reader.result;
-      };
-      reader.readAsDataURL(file);
-    } else {
-      this.profileObj[isBusinessProfile ? 'isChangeBusinessProfilePic' : 'isChangeProfilePic'] = false;
+      const profilePicObj: any = new FormData();
+      profilePicObj.append('file', file);
+      this._profileService.updateProfilePic(profilePicObj, isBusinessProfile).subscribe((result: any) => {
+        if (result && result.IsSuccess) {
+          this._globalService.loginUser$.next(result.Data);
+          this._sNotify.success(result.msg, 'Success');
+          this.enableFields();
+          this.isImageLoading = false;
+          // window.location.reload();
+        } else {  
+          this._globalFunctions.successErrorHandling(result, this, true);
+        }
+      }, (error: any) => {
+        this.isImageLoading = false;
+        this._globalFunctions.errorHanding(error, this, true);
+      });
     }
   }
 
-  updatePersonalProfile() {
-    this.isLoading = true;
+  updatePersonalProfile(): any {
+    if (this.profileForm.invalid) {
+      Object.keys(this.profileForm.controls).forEach((key) => {
+        this.profileForm.controls[key].touched = true;
+        this.profileForm.controls[key].markAsDirty();
+      });
+      return;
+    }
+
     if (this.profileForm.valid) {
       this.profileForm.value.dob = moment(this.profileForm.value.dob).format('DD-MM-YYYY');
-      const preparedProfileObj: any = this.preparePersonalProfileObj(this.profileForm.value);
+      const preparedProfileObj: any = this._globalFunctions.copyObject(this.profileForm.value);
       this.isLoading = true;
       this._profileService.updateProfile(preparedProfileObj).subscribe((result: any) => {
-        if (result && result.status) {
-          this._globalService.loginUser$.next(result.data);
-          this._sNotify.success(result.msg, 'Success');
-          this.enableFields();
+        if (result && result.IsSuccess) {
+          this._globalService.loginUser$.next(result.Data);
+          this._sNotify.success(result.Message, 'Success');
+          // this.enableFields();
+          this.isEditProfile = false;
           this.isLoading = false;
           // window.location.reload();
         } else {  
@@ -189,7 +206,7 @@ export class ProfileComponent implements OnInit {
       name: [{ value: personalProfileObj?.name, disabled: true }, [Validators.required]],
       email: [{ value: personalProfileObj?.email, disabled: true }, [Validators.required]],
       mobile: [{ value: personalProfileObj?.mobile, disabled: true }, [Validators.required]],
-      dob: [{ value: (preparedDOB && preparedDOB._d && preparedDOB._d != 'Invalid Date') ? preparedDOB._d : new Date(), disabled: true }, [Validators.required]],
+      dob: [{ value: (preparedDOB && preparedDOB._d && preparedDOB._d != 'Invalid Date') ? preparedDOB._d : null, disabled: true }, [Validators.required]],
       city: [{ value: personalProfileObj?.city, disabled: true }, [Validators.required]],
       pincode: [{ value: personalProfileObj?.pincode, disabled: true }, [Validators.required, Validators.maxLength(6), Validators.pattern('^[0-9]+(\.?[0-9]+)?$')]],
       state: [{ value: personalProfileObj?.state, disabled: true }, [Validators.required]],

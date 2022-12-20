@@ -1,5 +1,5 @@
 import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
-import {FormBuilder, Validators} from "@angular/forms";
+import { FormBuilder, Validators } from "@angular/forms";
 import { Router } from '@angular/router';
 // @ts-ignore
 import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
@@ -7,6 +7,9 @@ import { GlobalFunctions } from 'src/app/main/common/global-functions';
 import { ModalService } from 'src/app/main/_modal';
 import { GlobalService } from 'src/app/services/global.service';
 import { CreateEventService } from '../../create-event.service';
+import * as _ from 'lodash';
+import {CONSTANTS} from "../../../../common/constants";
+declare let $: any;
 
 @Component({
   selector: 'app-terms-and-conditions-step',
@@ -15,14 +18,13 @@ import { CreateEventService } from '../../create-event.service';
 })
 export class TermsAndConditionsStepComponent implements OnInit {
   termsAndConditionsForm: any;
+  isLoading: boolean = false;
   detailEditor = DecoupledEditor;
   editorConfig: any = {};
   agreeTAndC: boolean = false;
+  eventId: any;
 
-  @Input() eventObj: any = {};
-  @Output() newEventObj: EventEmitter<any> = new EventEmitter();
-
-  termsAndConditionsObj: any = {terms_and_conditions: {}};
+  termsAndConditionsObj: any = {};
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -31,91 +33,17 @@ export class TermsAndConditionsStepComponent implements OnInit {
     private _createEventService: CreateEventService,
     private _globalFunctions: GlobalFunctions,
     private _globalService: GlobalService,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-    if (localStorage.getItem('newEventObj')) {
-      const eventString: any = localStorage.getItem('newEventObj');
-      this.termsAndConditionsObj = JSON.parse(eventString);
-    } else {
+    if (!localStorage.getItem('eId') || localStorage.getItem('eId') == '') {
       this._router.navigate(['/events']);
     }
-    this.editorConfig = {
-      toolbar: [
-        'heading', '|',
-        'fontsize', 'fontfamily', '|',
-        'fontColor', 'fontBackgroundColor', '|',
-        'bold', 'italic', 'underline', 'strikethrough', '|',
-        'alignment', '|',
-        'outdent', 'indent', '|',
-        'numberedList', 'bulletedList', '|',
-        'link', 'mediaembed', 'blockquote', 'insertTable', '|',
-        'undo', 'redo'
-      ],
-      mediaEmbed: {previewsInData: true},
-      table: {contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells']},
-      language: 'en',
-      alignment: {options: ['left', 'right', 'center', 'justify']},
-      fontSize: {options: ['tiny', 'small', 'default', 'big', 'huge']},
-      fontColor: {
-        columns: 6,
-        colors: [
-          {color: '#f05a28', label: 'Theme Orange', class: 'orange'},
-          {color: 'hsl(0, 0%, 0%)', label: 'Black'},
-          {color: 'hsl(0, 0%, 30%)', label: 'Dim grey'},
-          {color: 'hsl(0, 0%, 60%)', label: 'Grey'},
-          {color: 'hsl(0, 0%, 90%)', label: 'Light grey'},
-          {color: 'hsl(0, 0%, 100%)', label: 'White', hasBorder: true},
-          {color: '#f8696b', label: 'Red 1'},
-          {color: '#FFD800', label: 'Yellow 1'},
-          {color: '#63be7b', label: 'Green 1'},
-          {color: '#f44336', label: 'Red 2'},
-          {color: '#ff9100', label: 'Yellow 2'},
-          {color: '#4caf50', label: 'Green 2'},
-          {color: 'hsl(0, 75%, 60%)', label: 'Red'},
-          {color: 'hsl(30, 75%, 60%)', label: 'Orange'},
-          {color: 'hsl(60, 75%, 60%)', label: 'Yellow'},
-          {color: 'hsl(90, 75%, 60%)', label: 'Light green'},
-          {color: 'hsl(120, 75%, 60%)', label: 'Green'},
-          {color: 'hsl(150, 75%, 60%)', label: 'Aquamarine'},
-          {color: 'hsl(180, 75%, 60%)', label: 'Turquoise'},
-          {color: 'hsl(210, 75%, 60%)', label: 'Light blue'},
-          {color: 'hsl(240, 75%, 60%)', label: 'Blue'},
-          {color: 'hsl(270, 75%, 60%)', label: 'Purple'}
-        ]
-      },
-      fontBackgroundColor: {
-        columns: 6,
-        colors: [
-          {color: '#f05a28', label: 'Theme Orange'},
-          {color: 'hsl(0, 0%, 0%)', label: 'Black'},
-          {color: 'hsl(0, 0%, 30%)', label: 'Dim grey'},
-          {color: 'hsl(0, 0%, 60%)', label: 'Grey'},
-          {color: 'hsl(0, 0%, 90%)', label: 'Light grey'},
-          {color: 'hsl(0, 0%, 100%)', label: 'White', hasBorder: true},
-          {color: '#f8696b', label: 'Red 1'},
-          {color: '#FFD800', label: 'Yellow 1'},
-          {color: '#63be7b', label: 'Green 1'},
-          {color: '#f44336', label: 'Red 2'},
-          {color: '#ff9100', label: 'Yellow 2'},
-          {color: '#4caf50', label: 'Green 2'},
-          {color: 'hsl(0, 75%, 60%)', label: 'Red'},
-          {color: 'hsl(30, 75%, 60%)', label: 'Orange'},
-          {color: 'hsl(60, 75%, 60%)', label: 'Yellow'},
-          {color: 'hsl(90, 75%, 60%)', label: 'Light green'},
-          {color: 'hsl(120, 75%, 60%)', label: 'Green'},
-          {color: 'hsl(150, 75%, 60%)', label: 'Aquamarine'},
-          {color: 'hsl(180, 75%, 60%)', label: 'Turquoise'},
-          {color: 'hsl(210, 75%, 60%)', label: 'Light blue'},
-          {color: 'hsl(240, 75%, 60%)', label: 'Blue'},
-          {color: 'hsl(270, 75%, 60%)', label: 'Purple'}
-        ]
-      }
-    };
-    this._prepareForm(this.eventObj);    
-    // this.prepareTermsAndConditionsEventObj();
-
-    this.termsAndConditionsForm.get('terms_and_conditions').setValue(false);
+    this.eventId = localStorage.getItem('eId');
+    this.getTAndCEvent();
+    this.editorConfig = CONSTANTS.editorConfig;
+    this._prepareTAndCForm(this.termsAndConditionsObj);
+    this.termsAndConditionsForm.get('status').setValue(false);
   }
 
   onTextEditorReady(editor: any, fieldForSetData: any): void {
@@ -126,20 +54,41 @@ export class TermsAndConditionsStepComponent implements OnInit {
   }
 
   tAndCPop(): void {
-    if (this.termsAndConditionsForm.value && this.termsAndConditionsForm.value.terms_and_conditions == false) {
-      this.termsAndConditionsForm.get('terms_and_conditions').setValue(false);
+    if (this.termsAndConditionsForm.value && this.termsAndConditionsForm.value.status == false) {
+      this.termsAndConditionsForm.get('status').setValue(false);
       this._modalService.open("tandc");
     }
   }
-  
+
   closePop(): any {
-    this.termsAndConditionsForm.get('terms_and_conditions').setValue(false);
+    this.termsAndConditionsForm.get('status').setValue(false);
     this._modalService.close("tandc");
   }
 
   applyTAndC(): void {
-    this.termsAndConditionsForm.get('terms_and_conditions').setValue(true);
+    this.termsAndConditionsForm.get('status').setValue(true);
     this._modalService.close("tandc");
+  }
+
+  backBtn(): void {
+    this._router.navigate(['/events/create/personal-details']);
+  }
+
+  getTAndCEvent(): any {
+    this.isLoading = true;
+    this._createEventService.getTAndC(this.eventId).subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        const eventLocationObj: any = result?.Data?.tandc || {};
+        this._prepareTAndCForm(eventLocationObj);
+        this.isLoading = false;
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+        this.isLoading = false;
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isLoading = false;
+    });
   }
 
   saveFullEvent(): void {
@@ -150,100 +99,43 @@ export class TermsAndConditionsStepComponent implements OnInit {
       });
       return;
     }
-    
-    const preparedObj = this.prepareObj(this.termsAndConditionsForm.value);
-    this.termsAndConditionsObj.terms_and_conditions = preparedObj;
-    
-    JSON.stringify({terms_and_conditions: preparedObj});
-    // localStorage.setItem('newEventObj', JSON.stringify(this.termsAndConditionsObj));
-    
-    const preparedEventObj: any = this.prepareEventObj(this.termsAndConditionsObj);
-    const preparedEventImagesObj: any = this.prepareImagesEventObj(this.termsAndConditionsObj);
-    console.log(preparedEventImagesObj);
-    
-    this.termsAndConditionsObj?.photos_and_videos.photo.forEach((photo: any) => {
-      const preparedEventImagesObj: any = photo;
-      preparedEventImagesObj.description = photo.details;
-    });
-    this.termsAndConditionsObj?.photos_and_videos.video.forEach((video: any) => {
-      const preparedEventImagesObj: any = video;
-      preparedEventImagesObj.description = video.details;
-      console.log(preparedEventImagesObj);
+    this.isLoading = true;
+    this.termsAndConditionsForm.disable();
+    const preparedLocationObj: any = this.prepareTAndCEventObj(this.termsAndConditionsForm.value);
+    this._createEventService.tAndC(preparedLocationObj).subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        this.isLoading = false;
+        this.termsAndConditionsForm.enable();
+        this._router.navigate(['/events']);
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+        this.isLoading = false;
+        this.termsAndConditionsForm.enable();
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isLoading = false;
+      this.termsAndConditionsForm.enable();
     });
   }
-  
-  prepareEventObj(eventObj: any = {}): any {
-    const preparedEventObj: any = {};
 
-    const aboutEventObj: any = eventObj?.about_event;
-    preparedEventObj.start_date = aboutEventObj?.event_start_date;
-    preparedEventObj.end_date = aboutEventObj?.event_end_date;
-    preparedEventObj.start_time = aboutEventObj?.event_start_time;
-    preparedEventObj.end_time = aboutEventObj?.event_end_time;
-    preparedEventObj.description = aboutEventObj?.about_event;
-
-    const locationEventObj: any = eventObj?.event_location;
-    preparedEventObj.flat_no = locationEventObj?.flat_number;
-    preparedEventObj.street_name = locationEventObj?.street_name;
-    preparedEventObj.area_name = locationEventObj?.area_name;
-    // 
-    preparedEventObj.location_address = locationEventObj?.city + ' ' +  locationEventObj?.state;
-    preparedEventObj.address = locationEventObj?.city + ' ' +  locationEventObj?.state;
-    // 
-    preparedEventObj.city = locationEventObj?.city;
-    preparedEventObj.state = locationEventObj?.state;
-    preparedEventObj.pincode = locationEventObj?.pincode;
-    preparedEventObj.longitude = locationEventObj?.longitude;
-    preparedEventObj.latitude = locationEventObj?.latitude;
-    
-    const posterEventObj: any = eventObj?.photos_and_videos;
-    preparedEventObj.poster = posterEventObj?.poster;
-
-    const permissionEventObj: any = eventObj?.event_permission;
-    preparedEventObj.permission_letter = permissionEventObj?.permission_letter;
-    preparedEventObj.accept_booking = permissionEventObj?.accept_booking;
-    
-    const tAndCEventObj: any = eventObj?.terms_and_conditions;
-    preparedEventObj.t_and_c = tAndCEventObj?.event_terms_and_conditions;
-    preparedEventObj.facebook = tAndCEventObj?.facebook_url;
-    preparedEventObj.instagram = tAndCEventObj?.instagram_url;
-    preparedEventObj.linkedin = tAndCEventObj?.linkedin_url;
-    preparedEventObj.pinterest = tAndCEventObj?.pinterest_url;
-    preparedEventObj.twitter = tAndCEventObj?.twitter_url;
-    preparedEventObj.youtube = tAndCEventObj?.youtube_url;
-
-    return preparedEventObj;
+  prepareTAndCEventObj(locationObj: any = {}): any {
+    const preparedLocationEventObj: any = locationObj;
+    preparedLocationEventObj.eventid = this.eventId;
+    return preparedLocationEventObj;
   }
 
-  // prepareTermsAndConditionsEventObj(): void {
-  //   this._globalService.addEditEvent$.subscribe((eventObj: any) => {
-  //     if (eventObj) {
-  //       this.eventObj = eventObj;
-  //       this._prepareForm(this.eventObj);
-  //     }
-  //   });
-  //   if (!this.eventObj || !this.eventObj.add_event) {
-  //   }
-  // }
-
-  prepareImagesEventObj(eventObj: any = {}): any {
-  }
-  
-  prepareObj(companyObj: any = {}): any {
-    const preparedObj: any = companyObj;
-    return preparedObj;
-  }
-
-  private _prepareForm(eventObj: any = {}): void {
+  private _prepareTAndCForm(eventObj: any = {}): void {
     this.termsAndConditionsForm = this._formBuilder.group({
-      event_terms_and_conditions: [eventObj?.terms_and_conditions?.event_terms_and_conditions, [Validators.required]],
-      facebook_url: [eventObj?.terms_and_conditions?.facebook_url],
-      youtube_url: [eventObj?.terms_and_conditions?.youtube_url],
-      twitter_url: [eventObj?.terms_and_conditions?.twitter_url],
-      pinterest_url: [eventObj?.terms_and_conditions?.pinterest_url],
-      instagram_url: [eventObj?.terms_and_conditions?.instagram_url],
-      linkedin_url: [eventObj?.terms_and_conditions?.linkedin_url],
-      terms_and_conditions: [eventObj?.terms_and_conditions?.terms_and_conditions, {disabled: true}],
+      t_and_c: [eventObj?.t_and_c, [Validators.required]],
+      facebook: [eventObj?.facebook],
+      youtube: [eventObj?.youtube],
+      twitter: [eventObj?.twitter],
+      pinterest: [eventObj?.pinterest],
+      instagram: [eventObj?.instagram],
+      linkedin: [eventObj?.linkedin],
+      status: [eventObj?.status, { disabled: true }],
     });
   }
+
 }

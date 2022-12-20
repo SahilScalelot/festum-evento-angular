@@ -35,12 +35,12 @@
                           class="bg-white rounded-md flex space-x-3 outline-0 px-4 py-3 relative arrow w-full"
                           name="seating_item" (click)="prepareSeatingItems()">
                     <option [value]=""></option>
-                    <option *ngFor="let seatingItem of seatingItems" [value]="seatingItem.id">
-                      {{seatingItem.name}}
+                    <option *ngFor="let seatingItem of seatingItems" [value]="seatingItem._id">
+                      {{seatingItem.itemname}}
                     </option>
                   </select>
                 </div>
-                <div *ngIf="seatingForm?.value?.seating_item || arrangementObj?.seating_item" class="">
+                <div *ngIf="seatingForm?.value?.seating_item || editArrangementObj?.seating_item" class="">
                   <label class="input-titel">arrangement</label>
                   <div class="w-full">
                     <div class="bg-white p-7 rounded-md">
@@ -51,7 +51,7 @@
                               <li>
                                 <div class="w-[151px]">
                                   <span class="input-titel text-xs">
-                                    No of {{selectedSeatingObj.name}}
+                                    No of {{selectedSeatingObj.itemname}}
                                   </span>
                                   <div class="w-full flex items-center space-x-5">
                                     <div class="w-full inputHolder">
@@ -76,9 +76,10 @@
                                   </select>
                                 </div>
                               </li>
-                              <li *ngIf="selectedSeatingObj.name != 'Chair' && selectedSeatingObj.name != 'Stands'">
+                              <li *ngIf="(selectedSeatingObj.itemname != 'Chair' || selectedSeatingObj.itemname != 'chair') &&
+                                   (selectedSeatingObj.itemname != 'Stands' || selectedSeatingObj.itemname != 'stands')">
                                 <div class="w-[151px]">
-                                  <span class="input-titel text-xs">per {{selectedSeatingObj.name}} person capacity</span>
+                                  <span class="input-titel text-xs">per {{selectedSeatingObj.itemname}} person capacity</span>
                                   <div class="w-full flex items-center space-x-5">
                                     <div class="w-full inputHolder">
                                       <input (input)="updateCalculatedValue()" [formControlName]="'per_seating_person'" [min]="0" [name]="'per_seating_person' + i" class="bgquicksilver" fuseValidNumber type="number">
@@ -96,10 +97,11 @@
                                   </div>
                                 </div>
                               </li>
-                              <li *ngIf="selectedSeatingObj.name != 'Chair' && selectedSeatingObj.name != 'Stands'">
+                              <li *ngIf="(selectedSeatingObj.itemname != 'Chair' || selectedSeatingObj.itemname != 'chair') &&
+                                   (selectedSeatingObj.itemname != 'Stands' || selectedSeatingObj.itemname != 'stands')">
                                 <div class="w-[151px]">
                                   <span class="input-titel text-xs">
-                                    Per {{selectedSeatingObj.name}} Price
+                                    Per {{selectedSeatingObj.itemname}} Price
                                   </span>
                                   <div class="w-full flex items-center space-x-5">
                                     <div class="w-full inputHolder">
@@ -140,11 +142,11 @@
                               </li>
                               <li>
                                 <div class="w-full 2xl:w-1/6 2xl:pl-5">
-                                  <span *ngIf="selectedSeatingObj.name != 'Chair' && selectedSeatingObj.name != 'Stands'" class="input-titel text-xs whitespace-nowrap">booking acceptance</span>
+                                  <span *ngIf="(selectedSeatingObj.itemname != 'Chair' || selectedSeatingObj.itemname != 'chair') && (selectedSeatingObj.itemname != 'Stands' || selectedSeatingObj.itemname != 'stands')" class="input-titel text-xs whitespace-nowrap">booking acceptance</span>
                                   <div class="flex 2xl:justify-between items-center">
-                                    <div *ngIf="selectedSeatingObj.name != 'Chair' && selectedSeatingObj.name != 'Stands'" class="flex items-center pr-5 border-r-2 mr-5 py-4">
+                                    <div *ngIf="(selectedSeatingObj.itemname != 'Chair' || selectedSeatingObj.itemname != 'chair') && (selectedSeatingObj.itemname != 'Stands' || selectedSeatingObj.itemname != 'stands')" class="flex items-center pr-5 border-r-2 mr-5 py-4">
                                       <input [formControlName]="'booking_acceptance'" [name]="'booking_acceptance' + i" class="switch mx-3 order-2" id="on" type="checkbox">
-                                      <span class="off text-xs font-bold anim whitespace-nowrap order-1 text-caribbeanGreen">per {{selectedSeatingObj.name}}</span>
+                                      <span class="off text-xs font-bold anim whitespace-nowrap order-1 text-caribbeanGreen">per {{selectedSeatingObj.itemname}}</span>
                                       <span class="on text-xs font-bold anim whitespace-nowrap order-3">per person</span>
                                     </div>
                                     <div class="addDeleteBtn">
@@ -170,7 +172,7 @@
                                   <li>
                                     <div class="inputHolder w-[151px]">
                                       <span class="bgmagicpotion text-magicPotion">
-                                        {{totalArrangementsObj.totalNumberOfSeatingItems || 0}}
+                                        {{totalArrangementsObj.total_number_of_seating_items || 0}}
                                       </span>
                                     </div>
                                   </li>
@@ -184,21 +186,23 @@
                                       <span class="bgmagicpotion text-magicPotion">-</span>
                                     </div>
                                   </li>
-                                  <li *ngIf="selectedSeatingObj.name != 'Chair' && selectedSeatingObj.name != 'Stands'">
+                                  <li *ngIf="(selectedSeatingObj.itemname != 'Chair' || selectedSeatingObj.itemname != 'chair') &&
+                                    (selectedSeatingObj.itemname != 'Stands' || selectedSeatingObj.itemname != 'stands')">
                                     <div class="inputHolder w-[151px]">
                                       <span class="bgmagicpotion text-magicPotion">
-                                        {{totalArrangementsObj.totalPerSeatingPersons || 0}}
+                                        {{totalArrangementsObj.total_per_seating_persons || 0}}
                                       </span>
                                     </div>
                                   </li>
                                   <li>
                                     <div class="inputHolder w-[151px]">
                                       <span class="bgmagicpotion text-magicPotion">
-                                        {{totalArrangementsObj.totalPersons || 0}}
+                                        {{totalArrangementsObj.total_persons || 0}}
                                       </span>
                                     </div>
                                   </li>
-                                  <li *ngIf="selectedSeatingObj.name != 'Chair' && selectedSeatingObj.name != 'Stands'">
+                                  <li *ngIf="(selectedSeatingObj.itemname != 'Chair' || selectedSeatingObj.itemname != 'chair') &&
+                                   (selectedSeatingObj.itemname != 'Stands' || selectedSeatingObj.itemname != 'stands')">
                                     <div class="inputHolder w-[151px]">
                                       <span class="bgmagicpotion text-magicPotion">
                                         {{totalArrangementsObj.per_seating_price || 0 | number:'1.2-2'}}
@@ -229,164 +233,6 @@
                             </ul>
                           </div>
                         </div>
-
-                        <!--<div *ngIf="seatingForm.value.seating_item == constants.seatingType.CHAIR ||
-                         seatingForm.value.seating_item == constants.seatingType.STAND" formArrayName="arrangements">
-                          <div *ngFor="let child of arrangements.controls; let i = index" class="pluseBox">
-                            <ul [formGroupName]="i" class="flex items-center justify-between py-2">
-                              <li>
-                                <ul class="flex items-center space-x-2">
-                                  <li>
-                                    <div class="w-[151px]">
-                                      <span
-                                          class="input-titel text-xs">No of {{selectedSeatingObj.name}}</span>
-                                      <div class="w-full flex items-center space-x-5">
-                                        <div class="w-full inputHolder">
-                                          <input (input)="updateCalculatedValue()"
-                                                 [formControlName]="'number_of_seating_item'"
-                                                 [min]="0" [name]="'number_of_seating_item' + i"
-                                                 class="bgquicksilver" fuseValidNumber type="number"/>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </li>
-                                  <li>
-                                    <div class="w-[151px] inputHolder">
-                                      <span class="input-titel text-xs">Vertical Location</span>
-                                      <select [formControlName]="'vertical_location'"
-                                              [name]="'vertical_location' + i"
-                                              class="arrow bgquicksilver py-3 text-japaneseIndigo font-bold rounded-md tracking-wider appearance-none focus-visible:outline-none">
-                                        <option *ngFor="let location of constants.locationsArr"
-                                                [value]="location.value">{{location.label}}</option>
-                                      </select>
-                                    </div>
-                                  </li>
-                                  <li>
-                                    <div class="w-[151px] inputHolder">
-                                      <span class="input-titel text-xs">Horizontal Location</span>
-                                      <select [formControlName]="'horizontal_location'"
-                                              [name]="'horizontal_location' + i"
-                                              class="arrow bgquicksilver py-3 text-japaneseIndigo font-bold rounded-md tracking-wider appearance-none focus-visible:outline-none">
-                                        <option *ngFor="let location of constants.locationsArr"
-                                                [value]="location.value">{{location.label}}</option>
-                                      </select>
-                                    </div>
-                                  </li>
-                                  <li>
-                                    <div class="w-[151px]">
-                                      <span class="input-titel text-xs">Total person capacity</span>
-                                      <div class="w-full flex items-center space-x-5">
-                                        <div class="w-full inputHolder">
-                                          <input (input)="updateCalculatedValue()" [formControlName]="'total_person'"
-                                                 [min]="0" [name]="'total_person' + i" class="bgquicksilver"
-                                                 fuseValidNumber type="number"/>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </li>
-                                  <li>
-                                    <div class="w-[151px]">
-                                      <span class="input-titel text-xs">per person price</span>
-                                      <div class="w-full flex items-center space-x-5">
-                                        <div class="w-full inputHolder">
-                                          <input (input)="updateCalculatedValue()"
-                                                 [formControlName]="'per_person_price'" [min]="0"
-                                                 [name]="'per_person_price' + i" class="bgquicksilver" fuseValidNumber
-                                                 type="number"/>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </li>
-                                  <li>
-                                    <div class="w-[151px]">
-                                      <span class="input-titel text-xs">Total Amount</span>
-                                      <div class="w-full flex items-center space-x-5">
-                                        <div class="w-full inputHolder">
-                                          <input (input)="updateCalculatedValue()" [formControlName]="'total_amount'"
-                                                 [min]="0" [name]="'total_amount' + i" class="bgquicksilver"
-                                                 fuseValidNumber type="number"/>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </li>
-                                  <li>
-                                    <div class="w-[151px]">
-                                      <span class="input-titel text-xs">description</span>
-                                      <div class="w-full flex items-center space-x-5">
-                                        <div class="w-full inputHolder">
-                                          <input (input)="updateCalculatedValue()" [formControlName]="'description'"
-                                                 [name]="'description' + i" class="bgquicksilver"/>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </li>
-                                </ul>
-                              </li>
-                              <li>
-                                <div class="border-l-2 px-5 ml-5 py-3">
-                                  <div class="addDeleteBtn">
-                                    <button (click)="removeArrangement(i)"
-                                            class="minus border-2 border-magicPotion w-7 h-7 rounded-full flex justify-center items-center">
-                                      <span
-                                          class="border border-magicPotion flex border-x-8 border-y-5 bg-magicPotion rounded"></span>
-                                    </button>
-                                    <button (click)="addArrangements()"
-                                            class="pluse border-2 border-japaneseIndigo w-7 h-7 rounded-full flex justify-center items-center">
-                                      <i class="icon-plus_round leading-0"></i>
-                                    </button>
-                                  </div>
-                                </div>
-                              </li>
-                            </ul>
-                          </div>
-                          <hr class="block sticky left-0 right-0 bottom-20 mb-2 xl:border-t-2 z-10"/>
-                          <span class="block sticky w-full h-20 bottom-0 left-0 right-0 -mb-16 bg-white"></span>
-                          <div class="sticky bottom-0 bg-white">
-                            <ul class="">
-                              <li class="input-titel text-xs text-japaneseIndigo">All Total</li>
-                              <li>
-                                <ul class="flex items-center space-x-2">
-                                  <li>
-                                    <div class="inputHolder w-[151px]">
-                                      <span class="bormagicpotion text-magicPotion">25</span>
-                                    </div>
-                                  </li>
-                                  <li>
-                                    <div class="inputHolder w-[151px]">
-                                      <span class="bormagicpotion text-magicPotion">-</span>
-                                    </div>
-                                  </li>
-                                  <li>
-                                    <div class="inputHolder w-[151px]">
-                                      <span class="bormagicpotion text-magicPotion">-</span>
-                                    </div>
-                                  </li>
-                                  <li>
-                                    <div class="inputHolder w-[151px]">
-                                      <span class="bormagicpotion text-magicPotion">100</span>
-                                    </div>
-                                  </li>
-                                  <li>
-                                    <div class="inputHolder w-[151px]">
-                                      <span class="bormagicpotion text-magicPotion">40</span>
-                                    </div>
-                                  </li>
-                                  <li>
-                                    <div class="inputHolder w-[151px]">
-                                      <span class="bormagicpotion text-magicPotion">200</span>
-                                    </div>
-                                  </li>
-                                  <li>
-                                    <div class="inputHolder w-[151px]">
-                                      <span class="bormagicpotion text-magicPotion">-</span>
-                                    </div>
-                                  </li>
-                                </ul>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>-->
-
                       </div>
                     </div>
                   </div>
@@ -397,7 +243,7 @@
                   <i class="icon-left_arrow mr-3"></i>
                   <h5>Back</h5>
                 </button>
-                <button (click)="selectedTab = 1" class="flex items-center active" type="button">
+                <button (click)="selectedTab = 1" [disabled]="!selectedSeatingObj || !selectedSeatingObj._id" class="flex items-center active" type="button">
                   <h5>Next</h5>
                   <i class="icon-right_arrow ml-3"></i>
                 </button>
@@ -584,7 +430,7 @@
                   <h5>Back</h5>
                 </button>
                 <button class="secondary py-3 px-8 uppercase" type="button" [disabled]="!seatingForm.valid" (click)="addFormData()">
-                  {{(arrangementObj && arrangementObj.seating_item) ? 'Update' : 'Add New'}}
+                  {{(editArrangementObj && editArrangementObj.seating_item) ? 'Update' : 'Add New'}}
                 </button>
               </div>
             </div>

@@ -6,6 +6,7 @@ import {EventService} from './event.service';
 import {GlobalFunctions} from "../../common/global-functions";
 import {Router} from "@angular/router";
 import * as _ from "lodash";
+import { PrimeNGConfig } from 'primeng/api';
 
 @Component({
   selector: 'app-event',
@@ -19,25 +20,53 @@ export class EventComponent implements OnInit {
   isLoading: boolean = false;  
   selectedEventIds: any = [];
 
+  pTotal: any;
+  paging: any;
+  perPageLimit: any = 4;
+  offset: any = 1;
+
   constructor(
     private _eventService: EventService,
     private _sNotify: SnotifyService,
     private _router: Router,
     private _globalService: GlobalService,
     private _globalFunctions: GlobalFunctions,
+    private _primengConfig: PrimeNGConfig,
   ) {
   }
 
   ngOnInit(): void {
     this.selectedEventIds = [];
-    localStorage.removeItem('newEventObj');
+    localStorage.removeItem('eId');
     this.getEvent();
+    this._primengConfig.ripple = true;
   }
 
-  getEvent(): void {    
+  // paginate(event: any) {
+  //   const page = event.page + 1;
+  //   this.perPageLimit = event.rows;
+  //   this.getEvent(this.perPageLimit, page);
+  //   console.log(page, this.perPageLimit);
+  //   this.offset = ((this.perPageLimit * page) - this.perPageLimit) + 1;
+  // }
+
+  getEvent(event: any = ''): void {
     this.isLoading = true;
-    this._eventService.retrieveEvents().subscribe((result: any) => {
-      this.events = result.events;
+    const page = event ? (event.page + 1) : 1;
+    // this.perPageLimit = event ? (event.rows) : this.perPageLimit;
+    // this.offset = ((this.perPageLimit * page) - this.perPageLimit) + 1;
+    const filter: any = {
+      page : page || '1',
+      limit : event?.rows || '4',
+      search: ""
+    }
+    this._eventService.eventsList(filter).subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        this.paging = result.Data;
+        this.events = result.Data.docs;
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+      }
       this.isLoading = false;
     }, (error: any) => {
       this._globalFunctions.errorHanding(error, this, true);
@@ -51,14 +80,15 @@ export class EventComponent implements OnInit {
 
   closePop(flag: boolean): void {
     this.isAddEvent = flag;
-    if (localStorage.getItem('newEventObj')) {
-      this._router.navigate(['/create-event']);
+    if (localStorage.getItem('eId')) {
+      this._router.navigate(['/events/create/add-event']);
     }
   }
 
-  editEvent(event: any, eventObj: any): void {
+  editEvent(event: any, eventId: any): void {
     event.stopPropagation();
-    this._router.navigate(['/edit-event/' + eventObj.id]);
+    localStorage.setItem('eId', eventId);
+    this._router.navigate(['/events/create/add-event']);
   }
 
   liveEvent(event: any, eventObj: any): void {
@@ -74,7 +104,7 @@ export class EventComponent implements OnInit {
 
   gotoEventOverview(event: any, eventObj: any): void {
     event.stopPropagation();
-    this._router.navigate(['/event/' + eventObj.id]);
+    this._router.navigate(['/events/' + eventObj.id]);
   }
 
 }

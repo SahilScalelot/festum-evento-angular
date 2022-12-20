@@ -1,9 +1,10 @@
-import {Component, OnInit, EventEmitter, Input, Output} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { SnotifyService } from 'ng-snotify';
 import { GlobalService } from 'src/app/services/global.service';
-import {CreateEventService} from "../../create-event.service";
-import {GlobalFunctions} from "../../../../common/global-functions";
+import { CreateEventService } from "../../create-event.service";
+import { GlobalFunctions } from "../../../../common/global-functions";
+import { CONSTANTS } from 'src/app/main/common/constants';
+import { ModalService } from 'src/app/main/_modal';
 
 @Component({
   selector: 'app-add-event-step',
@@ -13,53 +14,62 @@ import {GlobalFunctions} from "../../../../common/global-functions";
 export class AddEventStepComponent implements OnInit {
   isEditEvent: boolean = false;
   isLoading: boolean = false;
-
-  @Input() eventObj: any = {};
-  @Output() newEventObj: EventEmitter<any> = new EventEmitter();
+  isDeleteLoading: boolean = false;
+  constants: any = CONSTANTS;
+  eventId: any;
+  addEditEvent: any = {};
 
   constructor(
-    private _globalService: GlobalService,
-    private _sNotifyService: SnotifyService,
     private _createEventService: CreateEventService,
     private _globalFunctions: GlobalFunctions,
-    private _router: Router
+    private _globalService: GlobalService,
+    private _modalService: ModalService,
+    private _router: Router,
   ) {
   }
 
   ngOnInit(): void {
-    this.prepareEventObj();
-  }
-
-  next(): any {
-    // this._globalService.addEditEvent$.next(this.eventObj);
-    this.newEventObj.emit(this.eventObj);
-    this._router.navigate(['/create-event/about-event']);
-  }
-
-  prepareEventObj(): void {
-    if (localStorage.getItem('newEventObj')) {
-      const eventString: any = localStorage.getItem('newEventObj');
-      this.eventObj = JSON.parse(eventString);
+    if (localStorage.getItem('eId')) {
+      this.eventId = localStorage.getItem('eId');
+      this.getEvent(this.eventId);
     } else {
       this._router.navigate(['/events']);
     }
-    // this._globalService.addEditEvent$.subscribe((eventObj: any) => {
-    //   if (eventObj) {
-    //     this.eventObj = eventObj;
-    //   }
-    // });
-    // if (!this.eventObj || !this.eventObj.add_event) {
-    //   this._router.navigate(['/events']);
-    // }
   }
 
-  deleteEvent(eventId: any): void {
+  next(): any {
+    this._router.navigate(['/events/create/about-event']);
+  }
+  deletePop(): void {
+    this._modalService.open("delete-event-pop");
+  }
+  close(): void {
+    this._modalService.close("delete-event-pop");
+  }
+  deleteEvent(): void {
     // Open delete confirmation popup
-    this.isLoading = true;
-    this._createEventService.deleteEvent(eventId).subscribe((result: any) => {
-      if (result && result.delete) {
+    this.isDeleteLoading = true;
+    this._createEventService.deleteEvent(this.eventId).subscribe((result: any) => {
+      if (result && result.IsSuccess) {
         this._globalService.addEditEvent$.next(null);
         this._router.navigate(['/events']);
+        this.isDeleteLoading = false;
+        this._modalService.close("delete-event-pop");
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+        this.isDeleteLoading = false;
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isDeleteLoading = false;
+    });
+  }
+
+  getEvent(eventId: any): any {
+    this.isLoading = true;
+    this._createEventService.getEvent(eventId).subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        this.addEditEvent = result.Data;
         this.isLoading = false;
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
@@ -71,8 +81,11 @@ export class AddEventStepComponent implements OnInit {
     });
   }
 
+  editEvent(editedEventObj: boolean): void {
+    this.addEditEvent = editedEventObj;
+  }
+
   closePop(flag: boolean): void {
-    this.prepareEventObj();
     this.isEditEvent = flag;
   }
 

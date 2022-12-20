@@ -2,7 +2,9 @@ import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SnotifyService } from 'ng-snotify';
+import { GlobalFunctions } from 'src/app/main/common/global-functions';
 import { GlobalService } from 'src/app/services/global.service';
+import { CreateEventService } from '../../create-event.service';
 
 @Component({
   selector: 'app-personal-details-step',
@@ -12,81 +14,95 @@ import { GlobalService } from 'src/app/services/global.service';
 export class PersonalDetailsStepComponent implements OnInit {
   personalDetailForm: any;
   submit: boolean = false;
+  isLoading: boolean = false;
   
-  @Input() eventObj: any = {};
-  @Output() newEventObj: EventEmitter<any> = new EventEmitter();
-  
-  personalObj: any = {personal_details: {}};
+  eventId: any;
+  personalDetailsObj: any = {};
 
   constructor(
     private _formBuilder: FormBuilder,
     private _router: Router,
     private _sNotify: SnotifyService,
     private _globalService: GlobalService,
+    private _createEventService: CreateEventService,
+    private _globalFunctions: GlobalFunctions,
   ) {}
 
   ngOnInit(): void {
-    this._prepareAboutEventForm(this.eventObj);
-    // this.prepareEventObj();
+    if (!localStorage.getItem('eId') || localStorage.getItem('eId') == '') {
+      this._router.navigate(['/events']);
+    }
+    this.eventId = localStorage.getItem('eId');
+    this.getPersonalDetailsEvent();
+    this._preparePersonalDetailsEventForm(this.personalDetailsObj);
   }
 
-  // prepareEventObj(): void {
-  //   // if (localStorage.getItem('newEventObj')) {
-  //   //   const eventString: any = localStorage.getItem('newEventObj');
-  //   //   this.personalObj = JSON.parse(eventString);
-  //   // } else {
-  //   //   this._router.navigate(['/events']);
-  //   // }
-  //   this._globalService.addEditEvent$.subscribe((eventObj: any) => {
-  //     if (eventObj) {
-  //       this.eventObj = eventObj;
-  //       this._prepareAboutEventForm(this.eventObj);
-  //     }
-  //   });
-  //   if (!this.eventObj || !this.eventObj.add_event) {
-  //     // this._router.navigate(['/events']);
-  //   }
-  // }
-
-  private _prepareAboutEventForm(eventObj: any = {}): void {
+  private _preparePersonalDetailsEventForm(personalDetailsObj: any = {}): void {
     this.personalDetailForm = this._formBuilder.group({
-      full_name: [eventObj?.personal_details?.full_name, [Validators.required]],
-      mobile: [eventObj?.personal_details?.mobile, [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
-      mobile_hidden: [eventObj?.personal_details?.mobile_hidden],
-      alternate_mobile: [eventObj?.personal_details?.alternate_mobile, [Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
-      alternate_mobile_hidden: [eventObj?.personal_details?.alternate_mobile_hidden],
-      email: [eventObj?.personal_details?.email, [Validators.required,Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
-      email_hidden: [eventObj?.personal_details?.email_hidden],
-      flat_number: [eventObj?.personal_details?.flat_number],
-      street_name: [eventObj?.personal_details?.street_name],
-      area_name: [eventObj?.personal_details?.area_name],
-      state: [eventObj?.personal_details?.state, [Validators.required]],
-      city: [eventObj?.personal_details?.city, [Validators.required]],
-      pincode: [eventObj?.personal_details?.pincode, [Validators.required, Validators.pattern('^[1-9]{1}[0-9]{2}\\s{0,1}[0-9]{3}$')]],
+      full_name: [personalDetailsObj?.full_name || '', [Validators.required]],
+      mobile_no: [personalDetailsObj?.mobile_no || '', [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
+      is_mobile_hidden: [personalDetailsObj?.is_mobile_hidden || false],
+      alt_mobile_no: [personalDetailsObj?.alt_mobile_no || '', [Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
+      is_alt_mobile_hidden: [personalDetailsObj?.is_alt_mobile_hidden || false],
+      email: [personalDetailsObj?.email || '', [Validators.required,Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
+      is_email_hidden: [personalDetailsObj?.is_email_hidden || false],
+      flat_no: [personalDetailsObj?.flat_no || ''],
+      street: [personalDetailsObj?.street || ''],
+      area: [personalDetailsObj?.area || ''],
+      state: [personalDetailsObj?.state || '', [Validators.required]],
+      city: [personalDetailsObj?.city || '', [Validators.required]],
+      pincode: [personalDetailsObj?.pincode || '', [Validators.required, Validators.pattern('^[1-9]{1}[0-9]{2}\\s{0,1}[0-9]{3}$')]],
+    });
+  }
+
+  getPersonalDetailsEvent(): any {
+    this.isLoading = true;
+    this._createEventService.getPersonalDetail(this.eventId).subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        const eventLocationObj: any = result?.Data?.personaldetail || {};
+        this._preparePersonalDetailsEventForm(eventLocationObj);
+        this.isLoading = false;
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+        this.isLoading = false;
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isLoading = false;
     });
   }
 
   personalDetail(): any {
     if (this.personalDetailForm.invalid) {
-      // this.personalDetailForm.controls.markAsDirty();
       Object.keys(this.personalDetailForm.controls).forEach((key) => {
         this.personalDetailForm.controls[key].touched = true;
         this.personalDetailForm.controls[key].markAsDirty();
       });
       return;
     }
-
-    this.eventObj.personal_details = this.prepareObj(this.personalDetailForm.value);
-    // localStorage.setItem('newEventObj', JSON.stringify(this.eventObj));
-    
-    // console.log(this.eventObj);
-    this.newEventObj.emit(this.eventObj);
-    // this._globalService.addEditEvent$.next(this.eventObj);
-    this._router.navigate(['create-event/terms-and-conditions']);
+    this.isLoading = true;
+    this.personalDetailForm.disable();
+    const preparedLocationObj: any = this.preparePersonalDetailObj(this.personalDetailForm.value);
+    this._createEventService.personalDetail(preparedLocationObj).subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        this.isLoading = false;
+        this.personalDetailForm.enable();
+        this._router.navigate(['events/create/terms-and-conditions']);
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+        this.isLoading = false;
+        this.personalDetailForm.enable();
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isLoading = false;
+      this.personalDetailForm.enable();
+    });
   }
 
-  prepareObj(personalObj: any = {}): any {
+  preparePersonalDetailObj(personalObj: any = {}): any {
     const preparedObj: any = personalObj;
+    preparedObj.eventid = this.eventId;
     return preparedObj;
   }
 }

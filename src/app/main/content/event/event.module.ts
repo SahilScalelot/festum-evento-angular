@@ -4,17 +4,18 @@ import {RouterModule, Routes} from '@angular/router';
 import {EventComponent} from "./event.component";
 import {ReactiveFormsModule} from "@angular/forms";
 import {SharedModule} from "../../../shared/shared.module";
-import { EventOverviewComponent } from './event-overview/event-overview.component';
+import {EventOverviewComponent} from './event-overview/event-overview.component';
 import {RatingModule} from 'primeng/rating';
-import {TableModule} from 'primeng/table';
-import { CheckboxModule } from 'primeng/checkbox';
+import {CheckboxModule} from 'primeng/checkbox';
+import { PaginatorModule } from 'primeng/paginator';
+import { AgmCoreModule } from '@agm/core';
 
 const routes: Routes = [
   {
     path: '', component: EventComponent
   },
   {
-    path: 'event-overview', component: EventOverviewComponent
+    path: ':id', component: EventOverviewComponent
   }
 ];
 
@@ -29,8 +30,12 @@ const routes: Routes = [
     ReactiveFormsModule,
     SharedModule,
     RatingModule,
-    TableModule,
-    CheckboxModule
+    CheckboxModule,
+    PaginatorModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyDLgr8YB5IK8dBIEWClexZGzXaB7UlVm7Q',
+      libraries: ['places']
+    }),
   ]
 })
 export class EventModule {

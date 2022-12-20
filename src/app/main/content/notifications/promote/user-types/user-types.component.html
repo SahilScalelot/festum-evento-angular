@@ -1,0 +1,34 @@
+<!-- select your Business -->
+<div class="">
+  <h3>Select Business</h3>
+  <form [formGroup]="userTypesForm" class="flex flex-wrap justify-start pt-4">
+    <div class="w-1/2 lg:w-1/3 xl:w-1/4 p-3 group" *ngFor="let userType of constants.userTypeArr">
+      <label [id]="userType?.value" class="user_type text-center bg-white rounded flex flex-col justify-between items-center h-full px-5 py-7 anim relative group cursor-pointer">
+        <input type="radio" name="user_type" formControlName="usertype" [id]="userType?.value" [value]="userType?.value" class="hidden" />
+        <span class="absolute inset-0 border-2 border-magicPotion opacity-0 anim"></span>
+        <div class="w-32 h-32">
+          <img [src]="userType?.url" [alt]="userType?.type" class="w-full h-full object-contain" />
+        </div>
+        <p class="text-base font-bold pt-8 whitespace-nowrap">{{userType?.type}}</p>
+      </label>
+    </div>
+  </form>
+</div>
+
+<div class="mt-auto">
+  <!-- advisement -->
+  <div class="w-full mt-5 addsBox">
+    <img src="/assets/images/banner-ads.png" alt="ring-ad" class="w-full object-cover" />
+  </div>
+  <!-- next preview button -->
+  <div class="prw-next-btn mt-auto">
+    <button type="button" class="flex items-center">
+      <i class="icon-left_arrow mr-3"></i>
+      <h5>Back</h5>
+    </button>
+    <button type="button" class="flex items-center active" (click)="next()">
+      <h5>Next</h5>
+      <i class="icon-right_arrow ml-3"></i>
+    </button>
+  </div>
+</div>

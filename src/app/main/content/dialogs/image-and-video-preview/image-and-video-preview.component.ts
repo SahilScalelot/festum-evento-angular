@@ -12,6 +12,7 @@ export class ImageAndVideoPreviewComponent implements OnInit {
   constants: any = CONSTANTS;
   @Input() expectedProp: any;
   @Input() isImageOrVideoFlag: boolean = false;
+  @Input() isCompanyImagesAndVideo: boolean = false;
   @Output() openClosePopup = new EventEmitter<boolean>();
 
   constructor() { }

@@ -1,29 +1,31 @@
+<p-progressSpinner *ngIf="isLoading" [style]="{width: '50px', height: '50px'}" animationDuration=".5s" strokeWidth="8" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-x-0 top-0 h-full w-full z-40" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
+
 <div class="space-y-5">
   <!--<div class="w-full bg-white pl-5 py-4 flex justify-between cursor-pointer border shadow hover:bg-red-50"
    [ngClass]="{'border-magicPotion bg-red-50': (i + 1) === selectedEventIndex}"
     *ngFor="let event of events; let i = index" (click)="selectEvent(event, i + 1)">-->
     <!-- hover:bg-red-50 border-magicPotion bg-red-50 -->
-  <div *ngIf="eventObj.add_event" class="w-full bg-white pl-5 py-4 flex justify-between border shadow">
+  <div *ngIf="addEditEvent" class="w-full bg-white pl-5 py-4 flex justify-between border shadow">
     <div class="space-y-2">
-      <h4>{{eventObj.add_event.name}}</h4>
-      <span class="text-sm text-magicPotion font-bold">{{eventObj.add_event.event_category}}</span>
+      <h4>{{addEditEvent.name}}</h4>
+      <span class="text-sm text-magicPotion font-bold">{{addEditEvent.event_category ? addEditEvent.event_category?.categoryname : addEditEvent.other}}</span>
     </div>
     <div class="flex items-start space-x-5">
-      <a (click)="deleteEvent(eventObj.add_event.id)" href="javascript:void(0)"><i class="icon-delete text-quicksilver"></i></a>
+      <a (click)="deletePop()" href="javascript:void(0)"><i class="icon-delete text-quicksilver"></i></a>
       <a (click)="isEditEvent = true" href="javascript:void(0)"><i class="icon-edit text-quicksilver"></i></a>
-      <span class="bg-magicPotion text-xs font-bold px-2 py-1 text-white">{{eventObj.add_event.event_type}}</span>
+      <span class="bg-magicPotion text-xs font-bold px-2 py-1 text-white">{{constants?.eventTypeArr[constants?.eventTypeObj[addEditEvent?.event_type]]?.displayLabel}}</span>
     </div>
   </div>
 </div>
 
 <div class="mt-auto">
   <!-- advisement -->
-  <div class="w-full mt-5">
-    <img alt="ring-ad" class="w-full object-cover" src="assets/images/banner-ads.png"/>
+  <div class="w-full mt-5 addsBox">
+    <img src="/assets/images/banner-ads.png" alt="ring-ad" class="w-full object-cover" />
   </div>
   <!-- pre and next button -->
   <div class="prw-next-btn">
-    <button [routerLink]="'/create-event/add-event'" class="flex items-center" disabled type="button">
+    <button [routerLink]="'/events/create/add-event'" class="flex items-center" disabled type="button">
       <i class="icon-left_arrow mr-3"></i>
       <h5>Back</h5>
     </button>
@@ -34,4 +36,25 @@
   </div>
 </div>
 
-<app-add-edit-event-dialog (isEditEventChange)="closePop($event)" *ngIf="isEditEvent" [eventObj]="eventObj.add_event" [popClass]="'active'"></app-add-edit-event-dialog>
+<!-- Close -->
+<modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="delete-event-pop" title="Are you sure?" [isCloseHidden]="true" [isTitleHidden]="true">
+  <div class="flex flex-wrap relative">
+    <div class="w-full pb-8">
+      <h3 class="w-full pb-2 normal-case">Delete Event</h3>
+      <p class="normal-case">Are you sure you want to delete {{addEditEvent.name}}</p>
+    </div>
+    <div class="flex items-center justify-end space-x-5 w-full">
+      <button type="button" class="primary py-2 px-14 anim uppercase" (click)="close()">Cancel</button>    
+      <div class="relative">
+        <button class="secondary py-2 px-14 anim uppercase" type="submit" (click)="deleteEvent()">
+          <span [ngClass]="{'opacity-0': isDeleteLoading}">Delete</span>
+        </button>
+        <div class="absolute inset-0 text-white flex items-center" *ngIf="isDeleteLoading">
+          <mat-progress-spinner [diameter]="22" [mode]="'indeterminate'" class="mx-auto"></mat-progress-spinner>
+        </div>
+      </div>
+    </div>
+  </div>
+</modal>
+
+<app-add-edit-event-dialog (isEditEventChange)="closePop($event)" (editedEvent)="editEvent($event)" *ngIf="isEditEvent" [eventObj]="addEditEvent" [popClass]="'active'"></app-add-edit-event-dialog>

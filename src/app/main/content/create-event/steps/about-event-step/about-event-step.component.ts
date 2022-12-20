@@ -3,6 +3,9 @@ import {FormBuilder, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {SnotifyService} from 'ng-snotify';
 import { GlobalService } from 'src/app/services/global.service';
+import * as moment from 'moment';
+import { CreateEventService } from '../../create-event.service';
+import { GlobalFunctions } from 'src/app/main/common/global-functions';
 
 @Component({
   selector: 'app-about-event-step',
@@ -13,53 +16,64 @@ export class AboutEventStepComponent implements OnInit {
   minDateValue: any = new Date();
   aboutEventForm: any;
 
-  @Input() eventObj: any = {};
-  @Output() newEventObj: EventEmitter<any> = new EventEmitter();
+  isLoading: boolean = false;
+
+  aboutObj: any;
+  eventId: any;
+
+  eventObj: any = {};
 
   constructor(
     private _formBuilder: FormBuilder,
     private _router: Router,
     private _sNotify: SnotifyService,
+    private _createEventService: CreateEventService,
     private _globalService: GlobalService,
+    private _globalFunctions: GlobalFunctions,
   ) {
   }
 
   ngOnInit(): void {
-    this._prepareAboutEventForm(this.eventObj);
-    // this.prepareEventObj();
+    this.getEventId();
+    this.getAboutEvent();
+    this._prepareAboutEventForm(this.aboutObj);
   }
 
-  prepareEventObj(): void {
-    // if (localStorage.getItem('newEventObj')) {
-    //   const eventString: any = localStorage.getItem('newEventObj');
-    //   this.eventObj = JSON.parse(eventString);
-    // } else {
-    //   this._router.navigate(['/events']);
-    // }
-    // this._globalService.addEditEvent$.subscribe((eventObj: any) => {
-    //   if (eventObj) {
-    //     this.eventObj = eventObj;
-    //     this._prepareAboutEventForm(this.eventObj);
-    //   }
-    // });
-    if (!this.eventObj || !this.eventObj.add_event) {
+  getEventId(): void {
+    if (localStorage.getItem('eId')) {
+      this.eventId = localStorage.getItem('eId');
+    } else {
       this._router.navigate(['/events']);
     }
   }
 
   private _prepareAboutEventForm(eventObj: any = {}): void {
     this.aboutEventForm = this._formBuilder.group({
-      date: [eventObj && eventObj.about_event && eventObj.about_event.event_start_date ? [new Date(eventObj?.about_event?.event_start_date), new Date(eventObj?.about_event?.event_end_date)] : '', [Validators.required]],
-      start_time: [eventObj?.about_event?.event_start_time, [Validators.required]],
-      end_time: [eventObj?.about_event?.event_end_time, [Validators.required]],
-      about_event: [eventObj?.about_event?.about_event],
+      date: [eventObj && eventObj.start_date ? [new Date(eventObj?.start_date), new Date(eventObj?.end_date)] : '', [Validators.required]],
+      start_time: [eventObj?.start_time, [Validators.required]],
+      end_time: [eventObj?.end_time, [Validators.required]],
+      about_event: [eventObj?.about_event],
+    });
+  }
+
+  getAboutEvent(): any {
+    this.isLoading = true;
+    this._createEventService.getAbout(this.eventId).subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        this.aboutObj = result.Data.about;
+        this._prepareAboutEventForm(this.aboutObj);
+        this.isLoading = false;
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+        this.isLoading = false;
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isLoading = false;
     });
   }
 
   next(): void {
-    // if (!this.validate()) {
-    //   return;
-    // }
     if (this.aboutEventForm.invalid) {
       Object.keys(this.aboutEventForm.controls).forEach((key) => {
         this.aboutEventForm.controls[key].touched = true;
@@ -67,19 +81,33 @@ export class AboutEventStepComponent implements OnInit {
       });
       return;
     }
-    this.eventObj.about_event = this.prepareAboutEventObj(this.aboutEventForm.value);
-    // localStorage.setItem('newEventObj', JSON.stringify(this.eventObj));
-    // this._globalService.addEditEvent$.next(this.eventObj);
-    this.newEventObj.emit(this.eventObj);
-    this._router.navigate(['/create-event/arrangement']);
+    this.isLoading = true;
+    this.aboutEventForm.disable();
+    this.eventObj = this.prepareAboutEventObj(this.aboutEventForm.value);
+    this._createEventService.about(this.eventObj).subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        this.isLoading = false;
+        this.aboutEventForm.enable();
+        this._router.navigate(['/events/create/arrangement']);
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+        this.isLoading = false;
+        this.aboutEventForm.enable();
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isLoading = false;
+      this.aboutEventForm.enable();
+    });
   }
 
   prepareAboutEventObj(aboutEventObj: any): any {
     const preparedAboutEventObj: any = {};
-    preparedAboutEventObj.event_start_date = aboutEventObj.date[0];
-    preparedAboutEventObj.event_end_date = aboutEventObj.date[1];
-    preparedAboutEventObj.event_start_time = this.prepareTime(aboutEventObj.start_time);
-    preparedAboutEventObj.event_end_time = this.prepareTime(aboutEventObj.end_time);
+    preparedAboutEventObj.eventid = this.eventId;
+    preparedAboutEventObj.start_date = moment(aboutEventObj.date[0]).format('YYYY-MM-DD');
+    preparedAboutEventObj.end_date = moment(aboutEventObj.date[1]).format('YYYY-MM-DD');
+    preparedAboutEventObj.start_time = this.prepareTime(aboutEventObj.start_time);
+    preparedAboutEventObj.end_time = this.prepareTime(aboutEventObj.end_time);
     preparedAboutEventObj.about_event = aboutEventObj.about_event;
     return preparedAboutEventObj;
   }

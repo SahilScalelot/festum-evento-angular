@@ -1,13 +1,15 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
 import {AuthGuard} from "./main/auth/auth-guard/auth.guard";
 import {ContentComponent} from "./main/content/content.component";
 import {NoAuthGuard} from "./main/auth/auth-guard/noAuth.guard";
 import {AuthComponent} from "./main/auth/auth.component";
-import { EventOverviewComponent } from './main/content/event/event-overview/event-overview.component';
-import { BuySpacePlansComponent } from './main/content/buy-space-plans/buy-space-plans.component';
-import { ProfileComponent } from './main/content/profile/profile.component';
-import { LandingPageComponent } from './main/content/landing-page/landing-page.component';
+import {EventOverviewComponent} from './main/content/event/event-overview/event-overview.component';
+import {BuySpacePlansComponent} from './main/content/buy-space-plans/buy-space-plans.component';
+import {ProfileComponent} from './main/content/profile/profile.component';
+import {LandingPageComponent} from './main/content/landing-page/landing-page.component';
+import { ShopOverviewComponent } from './main/content/offline-shops/shop-overview/shop-overview.component';
+import { OfferOverviewComponent } from './main/content/offline-shops/shop-overview/offer-overview/offer-overview.component';
 
 const routes: Routes = [
 
@@ -49,16 +51,36 @@ const routes: Routes = [
         loadChildren: () => import('../app/main/content/event/event.module').then(m => m.EventModule)
       },
       {
-        path: 'event/:id',
-        component: EventOverviewComponent
-      },
-      {
-        path: 'create-event',
+        path: 'events/create',
         loadChildren: () => import('../app/main/content/create-event/create-event.module').then(m => m.CreateEventModule)
       },
       {
         path: 'edit-event/:id',
         loadChildren: () => import('../app/main/content/create-event/create-event.module').then(m => m.CreateEventModule)
+      },
+      {
+        path: 'offline-shops',
+        loadChildren: () => import('./main/content/offline-shops/offline-shops.module').then(m => m.OfflineShopsModule)
+      },
+      {
+        path: 'offline-shops/:shopId',
+        component: ShopOverviewComponent
+      },
+      {
+        path: 'offline-shops/:shopId/offer-overview/:offerId',
+        component: OfferOverviewComponent
+      },
+      {
+        path: 'online-offers',
+        loadChildren: () => import('./main/content/online-offers/online-offers.module').then(m => m.OnlineOffersModule)
+      },
+      {
+        path: 'live-stream',
+        loadChildren: () => import('./main/content/live-stream/live-stream.module').then(m => m.LiveStreamModule)
+      },
+      {
+        path: 'notifications',
+        loadChildren: () => import('./main/content/notifications/notifications.module').then(m => m.NotificationsModule)
       },
       {
         path: 'buy-space-plans',
@@ -75,7 +97,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {useHash: true})],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

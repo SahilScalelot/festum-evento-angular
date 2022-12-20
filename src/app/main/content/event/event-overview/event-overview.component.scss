@@ -9,4 +9,11 @@
   .p-rating .p-rating-icon.pi-star-fill {
     color: #ECA926;
   }
+  .location {
+    agm-map {
+      height: 400px !important;
+      width: 100%;
+    }
+  }
+  
 }

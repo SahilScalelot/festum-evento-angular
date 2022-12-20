@@ -10,6 +10,10 @@ import { ModalModule } from '../_modal';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CalendarModule } from 'primeng/calendar';
 import {ProgressSpinnerModule} from 'primeng/progressspinner';
+import { LandingPageComponent } from './landing-page/landing-page.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { OfflineShopsModule } from './offline-shops/offline-shops.module';
+import {RadioButtonModule} from 'primeng/radiobutton';
 
 const routes: Routes = [
   {
@@ -22,18 +26,22 @@ const routes: Routes = [
   declarations: [
     ContentComponent,
     BuySpacePlansComponent,
-    ProfileComponent
+    ProfileComponent,
+    LandingPageComponent,
   ],
   imports: [
     RouterModule.forChild(routes),
+    MatProgressSpinnerModule,
     CommonModule,
     EventModule,
+    OfflineShopsModule,
     CreateEventModule,
     ModalModule,
     FormsModule,
     ReactiveFormsModule,
     CalendarModule,
-    ProgressSpinnerModule
+    ProgressSpinnerModule,
+    RadioButtonModule
   ]
 })
 export class ContentModule {

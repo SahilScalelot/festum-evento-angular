@@ -42,15 +42,16 @@ export class RegisterComponent implements OnInit {
       name: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
       mobile: ['', [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
-      password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(16)]],
-      confirm_password: ['', [Validators.required]],
-      refer_code: [''],
       country_code: ['+91'],
-      role: [4],
+      password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(16)]],
+      refer_code: [''],
+      fcm_token: [''],
     }, {
       validators: FuseValidators.mustMatch('password', 'confirm_password')
     });
   }
+  // confirm_password: ['', [Validators.required]],
+  // role: [4],
 
   register(): void {
     if (this.registerForm.invalid) {
@@ -61,14 +62,14 @@ export class RegisterComponent implements OnInit {
       return;
     }
     this.registerForm.disable();
-    this._authService.sendOTP(this.registerForm.value).subscribe((result: any) => {
-      if (result && result.status) {
+    this._authService.register(this.registerForm.value).subscribe((result: any) => {
+      if (result && result.IsSuccess) {
         const preparedForgotPwdObj: any = this.registerForm.value;
-        preparedForgotPwdObj.smsKey = result.smsKey;
+        preparedForgotPwdObj.smsKey = result.Data.key;
         localStorage.setItem("register", JSON.stringify(preparedForgotPwdObj));
         this._router.navigate(['/otp']);
       } else {
-        this._sNotify.error(result.message, 'error');
+        this._sNotify.error(result.Message, 'error');
         this.registerForm.enable();
         this._globalFunctions.successErrorHandling(result, this, true);
       }
@@ -76,7 +77,7 @@ export class RegisterComponent implements OnInit {
       this.registerForm.enable();
       // this.registerNgForm.resetForm();
       this._globalFunctions.errorHanding(error, this, true);
-      // this._sNotify.error(error.message, 'error');
+      // this._sNotify.error(error.Message, 'error');
     });
   }
 }

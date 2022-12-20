@@ -1,4 +1,4 @@
-<p-progressSpinner *ngIf="isLoading" [style]="{width: '50px', height: '50px'}" animationDuration=".5s" strokeWidth="8" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-x-0 top-0 h-full w-full z-50" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
+<p-progressSpinner *ngIf="isLoading" [style]="{width: '50px', height: '50px'}" animationDuration=".5s" strokeWidth="8" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-x-0 top-0 h-full w-full z-40" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
 <!-- Popup Add Event  -->
 <div class="popup table fixed w-full inset-0 z-40 h-screen">
   <div class="table-cell align-middle">
@@ -19,41 +19,41 @@
           <div>
             <label class="input-titel">What’s the event type?</label>
             <div class="flex items-center space-x-5">
-              <label (click)="eventType = constants.unitTypeArr[constants.eventType.B2B].options" class="w-1/2 bg-white py-3 px-4 flex items-center rounded-md cursor-pointer" for="b2b">
+              <label *ngFor="let eventType of constants.eventTypeArr" (change)="onChangeEventType(eventType.value)"
+               class="w-1/2 bg-white py-3 px-4 flex items-center rounded-md cursor-pointer" [for]="eventType.value">
                 <div class="pr-3">
-                  <input [formControlName]="'event_type'" [value]="constants.eventType.B2B" class="w-6 h-6 rounded-full bg-brightGray appearance-none hidden" id="b2b" name="event_type" type="radio">
+                  <input [formControlName]="'event_type'" [value]="eventType.value"
+                   class="w-6 h-6 rounded-full bg-brightGray appearance-none hidden" [id]="eventType.value" name="event_type" type="radio">
                   <div class="w-6 h-6 flex items-center justify-center rounded-full bg-brightGray overflow-hidden check-language">
                     <i class="icon-right  text-white text-[10px] scale-0 origin-center duration-300 transition-all"></i>
                   </div>
                 </div>
-                <span class="text-base font-bold text-black">B2B</span>
-              </label>
-              <label (click)="eventType = constants.unitTypeArr[constants.eventType.PUBLIC].options" class="w-1/2 bg-white py-3 px-4 flex items-center rounded-md cursor-pointer" for="pp">
-                <div class="pr-3">
-                  <input [formControlName]="'event_type'" [value]="constants.eventType.PUBLIC" class="w-6 h-6 rounded-full bg-brightGray appearance-none hidden" id="pp" name="event_type" type="radio">
-                  <div class="w-6 h-6 flex items-center justify-center rounded-full bg-brightGray overflow-hidden check-language">
-                    <i class="icon-right  text-white text-[10px] scale-0 origin-center duration-300 transition-all"></i>
-                  </div>
-                </div>
-                <span class="text-base font-bold text-black">Public Party</span>
+                <span class="text-base font-bold text-black">{{eventType.label}}</span>
               </label>
             </div>
           </div>
           <div class="">
             <label class="input-titel">select category</label>
-            <select [formControlName]="'event_category'" class="bg-white rounded-md flex w-full space-x-3 outline-0 px-6 py-3 relative arrow">
+            <select [formControlName]="'event_category'" (change)="newEventForm.get('other').setValue('')" class="bg-white rounded-md flex w-full space-x-3 outline-0 px-6 py-3 relative arrow">
               <option value=""></option>
-              <option *ngFor="let type of eventType" value="{{type}}">{{type}}</option>
+              <option *ngFor="let eventCategoryObj of eventCategories" [value]="eventCategoryObj._id">{{eventCategoryObj.categoryname}}</option>
             </select>
           </div>
           <div class="w-full block">
             <label class="input-titel">Other</label>
-            <input [formControlName]="'other_category'" class="input option rounded-lg w-full py-3 px-4 focus-visible:outline-none" type="text"/>
+            <input [formControlName]="'other'" class="input option rounded-lg w-full py-3 px-4 focus-visible:outline-none" type="text"/>
           </div>
         </form>
-        <button (click)="this.isForUpdateEvent ? updateEvent() : addEvent()" [ngClass]="{'opacity-0': newEventForm.disabled}" class="secondary py-2 px-14 anim uppercase flex ml-auto" type="submit">
-          Submit
-        </button>
+        <div class="flex justify-end">
+          <div class="relative">
+            <button class="secondary py-2 px-14 anim uppercase" type="submit" (click)="this.isForUpdateEvent ? updateEvent() : addEvent()">
+              <span [ngClass]="{'opacity-0': newEventForm.disabled}">{{this.isForUpdateEvent ? 'Update' : 'Submit'}}</span>
+            </button>
+            <div class="absolute inset-0 text-white flex items-center" *ngIf="newEventForm.disabled">
+              <mat-progress-spinner [diameter]="22" [mode]="'indeterminate'" class="mx-auto"></mat-progress-spinner>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

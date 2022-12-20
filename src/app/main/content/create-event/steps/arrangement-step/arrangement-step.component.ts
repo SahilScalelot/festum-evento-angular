@@ -15,12 +15,12 @@ export class ArrangementStepComponent implements OnInit {
   tmpSeatingItems: any = [];
   isArrangement: boolean = false;
   constants: any = CONSTANTS;
-  occasions: any = [];
-  arrangementObj: any = {};
-  // eventObj: any = {};
-  
-  @Input() eventObj: any = {};
-  @Output() newEventObj: EventEmitter<any> = new EventEmitter();
+  editArrangementObj: any = {};
+  eventId: any = '';
+  isLoading: boolean = false;
+  arrangementsArr: any = [];
+
+  @Input() arrangementObj: any = {};
 
   constructor(
     public _globalFunctions: GlobalFunctions,
@@ -29,78 +29,41 @@ export class ArrangementStepComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.arrangementObj = {};
-    this.prepareArrangementObj();
-    // this._globalFunctions.loadAccordion();
+    if (!localStorage.getItem('eId') || localStorage.getItem('eId') == '') {
+      this._router.navigate(['/events']);
+    }
+    this.eventId = localStorage.getItem('eId');
+    this.editArrangementObj = {};
+    this.getArrangements();
     this.getSeatingItems();
 
     this._createEventService.isOpenAddEditArrangementDialog$.subscribe((isOpenAddEditArrangementDialog: boolean) => {
       this.isArrangement = isOpenAddEditArrangementDialog;
     });
+    this.isArrangement = false;
+  }
 
-    // this.occasions = [
-    //   {
-    //     "id": 1,
-    //     "seat": {
-    //       "id": 1,
-    //       "name": "Chair",
-    //       "svg": "/media/image/events/seating_arrangement/chair.svg",
-    //       "timestamp": "2021-08-15T06:22:41.229676Z",
-    //       "sequence": 1,
-    //       "is_active": true
-    //     },
-    //     "name": "Best Chair",
-    //     "no_of_seat": 50,
-    //     "seat_location": "TOP",
-    //     "seat_side": "LEFT",
-    //     "table_person_capacity": 12,
-    //     "person_capacity": 1,
-    //     "table_price": 250,
-    //     "price_per_seat": "350.50",
-    //     "total_booking_count": 6,
-    //     "description": "this is logn description for seat",
-    //     "booking_acceptance": "",
-    //     "seat_food": "VEG",
-    //     "seat_food_description": "this is logn description for Food",
-    //     "seat_equipment": true,
-    //     "seat_equipment_description": "this is logn description for equipment",
-    //     "occasion": 43
-    //   },
-    //   {
-    //     "id": 2,
-    //     "seat": {
-    //       "id": 2,
-    //       "name": "Chair",
-    //       "svg": "/media/image/events/seating_arrangement/chair.svg",
-    //       "timestamp": "2021-08-15T06:22:41.229676Z",
-    //       "sequence": 1,
-    //       "is_active": true
-    //     },
-    //     "name": "Good Chair",
-    //     "no_of_seat": 100,
-    //     "seat_location": "CENTER",
-    //     "seat_side": "NONE",
-    //     "table_person_capacity": 12,
-    //     "person_capacity": 1,
-    //     "table_price": 250,
-    //     "price_per_seat": "250.50",
-    //     "total_booking_count": 12,
-    //     "description": "this is logn description for seat",
-    //     "booking_acceptance": "",
-    //     "seat_food": "VEG",
-    //     "seat_food_description": "this is logn description for Food",
-    //     "seat_equipment": true,
-    //     "seat_equipment_description": "this is logn description for equipment",
-    //     "occasion": 43
-    //   },
-    // ]
+  getArrangements(): void {
+    this.isLoading = true;
+    this._createEventService.getArrangements(this.eventId).subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        this.arrangementsArr = result.Data.seating_arrangements || [];
+        this.isLoading = false;
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+    });
   }
 
   getSeatingItems(): void {
+    this.isLoading = true;
     this._createEventService.getSeatingItems().subscribe((result: any) => {
-      if (result && result.status) {
-        this.seatingItems = result.data || [];
+      if (result && result.IsSuccess) {
+        this.seatingItems = result.Data || [];
         this.tmpSeatingItems = this._globalFunctions.copyObject(this.seatingItems);
+        this.isLoading = false;
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
       }
@@ -115,7 +78,7 @@ export class ArrangementStepComponent implements OnInit {
 
     if (panel && panel.style) {
       element.classList.toggle("active");
-      this.occasions[index].isActive = !this.occasions[index].isActive;
+      this.arrangementsArr[index].isActive = !this.arrangementsArr[index].isActive;
       if (panel.style.maxHeight) {
         panel.style.maxHeight = null;
       } else {
@@ -124,69 +87,56 @@ export class ArrangementStepComponent implements OnInit {
     }
   }
 
-  openArrangementPopup(occasionObj: any = {}): void {
-    this.arrangementObj = occasionObj;
+  openArrangementPopup(arrangementObj: any = {}): void {
+    this.editArrangementObj = arrangementObj;
     this.isArrangement = true;
   }
 
-  deleteArrangement(occasionId: any = ''): void {
-    // const eventString: any = localStorage.getItem('newEventObj');
-    const eventObj: any = this._globalFunctions.copyObject(this.eventObj || {});
-    this.eventObj.arrangements = _.remove(eventObj.arrangements, (arrangement: any) => {
-      return arrangement.seat_id != occasionId;
+  deleteArrangement(seatingId: any = ''): void {
+    this.arrangementsArr = _.remove(this.arrangementsArr, (arrangement: any) => {
+      return arrangement.seating_item != seatingId;
     });
-    // localStorage.setItem('newEventObj', JSON.stringify(this.eventObj));
-    this.newEventObj.emit(this.eventObj);
-    this.prepareArrangementObj();
   }
 
   closePop(flag: boolean): void {
     this.seatingItems = this._globalFunctions.copyObject(this.tmpSeatingItems);
-    this.arrangementObj = {};
+    this.editArrangementObj = {};
     this.isArrangement = flag;
-    this.prepareArrangementObj();
+  }
+
+  addEditArrangement(arrangementsArr: any = []): void {
+    if (arrangementsArr && arrangementsArr.length) {
+      this.arrangementsArr = arrangementsArr;
+    }
   }
 
   onNextStep(): void {
-    this.newEventObj.emit(this.eventObj);
+    
+    this.isLoading = true;
+    const preparedObj: any = this.prepareObj(this.arrangementsArr);
+    this._createEventService.arrangements(preparedObj).subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        this.isLoading = false;
+        this._router.navigate(['/events/create/location']);
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+        this.isLoading = false;
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isLoading = false;
+    });
   }
-
-  prepareArrangementObj(): void {
-    if (this.eventObj) {
-      // const eventString: any = localStorage.getItem('newEventObj');
-      // this.eventObj = JSON.parse(eventString);
-
-      const preparedOccasionArr: any = [];
-      const occasionGroupBySeatingId: any = _.groupBy(this.eventObj.arrangements, 'seat_id');
-      _.each(occasionGroupBySeatingId, (occasionGroup: any) => {
-        const tmpOccasionObj: any = {};
-        tmpOccasionObj.seat = occasionGroup[0].seat;
-        tmpOccasionObj.seating_item = occasionGroup[0].seat_id;
-        tmpOccasionObj.food = occasionGroup[0].seat_food;
-        tmpOccasionObj.food_description = occasionGroup[0].seat_food_description;
-        tmpOccasionObj.equipment = occasionGroup[0].seat_equipment;
-        tmpOccasionObj.equipment_description = occasionGroup[0].seat_equipment_description;
-        tmpOccasionObj.arrangements = [];
-        _.each(occasionGroup, (arrangementObj: any) => {
-          tmpOccasionObj.arrangements.push({
-            no_of_seat: arrangementObj.no_of_seat,
-            seat_location: arrangementObj.seat_location,
-            seat_side: arrangementObj.seat_side,
-            table_person_capacity: arrangementObj.table_person_capacity,
-            person_capacity: arrangementObj.person_capacity,
-            table_price: arrangementObj.table_price,
-            price_per_seat: arrangementObj.price_per_seat,
-            total_booking_count: arrangementObj.total_booking_count,
-            description: arrangementObj.description,
-            booking_acceptance: (arrangementObj.booking_acceptance == true || arrangementObj.booking_acceptance == 'PERPERSON'),
-          });
-        });
-        preparedOccasionArr.push(tmpOccasionObj);
-      });
-      this.occasions = preparedOccasionArr;
-      // this.occasions = this.eventObj.arrangements;
-    } else {
-      this._router.navigate(['/events']);
-    }
+  
+  prepareObj(arrangementsArr: any = []): any {
+    const preparedObj: any = {};
+    preparedObj.eventid = this.eventId;
+    preparedObj.seating_arrangements = [];
+    arrangementsArr.forEach((arrangement: any) => {
+      const tmpArrangement: any = arrangement;
+      tmpArrangement.seating_item = arrangement.seating_item._id;
+      preparedObj.seating_arrangements.push(arrangement);
+    });
+    return preparedObj;
   }
 }

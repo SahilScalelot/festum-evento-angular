@@ -4,11 +4,11 @@
 
 export const environment = {
   production: true,
-  // appURL: "http://192.168.29.23:8000/api/v1/",
-  // baseImageURL: "http://192.168.29.23:8000/",
+  // appURL: "http://localhost:3000/",
+  // baseImageURL: "http://localhost:3000/",
 
-  appURL: "https://api.festumevento.com/api/v1/",
-  baseImageURL: "https://api.festumevento.com/",
+  appURL: "https://devapi.festumevento.com/",
+  baseImageURL: "https://festumeventos3.s3.ap-south-1.amazonaws.com/",
 };
 
 /*

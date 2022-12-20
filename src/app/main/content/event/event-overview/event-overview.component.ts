@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
+import {MapsAPILoader} from "@agm/core";
 import {CONSTANTS} from 'src/app/main/common/constants';
 import {GlobalFunctions} from 'src/app/main/common/global-functions';
 import {EventService} from '../event.service';
@@ -17,11 +18,17 @@ export class EventOverviewComponent implements OnInit {
   isLoading: boolean = false;
   isOpenPopup: boolean = false;
   isImage: boolean = false;
+  companyIAndV: boolean = false;
   imagesOrVideosArr: Array<any> = [];
 
   overview: boolean = true;
   attendee: boolean = false;
   reviews: boolean = false;
+
+  zoom: number = CONSTANTS.defaultMapZoom;
+  // initial center position for the map
+  lat: number = 0;
+  lng: number = 0;
 
   constructor(
     private _eventService: EventService,
@@ -32,14 +39,14 @@ export class EventOverviewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getEvent();
+    this.getEvent();    
   }
 
   getEvent(): void {
     this.isLoading = true;
     const eventId = this._activatedRoute.snapshot.paramMap.get('id');
-    this._eventService.retrieveEventsId(eventId).subscribe((result: any) => {
-      this.events = result.events;
+    this._eventService.getSingleEvents(eventId).subscribe((result: any) => {
+      this.events = result.Data;
       setTimeout(() => {
         this._globalFunctions.loadAccordion();
         // this._globalFunctions.loadTabsJs();
@@ -62,9 +69,10 @@ export class EventOverviewComponent implements OnInit {
     }
   }
 
-  openImageAndVideoDialog(imagesOrVideosArr: Array<any>, isImage: boolean): void {
+  openImageAndVideoDialog(imagesOrVideosArr: Array<any>, isImage: boolean, companyIAndV: boolean): void {
     this.imagesOrVideosArr = imagesOrVideosArr;
     this.isImage = isImage;
+    this.companyIAndV = companyIAndV;
     this.isOpenPopup = true;
   }
 
@@ -72,4 +80,9 @@ export class EventOverviewComponent implements OnInit {
     this.isOpenPopup = flag;
   }
 
+  editEvent(event: any, eventId: any): void {
+    event.stopPropagation();
+    localStorage.setItem('eId', eventId);
+    this._router.navigate(['/events/create/add-event']);
+  }
 }

@@ -1,0 +1,89 @@
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CONSTANTS } from 'src/app/main/common/constants';
+import { GlobalFunctions } from 'src/app/main/common/global-functions';
+import { OnlineOffersService } from '../online-offers.service';
+import { Clipboard } from '@angular/cdk/clipboard';
+import { SnotifyService } from 'ng-snotify';
+import { ModalService } from 'src/app/main/_modal';
+
+@Component({
+  selector: 'app-offer-overview',
+  templateUrl: './offer-overview.component.html',
+  styleUrls: ['./offer-overview.component.scss']
+})
+export class OfferOverviewComponent implements OnInit {
+  offerId: any;
+  offerObj: any;
+  constants: any = CONSTANTS;
+  isLoading: boolean = false;
+  isDeleteLoading: boolean = false;
+
+  constructor(
+    private _router: Router,
+    private _activatedRoute: ActivatedRoute,
+    private _onlineOffersService: OnlineOffersService,
+    private _globalFunctions: GlobalFunctions,
+    private _clipboard: Clipboard,
+    private _sNotify: SnotifyService,
+    private _modalService: ModalService,
+  ) { }
+
+  ngOnInit(): void {
+    this.offerId = this._activatedRoute.snapshot.paramMap.get('id');
+    this.getOnlineShopOfferByOfferId(this.offerId);
+  }
+
+  copyLink(copyText: any) {
+    this._clipboard.copy(copyText);
+    this._sNotify.success('Link Copied.');
+  }
+  
+  editOffer(event: any, offerId: any): void {
+    event.stopPropagation();
+    localStorage.setItem('oOId', offerId);
+    this._router.navigate(['/online-offers/create-offer']);
+  }
+
+  getOnlineShopOfferByOfferId(offerId: any = ''): void {
+    this.isLoading = true;
+    this._onlineOffersService.getOnlineOfferById(offerId).subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        this.offerObj = result.Data
+        this.isLoading = false;
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+        this.isLoading = false;
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isLoading = false;
+    });
+  }
+
+  // Delete Online Offer
+  deletePop(): void {
+    this._modalService.open("delete-offer-pop");
+  }
+  close(): void {
+    this._modalService.close("delete-offer-pop");
+  }
+  deleteEvent(): void {
+    // Open delete confirmation popup
+    this.isDeleteLoading = true;
+    this._onlineOffersService.removeOnlineOfferById(this.offerId).subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        this._router.navigate(['/online-offers']);
+        this.isDeleteLoading = false;
+        this._modalService.close("delete-offer-pop");
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+        this.isDeleteLoading = false;
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isDeleteLoading = false;
+    });
+  }
+
+}
