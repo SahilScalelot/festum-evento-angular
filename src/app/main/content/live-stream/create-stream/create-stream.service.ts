@@ -48,12 +48,12 @@ export class CreateStreamService {
   }
 
   // Image Upload Api
-  imageUpload(imageFormData: any): any {
+  uploadImages(imageFormData: any): any {
     return this.http.post(environment.appURL + 'organizer/livestream/image', imageFormData, this._globalFunctions.getFileAuthorizationHeader());
   }
 
   // Video Upload Api
-  videoUpload(videoFormData: any): any {
+  uploadVideos(videoFormData: any): any {
     return this.http.post(environment.appURL + 'organizer/livestream/video', videoFormData, this._globalFunctions.getFileAuthorizationHeader());
   }
 

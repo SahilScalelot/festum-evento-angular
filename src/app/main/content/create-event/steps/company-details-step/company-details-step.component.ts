@@ -159,12 +159,6 @@ export class CompanyDetailsStepComponent implements OnInit {
         return false;
       }
 
-      // const reader = new FileReader();
-      // reader.onload = (e: any) => {
-      //   this.photoArr.push({ image: e.target.result });
-      // };
-      // reader.readAsDataURL(image);
-      // this.allPhotosFilesArr.push({ image: image });
       imgFormData.append('file', image);
       this.isImgLoading = true;
       this._createEventService.uploadImages(imgFormData).subscribe((result: any) => {
@@ -208,13 +202,6 @@ export class CompanyDetailsStepComponent implements OnInit {
         this._sNotify.error('Maximum 1 videos can upload!', 'Oops!');
         return false;
       }
-
-      // const reader = new FileReader();
-      // reader.onload = (e: any) => {
-      //   this.videoArr.push({ video: e.target.result });
-      // };
-      // reader.readAsDataURL(video);
-      // this.allVideosFilesArr.push({ video: video });
       videoFormData.append('file', video);
       this.isVideoLoading = true;
       this._createEventService.uploadVideos(videoFormData).subscribe((result: any) => {
