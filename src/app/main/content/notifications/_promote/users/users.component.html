@@ -3,11 +3,13 @@
     <div class="w-full lg:w-1/2">
       <h5 class="pb-3">Select User</h5>
       <select class="bg-white rounded-md flex space-x-3 outline-0 px-6 py-[18px] relative arrow option" [formControlName]="'numberofusers'">
-        <option *ngFor='let in of totalOptions;let i = index' [value]="i ? (i * 100) : totalUsersCount">{{i ? (i * 100) : 'Select All'}}</option>
+        <option>Select All</option>
+        <option>1</option>
+        <option>2</option>
       </select>
     </div>
     <div class="bg-white p-[18px] rounded-md mt-5 lg:mt-0">
-      <span class="text-base font-bold text-japaneseIndigo">Total User : {{totalUsersCount}}</span>
+      <span class="text-base font-bold text-japaneseIndigo">Total User : 10000</span>
     </div>
   </div>
 
@@ -63,11 +65,13 @@
         <div class="w-1/2">
           <h5 class="pb-3 capitalize">Select All App User</h5>
           <select class="bg-white rounded-md flex space-x-3 outline-0 px-6 py-[18px] relative arrow option" [formControlName]="'numberofusers'" (change)="onChangeUserSelection()">
-            <option *ngFor='let in of totalOptions;let i = index' [value]="i ? (i * 100) : totalUsersCount">{{i ? (i * 100) : 'Select All'}}</option>
+            <option>Select All</option>
+            <option>1</option>
+            <option>2</option>
           </select>
         </div>
         <div class="bg-white p-[18px] rounded-md">
-          <span class="text-base font-bold text-japaneseIndigo">Total User : {{totalUsersCount}}</span>
+          <span class="text-base font-bold text-japaneseIndigo">Total User : 10000</span>
         </div>
       </div>
       <div class="flex pt-7">
@@ -86,39 +90,83 @@
     <h5>Select User</h5>
     <div class="flex flex-wrap lg:flex-nowrap lg:space-x-12 pt-5">
       <div class="w-full lg:w-1/2">
-        <div class="space-y-3 max-h-[540px] overflow-y-auto">
-          <div class="flex items-center bg-white rounded-md cursor-pointer w-full px-4 py-3 sticky top-0 z-10 shadow">
+        <div class="space-y-3">
+          <div class="flex items-center bg-white rounded-md cursor-pointer w-full p-4">
             <label class="checkbox w-8 h-8 " for="is_selected_all">
-              <input type="checkbox" class="bgbrightgray" name="is_selected_all" id="is_selected_all" [formControlName]="'is_selected_all'" (click)="onSelectAllChecked($event)"/>
-              <i class="icon-right text-10 text-white"></i>
+              <input type="checkbox" class="bgbrightgray" name="is_selected_all" id="is_selected_all" [formControlName]="'is_selected_all'"/>
+              <i class="icon-right text-white"></i>
             </label>
-            <span class="text-base text-japaneseIndigo font-bold ml-4">Select All</span>
+            <span class="text-base text-japaneseIndigo font-bold ml-5">Select All</span>
           </div>
-          <div class="flex items-center bg-white rounded-md cursor-pointer w-full px-4 py-3" *ngFor="let importedUser of allImportedUsers; let i = index">
+          <div class="flex items-center bg-white rounded-md cursor-pointer w-full p-4">
             <label class="checkbox w-8 h-8">
-              <input type="checkbox" class="bgbrightgray" [id]="'user-' + i" [checked]="importedUser.selected" (change)="onCheckboxChange(importedUser, i)" />
-              <i class="icon-right text-10 text-white"></i>
+              <input type="checkbox" class="bgbrightgray" />
+              <i class="icon-right text-white"></i>
             </label>
-            <div class="flex items-center ml-4">
-              <div class="w-8 h-8 rounded-full overflow-hidden mr-4">
-                <img [src]="(importedUser.Photo && importedUser.Photo != '') ? importedUser.Photo : constants.defaultImage" [alt]="importedUser?.FullName" class="w-full h-full object-cover" />
+            <div class="flex items-center ml-5">
+              <div class="w-10 h-10 rounded-full overflow-hidden mr-5">
+                <img src="../assets/images/profile-2.png" alt="profile" class="w-full h-full object-cover" />
               </div>
-              <span class="text-base text-japaneseIndigo font-bold">{{importedUser?.FullName}}</span>
+              <span class="text-base text-japaneseIndigo font-bold">Christopher Colon</span>
             </div>
           </div>
-          <div class="text-center" *ngIf="pageObj && pageObj.hasNextPage">
-            <button class="secondary px-5 py-2" (click)="getImportedUsersList()">Load more</button>
+          <div class="flex items-center bg-white rounded-md cursor-pointer w-full p-4">
+            <label class="checkbox w-8 h-8">
+              <input type="checkbox" class="bgbrightgray" />
+              <i class="icon-right text-white"></i>
+            </label>
+            <div class="flex items-center ml-5">
+              <div class="w-10 h-10 rounded-full overflow-hidden mr-5">
+                <img src="../assets/images/profile-2.png" alt="profile" class="w-full h-full object-cover" />
+              </div>
+              <span class="text-base text-japaneseIndigo font-bold">Gloria Blankenship</span>
+            </div>
+          </div>
+          <div class="flex items-center bg-white rounded-md cursor-pointer w-full p-4">
+            <label class="checkbox w-8 h-8">
+              <input type="checkbox" class="bgbrightgray" />
+              <i class="icon-right text-white"></i>
+            </label>
+            <div class="flex items-center ml-5">
+              <div class="w-10 h-10 rounded-full overflow-hidden mr-5">
+                <img src="../assets/images/profile-2.png" alt="profile" class="w-full h-full object-cover" />
+              </div>
+              <span class="text-base text-japaneseIndigo font-bold">Quincy Montgomery</span>
+            </div>
+          </div>
+          <div class="flex items-center bg-white rounded-md cursor-pointer w-full p-4">
+            <label class="checkbox w-8 h-8">
+              <input type="checkbox" class="bgbrightgray" />
+              <i class="icon-right text-white"></i>
+            </label>
+            <div class="flex items-center ml-5">
+              <div class="w-10 h-10 rounded-full overflow-hidden mr-5">
+                <img src="../assets/images/profile-2.png" alt="profile" class="w-full h-full object-cover" />
+              </div>
+              <span class="text-base text-japaneseIndigo font-bold">Ezequiel Martin</span>
+            </div>
+          </div>
+          <div class="flex items-center bg-white rounded-md cursor-pointer w-full p-4">
+            <label class="checkbox w-8 h-8">
+              <input type="checkbox" class="bgbrightgray" />
+              <i class="icon-right text-white"></i>
+            </label>
+            <div class="flex items-center ml-5">
+              <div class="w-10 h-10 rounded-full overflow-hidden mr-5">
+                <img src="../assets/images/profile-2.png" alt="profile" class="w-full h-full object-cover" />
+              </div>
+              <span class="text-base text-japaneseIndigo font-bold">Alexandria Wilkerson</span>
+            </div>
           </div>
         </div>
       </div>
       <div class="w-full lg:w-1/2 pt-5 lg:pt-0">
-        <div class="max-w-max ml-auto text-base font-bold text-japaneseIndigo bg-white py-3 px-8 rounded-md">Total User: <span>{{totalUsersCount | number:'1.0-0'}}</span>
+        <div class="max-w-max ml-auto text-base font-bold text-japaneseIndigo bg-white py-4 px-8 rounded-md">Total User
+          :
+          <span>512</span>
         </div>
         <div class="upload-holder w-full h-full pt-5">
-          <div class="flex items-end justify-between pb-3">
-            <h5>Upload Excel</h5>
-            <a class="secondary px-5 py-2" [href]="constants.baseImageURL + constants.importUsersDemoUrl" target="_self">Demo</a>
-          </div>
+          <h5 class="flex items-end pb-3">Upload Excel</h5>
           <label for="upload-csv" class="upload py-14">
             <input type="file" accept="text/csv, text/xml, text/xls, text/xlsx" name="upload-csv" id="upload-csv" class="appearance-none hidden" (change)="uploadUserCSV($event)"/>
             <div class="mt-1 flex items-center justify-center"><i
@@ -139,7 +187,7 @@
   </div>
   <!-- next preview button -->
   <div class="prw-next-btn mt-auto">
-    <button type="button" class="flex items-center active" (click)="onBackClick()">
+    <button type="button" class="flex items-center" (click)="onBackClick()">
       <i class="icon-left_arrow mr-3"></i>
       <h5>Back</h5>
     </button>

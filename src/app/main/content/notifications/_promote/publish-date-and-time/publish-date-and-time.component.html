@@ -11,7 +11,7 @@
       <h5 class="pb-3">Time</h5>
       <label class="bg-white rounded-md flex space-x-3 relative cursor-text">
         <i class="icon-time flex items-center pl-5 absolute left-0 inset-y-0"></i>
-        <p-calendar class="left w-full rounded-md outline-none appearance-none pl-10 py-2" [timeOnly]="true" inputId="timeonly" [formControlName]="'notification_time'"></p-calendar>
+        <p-calendar class="left w-full rounded-md outline-none appearance-none pl-10 py-2" [timeOnly]="true" [hourFormat]="'12'" inputId="timeonly" [formControlName]="'notification_time'"></p-calendar>
       </label>
     </div>
   </div>
@@ -48,7 +48,7 @@
   </div>
   <!-- next preview button -->
   <div class="prw-next-btn mt-auto">
-    <button type="button" class="flex items-center active" (click)="onBackClick()">
+    <button type="button" class="flex items-center" (click)="onBackClick()">
       <i class="icon-left_arrow mr-3"></i>
       <h5>Back</h5>
     </button>
