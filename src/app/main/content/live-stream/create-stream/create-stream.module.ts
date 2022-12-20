@@ -15,6 +15,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { SharedModule } from 'primeng/api';
+import { ModalModule } from 'src/app/main/_modal';
 
 const routes: Routes = [
   {
@@ -61,6 +62,7 @@ const routes: Routes = [
     MatProgressSpinnerModule,
     ProgressSpinnerModule,
     SharedModule,
+    ModalModule,
   ]
 })
 export class CreateStreamModule { }
