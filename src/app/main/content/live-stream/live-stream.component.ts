@@ -28,6 +28,8 @@ export class LiveStreamComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    localStorage.removeItem('lsId');
+    this.getLiveStreamObj();
   }
 
   getLiveStreamObj(event: any = {}): void {
@@ -55,10 +57,10 @@ export class LiveStreamComponent implements OnInit {
   }
 
 
-  editOffer(event: any, offerId: any): void {
+  editLiveStream(event: any, liveStreamId: any): void {
     event.stopPropagation();
-    localStorage.setItem('oOId', offerId);
-    this._router.navigate(['/online-offers/create-offer']);
+    localStorage.setItem('lsId', liveStreamId);
+    this._router.navigate(['/live-stream/create/stream']);
   }
 
   

@@ -5,8 +5,6 @@ import { SnotifyService } from 'ng-snotify';
 import { CONSTANTS } from 'src/app/main/common/constants';
 import { GlobalFunctions } from 'src/app/main/common/global-functions';
 import { CreateStreamService } from '../create-stream.service';
-import { take } from 'rxjs';
-import * as _ from 'lodash';
 import { ModalService } from 'src/app/main/_modal';
 declare var $: any;
 
@@ -17,7 +15,7 @@ declare var $: any;
 })
 export class PhotosAndVideosComponent implements OnInit {
   constants: any = CONSTANTS;
-  imageAndVideoObj: any = {};
+  liveStreamId: any = '';
   deleteItemObj: any = {};
   
   photoArr: any = [];  
@@ -38,6 +36,32 @@ export class PhotosAndVideosComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.liveStreamId = localStorage.getItem('lsId');
+    if (this.liveStreamId && this.liveStreamId != '') {
+      this.getLiveStreamMediaById(this.liveStreamId);
+    }
+  }
+
+  getLiveStreamMediaById(liveStreamId: any = ''): void {
+    this.isLoading = true;
+    this._createStreamService.getLiveStreamMediaById(liveStreamId).subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        const liveStreamMediaObj: any = result?.Data || {};
+        if (liveStreamMediaObj.photos && liveStreamMediaObj.photos.length) {
+          this.photoArr = this._globalFunctions.copyObject(liveStreamMediaObj.photos);
+        }
+        if (liveStreamMediaObj.videos && liveStreamMediaObj.videos.length) {
+          this.videoArr = this._globalFunctions.copyObject(liveStreamMediaObj.videos);
+        }
+        this.isLoading = false;
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+        this.isLoading = false;
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isLoading = false;
+    });
   }
 
   uploadImage(): any {
@@ -55,8 +79,8 @@ export class PhotosAndVideosComponent implements OnInit {
         $('#create-photo-upload').focus();
         return false;
       }
-      if (this.photoArr && this.photoArr.length && this.photoArr.length >= 5) {
-        this._sNotify.error('Maximum 5 images can upload!', 'Oops!');
+      if (this.photoArr && this.photoArr.length && this.photoArr.length >= 15) {
+        this._sNotify.error('Maximum 15 images can upload!', 'Oops!');
         return false;
       }
       imgFormData.append('file', image);
@@ -94,8 +118,8 @@ export class PhotosAndVideosComponent implements OnInit {
         $('#create-video-upload').focus();
         return false;
       }      
-      if (this.videoArr && this.videoArr.length && this.videoArr.length >= 1) {
-        this._sNotify.error('Maximum 1 videos can upload!', 'Oops!');
+      if (this.videoArr && this.videoArr.length && this.videoArr.length >= 2) {
+        this._sNotify.error('Maximum 2 videos can upload!', 'Oops!');
         return false;
       }
       videoFormData.append('file', video);
@@ -147,9 +171,33 @@ export class PhotosAndVideosComponent implements OnInit {
     this.close();
   }
 
-  nextStep() {
+  validatePhotosAndVideosObj(): any {
+    if (!this.photoArr || !this.photoArr.length) {
+      this._sNotify.error('At least one photo required', 'Oops!');
+      return false;
+    }
+    if (!this.videoArr || !this.videoArr.length) {
+      this._sNotify.error('At least one video required', 'Oops!');
+      return false;
+    }
+    return true;
+  }
+
+  preparePhotosAndVideosObj(): any {
+    const preparedPhotosAndVideosObj: any = {};
+    preparedPhotosAndVideosObj.livestreamid = this.liveStreamId;
+    preparedPhotosAndVideosObj.photos = this._globalFunctions.copyObject(this.photoArr);
+    preparedPhotosAndVideosObj.videos = this._globalFunctions.copyObject(this.videoArr);
+    return preparedPhotosAndVideosObj;
+  }
+
+  nextStep(): any {
+    if (this.isLoading || !this.validatePhotosAndVideosObj()) {
+      return false;
+    }
     this.isLoading = true;
-    this._createStreamService.liveStreamMedia(this.imageAndVideoObj).subscribe((result: any) => {
+    const preparedPhotosAndVideosObj: any = this.preparePhotosAndVideosObj();
+    this._createStreamService.saveLiveStreamMedia(preparedPhotosAndVideosObj).subscribe((result: any) => {
       if (result && result.IsSuccess) {
         this.isLoading = false;
         this._router.navigate(['/live-stream/create/company-details']);
