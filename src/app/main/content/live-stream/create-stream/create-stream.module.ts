@@ -9,6 +9,12 @@ import { PersonalDetailsComponent } from './personal-details/personal-details.co
 import { TermsAndConditionsComponent } from './terms-and-conditions/terms-and-conditions.component';
 import { StepsModule } from 'primeng/steps';
 import { ReactiveFormsModule } from '@angular/forms';
+import { CalendarModule } from 'primeng/calendar';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { SharedModule } from 'primeng/api';
 
 const routes: Routes = [
   {
@@ -48,7 +54,13 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     CommonModule,
     StepsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CalendarModule,
+    CKEditorModule,
+    NgSelectModule,
+    MatProgressSpinnerModule,
+    ProgressSpinnerModule,
+    SharedModule,
   ]
 })
 export class CreateStreamModule { }
