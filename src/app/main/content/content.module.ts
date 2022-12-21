@@ -14,6 +14,13 @@ import { LandingPageComponent } from './landing-page/landing-page.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { OfflineShopsModule } from './offline-shops/offline-shops.module';
 import {RadioButtonModule} from 'primeng/radiobutton';
+import { ReferAndEarnComponent } from './refer-and-earn/refer-and-earn.component';
+import { RedeemCoinComponent } from './redeem-coin/redeem-coin.component';
+import { FaqAndHelpComponent } from './faq-and-help/faq-and-help.component';
+import { GalleryComponent } from './gallery/gallery.component';
+import { OurProductComponent } from './our-product/our-product.component';
+import { BookingComponent } from './booking/booking.component';
+import { AccordionModule } from 'primeng/accordion';
 
 const routes: Routes = [
   {
@@ -28,6 +35,12 @@ const routes: Routes = [
     BuySpacePlansComponent,
     ProfileComponent,
     LandingPageComponent,
+    ReferAndEarnComponent,
+    RedeemCoinComponent,
+    FaqAndHelpComponent,
+    GalleryComponent,
+    OurProductComponent,
+    BookingComponent,
   ],
   imports: [
     RouterModule.forChild(routes),
@@ -41,7 +54,8 @@ const routes: Routes = [
     ReactiveFormsModule,
     CalendarModule,
     ProgressSpinnerModule,
-    RadioButtonModule
+    RadioButtonModule,
+    AccordionModule
   ]
 })
 export class ContentModule {

@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { SnotifyService } from 'ng-snotify';
 import { GlobalFunctions } from 'src/app/main/common/global-functions';
+import { GlobalService } from "../../../../../services/global.service";
+import { CONSTANTS } from "../../../../common/constants";
 import { PromoteService } from '../promote.service';
-import {CONSTANTS} from "../../../../common/constants";
+import { SnotifyService } from 'ng-snotify';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-types',
@@ -15,6 +16,7 @@ export class UserTypesComponent implements OnInit {
   nId: any;
   constants: any = CONSTANTS;
   userTypesForm: any;
+  notificationObj: any = {};
   isLoading: boolean = false;
 
   constructor(
@@ -23,13 +25,19 @@ export class UserTypesComponent implements OnInit {
     private _promoteService: PromoteService,
     private _router: Router,
     private _globalFunctions: GlobalFunctions,
+    private _globalService: GlobalService,
   ) { }
 
   ngOnInit(): void {
     this.nId = localStorage.getItem('nId');
     if (this.nId && this.nId != '') {
       this._prepareUserTypesForm();
-      this.getNotificationById();
+      this.notificationObj = this._globalService.promoteNotification$.getValue();
+      if (this.notificationObj && this.notificationObj._id && this.notificationObj._id != '') {
+        this._prepareUserTypesForm(this.notificationObj);
+      } else {
+        this.getNotificationById();
+      }
     } else {
       this._router.navigate(['notifications']);
     }
@@ -39,6 +47,7 @@ export class UserTypesComponent implements OnInit {
     this.isLoading = true;
     this._promoteService.getNotificationById(this.nId).subscribe((result: any) => {
       if (result && result.IsSuccess) {
+        this._globalService.promoteNotification$.next(result.Data);
         this._prepareUserTypesForm(result.Data);
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
@@ -69,6 +78,7 @@ export class UserTypesComponent implements OnInit {
     this.isLoading = true;
     this._promoteService.saveUserType(this.userTypesForm.value).subscribe((result: any) => {
       if (result && result.IsSuccess) {
+        this._globalService.promoteNotification$.next(result.Data);
         this._sNotify.success('User Type Selected Successfully.', 'Success');
         this._router.navigate(['/notifications/promote/users']);
         this.isLoading = false;

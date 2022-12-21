@@ -1,4 +1,4 @@
-import {Component, OnInit, EventEmitter, Input, Output} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {CONSTANTS} from 'src/app/main/common/constants';
 import {GlobalFunctions} from 'src/app/main/common/global-functions';
@@ -111,7 +111,6 @@ export class ArrangementStepComponent implements OnInit {
   }
 
   onNextStep(): void {
-    
     this.isLoading = true;
     const preparedObj: any = this.prepareObj(this.arrangementsArr);
     this._createEventService.arrangements(preparedObj).subscribe((result: any) => {
@@ -133,8 +132,12 @@ export class ArrangementStepComponent implements OnInit {
     preparedObj.eventid = this.eventId;
     preparedObj.seating_arrangements = [];
     arrangementsArr.forEach((arrangement: any) => {
-      const tmpArrangement: any = arrangement;
-      tmpArrangement.seating_item = arrangement.seating_item._id;
+      arrangement.seating_item = arrangement.seating_item._id;
+      _.each(arrangement.arrangements, (arrangementSeating: any) => {
+        arrangementSeating.per_person_price = Number(arrangementSeating.per_person_price).toFixed(2);
+        arrangementSeating.per_seating_price = Number(arrangementSeating.per_seating_price).toFixed(2);
+        arrangementSeating.total_amount = Number(arrangementSeating.total_amount).toFixed(2);
+      });
       preparedObj.seating_arrangements.push(arrangement);
     });
     return preparedObj;

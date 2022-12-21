@@ -10,6 +10,12 @@ import {ProfileComponent} from './main/content/profile/profile.component';
 import {LandingPageComponent} from './main/content/landing-page/landing-page.component';
 import { ShopOverviewComponent } from './main/content/offline-shops/shop-overview/shop-overview.component';
 import { OfferOverviewComponent } from './main/content/offline-shops/shop-overview/offer-overview/offer-overview.component';
+import { ReferAndEarnComponent } from './main/content/refer-and-earn/refer-and-earn.component';
+import { RedeemCoinComponent } from './main/content/redeem-coin/redeem-coin.component';
+import { FaqAndHelpComponent } from './main/content/faq-and-help/faq-and-help.component';
+import { GalleryComponent } from './main/content/gallery/gallery.component';
+import { OurProductComponent } from './main/content/our-product/our-product.component';
+import { BookingComponent } from './main/content/booking/booking.component';
 
 const routes: Routes = [
 
@@ -83,6 +89,30 @@ const routes: Routes = [
         loadChildren: () => import('./main/content/notifications/notifications.module').then(m => m.NotificationsModule)
       },
       {
+        path: 'refer-and-earn',
+        component: ReferAndEarnComponent
+      },
+      {
+        path: 'redeem',
+        component: RedeemCoinComponent
+      },
+      {
+        path: 'faq-and-help',
+        component: FaqAndHelpComponent
+      },
+      {
+        path: 'gallery',
+        component: GalleryComponent
+      },
+      {
+        path: 'our-product',
+        component: OurProductComponent
+      },
+      {
+        path: 'booking',
+        component: BookingComponent
+      },
+      {
         path: 'buy-space-plans',
         component: BuySpacePlansComponent
       },
@@ -92,7 +122,7 @@ const routes: Routes = [
       }
     ]
   },
-  { path: '**', redirectTo: '/event' },
+  { path: '**', redirectTo: '/events' },
 
 ];
 

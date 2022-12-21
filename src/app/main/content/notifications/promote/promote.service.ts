@@ -30,9 +30,24 @@ export class PromoteService {
     return this.http.post(environment.appURL + 'organizer/notification/setschedule', scheduleObj, this._globalFunctions.getAuthorizationHeader());
   }
 
-  // Import CSV File Api
-  getImportedUsersList(usersObj: any): any {
-    return this.http.post(environment.appURL + 'organizer/notification/userlist', usersObj, this._globalFunctions.getAuthorizationHeader());
+  // Get Imported Users List Api
+  getImportedUsersList(filterObj: any): any {
+    return this.http.post(environment.appURL + 'organizer/notification/userlist', filterObj, this._globalFunctions.getAuthorizationHeader());
+  }
+
+  // Check User Api
+  checkAllUser(checkAllUserObj: any): any {
+    return this.http.post(environment.appURL + 'organizer/notification/checkalluser', checkAllUserObj, this._globalFunctions.getAuthorizationHeader());
+  }
+
+  // Check User Api
+  checkUser(checkUserObj: any): any {
+    return this.http.post(environment.appURL + 'organizer/notification/checkuser', checkUserObj, this._globalFunctions.getAuthorizationHeader());
+  }
+
+  // Get Coupon Api
+  getCouponsList(): any {
+    return this.http.get(environment.appURL + 'organizer/notificationcoupons/list', this._globalFunctions.getAuthorizationHeader());
   }
 
   // Import CSV File Api

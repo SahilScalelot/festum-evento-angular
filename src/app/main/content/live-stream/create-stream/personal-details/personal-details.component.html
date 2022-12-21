@@ -1,70 +1,105 @@
+<p-progressSpinner *ngIf="isLoading" [style]="{width: '50px', height: '50px'}" animationDuration=".5s" strokeWidth="8" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-x-0 top-0 h-full w-full z-40" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
+<div class="px-2">
+  <form [formGroup]="personalDetailForm">
+    <!-- main-content  -->
+    <div class="w-full flex items-end flex-wrap">
+      <div class="w-full px-2 inputHolder relative">
+        <span class="input-titel">Full Name (Mr / Mrs / Ms) <span>*</span></span>
+        <input [formControlName]="'full_name'" class="input" name="full_name" required type="text"/>
+          <span class="absolute top-full text-red-500 text-xs" *ngIf="personalDetailForm.get('full_name')?.invalid && (personalDetailForm.get('full_name')?.dirty && personalDetailForm.get('full_name')?.touched)">
+          <span *ngIf="personalDetailForm.get('full_name')?.errors?.['required']">Full Name is required</span>
+        </span>
+      </div>
+    </div>
+    <div class="w-full flex items-end flex-wrap">
+      <div class="w-full md:w-1/2 lg:w-1/3 px-2 py-2 lg:py-0 inputHolder relative">
+        <div class="input-label-holder">
+          <label class="input-titel">Mobile Number <span>*</span></label>
+          <label class="input-checkd anim cursor-pointer"><input [formControlName]="'is_mobile_hidden'" class="mr-2 cursor-pointer" name="is_mobile_hidden" type="checkbox"/>Hidden</label>
+        </div>
+        <input [formControlName]="'mobile_no'" class="input" name="mobile_no" required type="text" fuseValidNumber/>
+        <span class="absolute top-full text-red-500 text-xs" *ngIf="personalDetailForm.get('mobile_no')?.invalid && (personalDetailForm.get('mobile_no')?.dirty && personalDetailForm.get('mobile_no')?.touched)">
+          <span *ngIf="personalDetailForm.get('mobile_no')?.errors?.['required']">Mobile Number is Required.</span>
+          <span *ngIf="personalDetailForm.get('mobile_no')?.errors?.['pattern']">Please enter valid Mobile Number.</span>
+        </span>
+      </div>
 
-              <!-- main-content  -->
-              <div class="space-y-5 -mx-2">
-                <div class="w-full flex items-end flex-wrap">
-                  <div class="w-full px-2 inputHolder">
-                      <span class="input-titel">Full Name (Mr / Mrs / Ms) <span>*</span></span>
-                      <input type="text" class="input" required />
-                  </div>
-                </div> 
-                <div class="w-full flex items-end flex-wrap">
-                  <div class="w-full md:w-1/2 lg:w-1/3 px-2 py-2 lg:py-0 inputHolder">
-                      <div class="input-label-holder">
-                        <label class="input-titel">Mobile Number <span>*</span></label>
-                        <div class="input-checkd anim"><input type="checkbox" class="mr-2" />Hidden</div>
-                      </div>
-                      <input type="text" class="input" required/>
-                  </div>
-                  <div class="w-full md:w-1/2 lg:w-1/3 px-2 py-2 lg:py-0 inputHolder">
-                    <div class="input-label-holder">
-                      <label class="input-titel">Alternative Mobile Number(optional)</label>
-                      <div class="input-checkd anim"><input type="checkbox" class="mr-2" />Hidden</div>
-                    </div>
-                      <input type="text" class="input" />
-                  </div>
-                  <div class="w-full md:w-1/2 lg:w-1/3 px-2 py-2 lg:py-0 inputHolder">
-                      <div class="input-label-holder">
-                        <label class="input-titel">Email Address <span>*</span></label>
-                        <div class="input-checkd anim"><input type="checkbox" class="mr-2" />Hidden</div>
-                      </div>
-                      <input type="text" class="input" required />
-                  </div>
-                </div>
-                <div class="">
-                  <h5 class="px-2">Address</h5>
-                  <div class="w-full flex flex-wrap">
-                      <div class="w-full md:w-1/2 lg:w-1/3 px-2 py-2 inputHolder">
-                          <span class="input-titel">Flat No.</span>
-                          <input type="text" class="input" required />
-                      </div>
-                      <div class="w-full md:w-1/2 lg:w-1/3 px-2 py-2 inputHolder">
-                          <span class="input-titel">Street Name.</span>
-                          <input type="text" class="input" />
-                      </div>
-                      <div class="w-full md:w-1/2 lg:w-1/3 px-2 py-2 inputHolder">
-                          <span class="input-titel">Area Name.</span>
-                          <input type="text" class="input" required />
-                      </div>
-                      <div class="w-full md:w-1/2 lg:w-1/3 px-2 py-2 inputHolder">
-                          <label class="input-titel">City <span>*</span></label>
-                          <input type="text" class="input" required />
-                      </div>
-                      <div class="w-full md:w-1/2 lg:w-1/3 px-2 py-2 inputHolder">
-                          <label class="input-titel">State <span>*</span></label>
-                          <input type="text" class="input" required />
-                      </div>
-                      <div class="w-full md:w-1/2 lg:w-1/3 px-2 py-2 inputHolder">
-                          <label class="input-titel">Pincode <span>*</span></label>
-                          <input type="text" class="input" required />
-                      </div>
-                    </div>
-                </div>
-              </div>
-              <!-- advisement -->
-              <div class="w-full mt-5">
-                  <img src="../assets/images/ad-banner.png" alt="ring-ad" class="w-full object-cover" />
-              </div>
-            <div class="prw-next-btn">
-              <button type="button" class="flex items-center"><i class="icon-left_arrow mr-3"></i><h5>Back</h5></button>
-              <button type="button" class="flex items-center active"><h5>Next</h5><i class="icon-right_arrow ml-3"></i></button>
-            </div>
+      <div class="w-full md:w-1/2 lg:w-1/3 px-2 py-2 lg:py-0 inputHolder relative">
+        <div class="input-label-holder">
+          <label class="input-titel">Alternative Mobile Number(optional)</label>
+          <label class="input-checkd anim cursor-pointer"><input [formControlName]="'is_alt_mobile_hidden'" class="mr-2 cursor-pointer" name="is_alt_mobile_hidden" type="checkbox"/>Hidden</label>
+        </div>
+        <input [formControlName]="'alt_mobile_no'" class="input" name="alt_mobile_no" type="text" fuseValidNumber/>
+          <span class="absolute top-full text-red-500 text-xs" *ngIf="personalDetailForm.get('alt_mobile_no')?.invalid && (personalDetailForm.get('alt_mobile_no')?.dirty && personalDetailForm.get('alt_mobile_no')?.touched)">
+          <span *ngIf="personalDetailForm.get('alt_mobile_no')?.errors?.['pattern']">Please enter valid Alternate Mobile Number.</span>
+        </span>
+      </div>
+      <div class="w-full md:w-1/2 lg:w-1/3 px-2 py-2 lg:py-0 inputHolder relative">
+        <div class="input-label-holder">
+          <label class="input-titel">Email Address <span>*</span></label>
+          <label class="input-checkd anim"><input [formControlName]="'is_email_hidden'" class="mr-2 cursor-pointer" name="is_email_hidden" type="checkbox"/>Hidden</label>
+        </div>
+        <input [formControlName]="'email'" class="input" name="email" required type="text"/>
+        <span class="absolute top-full text-red-500 text-xs" *ngIf="personalDetailForm.get('email')?.invalid && (personalDetailForm.get('email')?.dirty && personalDetailForm.get('email')?.touched)">
+          <span *ngIf="personalDetailForm.get('email')?.errors?.['required']">Email is required</span>
+          <span *ngIf="personalDetailForm.get('email')?.errors?.['pattern']">Please enter valid Email</span>
+        </span>
+      </div>
+    </div>
+    <div class="space-y-5">
+      <h5 class="px-2">Address</h5>
+      <div class="w-full flex flex-wrap">
+        <div class="w-full md:w-1/2 lg:w-1/3 px-2 mb-5 inputHolder">
+          <span class="input-titel">Flat No.</span>
+          <input [formControlName]="'flat_no'" class="input" name="flat_no" type="text"/>
+        </div>
+        <div class="w-full md:w-1/2 lg:w-1/3 px-2 mb-5 inputHolder">
+          <span class="input-titel">Street Name.</span>
+          <input [formControlName]="'street'" class="input" name="street" type="text"/>
+        </div>
+        <div class="w-full md:w-1/2 lg:w-1/3 px-2 mb-5 inputHolder">
+          <span class="input-titel">Area Name.</span>
+          <input [formControlName]="'area'" class="input" name="area" type="text"/>
+        </div>
+        <div class="w-full md:w-1/2 lg:w-1/3 px-2 mb-5 inputHolder relative">
+          <label class="input-titel">City <span>*</span></label>
+          <input [formControlName]="'city'" class="input" name="city" required type="text"/>
+            <span class="absolute top-full text-red-500 text-xs" *ngIf="personalDetailForm.get('city')?.invalid && (personalDetailForm.get('city')?.dirty && personalDetailForm.get('city')?.touched)">
+            <span *ngIf="personalDetailForm.get('city')?.errors?.['required']">City is required</span>
+          </span>
+        </div>
+        <div class="w-full md:w-1/2 lg:w-1/3 px-2 mb-5 inputHolder relative">
+          <label class="input-titel">State <span>*</span></label>
+          <input [formControlName]="'state'" class="input" name="state" required type="text"/>
+            <span class="absolute top-full text-red-500 text-xs" *ngIf="personalDetailForm.get('state')?.invalid && (personalDetailForm.get('state')?.dirty && personalDetailForm.get('state')?.touched)">
+            <span *ngIf="personalDetailForm.get('state')?.errors?.['required']">State is required</span>
+          </span>
+        </div>
+        <div class="w-full md:w-1/2 lg:w-1/3 px-2 mb-5 inputHolder relative">
+          <label class="input-titel">Pincode <span>*</span></label>
+          <input [formControlName]="'pincode'" class="input" name="pincode" required type="text" fuseValidNumber/>
+          <span class="absolute top-full text-red-500 text-xs" *ngIf="personalDetailForm.get('pincode')?.invalid && (personalDetailForm.get('pincode')?.dirty && personalDetailForm.get('pincode')?.touched)">
+            <span *ngIf="personalDetailForm.get('pincode')?.errors?.['required']">Pincode is required</span>
+            <span *ngIf="personalDetailForm.get('pincode')?.errors?.['pattern']">Please enter valid Pincode.</span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="mt-auto">
+  <div class="w-full mt-5">
+    <img alt="ring-ad" class="w-full object-cover" src="assets/images/banner-ads.png"/>
+  </div>
+  <div class="prw-next-btn">
+    <button [routerLink]="'/live-stream/create/company-details'" class="flex items-center active" type="button">
+      <i class="icon-left_arrow mr-3"></i>
+      <h5>Back</h5>
+    </button>
+    <button (click)="nextStep()" class="flex items-center active" type="button">
+      <h5>Next</h5>
+      <i class="icon-right_arrow ml-3"></i>
+    </button>
+  </div>
+</div>
