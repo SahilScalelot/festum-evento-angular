@@ -11,6 +11,7 @@ import { SharedModule } from 'primeng/api';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CalendarModule } from 'primeng/calendar';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { RatingModule } from 'primeng/rating';
 
 const routes: Routes = [
   {
@@ -28,7 +29,7 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     LiveStreamComponent,
-    StreamOverviewComponent,
+    StreamOverviewComponent
   ],
   imports: [
     RouterModule.forChild(routes),
@@ -41,6 +42,7 @@ const routes: Routes = [
     ProgressSpinnerModule,
     PaginatorModule,
     ImageModule,
+    RatingModule
   ]
 })
 export class LiveStreamModule { }

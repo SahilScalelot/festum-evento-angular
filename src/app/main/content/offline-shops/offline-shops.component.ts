@@ -33,7 +33,7 @@ export class OfflineShopsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    localStorage.removeItem('eId');
+    this._globalFunctions.removeIdsFromLocalStorage();
     this.getOfflineShops();
   }
 

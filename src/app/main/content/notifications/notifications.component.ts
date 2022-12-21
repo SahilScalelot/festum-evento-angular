@@ -22,7 +22,7 @@ export class NotificationsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    localStorage.removeItem('nId');
+    this._globalFunctions.removeIdsFromLocalStorage();
 
     this.getOnlineShopOffers();
   }

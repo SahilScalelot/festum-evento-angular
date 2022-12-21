@@ -1,8 +1,0 @@
-.user_type {
-    > input:checked + span {
-        opacity: 1;
-    }
-    > input:checked ~ p {
-        @apply text-magicPotion;
-    }
-}

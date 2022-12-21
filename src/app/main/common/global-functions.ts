@@ -197,7 +197,7 @@ export class GlobalFunctions {
     });
   }
 
-  generateThumbnail(videoFile: Blob) {
+  generateThumbnail(videoFile: Blob): any {
     const video: HTMLVideoElement = this.document.createElement('video');
     const canvas: HTMLCanvasElement = this.document.createElement('canvas');
     const context: CanvasRenderingContext2D | any = canvas.getContext('2d');
@@ -219,7 +219,7 @@ export class GlobalFunctions {
     });
   }
 
-  dataURItoBlob(dataURI: string) {
+  dataURItoBlob(dataURI: string): any {
     // convert base64/URLEncoded data component to raw binary data held in a string
     var byteString;
     if (dataURI.split(',')[0].indexOf('base64') >= 0) {
@@ -246,10 +246,17 @@ export class GlobalFunctions {
     return new File([blob], `${file?.name.split('.')[0]}.jpeg`, { type: "image/jpeg" });
   }
 
-  base64ToImage(base64String: string, imageName: string = '') {
+  base64ToImage(base64String: string, imageName: string = ''): any {
     let blob = this.dataURItoBlob(base64String);
     let name = (imageName && imageName != '') ? imageName : new Date().valueOf();
     return new File([blob], name + '.jpeg', { type: "image/jpeg" });
+  }
+
+  removeIdsFromLocalStorage(): void {
+    localStorage.removeItem('eId');
+    localStorage.removeItem('oOId');
+    localStorage.removeItem('nId');
+    localStorage.removeItem('lsId');
   }
 
 }

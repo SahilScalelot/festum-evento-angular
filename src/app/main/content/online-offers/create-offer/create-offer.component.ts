@@ -99,7 +99,7 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    localStorage.removeItem('oOId');
+    this._globalFunctions.removeIdsFromLocalStorage();
   }
 
   getPlatformList(): void {
