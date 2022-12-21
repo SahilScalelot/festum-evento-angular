@@ -28,8 +28,7 @@ export class OnlineOffersComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    localStorage.removeItem('oOId');
-    localStorage.removeItem('eId');
+    this._globalFunctions.removeIdsFromLocalStorage();
     this.getPlatformList();
     this.getOnlineShopOffers();
   }

@@ -3,16 +3,14 @@
   <form [formGroup]="personalDetailForm">
     <!-- main-content  -->
     <div class="w-full flex items-end flex-wrap">
-      <div class="w-full px-2 inputHolder relative">
+      <div class="w-full px-2 pt-5 pb-0.5 inputHolder relative">
         <span class="input-titel">Full Name (Mr / Mrs / Ms) <span>*</span></span>
         <input [formControlName]="'full_name'" class="input" name="full_name" required type="text"/>
           <span class="absolute top-full text-red-500 text-xs" *ngIf="personalDetailForm.get('full_name')?.invalid && (personalDetailForm.get('full_name')?.dirty && personalDetailForm.get('full_name')?.touched)">
           <span *ngIf="personalDetailForm.get('full_name')?.errors?.['required']">Full Name is required</span>
         </span>
       </div>
-    </div>
-    <div class="w-full flex items-end flex-wrap">
-      <div class="w-full md:w-1/2 lg:w-1/3 px-2 py-2 lg:py-0 inputHolder relative">
+      <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-5 pb-0.5 inputHolder relative">
         <div class="input-label-holder">
           <label class="input-titel">Mobile Number <span>*</span></label>
           <label class="input-checkd anim cursor-pointer"><input [formControlName]="'is_mobile_hidden'" class="mr-2 cursor-pointer" name="is_mobile_hidden" type="checkbox"/>Hidden</label>
@@ -23,8 +21,7 @@
           <span *ngIf="personalDetailForm.get('mobile_no')?.errors?.['pattern']">Please enter valid Mobile Number.</span>
         </span>
       </div>
-
-      <div class="w-full md:w-1/2 lg:w-1/3 px-2 py-2 lg:py-0 inputHolder relative">
+      <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-5 pb-0.5 inputHolder relative">
         <div class="input-label-holder">
           <label class="input-titel">Alternative Mobile Number(optional)</label>
           <label class="input-checkd anim cursor-pointer"><input [formControlName]="'is_alt_mobile_hidden'" class="mr-2 cursor-pointer" name="is_alt_mobile_hidden" type="checkbox"/>Hidden</label>
@@ -34,7 +31,7 @@
           <span *ngIf="personalDetailForm.get('alt_mobile_no')?.errors?.['pattern']">Please enter valid Alternate Mobile Number.</span>
         </span>
       </div>
-      <div class="w-full md:w-1/2 lg:w-1/3 px-2 py-2 lg:py-0 inputHolder relative">
+      <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-5 pb-0.5 inputHolder relative">
         <div class="input-label-holder">
           <label class="input-titel">Email Address <span>*</span></label>
           <label class="input-checkd anim"><input [formControlName]="'is_email_hidden'" class="mr-2 cursor-pointer" name="is_email_hidden" type="checkbox"/>Hidden</label>
@@ -46,36 +43,36 @@
         </span>
       </div>
     </div>
-    <div class="space-y-5">
+    <div class="pt-8">
       <h5 class="px-2">Address</h5>
       <div class="w-full flex flex-wrap">
-        <div class="w-full md:w-1/2 lg:w-1/3 px-2 mb-5 inputHolder">
+        <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-5 pb-0.5 inputHolder">
           <span class="input-titel">Flat No.</span>
           <input [formControlName]="'flat_no'" class="input" name="flat_no" type="text"/>
         </div>
-        <div class="w-full md:w-1/2 lg:w-1/3 px-2 mb-5 inputHolder">
+        <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-5 pb-0.5 inputHolder">
           <span class="input-titel">Street Name.</span>
           <input [formControlName]="'street'" class="input" name="street" type="text"/>
         </div>
-        <div class="w-full md:w-1/2 lg:w-1/3 px-2 mb-5 inputHolder">
+        <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-5 pb-0.5 inputHolder">
           <span class="input-titel">Area Name.</span>
           <input [formControlName]="'area'" class="input" name="area" type="text"/>
         </div>
-        <div class="w-full md:w-1/2 lg:w-1/3 px-2 mb-5 inputHolder relative">
+        <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-5 pb-0.5 inputHolder relative">
           <label class="input-titel">City <span>*</span></label>
           <input [formControlName]="'city'" class="input" name="city" required type="text"/>
             <span class="absolute top-full text-red-500 text-xs" *ngIf="personalDetailForm.get('city')?.invalid && (personalDetailForm.get('city')?.dirty && personalDetailForm.get('city')?.touched)">
             <span *ngIf="personalDetailForm.get('city')?.errors?.['required']">City is required</span>
           </span>
         </div>
-        <div class="w-full md:w-1/2 lg:w-1/3 px-2 mb-5 inputHolder relative">
+        <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-5 pb-0.5 inputHolder relative">
           <label class="input-titel">State <span>*</span></label>
           <input [formControlName]="'state'" class="input" name="state" required type="text"/>
             <span class="absolute top-full text-red-500 text-xs" *ngIf="personalDetailForm.get('state')?.invalid && (personalDetailForm.get('state')?.dirty && personalDetailForm.get('state')?.touched)">
             <span *ngIf="personalDetailForm.get('state')?.errors?.['required']">State is required</span>
           </span>
         </div>
-        <div class="w-full md:w-1/2 lg:w-1/3 px-2 mb-5 inputHolder relative">
+        <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-5 pb-0.5 inputHolder relative">
           <label class="input-titel">Pincode <span>*</span></label>
           <input [formControlName]="'pincode'" class="input" name="pincode" required type="text" fuseValidNumber/>
           <span class="absolute top-full text-red-500 text-xs" *ngIf="personalDetailForm.get('pincode')?.invalid && (personalDetailForm.get('pincode')?.dirty && personalDetailForm.get('pincode')?.touched)">

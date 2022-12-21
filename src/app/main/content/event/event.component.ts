@@ -1,6 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {SnotifyService} from 'ng-snotify';
-import {GlobalService} from 'src/app/services/global.service';
 import {CONSTANTS} from '../../common/constants';
 import {EventService} from './event.service';
 import {GlobalFunctions} from "../../common/global-functions";
@@ -27,9 +25,7 @@ export class EventComponent implements OnInit {
 
   constructor(
     private _eventService: EventService,
-    private _sNotify: SnotifyService,
     private _router: Router,
-    private _globalService: GlobalService,
     private _globalFunctions: GlobalFunctions,
     private _primengConfig: PrimeNGConfig,
   ) {
@@ -37,7 +33,7 @@ export class EventComponent implements OnInit {
 
   ngOnInit(): void {
     this.selectedEventIds = [];
-    localStorage.removeItem('eId');
+    this._globalFunctions.removeIdsFromLocalStorage();
     this.getEvent();
     this._primengConfig.ripple = true;
   }
