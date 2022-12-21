@@ -10,8 +10,9 @@
   <div class="space-y-5 pt-10" *ngIf="!isLoading">
     <div class="w-full flex items-center" *ngFor="let liveStream of liveStreamObj" (click)="liveStreamOverview($event, liveStream?._id)">
       <div class="w-full p-4 pr-7 bg-white rounded">
-        <div class="flex flex-wrap lg:flex-nowrap lg:space-x-5">
-          <div class="relative w-full lg:max-w-[335px]">
+        <div class="flex flex-wrap lg:flex-nowrap lg:items-center lg:space-x-5">
+          <div class="relative w-full h-full lg:max-w-[335px] lg:max-h-48 overflow-hidden rounded">
+            <span class="absolute py-1.5 px-3 top-0 left-0 bg-magicPotion text-white uppercase rounded text-xs" [ngClass]="{'hidden': !liveStream?.status}">Live</span>
             <img [src]="!!(liveStream?.photos[0]?.url) ? constants.baseImageURL + liveStream.photos[0].url : constants.defaultImage" [alt]="liveStream?.event_name" class="w-full h-full object-cover pb-5 lg:pb-0" />
           </div>
           <div class="w-full pt-5 lg:pt-0">
@@ -25,7 +26,7 @@
                   </div>
                   <div class="border-l-2 border-brightGray pl-3 lg:pl-7 ml-3 lg:ml-7">
                     <div class="text-sm font-semibold text-quicksilver pt-3"><i class="icon-time mr-3"></i>Time</div>
-                    <span class="text-japaneseIndigo text-sm font-bold">{{liveStream?.event_start_time}} - {{liveStream?.event_end_time}}</span>
+                    <span class="text-japaneseIndigo text-sm font-bold uppercase">{{liveStream?.event_start_time | convertFrom24To12Format}} - {{liveStream?.event_end_time | convertFrom24To12Format}}</span>
                   </div>
                 </div>
               </div>
@@ -34,7 +35,6 @@
                   [ngClass]="{'secondary': liveStream?.status}"
                 ><i class="icon-live mr-3"></i>go live</button>
                 <p class="capitalize text-magicPotion font-semibold pt-5" [ngClass]="{'text-caribbeanGreen': liveStream?.status}">{{liveStream?.event_type}} live streaming</p>
-                <!-- <button class="secondary anim px-5 py-2"><a href="javascript:void(0);" class="capitalize"><i class="icon-live mr-3"></i>go live</a></button> -->
               </div>
             </div>
             <div class="flex justify-between pt-4">

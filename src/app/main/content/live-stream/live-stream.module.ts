@@ -12,6 +12,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CalendarModule } from 'primeng/calendar';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { RatingModule } from 'primeng/rating';
+import { Time24to12Format } from 'src/app/pipe/time24to12.pipe';
 
 const routes: Routes = [
   {
@@ -29,7 +30,8 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     LiveStreamComponent,
-    StreamOverviewComponent
+    StreamOverviewComponent,
+    Time24to12Format
   ],
   imports: [
     RouterModule.forChild(routes),

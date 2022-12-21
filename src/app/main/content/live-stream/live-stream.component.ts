@@ -95,7 +95,7 @@ export class LiveStreamComponent implements OnInit {
   
   liveStreamOverview(event: any, offerId: any): void {
     event.stopPropagation();
-    this._router.navigate(['/online-offers/' + offerId]);
+    this._router.navigate(['/live-stream/' + offerId]);
   }
   
 

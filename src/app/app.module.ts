@@ -10,12 +10,10 @@ import { GlobalFunctions } from './main/common/global-functions';
 import { MainModule } from './main/main.module';
 import { GlobalService } from './services/global.service';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { Time24to12Format } from './main/common/time24to12.pipe';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    Time24to12Format
+    AppComponent
   ],
   imports: [
     BrowserModule,
