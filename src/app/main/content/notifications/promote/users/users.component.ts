@@ -27,9 +27,10 @@ export class UsersComponent implements OnInit {
   tmpSelectedPlan: any = '';
   totalUsersCount: any = 0;
   pageObj: any = {};
+  math: any = Math;
 
   get totalOptions() {
-    return new Array(Math.ceil(this.totalUsersCount / 100));
+    return new Array(this.totalUsersCount ? (Math.ceil(this.totalUsersCount / Math.ceil(this.totalUsersCount / 10))) : 0);
   }
 
   constructor(
