@@ -21,6 +21,7 @@ export class StreamOverviewComponent implements OnInit {
   overview: boolean = true;
   attendee: boolean = false;
   reviews: boolean = false;
+  subscription: boolean = false;
 
   zoom: number = CONSTANTS.defaultMapZoom;
   // initial center position for the map
@@ -36,10 +37,10 @@ export class StreamOverviewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getEvent();    
+    this.getLiveStreamObj();
   }
 
-  getEvent(): void {
+  getLiveStreamObj(): void {
     this.isLoading = true;
     const liveStreamId = this._activatedRoute.snapshot.paramMap.get('id');
     this._liveStreamService.getLiveStreamById(liveStreamId).subscribe((result: any) => {
@@ -56,13 +57,15 @@ export class StreamOverviewComponent implements OnInit {
   }
 
   onTabChange(tabVarName: any): void {
-    this.overview = this.attendee = this.reviews = false;
+    this.overview = this.attendee = this.reviews = this.subscription = false;
     if (tabVarName == 'overview') {
       this.overview = true;
     } else if (tabVarName == 'attendee') {
       this.attendee = true;
     } else if (tabVarName == 'reviews') {
       this.reviews = true;
+    } else if (tabVarName == 'subscription') {
+      this.subscription = true;
     }
   }
 
