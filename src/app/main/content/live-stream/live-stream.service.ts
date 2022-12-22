@@ -17,12 +17,12 @@ export class LiveStreamService {
 
   // Get Live Stream By Id Api
   getLiveStreamById(liveStreamId: any): any {
-    return this.http.post(environment.appURL + 'organizer/livestream/getone', {LiveStreamid: liveStreamId}, this._globalFunctions.getAuthorizationHeader());
+    return this.http.post(environment.appURL + 'organizer/livestream/getone', {livestreamid: liveStreamId}, this._globalFunctions.getAuthorizationHeader());
   }
   
   // Get Live Stream By Id Api
   removeLiveStreamById(liveStreamId: any): any {
-    return this.http.post(environment.appURL + 'organizer/livestream/remove', {LiveStreamid: liveStreamId}, this._globalFunctions.getAuthorizationHeader());
+    return this.http.post(environment.appURL + 'organizer/livestream/remove', {livestreamid: liveStreamId}, this._globalFunctions.getAuthorizationHeader());
   }
 
 }

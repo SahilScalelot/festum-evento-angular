@@ -13,9 +13,10 @@ export class CreateStreamComponent implements OnInit {
   constructor(private _router: Router) { }
 
   ngOnInit(): void {
-    // if (!localStorage.getItem('lSId') || localStorage.getItem('lSId') == '') {
-    //   this._router.navigate(['/live-stream']);
-    // }
+    
+    if (!localStorage.getItem('lsId') || localStorage.getItem('lsId') == '') {
+      this._router.navigate(['/live-stream/create/stream']);
+    }
 
     this.items = [
       {

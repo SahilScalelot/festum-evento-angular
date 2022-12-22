@@ -17,7 +17,7 @@ export class LiveStreamComponent implements OnInit {
   paging: any;
   platformsArr: any = [];
   platformsId: any = '';
-  tmpOfferObj: any = {};
+  tmpLSObj: any = {};
   isDeleteLoading: boolean = false;
 
   constructor(
@@ -28,7 +28,7 @@ export class LiveStreamComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    localStorage.removeItem('lsId');
+    this._globalFunctions.removeIdsFromLocalStorage();
     this.getLiveStreamObj();
   }
 
@@ -64,38 +64,38 @@ export class LiveStreamComponent implements OnInit {
   }
 
   
-  // Delete Online Offer
-  openDeleteDialog(event: any, offerId: any): void {
+  // Delete Live Stream
+  openDeleteDialog(event: any, LiveStreamId: any): void {
     event.stopPropagation();
-    this.tmpOfferObj = offerId;
-    this._modalService.open("delete-shop-pop");
+    this.tmpLSObj = LiveStreamId;
+    this._modalService.open("delete-ls-pop");
   }
 
   closeDeleteDialog(): void {
-    this.tmpOfferObj = {};
-    this._modalService.close("delete-shop-pop");
+    this.tmpLSObj = {};
+    this._modalService.close("delete-ls-pop");
   }
 
-  deleteOfflineShops(): void {
+  deleteLiveStream(): void {
     this.isDeleteLoading = true;
-    // this._onlineOffersService.removeOnlineOfferById(this.tmpOfferObj).subscribe((result: any) => {
-    //   if (result && result.IsSuccess) {
-    //     this.isDeleteLoading = false;
-    //     this.getOnlineShopOffers();
-    //     this.closeDeleteDialog();
-    //   } else {
-    //     this._globalFunctions.successErrorHandling(result, this, true);
-    //     this.isDeleteLoading = false;
-    //   }
-    // }, (error: any) => {
-    //   this._globalFunctions.errorHanding(error, this, true);
-    //   this.isDeleteLoading = false;
-    // });
+    this._liveStreamService.removeLiveStreamById(this.tmpLSObj._id).subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        this.isDeleteLoading = false;
+        this.getLiveStreamObj();
+        this.closeDeleteDialog();
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+        this.isDeleteLoading = false;
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isDeleteLoading = false;
+    });
   }
   
   liveStreamOverview(event: any, offerId: any): void {
     event.stopPropagation();
-    this._router.navigate(['/online-offers/' + offerId]);
+    this._router.navigate(['/live-stream/' + offerId]);
   }
   
 

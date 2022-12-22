@@ -1,481 +1,370 @@
-<div class="-mt-12 relative -z-10">
-  <img src="../assets/images/rainy-season-sale-big.png" alt="Rain Season Sale" class="w-full object-cover" />
-</div>
-<div class="wrapper -mt-14 z-10">
-  <div class="flex justify-between bg-white py-5 px-7 rounded-md">
-    <div>
-      <h2 class="pb-2 lg:pb-2">Live Stream Title 1</h2>
-      <div class="w-full flex flex-wrap space-y-2  xl:space-y-0">
-        <div class="pr-2.5 lg:pr-5">
-          <div class="flex items-center space-x-1 pt-1">
-            <i class="icon-rating text-[#ECA926]"></i>
-            <i class="icon-rating text-[#ECA926]"></i>
-            <i class="icon-rating text-[#ECA926]"></i>
-            <i class="icon-rating text-quicksilver"></i>
-            <i class="icon-rating text-quicksilver"></i>
+<p-progressSpinner *ngIf="isLoading" [style]="{width: '50px', height: '50px'}" animationDuration=".5s" strokeWidth="8" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-x-0 top-0 h-full w-full z-40" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
+<div *ngIf="liveStreamObj && !isLoading" class="">
+  <div class="-mt-12 relative -z-10">
+    <img [src]="!!(liveStreamObj?.photos[0]?.url) ? constants.baseImageURL + liveStreamObj.photos[0].url : constants.defaultImage" alt="cooking-together-bg" class="w-full object-cover max-h-80"/>
+  </div>
+  <div class="wrapper -mt-14 z-10">
+    <div class="flex justify-between bg-white py-5 px-7 rounded-md">
+      <div>
+        <h2 class="pb-2 lg:pb-2">{{liveStreamObj?.event_name}}</h2>
+        <div class="w-full flex flex-wrap space-y-2  xl:space-y-0">
+          <div class="pr-2.5 lg:pr-5">
+            <div class="flex items-center space-x-1 pt-1">
+              <i class="icon-rating text-[#ECA926]"></i>
+              <i class="icon-rating text-[#ECA926]"></i>
+              <i class="icon-rating text-[#ECA926]"></i>
+              <i class="icon-rating text-quicksilver"></i>
+              <i class="icon-rating text-quicksilver"></i>
+            </div>
+          </div>
+        </div>
+        <span class="bg-caribbeanGreen bg-opacity-20 font-bold px-2 text-caribbeanGreen text-sm capitalize p-1 inline-block mt-5">{{liveStreamObj?.event_type}} live streaming</span>
+      </div>
+      <div class="space-y-10 flex flex-col justify-between items-end">
+        <button class="bg-quicksilver text-white font-bold rounded-lg capitalize px-3 py-2"><i class="icon-live"></i><span class="pl-2.5 whitespace-nowrap">go live </span></button>
+        <div class="flex justify-end space-x-2">
+          <a href="javascript:void(0);" (click)="editEvent($event, liveStreamObj._id)" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-edit text-base text-black"></i></a>
+          <a href="javascript:void(0);" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-fill_megaphone text-base text-black"></i></a>
+          <a href="javascript:void(0);" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-share text-base text-black"></i></a>
+        </div>
+      </div>
+    </div>
+    <!-- tab-holder  -->
+    <div class="teb-holder">
+      <button [class]="overview ? 'active' : ''" (click)="onTabChange('overview')" type="button">Overview</button>
+      <button [class]="attendee ? 'active' : ''" (click)="onTabChange('attendee')" type="button">Attendee</button>
+      <button [class]="reviews ? 'active' : ''" (click)="onTabChange('reviews')" type="button">Reviews</button>
+      <button [class]="subscription ? 'active' : ''" (click)="onTabChange('subscription')" type="button">Subscription</button>
+    </div>
+    <!-- tab-contents-holder -->
+    <div class="pt-3.5 lg:pt-7">
+      <!--overview-tab-contents -->
+      <div class="relative tab-main active" [class]="!reviews && !subscription ? 'active' : ''" *ngIf="!reviews && !subscription">
+        <div class="flex flex-wrap">
+          <!-- left-bar -->
+          <div class="w-full lg:w-8/12 lg:pr-5 space-y-7" *ngIf="overview">
+            <!-- About Shop  -->
+            <div class="p-7 bg-white rounded-md space-y-2" *ngIf="liveStreamObj?.event_description">
+              <h3 class="text-lg">About Shop</h3>
+              <p class="text-quicksilver text-sm font-normal">{{liveStreamObj?.event_description}}</p>
+            </div>
+            <!-- Rainy season sale -->
+            <div class="space-y-2.5">
+              
+              <!-- Photo-holder -->
+              <div *ngIf="liveStreamObj.photos != ''" class="media-upload-holder">
+                <!-- media title  -->
+                <div class="flex justify-between items-center">
+                  <h3 class="text-lg">Photo</h3>
+                  <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(liveStreamObj.photos, true, false)">View All</a>
+                </div>
+                <!-- photo-holder -->
+                <div class="w-full">
+                  <div class="flex flex-wrap -mx-2">
+                    <div *ngFor="let img of liveStreamObj.photos" class="w-full lg:w-2/12 p-2 ov-p">
+                      <div class="rounded relative overflow-hidden bg-white h-24">
+                        <p-image [src]="!!(img?.url) ? constants.baseImageURL + img.url : constants.defaultImage" imageClass="w-full h-full object-cover rounded" styleClass="w-full h-full" [preview]="true"></p-image>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- videos-holder -->
+              <div *ngIf="liveStreamObj.videos != ''" class="media-upload-holder">
+                <!-- media title  -->
+                <div class="flex justify-between items-center">
+                  <h3 class="text-lg">Videos</h3>
+                  <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(liveStreamObj.videos, false, false)">View All</a>
+                </div>
+                <!-- media-holder -->
+                <div class="w-full">
+                  <div class="flex flex-wrap -mx-2">
+                    <div *ngFor="let video of liveStreamObj.videos" class="w-full lg:w-1/5 p-2 ov-p">
+                      <div class="rounded relative overflow-hidden h-28">
+                        <video [src]="!!(video?.url) ? constants.baseImageURL + video.url : constants.defaultImage" class="w-full h-full object-cover bg-white"></video>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Company Details -->
+            <div class="space-y-4" *ngIf="liveStreamObj?.companydetail?.about">
+              <h5>Company Details</h5>
+              <div class="p-7 bg-white rounded-md space-y-1">
+                <h3 class="text-lg">About Shop</h3>
+                <p class="text-quicksilver text-sm font-normal">{{liveStreamObj?.companydetail?.about}}</p>
+              </div>
+            </div>
+            <!-- Terms & Conditions -->
+            <div *ngIf="liveStreamObj?.tandc?.t_and_c != ''" class="space-y-4">
+              <h3 class="text-lg">Terms & Conditions</h3>
+              <div class="p-3.5 xl:p-5 bg-white rounded-md">
+                <div [innerHtml]="liveStreamObj?.tandc?.t_and_c"></div>
+              </div>
+            </div>
+            <!-- Social-Media -->
+            <div class="w-full space-y-3"
+            *ngIf="liveStreamObj?.tandc?.facebook && liveStreamObj?.tandc?.facebook != '' ||
+                  liveStreamObj?.tandc?.twitter && liveStreamObj?.tandc?.twitter != '' ||
+                  liveStreamObj?.tandc?.youtube && liveStreamObj?.tandc?.youtube != '' ||
+                  liveStreamObj?.tandc?.pinterest && liveStreamObj?.tandc?.pinterest != '' ||
+                  liveStreamObj?.tandc?.instagram && liveStreamObj?.tandc?.instagram != '' ||
+                  liveStreamObj?.tandc?.linkedin && liveStreamObj?.tandc?.linkedin != ''"
+                  >
+              <span class="block text-base lg:text-xl font-bold">Social Media</span>
+              <div class="flex items-center space-x-5 p-5 lg:p-7 bg-white rounded-lg">
+                <a *ngIf="liveStreamObj?.tandc?.facebook != ''" [href]="liveStreamObj?.tandc?.facebook" target="_blank">
+                  <img class="w-10 h-10 object-cover" alt="facebook" src="../assets/images/facebook.png" />
+                </a>
+                <a *ngIf="liveStreamObj?.tandc?.twitter != ''" [href]="liveStreamObj?.tandc?.twitter" target="_blank">
+                  <img class="w-10 h-10 object-cover" alt="twiiter" src="../assets/images/twiiter.png" />
+                </a>
+                <a *ngIf="liveStreamObj?.tandc?.youtube != ''" [href]="liveStreamObj?.tandc?.youtube" target="_blank">
+                  <img class="w-10 h-10 object-cover" alt="youtube" src="../assets/images/youtube.png" />
+                </a>
+                <a *ngIf="liveStreamObj?.tandc?.pinterest != ''" [href]="liveStreamObj?.tandc?.pinterest" target="_blank">
+                  <img class="w-10 h-10 object-cover" alt="pinterest" src="../assets/images/pinterest.png" />
+                </a>
+                <a *ngIf="liveStreamObj?.tandc?.instagram != ''" [href]="liveStreamObj?.tandc?.instagram" target="_blank">
+                  <img class="w-10 h-10 object-cover" alt="instagram" src="../assets/images/instagram.png" />
+                </a>
+                <a *ngIf="liveStreamObj?.tandc?.linkedin != ''" [href]="liveStreamObj?.tandc?.linkedin" target="_blank">
+                  <img class="w-10 h-10 object-cover" alt="linkdin" src="../assets/images/linked.png" />
+                </a>
+              </div>
+            </div>
+            <!-- ad banner -->
+            <div class="w-full mt-5 addsBox">
+              <img src="/assets/images/banner-ads.png" alt="ring-ad" class="w-full object-cover" />
+            </div>
+            <!-- ad banner end -->
+          </div>
+          <!-- Attendee-Teb-Content   -->
+          <div class="w-full lg:w-8/12 lg:pr-5 space-y-7" *ngIf="attendee">
+            <div class="w-full space-y-2.5">
+              <div class="bg-white px-5 py-2.5 flex justify-between items-center rounded-md">
+                <div class="space-y-2">
+                  <div class="flex items-center space-x-3">
+                    <div class="text-lg font-bold text-japaneseIndigo">Reynaldo Franklin</div>
+                  </div>
+                </div>
+                <a href="javascript:void(0);" class="text-lg font-bold text-magicPotion">Attend</a>
+              </div>
+              <div class="bg-white px-5 py-2.5 flex justify-between items-center rounded-md">
+                <div class="space-y-2">
+                  <div class="flex items-center space-x-3">
+                    <div class="text-lg font-bold text-japaneseIndigo">Reynaldo Franklin</div>
+                  </div>
+                </div>
+                <a href="javascript:void(0);" class="text-lg font-bold text-magicPotion">Attend</a>
+              </div>
+              <div class="bg-white px-5 py-2.5 flex justify-between items-center rounded-md">
+                <div class="space-y-2">
+                  <div class="flex items-center space-x-3">
+                    <div class="text-lg font-bold text-japaneseIndigo">Reynaldo Franklin</div>
+                  </div>
+                </div>
+                <a href="javascript:void(0);" class="text-lg font-bold text-magicPotion">Attend</a>
+              </div>
+              <div class="bg-white px-5 py-2.5 flex justify-between items-center rounded-md">
+                <div class="space-y-2">
+                  <div class="flex items-center space-x-3">
+                    <div class="text-lg font-bold text-japaneseIndigo">Reynaldo Franklin</div>
+                  </div>
+                </div>
+                <a href="javascript:void(0);" class="text-lg font-bold text-magicPotion">Attend</a>
+              </div>
+            </div>
+          </div>
+          <!-- right-bar  -->
+          <div class="w-full lg:w-4/12 lg:pl-5 space-y-7 pt-5 lg:pt-0">
+            <!-- Calender  -->
+            <div class="rounded-md bg-white p-8 space-y-6">
+              <div>
+                <span class="text-quicksilver text-xs font-bold"><i class="icon-calendar"></i> Date</span>
+                <p class="text-sm font-bold text-japaneseIndigo">{{liveStreamObj?.event_date | date:'MMM dd, yyyy'}}</p>
+              </div>
+              <div>
+                <span class="text-quicksilver text-xs font-bold"><i class="icon-time"></i> Time</span>
+                <p class="text-sm font-bold text-japaneseIndigo uppercase">{{liveStreamObj?.event_start_time | convertFrom24To12Format}} - {{liveStreamObj?.event_end_time | convertFrom24To12Format}}</p>
+              </div>
+            </div>
+            <!-- copy links  -->
+            <div class="rounded-md bg-white p-8 space-y-6">
+              <div class="flex w-full justify-between">
+                <div class="">
+                  <span class="text-quicksilver text-xs font-bold">Join User Link</span>
+                  <p class="text-sm font-bold text-japaneseIndigo">http://Join User Link</p>
+                </div>
+                <div class="">
+                  <a href="javascript:void(0);" class="icon-copy text-quicksilver text-xl"></a>
+                </div>
+              </div>
+              <div class="flex w-full justify-between">
+                <div class="">
+                  <span class="text-quicksilver text-xs font-bold">Organiser / Media Connect Link</span>
+                  <p class="text-sm font-bold text-japaneseIndigo">http://Join User Link</p>
+                </div>
+                <div class="">
+                  <a href="javascript:void(0);" class="icon-copy text-quicksilver text-xl"></a>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      <span
-        class="bg-caribbeanGreen bg-opacity-20 font-bold px-2 text-caribbeanGreen text-sm capitalize p-1 inline-block mt-5">free
-        live streaming</span>
-    </div>
-    <div class="space-y-10 flex flex-col justify-between items-end">
-      <button class="bg-quicksilver text-white font-bold rounded-lg capitalize px-3 py-2"><i class="icon-live"></i><span
-          class="pl-2.5 whitespace-nowrap">go live </span></button>
-      <div class="flex justify-end space-x-2">
-        <a href="javascript:void(0);" class="bg-brightGray px-2 py-1 text-center rounded"><i
-            class="icon-edit text-base text-black"></i></a>
-        <a href="javascript:void(0);" class="bg-brightGray px-2 py-1 text-center rounded"><i
-            class="icon-show text-base text-black"></i></a>
-        <a href="javascript:void(0);" class="bg-brightGray px-2 py-1 text-center rounded"><i
-            class="icon-fill_megaphone text-base text-black"></i></a>
-        <a href="javascript:void(0);" class="bg-brightGray px-2 py-1 text-center rounded"><i
-            class="icon-share text-base text-black"></i></a>
-      </div>
-    </div>
-  </div>
-  <!-- tab-holder  -->
-  <div class="teb-holder">
-    <button type="button" data-tab="overview" class="active">Overview</button>
-    <button type="button" data-tab="attendee">Attendee</button>
-    <button type="button" data-tab="Comment">Comment</button>
-    <button type="button" data-tab="Subscription">Subscription</button>
-  </div>
-  <!-- tab-contents-holder -->
-  <div class="pt-3.5 lg:pt-7">
-    <!--overview-tab-contents -->
-    <div class="relative tab-main active" id="overview">
-      <div class="flex flex-wrap">
-        <!-- left-bar -->
-        <div class="w-full lg:w-8/12 lg:pr-5 space-y-7">
-          <!-- About Shop  -->
-          <div class="p-7 bg-white rounded-md space-y-1">
-            <h3 class="text-lg">About Shop</h3>
-            <p class="text-quicksilver text-sm font-normal">Lorem Ipsum is simply dummy text of the printing and
-              typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when
-              an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-          </div>
-          <!-- Rainy season sale -->
-          <div class="space-y-2.5">
-            <!-- Photo-holder -->
-            <div class="media-upload-holder">
-              <!-- media title  -->
-              <div class="flex justify-between items-center">
-                <h3 class="text-lg">Photo</h3>
-                <a href="javascript:void(0);" class="text-magicPotion text-sm font-bold">View All</a>
-              </div>
-              <!-- photo-holder -->
-              <div class="w-full">
-                <div class="flex flex-wrap -mx-2">
-                  <div class="w-full md:w-4/12 lg:w-2/12 p-2">
-                    <div class="rounded relative overflow-hidden bg-white">
-                      <img src="../assets/images/dish-1.png" alt="upload-1" class="w-full" />
-                    </div>
-                  </div>
-                  <div class="w-full md:w-4/12 lg:w-2/12 p-2">
-                    <div class="rounded relative overflow-hidden bg-white">
-                      <img src="../assets/images/dish-2.png" alt="upload-1" class="w-full" />
-                    </div>
-                  </div>
-                  <div class="w-full md:w-4/12 lg:w-2/12 p-2">
-                    <div class="rounded relative overflow-hidden bg-white">
-                      <img src="../assets/images/dish-3.png" alt="upload-1" class="w-full" />
-                    </div>
-                  </div>
-                  <div class="w-full md:w-4/12 lg:w-2/12 p-2">
-                    <div class="rounded relative overflow-hidden bg-white">
-                      <img src="../assets/images/dish-4.png" alt="upload-1" class="w-full" />
-                    </div>
-                  </div>
-                  <div class="w-full md:w-4/12 lg:w-2/12 p-2">
-                    <div class="rounded relative overflow-hidden bg-white">
-                      <img src="../assets/images/dish-5.png" alt="upload-1" class="w-full" />
-                    </div>
-                  </div>
-                  <div class="w-full md:w-4/12 lg:w-2/12 p-2">
-                    <div class="rounded relative overflow-hidden bg-white">
-                      <img src="../assets/images/dish-6.png" alt="upload-1" class="w-full" />
-                    </div>
-                  </div>
+      <!-- Reviews-Teb-Content   -->
+      <div class="w-full space-y-7 tab-main" id="Comment" [class]="reviews ? 'active' : ''">
+        <div class="w-full space-y-2">
+          <div class="w-full space-y-3">
+            <div class="bg-white rounded-lg p-7 lg:flex">
+              <div>
+                <div class="w-20 h-20">
+                  <img src="../assets/images/profile-2.png" alt="Profile" />
                 </div>
               </div>
-              <!-- video media title  -->
-              <div class="flex justify-between items-center pt-4">
-                <h3 class="text-lg">Videos</h3>
-                <a href="javascript:void(0);" class="text-magicPotion text-sm font-bold">View All</a>
-              </div>
-              <!-- video-holder -->
-              <div class="w-full">
-                <div class="flex flex-wrap -mx-2">
-                  <div class="w-full md:w-4/12 lg:w-2/12 p-2">
-                    <div class="rounded relative overflow-hidden bg-white">
-                      <img src="../assets/images/dish-7.png" alt="upload-1" class="w-full" />
-                    </div>
-                  </div>
-                  <div class="w-full md:w-4/12 lg:w-2/12 p-2">
-                    <div class="rounded relative overflow-hidden bg-white">
-                      <img src="../assets/images/dish-1.png" alt="upload-1" class="w-full" />
-                    </div>
-                  </div>
-                  <div class="w-full md:w-4/12 lg:w-2/12 p-2">
-                    <div class="rounded relative overflow-hidden bg-white">
-                      <img src="../assets/images/dish-7.png" alt="upload-1" class="w-full" />
-                    </div>
-                  </div>
-                  <div class="w-full md:w-4/12 lg:w-2/12 p-2">
-                    <div class="rounded relative overflow-hidden bg-white">
-                      <img src="../assets/images/dish-9.png" alt="upload-1" class="w-full" />
-                    </div>
-                  </div>
-                  <div class="w-full md:w-4/12 lg:w-2/12 p-2">
-                    <div class="rounded relative overflow-hidden bg-white">
-                      <img src="../assets/images/dish-10.png" alt="upload-1" class="w-full" />
-                    </div>
-                  </div>
-                  <div class="w-full md:w-4/12 lg:w-2/12 p-2">
-                    <div class="rounded relative overflow-hidden bg-white">
-                      <img src="../assets/images/dish-11.png" alt="upload-1" class="w-full" />
-                    </div>
+              <div class="lg:px-5 py-5 lg:py-0">
+                <div class="flex justify-between items-center">
+                  <h5>Charlotte</h5>
+                  <div class="flex items-center space-x-1 pt-1.5 pb-2.5">
+                    <span class="text-xs font-bold text-quicksilver mr-4">19 Jan, 2022</span>
+                    <i class="icon-rating text-[#F8DA48]"></i>
+                    <i class="icon-rating text-[#F8DA48]"></i>
+                    <i class="icon-rating text-[#F8DA48]"></i>
+                    <i class="icon-rating text-[#F8DA48]"></i>
+                    <i class="icon-rating text-quicksilver"></i>
                   </div>
                 </div>
+                <p class="text-sm text-japaneseIndigo pt-4">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+                  Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient
+                  montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis,
+                  sem.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodoligula eget dolor.</p>
               </div>
             </div>
-          </div>
-          <!-- Company Details -->
-          <div class="space-y-4">
-            <h5>Company Details</h5>
-            <div class="p-7 bg-white rounded-md space-y-1">
-              <h3 class="text-lg">About Shop</h3>
-              <p class="text-quicksilver text-sm font-normal">Lorem Ipsum is simply dummy text of the printing and
-                typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when
-                an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-            </div>
-          </div>
-          <!-- Terms & Conditions -->
-          <div class="space-y-4">
-            <h5>Terms & Conditions</h5>
-            <div class="p-3 bg-white rounded-md space-y-1">
-              <div class="flex"><span class="text-quicksilver pr-1">*</span>
-                <p class="text-quicksilver text-sm font-normal">Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry. Lorem Ipsum has been the industry's</p>
+            <div class="bg-white rounded-lg p-7 lg:flex">
+              <div>
+                <div class="w-20 h-20">
+                  <img src="../assets/images/profile-2.png" alt="Profile" />
+                </div>
               </div>
-              <div class="flex pt-2"><span class="text-quicksilver pr-1">*</span>
-                <p class="text-quicksilver text-sm font-normal">Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                </p>
+              <div class="lg:px-5 py-5 lg:py-0">
+                <div class="flex justify-between items-center">
+                  <h5>Charlotte</h5>
+                  <div class="flex items-center space-x-1 pt-1.5 pb-2.5">
+                    <span class="text-xs font-bold text-quicksilver mr-4">19 Jan, 2022</span>
+                    <i class="icon-rating text-[#F8DA48]"></i>
+                    <i class="icon-rating text-[#F8DA48]"></i>
+                    <i class="icon-rating text-[#F8DA48]"></i>
+                    <i class="icon-rating text-[#F8DA48]"></i>
+                    <i class="icon-rating text-quicksilver"></i>
+                  </div>
+                </div>
+                <p class="text-sm text-japaneseIndigo pt-4">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+                  Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient
+                  montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis,
+                  sem.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodoligula eget dolor.</p>
               </div>
-              <div class="flex pt-2"><span class="text-quicksilver pr-1">*</span>
-                <p class="text-quicksilver text-sm font-normal">when an unknown printer took a galley of type and
-                  scrambled it to make a type specimen book. It has survived not only five centuries,</p>
-              </div>
-              <div class="flex pt-2"><span class="text-quicksilver pr-1">*</span>
-                <p class="text-quicksilver text-sm font-normal">Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry. Lorem Ipsum has been the industry's</p>
-              </div>
-              <div class="flex pt-2"><span class="text-quicksilver pr-1">*</span>
-                <p class="text-quicksilver text-sm font-normal">Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                </p>
-              </div>
-              <div class="flex pt-2"><span class="text-quicksilver pr-1">*</span>
-                <p class="text-quicksilver text-sm font-normal">when an unknown printer took a galley of type and
-                  scrambled it to make a type specimen book. It has survived not only five centuries,</p>
-              </div>
-              <div class="flex pt-2"><span class="text-quicksilver pr-1">*</span>
-                <p class="text-quicksilver text-sm font-normal">Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                </p>
-              </div>
-              <div class="flex pt-2"><span class="text-quicksilver pr-1">*</span>
-                <p class="text-quicksilver text-sm font-normal">when an unknown printer took a galley of type and
-                  scrambled it to make a type specimen book. It has survived not only five centuries, </p>
-              </div>
-            </div>
-          </div>
-          <!-- Social Media -->
-          <div class="space-y-4">
-            <h5>Social Media</h5>
-            <div class="p-7 bg-white rounded-md space-y-1 flex items-center space-x-7">
-              <a href="javascript:void(0);"><img src="../assets/images/twiiter.png" alt="twiiter" /></a>
-              <a href="javascript:void(0);"><img src="../assets/images/linked.png" alt="linked" /></a>
-              <a href="javascript:void(0);"><img src="../assets/images/facebook.png" alt="facebook" /></a>
-              <a href="javascript:void(0);"><img src="../assets/images/whatapp.png" alt="whatsapp" /></a>
-              <a href="javascript:void(0);"><img src="../assets/images/instagram.png" alt="instagram" /></a>
             </div>
           </div>
           <!-- ad banner -->
           <div class="mt-5">
             <img src="../assets/images/ad-banner.png" alt="add banner" />
           </div>
-          <!-- ad banner end -->
-        </div>
-        <!-- right-bar  -->
-        <div class="w-full lg:w-4/12 lg:pl-5 space-y-7 pt-5 lg:pt-0">
-          <!-- Calender  -->
-          <div class="rounded-md bg-white p-8 space-y-6">
-            <div>
-              <span class="text-quicksilver text-xs font-bold"><i class="icon-calendar"></i> Date</span>
-              <p class="text-sm font-bold text-japaneseIndigo">July 23, 2021 - July 30, 2021</p>
-            </div>
-            <div>
-              <span class="text-quicksilver text-xs font-bold"><i class="icon-time"></i> Date</span>
-              <p class="text-sm font-bold text-japaneseIndigo">July 23, 2021 - July 30, 2021</p>
-            </div>
-          </div>
-          <!-- copy links  -->
-          <div class="rounded-md bg-white p-8 space-y-6">
-            <div class="flex w-full justify-between">
-              <div class="">
-                <span class="text-quicksilver text-xs font-bold">Join User Link</span>
-                <p class="text-sm font-bold text-japaneseIndigo">http://Join User Link</p>
-              </div>
-              <div class="">
-                <a href="javascript:void(0);" class="icon-copy text-quicksilver text-xl"></a>
-              </div>
-            </div>
-            <div class="flex w-full justify-between">
-              <div class="">
-                <span class="text-quicksilver text-xs font-bold">Organiser / Media Connect Link</span>
-                <p class="text-sm font-bold text-japaneseIndigo">http://Join User Link</p>
-              </div>
-              <div class="">
-                <a href="javascript:void(0);" class="icon-copy text-quicksilver text-xl"></a>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
-    </div>
-    <!-- Attendee-Teb-Content   -->
-    <div class="w-full space-y-7 tab-main" id="attendee">
-      <div class="flex flex-wrap">
-        <!-- left-bar -->
+      <!-- Subscription plan details-Teb-Content   -->
+      <div class="w-full space-y-7 tab-main" id="Subscription" [class]="subscription ? 'active' : ''">
+        <div class="flex justify-between items-center">
+          <div class="text-lg font-bold text-japaneseIndigo">Subscription Plan Details</div>
+          <button class="secondary capitalize px-5 py-2 anim">purchase new plan</button>
+        </div>
         <div class="w-full lg:w-8/12 lg:pr-5 space-y-7">
-          <div class="w-full space-y-2.5">
-            <div class="bg-white px-5 py-2.5 flex justify-between items-center rounded-md">
-              <div class="space-y-2">
-                <div class="flex items-center space-x-3">
-                  <div class="text-lg font-bold text-japaneseIndigo">Reynaldo Franklin</div>
-                </div>
-              </div>
-              <a href="javascript:void(0);" class="text-lg font-bold text-magicPotion">Attend</a>
+          <div class="bg-white p-8 rounded-lg capitalize">
+            <div class="">
+              <div class="text-base font-bold text-japaneseIndigo">Subscription Plan Name 1</div>
+              <p class="text-quicksilver text-sm leading-6 font-normal pt-2">Lorem Ipsum is simply dummy text of the
+                printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the
+                1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
             </div>
-            <div class="bg-white px-5 py-2.5 flex justify-between items-center rounded-md">
-              <div class="space-y-2">
-                <div class="flex items-center space-x-3">
-                  <div class="text-lg font-bold text-japaneseIndigo">Reynaldo Franklin</div>
-                </div>
-              </div>
-              <a href="javascript:void(0);" class="text-lg font-bold text-magicPotion">Attend</a>
+            <div class="pt-5">
+              <div class="text-base font-bold text-japaneseIndigo">join live streaming user limitations</div>
+              <p class="text-quicksilver text-sm leading-6 font-normal pt-2">250 User join this streaming </p>
             </div>
-            <div class="bg-white px-5 py-2.5 flex justify-between items-center rounded-md">
-              <div class="space-y-2">
-                <div class="flex items-center space-x-3">
-                  <div class="text-lg font-bold text-japaneseIndigo">Reynaldo Franklin</div>
-                </div>
-              </div>
-              <a href="javascript:void(0);" class="text-lg font-bold text-magicPotion">Attend</a>
+            <div class="pt-5">
+              <div class="text-base font-bold text-japaneseIndigo">Price</div>
+              <p class="text-quicksilver text-sm leading-6 font-normal pt-2">$ 300</p>
             </div>
-            <div class="bg-white px-5 py-2.5 flex justify-between items-center rounded-md">
-              <div class="space-y-2">
-                <div class="flex items-center space-x-3">
-                  <div class="text-lg font-bold text-japaneseIndigo">Reynaldo Franklin</div>
-                </div>
+            <hr class="my-5">
+            <div class="flex justify-between items-center">
+              <div class="">
+                <div class="text-base font-bold text-japaneseIndigo">Transaction Date & Time</div>
+                <p class="text-quicksilver text-sm leading-6 font-normal pt-2">21 April 2022, 12:15 pm</p>
               </div>
-              <a href="javascript:void(0);" class="text-lg font-bold text-magicPotion">Attend</a>
+              <button
+                class="text-quicksilver font-bold text-base border border-quicksilver rounded-lg capitalize px-5 py-2"><i
+                  class="icon-download text-quicksilver font-extrabold mr-2"></i> download invoice</button>
+            </div>
+            <div class="pt-5">
+              <div class="text-base font-bold text-japaneseIndigo">Transaction Id</div>
+              <p class="text-quicksilver text-sm leading-6 font-normal pt-2">0123654896</p>
+            </div>
+            <div class="pt-5">
+              <div class="text-base font-bold text-japaneseIndigo">Price</div>
+              <p class="text-quicksilver text-sm leading-6 font-normal pt-2">$ 300</p>
+            </div>
+            <div class="pt-5">
+              <div class="text-base font-bold text-japaneseIndigo">Payment Status</div>
+              <p class="text-caribbeanGreen text-sm leading-6 font-normal pt-2">Successful</p>
+            </div>
+          </div>
+          <div class="bg-white p-8 rounded-lg capitalize">
+            <div class="">
+              <div class="text-base font-bold text-japaneseIndigo">Subscription Plan Name 1</div>
+              <p class="text-quicksilver text-sm leading-6 font-normal pt-2">Lorem Ipsum is simply dummy text of the
+                printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the
+                1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+            </div>
+            <div class="pt-5">
+              <div class="text-base font-bold text-japaneseIndigo">join live streaming user limitations</div>
+              <p class="text-quicksilver text-sm leading-6 font-normal pt-2">250 User join this streaming </p>
+            </div>
+            <div class="pt-5">
+              <div class="text-base font-bold text-japaneseIndigo">Price</div>
+              <p class="text-quicksilver text-sm leading-6 font-normal pt-2">$ 300</p>
+            </div>
+            <hr class="my-5">
+            <div class="flex justify-between items-center">
+              <div class="">
+                <div class="text-base font-bold text-japaneseIndigo">Transaction Date & Time</div>
+                <p class="text-quicksilver text-sm leading-6 font-normal pt-2">21 April 2022, 12:15 pm</p>
+              </div>
+              <button
+                class="text-quicksilver font-bold text-base border border-quicksilver rounded-lg capitalize px-5 py-2"><i
+                  class="icon-download text-quicksilver font-extrabold mr-2"></i> download invoice</button>
+            </div>
+            <div class="pt-5">
+              <div class="text-base font-bold text-japaneseIndigo">Transaction Id</div>
+              <p class="text-quicksilver text-sm leading-6 font-normal pt-2">0123654896</p>
+            </div>
+            <div class="pt-5">
+              <div class="text-base font-bold text-japaneseIndigo">Price</div>
+              <p class="text-quicksilver text-sm leading-6 font-normal pt-2">$ 300</p>
+            </div>
+            <div class="pt-5">
+              <div class="text-base font-bold text-japaneseIndigo">Payment Status</div>
+              <p class="text-caribbeanGreen text-sm leading-6 font-normal pt-2">Successful</p>
             </div>
           </div>
         </div>
-        <!-- right-bar  -->
-        <div class="w-full lg:w-4/12 lg:pl-5 space-y-7 pt-5 lg:pt-0">
-          <!-- Calender  -->
-          <div class="rounded-md bg-white p-8 space-y-6">
-            <div>
-              <span class="text-quicksilver text-xs font-bold"><i class="icon-calendar"></i> Date</span>
-              <p class="text-sm font-bold text-japaneseIndigo">July 23, 2021 - July 30, 2021</p>
-            </div>
-            <div>
-              <span class="text-quicksilver text-xs font-bold"><i class="icon-time"></i> Date</span>
-              <p class="text-sm font-bold text-japaneseIndigo">July 23, 2021 - July 30, 2021</p>
-            </div>
-          </div>
-          <!-- copy links  -->
-          <div class="rounded-md bg-white p-8 space-y-6">
-            <div class="flex w-full justify-between">
-              <div class="">
-                <span class="text-quicksilver text-xs font-bold">Join User Link</span>
-                <p class="text-sm font-bold text-japaneseIndigo">http://Join User Link</p>
-              </div>
-              <div class="">
-                <a href="javascript:void(0);" class="icon-copy text-quicksilver text-xl"></a>
-              </div>
-            </div>
-            <div class="flex w-full justify-between">
-              <div class="">
-                <span class="text-quicksilver text-xs font-bold">Organiser / Media Connect Link</span>
-                <p class="text-sm font-bold text-japaneseIndigo">http://Join User Link</p>
-              </div>
-              <div class="">
-                <a href="javascript:void(0);" class="icon-copy text-quicksilver text-xl"></a>
-              </div>
-            </div>
-          </div>
-        </div>
+        <div class="w-full lg:w-4/12 lg:pr-5"></div>
         <!-- ad banner -->
         <div class="mt-5">
           <img src="../assets/images/ad-banner.png" alt="add banner" />
         </div>
-      </div>
-    </div>
-    <!-- Reviews-Teb-Content   -->
-    <div class="w-full space-y-7 tab-main" id="Comment">
-      <div class="w-full space-y-2">
-        <div class="w-full space-y-3">
-          <div class="bg-white rounded-lg p-7 lg:flex">
-            <div>
-              <div class="w-20 h-20">
-                <img src="../assets/images/profile-2.png" alt="Profile" />
-              </div>
-            </div>
-            <div class="lg:px-5 py-5 lg:py-0">
-              <div class="flex justify-between items-center">
-                <h5>Charlotte</h5>
-                <div class="flex items-center space-x-1 pt-1.5 pb-2.5">
-                  <span class="text-xs font-bold text-quicksilver mr-4">19 Jan, 2022</span>
-                  <i class="icon-rating text-[#F8DA48]"></i>
-                  <i class="icon-rating text-[#F8DA48]"></i>
-                  <i class="icon-rating text-[#F8DA48]"></i>
-                  <i class="icon-rating text-[#F8DA48]"></i>
-                  <i class="icon-rating text-quicksilver"></i>
-                </div>
-              </div>
-              <p class="text-sm text-japaneseIndigo pt-4">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-                Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient
-                montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis,
-                sem.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodoligula eget dolor.</p>
-            </div>
-          </div>
-          <div class="bg-white rounded-lg p-7 lg:flex">
-            <div>
-              <div class="w-20 h-20">
-                <img src="../assets/images/profile-2.png" alt="Profile" />
-              </div>
-            </div>
-            <div class="lg:px-5 py-5 lg:py-0">
-              <div class="flex justify-between items-center">
-                <h5>Charlotte</h5>
-                <div class="flex items-center space-x-1 pt-1.5 pb-2.5">
-                  <span class="text-xs font-bold text-quicksilver mr-4">19 Jan, 2022</span>
-                  <i class="icon-rating text-[#F8DA48]"></i>
-                  <i class="icon-rating text-[#F8DA48]"></i>
-                  <i class="icon-rating text-[#F8DA48]"></i>
-                  <i class="icon-rating text-[#F8DA48]"></i>
-                  <i class="icon-rating text-quicksilver"></i>
-                </div>
-              </div>
-              <p class="text-sm text-japaneseIndigo pt-4">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-                Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient
-                montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis,
-                sem.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodoligula eget dolor.</p>
-            </div>
-          </div>
-        </div>
-        <!-- ad banner -->
-        <div class="mt-5">
-          <img src="../assets/images/ad-banner.png" alt="add banner" />
-        </div>
-      </div>
-    </div>
-    <!-- Subscription plan details-Teb-Content   -->
-    <div class="w-full space-y-7 tab-main" id="Subscription">
-      <div class="flex justify-between items-center">
-        <div class="text-lg font-bold text-japaneseIndigo">Subscription Plan Details</div>
-        <button class="secondary capitalize px-5 py-2 anim">purchase new plan</button>
-      </div>
-      <div class="w-full lg:w-8/12 lg:pr-5 space-y-7">
-        <div class="bg-white p-8 rounded-lg capitalize">
-          <div class="">
-            <div class="text-base font-bold text-japaneseIndigo">Subscription Plan Name 1</div>
-            <p class="text-quicksilver text-sm leading-6 font-normal pt-2">Lorem Ipsum is simply dummy text of the
-              printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the
-              1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-          </div>
-          <div class="pt-5">
-            <div class="text-base font-bold text-japaneseIndigo">join live streaming user limitations</div>
-            <p class="text-quicksilver text-sm leading-6 font-normal pt-2">250 User join this streaming </p>
-          </div>
-          <div class="pt-5">
-            <div class="text-base font-bold text-japaneseIndigo">Price</div>
-            <p class="text-quicksilver text-sm leading-6 font-normal pt-2">$ 300</p>
-          </div>
-          <hr class="my-5">
-          <div class="flex justify-between items-center">
-            <div class="">
-              <div class="text-base font-bold text-japaneseIndigo">Transaction Date & Time</div>
-              <p class="text-quicksilver text-sm leading-6 font-normal pt-2">21 April 2022, 12:15 pm</p>
-            </div>
-            <button
-              class="text-quicksilver font-bold text-base border border-quicksilver rounded-lg capitalize px-5 py-2"><i
-                class="icon-download text-quicksilver font-extrabold mr-2"></i> download invoice</button>
-          </div>
-          <div class="pt-5">
-            <div class="text-base font-bold text-japaneseIndigo">Transaction Id</div>
-            <p class="text-quicksilver text-sm leading-6 font-normal pt-2">0123654896</p>
-          </div>
-          <div class="pt-5">
-            <div class="text-base font-bold text-japaneseIndigo">Price</div>
-            <p class="text-quicksilver text-sm leading-6 font-normal pt-2">$ 300</p>
-          </div>
-          <div class="pt-5">
-            <div class="text-base font-bold text-japaneseIndigo">Payment Status</div>
-            <p class="text-caribbeanGreen text-sm leading-6 font-normal pt-2">Successful</p>
-          </div>
-        </div>
-        <div class="bg-white p-8 rounded-lg capitalize">
-          <div class="">
-            <div class="text-base font-bold text-japaneseIndigo">Subscription Plan Name 1</div>
-            <p class="text-quicksilver text-sm leading-6 font-normal pt-2">Lorem Ipsum is simply dummy text of the
-              printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the
-              1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-          </div>
-          <div class="pt-5">
-            <div class="text-base font-bold text-japaneseIndigo">join live streaming user limitations</div>
-            <p class="text-quicksilver text-sm leading-6 font-normal pt-2">250 User join this streaming </p>
-          </div>
-          <div class="pt-5">
-            <div class="text-base font-bold text-japaneseIndigo">Price</div>
-            <p class="text-quicksilver text-sm leading-6 font-normal pt-2">$ 300</p>
-          </div>
-          <hr class="my-5">
-          <div class="flex justify-between items-center">
-            <div class="">
-              <div class="text-base font-bold text-japaneseIndigo">Transaction Date & Time</div>
-              <p class="text-quicksilver text-sm leading-6 font-normal pt-2">21 April 2022, 12:15 pm</p>
-            </div>
-            <button
-              class="text-quicksilver font-bold text-base border border-quicksilver rounded-lg capitalize px-5 py-2"><i
-                class="icon-download text-quicksilver font-extrabold mr-2"></i> download invoice</button>
-          </div>
-          <div class="pt-5">
-            <div class="text-base font-bold text-japaneseIndigo">Transaction Id</div>
-            <p class="text-quicksilver text-sm leading-6 font-normal pt-2">0123654896</p>
-          </div>
-          <div class="pt-5">
-            <div class="text-base font-bold text-japaneseIndigo">Price</div>
-            <p class="text-quicksilver text-sm leading-6 font-normal pt-2">$ 300</p>
-          </div>
-          <div class="pt-5">
-            <div class="text-base font-bold text-japaneseIndigo">Payment Status</div>
-            <p class="text-caribbeanGreen text-sm leading-6 font-normal pt-2">Successful</p>
-          </div>
-        </div>
-      </div>
-      <div class="w-full lg:w-4/12 lg:pr-5"></div>
-      <!-- ad banner -->
-      <div class="mt-5">
-        <img src="../assets/images/ad-banner.png" alt="add banner" />
       </div>
     </div>
   </div>
 </div>
+
+<!-- <app-image-and-video-preview *ngIf="isOpenPopup" (openClosePopup)="closePop($event)" [isImageOrVideoFlag]="isImage" [isCompanyImagesAndVideo]="companyIAndV" [expectedProp]="imagesOrVideosArr"></app-image-and-video-preview> -->

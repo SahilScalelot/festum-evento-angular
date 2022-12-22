@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {MapsAPILoader} from "@agm/core";
 import {CONSTANTS} from 'src/app/main/common/constants';
 import {GlobalFunctions} from 'src/app/main/common/global-functions';
 import {EventService} from '../event.service';
@@ -39,7 +38,7 @@ export class EventOverviewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getEvent();    
+    this.getEvent();
   }
 
   getEvent(): void {

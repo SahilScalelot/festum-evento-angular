@@ -11,12 +11,9 @@
   </div>
   <div class="w-full lg:w-1/2 px-2 pt-5 pb-0.5 inputHolder relative">
     <span class="input-titel">Event Category</span>
-    <select name="event_category" [formControlName]="'event_category'" class="arrow bg-white pl-5 pr-11 py-3 text-japaneseIndigo font-bold rounded-md tracking-wider appearance-none focus-visible:outline-none">
-      <option value="">Select Category</option>
-      <option value="637dcacc27053cd9ca0653b2">Event Category 2</option>
-      <option value="2">Event Category 3</option>
-      <option value="3">Event Category 4</option>
-    </select>
+    <div>
+      <p-dropdown styleClass="w-full border-0 font-bold" panelStyleClass="p-0" [formControlName]="'event_category'" [options]="eventCategories" placeholder="All platforms" optionLabel="categoryname" optionValue="_id" [showClear]="true"></p-dropdown>
+    </div>
     <span class="absolute top-full text-red-500 text-xs" *ngIf="createStreamForm.get('event_category')?.invalid && (createStreamForm.get('event_category')?.dirty && createStreamForm.get('event_category')?.touched)">
       <span *ngIf="createStreamForm.get('event_category')?.errors?.['required']">
         Event Category is required.

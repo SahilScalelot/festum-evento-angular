@@ -16,6 +16,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { SharedModule } from "../../../../shared/shared.module";
 import { ModalModule } from 'src/app/main/_modal';
+import { DropdownModule } from 'primeng/dropdown';
 
 const routes: Routes = [
   {
@@ -63,6 +64,7 @@ const routes: Routes = [
     ProgressSpinnerModule,
     SharedModule,
     ModalModule,
+    DropdownModule,
   ]
 })
 export class CreateStreamModule { }

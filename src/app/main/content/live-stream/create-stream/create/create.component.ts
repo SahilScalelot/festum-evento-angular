@@ -7,6 +7,7 @@ import { NgSelectConfig } from "@ng-select/ng-select";
 import { SnotifyService } from 'ng-snotify';
 import { Router } from '@angular/router';
 import * as moment from "moment";
+import { CreateEventService } from '../../../create-event/create-event.service';
 
 @Component({
   selector: 'app-create',
@@ -20,21 +21,38 @@ export class CreateComponent implements OnInit {
   minDateValue: any = new Date();
   isLoading: boolean = false;
 
+  eventCategories: any = [];
+
   constructor(
     private _formBuilder: FormBuilder,
     private _router: Router,
     private _sNotify: SnotifyService,
     private _createStreamService: CreateStreamService,
     private _globalFunctions: GlobalFunctions,
-    private _config: NgSelectConfig
+    private _config: NgSelectConfig,
+    private _createEventService: CreateEventService,
   ) { }
 
   ngOnInit(): void {
     this._prepareLiveStreamForm();
+    this.getCategories();
     this.liveStreamId = localStorage.getItem('lsId');
     if (this.liveStreamId && this.liveStreamId != '') {
       this.getLiveStreamById(this.liveStreamId);
     }
+  }
+  
+  getCategories(): void {
+    this.isLoading = true;
+    this._createEventService.getEventCategories().subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        this.eventCategories = result.Data || [];
+        this.isLoading = false;
+      }
+    }, (error: any) => {
+      // this._globalFunctions.errorHanding(error, this, true);
+      this.isLoading = false;
+    });
   }
 
   getLiveStreamById(liveStreamId: any = ''): void {

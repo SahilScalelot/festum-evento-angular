@@ -63,7 +63,8 @@
                 <div class="flex flex-wrap -mx-2">
                   <div *ngFor="let img of events.photos" class="w-full lg:w-2/12 p-2 ov-p">
                     <div class="rounded relative overflow-hidden bg-white h-24">
-                      <img [src]="!!(img?.url) ? constants.baseImageURL + img.url : constants.defaultImage" alt="upload-1" class="w-full h-full object-cover"/>
+                      <p-image [src]="!!(img?.url) ? constants.baseImageURL + img.url : constants.defaultImage" imageClass="w-full h-full object-cover rounded" styleClass="w-full h-full" [preview]="true"></p-image>
+                      <!-- <img [src]="!!(img?.url) ? constants.baseImageURL + img.url : constants.defaultImage" alt="upload-1" class="w-full h-full object-cover"/> -->
                     </div>
                   </div>
                 </div>
