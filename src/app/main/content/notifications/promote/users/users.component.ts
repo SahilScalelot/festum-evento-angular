@@ -173,33 +173,31 @@ export class UsersComponent implements OnInit {
 
   onSelectAllChecked(event: any): void {
     if (this.allImportedUsers && this.allImportedUsers.length) {
-      if (event && event.target && event.target.checked) {
-        this.isLoading = true;
-        const prepareCheckAllUserObj: any = {
-          notificationid: this.nId,
-          is_selected_all: true,
-        };
-        this._promoteService.checkAllUser(prepareCheckAllUserObj).subscribe((result: any) => {
-          if (result && result.IsSuccess) {
-            this.allImportedUsers = _.map(this.allImportedUsers, (importedUser: any) => {
-              return {...importedUser, selected: true};
-            });
+      this.isLoading = true;
+      const status: boolean = (event && event.target && event.target.checked);
+      const prepareCheckAllUserObj: any = {
+        notificationid: this.nId,
+        is_selected_all: status,
+      };
+      this._promoteService.checkAllUser(prepareCheckAllUserObj).subscribe((result: any) => {
+        if (result && result.IsSuccess) {
+          this.allImportedUsers = _.map(this.allImportedUsers, (importedUser: any) => {
+            return {...importedUser, selected: status};
+          });
+          if (event && event.target && event.target.checked) {
             localStorage.setItem('selectAll', 'true');
-            this.isLoading = false;
           } else {
-            this._globalFunctions.successErrorHandling(result, this, true);
-            this.isLoading = false;
+            localStorage.removeItem('selectAll');
           }
-        }, (error: any) => {
-          this._globalFunctions.errorHanding(error, this, true);
           this.isLoading = false;
-        });
-      } else {
-        this.allImportedUsers = _.map(this.allImportedUsers, (importedUser: any) => {
-          return {...importedUser, selected: false};
-        });
-        localStorage.removeItem('selectAll');
-      }
+        } else {
+          this._globalFunctions.successErrorHandling(result, this, true);
+          this.isLoading = false;
+        }
+      }, (error: any) => {
+        this._globalFunctions.errorHanding(error, this, true);
+        this.isLoading = false;
+      });
     }
   }
 

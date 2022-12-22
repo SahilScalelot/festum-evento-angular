@@ -55,7 +55,7 @@ export class EventComponent implements OnInit {
       page : page || '1',
       limit : event?.rows || '4',
       search: ""
-    }
+    };
     this._eventService.eventsList(filter).subscribe((result: any) => {
       if (result && result.IsSuccess) {
         this.paging = result.Data;
@@ -89,12 +89,40 @@ export class EventComponent implements OnInit {
 
   liveEvent(event: any, eventObj: any): void {
     event.stopPropagation();
+    if (eventObj.is_approved) {
+      this.isLoading = true;
+      this._eventService.liveEventById(eventObj._id).subscribe((result: any) => {
+        if (result && result.IsSuccess) {
+          // this.paging = result.Data;
+          // this.events = result.Data.docs;
+          this.isLoading = false;
+        } else {
+          this._globalFunctions.successErrorHandling(result, this, true);
+          this.isLoading = false;
+        }
+      }, (error: any) => {
+        this._globalFunctions.errorHanding(error, this, true);
+        this.isLoading = false;
+      });
+    }
   }
   
   multipleLiveEvent(): void {
-    this.selectedEventIds.forEach((eventId: any) => {
-      const getObj: any = _.find(this.events, ["id", eventId]);
-      getObj.live = true;
+    this.isLoading = true;
+    this._eventService.liveMultipleEvents(this.selectedEventIds).subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        // this.selectedEventIds.forEach((eventId: any) => {
+        //   const getObj: any = _.find(this.events, ["id", eventId]);
+        //   getObj.live = true;
+        // });
+        this.isLoading = false;
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+        this.isLoading = false;
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isLoading = false;
     });
   }
 

@@ -27,8 +27,8 @@
                   <div class="w-full lg:w-auto">
                     <div class="flex items-center space-x-2 lg:space-x-4">
                       <h4 class="text-japaneseIndigo">{{event?.name}}</h4>
-                      <span class="text-xs text-white font-bold bg-magicPotion px-3 rounded-xl py-1">Unverified</span>
-                      <span class="text-xs text-white font-bold bg-caribbeanGreen px-3 rounded-xl py-1">Booking Accepting</span>
+                      <span class="text-xs text-white font-bold bg-magicPotion px-3 rounded-xl py-1">{{!!(event?.is_approved) ? 'Verified' : 'Unverified'}}</span>
+                      <span class="text-xs text-white font-bold bg-caribbeanGreen px-3 rounded-xl py-1">{{!!(event?.accept_booking) ? 'Booking Accepting' : 'Booking Not Accepting'}}</span>
                     </div>
                     <div class="flex flex-wrap pt-3">
                       <div class="border-brightGray px-2 lg:pl-0 lg:pr-4">
@@ -47,8 +47,8 @@
                   </div>
                   <div class="text-left pt-5 w-full flex justify-between lg:inline-block lg:w-auto lg:pt-0 lg:text-right space-y-3 lg:space-y-5">
                     <label class="flex items-center" (click)="liveEvent($event, event)">
-                      <input type="checkbox" class="switch mr-1.5 lg:mx-3 order-2" [checked]="event?.live"/>
-                      <span class="text-base font-bold anim order-3">Live</span>
+                      <input type="checkbox" class="switch mr-1.5 lg:mx-3 order-2" [checked]="event?.is_live" [disabled]="!event.is_approved"/>
+                      <span class="text-base font-bold anim order-3">Live - {{event.is_approved}}</span>
                     </label>
                     <!-- <h3 class="text-right">250 INR</h3>-->
                   </div>

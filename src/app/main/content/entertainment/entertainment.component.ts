@@ -1,11 +1,10 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { environment } from 'src/environments/environment';
 import { CONSTANTS } from '../../common/constants';
 import { GlobalFunctions } from '../../common/global-functions';
 import { ModalService } from '../../_modal';
 import { EntertainmentService } from './entertainment.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-entertainment',
@@ -14,7 +13,8 @@ import { EntertainmentService } from './entertainment.service';
 })
 export class EntertainmentComponent implements OnInit {
   constants = CONSTANTS;
-  entertainmentObj: any;
+  allEntertainmentPhotosAndVideosList: any = [];
+  entertainmentArrObj: any = {};
   isLoading: boolean = false;
 
   all: boolean = true;
@@ -37,8 +37,18 @@ export class EntertainmentComponent implements OnInit {
   getEntertainment(): void {
     this.isLoading = true;
     this._entertainment.getEntertainmentApi().subscribe((result: any) => {
-      this.entertainmentObj = result.Data;
-      this.isLoading = false;
+      if (result && result.IsSuccess) {
+        this.allEntertainmentPhotosAndVideosList = this._globalFunctions.copyObject(result?.Data || []);
+        this.entertainmentArrObj = _.mapValues(_.groupBy(this.allEntertainmentPhotosAndVideosList, 'media'));
+
+        console.log(this.allEntertainmentPhotosAndVideosList);
+        console.log(this.entertainmentArrObj.photo);
+        console.log(this.entertainmentArrObj.video);
+        this.isLoading = false;
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+        this.isLoading = false;
+      }
     }, (error: any) => {
       this._globalFunctions.errorHanding(error, this, true);
       this.isLoading = false;
