@@ -9,6 +9,7 @@ import {RatingModule} from 'primeng/rating';
 import {CheckboxModule} from 'primeng/checkbox';
 import { PaginatorModule } from 'primeng/paginator';
 import { AgmCoreModule } from '@agm/core';
+import { ImageModule } from 'primeng/image';
 
 const routes: Routes = [
   {
@@ -32,6 +33,7 @@ const routes: Routes = [
     RatingModule,
     CheckboxModule,
     PaginatorModule,
+    ImageModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyDLgr8YB5IK8dBIEWClexZGzXaB7UlVm7Q',
       libraries: ['places']
