@@ -54,6 +54,7 @@ export class BillDetailsComponent implements OnInit {
     this._promoteService.getCouponsList().subscribe((result: any) => {
       if (result && result.IsSuccess) {
         this.couponsList = this._globalFunctions.copyObject(result.Data);
+        console.log(this.couponsList);
         this.isCouponLoading = false;
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
@@ -67,7 +68,7 @@ export class BillDetailsComponent implements OnInit {
 
   getSettings(): void {
     this.isLoading = true;
-    this._promoteService.getSettings().subscribe((result: any) => {
+    this._promoteService.getSettings(this.nId).subscribe((result: any) => {
       if (result && result.IsSuccess) {
         this.settingObj = this._globalFunctions.copyObject(result.Data[0]);
         this.calculatePrice();

@@ -47,7 +47,7 @@
   <div class="" *ngIf="couponsList && couponsList.length">
     <h5 class="capitalize">discount coupon</h5>
     <div *ngIf="!selectedCoupon || !selectedCoupon._id || selectedCoupon._id == ''">
-      <div class="bg-white rounded p-8 flex items-start mt-3" *ngFor="let coupon as couponsList">
+      <div class="bg-white rounded p-8 flex items-start mt-3" *ngFor="let coupon of couponsList">
         <i class="w-8 icon-coupan text-magicPotion text-2xl mr-5"></i>
         <div class="w-full flex justify-between">
           <div class="">
@@ -64,8 +64,8 @@
     </div>
     <div class="flex justify-between items-center border border-caribbeanGreen rounded-md px-5 py-6 bg-green-50" *ngIf="selectedCoupon && selectedCoupon._id && selectedCoupon._id != ''">
       <div>
-        <h5 class="text-caribbeanGreen pb-2">Coupon applied - You saved ₹30</h5>
-        <span class="text-sm text-quicksilver">Coupon Code : {{selectedCoupon}}</span>
+        <h5 class="text-caribbeanGreen pb-2">Coupon applied - You saved ₹{{selectedCoupon?.amount}}</h5>
+        <span class="text-sm text-quicksilver">Coupon Code : {{selectedCoupon?.code}}</span>
       </div>
       <div>
         <a href="javascript:void(0);" (click)="selectedCoupon = ''"><i class="icon-delete text-magicPotion text-2xl"></i></a>
