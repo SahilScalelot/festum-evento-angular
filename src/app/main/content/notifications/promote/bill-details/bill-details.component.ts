@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, Validators} from "@angular/forms";
+import { FormBuilder, Validators } from "@angular/forms";
 import { SnotifyService } from "ng-snotify";
 import { PromoteService } from "../promote.service";
 import { Router } from "@angular/router";
 import { GlobalFunctions } from "../../../../common/global-functions";
 import { GlobalService } from "../../../../../services/global.service";
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-bill-details',
@@ -15,18 +16,20 @@ export class BillDetailsComponent implements OnInit {
   nId: any;
   billDetailsForm: any;
   notificationObj: any = {};
+  settingObj: any = {};
+  calculateTotalObj: any = {};
   couponsList: any = [];
   isCouponLoading: boolean = false;
   isLoading: boolean = false;
   selectedCoupon: any = '';
 
   constructor(
-      private _formBuilder: FormBuilder,
-      private _sNotify: SnotifyService,
-      private _promoteService: PromoteService,
-      private _router: Router,
-      private _globalFunctions: GlobalFunctions,
-      private _globalService: GlobalService
+    private _formBuilder: FormBuilder,
+    private _sNotify: SnotifyService,
+    private _promoteService: PromoteService,
+    private _router: Router,
+    private _globalFunctions: GlobalFunctions,
+    private _globalService: GlobalService
   ) { }
 
   ngOnInit(): void {
@@ -40,6 +43,7 @@ export class BillDetailsComponent implements OnInit {
         this.getNotificationById();
       }
       this.getCoupons();
+      this.getSettings();
     } else {
       this._router.navigate(['notifications']);
     }
@@ -59,6 +63,32 @@ export class BillDetailsComponent implements OnInit {
       this._globalFunctions.errorHanding(error, this, true);
       this.isCouponLoading = false;
     });
+  }
+
+  getSettings(): void {
+    this.isLoading = true;
+    this._promoteService.getSettings().subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        this.settingObj = this._globalFunctions.copyObject(result.Data[0]);
+        this.calculatePrice();
+        this.isLoading = false;
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+        this.isLoading = false;
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isLoading = false;
+    });
+  }
+
+  calculatePrice(): void {
+    this.calculateTotalObj.notificationTotal = this.settingObj.notificationcost;
+    this.calculateTotalObj.smsTotal = this.settingObj.smscost;
+    this.calculateTotalObj.emailTotal = this.settingObj.emailcost;
+    this.calculateTotalObj.totalDiscount = this.settingObj.emailcost;
+    this.calculateTotalObj.total = _.sum([this.calculateTotalObj.notificationTotal, this.calculateTotalObj.smsTotal, this.calculateTotalObj.emailTotal]);
+
   }
 
   getNotificationById(): void {

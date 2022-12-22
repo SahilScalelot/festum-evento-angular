@@ -50,6 +50,11 @@ export class PromoteService {
     return this.http.get(environment.appURL + 'organizer/notificationcoupons/list', this._globalFunctions.getAuthorizationHeader());
   }
 
+  // Get Settings Api
+  getSettings(): any {
+    return this.http.get(environment.appURL + 'organizer/notification/setting', this._globalFunctions.getAuthorizationHeader());
+  }
+
   // Import CSV File Api
   importUsersCSV(csvObj: any): any {
     return this.http.post(environment.appURL + 'organizer/notification/import', csvObj, this._globalFunctions.getFileAuthorizationHeader());

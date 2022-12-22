@@ -112,7 +112,7 @@ export class UsersComponent implements OnInit {
       page : this.pageObj?.nextPage || 1,
       limit : this.pageObj?.limit || 6,
       "search" : ""
-    }
+    };
     this._promoteService.getImportedUsersList(filterObj).subscribe((result: any) => {
       if (result && result.IsSuccess) {
         if (this.allImportedUsers && this.allImportedUsers.length) {
@@ -120,6 +120,11 @@ export class UsersComponent implements OnInit {
         } else {
           this.allImportedUsers = this._globalFunctions.copyObject(result.Data.docs);
         }
+        // if (this.allImportedUsers && this.allImportedUsers.length && !(localStorage.getItem('selectAll'))) {
+        //   this.allImportedUsers = _.map(this.allImportedUsers, (importedUser: any) => {
+        //     return {...importedUser, selected: false};
+        //   });
+        // }
         this.pageObj = this._globalFunctions.copyObject(result.Data);
         this.totalUsersCount = this.pageObj.totalDocs;
         delete this.pageObj.docs;
@@ -132,6 +137,99 @@ export class UsersComponent implements OnInit {
       this._globalFunctions.errorHanding(error, this, true);
       this.isLoading = false;
     });
+  }
+
+  uploadUserCSV(event: any): any {
+    if (event.target.files && event.target.files[0]) {
+      this.isUploadCSVLoading = true;
+      const file = event.target.files[0];
+      if (file.type != 'text/csv' && file.type != 'text/xml' && file.type != 'text/xls' && file.type != 'text/xlsx') {
+        this._sNotify.error('File type is Invalid.', 'Oops!');
+        return false;
+      }
+
+      const importCSVObj: any = new FormData();
+      importCSVObj.append('file', file);
+      importCSVObj.append('notificationid', this.nId);
+      this._promoteService.importUsersCSV(importCSVObj).subscribe((result: any) => {
+        if (result && result.IsSuccess) {
+          if (result.Data.rejectedCount && result.Data.importCount > 0) {
+            this._sNotify.success(result.Data.importCount + ' Number of user records uploaded successfully.', 'Success');
+          }
+          if (result.Data.rejectedCount && result.Data.rejectedCount > 0) {
+            this._sNotify.error(result.Data.rejectedCount + ' Number of user records rejected.', 'Oops');
+          }
+          this.isUploadCSVLoading = false;
+        } else {
+          this._globalFunctions.successErrorHandling(result, this, true);
+          this.isUploadCSVLoading = false;
+        }
+      }, (error: any) => {
+        this._globalFunctions.errorHanding(error, this, true);
+        this.isUploadCSVLoading = false;
+      });
+    }
+  }
+
+  onSelectAllChecked(event: any): void {
+    if (this.allImportedUsers && this.allImportedUsers.length) {
+      if (event && event.target && event.target.checked) {
+        this.isLoading = true;
+        const prepareCheckAllUserObj: any = {
+          notificationid: this.nId,
+          is_selected_all: true,
+        };
+        this._promoteService.checkAllUser(prepareCheckAllUserObj).subscribe((result: any) => {
+          if (result && result.IsSuccess) {
+            this.allImportedUsers = _.map(this.allImportedUsers, (importedUser: any) => {
+              return {...importedUser, selected: true};
+            });
+            localStorage.setItem('selectAll', 'true');
+            this.isLoading = false;
+          } else {
+            this._globalFunctions.successErrorHandling(result, this, true);
+            this.isLoading = false;
+          }
+        }, (error: any) => {
+          this._globalFunctions.errorHanding(error, this, true);
+          this.isLoading = false;
+        });
+      } else {
+        this.allImportedUsers = _.map(this.allImportedUsers, (importedUser: any) => {
+          return {...importedUser, selected: false};
+        });
+        localStorage.removeItem('selectAll');
+      }
+    }
+  }
+
+  onCheckboxChange(importedUser: any, index: number): void {
+    if (importedUser && importedUser._id) {
+      this.isLoading = true;
+      const prepareCheckUserObj: any = {
+        notificationid: this.nId,
+        userid: importedUser._id,
+        selected: !(importedUser.selected)
+      };
+      this._promoteService.checkUser(prepareCheckUserObj).subscribe((result: any) => {
+        if (result && result.IsSuccess) {
+          const allImportedUsers: any = this._globalFunctions.copyObject(this.allImportedUsers);
+          allImportedUsers[index].selected = !(importedUser.selected);
+          this.allImportedUsers = this._globalFunctions.copyObject(allImportedUsers);
+          if (!prepareCheckUserObj.selected) {
+            this.usersForm.get('is_selected_all').setValue(false);
+            localStorage.removeItem('selectAll');
+          }
+          this.isLoading = false;
+        } else {
+          this._globalFunctions.successErrorHandling(result, this, true);
+          this.isLoading = false;
+        }
+      }, (error: any) => {
+        this._globalFunctions.errorHanding(error, this, true);
+        this.isLoading = false;
+      });
+    }
   }
 
   validateUsersObj(userFormObj: any = {}): any {
@@ -196,96 +294,6 @@ export class UsersComponent implements OnInit {
     });
   }
 
-  uploadUserCSV(event: any): any {
-    if (event.target.files && event.target.files[0]) {
-      this.isUploadCSVLoading = true;
-      const file = event.target.files[0];
-      if (file.type != 'text/csv' && file.type != 'text/xml' && file.type != 'text/xls' && file.type != 'text/xlsx') {
-        this._sNotify.error('File type is Invalid.', 'Oops!');
-        return false;
-      }
-
-      const importCSVObj: any = new FormData();
-      importCSVObj.append('file', file);
-      importCSVObj.append('notificationid', this.nId);
-      this._promoteService.importUsersCSV(importCSVObj).subscribe((result: any) => {
-        if (result && result.IsSuccess) {
-          if (result.Data.rejectedCount && result.Data.importCount > 0) {
-            this._sNotify.success(result.Data.importCount + ' Number of user records uploaded successfully.', 'Success');
-          }
-          if (result.Data.rejectedCount && result.Data.rejectedCount > 0) {
-            this._sNotify.error(result.Data.rejectedCount + ' Number of user records rejected.', 'Oops');
-          }
-          this.isUploadCSVLoading = false;
-        } else {
-          this._globalFunctions.successErrorHandling(result, this, true);
-          this.isUploadCSVLoading = false;
-        }
-      }, (error: any) => {
-        this._globalFunctions.errorHanding(error, this, true);
-        this.isUploadCSVLoading = false;
-      });
-    }
-  }
-
-  onSelectAllChecked(event: any): void {
-    if (this.allImportedUsers && this.allImportedUsers.length) {
-      if (event && event.target && event.target.checked) {
-        this.isLoading = true;
-        const prepareCheckAllUserObj: any = {
-          notificationid: this.nId,
-          is_selected_all: true,
-        };
-        this._promoteService.checkAllUser(prepareCheckAllUserObj).subscribe((result: any) => {
-          if (result && result.IsSuccess) {
-            this.allImportedUsers = _.map(this.allImportedUsers, (importedUser: any) => {
-              return {...importedUser, selected: true};
-            });
-            this.isLoading = false;
-          } else {
-            this._globalFunctions.successErrorHandling(result, this, true);
-            this.isLoading = false;
-          }
-        }, (error: any) => {
-          this._globalFunctions.errorHanding(error, this, true);
-          this.isLoading = false;
-        });
-      } else {
-        this.allImportedUsers = _.map(this.allImportedUsers, (importedUser: any) => {
-          return {...importedUser, selected: false};
-        });
-      }
-    }
-  }
-
-  onCheckboxChange(importedUser: any, index: number): void {
-    if (importedUser && importedUser._id) {
-      this.isLoading = true;
-      const prepareCheckUserObj: any = {
-        notificationid: this.nId,
-        userid: importedUser._id,
-        selected: !(importedUser.selected)
-      };
-      this._promoteService.checkUser(prepareCheckUserObj).subscribe((result: any) => {
-        if (result && result.IsSuccess) {
-          const allImportedUsers: any = this._globalFunctions.copyObject(this.allImportedUsers);
-          allImportedUsers[index].selected = !(importedUser.selected);
-          this.allImportedUsers = this._globalFunctions.copyObject(allImportedUsers);
-          if (!prepareCheckUserObj.selected) {
-            this.usersForm.get('is_selected_all').setValue(false);
-          }
-          this.isLoading = false;
-        } else {
-          this._globalFunctions.successErrorHandling(result, this, true);
-          this.isLoading = false;
-        }
-      }, (error: any) => {
-        this._globalFunctions.errorHanding(error, this, true);
-        this.isLoading = false;
-      });
-    }
-  }
-
   onBackClick(): void {
     this._router.navigate(['/notifications/promote/user-type']);
   }
@@ -317,6 +325,12 @@ export class UsersComponent implements OnInit {
       is_selected_all: [usersObj?.is_selected_all || false],
       // selected_users: [usersObj?.selected_users || []],
     });
+    this.usersForm.get('is_selected_all').setValue(!!(localStorage.getItem('selectAll')));
+    if (this.allImportedUsers && this.allImportedUsers.length && !(localStorage.getItem('selectAll'))) {
+      this.allImportedUsers = _.map(this.allImportedUsers, (importedUser: any) => {
+        return {...importedUser, selected: false};
+      });
+    }
   }
 
 }

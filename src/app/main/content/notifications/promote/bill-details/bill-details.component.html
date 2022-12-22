@@ -8,9 +8,9 @@
         <div class="w-full flex justify-between">
           <div class="">
             <p class="text-base text-japaneseIndigo font-bold">Notification</p>
-            <span class="text-sm text-gray-300 font-normal">(Free)</span>
+            <span class="text-sm text-gray-300 font-normal">{{settingObj?.notificationcost}}</span>
           </div>
-          <h4 class="font-normal"><i class="icon-rs rs-black text-base mr-3"></i>0</h4>
+          <h4 class="font-normal"><i class="icon-rs rs-black text-base mr-2"></i>{{(calculateTotalObj?.notificationTotal || 0) | number:'1.2-2'}}</h4>
         </div>
       </div>
       <div class="flex items-start">
@@ -18,9 +18,9 @@
         <div class="w-full flex justify-between">
           <div class="">
             <p class="text-base text-japaneseIndigo font-bold">SMS</p>
-            <span class="text-sm text-gray-300 font-normal">280 Phone Number x 0.18</span>
+            <span class="text-sm text-gray-300 font-normal">280 Phone Number x {{settingObj?.smscost}}</span>
           </div>
-          <h4 class="font-normal"><i class="icon-rs rs-black text-base mr-3"></i>6</h4>
+          <h4 class="font-normal"><i class="icon-rs rs-black text-base mr-2"></i>{{(calculateTotalObj?.smsTotal || 0) | number:'1.2-2'}}</h4>
         </div>
       </div>
       <div class="flex items-start">
@@ -28,19 +28,19 @@
         <div class="w-full flex justify-between">
           <div class="">
             <p class="text-base text-japaneseIndigo font-bold">Email</p>
-            <span class="text-sm text-gray-300 font-normal">100 Email ID x 0.06</span>
+            <span class="text-sm text-gray-300 font-normal">100 Email ID x {{settingObj?.emailcost}}</span>
           </div>
-          <h4 class="font-normal"><i class="icon-rs rs-black text-base mr-3"></i>50.4</h4>
+          <h4 class="font-normal"><i class="icon-rs rs-black text-base mr-2"></i>{{(calculateTotalObj?.emailTotal || 0) | number:'1.2-2'}}</h4>
         </div>
       </div>
       <div class="flex justify-between capitalize text-magicPotion" *ngIf="selectedCoupon && selectedCoupon._id && selectedCoupon._id != ''">
         <h5>discount savings</h5>
-        <h4>- <i class="icon-rs rs-black text-base mr-3"></i>30</h4>
+        <h4>- <i class="icon-rs rs-black text-base mr-2"></i>{{(calculateTotalObj?.totalDiscount || 0) | number:'1.2-2'}}</h4>
       </div>
       <span class="block border-b-2 border-dashed border-gray-300"></span>
       <div class="flex justify-between capitalize">
         <h2>total</h2>
-        <h4><i class="icon-rs rs-black text-lg"></i>26.4</h4>
+        <h4><i class="icon-rs rs-black text-lg mr-2"></i>{{(calculateTotalObj.total || 0) | number:'1.2-2'}}</h4>
       </div>
     </div>
   </div>
