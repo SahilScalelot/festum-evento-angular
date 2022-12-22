@@ -51,8 +51,8 @@ export class PromoteService {
   }
 
   // Get Settings Api
-  getSettings(): any {
-    return this.http.get(environment.appURL + 'organizer/notification/setting', this._globalFunctions.getAuthorizationHeader());
+  getSettings(notificationId: any = ''): any {
+    return this.http.get(environment.appURL + 'organizer/notification/setting?notificationid=' + notificationId, this._globalFunctions.getAuthorizationHeader());
   }
 
   // Import CSV File Api

@@ -153,7 +153,7 @@ export class DiscountStepComponent implements OnInit {
 
   private _prepareDiscountForm(discountObj: any = {}) {
     this.discountForm = this._formBuilder.group({
-      discount: [(discountObj.discount && discountObj.discount.includes('%')) ? discountObj.discount.replace('%', '') : discountObj.discount || '', [Validators.required]],
+      discount: [discountObj?.discount || '', [Validators.required]],
       items: [(discountObj.isUpdated) ? (discountObj?.items || []) : _.map(discountObj?.items || [], '_id') || []],
     });
   }
