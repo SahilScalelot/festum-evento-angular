@@ -13,6 +13,7 @@ export class PromoteComponent implements OnInit {
   constructor(private _router: Router) { }
 
   ngOnInit(): void {
+    localStorage.removeItem('selectAll');
     if (!localStorage.getItem('nId') || localStorage.getItem('nId') == '') {
       this._router.navigate(['/notifications']);
     }

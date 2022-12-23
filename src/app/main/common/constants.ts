@@ -27,6 +27,7 @@ export const CONSTANTS = {
 
   userDefaultImage: './assets/images/profile.jpg',
   defaultImage: './assets/images/dummy-image.jpg',
+  importUsersDemoUrl: 'global/importusers.csv',
 
   baseImageURL: environment.baseImageURL,
   appUrl: environment.appURL,

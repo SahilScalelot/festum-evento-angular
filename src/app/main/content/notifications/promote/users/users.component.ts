@@ -159,6 +159,9 @@ export class UsersComponent implements OnInit {
           if (result.Data.rejectedCount && result.Data.rejectedCount > 0) {
             this._sNotify.error(result.Data.rejectedCount + ' Number of user records rejected.', 'Oops');
           }
+          this.pageObj = {};
+          this.allImportedUsers = [];
+          this.getImportedUsersList();
           this.isUploadCSVLoading = false;
         } else {
           this._globalFunctions.successErrorHandling(result, this, true);
@@ -232,17 +235,23 @@ export class UsersComponent implements OnInit {
 
   validateUsersObj(userFormObj: any = {}): any {
     if (this.isAllUserSelected) {
-      if (!userFormObj.selected_plan && !userFormObj.numberofusers && !userFormObj.published_location) {
+      if ((!userFormObj.selected_plan || userFormObj.selected_plan == '') &&
+          (!userFormObj.numberofusers || Number(userFormObj?.numberofusers || 0) <= 0) &&
+          (!userFormObj.published_location || userFormObj.published_location == '')) {
         this._sNotify.error('You have to select plan or select app users and ads publish location', 'Oops');
         return false;
       }
 
-      if (!userFormObj.selected_plan && userFormObj.numberofusers && !userFormObj.published_location) {
+      if ((!userFormObj.selected_plan || userFormObj.selected_plan == '') &&
+          userFormObj.numberofusers && Number(userFormObj?.numberofusers || 0) > 0 &&
+          (!userFormObj.published_location || userFormObj.published_location == '')) {
         this._sNotify.error('Ads publish location is required', 'Oops');
         return false;
       }
 
-      if (!userFormObj.selected_plan && !userFormObj.numberofusers && userFormObj.published_location) {
+      if ((!userFormObj.selected_plan || userFormObj.selected_plan == '') &&
+          (!userFormObj.numberofusers || Number(userFormObj?.numberofusers || 0) <= 0) &&
+          userFormObj.published_location && userFormObj.published_location != '') {
         this._sNotify.error('Please select app users', 'Oops');
         return false;
       }
@@ -259,13 +268,21 @@ export class UsersComponent implements OnInit {
   prepareUsersObj(usersObj: any = {}): any {
     const preparedUsersObj = this._globalFunctions.copyObject(usersObj);
     if (this.isAllUserSelected) {
-      preparedUsersObj.published_location = '';
-      preparedUsersObj.selected_plan = '';
+      if (preparedUsersObj.selected_plan) {
+        preparedUsersObj.published_location = '';
+        preparedUsersObj.numberofusers = '';
+      } else {
+        preparedUsersObj.selected_plan = '';
+      }
       preparedUsersObj.is_selected_all = '';
     } else if (this.isExistingUserSelected) {
       preparedUsersObj.numberofusers = '';
       preparedUsersObj.published_location = '';
       preparedUsersObj.selected_plan = '';
+    } else {
+      preparedUsersObj.is_selected_all = '';
+      preparedUsersObj.selected_plan = '';
+      preparedUsersObj.published_location = '';
     }
     return preparedUsersObj;
   }

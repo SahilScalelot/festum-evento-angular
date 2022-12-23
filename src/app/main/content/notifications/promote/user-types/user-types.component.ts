@@ -29,6 +29,7 @@ export class UserTypesComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    localStorage.removeItem('selectAll');
     this.nId = localStorage.getItem('nId');
     if (this.nId && this.nId != '') {
       this._prepareUserTypesForm();
