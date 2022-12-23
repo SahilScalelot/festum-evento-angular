@@ -40,10 +40,6 @@ export class EntertainmentComponent implements OnInit {
       if (result && result.IsSuccess) {
         this.allEntertainmentPhotosAndVideosList = this._globalFunctions.copyObject(result?.Data || []);
         this.entertainmentArrObj = _.mapValues(_.groupBy(this.allEntertainmentPhotosAndVideosList, 'media'));
-
-        console.log(this.allEntertainmentPhotosAndVideosList);
-        console.log(this.entertainmentArrObj.photo);
-        console.log(this.entertainmentArrObj.video);
         this.isLoading = false;
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
@@ -58,7 +54,6 @@ export class EntertainmentComponent implements OnInit {
   openPop(event: any, entertainment: any = {}): void {
     this._modalService.open("detailPop");
     this.tmpEObj = entertainment;
-    // this.tmpEObj = {};
   }
 
   openUrl(event: any, entertainment: any = {}): void {
