@@ -3,12 +3,12 @@
     <div class="space-y-6 w-full">
       <h2>Entertainment</h2>
       <div class="teb-holder gallery-holder border-t border-b-0">
-        <button type="button" class="gallery active" data-tab="all">All</button>
-        <button type="button" class="gallery" data-tab="photo">Photo</button>
-        <button type="button" class="gallery" data-tab="video">Video</button>
+        <button type="button" (click)="all = true; images = false; videos = false;" class="gallery" [ngClass]="{'active': all}" data-tab="all">All</button>
+        <button type="button" (click)="all = false; images = true; videos = false;" class="gallery" [ngClass]="{'active': images}" data-tab="photo">Photo</button>
+        <button type="button" (click)="all = false; images = false; videos = true;" class="gallery" [ngClass]="{'active': videos}" data-tab="video">Video</button>
       </div>
       <div class="entertainmentGrid text-center">
-        <div class="figure relative group rounded overflow-hidden" *ngFor="let entertainment of entertainmentObj, let i = index">
+        <div class="figure relative group rounded overflow-hidden" *ngFor="let entertainment of (all ? (allEntertainmentPhotosAndVideosList || []) : (images ? (entertainmentArrObj?.photo || []) : (entertainmentArrObj?.video || []))), let i = index">
           <div class="media">
             <p-image [src]="!!(entertainment?.url) ? constants.baseImageURL + entertainment.url : constants.defaultImage" imageClass="mx-auto" styleClass="w-full" [preview]="true" *ngIf="entertainment?.media == 'photo'"></p-image>
             <video [src]="!!(entertainment?.url) ? constants.baseImageURL + entertainment.url : constants.defaultImage" *ngIf="entertainment?.media == 'video'"
@@ -31,7 +31,7 @@
   </div>
 </div>
 
-<modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="detailPop" [title]="tmpEObj?.name" maxWidth="lg:max-w-3xl" *ngIf="entertainmentObj">
+<modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="detailPop" [title]="tmpEObj?.name" maxWidth="lg:max-w-3xl" *ngIf="allEntertainmentPhotosAndVideosList && allEntertainmentPhotosAndVideosList.length">
   <div class="pt-6 space-y-5">
     <div class="flex items-center relative">
       <img [src]="!!(tmpEObj?.url) ? constants.baseImageURL + tmpEObj.url : constants.defaultImage" [alt]="tmpEObj?.name" *ngIf="tmpEObj?.media == 'photo'"

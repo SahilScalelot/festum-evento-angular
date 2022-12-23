@@ -9,6 +9,7 @@ import { BillDetailsComponent } from './bill-details/bill-details.component';
 import { StepsModule } from 'primeng/steps';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CalendarModule } from "primeng/calendar";
+import { ProgressSpinnerModule} from "primeng/progressspinner";
 
 const routes: Routes = [
   {
@@ -46,6 +47,7 @@ const routes: Routes = [
     StepsModule,
     ReactiveFormsModule,
     CalendarModule,
+    ProgressSpinnerModule
   ]
 })
 export class PromoteModule { }

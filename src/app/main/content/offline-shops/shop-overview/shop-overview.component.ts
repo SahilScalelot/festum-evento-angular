@@ -64,7 +64,7 @@ export class ShopOverviewComponent implements OnInit {
     this._offlineShopsService.getOfflineShopByShopId(this.shopId).subscribe((result: any) => {
       this.shopObj = result.Data;
       this.weekdays = this.weekdays.map((dayObj: any) => {
-        dayObj.isSelected = (this.shopObj.shop_days.indexOf(dayObj.value) != -1);
+        dayObj.isSelected = (this.shopObj && this.shopObj.shop_days && this.shopObj.shop_days.indexOf(dayObj.value) != -1);
         return dayObj;
       });
       setTimeout(() => {
