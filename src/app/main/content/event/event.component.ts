@@ -87,14 +87,15 @@ export class EventComponent implements OnInit {
     this._router.navigate(['/events/create/add-event']);
   }
 
-  liveEvent(event: any, eventObj: any): void {
+  liveEvent(event: any, eventObj: any, index: number): void {
     event.stopPropagation();
     if (eventObj.is_approved) {
       this.isLoading = true;
       this._eventService.liveEventById(eventObj._id).subscribe((result: any) => {
         if (result && result.IsSuccess) {
-          // this.paging = result.Data;
-          // this.events = result.Data.docs;
+          const tmpEvents = this._globalFunctions.copyObject(this.events);
+          tmpEvents[index].is_live = event.target.checked;
+          this.events =this._globalFunctions.copyObject(tmpEvents);
           this.isLoading = false;
         } else {
           this._globalFunctions.successErrorHandling(result, this, true);
@@ -108,22 +109,26 @@ export class EventComponent implements OnInit {
   }
   
   multipleLiveEvent(): void {
-    this.isLoading = true;
-    this._eventService.liveMultipleEvents(this.selectedEventIds).subscribe((result: any) => {
-      if (result && result.IsSuccess) {
-        // this.selectedEventIds.forEach((eventId: any) => {
-        //   const getObj: any = _.find(this.events, ["id", eventId]);
-        //   getObj.live = true;
-        // });
+    if (this.selectedEventIds && this.selectedEventIds.length) {
+      this.isLoading = true;
+      this._eventService.liveMultipleEvents(this.selectedEventIds).subscribe((result: any) => {
+        if (result && result.IsSuccess) {
+          this.selectedEventIds.forEach((eventId: any) => {
+            const getObj: any = _.find(this.events, ["id", eventId]);
+            getObj.is_live = true;
+          });
+          this.selectedEventIds = [];
+          // this.events = [...this.events];
+          this.isLoading = false;
+        } else {
+          this._globalFunctions.successErrorHandling(result, this, true);
+          this.isLoading = false;
+        }
+      }, (error: any) => {
+        this._globalFunctions.errorHanding(error, this, true);
         this.isLoading = false;
-      } else {
-        this._globalFunctions.successErrorHandling(result, this, true);
-        this.isLoading = false;
-      }
-    }, (error: any) => {
-      this._globalFunctions.errorHanding(error, this, true);
-      this.isLoading = false;
-    });
+      });
+    }
   }
 
   gotoEventOverview(event: any, eventObj: any): void {

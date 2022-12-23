@@ -199,25 +199,25 @@ input[type="checkbox"].switch:checked ~ .off{@apply text-japaneseIndigo;}
 input:checked + .check-language{@apply bg-magicPotion;}
 input:checked + .check-language i{@apply scale-100;}
 
-/* Accordions */
-.accordion_item,
+// Accordions
+.accordion_item{@apply bg-white px-8 py-7 rounded-md;}
+.accordion_item h2.title_tab{@apply flex items-center justify-between cursor-pointer capitalize text-xl 2xl:text-2xl;}
+.accordion_item h2.title_tab span{@apply flex items-center text-lg text-japaneseIndigo;}
+.accordion_item .inner_content{@apply tracking-normal w-11/12 space-y-4 mt-1.5 md:mt-5 hidden;}
+.accordion_item .inner_content p{@apply text-quicksilver font-normal;}
+.title_tab span .icon-minus{@apply hidden;}
+.title_tab.active span .icon-plus{@apply hidden;}
+.title_tab.active span .icon-minus{@apply block;}
+
+/* P Accordions */
 .p-accordion-tab .p-accordion-header .p-accordion-header-link{@apply bg-white px-8 py-7 rounded-md border-0 focus:shadow-none;}
 .p-accordion-tab .p-accordion-header .p-accordion-header-link{background-color: #fff !important;}
-.accordion_item h2.title_tab,
 .p-accordion-tab .p-accordion-header .p-accordion-header-link{@apply flex flex-row-reverse items-center justify-between cursor-pointer capitalize text-xl 2xl:text-2xl;}
 .p-accordion-tab .p-accordion-header .p-accordion-header-link:focus{box-shadow: none !important;}
 .p-accordion-tab .p-accordion-header:hover .p-accordion-header-link{background-color: #fff !important;}
 .p-accordion p-accordiontab .p-accordion-tab {margin-bottom: 15px;}
-.accordion_item h2.title_tab span{@apply flex items-center text-lg text-japaneseIndigo;}
-
-.accordion_item .inner_content,
 .p-toggleable-content .p-accordion-content{@apply tracking-normal px-8 w-full space-y-4 pt-0 border-0;}
-.accordion_item .inner_content p,
 .p-toggleable-content .p-accordion-content{@apply text-quicksilver font-normal;}
-
-.title_tab span .icon-minus{@apply hidden;}
-.title_tab.active span .icon-plus{@apply hidden;}
-.title_tab.active span .icon-minus{@apply block;}
 
 /* chat-area */
 .chat-holder{@apply h-[calc(100vh-350px)] overflow-y-auto p-7 space-y-8;}

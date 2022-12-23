@@ -11,6 +11,7 @@ import * as _ from 'lodash';
 export class ArrangementDialogComponent implements OnInit {
   constants: any = CONSTANTS;
   seatingForm: any;
+  seatingLocationIcon: any;
   selectedTab = 0;
   totalArrangementsObj: any = {};
   selectedSeatingObj: any = {};
@@ -34,7 +35,6 @@ export class ArrangementDialogComponent implements OnInit {
     this.prepareSeatingItems();
     if (this.editArrangementObj && this.editArrangementObj.seating_item) {
       this.selectedSeatingObj = this.editArrangementObj.seating_item;
-
     }
   }
 

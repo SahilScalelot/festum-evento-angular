@@ -128,15 +128,19 @@ export class ArrangementStepComponent implements OnInit {
   }
   
   prepareObj(arrangementsArr: any = []): any {
+    const tmpArrangementsArr = this._globalFunctions.copyObject(arrangementsArr);
     const preparedObj: any = {};
     preparedObj.eventid = this.eventId;
     preparedObj.seating_arrangements = [];
-    arrangementsArr.forEach((arrangement: any) => {
+    tmpArrangementsArr.forEach((arrangement: any) => {
       arrangement.seating_item = arrangement.seating_item._id;
       _.each(arrangement.arrangements, (arrangementSeating: any) => {
         arrangementSeating.per_person_price = Number(arrangementSeating.per_person_price).toFixed(2);
         arrangementSeating.per_seating_price = Number(arrangementSeating.per_seating_price).toFixed(2);
         arrangementSeating.total_amount = Number(arrangementSeating.total_amount).toFixed(2);
+        if (arrangementSeating && arrangementSeating.vertical_location && arrangementSeating.vertical_location != '' && arrangementSeating.horizontal_location && arrangementSeating.horizontal_location != '') {
+          arrangementSeating.icon = 'global/icons/' + (arrangementSeating.vertical_location.toLowerCase()) + '_' + (arrangementSeating.horizontal_location.toLowerCase()) + '.svg';
+        }
       });
       preparedObj.seating_arrangements.push(arrangement);
     });
