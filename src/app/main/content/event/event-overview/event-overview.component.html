@@ -8,8 +8,8 @@
     <div class="flex items-center justify-between bg-white py-5 px-7 rounded-md">
       <div class="w-full md:w-1/2 space-y-3">
         <div class="flex items-center space-x-3">
-          <span class="px-3 py-1 rounded-sm text-xs text-white font-bold bg-magicPotion">Unverified</span>
-          <span class="px-3 py-1 rounded-sm text-xs text-white font-bold bg-caribbeanGreen">Booking Accepting</span>
+          <span class="text-xs text-white font-bold px-3 rounded-xl py-1" [ngClass]="!!(events?.is_approved) ? 'bg-caribbeanGreen' : 'bg-magicPotion'">{{!!(events?.is_approved) ? 'Verified' : 'Unverified'}}</span>
+          <span class="text-xs text-white font-bold px-3 rounded-xl py-1" [ngClass]="!!(events?.accept_booking) ? 'bg-caribbeanGreen' : 'bg-magicPotion'">{{!!(events?.accept_booking) ? 'Booking Accepting' : 'Booking Not Accepting'}}</span>
         </div>
         <h2>{{ events.name }}</h2>
         <div class="flex items-center space-x-1">
@@ -25,10 +25,10 @@
           <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" href="javascript:void(0);"><i class="icon-share text-sm leading-0 text-japaneseIndigo"></i></a>
         </div>
         <div class="flex items-center justify-end space-x-3">
-          <div class="flex items-center justify-end">
-            <input checked="" class="switch mr-1.5 lg:mx-3 order-2" type="checkbox">
+          <label class="flex items-center justify-end">
+            <input type="checkbox" class="switch mr-1.5 lg:mx-3 order-2" (click)="liveEvent($event, events)" [checked]="events?.is_live" [disabled]="!events.is_approved"/>
             <span class="text-base font-bold anim order-3">Live</span>
-          </div>
+          </label>
           <span class="px-3 py-1 rounded-sm text-xs text-white font-bold bg-magicPotion">{{events?.event_category?.categoryname}}</span>
           <span class="px-3 py-1 rounded-sm text-xs text-white font-bold bg-japaneseIndigo">{{constants?.eventTypeArr[constants?.eventTypeObj[events?.event_type]]?.displayLabel}}</span>
         </div>

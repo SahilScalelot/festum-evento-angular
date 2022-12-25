@@ -27,8 +27,8 @@
                   <div class="w-full lg:w-auto">
                     <div class="flex items-center space-x-2 lg:space-x-4">
                       <h4 class="text-japaneseIndigo">{{event?.name}}</h4>
-                      <span class="text-xs text-white font-bold bg-magicPotion px-3 rounded-xl py-1">{{!!(event?.is_approved) ? 'Verified' : 'Unverified'}}</span>
-                      <span class="text-xs text-white font-bold bg-caribbeanGreen px-3 rounded-xl py-1">{{!!(event?.accept_booking) ? 'Booking Accepting' : 'Booking Not Accepting'}}</span>
+                      <span class="text-xs text-white font-bold px-3 rounded-xl py-1" [ngClass]="!!(event?.is_approved) ? 'bg-caribbeanGreen' : 'bg-magicPotion'">{{!!(event?.is_approved) ? 'Verified' : 'Unverified'}}</span>
+                      <span class="text-xs text-white font-bold px-3 rounded-xl py-1" [ngClass]="!!(event?.accept_booking) ? 'bg-caribbeanGreen' : 'bg-magicPotion'">{{!!(event?.accept_booking) ? 'Booking Accepting' : 'Booking Not Accepting'}}</span>
                     </div>
                     <div class="flex flex-wrap pt-3">
                       <div class="border-brightGray px-2 lg:pl-0 lg:pr-4">
