@@ -18,10 +18,12 @@ export class BillDetailsComponent implements OnInit {
   notificationObj: any = {};
   settingObj: any = {};
   calculateTotalObj: any = {};
+  selectedPlanObj: any = {};
   couponsList: any = [];
   isCouponLoading: boolean = false;
   isLoading: boolean = false;
   selectedCoupon: any = '';
+  numberOfUsers: any = 0;
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -67,9 +69,11 @@ export class BillDetailsComponent implements OnInit {
 
   getSettings(): void {
     this.isLoading = true;
-    this._promoteService.getSettings().subscribe((result: any) => {
+    this._promoteService.getSettings(this.nId).subscribe((result: any) => {
       if (result && result.IsSuccess) {
-        this.settingObj = this._globalFunctions.copyObject(result.Data[0]);
+        this.settingObj = this._globalFunctions.copyObject(result.Data?.settings[0] || {});
+        this.selectedPlanObj = this._globalFunctions.copyObject(result.Data?.planData || {});
+        this.numberOfUsers = result.Data.numberofusers;
         this.calculatePrice();
         this.isLoading = false;
       } else {
@@ -83,12 +87,47 @@ export class BillDetailsComponent implements OnInit {
   }
 
   calculatePrice(): void {
-    this.calculateTotalObj.notificationTotal = this.settingObj.notificationcost;
-    this.calculateTotalObj.smsTotal = this.settingObj.smscost;
-    this.calculateTotalObj.emailTotal = this.settingObj.emailcost;
-    this.calculateTotalObj.totalDiscount = this.settingObj.emailcost;
-    this.calculateTotalObj.total = _.sum([this.calculateTotalObj.notificationTotal, this.calculateTotalObj.smsTotal, this.calculateTotalObj.emailTotal]);
+    const isNotify = (this.notificationObj && this.notificationObj.is_notification);
+    const isNotifyBySMS = (this.notificationObj && this.notificationObj.is_sms);
+    const isNotifyByEmail = (this.notificationObj && this.notificationObj.is_email);
 
+    this.calculateTotalObj.notificationTotal = (isNotify) ? Number(this.numberOfUsers) * Number(this.settingObj.notificationcost) : 0;
+    this.calculateTotalObj.smsTotal = (isNotifyBySMS) ? Number(this.numberOfUsers) * Number(this.settingObj.smscost) : 0;
+    this.calculateTotalObj.emailTotal = (isNotifyByEmail) ? Number(this.numberOfUsers) * Number(this.settingObj.emailcost) : 0;
+    this.calculateTotalObj.subTotal = _.sum([this.calculateTotalObj.notificationTotal, this.calculateTotalObj.smsTotal, this.calculateTotalObj.emailTotal]);
+
+    if (this.selectedPlanObj && this.selectedPlanObj._id) {
+      this.calculateTotalObj.notificationTotal = (isNotify) ? this.selectedPlanObj.notification_amount : 0;
+      this.calculateTotalObj.smsTotal = (isNotifyBySMS) ? this.selectedPlanObj.sms_amount : 0;
+      this.calculateTotalObj.emailTotal = (isNotifyByEmail) ? this.selectedPlanObj.email_amount : 0;
+      this.calculateTotalObj.planDiscount = (isNotify && isNotifyBySMS && isNotifyByEmail);
+
+      this.calculateTotalObj.subTotal = _.sum([this.calculateTotalObj.notificationTotal, this.calculateTotalObj.smsTotal, this.calculateTotalObj.emailTotal]);
+      if (this.calculateTotalObj.planDiscount) {
+        this.calculateTotalObj.subTotal = this.selectedPlanObj.combo_amount;
+      }
+    }
+
+    this.calculateTotalObj.totalCouponDiscount = 0;
+    if (this.selectedCoupon && this.selectedCoupon._id) {
+      if (this.selectedCoupon.amount) {
+        this.calculateTotalObj.totalCouponDiscount = (this.selectedCoupon.amount <= this.calculateTotalObj.subTotal) ? this.selectedCoupon.amount : this.calculateTotalObj.subTotal;
+      } else if (this.selectedCoupon.percentage) {
+        const percentageCount = (this.selectedCoupon.percentage * (this.calculateTotalObj.subTotal / 100));
+        this.calculateTotalObj.totalCouponDiscount = (percentageCount <= this.calculateTotalObj.subTotal) ? percentageCount : this.calculateTotalObj.subTotal;
+      }
+    }
+    this.calculateTotalObj.total = this.calculateTotalObj.subTotal - this.calculateTotalObj.totalCouponDiscount;
+  }
+
+  onApplyCoupon(coupon: any = {}): void {
+    this.selectedCoupon = this._globalFunctions.copyObject(coupon);
+    this.calculatePrice();
+  }
+
+  onRemoveCoupon(): void {
+    this.selectedCoupon = '';
+    this.calculatePrice();
   }
 
   getNotificationById(): void {
@@ -96,7 +135,9 @@ export class BillDetailsComponent implements OnInit {
     this._promoteService.getNotificationById(this.nId).subscribe((result: any) => {
       if (result && result.IsSuccess) {
         this._globalService.promoteNotification$.next(result.Data);
+        this.notificationObj = result.Data;
         this._prepareBillDetailsForm(result.Data);
+        this.calculatePrice();
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
       }

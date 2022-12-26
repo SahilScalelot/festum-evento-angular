@@ -1,0 +1,43 @@
+<div class="flex min-h-full wrapper">
+  <div class="flex flex-wrap space-y-7 w-full">
+    <div class="space-y-6 w-full">
+      <h2>Entertainment</h2>
+      <div class="teb-holder gallery-holder border-t border-b-0">
+        <button type="button" (click)="all = true; images = false; videos = false;" class="gallery" [ngClass]="{'active': all}" data-tab="all">All</button>
+        <button type="button" (click)="all = false; images = true; videos = false;" class="gallery" [ngClass]="{'active': images}" data-tab="photo">Photo</button>
+        <button type="button" (click)="all = false; images = false; videos = true;" class="gallery" [ngClass]="{'active': videos}" data-tab="video">Video</button>
+      </div>
+      <div class="entertainmentGrid text-center">
+        <div class="figure relative group rounded overflow-hidden" *ngFor="let entertainment of (all ? (allEntertainmentPhotosAndVideosList || []) : (images ? (entertainmentArrObj?.photo || []) : (entertainmentArrObj?.video || []))), let i = index">
+          <div class="media">
+            <p-image [src]="!!(entertainment?.url) ? constants.baseImageURL + entertainment.url : constants.defaultImage" imageClass="mx-auto" styleClass="w-full" [preview]="true" *ngIf="entertainment?.media == 'photo'"></p-image>
+            <video [src]="!!(entertainment?.url) ? constants.baseImageURL + entertainment.url : constants.defaultImage" *ngIf="entertainment?.media == 'video'"
+            class="w-full h-full object-cover bg-white"></video>
+          </div>
+          <span class="absolute top-0 left-0 text-white bg-black mix-blend-exclusion py-0.5 px-2 text-xs rounded-sm">{{entertainment?.type}}</span>
+          <span class="absolute top-0 right-0 text-white bg-black mix-blend-exclusion py-0.5 px-2 text-xs rounded-sm">{{entertainment?.media}}</span>
+          <div class="absolute bottom-0 left-0 right-0 bg-white px-2 opacity-0 anim group-hover:opacity-100">
+            <div class="flex flex-wrap items-center justify-between text-center space-x-2">
+              <p class="py-1">{{entertainment?.name}}</p>
+              <div class="flex space-x-2 py-1">
+                <button type="button" (click)="openUrl($event, entertainment)" pTooltip="View This Link" tooltipPosition="bottom" tooltipStyleClass="text-xs px-1.5 py-0.5"><i class="icon-big_screen"></i></button>
+                <button type="button" (click)="openPop($event, entertainment)" *ngIf="entertainment?.media == 'video'" pTooltip="View Video" tooltipPosition="bottom" tooltipStyleClass="text-xs px-1.5 py-0.5" class="cursor-pointer w-7 h-7 flex justify-center items-center bg-slate-100 rounded-full"><i class="icon-play text-magicPotion"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="detailPop" [title]="tmpEObj?.name" maxWidth="lg:max-w-3xl" *ngIf="allEntertainmentPhotosAndVideosList && allEntertainmentPhotosAndVideosList.length">
+  <div class="pt-6 space-y-5">
+    <div class="flex items-center relative">
+      <img [src]="!!(tmpEObj?.url) ? constants.baseImageURL + tmpEObj.url : constants.defaultImage" [alt]="tmpEObj?.name" *ngIf="tmpEObj?.media == 'photo'"
+        class="mx-auto" />
+      <video [src]="!!(tmpEObj?.url) ? constants.baseImageURL + tmpEObj.url : constants.defaultImage" *ngIf="tmpEObj?.media == 'video'"
+        class="w-full h-full object-cover bg-white" controls></video>
+    </div>
+  </div>
+</modal>

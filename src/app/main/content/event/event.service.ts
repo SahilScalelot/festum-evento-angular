@@ -14,12 +14,20 @@ export class EventService {
   //   return this.http.get(environment.appURL + 'events/' + '?limit='+ limit +'&page=' + page, this._globalFunctions.getAuthorizationHeader());
   // }
   
-  eventsList(filter: any): any {
+  eventsList(filter: any = {}): any {
     return this.http.post(environment.appURL + 'organizer/events/list', filter, this._globalFunctions.getFileAuthorizationHeader());
   }
   
-  getSingleEvents(eventId: any): any {
+  getSingleEvents(eventId: any = ''): any {
     return this.http.get(environment.appURL + 'organizer/events/getone?eventid=' + eventId, this._globalFunctions.getAuthorizationHeader());
+  }
+
+  liveEventById(eventId: any = ''): any {
+    return this.http.post(environment.appURL + 'organizer/events/liveone', {eventid: eventId}, this._globalFunctions.getAuthorizationHeader());
+  }
+
+  liveMultipleEvents(eventIds: any = []): any {
+    return this.http.post(environment.appURL + 'organizer/events/livemulti', {eventids: eventIds}, this._globalFunctions.getAuthorizationHeader());
   }
 
   // retrieveUser(): any {

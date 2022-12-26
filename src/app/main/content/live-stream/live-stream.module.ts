@@ -7,7 +7,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { PaginatorModule } from 'primeng/paginator';
 import { ImageModule } from 'primeng/image';
 import { ModalModule } from '../../_modal';
-import { SharedModule } from 'primeng/api';
+import { SharedModule } from "../../../shared/shared.module";
 import { ReactiveFormsModule } from '@angular/forms';
 import { CalendarModule } from 'primeng/calendar';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
@@ -44,7 +44,7 @@ const routes: Routes = [
     ProgressSpinnerModule,
     PaginatorModule,
     ImageModule,
-    RatingModule
+    RatingModule,
   ]
 })
 export class LiveStreamModule { }

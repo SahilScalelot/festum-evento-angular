@@ -1,25 +1,24 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
-import {AuthGuard} from "./main/auth/auth-guard/auth.guard";
-import {ContentComponent} from "./main/content/content.component";
-import {NoAuthGuard} from "./main/auth/auth-guard/noAuth.guard";
-import {AuthComponent} from "./main/auth/auth.component";
-import {EventOverviewComponent} from './main/content/event/event-overview/event-overview.component';
-import {BuySpacePlansComponent} from './main/content/buy-space-plans/buy-space-plans.component';
-import {ProfileComponent} from './main/content/profile/profile.component';
-import {LandingPageComponent} from './main/content/landing-page/landing-page.component';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from "./main/auth/auth-guard/auth.guard";
+import { ContentComponent } from "./main/content/content.component";
+import { NoAuthGuard } from "./main/auth/auth-guard/noAuth.guard";
+import { AuthComponent } from "./main/auth/auth.component";
+import { BuySpacePlansComponent } from './main/content/buy-space-plans/buy-space-plans.component';
+import { ProfileComponent } from './main/content/profile/profile.component';
+import { LandingPageComponent } from './main/content/landing-page/landing-page.component';
 import { ShopOverviewComponent } from './main/content/offline-shops/shop-overview/shop-overview.component';
 import { OfferOverviewComponent } from './main/content/offline-shops/shop-overview/offer-overview/offer-overview.component';
 import { ReferAndEarnComponent } from './main/content/refer-and-earn/refer-and-earn.component';
 import { RedeemCoinComponent } from './main/content/redeem-coin/redeem-coin.component';
 import { FaqAndHelpComponent } from './main/content/faq-and-help/faq-and-help.component';
-import { GalleryComponent } from './main/content/gallery/gallery.component';
+import { EntertainmentComponent } from './main/content/entertainment/entertainment.component';
 import { OurProductComponent } from './main/content/our-product/our-product.component';
 import { BookingComponent } from './main/content/booking/booking.component';
 
 const routes: Routes = [
 
-  { path: '', component:  LandingPageComponent},
+  { path: '', component: LandingPageComponent },
   {
     path: '',
     canActivate: [NoAuthGuard],
@@ -101,8 +100,8 @@ const routes: Routes = [
         component: FaqAndHelpComponent
       },
       {
-        path: 'gallery',
-        component: GalleryComponent
+        path: 'entertainment',
+        component: EntertainmentComponent
       },
       {
         path: 'our-product',
@@ -127,7 +126,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {useHash: true})],
+  imports: [RouterModule.forRoot(routes, { useHash: true })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

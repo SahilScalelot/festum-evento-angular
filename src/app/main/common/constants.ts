@@ -27,6 +27,7 @@ export const CONSTANTS = {
 
   userDefaultImage: './assets/images/profile.jpg',
   defaultImage: './assets/images/dummy-image.jpg',
+  importUsersDemoUrl: 'global/importusers.csv',
 
   baseImageURL: environment.baseImageURL,
   appUrl: environment.appURL,
@@ -129,12 +130,14 @@ export const CONSTANTS = {
   horizontalLocationsObj: {
     NONE: 0,
     LEFT: 1,
-    RIGHT: 2,
+    CENTER: 2,
+    RIGHT: 3,
   },
 
   horizontalLocationsArr: [
     {value: 'NONE', label: 'None'},
     {value: 'LEFT', label: 'Left'},
+    {value: 'CENTER', label: 'Center'},
     {value: 'RIGHT', label: 'Right'},
   ],
 
