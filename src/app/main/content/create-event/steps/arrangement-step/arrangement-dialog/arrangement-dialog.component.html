@@ -29,7 +29,7 @@
           <div class="overflow-x-auto max-w-[calc(100vw-128px)]">
             <div *ngIf="!selectedTab" class="space-y-4 px-2" id="stap-one">
               <div class="space-y-7">
-                <div class="w-full">
+                <div class="w-full relative">
                   <label class="input-titel">select item</label>
                   <select (change)="onSeatingItemChange()" [formControlName]="'seating_item'"
                           class="bg-white rounded-md flex space-x-3 outline-0 px-4 py-3 relative arrow w-full"
@@ -39,6 +39,11 @@
                       {{seatingItem.itemname}}
                     </option>
                   </select>
+                  <span class="absolute top-full text-red-500 text-xs" *ngIf="seatingForm.get('seating_item')?.invalid && (seatingForm.get('seating_item')?.dirty && seatingForm.get('seating_item')?.touched)">
+                    <span *ngIf="seatingForm.get('seating_item')?.errors?.['required']">
+                      Please select item.
+                    </span>
+                  </span>
                 </div>
                 <div *ngIf="seatingForm?.value?.seating_item || editArrangementObj?.seating_item" class="">
                   <label class="input-titel">arrangement</label>
@@ -54,8 +59,16 @@
                                     No of {{selectedSeatingObj.itemname}}
                                   </span>
                                   <div class="w-full flex items-center space-x-5">
-                                    <div class="w-full inputHolder">
+                                    <div class="w-full inputHolder relative">
                                       <input (input)="updateCalculatedValue()" [formControlName]="'number_of_seating_item'" [min]="0" [name]="'number_of_seating_item' + i" class="bgquicksilver" fuseValidNumber type="number">
+                                      <span class="absolute top-full text-red-500 text-xs" *ngIf="child?.get('number_of_seating_item')?.invalid && (child?.get('number_of_seating_item')?.dirty && child?.get('number_of_seating_item')?.touched)">
+                                        <span *ngIf="child?.get('number_of_seating_item')?.errors?.['required']">
+                                          This field must have required.
+                                        </span>
+                                        <span *ngIf="child?.get('number_of_seating_item')?.errors?.['min']">
+                                          Please enter valid value.
+                                        </span>
+                                      </span>
                                     </div>
                                   </div>
                                 </div>
@@ -76,8 +89,7 @@
                                   </select>
                                 </div>
                               </li>
-                              <li *ngIf="(selectedSeatingObj.itemname != 'Chair' || selectedSeatingObj.itemname != 'chair') &&
-                                   (selectedSeatingObj.itemname != 'Stands' || selectedSeatingObj.itemname != 'stands')">
+                              <li *ngIf="(selectedSeatingObj.itemname != 'Chair' || selectedSeatingObj.itemname != 'chair') || (selectedSeatingObj.itemname != 'Stand' || selectedSeatingObj.itemname != 'stand')">
                                 <div class="w-[151px]">
                                   <span class="input-titel text-xs">per {{selectedSeatingObj.itemname}} person capacity</span>
                                   <div class="w-full flex items-center space-x-5">
@@ -98,7 +110,7 @@
                                 </div>
                               </li>
                               <li *ngIf="(selectedSeatingObj.itemname != 'Chair' || selectedSeatingObj.itemname != 'chair') &&
-                                   (selectedSeatingObj.itemname != 'Stands' || selectedSeatingObj.itemname != 'stands')">
+                                   (selectedSeatingObj.itemname != 'Stand' || selectedSeatingObj.itemname != 'stand')">
                                 <div class="w-[151px]">
                                   <span class="input-titel text-xs">
                                     Per {{selectedSeatingObj.itemname}} Price
@@ -142,9 +154,9 @@
                               </li>
                               <li>
                                 <div class="w-full 2xl:w-1/6 2xl:pl-5">
-                                  <span *ngIf="(selectedSeatingObj.itemname != 'Chair' || selectedSeatingObj.itemname != 'chair') && (selectedSeatingObj.itemname != 'Stands' || selectedSeatingObj.itemname != 'stands')" class="input-titel text-xs whitespace-nowrap">booking acceptance</span>
+                                  <span *ngIf="(selectedSeatingObj.itemname != 'Chair' || selectedSeatingObj.itemname != 'chair') && (selectedSeatingObj.itemname != 'Stand' || selectedSeatingObj.itemname != 'stand')" class="input-titel text-xs whitespace-nowrap">booking acceptance</span>
                                   <div class="flex 2xl:justify-between items-center">
-                                    <div *ngIf="(selectedSeatingObj.itemname != 'Chair' || selectedSeatingObj.itemname != 'chair') && (selectedSeatingObj.itemname != 'Stands' || selectedSeatingObj.itemname != 'stands')" class="flex items-center pr-5 border-r-2 mr-5 py-4">
+                                    <div *ngIf="(selectedSeatingObj.itemname != 'Chair' || selectedSeatingObj.itemname != 'chair') && (selectedSeatingObj.itemname != 'Stand' || selectedSeatingObj.itemname != 'stand')" class="flex items-center pr-5 border-r-2 mr-5 py-4">
                                       <input [formControlName]="'booking_acceptance'" [name]="'booking_acceptance' + i" class="switch mx-3 order-2" id="on" type="checkbox">
                                       <span class="off text-xs font-bold anim whitespace-nowrap order-1 text-caribbeanGreen">per {{selectedSeatingObj.itemname}}</span>
                                       <span class="on text-xs font-bold anim whitespace-nowrap order-3">per person</span>
@@ -187,7 +199,7 @@
                                     </div>
                                   </li>
                                   <li *ngIf="(selectedSeatingObj.itemname != 'Chair' || selectedSeatingObj.itemname != 'chair') &&
-                                    (selectedSeatingObj.itemname != 'Stands' || selectedSeatingObj.itemname != 'stands')">
+                                    (selectedSeatingObj.itemname != 'Stand' || selectedSeatingObj.itemname != 'stand')">
                                     <div class="inputHolder w-[151px]">
                                       <span class="bgmagicpotion text-magicPotion">
                                         {{totalArrangementsObj.total_per_seating_persons || 0}}
@@ -202,7 +214,7 @@
                                     </div>
                                   </li>
                                   <li *ngIf="(selectedSeatingObj.itemname != 'Chair' || selectedSeatingObj.itemname != 'chair') &&
-                                   (selectedSeatingObj.itemname != 'Stands' || selectedSeatingObj.itemname != 'stands')">
+                                   (selectedSeatingObj.itemname != 'Stand' || selectedSeatingObj.itemname != 'stand')">
                                     <div class="inputHolder w-[151px]">
                                       <span class="bgmagicpotion text-magicPotion">
                                         {{totalArrangementsObj.per_seating_price || 0 | number:'1.2-2'}}
@@ -243,7 +255,8 @@
                   <i class="icon-left_arrow mr-3"></i>
                   <h5>Back</h5>
                 </button>
-                <button (click)="selectItems()" [disabled]="!selectedSeatingObj || !selectedSeatingObj._id" class="flex items-center active" type="button">
+                <!-- [disabled]="!selectedSeatingObj || !selectedSeatingObj._id" -->
+                <button (click)="selectItems()" class="flex items-center active" type="button">
                   <h5>Next</h5>
                   <i class="icon-right_arrow ml-3"></i>
                 </button>

@@ -39,7 +39,7 @@ export class ArrangementDialogComponent implements OnInit {
   }
 
   get arrangements() {
-    return this.seatingForm.get('arrangements') as FormArray;
+    return this.seatingForm.get('arrangements');
   }
 
   addArrangements(tempArrangementObj: any = {}): void {
@@ -74,7 +74,7 @@ export class ArrangementDialogComponent implements OnInit {
         this.arrangements.controls[index].get('total_person')?.setValue((arrangement.number_of_seating_item * arrangement.per_seating_person));
         this.arrangements.controls[index].get('per_person_price')?.setValue(Number((arrangement.per_seating_price / arrangement.per_seating_person).toFixed(2)));
         this.arrangements.controls[index].get('total_amount')?.setValue((arrangement.per_seating_price * arrangement.number_of_seating_item));
-      } else if (this.selectedSeatingObj && (this.selectedSeatingObj.itemname == 'Chair' || this.selectedSeatingObj.itemname == 'chair' || this.selectedSeatingObj.itemname == 'Stands' || this.selectedSeatingObj.itemname == 'stands')) {
+      } else if (this.selectedSeatingObj && (this.selectedSeatingObj.itemname == 'Chair' || this.selectedSeatingObj.itemname == 'chair' || this.selectedSeatingObj.itemname == 'Stand' || this.selectedSeatingObj.itemname == 'stand')) {
         this.arrangements.controls[index].get('total_amount')?.setValue((arrangement.number_of_seating_item * arrangement.per_person_price));
       }
     });
@@ -109,11 +109,23 @@ export class ArrangementDialogComponent implements OnInit {
       Object.keys(this.seatingForm.controls).forEach((key) => {
         this.seatingForm.controls[key].touched = true;
         this.seatingForm.controls[key].markAsDirty();
-        Object.keys(this.seatingForm.controls[key].controls).forEach((subKey) => {
-          this.seatingForm.controls[key].controls[subKey].touched = true;
-          this.seatingForm.controls[key].controls[subKey].markAsDirty();
+      });
+
+
+      // if (this.arrangements && this.arrangements.controls && this.arrangements.controls.length && this.arrangements.controls[key] && this.arrangements.controls[key].controls) {
+      //   Object.keys(this.arrangements.controls[key].controls).forEach((subKey) => {
+      //     this.arrangements.controls[key].controls[subKey].touched = true;
+      //     this.arrangements.controls[key].controls[subKey].markAsDirty();
+      //   });
+      // }
+
+      Object.keys(this.arrangements.controls).forEach((key) => {
+        Object.keys(this.arrangements.controls[key].controls).forEach((subKey) => {
+          this.arrangements.controls[key].controls[subKey].touched = true;
+          this.arrangements.controls[key].controls[subKey].markAsDirty();
         });
       });
+      
       return;
     }
     this.selectedTab = 1
