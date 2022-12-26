@@ -148,25 +148,37 @@ export class BillDetailsComponent implements OnInit {
     });
   }
 
-  onNextClick(): any {
+  prepareCalculatedObj(): any {
+    const tmpPrepareCalculatedObj: any = this._globalFunctions.copyObject(this.calculateTotalObj || {});
+    const preparedCalculatedObj: any = {};
+    preparedCalculatedObj.notificationid = this._globalFunctions.copyObject(this.nId || '');
+    preparedCalculatedObj.notification_amt = tmpPrepareCalculatedObj.notificationTotal;
+    preparedCalculatedObj.sms_amt = tmpPrepareCalculatedObj.smsTotal;
+    preparedCalculatedObj.email_amt = tmpPrepareCalculatedObj.emailTotal;
+    preparedCalculatedObj.discount_coupon = this.selectedCoupon?._id || '';
+    preparedCalculatedObj.total = tmpPrepareCalculatedObj.total;
+    return preparedCalculatedObj;
+  }
+
+  payNow(): any {
     if (this.isLoading) {
       return false;
     }
-    // const preparedDateAndTimeObj: any = this.prepareDateAndTimeObj(this.dateAndTimeForm.value);
-    // this.isLoading = true;
-    // this._promoteService.saveSchedule(this.billDetailsForm.value).subscribe((result: any) => {
-    //   if (result && result.IsSuccess) {
-    //     this._sNotify.success('Publish Date and Time Added Successfully.', 'Success');
-    //     this._router.navigate(['/notifications/promote/bill-details']);
-    //     this.isLoading = false;
-    //   } else {
-    //     this._globalFunctions.successErrorHandling(result, this, true);
-    //     this.isLoading = false;
-    //   }
-    // }, (error: any) => {
-    //   this._globalFunctions.errorHanding(error, this, true);
-    //   this.isLoading = false;
-    // });
+    const preparedCalculatedObj: any = this.prepareCalculatedObj();
+    console.log(preparedCalculatedObj);
+    this.isLoading = true;
+    this._promoteService.processPayment(preparedCalculatedObj).subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        this._sNotify.success('Payment Successfully.', 'Success');
+        this.isLoading = false;
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+        this.isLoading = false;
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isLoading = false;
+    });
   }
 
   onBackClick(): void {

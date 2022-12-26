@@ -44,14 +44,14 @@ export class ArrangementDialogComponent implements OnInit {
 
   addArrangements(tempArrangementObj: any = {}): void {
     const arrangementsObj = this._formBuilder.group({
-      number_of_seating_item: [tempArrangementObj?.number_of_seating_item || 0],
-      vertical_location: [tempArrangementObj?.vertical_location || this.constants.verticalLocationsArr[this.constants.verticalLocationsObj.TOP].value],
-      horizontal_location: [tempArrangementObj?.horizontal_location || this.constants.horizontalLocationsArr[this.constants.horizontalLocationsObj.NONE].value],
-      per_seating_person: [tempArrangementObj?.per_seating_person || 0],
-      total_person: [tempArrangementObj?.total_person || 0],
-      per_seating_price: [tempArrangementObj?.per_seating_price || 0],
-      per_person_price: [tempArrangementObj?.per_person_price || 0],
-      total_amount: [tempArrangementObj?.total_amount || 0],
+      number_of_seating_item: [tempArrangementObj?.number_of_seating_item || 0, [Validators.required, Validators.min(1)]],
+      vertical_location: [tempArrangementObj?.vertical_location || this.constants.verticalLocationsArr[this.constants.verticalLocationsObj.TOP].value, [Validators.required, Validators.min(1)]],
+      horizontal_location: [tempArrangementObj?.horizontal_location || this.constants.horizontalLocationsArr[this.constants.horizontalLocationsObj.NONE].value, [Validators.required, Validators.min(1)]],
+      per_seating_person: [tempArrangementObj?.per_seating_person || 0, [Validators.required, Validators.min(1)]],
+      total_person: [tempArrangementObj?.total_person || 0, [Validators.required, Validators.min(1)]],
+      per_seating_price: [tempArrangementObj?.per_seating_price || 0, [Validators.required, Validators.min(1)]],
+      per_person_price: [tempArrangementObj?.per_person_price || 0, [Validators.required, Validators.min(1)]],
+      total_amount: [tempArrangementObj?.total_amount || 0, [Validators.required, Validators.min(1)]],
       description: [tempArrangementObj?.description || ''],
       booking_acceptance: [tempArrangementObj?.booking_acceptance || false],
     });
@@ -102,6 +102,21 @@ export class ArrangementDialogComponent implements OnInit {
     this.selectedSeatingObj = _.find(this.seatingItems, ['_id', this.seatingForm.get('seating_item').value]);
     this.arrangements.controls = [];
     this.addArrangements();
+  }
+
+  selectItems(): void {
+    if (this.seatingForm.invalid) {
+      Object.keys(this.seatingForm.controls).forEach((key) => {
+        this.seatingForm.controls[key].touched = true;
+        this.seatingForm.controls[key].markAsDirty();
+        Object.keys(this.seatingForm.controls[key].controls).forEach((subKey) => {
+          this.seatingForm.controls[key].controls[subKey].touched = true;
+          this.seatingForm.controls[key].controls[subKey].markAsDirty();
+        });
+      });
+      return;
+    }
+    this.selectedTab = 1
   }
 
   addFormData(): void {
