@@ -89,12 +89,20 @@
                                   </select>
                                 </div>
                               </li>
-                              <li *ngIf="(selectedSeatingObj.itemname != 'Chair' || selectedSeatingObj.itemname != 'chair') || (selectedSeatingObj.itemname != 'Stand' || selectedSeatingObj.itemname != 'stand')">
+                              <li *ngIf="(selectedSeatingObj.itemname !== 'Chair' && selectedSeatingObj.itemname !== 'chair') && (selectedSeatingObj.itemname != 'Stand' && selectedSeatingObj.itemname != 'stand')">
                                 <div class="w-[151px]">
                                   <span class="input-titel text-xs">per {{selectedSeatingObj.itemname}} person capacity</span>
                                   <div class="w-full flex items-center space-x-5">
-                                    <div class="w-full inputHolder">
+                                    <div class="w-full inputHolder relative">
                                       <input (input)="updateCalculatedValue()" [formControlName]="'per_seating_person'" [min]="0" [name]="'per_seating_person' + i" class="bgquicksilver" fuseValidNumber type="number">
+                                      <span class="absolute top-full text-red-500 text-xs" *ngIf="child?.get('per_seating_person')?.invalid && (child?.get('per_seating_person')?.dirty && child?.get('per_seating_person')?.touched)">
+                                        <span *ngIf="child?.get('per_seating_person')?.errors?.['required']">
+                                          This field must have required.
+                                        </span>
+                                        <span *ngIf="child?.get('per_seating_person')?.errors?.['min']">
+                                          Please enter valid value.
+                                        </span>
+                                      </span>
                                     </div>
                                   </div>
                                 </div>
@@ -103,21 +111,36 @@
                                 <div class="w-[151px]">
                                   <span class="input-titel text-xs">Total person capacity</span>
                                   <div class="w-full flex items-center space-x-5">
-                                    <div class="w-full inputHolder">
+                                    <div class="w-full inputHolder relative">
                                       <input (input)="updateCalculatedValue()" [formControlName]="'total_person'" [min]="0" [name]="'total_person' + i" class="bgquicksilver" fuseValidNumber type="number">
+                                      <span class="absolute top-full text-red-500 text-xs" *ngIf="child?.get('total_person')?.invalid && (child?.get('total_person')?.dirty && child?.get('total_person')?.touched)">
+                                        <span *ngIf="child?.get('total_person')?.errors?.['required']">
+                                          This field must have required.
+                                        </span>
+                                        <span *ngIf="child?.get('total_person')?.errors?.['min']">
+                                          Please enter valid value.
+                                        </span>
+                                      </span>
                                     </div>
                                   </div>
                                 </div>
                               </li>
-                              <li *ngIf="(selectedSeatingObj.itemname != 'Chair' || selectedSeatingObj.itemname != 'chair') &&
-                                   (selectedSeatingObj.itemname != 'Stand' || selectedSeatingObj.itemname != 'stand')">
+                              <li *ngIf="(selectedSeatingObj.itemname !== 'Chair' && selectedSeatingObj.itemname !== 'chair') && (selectedSeatingObj.itemname != 'Stand' && selectedSeatingObj.itemname != 'stand')">
                                 <div class="w-[151px]">
                                   <span class="input-titel text-xs">
                                     Per {{selectedSeatingObj.itemname}} Price
                                   </span>
                                   <div class="w-full flex items-center space-x-5">
-                                    <div class="w-full inputHolder">
+                                    <div class="w-full inputHolder relative">
                                       <input (input)="updateCalculatedValue()" [formControlName]="'per_seating_price'" [min]="0" [name]="'per_seating_price' + i" class="bgquicksilver" fuseValidNumber type="number">
+                                      <span class="absolute top-full text-red-500 text-xs" *ngIf="child?.get('per_seating_price')?.invalid && (child?.get('per_seating_price')?.dirty && child?.get('per_seating_price')?.touched)">
+                                        <span *ngIf="child?.get('per_seating_price')?.errors?.['required']">
+                                          This field must have required.
+                                        </span>
+                                        <span *ngIf="child?.get('per_seating_price')?.errors?.['min']">
+                                          Please enter valid value.
+                                        </span>
+                                      </span>
                                     </div>
                                   </div>
                                 </div>
@@ -126,8 +149,16 @@
                                 <div class="w-[151px]">
                                   <span class="input-titel text-xs">per person price</span>
                                   <div class="w-full flex items-center space-x-5">
-                                    <div class="w-full inputHolder">
-                                      <input (input)="updateCalculatedValue()" [formControlName]="'per_person_price'" [min]="0" [name]="'per_person_price' + i" class="bgquicksilver" fuseValidNumber type="number">
+                                    <div class="w-full inputHolder relative">
+                                      <input (input)="updateCalculatedValue()" [formControlName]="'per_person_price'" [min]="0" [name]="'per_person_price' + i" class="bgquicksilver" fuseValidNumber type="number">                                      
+                                      <span class="absolute top-full text-red-500 text-xs" *ngIf="child?.get('per_person_price')?.invalid && (child?.get('per_person_price')?.dirty && child?.get('per_person_price')?.touched)">
+                                        <span *ngIf="child?.get('per_person_price')?.errors?.['required']">
+                                          This field must have required.
+                                        </span>
+                                        <span *ngIf="child?.get('per_person_price')?.errors?.['min']">
+                                          Please enter valid value.
+                                        </span>
+                                      </span>
                                     </div>
                                   </div>
                                 </div>
@@ -136,8 +167,16 @@
                                 <div class="w-[151px]">
                                   <span class="input-titel text-xs">Total Amount</span>
                                   <div class="w-full flex items-center space-x-5">
-                                    <div class="w-full inputHolder">
-                                      <input (input)="updateCalculatedValue()" [formControlName]="'total_amount'" [min]="0" [name]="'total_amount' + i" class="bgquicksilver" fuseValidNumber type="number">
+                                    <div class="w-full inputHolder relative">
+                                      <input (input)="updateCalculatedValue()" [formControlName]="'total_amount'" [min]="0" [name]="'total_amount' + i" class="bgquicksilver" fuseValidNumber type="number">                                      
+                                      <span class="absolute top-full text-red-500 text-xs" *ngIf="child?.get('total_amount')?.invalid && (child?.get('total_amount')?.dirty && child?.get('total_amount')?.touched)">
+                                        <span *ngIf="child?.get('total_amount')?.errors?.['required']">
+                                          This field must have required.
+                                        </span>
+                                        <span *ngIf="child?.get('total_amount')?.errors?.['min']">
+                                          Please enter valid value.
+                                        </span>
+                                      </span>
                                     </div>
                                   </div>
                                 </div>
@@ -154,14 +193,14 @@
                               </li>
                               <li>
                                 <div class="w-full 2xl:w-1/6 2xl:pl-5">
-                                  <span *ngIf="(selectedSeatingObj.itemname != 'Chair' || selectedSeatingObj.itemname != 'chair') && (selectedSeatingObj.itemname != 'Stand' || selectedSeatingObj.itemname != 'stand')" class="input-titel text-xs whitespace-nowrap">booking acceptance</span>
+                                  <span *ngIf="(selectedSeatingObj.itemname !== 'Chair' && selectedSeatingObj.itemname !== 'chair') && (selectedSeatingObj.itemname != 'Stand' && selectedSeatingObj.itemname != 'stand')" class="input-titel text-xs whitespace-nowrap">booking acceptance</span>
                                   <div class="flex 2xl:justify-between items-center">
-                                    <div *ngIf="(selectedSeatingObj.itemname != 'Chair' || selectedSeatingObj.itemname != 'chair') && (selectedSeatingObj.itemname != 'Stand' || selectedSeatingObj.itemname != 'stand')" class="flex items-center pr-5 border-r-2 mr-5 py-4">
+                                    <div *ngIf="(selectedSeatingObj.itemname !== 'Chair' && selectedSeatingObj.itemname !== 'chair') && (selectedSeatingObj.itemname != 'Stand' && selectedSeatingObj.itemname != 'stand')" class="flex items-center pr-5 border-r-2 mr-5 py-4">
                                       <input [formControlName]="'booking_acceptance'" [name]="'booking_acceptance' + i" class="switch mx-3 order-2" id="on" type="checkbox">
                                       <span class="off text-xs font-bold anim whitespace-nowrap order-1 text-caribbeanGreen">per {{selectedSeatingObj.itemname}}</span>
                                       <span class="on text-xs font-bold anim whitespace-nowrap order-3">per person</span>
                                     </div>
-                                    <div class="addDeleteBtn">
+                                    <div class="addDeleteBtn" [ngClass]="{'pt-5' : (selectedSeatingObj.itemname !== 'Chair' && selectedSeatingObj.itemname !== 'chair') && (selectedSeatingObj.itemname != 'Stand' && selectedSeatingObj.itemname != 'stand')}">
                                       <button (click)="addArrangements()" *ngIf="i == (arrangements.controls.length - 1)" class="pluse border-2 border-japaneseIndigo w-7 h-7 rounded-full flex justify-center items-center">
                                         <i class="icon-plus_round leading-0"></i>
                                       </button>
@@ -198,8 +237,7 @@
                                       <span class="bgmagicpotion text-magicPotion">-</span>
                                     </div>
                                   </li>
-                                  <li *ngIf="(selectedSeatingObj.itemname != 'Chair' || selectedSeatingObj.itemname != 'chair') &&
-                                    (selectedSeatingObj.itemname != 'Stand' || selectedSeatingObj.itemname != 'stand')">
+                                  <li *ngIf="(selectedSeatingObj.itemname !== 'Chair' && selectedSeatingObj.itemname !== 'chair') && (selectedSeatingObj.itemname != 'Stand' && selectedSeatingObj.itemname != 'stand')">
                                     <div class="inputHolder w-[151px]">
                                       <span class="bgmagicpotion text-magicPotion">
                                         {{totalArrangementsObj.total_per_seating_persons || 0}}
@@ -213,8 +251,7 @@
                                       </span>
                                     </div>
                                   </li>
-                                  <li *ngIf="(selectedSeatingObj.itemname != 'Chair' || selectedSeatingObj.itemname != 'chair') &&
-                                   (selectedSeatingObj.itemname != 'Stand' || selectedSeatingObj.itemname != 'stand')">
+                                  <li *ngIf="(selectedSeatingObj.itemname !== 'Chair' && selectedSeatingObj.itemname !== 'chair') && (selectedSeatingObj.itemname != 'Stand' && selectedSeatingObj.itemname != 'stand')">
                                     <div class="inputHolder w-[151px]">
                                       <span class="bgmagicpotion text-magicPotion">
                                         {{totalArrangementsObj.per_seating_price || 0 | number:'1.2-2'}}

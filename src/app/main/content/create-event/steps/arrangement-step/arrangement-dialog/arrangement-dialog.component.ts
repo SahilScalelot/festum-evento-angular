@@ -47,7 +47,7 @@ export class ArrangementDialogComponent implements OnInit {
       number_of_seating_item: [tempArrangementObj?.number_of_seating_item || 0, [Validators.required, Validators.min(1)]],
       vertical_location: [tempArrangementObj?.vertical_location || this.constants.verticalLocationsArr[this.constants.verticalLocationsObj.TOP].value, [Validators.required, Validators.min(1)]],
       horizontal_location: [tempArrangementObj?.horizontal_location || this.constants.horizontalLocationsArr[this.constants.horizontalLocationsObj.NONE].value, [Validators.required, Validators.min(1)]],
-      per_seating_person: [tempArrangementObj?.per_seating_person || 0, [Validators.required, Validators.min(1)]],
+      per_seating_person: [tempArrangementObj?.per_seating_person || 0],
       total_person: [tempArrangementObj?.total_person || 0, [Validators.required, Validators.min(1)]],
       per_seating_price: [tempArrangementObj?.per_seating_price || 0, [Validators.required, Validators.min(1)]],
       per_person_price: [tempArrangementObj?.per_person_price || 0, [Validators.required, Validators.min(1)]],
@@ -75,6 +75,7 @@ export class ArrangementDialogComponent implements OnInit {
         this.arrangements.controls[index].get('per_person_price')?.setValue(Number((arrangement.per_seating_price / arrangement.per_seating_person).toFixed(2)));
         this.arrangements.controls[index].get('total_amount')?.setValue((arrangement.per_seating_price * arrangement.number_of_seating_item));
       } else if (this.selectedSeatingObj && (this.selectedSeatingObj.itemname == 'Chair' || this.selectedSeatingObj.itemname == 'chair' || this.selectedSeatingObj.itemname == 'Stand' || this.selectedSeatingObj.itemname == 'stand')) {
+        this.arrangements.controls[index].get('total_person')?.setValue((arrangement.number_of_seating_item));
         this.arrangements.controls[index].get('total_amount')?.setValue((arrangement.number_of_seating_item * arrangement.per_person_price));
       }
     });
@@ -102,6 +103,13 @@ export class ArrangementDialogComponent implements OnInit {
     this.selectedSeatingObj = _.find(this.seatingItems, ['_id', this.seatingForm.get('seating_item').value]);
     this.arrangements.controls = [];
     this.addArrangements();
+    console.log('123');
+    // Continue
+   if (this.selectedSeatingObj && (this.selectedSeatingObj.itemname !== 'Chair' && this.selectedSeatingObj.itemname !== 'chair' && this.selectedSeatingObj.itemname !== 'Stand' && this.selectedSeatingObj.itemname !== 'stand')) {
+    console.log(this.arrangements);
+      this.arrangements.get('per_seating_person').setValidators([Validators.required, Validators.min(1)]);
+      this.arrangements.get('per_seating_person').updateValueAndValidity();
+    }
   }
 
   selectItems(): void {
