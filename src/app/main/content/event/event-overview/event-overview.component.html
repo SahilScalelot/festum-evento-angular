@@ -14,7 +14,8 @@
         <h2>{{ events.name }}</h2>
         <div class="flex items-center space-x-1">
           <p-rating [(ngModel)]="events.ratings" [readonly]="true" [cancel]="false"></p-rating>
-          <span class="text-quicksilver text-xs font-bold pl-2"> {{events.totalreview}} Ratings</span>
+          <!-- <div id="rateYo"></div> -->
+          <span class="text-quicksilver text-xs font-bold pl-2"> {{events.totalreview}} Ratings </span>
         </div>
       </div>
       <div class="w-full md:w-1/2 space-y-3">
