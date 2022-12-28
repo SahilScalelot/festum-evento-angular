@@ -223,7 +223,7 @@
                                   <li>
                                     <div class="inputHolder w-[151px]">
                                       <span class="bgmagicpotion text-magicPotion">
-                                        {{totalArrangementsObj.total_number_of_seating_items || 0}}
+                                        {{totalArrangementsObj?.total_number_of_seating_items || 0}}
                                       </span>
                                     </div>
                                   </li>
@@ -240,21 +240,21 @@
                                   <li *ngIf="(selectedSeatingObj.itemname !== 'Chair' && selectedSeatingObj.itemname !== 'chair') && (selectedSeatingObj.itemname != 'Stand' && selectedSeatingObj.itemname != 'stand')">
                                     <div class="inputHolder w-[151px]">
                                       <span class="bgmagicpotion text-magicPotion">
-                                        {{totalArrangementsObj.total_per_seating_persons || 0}}
+                                        {{totalArrangementsObj?.total_per_seating_persons || 0}}
                                       </span>
                                     </div>
                                   </li>
                                   <li>
                                     <div class="inputHolder w-[151px]">
                                       <span class="bgmagicpotion text-magicPotion">
-                                        {{totalArrangementsObj.total_persons || 0}}
+                                        {{totalArrangementsObj?.total_persons || 0}}
                                       </span>
                                     </div>
                                   </li>
                                   <li *ngIf="(selectedSeatingObj.itemname !== 'Chair' && selectedSeatingObj.itemname !== 'chair') && (selectedSeatingObj.itemname != 'Stand' && selectedSeatingObj.itemname != 'stand')">
                                     <div class="inputHolder w-[151px]">
                                       <span class="bgmagicpotion text-magicPotion">
-                                        {{totalArrangementsObj.per_seating_price || 0 | number:'1.2-2'}}
+                                        {{totalArrangementsObj?.per_seating_price || 0 | number:'1.2-2'}}
                                       </span>
                                     </div>
                                   </li>
@@ -268,7 +268,7 @@
                                   <li>
                                     <div class="inputHolder w-[151px]">
                                       <span class="bgmagicpotion text-magicPotion">
-                                        {{totalArrangementsObj.total_amount || 0 | number:'1.2-2'}}
+                                        {{totalArrangementsObj?.total_amount || 0 | number:'1.2-2'}}
                                       </span>
                                     </div>
                                   </li>

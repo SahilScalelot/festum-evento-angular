@@ -13,8 +13,8 @@
         </div>
         <h2>{{ events.name }}</h2>
         <div class="flex items-center space-x-1">
-          <p-rating [(ngModel)]="events.user_rating" [readonly]="true" [cancel]="false"></p-rating>
-          <span class="text-quicksilver text-xs font-bold pl-2"> {{events.user_rating}} Ratings</span>
+          <p-rating [(ngModel)]="events.ratings" [readonly]="true" [cancel]="false"></p-rating>
+          <span class="text-quicksilver text-xs font-bold pl-2"> {{events.totalreview}} Ratings</span>
         </div>
       </div>
       <div class="w-full md:w-1/2 space-y-3">
@@ -443,21 +443,21 @@
       <div class="w-full space-y-7 tab-main" [class]="reviews ? 'active' : ''">
         <div class="w-full space-y-2">
 
-          <div *ngFor="let reviews of events.arrangements_id" class="flex justify-between p-7 bg-white rounded-md">
+          <div *ngFor="let reviews of events?.reviews" class="flex justify-between p-7 bg-white rounded-md">
             <div class="">
               <div class="w-28 h-28 border-2 border-brightGray rounded-full overflow-hidden bg-white">
-                <img alt="cutting-board" class="w-full h-full object-cover" src="../assets/images/profile-2.png"/>
+                <img alt="cutting-board" class="w-full h-full object-cover" [src]="!!(reviews?.userid?.profilepic) ? constants.baseImageURL + reviews?.userid?.profilepic : constants.defaultImage"/>
               </div>
             </div>
             <div class="w-full pl-5">
               <div class="flex justify-between">
-                <h3>{{ reviews.user.name }}</h3>
+                <h3>{{ reviews?.userid?.name }}</h3>
                 <div class="flex items-center space-x-2">
-                  <span class="text-xs text-quicksilver">{{ reviews.user.created_date | date:'dd MMM, yyyy' }}</span>
-                  <p-rating [(ngModel)]="reviews.user_rating" [readonly]="true" [cancel]="false"></p-rating>
+                  <span class="text-xs text-quicksilver">{{ reviews?.createdAt | date:'dd MMM, yyyy' }}</span>
+                  <p-rating [(ngModel)]="reviews.ratings" [readonly]="true" [cancel]="false"></p-rating>
                 </div>
               </div>
-              <p class="text-japaneseIndigo text-sm font-normal leading-6 pt-2">{{ reviews.review }}</p>
+              <p class="text-japaneseIndigo text-sm font-normal leading-6 pt-2">{{ reviews?.review }}</p>
             </div>
           </div>
           <div class="w-full py-2.5 addsBox">

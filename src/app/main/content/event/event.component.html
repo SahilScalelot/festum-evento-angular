@@ -55,8 +55,8 @@
                 </div>
                 <div class="flex flex-wrap justify-between">
                   <div class="flex items-center space-x-1 pt-4">
-                    <p-rating [(ngModel)]="event.user_rating" [readonly]="true" [cancel]="false"></p-rating>
-                    <span class="text-quicksilver text-xs font-bold pl-2"> 19,981 ratings</span>
+                    <p-rating [(ngModel)]="event.ratings" [readonly]="true" [cancel]="false"></p-rating>
+                    <span class="text-quicksilver text-xs font-bold pl-2"> {{event?.totalreview}} ratings</span>
                   </div>
                   <div class="flex items-center space-x-2.5 pt-4">
                     <span class="text-xs font-bold text-quicksilver">150 Sold</span>

@@ -49,7 +49,7 @@ export class ArrangementDialogComponent implements OnInit {
       horizontal_location: [tempArrangementObj?.horizontal_location || this.constants.horizontalLocationsArr[this.constants.horizontalLocationsObj.NONE].value, [Validators.required, Validators.min(1)]],
       per_seating_person: [tempArrangementObj?.per_seating_person || 0],
       total_person: [tempArrangementObj?.total_person || 0, [Validators.required, Validators.min(1)]],
-      per_seating_price: [tempArrangementObj?.per_seating_price || 0, [Validators.required, Validators.min(1)]],
+      per_seating_price: [tempArrangementObj?.per_seating_price || 0],
       per_person_price: [tempArrangementObj?.per_person_price || 0, [Validators.required, Validators.min(1)]],
       total_amount: [tempArrangementObj?.total_amount || 0, [Validators.required, Validators.min(1)]],
       description: [tempArrangementObj?.description || ''],
@@ -69,6 +69,15 @@ export class ArrangementDialogComponent implements OnInit {
   }
 
   updateCalculatedValue(): void {
+    this.totalArrangementsObj = {
+      total_number_of_seating_items: 0,
+      total_per_seating_persons: 0,
+      total_persons: 0,
+      per_seating_price: 0,
+      per_person_price: 0,
+      total_amount: 0,
+      total_booked: 0
+    };
     _.each(this.arrangements.value, (arrangement: any, index: number) => {
       if (arrangement.number_of_seating_item && arrangement.per_seating_person) {
         this.arrangements.controls[index].get('total_person')?.setValue((arrangement.number_of_seating_item * arrangement.per_seating_person));
@@ -77,15 +86,17 @@ export class ArrangementDialogComponent implements OnInit {
       } else if (this.selectedSeatingObj && (this.selectedSeatingObj.itemname == 'Chair' || this.selectedSeatingObj.itemname == 'chair' || this.selectedSeatingObj.itemname == 'Stand' || this.selectedSeatingObj.itemname == 'stand')) {
         this.arrangements.controls[index].get('total_person')?.setValue((arrangement.number_of_seating_item));
         this.arrangements.controls[index].get('total_amount')?.setValue((arrangement.number_of_seating_item * arrangement.per_person_price));
+        this.arrangements.controls[index].get('booking_acceptance')?.setValue(true);
       }
     });
-    this.totalArrangementsObj.total_number_of_seating_items = _.sumBy(this.arrangements.value, 'number_of_seating_item');
-    this.totalArrangementsObj.total_per_seating_persons = _.sumBy(this.arrangements.value, 'per_seating_person');
-    this.totalArrangementsObj.total_persons = _.sumBy(this.arrangements.value, 'total_person');
-    this.totalArrangementsObj.per_seating_price = _.sumBy(this.arrangements.value, 'per_seating_price');
-    this.totalArrangementsObj.per_person_price = _.sumBy(this.arrangements.value, 'per_person_price');
-    this.totalArrangementsObj.total_amount = _.sumBy(this.arrangements.value, 'total_amount');
-    this.totalArrangementsObj.total_booked = 0;
+    _.each(this.arrangements.value, (arrangement: any) => {
+      this.totalArrangementsObj.total_number_of_seating_items += Number(arrangement?.number_of_seating_item || 0);
+      this.totalArrangementsObj.total_per_seating_persons += Number(arrangement?.per_seating_person || 0);
+      this.totalArrangementsObj.total_persons += Number(arrangement?.total_person || 0);
+      this.totalArrangementsObj.per_seating_price += Number(arrangement?.per_seating_price || 0);
+      this.totalArrangementsObj.per_person_price += Number(arrangement?.per_person_price || 0);
+      this.totalArrangementsObj.total_amount += Number(arrangement?.total_amount || 0);
+    });    
   }
 
   prepareSeatingItems(): void {
@@ -103,12 +114,17 @@ export class ArrangementDialogComponent implements OnInit {
     this.selectedSeatingObj = _.find(this.seatingItems, ['_id', this.seatingForm.get('seating_item').value]);
     this.arrangements.controls = [];
     this.addArrangements();
-    console.log('123');
-    // Continue
-   if (this.selectedSeatingObj && (this.selectedSeatingObj.itemname !== 'Chair' && this.selectedSeatingObj.itemname !== 'chair' && this.selectedSeatingObj.itemname !== 'Stand' && this.selectedSeatingObj.itemname !== 'stand')) {
-    console.log(this.arrangements);
-      this.arrangements.get('per_seating_person').setValidators([Validators.required, Validators.min(1)]);
-      this.arrangements.get('per_seating_person').updateValueAndValidity();
+    if (this.selectedSeatingObj && (this.selectedSeatingObj.itemname !== 'Chair' && this.selectedSeatingObj.itemname !== 'chair') && (this.selectedSeatingObj.itemname != 'Stand' && this.selectedSeatingObj.itemname != 'stand')) {
+     Object.keys(this.arrangements.controls).forEach((key) => {
+      Object.keys(this.arrangements.controls[key].controls).forEach((subKey) => {
+        if (subKey == 'per_seating_person') {
+          this.arrangements.controls[key].get('per_seating_person').setValidators([Validators.required, Validators.min(1)]);
+          this.arrangements.controls[key].get('per_seating_person').updateValueAndValidity();
+          this.arrangements.controls[key].get('per_seating_price').setValidators([Validators.required, Validators.min(1)]);
+          this.arrangements.controls[key].get('per_seating_price').updateValueAndValidity();
+        }
+      });
+    });
     }
   }
 
