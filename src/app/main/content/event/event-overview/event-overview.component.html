@@ -22,8 +22,8 @@
         <h3 class="text-right">250 INR</h3>
         <div class="flex space-x-2 justify-end">
           <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" (click)="editEvent($event, events._id)" href="javascript:void(0);"><i class="icon-edit text-sm leading-0 text-japaneseIndigo"></i></a>
-          <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" href="javascript:void(0);"><i class="icon-fill_megaphone text-sm leading-0 text-japaneseIndigo"></i></a>
-          <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" href="javascript:void(0);"><i class="icon-share text-sm leading-0 text-japaneseIndigo"></i></a>
+          <!-- <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" href="javascript:void(0);"><i class="icon-fill_megaphone text-sm leading-0 text-japaneseIndigo"></i></a> -->
+          <!-- <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" href="javascript:void(0);"><i class="icon-share text-sm leading-0 text-japaneseIndigo"></i></a> -->
         </div>
         <div class="flex items-center justify-end space-x-3">
           <label class="flex items-center justify-end">
@@ -37,9 +37,9 @@
     </div>
     <!-- tab-holder  -->
     <div class="teb-holder">
-      <button [class]="overview ? 'active' : ''" (click)="onTabChange('overview')" type="button">Overview</button>
-      <button [class]="attendee ? 'active' : ''" (click)="onTabChange('attendee')" type="button">Attendee</button>
-      <button [class]="reviews ? 'active' : ''" (click)="onTabChange('reviews')" type="button">Reviews</button>
+      <button [class]="overview ? 'active' : ''" (click)="onTabChange('overview')" type="button" *ngIf="events">Overview</button>
+      <button [class]="attendee ? 'active' : ''" (click)="onTabChange('attendee')" type="button" *ngIf="events?.attendee?.length">Attendee</button>
+      <button [class]="reviews ? 'active' : ''" (click)="onTabChange('reviews')" type="button" *ngIf="events?.reviews?.length">Reviews</button>
     </div>
     <!-- tab-contents-holder -->
     <div class="pt-7 lg:pt-10">
@@ -217,6 +217,7 @@
                 <div class="flex flex-wrap -mx-2">
                   <div *ngFor="let img of events.companydetail.photos" class="w-full lg:w-2/12 p-2 ov-p">
                     <div class="rounded relative overflow-hidden bg-white h-24">
+                      <p-image [src]="!!(img?.url) ? constants.baseImageURL + img.url : constants.defaultImage" imageClass="w-full h-full object-cover rounded" styleClass="w-full h-full" [preview]="true"></p-image>
                       <img [src]="!!(img?.url) ? constants.baseImageURL + img.url : constants.defaultImage" alt="upload-1" class="w-full h-full object-cover"/>
                     </div>
                   </div>
@@ -384,7 +385,7 @@
           <!-- right-bar  -->
           <div class="w-full lg:w-4/12 lg:pl-5 space-y-7 sticky top-0">
             <!-- map-content  -->
-            <div class="w-full p-2.5 bg-white rounded-md">
+            <div class="w-full p-2.5 bg-white rounded-md" *ngIf="events?.event_location?.location?.coordinates?.length">
               <div class="relative">
                 <agm-map [latitude]="events?.event_location?.location?.coordinates[1]" [longitude]="events?.event_location?.location?.coordinates[0]" [zoom]="zoom" class="w-full h-56">
                   <agm-marker [latitude]="events?.event_location?.location?.coordinates[1]" [longitude]="events?.event_location?.location?.coordinates[0]"></agm-marker>
@@ -397,7 +398,8 @@
               </div>
             </div>
             <!-- date-content  -->
-            <div class="w-full p-5 xl:p-7 bg-white rounded-md space-y-3">
+            <div class="w-full p-5 xl:p-7 bg-white rounded-md space-y-3"
+            *ngIf="events?.about?.start_date || events?.about?.end_date || events?.about?.start_time || events?.about?.end_time" >
               <div class="w-full">
                 <div class="text-xs lg:text-sm font-medium text-quicksilver flex items-center"><i class="icon-calendar mr-1.5 text-base"></i>Date </div>
                 <span class="text-japaneseIndigo text-xs lg:text-sm font-bold">{{ events?.about?.start_date }} - {{ events?.about?.end_date }}</span>
@@ -408,33 +410,25 @@
               </div>
             </div>
             <!-- Discount On Total Bill  -->
-            <div class="bg-gradient-to-r from-[#13e1b094] to-[#13E1B0] p-3.5 xl:p-5 rounded-lg relative overflow-hidden">
-              <div class="w-full  space-y-4">
-                <h4 class="text-white">Discount On Total Bill</h4>
-                <h1 class="text-black font-bold">10%</h1>
+            <div class="bg-gradient-to-r from-[#13e1b094] to-[#13E1B0] p-3.5 xl:p-5 rounded-lg relative overflow-hidden" *ngFor="let discount of events?.discounts || []">
+              <div class="w-full space-y-4">
+                <h4 class="text-white">{{discount?.discountname}}</h4>
+                <h1 class="text-black font-bold">{{discount?.discount}}%</h1>
                 <div class="space-y-2">
-                  <span class="text-xs text-white font-normal block">4 Event can be posted or one event with max 30 day</span>
+                  <span class="text-xs text-white font-normal block">{{discount?.description}}</span>
                 </div>
                 <img alt="celebration" class="absolute -right-3 -bottom-3 opacity-80" src="../assets/images/event-subscription.png"/>
               </div>
             </div>
             <!-- Book_ticket_detils -->
-            <div class="bg-white rounded-md overflow-hidden">
+            <div class="bg-white rounded-md overflow-hidden" *ngIf="events?.seating_arrangements?.length">
               <div class="flex justify-between px-5 py-2 bg-japaneseIndigo">
                 <span class="text-sm font-bold text-white">Book Ticket</span>
                 <span class="text-sm font-bold text-white">Total Amount</span>
               </div>
-              <div class="flex justify-between px-5 py-2 bg-white border-b border-brightGray">
+              <div class="flex justify-between px-5 py-2 bg-white border-t border-brightGray" *ngFor="let ticket of events?.seating_arrangements">
                 <span class="text-sm font-bold text-japaneseIndigo">15 T - L</span>
                 <span class="text-sm font-bold text-japaneseIndigo">$2500.00</span>
-              </div>
-              <div class="flex justify-between px-5 py-2 bg-white border-b border-brightGray">
-                <span class="text-sm font-bold text-japaneseIndigo">15 C - C</span>
-                <span class="text-sm font-bold text-japaneseIndigo">$5000.00</span>
-              </div>
-              <div class="flex justify-between px-5 py-2 bg-white">
-                <span class="text-sm font-bold text-japaneseIndigo">26 B - R</span>
-                <span class="text-sm font-bold text-japaneseIndigo">$7500.00</span>
               </div>
             </div>
           </div>
@@ -447,7 +441,7 @@
           <div *ngFor="let reviews of events?.reviews" class="flex justify-between p-7 bg-white rounded-md">
             <div class="">
               <div class="w-28 h-28 border-2 border-brightGray rounded-full overflow-hidden bg-white">
-                <img alt="cutting-board" class="w-full h-full object-cover" [src]="!!(reviews?.userid?.profilepic) ? constants.baseImageURL + reviews?.userid?.profilepic : constants.defaultImage"/>
+                <img alt="cutting-board" class="w-full h-full object-cover" [src]="!!(reviews?.userid?.profilepic) ? constants.baseImageURL + reviews?.userid?.profilepic : constants.userDefaultImage"/>
               </div>
             </div>
             <div class="w-full pl-5">
