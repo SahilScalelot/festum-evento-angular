@@ -33,7 +33,7 @@
                     <div class="flex flex-wrap pt-3">
                       <div class="border-brightGray px-2 lg:pl-0 lg:pr-4">
                         <div class="text-xs lg:text-sm font-semibold text-quicksilver pt-3"><i class="icon-calendar mr-1.5"></i>Date</div>
-                        <span class="text-japaneseIndigo text-xs lg:text-sm font-bold">{{event?.about?.start_date}} - {{event?.about?.end_date}}</span>
+                        <span class="text-japaneseIndigo text-xs lg:text-sm font-bold">{{event?.about?.start_date | date:'dd MMM, yyyy'}} - {{event?.about?.end_date | date:'dd MMM, yyyy'}}</span>
                       </div>
                       <div class="border-l-2 border-brightGray px-2 lg:px-4">
                         <div class="text-xs lg:text-sm font-semibold text-quicksilver pt-3"><i class="icon-time mr-1.5"></i>Time</div>

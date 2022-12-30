@@ -15,5 +15,19 @@
       width: 100%;
     }
   }
+
+  // .panel {
+  //   max-height: 0;
+  //   overflow: hidden;
+  //   transition: max-height 0.3s ease-out;
+  // }
+  .title_tab.active .uper-down .icon-drop_arrow {
+    display: block !important;
+    &::before {
+      content: "\e930";
+    }
+  }
+  // .accordion_item .inner_content{@apply block;}
   
+  .borders > div:not(:first-child) {@apply border-t pt-3 mt-3;}
 }

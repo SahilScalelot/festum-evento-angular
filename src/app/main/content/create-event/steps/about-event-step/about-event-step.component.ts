@@ -1,7 +1,7 @@
-import {Component, OnInit, EventEmitter, Input, Output} from '@angular/core';
-import {FormBuilder, Validators} from '@angular/forms';
-import {Router} from '@angular/router';
-import {SnotifyService} from 'ng-snotify';
+import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
+import { AbstractControl, FormBuilder, ValidatorFn, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { SnotifyService } from 'ng-snotify';
 import { GlobalService } from 'src/app/services/global.service';
 import * as moment from 'moment';
 import { CreateEventService } from '../../create-event.service';
@@ -49,7 +49,7 @@ export class AboutEventStepComponent implements OnInit {
 
   private _prepareAboutEventForm(eventObj: any = {}): void {
     this.aboutEventForm = this._formBuilder.group({
-      date: [eventObj && eventObj.start_date ? [new Date(eventObj?.start_date), new Date(eventObj?.end_date)] : '', [Validators.required]],
+      date: [eventObj && eventObj.start_date ? [new Date(eventObj?.start_date), new Date(eventObj?.end_date)] : '', [Validators.required, this.startAndEndDateValidator]],
       start_time: [eventObj?.start_time, [Validators.required]],
       end_time: [eventObj?.end_time, [Validators.required]],
       about_event: [eventObj?.about_event],
@@ -99,6 +99,16 @@ export class AboutEventStepComponent implements OnInit {
       this.isLoading = false;
       this.aboutEventForm.enable();
     });
+  }
+
+  startAndEndDateValidator(control: AbstractControl): { [key: string]: boolean } | null {
+    console.log(control.value[1]);
+    
+    if (control.value !== undefined && control.value !== '' && control.value.length &&
+     (control.value[1] === undefined || control.value[1] === null || control.value[1] === 'Invalid Date')) {
+      return { 'end_date_require': true };
+    }
+    return null;
   }
 
   prepareAboutEventObj(aboutEventObj: any): any {
