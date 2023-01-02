@@ -3,15 +3,18 @@
 <form #newEventNgForm="ngForm" [formGroup]="aboutEventForm" class="p-ngCss space-y-5 px-2" id="about-event">
   <div class="flex flex-wrap -mx-2">
     <div class="w-full xl:w-1/2 px-2 pt-5 relative">
-      <span class="input-titel">Start Date</span>
+      <span class="input-titel">Start And End Date</span>
       <label class="bg-white rounded-md flex space-x-3 relative">
-        <i class="icon-calendar-2 text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0"></i>
-        <p-calendar class="w-full"
+        <i class="icon-calendar-2 text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0 z-10"></i>
+        <p-calendar class="w-full" styleClass="w-full"
         [formControlName]="'date'" name="date" [minDate]="minDateValue" selectionMode="range" [readonlyInput]="true" inputId="range"></p-calendar>
       </label>
       <span class="absolute top-full text-red-500 text-xs" *ngIf="aboutEventForm.get('date')?.invalid && (aboutEventForm.get('date')?.dirty && aboutEventForm.get('date')?.touched)">
         <span *ngIf="aboutEventForm.get('date')?.errors?.['required']">
           Date is required.
+        </span>
+        <span *ngIf="aboutEventForm.get('date')?.errors?.['end_date_require']">
+          End Date is required.
         </span>
       </span>
     </div>

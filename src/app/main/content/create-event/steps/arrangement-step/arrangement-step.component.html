@@ -34,10 +34,10 @@
                     </div>
                     <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4">
                       <span class="block text-xs xl:text-sm text-quicksilver">Location</span>
-                      <span class="block text-base font-bold text-quicksilver">{{((arrangement.vertical_location == 'TOP') ? 'T' : (arrangement.vertical_location == 'CENTER' ? 'C' : 'B'))}} - {{((arrangement.horizontal_location == 'LEFT') ? 'L' : (arrangement.horizontal_location == 'RIGHT' ? 'R' : 'N'))}}</span>
+                      <span class="block text-base font-bold text-quicksilver">{{((arrangement.vertical_location == 'TOP') ? 'T' : (arrangement.vertical_location == 'CENTER' ? 'C' : 'B'))}} - {{((arrangement.horizontal_location == 'LEFT') ? 'L' : ((arrangement.horizontal_location == 'CENTER') ? 'C' : (arrangement.horizontal_location == 'RIGHT' ? 'R' : 'N')))}}</span>
                     </div>
                     <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4"
-                         *ngIf="(arrangementObj?.seating_item?.itemname != 'Chair' || arrangementObj?.seating_item?.itemname != 'chair') && (arrangementObj?.seating_item?.itemname != 'Stands' || arrangementObj?.seating_item?.itemname != 'stands')">
+                         *ngIf="(arrangementObj.seating_item.itemname !== 'Chair' && arrangementObj.seating_item.itemname !== 'chair') && (arrangementObj.seating_item.itemname != 'Stand' && arrangementObj.seating_item.itemname != 'stand')">
                       <span class="block text-xs xl:text-sm text-quicksilver">per {{arrangementObj?.seating_item?.itemname}} person capacity</span>
                       <span class="block text-base font-bold text-quicksilver">{{arrangement.per_seating_person}}</span>
                     </div>
@@ -46,24 +46,24 @@
                       <span class="block text-base font-bold text-quicksilver">{{arrangement.total_person}}</span>
                     </div>
                     <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4"
-                         *ngIf="(arrangementObj?.seating_item?.itemname != 'Chair' || arrangementObj?.seating_item?.itemname != 'chair') && (arrangementObj?.seating_item?.itemname != 'Stands' || arrangementObj?.seating_item?.itemname != 'stands')">
+                         *ngIf="(arrangementObj.seating_item.itemname !== 'Chair' && arrangementObj.seating_item.itemname !== 'chair') && (arrangementObj.seating_item.itemname != 'Stand' && arrangementObj.seating_item.itemname != 'stand')">
                       <span class="block text-xs xl:text-sm text-quicksilver">Per {{arrangementObj?.seating_item?.itemname}} Price</span>
-                      <span class="block text-base font-bold text-quicksilver">{{arrangement.per_seating_price}}</span>
+                      <span class="block text-base font-bold text-quicksilver">{{arrangement?.per_seating_price || 0 | number:'1.2-2'}}</span>
                     </div>
                     <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4">
                       <span class="block text-xs xl:text-sm text-quicksilver">per person price</span>
-                      <span class="block text-base font-bold text-quicksilver">{{arrangement.per_person_price}} INR</span>
+                      <span class="block text-base font-bold text-quicksilver">{{arrangement?.per_person_price || 0 | number:'1.2-2'}} INR</span>
                     </div>
                     <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4">
                       <span class="block text-xs xl:text-sm text-quicksilver">Total Amount</span>
-                      <span class="block text-base font-bold text-japaneseIndigo">{{arrangement.total_amount}} INR</span>
+                      <span class="block text-base font-bold text-japaneseIndigo">{{arrangement?.total_amount || 0 | number:'1.2-2'}} INR</span>
                     </div>
                     <div class="space-y-1 pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4">
                       <p>Description</p>
                       <span class="text-base text-quicksilver font-bold">{{arrangement?.description || 'null'}}</span>
                     </div>
-                    <div class="flex items-center pt-4 ml-auto" *ngIf="(arrangementObj?.seating_item?.itemname != 'Chair' || arrangementObj?.seating_item?.itemname != 'chair') && (arrangementObj?.seating_item?.itemname != 'Stands' || arrangementObj?.seating_item?.itemname != 'stands')">
-                      <input class="switch mx-3 order-2" id="on" type="checkbox" [(ngModel)]="arrangement.booking_acceptance"/>
+                    <div class="flex items-center pt-4 ml-auto" *ngIf="(arrangementObj.seating_item.itemname !== 'Chair' && arrangementObj.seating_item.itemname !== 'chair') && (arrangementObj.seating_item.itemname != 'Stand' && arrangementObj.seating_item.itemname != 'stand')">
+                      <input class="switch mx-3 order-2" id="on" type="checkbox" [(ngModel)]="arrangement.booking_acceptance" disabled />
                       <span class="off text-base font-bold anim order-1 text-caribbeanGreen">per table</span>
                       <span class="on text-base font-bold anim order-3">per person</span>
                     </div>
@@ -76,20 +76,30 @@
             <div class="pr-5">
               <img alt="non-veg" src="../assets/images/non-veg.png"/>
             </div>
-            <div class="w-full space-y-2">
-              <p>Food</p>
-              <span class="text-lg font-bold text-japaneseIndigo capitalize">{{arrangementObj?.food}}</span>
-              <p>{{arrangementObj?.food_description}}</p>
+            <div class="flex w-full space-y-2">
+              <div class="min-w-[120px] pr-5">
+                <p>Food</p>
+                <span class="text-lg font-bold text-japaneseIndigo capitalize">{{arrangementObj.food}}</span>
+              </div>
+              <div class="border-l border-slate-500 px-4" *ngIf="arrangementObj?.food_description">
+                <p class="pb-1 text-slate-400">Description</p>
+                <p class="text-xs">{{arrangementObj.food_description}}</p>
+              </div>
             </div>
           </div>
           <div class="flex">
             <div class="pr-5">
               <img alt="not-include" src="../assets/images/not-include.png"/>
             </div>
-            <div class="w-full space-y-2">
-              <p>Equipment</p>
-              <span class="text-lg font-bold text-japaneseIndigo capitalize">{{arrangementObj?.equipment ? 'Not Include' : 'Include'}}</span>
-              <p>{{arrangementObj?.equipment_description}}</p>
+            <div class="flex w-full space-y-2">
+              <div class="min-w-[120px] pr-5">
+                <p>Equipment</p>
+                <span class="text-lg font-bold text-japaneseIndigo capitalize">{{arrangementObj.equipment ? 'Not Include' : 'Include'}}</span>
+              </div>
+              <div class="border-l border-slate-500 px-4" *ngIf="arrangementObj?.equipment_description">
+                <p class="pb-1 text-slate-400">Description</p>
+                <p class="text-xs">{{arrangementObj.equipment_description}}</p>
+              </div>
             </div>
           </div>
         </div>

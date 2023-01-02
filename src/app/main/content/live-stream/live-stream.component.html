@@ -22,7 +22,7 @@
                 <div class="flex pt-3">
                   <div class="">
                     <div class="text-sm font-semibold text-quicksilver pt-3"><i class="icon-calendar-2 mr-3"></i>Date</div>
-                    <span class="text-japaneseIndigo text-sm font-bold">{{liveStream?.event_date | date:'MMM dd, yyyy'}}</span>
+                    <span class="text-japaneseIndigo text-sm font-bold">{{liveStream?.event_date | date:'dd MMM, yyyy'}}</span>
                   </div>
                   <div class="border-l-2 border-brightGray pl-3 lg:pl-7 ml-3 lg:ml-7">
                     <div class="text-sm font-semibold text-quicksilver pt-3"><i class="icon-time mr-3"></i>Time</div>
@@ -39,17 +39,9 @@
             </div>
             <div class="flex justify-between pt-4">
               <div class="flex items-center space-x-1">
-                <i class="icon-rating text-[#ECA926] text-sm"></i>
-                <i class="icon-rating text-[#ECA926] text-sm"></i>
-                <i class="icon-rating text-[#ECA926] text-sm"></i>
-                <i class="icon-rating text-[#999] text-sm"></i>
-                <i class="icon-rating text-[#999] text-sm"></i>
-                <span class="text-japaneseIndigo text-xs font-bold pl-2"> 19,981 ratings</span>
+                <p-rating [(ngModel)]="liveStream.ratings" [readonly]="true" [cancel]="false"></p-rating>
+                <span class="text-quicksilver text-xs font-bold pl-2"> {{liveStream?.totalreview}} ratings</span>
               </div>
-              <!-- <div class="flex items-center space-x-1">
-                <p-rating [(ngModel)]="liveStream?.user_rating" [readonly]="true" [cancel]="false"></p-rating>
-                <span class="text-quicksilver text-xs font-bold pl-2"> 19,981 ratings</span>
-              </div> -->
               <div class="flex space-x-2">
                 <a href="javascript:void(0);" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-time_revarse text-base text-japaneseIndigo"></i></a>
                 <a href="javascript:void(0);" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-show text-base text-japaneseIndigo"></i></a>

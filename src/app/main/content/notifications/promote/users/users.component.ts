@@ -340,7 +340,7 @@ export class UsersComponent implements OnInit {
       is_selected_all: [usersObj?.is_selected_all || false],
       // selected_users: [usersObj?.selected_users || []],
     });
-    this.usersForm.get('is_selected_all').setValue(!!(localStorage.getItem('selectAll')));
+    // this.usersForm.get('is_selected_all').setValue(!!(localStorage.getItem('selectAll')));
     if (this.allImportedUsers && this.allImportedUsers.length && !(localStorage.getItem('selectAll'))) {
       this.allImportedUsers = _.map(this.allImportedUsers, (importedUser: any) => {
         return {...importedUser, selected: false};

@@ -13,16 +13,17 @@
         </div>
         <h2>{{ events.name }}</h2>
         <div class="flex items-center space-x-1">
-          <p-rating [(ngModel)]="events.user_rating" [readonly]="true" [cancel]="false"></p-rating>
-          <span class="text-quicksilver text-xs font-bold pl-2"> {{events.user_rating}} Ratings</span>
+          <p-rating [(ngModel)]="events.ratings" [readonly]="true" [cancel]="false"></p-rating>
+          <!-- <div id="rateYo"></div> -->
+          <span class="text-quicksilver text-xs font-bold pl-2"> {{events.totalreview}} Ratings </span>
         </div>
       </div>
       <div class="w-full md:w-1/2 space-y-3">
         <h3 class="text-right">250 INR</h3>
         <div class="flex space-x-2 justify-end">
           <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" (click)="editEvent($event, events._id)" href="javascript:void(0);"><i class="icon-edit text-sm leading-0 text-japaneseIndigo"></i></a>
-          <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" href="javascript:void(0);"><i class="icon-fill_megaphone text-sm leading-0 text-japaneseIndigo"></i></a>
-          <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" href="javascript:void(0);"><i class="icon-share text-sm leading-0 text-japaneseIndigo"></i></a>
+          <!-- <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" href="javascript:void(0);"><i class="icon-fill_megaphone text-sm leading-0 text-japaneseIndigo"></i></a> -->
+          <!-- <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" href="javascript:void(0);"><i class="icon-share text-sm leading-0 text-japaneseIndigo"></i></a> -->
         </div>
         <div class="flex items-center justify-end space-x-3">
           <label class="flex items-center justify-end">
@@ -36,9 +37,9 @@
     </div>
     <!-- tab-holder  -->
     <div class="teb-holder">
-      <button [class]="overview ? 'active' : ''" (click)="onTabChange('overview')" type="button">Overview</button>
-      <button [class]="attendee ? 'active' : ''" (click)="onTabChange('attendee')" type="button">Attendee</button>
-      <button [class]="reviews ? 'active' : ''" (click)="onTabChange('reviews')" type="button">Reviews</button>
+      <button [class]="overview ? 'active' : ''" (click)="onTabChange('overview')" type="button" *ngIf="events">Overview</button>
+      <button [class]="attendee ? 'active' : ''" (click)="onTabChange('attendee')" type="button" *ngIf="events?.attendee?.length">Attendee</button>
+      <button [class]="reviews ? 'active' : ''" (click)="onTabChange('reviews')" type="button" *ngIf="events?.reviews?.length">Reviews</button>
     </div>
     <!-- tab-contents-holder -->
     <div class="pt-7 lg:pt-10">
@@ -92,17 +93,16 @@
             <div *ngIf="events.seating_arrangements && events.seating_arrangements.length" class="space-y-1.5">
               <h5 class="text-lg font-bold">Arrangement</h5>
               <div class="accordions w-full space-y-5">
-                <div *ngFor="let seating of events.seating_arrangements" class="accordion_item cursor-pointer h-full p-0 relative">
-                  <div class="title_tab flex justify-between items-center px-5 py-6 max-h-[78px]">
-                    <div class="space-x-7 flex items-center">
+                <div *ngFor="let seating of events.seating_arrangements;let i = index;" class="accordion_item cursor-pointer h-full p-0 relative">
+                  <div #accordionClick class="title_tab flex justify-between items-center px-5 py-6 max-h-[78px] accordion">
+                    <div (click)="accordionClick.click()" class="space-x-7 flex items-center">
                       <div class="w-10 text-center">
                         <img alt="{{seating?.seating_item?.itemname}}" class="mx-auto h-10 max-w-full object-contain" [src]="!!(seating?.seating_item?.itemimage) ? constants.baseImageURL + seating.seating_item.itemimage : constants.defaultImage"/>
                       </div>
                       <h4>{{seating?.seating_item?.itemname}}</h4>
                     </div>
                     <div class="flex items-center space-x-7">
-                      <span class="uper-down flex items-center cursor-pointer">
-                        <i class="icon-top_Arrow hidden"></i>
+                      <span (click)="accordionClick.click()" class="uper-down flex items-center cursor-pointer">
                         <i class="icon-drop_arrow"></i>
                       </span>
                     </div>
@@ -116,46 +116,48 @@
                         <div class="flex items-center justify-between">
                           <h6 class="text-lg text-japaneseIndigo font-bold">Select Item</h6>
                         </div>
-                        <div class="" *ngFor="let arrangement of seating.arrangements">
-                          <div class="flex flex-wrap items-center">
-                            <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4">
-                              <span class="block text-xs xl:text-sm text-quicksilver">No of {{seating?.seating_item?.itemname}}</span>
-                              <span class="block text-base font-bold text-quicksilver">{{arrangement.number_of_seating_item}}</span>
-                            </div>
-                            <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4">
-                              <span class="block text-xs xl:text-sm text-quicksilver">Location</span>
-                              <span class="block text-base font-bold text-quicksilver">{{((arrangement.vertical_location == 'TOP') ? 'T' : (arrangement.vertical_location == 'CENTER' ? 'C' : 'B'))}} - {{((arrangement.horizontal_location == 'LEFT') ? 'L' : (arrangement.horizontal_location == 'RIGHT' ? 'R' : 'N'))}}</span>
-                            </div>
-                            <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4"
-                                *ngIf="(seating?.seating_item?.itemname != 'Chair' || seating?.seating_item?.itemname != 'chair') && (seating?.seating_item?.itemname != 'Stands' || seating?.seating_item?.itemname != 'stands')">
-                              <span class="block text-xs xl:text-sm text-quicksilver">per {{seating?.seating_item?.itemname}} person capacity</span>
-                              <span class="block text-base font-bold text-quicksilver">{{arrangement.per_seating_person}}</span>
-                            </div>
-                            <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4">
-                              <span class="block text-xs xl:text-sm text-quicksilver">Total person capacity</span>
-                              <span class="block text-base font-bold text-quicksilver">{{arrangement.total_person}}</span>
-                            </div>
-                            <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4"
-                                *ngIf="(seating?.seating_item?.itemname != 'Chair' || seating?.seating_item?.itemname != 'chair') && (seating?.seating_item?.itemname != 'Stands' || seating?.seating_item?.itemname != 'stands')">
-                              <span class="block text-xs xl:text-sm text-quicksilver">Per {{seating?.seating_item?.itemname}} Price</span>
-                              <span class="block text-base font-bold text-quicksilver">{{arrangement.per_seating_price}}</span>
-                            </div>
-                            <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4">
-                              <span class="block text-xs xl:text-sm text-quicksilver">per person price</span>
-                              <span class="block text-base font-bold text-quicksilver">{{arrangement.per_person_price}} INR</span>
-                            </div>
-                            <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4">
-                              <span class="block text-xs xl:text-sm text-quicksilver">Total Amount</span>
-                              <span class="block text-base font-bold text-japaneseIndigo">{{arrangement.total_amount}} INR</span>
-                            </div>
-                            <div class="space-y-1 pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4">
-                              <p>Description</p>
-                              <span class="text-base text-quicksilver font-bold">{{arrangement?.description || 'null'}}</span>
-                            </div>
-                            <div class="flex items-center pt-4 ml-auto" *ngIf="(seating?.seating_item?.itemname != 'Chair' || seating?.seating_item?.itemname != 'chair') && (seating?.seating_item?.itemname != 'Stands' || seating?.seating_item?.itemname != 'stands')">
-                              <input class="switch mx-3 order-2" id="on" type="checkbox" [(ngModel)]="arrangement.booking_acceptance"/>
-                              <span class="off text-base font-bold anim order-1 text-caribbeanGreen">per table</span>
-                              <span class="on text-base font-bold anim order-3">per person</span>
+                        <div class="borders">
+                          <div class="" *ngFor="let arrangement of seating.arrangements">
+                            <div class="flex flex-wrap items-center">
+                              <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4">
+                                <span class="block text-xs xl:text-sm text-quicksilver">No of {{seating?.seating_item?.itemname}}</span>
+                                <span class="block text-base font-bold text-quicksilver">{{arrangement.number_of_seating_item}}</span>
+                              </div>
+                              <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4">
+                                <span class="block text-xs xl:text-sm text-quicksilver">Location</span>
+                                <span class="block text-base font-bold text-quicksilver">{{((arrangement.vertical_location == 'TOP') ? 'T' : (arrangement.vertical_location == 'CENTER' ? 'C' : 'B'))}} - {{((arrangement.horizontal_location == 'LEFT') ? 'L' : ((arrangement.horizontal_location == 'CENTER') ? 'C' : (arrangement.horizontal_location == 'RIGHT' ? 'R' : 'N')))}}</span>
+                              </div>
+                              <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4"
+                                  *ngIf="(seating.seating_item.itemname !== 'Chair' && seating.seating_item.itemname !== 'chair') && (seating.seating_item.itemname != 'Stand' && seating.seating_item.itemname != 'stand')">
+                                <span class="block text-xs xl:text-sm text-quicksilver">per {{seating?.seating_item?.itemname}} person capacity</span>
+                                <span class="block text-base font-bold text-quicksilver">{{arrangement.per_seating_person}}</span>
+                              </div>
+                              <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4">
+                                <span class="block text-xs xl:text-sm text-quicksilver">Total person capacity</span>
+                                <span class="block text-base font-bold text-quicksilver">{{arrangement.total_person}}</span>
+                              </div>
+                              <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4"
+                                  *ngIf="(seating.seating_item.itemname !== 'Chair' && seating.seating_item.itemname !== 'chair') && (seating.seating_item.itemname != 'Stand' && seating.seating_item.itemname != 'stand')">
+                                <span class="block text-xs xl:text-sm text-quicksilver">Per {{seating?.seating_item?.itemname}} Price</span>
+                                <span class="block text-base font-bold text-quicksilver">{{arrangement.per_seating_price}}</span>
+                              </div>
+                              <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4">
+                                <span class="block text-xs xl:text-sm text-quicksilver">per person price</span>
+                                <span class="block text-base font-bold text-quicksilver">{{arrangement.per_person_price}} INR</span>
+                              </div>
+                              <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4">
+                                <span class="block text-xs xl:text-sm text-quicksilver">Total Amount</span>
+                                <span class="block text-base font-bold text-japaneseIndigo">{{arrangement.total_amount}} INR</span>
+                              </div>
+                              <div class="space-y-1 pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4">
+                                <p>Description</p>
+                                <span class="text-base text-quicksilver font-bold">{{arrangement?.description || 'null'}}</span>
+                              </div>
+                              <div class="flex items-center pt-4 ml-auto" *ngIf="(seating.seating_item.itemname !== 'Chair' && seating.seating_item.itemname !== 'chair') && (seating.seating_item.itemname != 'Stand' && seating.seating_item.itemname != 'stand')">
+                                <input class="switch mx-3 order-2" id="on" type="checkbox" [(ngModel)]="arrangement.booking_acceptance"/>
+                                <span class="off text-base font-bold anim order-1 text-caribbeanGreen">per table</span>
+                                <span class="on text-base font-bold anim order-3">per person</span>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -193,7 +195,6 @@
                     </div>
                   </div>
                 </div>
-
               </div>
             </div>
             <!-- Company Details -->
@@ -216,6 +217,7 @@
                 <div class="flex flex-wrap -mx-2">
                   <div *ngFor="let img of events.companydetail.photos" class="w-full lg:w-2/12 p-2 ov-p">
                     <div class="rounded relative overflow-hidden bg-white h-24">
+                      <p-image [src]="!!(img?.url) ? constants.baseImageURL + img.url : constants.defaultImage" imageClass="w-full h-full object-cover rounded" styleClass="w-full h-full" [preview]="true"></p-image>
                       <img [src]="!!(img?.url) ? constants.baseImageURL + img.url : constants.defaultImage" alt="upload-1" class="w-full h-full object-cover"/>
                     </div>
                   </div>
@@ -383,7 +385,7 @@
           <!-- right-bar  -->
           <div class="w-full lg:w-4/12 lg:pl-5 space-y-7 sticky top-0">
             <!-- map-content  -->
-            <div class="w-full p-2.5 bg-white rounded-md">
+            <div class="w-full p-2.5 bg-white rounded-md" *ngIf="events?.event_location?.location?.coordinates?.length">
               <div class="relative">
                 <agm-map [latitude]="events?.event_location?.location?.coordinates[1]" [longitude]="events?.event_location?.location?.coordinates[0]" [zoom]="zoom" class="w-full h-56">
                   <agm-marker [latitude]="events?.event_location?.location?.coordinates[1]" [longitude]="events?.event_location?.location?.coordinates[0]"></agm-marker>
@@ -396,10 +398,11 @@
               </div>
             </div>
             <!-- date-content  -->
-            <div class="w-full p-5 xl:p-7 bg-white rounded-md space-y-3">
+            <div class="w-full p-5 xl:p-7 bg-white rounded-md space-y-3"
+            *ngIf="events?.about?.start_date || events?.about?.end_date || events?.about?.start_time || events?.about?.end_time" >
               <div class="w-full">
                 <div class="text-xs lg:text-sm font-medium text-quicksilver flex items-center"><i class="icon-calendar mr-1.5 text-base"></i>Date </div>
-                <span class="text-japaneseIndigo text-xs lg:text-sm font-bold">{{ events?.about?.start_date }} - {{ events?.about?.end_date }}</span>
+                <span class="text-japaneseIndigo text-xs lg:text-sm font-bold">{{ events?.about?.start_date | date:'dd MMM, yyyy' }} - {{ events?.about?.end_date | date:'dd MMM, yyyy' }}</span>
               </div>
               <div class="w-full">
                 <div class="text-xs lg:text-sm font-medium text-quicksilver flex items-center"><i class="icon-time mr-1.5 text-sm"></i>Time </div>
@@ -407,33 +410,28 @@
               </div>
             </div>
             <!-- Discount On Total Bill  -->
-            <div class="bg-gradient-to-r from-[#13e1b094] to-[#13E1B0] p-3.5 xl:p-5 rounded-lg relative overflow-hidden">
-              <div class="w-full  space-y-4">
-                <h4 class="text-white">Discount On Total Bill</h4>
-                <h1 class="text-black font-bold">10%</h1>
+            <div class="bg-gradient-to-r from-[#13e1b094] to-[#13E1B0] p-3.5 xl:p-5 rounded-lg relative overflow-hidden" *ngFor="let discount of events?.discounts || []">
+              <div class="w-full space-y-4">
+                <h4 class="text-white">{{discount?.discountname}}</h4>
+                <h1 class="text-black font-bold">{{discount?.discount}}%</h1>
                 <div class="space-y-2">
-                  <span class="text-xs text-white font-normal block">4 Event can be posted or one event with max 30 day</span>
+                  <span class="text-xs text-white font-normal block">{{discount?.description}}</span>
                 </div>
                 <img alt="celebration" class="absolute -right-3 -bottom-3 opacity-80" src="../assets/images/event-subscription.png"/>
               </div>
             </div>
             <!-- Book_ticket_detils -->
-            <div class="bg-white rounded-md overflow-hidden">
+            <div class="bg-white rounded-md overflow-hidden" *ngIf="events?.seating_arrangements?.length">
               <div class="flex justify-between px-5 py-2 bg-japaneseIndigo">
                 <span class="text-sm font-bold text-white">Book Ticket</span>
                 <span class="text-sm font-bold text-white">Total Amount</span>
               </div>
-              <div class="flex justify-between px-5 py-2 bg-white border-b border-brightGray">
-                <span class="text-sm font-bold text-japaneseIndigo">15 T - L</span>
-                <span class="text-sm font-bold text-japaneseIndigo">$2500.00</span>
-              </div>
-              <div class="flex justify-between px-5 py-2 bg-white border-b border-brightGray">
-                <span class="text-sm font-bold text-japaneseIndigo">15 C - C</span>
-                <span class="text-sm font-bold text-japaneseIndigo">$5000.00</span>
-              </div>
-              <div class="flex justify-between px-5 py-2 bg-white">
-                <span class="text-sm font-bold text-japaneseIndigo">26 B - R</span>
-                <span class="text-sm font-bold text-japaneseIndigo">$7500.00</span>
+              <div class="bg-white" *ngFor="let book of events?.seating_arrangements">
+                <div class="flex justify-between border-t border-brightGray px-5 py-2" *ngFor="let ticket of book?.arrangements">
+                  <span class="text-sm font-bold text-japaneseIndigo">{{ticket?.total_person}} {{((ticket.vertical_location == 'TOP') ? 'T' : (ticket.vertical_location == 'CENTER' ? 'C' : 'B'))}} - {{((ticket.horizontal_location == 'LEFT') ? 'L' : ((ticket.horizontal_location == 'CENTER') ? 'C' : (ticket.horizontal_location == 'RIGHT' ? 'R' : 'N')))}}</span>
+                  <span class="text-sm font-bold text-japaneseIndigo">{{book?.seating_item?.itemname}}</span>
+                  <span class="text-sm font-bold text-japaneseIndigo">₹{{ticket?.total_amount}}</span>
+                </div>
               </div>
             </div>
           </div>
@@ -443,21 +441,21 @@
       <div class="w-full space-y-7 tab-main" [class]="reviews ? 'active' : ''">
         <div class="w-full space-y-2">
 
-          <div *ngFor="let reviews of events.arrangements_id" class="flex justify-between p-7 bg-white rounded-md">
+          <div *ngFor="let reviews of events?.reviews" class="flex justify-between p-7 bg-white rounded-md">
             <div class="">
               <div class="w-28 h-28 border-2 border-brightGray rounded-full overflow-hidden bg-white">
-                <img alt="cutting-board" class="w-full h-full object-cover" src="../assets/images/profile-2.png"/>
+                <img alt="cutting-board" class="w-full h-full object-cover" [src]="!!(reviews?.userid?.profilepic) ? constants.baseImageURL + reviews?.userid?.profilepic : constants.userDefaultImage"/>
               </div>
             </div>
             <div class="w-full pl-5">
               <div class="flex justify-between">
-                <h3>{{ reviews.user.name }}</h3>
+                <h3>{{ reviews?.userid?.name }}</h3>
                 <div class="flex items-center space-x-2">
-                  <span class="text-xs text-quicksilver">{{ reviews.user.created_date | date:'dd MMM, yyyy' }}</span>
-                  <p-rating [(ngModel)]="reviews.user_rating" [readonly]="true" [cancel]="false"></p-rating>
+                  <span class="text-xs text-quicksilver">{{ reviews?.createdAt | date:'dd MMM, yyyy' }}</span>
+                  <p-rating [(ngModel)]="reviews.ratings" [readonly]="true" [cancel]="false"></p-rating>
                 </div>
               </div>
-              <p class="text-japaneseIndigo text-sm font-normal leading-6 pt-2">{{ reviews.review }}</p>
+              <p class="text-japaneseIndigo text-sm font-normal leading-6 pt-2">{{ reviews?.review }}</p>
             </div>
           </div>
           <div class="w-full py-2.5 addsBox">

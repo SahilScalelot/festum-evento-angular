@@ -9,13 +9,7 @@
         <h2 class="pb-2 lg:pb-2">{{liveStreamObj?.event_name}}</h2>
         <div class="w-full flex flex-wrap space-y-2  xl:space-y-0">
           <div class="pr-2.5 lg:pr-5">
-            <div class="flex items-center space-x-1 pt-1">
-              <i class="icon-rating text-[#ECA926]"></i>
-              <i class="icon-rating text-[#ECA926]"></i>
-              <i class="icon-rating text-[#ECA926]"></i>
-              <i class="icon-rating text-quicksilver"></i>
-              <i class="icon-rating text-quicksilver"></i>
-            </div>
+            <p-rating [(ngModel)]="liveStreamObj.ratings" [readonly]="true" [cancel]="false"></p-rating>
           </div>
         </div>
         <span class="bg-caribbeanGreen bg-opacity-20 font-bold px-2 text-caribbeanGreen text-sm capitalize p-1 inline-block mt-5">{{liveStreamObj?.event_type}} live streaming</span>
@@ -183,7 +177,7 @@
             <div class="rounded-md bg-white p-8 space-y-6">
               <div>
                 <span class="text-quicksilver text-xs font-bold"><i class="icon-calendar"></i> Date</span>
-                <p class="text-sm font-bold text-japaneseIndigo">{{liveStreamObj?.event_date | date:'MMM dd, yyyy'}}</p>
+                <p class="text-sm font-bold text-japaneseIndigo">{{liveStreamObj?.event_date | date:'dd MMM, yyyy'}}</p>
               </div>
               <div>
                 <span class="text-quicksilver text-xs font-bold"><i class="icon-time"></i> Time</span>

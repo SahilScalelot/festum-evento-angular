@@ -36,12 +36,14 @@
               "node_modules/primeng/resources/themes/lara-light-blue/theme.css",
               "node_modules/primeng/resources/primeng.min.css",
               "node_modules/primeicons/primeicons.css",
+              "node_modules/rateyo/min/jquery.rateyo.min.css",
               "src/styles.scss"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
               "src/assets/js/swiper-bundle.min.js",
               "node_modules/dropify/dist/js/dropify.min.js",
+              "node_modules/rateyo/min/jquery.rateyo.min.js",
               "src/assets/js/dropify.js"
             ],
             "allowedCommonJsDependencies": [

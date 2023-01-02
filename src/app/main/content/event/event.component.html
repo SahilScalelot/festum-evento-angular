@@ -33,7 +33,7 @@
                     <div class="flex flex-wrap pt-3">
                       <div class="border-brightGray px-2 lg:pl-0 lg:pr-4">
                         <div class="text-xs lg:text-sm font-semibold text-quicksilver pt-3"><i class="icon-calendar mr-1.5"></i>Date</div>
-                        <span class="text-japaneseIndigo text-xs lg:text-sm font-bold">{{event?.about?.start_date}} - {{event?.about?.end_date}}</span>
+                        <span class="text-japaneseIndigo text-xs lg:text-sm font-bold">{{event?.about?.start_date | date:'dd MMM, yyyy'}} - {{event?.about?.end_date | date:'dd MMM, yyyy'}}</span>
                       </div>
                       <div class="border-l-2 border-brightGray px-2 lg:px-4">
                         <div class="text-xs lg:text-sm font-semibold text-quicksilver pt-3"><i class="icon-time mr-1.5"></i>Time</div>
@@ -55,22 +55,22 @@
                 </div>
                 <div class="flex flex-wrap justify-between">
                   <div class="flex items-center space-x-1 pt-4">
-                    <p-rating [(ngModel)]="event.user_rating" [readonly]="true" [cancel]="false"></p-rating>
-                    <span class="text-quicksilver text-xs font-bold pl-2"> 19,981 ratings</span>
+                    <p-rating [(ngModel)]="event.ratings" [readonly]="true" [cancel]="false"></p-rating>
+                    <span class="text-quicksilver text-xs font-bold pl-2"> {{event?.totalreview}} ratings</span>
                   </div>
-                  <div class="flex items-center space-x-2.5 pt-4">
+                  <!-- <div class="flex items-center space-x-2.5 pt-4">
                     <span class="text-xs font-bold text-quicksilver">150 Sold</span>
                     <div class="w-[70px] bg-[#D6D7DC] rounded-full h-1.5">
                       <div class="bg-magicPotion h-1.5 rounded-full" style="width: 30%"></div>
                     </div>
                     <span class="text-xs font-bold text-quicksilver">521 UnSold</span>
-                  </div>
+                  </div> -->
                   <div class="flex space-x-2 pt-4">
                     <a href="javascript:void(0)" (click)="editEvent($event, event._id)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-edit text-sm leading-0 text-japaneseIndigo"></i></a>
                     <a href="javascript:void(0)" (click)="gotoEventOverview($event, event)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-show text-xs leading-0 text-japaneseIndigo"></i></a>
-                    <a href="javascript:void(0)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-fill_megaphone text-sm leading-0 text-japaneseIndigo"></i></a>
-                    <a href="javascript:void(0)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-online_offer text-xl leading-0 text-japaneseIndigo"></i></a>
-                    <a href="javascript:void(0)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-share text-sm leading-0 text-japaneseIndigo"></i></a>
+                    <!-- <a href="javascript:void(0)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-fill_megaphone text-sm leading-0 text-japaneseIndigo"></i></a> -->
+                    <!-- <a href="javascript:void(0)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-online_offer text-xl leading-0 text-japaneseIndigo"></i></a> -->
+                    <!-- <a href="javascript:void(0)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-share text-sm leading-0 text-japaneseIndigo"></i></a> -->
                   </div>
                 </div>
               </div>

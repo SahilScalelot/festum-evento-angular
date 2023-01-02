@@ -65,4 +65,9 @@ export class PromoteService {
     return this.http.get(environment.appURL + 'organizer/promotionplan/list', this._globalFunctions.getAuthorizationHeader());
   }
 
+  // Get Promotion Plan List Api
+  processPayment(calculatedObj: any = {}): any {
+    return this.http.post(environment.appURL + 'organizer/notification/paynow', calculatedObj, this._globalFunctions.getAuthorizationHeader());
+  }
+
 }

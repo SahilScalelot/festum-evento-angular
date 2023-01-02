@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {CONSTANTS} from 'src/app/main/common/constants';
-import {GlobalFunctions} from 'src/app/main/common/global-functions';
-import {EventService} from '../event.service';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CONSTANTS } from 'src/app/main/common/constants';
+import { GlobalFunctions } from 'src/app/main/common/global-functions';
+import { EventService } from '../event.service';
 
 declare var $: any;
 
@@ -49,6 +49,15 @@ export class EventOverviewComponent implements OnInit {
       setTimeout(() => {
         this._globalFunctions.loadAccordion();
         // this._globalFunctions.loadTabsJs();
+        $('#rateYo').rateYo({
+          rating: (this.events?.ratings || 0),
+          readOnly: true,
+          fullStar: true,
+          starWidth: '25px',
+          spacing: '3px',
+          normalFill: '#ececec',
+          ratedFill: '#fdd835'
+        });
       }, 0);
       this.isLoading = false;
     }, (error: any) => {
@@ -65,7 +74,7 @@ export class EventOverviewComponent implements OnInit {
         if (result && result.IsSuccess) {
           const tmpEvents = this._globalFunctions.copyObject(this.events);
           tmpEvents.is_live = event.target.checked;
-          this.events =this._globalFunctions.copyObject(tmpEvents);
+          this.events = this._globalFunctions.copyObject(tmpEvents);
           this.isLoading = false;
         } else {
           this._globalFunctions.successErrorHandling(result, this, true);
