@@ -338,7 +338,7 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
     this._modalService.open("tAndC");
   }
 
-  onTextEditorReady(editor: any): void {
+  onTextEditorReady(editor: any, fieldForSetData: any): void {
     editor.ui.getEditableElement().parentElement.insertBefore(
       editor.ui.view.toolbar.element,
       editor.ui.getEditableElement()

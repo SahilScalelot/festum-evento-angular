@@ -2,6 +2,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CONSTANTS } from 'src/app/main/common/constants';
 import { FormArray, FormBuilder, Validators } from "@angular/forms";
 import * as _ from 'lodash';
+// @ts-ignore
+import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
 
 @Component({
   selector: 'app-arrangement-dialog',
@@ -16,6 +18,9 @@ export class ArrangementDialogComponent implements OnInit {
   totalArrangementsObj: any = {};
   selectedSeatingObj: any = {};
   isInitial: boolean = true;
+
+  detailEditor = DecoupledEditor;
+  editorConfig: any = {};
 
   @Input() arrangementsArr: any = {};
   @Input() popClass: any;
@@ -36,6 +41,12 @@ export class ArrangementDialogComponent implements OnInit {
     if (this.editArrangementObj && this.editArrangementObj.seating_item) {
       this.selectedSeatingObj = this.editArrangementObj.seating_item;
     }
+  }
+  onTextEditorReady(editor: any, fieldForSetData: any): void {
+    editor.ui.getEditableElement().parentElement.insertBefore(
+      editor.ui.view.toolbar.element,
+      editor.ui.getEditableElement()
+    );
   }
 
   get arrangements() {

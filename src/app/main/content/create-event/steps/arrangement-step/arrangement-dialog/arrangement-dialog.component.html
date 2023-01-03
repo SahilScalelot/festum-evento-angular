@@ -374,9 +374,10 @@
                 </div>
                 <div class="w-full">
                   <span class="input-titel">Food description?</span>
-                  <textarea
-                      class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-tl-md rounded-tr-md placeholder:text-sm placeholder:text-[#a6a6a6] placeholder:font-bold"
-                      cols="30" rows="4" [formControlName]="'food_description'"></textarea>
+                  <div class="w-full bg-white rounded">
+                    <ckeditor (ready)="onTextEditorReady($event, 'food_description')" [config]="editorConfig" [editor]="detailEditor" [formControlName]="'food_description'" class="h-44 text-editor" id="food_description" name="food_description"></ckeditor>
+                  </div>
+                  <!-- <textarea class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-tl-md rounded-tr-md placeholder:text-sm placeholder:text-[#a6a6a6] placeholder:font-bold" cols="30" rows="4" [formControlName]="'food_description'"></textarea> -->
                   <div class="flex items-center space-x-3 bg-white justify-end pr-4 pb-2 rounded-bl-md rounded-br-md">
                     <a href="javascript:void(0);">
                       <svg fill="none" height="13" viewBox="0 0 20 13" width="20" xmlns="http://www.w3.org/2000/svg">
@@ -450,9 +451,10 @@
                 </div>
                 <div class="w-full">
                   <span class="input-titel">Equipment description?</span>
-                  <textarea
-                      class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-tl-md rounded-tr-md placeholder:text-sm placeholder:text-[#a6a6a6] placeholder:font-bold"
-                      cols="30" rows="4" [formControlName]="'equipment_description'"></textarea>
+                  <div class="w-full bg-white rounded">
+                    <ckeditor (ready)="onTextEditorReady($event, 'equipment_description')" [config]="editorConfig" [editor]="detailEditor" [formControlName]="'equipment_description'" class="h-44 text-editor" id="equipment_description" name="equipment_description"></ckeditor>
+                  </div>
+                  <!-- <textarea class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-tl-md rounded-tr-md placeholder:text-sm placeholder:text-[#a6a6a6] placeholder:font-bold" cols="30" rows="4" [formControlName]="'equipment_description'"></textarea> -->
                   <div class="flex items-center space-x-3 bg-white justify-end pr-4 pb-2 rounded-bl-md rounded-br-md">
                     <a href="javascript:void(0);">
                       <svg fill="none" height="13" viewBox="0 0 20 13" width="20" xmlns="http://www.w3.org/2000/svg">

@@ -14,6 +14,8 @@ import * as moment from 'moment';
 import * as _ from 'lodash';
 import { take } from 'rxjs';
 declare var $: any;
+// @ts-ignore
+import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
 
 @Component({
   selector: 'app-add-edit-shop-dialog',
@@ -30,6 +32,9 @@ export class AddEditShopDialogComponent implements OnInit {
   isPdfLoading: boolean = false;
   isPosterLoading: boolean = false;
   isCropperLoading: boolean = false;
+  
+  detailEditor = DecoupledEditor;
+  editorConfig: any = {};
 
   weekDays: any = [
     { value: 'su' },
@@ -140,6 +145,13 @@ export class AddEditShopDialogComponent implements OnInit {
         });
       });
     });
+  }
+  
+  onTextEditorReady(editor: any, fieldForSetData: any): void {
+    editor.ui.getEditableElement().parentElement.insertBefore(
+      editor.ui.view.toolbar.element,
+      editor.ui.getEditableElement()
+    );
   }
 
   getShopCategories(): void {

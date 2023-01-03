@@ -64,7 +64,10 @@
       </div>
       <div class="w-full pt-5 relative">
         <span class="input-titel">Offer Description <span>*</span></span>
-        <textarea cols="30" rows="4" class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md" [formControlName]="'description'"></textarea>
+        <div class="w-full bg-white rounded">
+          <ckeditor (ready)="onTextEditorReady($event, 'description')" [config]="editorConfig" [editor]="detailEditor" [formControlName]="'description'" class="h-44 text-editor" id="description" name="description"></ckeditor>
+        </div>
+        <!-- <textarea cols="30" rows="4" class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md" [formControlName]="'description'"></textarea> -->
         <span class="absolute top-full text-red-500 text-xs" *ngIf="addEditOfferForm.get('description')?.invalid && (addEditOfferForm.get('description')?.dirty && addEditOfferForm.get('description')?.touched)">
           <span *ngIf="addEditOfferForm.get('description')?.errors?.['required']">
             Offer description is required.
@@ -262,9 +265,9 @@
       <div class="w-full space-y-4 pt-2">
         <h5>Terms And Conditions</h5>
         <div class="w-full bg-white rounded relative">
-          <ckeditor (ready)="onTextEditorReady($event)" [config]="editorConfig" [editor]="detailEditor" [formControlName]="'tandc'"
-                    class="h-44 text-editor" id="tandc" name="tandc"></ckeditor>
-
+          <div class="w-full bg-white rounded">
+            <ckeditor (ready)="onTextEditorReady($event, 'tandc')" [config]="editorConfig" [editor]="detailEditor" [formControlName]="'tandc'" class="h-44 text-editor" id="tandc" name="tandc"></ckeditor>
+          </div>
           <span class="absolute top-full left-0 text-red-500 text-xs ml-0"
                 *ngIf="addEditOfferForm.get('tandc')?.invalid && (addEditOfferForm.get('tandc')?.dirty && addEditOfferForm.get('tandc')?.touched)">
             <span *ngIf="addEditOfferForm.get('tandc')?.errors?.['required']">

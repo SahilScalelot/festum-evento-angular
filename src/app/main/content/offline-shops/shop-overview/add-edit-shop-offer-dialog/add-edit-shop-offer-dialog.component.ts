@@ -124,8 +124,11 @@ export class AddEditShopOfferDialogComponent implements OnInit {
     });
   }
 
-  onTextEditorReady(editor: any): void {
-    editor.ui.getEditableElement().parentElement.insertBefore(editor.ui.view.toolbar.element, editor.ui.getEditableElement());
+  onTextEditorReady(editor: any, fieldForSetData: any): void {
+    editor.ui.getEditableElement().parentElement.insertBefore(
+      editor.ui.view.toolbar.element,
+      editor.ui.getEditableElement()
+    );
   }
 
   onSelectOfferOnAllProduct(event: any = {}): void {

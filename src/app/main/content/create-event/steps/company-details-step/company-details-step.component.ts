@@ -8,6 +8,8 @@ import { GlobalService } from 'src/app/services/global.service';
 import { CreateEventService } from '../../create-event.service';
 import * as _ from 'lodash';
 import { ModalService } from 'src/app/main/_modal';
+// @ts-ignore
+import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
 
 declare var $: any;
 
@@ -44,6 +46,8 @@ export class CompanyDetailsStepComponent implements OnInit {
   allVideosFilesArr: any = [];
 
   isInValidPDF: boolean = false;
+  detailEditor = DecoupledEditor;
+  editorConfig: any = {};
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -62,6 +66,13 @@ export class CompanyDetailsStepComponent implements OnInit {
     this.eventId = localStorage.getItem('eId');
     this.getCompanyDetailsEvent();
     this._prepareCompanyDetailsForm();
+  }
+
+  onTextEditorReady(editor: any, fieldForSetData: any): void {
+    editor.ui.getEditableElement().parentElement.insertBefore(
+      editor.ui.view.toolbar.element,
+      editor.ui.getEditableElement()
+    );
   }
 
   private _prepareCompanyDetailsForm(companyDetailObj: any = {}): void {

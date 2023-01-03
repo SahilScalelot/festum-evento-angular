@@ -51,7 +51,10 @@
     </div>
     <div class="w-full pt-5 relative">
       <span class="input-titel">About Our Company<span class="text-magicPotion">*</span></span>
-      <textarea [formControlName]="'about'" class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md" cols="30" rows="4"></textarea>
+      <div class="w-full bg-white rounded">
+        <ckeditor (ready)="onTextEditorReady($event, 'about')" [config]="editorConfig" [editor]="detailEditor" [formControlName]="'about'" class="h-44 text-editor" id="about" name="about"></ckeditor>
+      </div>
+      <!-- <textarea [formControlName]="'about'" class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md" cols="30" rows="4"></textarea> -->
       <span class="absolute top-full text-red-500 text-xs" *ngIf="companyForm.get('about')?.invalid && (companyForm.get('about')?.dirty && companyForm.get('about')?.touched)">
         <span *ngIf="companyForm.get('about')?.errors?.['required']">
           About is required.

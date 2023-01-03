@@ -122,9 +122,12 @@
         </div>
         <div class="w-full inputHolder pt-3">
           <span class="input-titel">About Me</span>
-          <textarea cols="30" rows="5" style="font-weight:bold;"
+          <div class="w-full bg-white rounded">
+            <ckeditor (ready)="onTextEditorReady($event, 'about')" [config]="editorConfig" [editor]="detailEditor" [formControlName]="'about'" class="h-44 text-editor" id="about" name="about"></ckeditor>
+          </div>
+          <!-- <textarea cols="30" rows="5" style="font-weight:bold;"
             class="input outline-none flex items-center w-full bg-white resize-none p-2 px-3.5 rounded-md placeholder:text-base placeholder:leading-6 placeholder:font-bold placeholder:text-japaneseIndigo"
-            placeholder="Type here..." formControlName="about"></textarea>
+            placeholder="Type here..." formControlName="about"></textarea> -->
         </div>
       </div>
     </form>
@@ -230,9 +233,12 @@
         </div>
         <div class="w-full pt-3">
           <span class="input-titel">About Me</span>
-          <textarea cols="30" rows="5" style="font-weight:bold;"
+          <div class="w-full bg-white rounded">
+            <ckeditor (ready)="onTextEditorReady($event, 'about')" [config]="editorConfig" [editor]="detailEditor" [formControlName]="'about'" class="h-44 text-editor" id="about" name="about"></ckeditor>
+          </div>
+          <!-- <textarea cols="30" rows="5" style="font-weight:bold;"
             class="outline-none flex items-center w-full bg-white resize-none p-2 px-3.5 rounded-md placeholder:text-base placeholder:leading-6 placeholder:font-bold placeholder:text-japaneseIndigo"
-            placeholder="Type here..." formControlName="about"></textarea>
+            placeholder="Type here..." formControlName="about"></textarea> -->
         </div>
       </div>
     </form>

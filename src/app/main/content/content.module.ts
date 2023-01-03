@@ -23,6 +23,7 @@ import { BookingComponent } from './booking/booking.component';
 import { AccordionModule } from 'primeng/accordion';
 import { ImageModule } from 'primeng/image';
 import { TooltipModule } from 'primeng/tooltip';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 const routes: Routes = [
   {
@@ -59,7 +60,8 @@ const routes: Routes = [
     RadioButtonModule,
     AccordionModule,
     ImageModule,
-    TooltipModule
+    TooltipModule,
+    CKEditorModule,
   ]
 })
 export class ContentModule {

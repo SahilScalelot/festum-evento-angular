@@ -7,6 +7,8 @@ import { GlobalFunctions } from '../../common/global-functions';
 import * as moment from 'moment';
 import { SnotifyService } from 'ng-snotify';
 declare let $: any;
+// @ts-ignore
+import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
 
 @Component({
   selector: 'app-profile',
@@ -26,6 +28,9 @@ export class ProfileComponent implements OnInit {
   profileObj: any = {};
   businessObj: any = {};
   maxDate: Date = new Date();
+
+  detailEditor = DecoupledEditor;
+  editorConfig: any = {};
 
   get profileFirstName() {
     return this.profileForm.get('name')
@@ -91,6 +96,13 @@ export class ProfileComponent implements OnInit {
         this.isLoading = false;
       }
     });
+  }
+  
+  onTextEditorReady(editor: any, fieldForSetData: any): void {
+    editor.ui.getEditableElement().parentElement.insertBefore(
+      editor.ui.view.toolbar.element,
+      editor.ui.getEditableElement()
+    );
   }
 
   // private _getUserDetail(): void {

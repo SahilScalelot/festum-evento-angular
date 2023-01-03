@@ -6,6 +6,8 @@ import { GlobalService } from 'src/app/services/global.service';
 import * as moment from 'moment';
 import { CreateEventService } from '../../create-event.service';
 import { GlobalFunctions } from 'src/app/main/common/global-functions';
+// @ts-ignore
+import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
 
 @Component({
   selector: 'app-about-event-step',
@@ -23,6 +25,9 @@ export class AboutEventStepComponent implements OnInit {
 
   eventObj: any = {};
 
+  detailEditor = DecoupledEditor;
+  editorConfig: any = {};
+
   constructor(
     private _formBuilder: FormBuilder,
     private _router: Router,
@@ -37,6 +42,13 @@ export class AboutEventStepComponent implements OnInit {
     this.getEventId();
     this.getAboutEvent();
     this._prepareAboutEventForm(this.aboutObj);
+  }
+
+  onTextEditorReady(editor: any, fieldForSetData: any): void {
+    editor.ui.getEditableElement().parentElement.insertBefore(
+      editor.ui.view.toolbar.element,
+      editor.ui.getEditableElement()
+    );
   }
 
   getEventId(): void {

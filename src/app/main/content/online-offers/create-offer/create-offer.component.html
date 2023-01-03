@@ -122,7 +122,10 @@
         </div>
         <div class="w-full px-2 pt-5">
           <span class="input-titel">Product Description</span>
-          <textarea name="description" formControlName="description" cols="30" rows="4" class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md placeholder:text-sm placeholder:text-[#a6a6a6] placeholder:font-bold"></textarea>
+          <div class="w-full bg-white rounded">
+            <ckeditor (ready)="onTextEditorReady($event, 'description')" [config]="editorConfig" [editor]="detailEditor" [formControlName]="'description'" class="h-44 text-editor" id="description" name="description"></ckeditor>
+          </div>
+          <!-- <textarea name="description" formControlName="description" cols="30" rows="4" class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md placeholder:text-sm placeholder:text-[#a6a6a6] placeholder:font-bold"></textarea> -->
         </div>
         <div class="w-full px-2 pt-5">
           <div class="bg-white p-3.5 lg:p-5 offerProducts rounded-md w-full" formArrayName="product_links">
@@ -219,7 +222,10 @@
         </div>
         <div class="w-full px-2 pt-5">
           <span class="input-titel">About Our Company</span>
-          <textarea name="about_company" formControlName="about_company" cols="30" rows="4" class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md placeholder:text-sm placeholder:text-[#a6a6a6] placeholder:font-bold"></textarea>
+          <div class="w-full bg-white rounded">
+            <ckeditor (ready)="onTextEditorReady($event, 'about_company')" [config]="editorConfig" [editor]="detailEditor" [formControlName]="'about_company'" class="h-44 text-editor" id="about_company" name="about_company"></ckeditor>
+          </div>
+          <!-- <textarea name="about_company" formControlName="about_company" cols="30" rows="4" class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md placeholder:text-sm placeholder:text-[#a6a6a6] placeholder:font-bold"></textarea> -->
         </div>
       </div>
     </form>
@@ -246,7 +252,7 @@
   <form [formGroup]="tandcForm">
     <div class="w-full space-y-4 pt-2">
       <div class="w-full bg-white rounded relative">
-        <ckeditor (ready)="onTextEditorReady($event)" [config]="editorConfig" [editor]="detailEditor" [formControlName]="'t_and_c'" class="h-44 text-editor" id="t_and_c-editor" name="t_and_c"></ckeditor>
+        <ckeditor (ready)="onTextEditorReady($event, 't_and_c')" [config]="editorConfig" [editor]="detailEditor" [formControlName]="'t_and_c'" class="h-44 text-editor" id="t_and_c-editor" name="t_and_c"></ckeditor>
         <span class="absolute top-full text-red-500 text-xs ml-0" *ngIf="tandcForm.get('t_and_c')?.invalid && (tandcForm.get('t_and_c')?.dirty && tandcForm.get('t_and_c')?.touched)">
           <span *ngIf="tandcForm.get('t_and_c')?.errors?.['required']">
             Terms and conditions is required.

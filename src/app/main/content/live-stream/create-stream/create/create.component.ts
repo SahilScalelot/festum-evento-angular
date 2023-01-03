@@ -8,6 +8,8 @@ import { SnotifyService } from 'ng-snotify';
 import { Router } from '@angular/router';
 import * as moment from "moment";
 import { CreateEventService } from '../../../create-event/create-event.service';
+// @ts-ignore
+import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
 
 @Component({
   selector: 'app-create',
@@ -22,6 +24,9 @@ export class CreateComponent implements OnInit {
   isLoading: boolean = false;
 
   eventCategories: any = [];
+
+  detailEditor = DecoupledEditor;
+  editorConfig: any = {};
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -40,6 +45,13 @@ export class CreateComponent implements OnInit {
     if (this.liveStreamId && this.liveStreamId != '') {
       this.getLiveStreamById(this.liveStreamId);
     }
+  }
+
+  onTextEditorReady(editor: any, fieldForSetData: any): void {
+    editor.ui.getEditableElement().parentElement.insertBefore(
+      editor.ui.view.toolbar.element,
+      editor.ui.getEditableElement()
+    );
   }
   
   getCategories(): void {

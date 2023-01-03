@@ -84,7 +84,10 @@
         </div>
         <div class="w-full pt-5 relative">
           <span class="input-titel">About us</span>
-          <textarea [formControlName]="'about_shop'" name="about_shop" cols="30" rows="4" class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md"></textarea>
+          <div class="w-full bg-white rounded">
+            <ckeditor (ready)="onTextEditorReady($event, 'about_shop')" [config]="editorConfig" [editor]="detailEditor" [formControlName]="'about_shop'" class="h-44 text-editor" id="about_shop" name="about_shop"></ckeditor>
+          </div>
+          <!-- <textarea [formControlName]="'about_shop'" name="about_shop" cols="30" rows="4" class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md"></textarea> -->
         </div>
         <div class="pt-5 -mx-2">
           <h5 class="px-2 pb-2">Address</h5>
@@ -186,7 +189,10 @@
         </div>
         <div class="w-full pt-5 inputHolder relative">
           <span class="input-titel">About Our Company</span>
-          <textarea cols="30" rows="4" [formControlName]="'about'" name="about" class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md"></textarea>
+          <div class="w-full bg-white rounded">
+            <ckeditor (ready)="onTextEditorReady($event, 'about')" [config]="editorConfig" [editor]="detailEditor" [formControlName]="'about'" class="h-44 text-editor" id="about" name="about"></ckeditor>
+          </div>
+          <!-- <textarea cols="30" rows="4" [formControlName]="'about'" name="about" class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md"></textarea> -->
         </div>
         <div class="w-full pt-5 lg:pt-12">
           <h5>Social Media</h5>
