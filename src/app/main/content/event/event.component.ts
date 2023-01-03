@@ -5,6 +5,7 @@ import {GlobalFunctions} from "../../common/global-functions";
 import {Router} from "@angular/router";
 import * as _ from "lodash";
 import { PrimeNGConfig } from 'primeng/api';
+import { SnotifyService } from 'ng-snotify';
 
 @Component({
   selector: 'app-event',
@@ -26,6 +27,7 @@ export class EventComponent implements OnInit {
   constructor(
     private _eventService: EventService,
     private _router: Router,
+    private _sNotify: SnotifyService,
     private _globalFunctions: GlobalFunctions,
     private _primengConfig: PrimeNGConfig,
   ) {
@@ -36,6 +38,19 @@ export class EventComponent implements OnInit {
     this._globalFunctions.removeIdsFromLocalStorage();
     this.getEvent();
     this._primengConfig.ripple = true;
+  }
+
+  checkClick(event: any, eventObj: any = {}): void {
+    event.stopPropagation();
+    console.log(eventObj.is_approved);
+    console.log(eventObj.is_live);
+    
+    if (!eventObj.is_approved) { 
+      this._sNotify.error('Event Wait for Verified.', 'Oops');
+      if (eventObj.is_live) {
+        this._sNotify.error('Event already Live.', 'Oops');
+      }
+    }
   }
 
   // paginate(event: any) {

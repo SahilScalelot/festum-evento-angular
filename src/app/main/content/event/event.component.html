@@ -12,8 +12,8 @@
     
     <div class="space-y-5" *ngIf="!isLoading">
       <div class="w-full flex items-center cursor-pointer" *ngFor="let event of events; let i = index">
-        <div class="">
-          <p-checkbox name="groupname" class="mr-5" [value]="event._id" [(ngModel)]="selectedEventIds" [disabled]="!event.is_approved || event.is_live" (click)="$event.stopPropagation()"></p-checkbox>
+        <div class="" [ngClass]="{'opacity-50' : !event.is_approved || event.is_live}">
+          <p-checkbox name="groupname" class="mr-5" [value]="event._id" [(ngModel)]="selectedEventIds" [disabled]="!event.is_approved || event.is_live" (click)="checkClick($event, event)"></p-checkbox>
         </div>
         <div class="w-full flex items-center" (click)="gotoEventOverview($event, event)">
           <div class="w-full p-4 bg-white rounded">
