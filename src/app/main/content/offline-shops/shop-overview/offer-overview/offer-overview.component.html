@@ -7,7 +7,7 @@
       <h2>{{offerObj?.offer_title}}</h2>
       <div>
         <span class="text-quicksilver text-xs font-bold"><i class="icon-calendar mr-2"></i> Date</span>
-        <p class="text-sm font-bold text-japaneseIndigo">{{offerObj?.start_date | date: 'MMM dd, yyyy'}} - {{offerObj?.end_date | date: 'MMM dd, yyyy'}}</p>
+        <p class="text-sm font-bold text-japaneseIndigo">{{offerObj?.start_date | date: 'dd MMM, yyyy'}} - {{offerObj?.end_date | date: 'dd MMM, yyyy'}}</p>
       </div>
     </div>
     <div class="space-y-5">
@@ -38,7 +38,7 @@
               <div class="w-1/2 rounded overflow-hidden h-52" *ngIf="offerObj?.poster">
                 <p-image [src]="!!(offerObj?.poster) ? constants.baseImageURL + offerObj.poster : constants.defaultImage" [alt]="offerObj?.offer_title" imageClass="w-full h-full object-cover" styleClass="w-full h-full" [preview]="true"></p-image>
               </div>
-              <div class="w-1/2 rounded overflow-hidden relative h-52">
+              <div class="w-1/2 rounded overflow-hidden relative h-52" *ngIf="offerObj?.video">
                 <div class="brick w-full max-w-full h-full relative">
                   <video [src]="!!(offerObj?.video) ? constants.baseImageURL + offerObj.video : constants.defaultImage" class="w-full h-full object-cover"></video>
                   <div class="cursor-pointer w-7 h-7 flex justify-center items-center bg-white rounded-full absolute right-2.5 bottom-2.5" (click)="openUploadVideoDialog()">
@@ -61,7 +61,8 @@
           <!-- offer description  -->
           <div class="p-7 bg-white rounded-md space-y-1" *ngIf="offerObj?.description">
             <h3 class="text-lg">Offer Description</h3>
-            <p class="text-quicksilver text-sm font-normal">{{offerObj?.description}}</p>
+            <div [innerHtml]="offerObj?.description"></div>
+            <!-- <p class="text-quicksilver text-sm font-normal">{{offerObj?.description}}</p> -->
           </div>
           <!-- Colorful T-shirt -->
           <div class="space-y-2.5" *ngIf="offerObj?.offer_on_all_products">
@@ -225,7 +226,7 @@
             </div>
             <div>
               <span class="text-quicksilver text-xs font-bold"><i class="icon-calendar mr-2"></i> Date</span>
-              <p class="text-sm font-bold text-japaneseIndigo">{{shopObj?.start_date | date: 'MMM dd, yyyy'}} - {{shopObj?.end_date | date: 'MMM dd, yyyy'}}</p>
+              <p class="text-sm font-bold text-japaneseIndigo">{{shopObj?.start_date | date: 'dd MMM, yyyy'}} - {{shopObj?.end_date | date: 'dd MMM, yyyy'}}</p>
             </div>
           </div>
         </div>

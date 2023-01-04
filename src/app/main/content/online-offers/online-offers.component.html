@@ -1,7 +1,7 @@
 <p-progressSpinner *ngIf="isLoading" [style]="{width: '50px', height: '50px'}" animationDuration=".5s" strokeWidth="8" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-x-0 top-0 h-full w-full z-40" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
 <div class="wrapper">
   <div class="flex flex-wrap items-center">
-    <h2>Offers</h2>
+    <h2>Online Offers</h2>
     <div class="flex whitespace-nowrap space-x-5 ml-auto">
       <div class="w-40 lg:w-52">
         <p-dropdown styleClass="w-full border-0 font-bold" [(ngModel)]="platformsId" panelStyleClass="p-0" [options]="platformsArr" placeholder="All platforms" optionLabel="name" optionValue="_id" [showClear]="true" (onChange)="getOnlineShopOffers()"></p-dropdown>

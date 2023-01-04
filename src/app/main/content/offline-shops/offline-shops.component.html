@@ -2,7 +2,7 @@
 <div class="wrapper">
   <!-- title-holder  -->
   <div class="flex items-center justify-between pb-2.5">
-    <h2>getOfflineShops</h2>
+    <h2>Offline Shops</h2>
     <button class="secondary px-7 py-3" (click)="openAddEditShopDialog($event)"><i class="icon-plus"></i><span class="pl-5">Add Shop</span></button>
   </div>
   <!-- main-content -->
@@ -22,8 +22,8 @@
               <div class="w-full md:w-1/3 px-2.5 lg:px-5">
                 <span class="text-xs font-bold text-quicksilver"><i class="icon-rating pr-1"></i>Ratings</span>
                 <div class="flex flex-wrap items-center pt-1.5">
-                  <p-rating [(ngModel)]="shops.user_rating" class="pr-2" [readonly]="true" [cancel]="false"></p-rating>
-                  <span class="text-quicksilver text-xs font-bold"> 19,981 ratings</span>
+                  <p-rating [(ngModel)]="shop.ratings" [readonly]="true" [cancel]="false"></p-rating>
+                  <span class="text-quicksilver text-xs font-bold pl-2"> {{shop?.totalreviews}} ratings</span>
                 </div>
               </div> 
               <div class="w-full md:w-1/3 px-2.5 lg:px-5 border-x">

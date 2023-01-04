@@ -11,8 +11,8 @@
           <div class="pr-2.5 lg:pr-5 border-r">
             <span class="text-xs font-bold text-quicksilver"><i class="icon-rating pr-1"></i>Ratings</span>
             <div class="flex flex-wrap items-center pt-1.5">
-              <p-rating [(ngModel)]="shopObj" class="pr-2" [readonly]="true" [cancel]="false"></p-rating>
-              <span class="text-quicksilver text-xs font-bold"> 19,981 ratings</span>
+              <p-rating [(ngModel)]="shopObj.ratings" [readonly]="true" [cancel]="false"></p-rating>
+              <span class="text-quicksilver text-xs font-bold pl-2"> {{shopObj?.totalreviews}} ratings</span>
             </div>
           </div>
           <div class="lg:pl-5">
@@ -60,7 +60,8 @@
             <!-- About Shop  -->
             <div *ngIf="shopObj?.about_shop" class="p-7 bg-white rounded-md space-y-1">
               <h3 class="text-lg">About Shop</h3>
-              <p class="text-quicksilver text-sm font-normal">{{shopObj.about_shop}}</p>
+              <div [innerHtml]="shopObj?.about_shop"></div>
+              <!-- <p class="text-quicksilver text-sm font-normal">{{shopObj.about_shop}}</p> -->
             </div>
             <!-- Rainy season sale -->
             <div class="space-y-2.5">
@@ -78,7 +79,7 @@
                       <div class="space-y-2 xl:space-y-3">
                         <div>
                           <span class="text-quicksilver text-xs font-bold"><i class="icon-calendar"></i> Date</span>
-                          <p class="text-sm font-bold text-japaneseIndigo">{{offer?.start_date | date: 'MMM dd, yyyy'}} - {{offer?.end_date | date: 'MMM dd, yyyy'}}</p>
+                          <p class="text-sm font-bold text-japaneseIndigo">{{offer?.start_date | date: 'dd MMM, yyyy'}} - {{offer?.end_date | date: 'dd MMM, yyyy'}}</p>
                         </div>
                         <div class="flex items-center space-x-2.5">
                           <span class="text-xs font-bold text-quicksilver">150 Sold</span>
@@ -112,7 +113,8 @@
               <h5>Company Details</h5>
               <div class="p-7 bg-white rounded-md space-y-1" *ngIf="shopObj?.companydetails?.about">
                 <h3 class="text-lg">About Shop</h3>
-                <p class="text-quicksilver text-sm font-normal">{{shopObj?.companydetails?.about}}</p>
+                <div [innerHtml]="shopObj?.companydetails?.about"></div>
+                <!-- <p class="text-quicksilver text-sm font-normal">{{shopObj?.companydetails?.about}}</p> -->
               </div>
             </div>
             <!-- Social Media -->
@@ -164,7 +166,7 @@
               </div>
               <div>
                 <span class="text-quicksilver text-xs font-bold"><i class="icon-calendar mr-2"></i> Date</span>
-                <p class="text-sm font-bold text-japaneseIndigo">{{shopObj?.start_date | date: 'MMM dd, yyyy'}} - {{shopObj?.end_date | date: 'MMM dd, yyyy'}}</p>
+                <p class="text-sm font-bold text-japaneseIndigo">{{shopObj?.start_date | date: 'dd MMM, yyyy'}} - {{shopObj?.end_date | date: 'dd MMM, yyyy'}}</p>
               </div>
             </div>
           </div>

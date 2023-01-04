@@ -26,9 +26,9 @@
     <!-- tab-holder  -->
     <div class="teb-holder">
       <button [class]="overview ? 'active' : ''" (click)="onTabChange('overview')" type="button">Overview</button>
-      <button [class]="attendee ? 'active' : ''" (click)="onTabChange('attendee')" type="button">Attendee</button>
-      <button [class]="reviews ? 'active' : ''" (click)="onTabChange('reviews')" type="button">Reviews</button>
-      <button [class]="subscription ? 'active' : ''" (click)="onTabChange('subscription')" type="button">Subscription</button>
+      <button [class]="attendee ? 'active' : ''" (click)="onTabChange('attendee')" type="button" *ngIf="liveStreamObj?.attendee?.length">Attendee</button>
+      <button [class]="reviews ? 'active' : ''" (click)="onTabChange('reviews')" type="button" *ngIf="liveStreamObj?.reviews?.length">Reviews</button>
+      <button [class]="subscription ? 'active' : ''" (click)="onTabChange('subscription')" type="button" *ngIf="liveStreamObj?.subscription?.length">Subscription</button>
     </div>
     <!-- tab-contents-holder -->
     <div class="pt-3.5 lg:pt-7">
@@ -40,7 +40,8 @@
             <!-- About Shop  -->
             <div class="p-7 bg-white rounded-md space-y-2" *ngIf="liveStreamObj?.event_description">
               <h3 class="text-lg">About Shop</h3>
-              <p class="text-quicksilver text-sm font-normal">{{liveStreamObj?.event_description}}</p>
+              <div [innerHtml]="liveStreamObj?.event_description"></div>
+              <!-- <p class="text-quicksilver text-sm font-normal">{{liveStreamObj?.event_description}}</p> -->
             </div>
             <!-- Rainy season sale -->
             <div class="space-y-2.5">
@@ -87,7 +88,8 @@
               <h5>Company Details</h5>
               <div class="p-7 bg-white rounded-md space-y-1">
                 <h3 class="text-lg">About Shop</h3>
-                <p class="text-quicksilver text-sm font-normal">{{liveStreamObj?.companydetail?.about}}</p>
+                <div [innerHtml]="liveStreamObj?.companydetail?.about"></div>
+                <!-- <p class="text-quicksilver text-sm font-normal">{{liveStreamObj?.companydetail?.about}}</p> -->
               </div>
             </div>
             <!-- Terms & Conditions -->

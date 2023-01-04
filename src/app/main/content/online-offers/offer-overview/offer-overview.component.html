@@ -50,7 +50,8 @@
             </div>
             <div class="space-y-2.5">
               <p class="text-lg text-japaneseIndigo font-bold">Product Description</p>
-              <span class="text-sm text-quicksilver">{{offerObj?.description}}</span>
+              <div [innerHtml]="offerObj?.description"></div>
+              <!-- <span class="text-sm text-quicksilver">{{offerObj?.description}}</span> -->
             </div>
           </div>
           <div class="space-y-3">
@@ -59,18 +60,19 @@
               <div class="flex items-center justify-between bg-brightGray py-3 px-4 rounded-md" *ngFor="let platform of offerObj?.product_links; let i = index">
                 <div class="flex items-center space-x-2.5">
                   <img [src]="!!(platform?.platform?.platformimage) ? constants.baseImageURL + platform.platform.platformimage : constants.defaultImage" [alt]="platform.platform.name" class="w-7 h-7 object-contain" />
-                  <input type="text" class="w-full outline-none bg-transparent" [value]="platform.product_link" readonly />
+                  <!-- <input type="text" class="w-full outline-none bg-transparent" [value]="platform.product_link" readonly /> -->
+                  <a [href]="platform.product_link" target="_blank" class="text-sm normal-case">{{platform?.product_link}}</a>
                 </div>
                 <div class="text-xl leading-0">
                   <a href="javascript:void(0);" class="px-3" title="Copy" (click)="copyLink(platform.product_link)">
                     <i class="icon-copy"></i>
                   </a>
-                  <a [href]="platform.product_link" class="px-3 border-x border-quicksilver" target="_blank" title="View This Link">
+                  <a [href]="platform.product_link" class="px-3 border-l border-quicksilver" target="_blank" title="View This Link">
                     <i class="icon-big_screen"></i>
                   </a>
-                  <a href="javascript:void(0);" class="px-3" title="Share">
+                  <!-- <a href="javascript:void(0);" class="px-3 border-l border-quicksilver" title="Share">
                     <i class="icon-share_border"></i>
-                  </a>
+                  </a> -->
                 </div>
               </div>
             </div>
@@ -82,7 +84,8 @@
             <h5>Company Name</h5>
             <div class="p-7 bg-white rounded-md space-y-1">
               <h3 class="text-lg">{{offerObj?.company_name}}</h3>
-              <p class="text-quicksilver text-sm font-normal">{{offerObj?.about_company}}</p>
+              <div [innerHtml]="offerObj?.about_company"></div>
+              <!-- <p class="text-quicksilver text-sm font-normal">{{offerObj?.about_company}}</p> -->
             </div>
           </div>
           <div class="space-y-4" *ngIf="offerObj?.tandc" id="tAndC">

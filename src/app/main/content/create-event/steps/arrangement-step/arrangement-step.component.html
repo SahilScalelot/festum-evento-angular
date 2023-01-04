@@ -77,13 +77,14 @@
               <img alt="non-veg" src="../assets/images/non-veg.png"/>
             </div>
             <div class="flex w-full space-y-2">
-              <div class="min-w-[120px] pr-5">
+              <div class="min-w-[120px] pr-5" *ngIf="arrangementObj?.food">
                 <p>Food</p>
-                <span class="text-lg font-bold text-japaneseIndigo capitalize">{{arrangementObj.food}}</span>
+                <span class="text-lg font-bold text-japaneseIndigo capitalize">{{arrangementObj?.food}}</span>
               </div>
               <div class="border-l border-slate-500 px-4" *ngIf="arrangementObj?.food_description">
                 <p class="pb-1 text-slate-400">Description</p>
-                <p class="text-xs">{{arrangementObj.food_description}}</p>
+                <div [innerHtml]="arrangementObj?.food_description"></div>
+                <!-- <p class="text-xs">{{arrangementObj?.food_description}}</p> -->
               </div>
             </div>
           </div>
@@ -98,7 +99,8 @@
               </div>
               <div class="border-l border-slate-500 px-4" *ngIf="arrangementObj?.equipment_description">
                 <p class="pb-1 text-slate-400">Description</p>
-                <p class="text-xs">{{arrangementObj.equipment_description}}</p>
+                <div [innerHtml]="arrangementObj?.equipment_description"></div>
+                <!-- <p class="text-xs">{{arrangementObj.equipment_description}}</p> -->
               </div>
             </div>
           </div>

@@ -50,7 +50,7 @@
           <div class="w-full lg:w-8/12 lg:pr-5 space-y-7" *ngIf="overview">
             <div class="p-7 bg-white rounded-md space-y-1" *ngIf="events.about.about_event != ''">
               <h5>About Event</h5>
-              <p class="text-quicksilver text-sm leading-6 font-normal">{{ events.about.about_event }}</p>
+              <div [innerHtml]="events?.about?.about_event"></div>
             </div>
             <!-- Photo-holder -->
             <div *ngIf="events.photos != ''" class="media-upload-holder">
@@ -202,7 +202,8 @@
               <h5 class="text-lg font-bold">Company Details</h5>
               <div class="p-7 bg-white rounded-md space-y-1">
                 <span class="block text-base lg:text-lg font-bold">{{ events.companydetail.name }}</span>
-                <p class="text-quicksilver text-sm leading-6 font-normal">{{ events.companydetail.about }}</p>
+                <div [innerHtml]="events?.companydetail?.about"></div>
+                <!-- <p class="text-quicksilver text-sm leading-6 font-normal">{{ events.companydetail.about }}</p> -->
               </div>
             </div>            
             <!-- Photo-holder -->
