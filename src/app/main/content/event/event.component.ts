@@ -17,6 +17,7 @@ export class EventComponent implements OnInit {
   constants: any = CONSTANTS;  
   isLoading: boolean = false;  
   selectedEventIds: any = [];
+  currentdate=new Date("0,16:45:00")
 
   pTotal: any;
   paging: any;
@@ -57,6 +58,7 @@ export class EventComponent implements OnInit {
       search: ""
     };
     this._eventService.eventsList(filter).subscribe((result: any) => {
+      console.log(result);
       if (result && result.IsSuccess) {
         this.paging = result.Data;
         this.events = result.Data.docs;

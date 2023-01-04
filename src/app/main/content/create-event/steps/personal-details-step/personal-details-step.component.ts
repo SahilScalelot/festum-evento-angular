@@ -49,8 +49,8 @@ export class PersonalDetailsStepComponent implements OnInit {
       flat_no: [personalDetailsObj?.flat_no || ''],
       street: [personalDetailsObj?.street || ''],
       area: [personalDetailsObj?.area || ''],
-      state: [personalDetailsObj?.state || '', [Validators.required]],
-      city: [personalDetailsObj?.city || '', [Validators.required]],
+      state: [personalDetailsObj?.state || '', [Validators.required,Validators.pattern('[a-zA-Z]*')]],
+      city: [personalDetailsObj?.city || '', [Validators.required,Validators.pattern('[a-zA-Z]*')]],
       pincode: [personalDetailsObj?.pincode || '', [Validators.required, Validators.pattern('^[1-9]{1}[0-9]{2}\\s{0,1}[0-9]{3}$')]],
     });
   }

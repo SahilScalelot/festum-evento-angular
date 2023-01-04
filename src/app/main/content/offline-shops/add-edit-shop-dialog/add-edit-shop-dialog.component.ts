@@ -360,6 +360,7 @@ export class AddEditShopDialogComponent implements OnInit {
       return;
     }
     this.isContinue = true;
+    console.log(this.addShopForm.value);
   }
 
   onChangePDF(): any {
@@ -415,6 +416,7 @@ export class AddEditShopDialogComponent implements OnInit {
     }
     this.isLoading = true;
     const preparedShopObj: any = this.prepareShopObj(this.addShopForm.value);
+    console.log(preparedShopObj);
     this._offlineShopsService.addEditOfflineShop(preparedShopObj).subscribe((result: any) => {
       if (result && result.IsSuccess) {
         this.closeAddEditShopDialog(true);
@@ -457,16 +459,16 @@ export class AddEditShopDialogComponent implements OnInit {
       flat_no: [addShopObj?.flat_no || ''],
       street_name: [addShopObj?.street_name || ''],
       area_name: [addShopObj?.area_name || ''],
-      city: [addShopObj?.city || '', [Validators.required]],
-      state: [addShopObj?.state || '', [Validators.required]],
+      city: [addShopObj?.city || '', [Validators.required,Validators.pattern('[a-zA-Z]*')]],
+      state: [addShopObj?.state || '', [Validators.required,Validators.pattern('[a-zA-Z]*')]],
       pincode: [addShopObj?.pincode || '', [Validators.required, Validators.pattern('^[1-9]{1}[0-9]{2}\\s{0,1}[0-9]{3}$')]],
       longitude: [this.lng],
       latitude: [this.lat],
 
       company_name: [addShopObj?.companydetails?.company_name || ''],
       gst_file: [this.gstPdf || ''],
-      contact_number: [addShopObj?.companydetails?.contact_number || ''],
-      emailid: [addShopObj?.companydetails?.emailid || ''],
+      contact_number: [addShopObj?.companydetails?.contact_number || '',[Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
+      emailid: [addShopObj?.companydetails?.emailid || '',[Validators.email]],
       about: [addShopObj?.companydetails?.about || '']
     });
 

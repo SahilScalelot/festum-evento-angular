@@ -64,14 +64,23 @@
         <input [formControlName]="'city'" class="input" name="city" required type="text"/>
         <span class="absolute top-full text-red-500 text-xs" *ngIf="personalDetailForm.get('city')?.invalid && (personalDetailForm.get('city')?.dirty && personalDetailForm.get('city')?.touched)">
           <span *ngIf="personalDetailForm.get('city')?.errors?.['required']">City is required</span>
+          <span *ngIf="personalDetailForm.get('city')?.errors?.['pattern']">
+            No. is not allowed
+          </span>
         </span>
+        
       </div>
       <div class="w-full md:w-1/2 lg:w-1/3 px-2 mb-5 inputHolder relative">
         <label class="input-titel">State <span>*</span></label>
         <input [formControlName]="'state'" class="input" name="state" required type="text"/>
         <span class="absolute top-full text-red-500 text-xs" *ngIf="personalDetailForm.get('state')?.invalid && (personalDetailForm.get('state')?.dirty && personalDetailForm.get('state')?.touched)">
           <span *ngIf="personalDetailForm.get('state')?.errors?.['required']">State is required</span>
+          <span *ngIf="personalDetailForm.get('state')?.errors?.['pattern']">
+            No. is not allowed
+          </span>
         </span>
+
+        
       </div>
       <div class="w-full md:w-1/2 lg:w-1/3 px-2 mb-5 inputHolder relative">
         <label class="input-titel">Pincode <span>*</span></label>

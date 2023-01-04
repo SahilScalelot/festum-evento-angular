@@ -103,7 +103,7 @@ export class DiscountStepComponent implements OnInit {
 
   updateDiscount(): any {
     const discountObj: any = this.discountForm.value;
-    discountObj.discount = discountObj.discount.toString() + '%';
+    discountObj.discount = discountObj.discount.toString();
 
     const discountList = this._globalFunctions.copyObject(this.discountList);
     discountList[this.tmpDiscountObj.discountIndex].discount = discountObj.discount || this.tmpDiscountObj.discount;

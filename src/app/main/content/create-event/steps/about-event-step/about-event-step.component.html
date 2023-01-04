@@ -18,25 +18,41 @@
         </span>
       </span>
     </div>
+
     <div class="w-full xl:w-1/2 px-2 pt-5 flex space-x-4">
       <div class="w-full lg:w-1/2 relative">
         <span class="input-titel">Start Time</span>
         <label class="bg-white rounded-md flex space-x-3 relative">
           <i class="icon-time text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0"></i>
-          <p-calendar class="w-4/5" [formControlName]="'start_time'" name="start_time" [showTime]="true" [timeOnly]="true" inputId="start_time"></p-calendar>
+          <p-calendar (onSelect)="onSelectStartAndEnd($event,'start_time')" class="w-4/5" [formControlName]="'start_time'" name="start_time" [showTime]="true" [timeOnly]="true" inputId="start_time"></p-calendar>
         </label>
+
+        <span *ngIf="startTime==true" style="color:red">
+          Start-time is greater than end-time.
+        </span>
+
+        <span *ngIf="equalTime==true" style="color:red">
+           Both start and end time is equal.
+        </span>
+
         <span class="absolute top-full text-red-500 text-xs" *ngIf="aboutEventForm.get('start_time')?.invalid && (aboutEventForm.get('start_time')?.dirty && aboutEventForm.get('start_time')?.touched)">
           <span *ngIf="aboutEventForm.get('start_time')?.errors?.['required']">
             Date is required.
-          </span>
+          </span> 
         </span>
       </div>
+
       <div class="w-full lg:w-1/2 relative">
         <span class="input-titel">End Time</span>
         <label class="bg-white rounded-md flex space-x-3 relative">
           <i class="icon-time text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0"></i>
-          <p-calendar class="w-4/5" [formControlName]="'end_time'" name="end_time" [showTime]="true" [timeOnly]="true" inputId="end_time"></p-calendar>
+          <p-calendar (onSelect)="onSelectStartAndEnd($event,'end_time')" class="w-4/5" [formControlName]="'end_time'" name="end_time" [showTime]="true" [timeOnly]="true" inputId="end_time"></p-calendar> 
         </label>
+
+        <span *ngIf="endTime" style="color:red">
+          End-Time is less than start-time.
+        </span>
+
         <span class="absolute top-full text-red-500 text-xs" *ngIf="aboutEventForm.get('end_time')?.invalid && (aboutEventForm.get('end_time')?.dirty && aboutEventForm.get('end_time')?.touched)">
           <span *ngIf="aboutEventForm.get('end_time')?.errors?.['required']">
             Date is required.

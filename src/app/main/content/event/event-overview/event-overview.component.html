@@ -12,10 +12,11 @@
           <span class="text-xs text-white font-bold px-3 rounded-xl py-1" [ngClass]="!!(events?.accept_booking) ? 'bg-caribbeanGreen' : 'bg-magicPotion'">{{!!(events?.accept_booking) ? 'Booking Accepting' : 'Booking Not Accepting'}}</span>
         </div>
         <h2>{{ events.name }}</h2>
+        
         <div class="flex items-center space-x-1">
-          <p-rating [(ngModel)]="events.ratings" [readonly]="true" [cancel]="false"></p-rating>
+          <p-rating [(ngModel)]="events.ratings"  [readonly]="true" [cancel]="false"></p-rating>
           <!-- <div id="rateYo"></div> -->
-          <span class="text-quicksilver text-xs font-bold pl-2"> {{events.totalreview}} Ratings </span>
+          <span class="text-quicksilver text-xs font-bold pl-2">{{events.totalreview}} Ratings </span>
         </div>
       </div>
       <div class="w-full md:w-1/2 space-y-3">
@@ -210,7 +211,7 @@
               <!-- media title  -->
               <div class="flex justify-between items-center">
                 <h3 class="text-lg">Photo</h3>
-                <a class="text-spiroDiscoBall text-sm font-bold opacity-60" href="javascript:void(0);" (click)="openImageAndVideoDialog(events.companydetail.photos, true, true)">View All</a>
+                <a class="text-spiroDiscoBall text-sm font-bold opacity-60  hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(events.companydetail.photos, true, true)">View All</a>
               </div>
               <!-- photo-holder -->
               <div class="w-full">
@@ -229,7 +230,7 @@
               <!-- media title  -->
               <div class="flex justify-between items-center">
                 <h3 class="text-lg">Videos</h3>
-                <a class="text-spiroDiscoBall text-sm font-bold opacity-60" href="javascript:void(0);" (click)="openImageAndVideoDialog(events.companydetail.videos, false, true)">View All</a>
+                <a class="text-spiroDiscoBall text-sm font-bold opacity-60  hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(events.companydetail.videos, false, true)">View All</a>
               </div>
               <!-- media-holder -->
               <div class="w-full">
@@ -402,11 +403,11 @@
             *ngIf="events?.about?.start_date || events?.about?.end_date || events?.about?.start_time || events?.about?.end_time" >
               <div class="w-full">
                 <div class="text-xs lg:text-sm font-medium text-quicksilver flex items-center"><i class="icon-calendar mr-1.5 text-base"></i>Date </div>
-                <span class="text-japaneseIndigo text-xs lg:text-sm font-bold">{{ events?.about?.start_date | date:'dd MMM, yyyy' }} - {{ events?.about?.end_date | date:'dd MMM, yyyy' }}</span>
+                <span class="text-japaneseIndigo text-xs lg:text-sm font-bold">{{ events?.about?.start_date | date:'MMM d, y' }} - {{ events?.about?.end_date | date:'MMM d, y' }}</span>
               </div>
               <div class="w-full">
                 <div class="text-xs lg:text-sm font-medium text-quicksilver flex items-center"><i class="icon-time mr-1.5 text-sm"></i>Time </div>
-                <span class="text-japaneseIndigo text-xs lg:text-sm font-bold">{{ events?.about?.start_time }} - {{ events?.about?.end_time }}</span>
+                <span class="text-japaneseIndigo text-xs lg:text-sm font-bold">{{ "0" + " " + events?.about?.start_time | date:'shortTime' }} - {{ "0" + " " + events?.about?.end_time | date:'shortTime' }}</span>
               </div>
             </div>
             <!-- Discount On Total Bill  -->

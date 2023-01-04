@@ -11,6 +11,7 @@ import { ModalService } from 'src/app/main/_modal';
   templateUrl: './add-event-step.component.html',
   styleUrls: ['./add-event-step.component.scss']
 })
+
 export class AddEventStepComponent implements OnInit {
   isEditEvent: boolean = false;
   isLoading: boolean = false;

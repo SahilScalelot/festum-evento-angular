@@ -15,6 +15,9 @@ import { GlobalFunctions } from 'src/app/main/common/global-functions';
 export class AboutEventStepComponent implements OnInit {
   minDateValue: any = new Date();
   aboutEventForm: any;
+  startTime:boolean=false
+  endTime:boolean=false
+  equalTime:boolean=false
 
   isLoading: boolean = false;
 
@@ -47,6 +50,14 @@ export class AboutEventStepComponent implements OnInit {
     }
   }
 
+  // get start () {
+  //   return this.aboutEventForm.get('start_time').value
+  // }
+
+  // get end () {
+  //   return this.aboutEventForm.get('end_time').value
+  // }
+
   private _prepareAboutEventForm(eventObj: any = {}): void {
     this.aboutEventForm = this._formBuilder.group({
       date: [eventObj && eventObj.start_date ? [new Date(eventObj?.start_date), new Date(eventObj?.end_date)] : '', [Validators.required, this.startAndEndDateValidator]],
@@ -73,7 +84,34 @@ export class AboutEventStepComponent implements OnInit {
     });
   }
 
-  next(): void {
+  onSelectStartAndEnd(event:any,startandendtime:any){
+    let hour = new Date(event).getHours();
+    
+    let min = new Date(event).getMinutes();
+    
+    if(startandendtime=='start_time'){
+      this.aboutEventForm.get('start_time').value=hour + ":" + min
+    }else{
+      if(startandendtime=='end_time'){
+        this.aboutEventForm.get('end_time').value=hour + ":" + min
+      }
+    }
+  }
+
+  next(): any {
+    let beginningTime=this.aboutEventForm.get('start_time').value
+    let endTime=this.aboutEventForm.get('end_time').value
+
+    if( beginningTime>endTime || endTime<beginningTime){
+      this.startTime=true
+      this.endTime=true
+      return 
+    }else if(beginningTime===endTime){
+      this.equalTime=true
+      return
+    }
+    
+
     if (this.aboutEventForm.invalid) {
       Object.keys(this.aboutEventForm.controls).forEach((key) => {
         this.aboutEventForm.controls[key].touched = true;
@@ -81,6 +119,7 @@ export class AboutEventStepComponent implements OnInit {
       });
       return;
     }
+
     this.isLoading = true;
     this.aboutEventForm.disable();
     this.eventObj = this.prepareAboutEventObj(this.aboutEventForm.value);
@@ -89,6 +128,7 @@ export class AboutEventStepComponent implements OnInit {
         this.isLoading = false;
         this.aboutEventForm.enable();
         this._router.navigate(['/events/create/arrangement']);
+        
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
         this.isLoading = false;
@@ -102,8 +142,7 @@ export class AboutEventStepComponent implements OnInit {
   }
 
   startAndEndDateValidator(control: AbstractControl): { [key: string]: boolean } | null {
-    console.log(control.value[1]);
-    
+    // console.log(control.value[1]);
     if (control.value !== undefined && control.value !== '' && control.value.length &&
      (control.value[1] === undefined || control.value[1] === null || control.value[1] === 'Invalid Date')) {
       return { 'end_date_require': true };

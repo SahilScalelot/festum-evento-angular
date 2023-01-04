@@ -57,7 +57,7 @@
           </div>
           <div class="w-full xl:w-1/2 px-2 pt-5 flex space-x-4">
             <div class="w-full lg:w-1/2 relative">
-              <span class="input-titel">Start Time <span>*</span></span>
+              <span class="input-titel">Start Date <span>*</span></span>
               <label class="bg-white rounded-md flex space-x-3 relative">
                 <i class="icon-calendar-2 text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0"></i>
                 <p-calendar class="w-full" [formControlName]="'start_date'" [touchUI]="true" [minDate]="minDateValue" name="start_date" inputId="start_date"></p-calendar>
@@ -110,6 +110,10 @@
                 <span *ngIf="addShopForm.get('city')?.errors?.['required']">
                   City is required.
                 </span>
+                <span *ngIf="addShopForm.get('city')?.errors?.['pattern']">
+                  No. is not allowed
+                </span>
+
               </span>
             </div>
             <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-3 inputHolder relative">
@@ -118,6 +122,9 @@
               <span class="absolute top-full text-red-500 text-xs" *ngIf="addShopForm.get('state')?.invalid && (addShopForm.get('state')?.dirty && addShopForm.get('state')?.touched)">
                 <span *ngIf="addShopForm.get('state')?.errors?.['required']">
                   State is required.
+                </span>
+                <span *ngIf="addShopForm.get('state')?.errors?.['pattern']">
+                  No. is not allowed
                 </span>
               </span>
             </div>
@@ -178,10 +185,24 @@
           <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative">
             <span class="input-titel">Company Contact No</span>
             <input type="text" [formControlName]="'contact_number'" name="contact_number" class="input">
+
+            <span class="absolute top-full text-red-500 text-xs" *ngIf="addShopForm.get('contact_number')?.invalid && (addShopForm.get('contact_number')?.dirty && addShopForm.get('contact_number')?.touched)">
+              <span *ngIf="addShopForm.get('contact_number')?.errors?.['pattern']">
+                Only 10 digit allowed
+              </span>
+
+            </span>
+
+
           </div>
           <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative">
             <span class="input-titel">Company Email</span>
             <input type="text" [formControlName]="'emailid'" name="emailid" class="input">
+            <span class="absolute top-full text-red-500 text-xs" *ngIf="addShopForm.get('emailid')?.invalid && (addShopForm.get('emailid')?.dirty && addShopForm.get('emailid')?.touched)">
+              <span *ngIf="addShopForm.get('emailid')?.errors?.['email']">
+                Please enter valid email
+              </span>
+            </span>
           </div>
         </div>
         <div class="w-full pt-5 inputHolder relative">

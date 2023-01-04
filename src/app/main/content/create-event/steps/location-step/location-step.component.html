@@ -23,6 +23,9 @@
           <span *ngIf="locationForm.get('city')?.errors?.['required']">
             City is required.
           </span>
+          <span *ngIf="locationForm.get('city')?.errors?.['pattern']">
+            No. is not allowed
+          </span>
         </span>
       </div>
       <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-3 inputHolder relative">
@@ -31,6 +34,10 @@
         <span class="absolute top-full text-red-500 text-xs" *ngIf="locationForm.get('state')?.invalid && (locationForm.get('state')?.dirty && locationForm.get('state')?.touched)">
           <span *ngIf="locationForm.get('state')?.errors?.['required']">
             State is required.
+          </span>
+
+          <span *ngIf="locationForm.get('state')?.errors?.['pattern']">
+            No. is not allowed
           </span>
         </span>
       </div>
