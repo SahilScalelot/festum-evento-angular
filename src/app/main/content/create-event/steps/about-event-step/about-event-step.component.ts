@@ -15,16 +15,11 @@ import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
   styleUrls: ['./about-event-step.component.scss']
 })
 export class AboutEventStepComponent implements OnInit {
-  minDateValue: any = new Date();
+  minDateValue: any = new Date(new Date().setDate(new Date().getDate() + 2));
   aboutEventForm: any;
-
   isLoading: boolean = false;
-
   aboutObj: any;
   eventId: any;
-
-  eventObj: any = {};
-
   detailEditor = DecoupledEditor;
   editorConfig: any = {};
 
@@ -44,7 +39,7 @@ export class AboutEventStepComponent implements OnInit {
     this._prepareAboutEventForm(this.aboutObj);
   }
 
-  onTextEditorReady(editor: any, fieldForSetData: any): void {
+  onTextEditorReady(editor: any): void {
     editor.ui.getEditableElement().parentElement.insertBefore(
       editor.ui.view.toolbar.element,
       editor.ui.getEditableElement()
@@ -85,18 +80,37 @@ export class AboutEventStepComponent implements OnInit {
     });
   }
 
-  next(): void {
+  validateAboutEventForm(): boolean {
     if (this.aboutEventForm.invalid) {
       Object.keys(this.aboutEventForm.controls).forEach((key) => {
         this.aboutEventForm.controls[key].touched = true;
         this.aboutEventForm.controls[key].markAsDirty();
       });
+      return false;
+    }
+
+    const preparedStartTime: any = this.prepareTime(this.aboutEventForm.value.start_time);
+    const preparedEndTime: any = this.prepareTime(this.aboutEventForm.value.end_time);
+    const startTime = moment(preparedStartTime, 'hh:mm');
+    const endTime = moment(preparedEndTime, 'hh:mm');
+    if (!startTime.isBefore(endTime) || startTime.isSame(endTime)) {
+      this.isLoading = false;
+      this.aboutEventForm.enable();
+      this._sNotify.error('Start time is must before End time Or Both time should not same', 'Oops');
+      return false;
+    }
+
+    return true;
+  }
+
+  next(): void {
+    if (!this.validateAboutEventForm()) {
       return;
     }
     this.isLoading = true;
     this.aboutEventForm.disable();
-    this.eventObj = this.prepareAboutEventObj(this.aboutEventForm.value);
-    this._createEventService.about(this.eventObj).subscribe((result: any) => {
+    const preparedEventObj: any = this.prepareAboutEventObj(this.aboutEventForm.value);
+    this._createEventService.about(preparedEventObj).subscribe((result: any) => {
       if (result && result.IsSuccess) {
         this.isLoading = false;
         this.aboutEventForm.enable();
@@ -114,8 +128,6 @@ export class AboutEventStepComponent implements OnInit {
   }
 
   startAndEndDateValidator(control: AbstractControl): { [key: string]: boolean } | null {
-    console.log(control.value[1]);
-    
     if (control.value !== undefined && control.value !== '' && control.value.length &&
      (control.value[1] === undefined || control.value[1] === null || control.value[1] === 'Invalid Date')) {
       return { 'end_date_require': true };
