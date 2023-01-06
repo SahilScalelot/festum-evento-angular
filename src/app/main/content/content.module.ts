@@ -16,7 +16,6 @@ import { OfflineShopsModule } from './offline-shops/offline-shops.module';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { ReferAndEarnComponent } from './refer-and-earn/refer-and-earn.component';
 import { RedeemCoinComponent } from './redeem-coin/redeem-coin.component';
-import { FaqAndHelpComponent } from './faq-and-help/faq-and-help.component';
 import { EntertainmentComponent } from './entertainment/entertainment.component';
 import { OurProductComponent } from './our-product/our-product.component';
 import { BookingComponent } from './booking/booking.component';
@@ -24,6 +23,8 @@ import { AccordionModule } from 'primeng/accordion';
 import { ImageModule } from 'primeng/image';
 import { TooltipModule } from 'primeng/tooltip';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { FaqComponent } from './faq/faq.component';
+import { HelpComponent } from './help/help.component';
 
 const routes: Routes = [
   {
@@ -40,7 +41,8 @@ const routes: Routes = [
     LandingPageComponent,
     ReferAndEarnComponent,
     RedeemCoinComponent,
-    FaqAndHelpComponent,
+    FaqComponent,
+    HelpComponent,
     EntertainmentComponent,
     OurProductComponent,
     BookingComponent,

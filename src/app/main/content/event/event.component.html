@@ -3,7 +3,7 @@
   <div class="flex flex-wrap items-center">
     <h2>Events</h2>
     <div class="flex whitespace-nowrap space-x-5 ml-auto">
-      <button class="bg-white px-5 py-3 text-japaneseIndigo font-bold rounded-md tracking-wider" (click)="multipleLiveEvent()" [disabled]="!selectedEventIds || !selectedEventIds.length">MultipleLive</button>
+      <button class="bg-white px-5 py-3 text-japaneseIndigo font-bold rounded-md tracking-wider" (click)="multipleLiveEvent()">MultipleLive</button>
       <span class="secondary cursor-pointer px-7 py-3" (click)="openAddEventDialog()"><i class="icon-plus mr-3"></i>Create new event</span>
     </div>
   </div>
@@ -46,7 +46,8 @@
                     </div>
                   </div>
                   <div class="text-left pt-5 w-full flex justify-between lg:inline-block lg:w-auto lg:pt-0 lg:text-right space-y-3 lg:space-y-5">
-                    <label class="flex items-center">
+                    <label class="flex items-center relative" (click)="liveEventCheck($event, event, i)">
+                      <span class="absolute opacity-0 inset-y-0 left-3 right-10 block z-10" *ngIf="!event.is_approved"></span>
                       <input type="checkbox" class="switch mr-1.5 lg:mx-3 order-2" (click)="liveEvent($event, event, i)" [checked]="event?.is_live" [disabled]="!event.is_approved"/>
                       <span class="text-base font-bold anim order-3">Live</span>
                     </label>
@@ -66,7 +67,7 @@
                     <span class="text-xs font-bold text-quicksilver">521 UnSold</span>
                   </div> -->
                   <div class="flex space-x-2 pt-4">
-                    <a href="javascript:void(0)" (click)="editEvent($event, event._id)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-edit text-sm leading-0 text-japaneseIndigo"></i></a>
+                    <a href="javascript:void(0)" (click)="editEvent($event, event._id)" *ngIf="!event?.accept_booking" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-edit text-sm leading-0 text-japaneseIndigo"></i></a>
                     <a href="javascript:void(0)" (click)="gotoEventOverview($event, event)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-show text-xs leading-0 text-japaneseIndigo"></i></a>
                     <!-- <a href="javascript:void(0)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-fill_megaphone text-sm leading-0 text-japaneseIndigo"></i></a> -->
                     <!-- <a href="javascript:void(0)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-online_offer text-xl leading-0 text-japaneseIndigo"></i></a> -->

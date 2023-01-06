@@ -212,7 +212,7 @@ input:checked + .check-language i{@apply scale-100;}
 /* P Accordions */
 .p-accordion-tab .p-accordion-header .p-accordion-header-link{@apply bg-white px-8 py-7 rounded-md border-0 focus:shadow-none;}
 .p-accordion-tab .p-accordion-header .p-accordion-header-link{background-color: #fff !important;}
-.p-accordion-tab .p-accordion-header .p-accordion-header-link{@apply flex flex-row-reverse items-center justify-between cursor-pointer capitalize text-xl 2xl:text-2xl;}
+.p-accordion-tab .p-accordion-header .p-accordion-header-link{@apply flex flex-row-reverse items-center justify-between cursor-pointer normal-case text-xl;}
 .p-accordion-tab .p-accordion-header .p-accordion-header-link:focus{box-shadow: none !important;}
 .p-accordion-tab .p-accordion-header:hover .p-accordion-header-link{background-color: #fff !important;}
 .p-accordion p-accordiontab .p-accordion-tab {margin-bottom: 15px;}

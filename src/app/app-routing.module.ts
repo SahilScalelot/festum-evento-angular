@@ -11,10 +11,11 @@ import { ShopOverviewComponent } from './main/content/offline-shops/shop-overvie
 import { OfferOverviewComponent } from './main/content/offline-shops/shop-overview/offer-overview/offer-overview.component';
 import { ReferAndEarnComponent } from './main/content/refer-and-earn/refer-and-earn.component';
 import { RedeemCoinComponent } from './main/content/redeem-coin/redeem-coin.component';
-import { FaqAndHelpComponent } from './main/content/faq-and-help/faq-and-help.component';
 import { EntertainmentComponent } from './main/content/entertainment/entertainment.component';
 import { OurProductComponent } from './main/content/our-product/our-product.component';
 import { BookingComponent } from './main/content/booking/booking.component';
+import { FaqComponent } from './main/content/faq/faq.component';
+import { HelpComponent } from './main/content/help/help.component';
 
 const routes: Routes = [
 
@@ -96,8 +97,12 @@ const routes: Routes = [
         component: RedeemCoinComponent
       },
       {
-        path: 'faq-and-help',
-        component: FaqAndHelpComponent
+        path: 'faq',
+        component: FaqComponent
+      },
+      {
+        path: 'help',
+        component: HelpComponent
       },
       {
         path: 'entertainment',

@@ -231,13 +231,18 @@ export class ProfileComponent implements OnInit {
   private _prepareBusinessForm(businessProfileObj: any = {}): void {
     const preparedDOB: any = moment(businessProfileObj?.dob, 'DD-MM-YYYY');
     this.businessForm = this._formBuilder.group({
-      name: [{ value: businessProfileObj?.name, disabled: true }, [Validators.required]],
-      email: [{ value: businessProfileObj?.email, disabled: true }, [Validators.required]],
-      mobile: [{ value: businessProfileObj?.mobile, disabled: true }, [Validators.required]],
-      address: [{ value: businessProfileObj?.address, disabled: true }, [Validators.required]],
       dob: [{ value: (preparedDOB && preparedDOB._d && preparedDOB._d != 'Invalid Date') ? preparedDOB._d : new Date(), disabled: true }, [Validators.required]],
-      country: [{ value: businessProfileObj?.country, disabled: true }, [Validators.required]],
-      about: [{ value: businessProfileObj?.about, disabled: true }]
+      
+      name: [{value: businessProfileObj?.name, disabled: true}, [Validators.minLength(2)]],
+      contact_no: [{value: businessProfileObj?.contact_no, disabled: true}, [Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
+      email: [{value: businessProfileObj?.email, disabled: true}, [Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
+      about: [{value: businessProfileObj?.about, disabled: true}, [Validators.required]],
+      flat_no: [{value: businessProfileObj?.flat_no, disabled: true}],
+      street: [{value: businessProfileObj?.street, disabled: true}],
+      area: [{value: businessProfileObj?.area, disabled: true}],
+      city: [{value: businessProfileObj?.city, disabled: true}, [Validators.required]],
+      state: [{value: businessProfileObj?.state, disabled: true}, [Validators.required]],
+      pincode: [{value: businessProfileObj?.pincode, disabled: true}, [Validators.required, Validators.pattern('^[1-9]{1}[0-9]{2}\\s{0,1}[0-9]{3}$')]],
     });
   }
 }

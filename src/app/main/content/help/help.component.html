@@ -1,0 +1,39 @@
+<div class="wrapper min-h-full">
+  <div class="space-y-7 h-full">
+    <div class="w-full space-y-7">
+      <h1>FAQ</h1>
+      <div class="py-5">
+        <p-accordion expandIcon="icon-plus" collapseIcon="icon-minus text-[3px]">
+          <p-accordionTab *ngFor="let faq of faqObj" [header]="faq?.title">
+            {{faq?.description}}
+          </p-accordionTab>
+        </p-accordion>
+
+        
+        <p-accordion>
+          <p-accordionTab header="Header 1">
+            Content 1
+            <p-accordionTab header="Header 1">
+              Content 1
+              <p-accordionTab header="Header 1">
+                Content 1
+              </p-accordionTab>
+            </p-accordionTab>
+            <p-accordionTab header="Header 1">
+              Content 1
+            </p-accordionTab>
+          </p-accordionTab>
+          <p-accordionTab header="Header 2">
+              Content 2
+          </p-accordionTab>
+          <p-accordionTab header="Header 3">
+              Content 3
+          </p-accordionTab>
+        </p-accordion>
+      </div>
+    </div>
+    <div class="w-full mt-5 addsBox">
+      <img src="/assets/images/banner-ads.png" alt="ring-ad" class="w-full object-cover" />
+    </div>
+  </div>
+</div>

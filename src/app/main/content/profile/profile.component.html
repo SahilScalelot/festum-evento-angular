@@ -4,7 +4,7 @@
     <!-- profile 1 -->
     <!-- title-holder  -->
     <form [formGroup]="profileForm">
-      <div class="flex justify-between items-center pt-4">
+      <div class="flex justify-between items-center pt-4 pb-8">
         <h1>Personal profile</h1>
         <button *ngIf="!isEditProfile" class="secondary px-5 py-2" (click)="enableFields()">Edit Profile</button>
         <button type="submit" *ngIf="isEditProfile" class="secondary px-5 py-2" (click)="updatePersonalProfile()">Submit</button>
@@ -134,13 +134,11 @@
     <!-- profile end 1 -->
     <!-- profile 2 -->
     <!-- title-holder  -->
-    <form [formGroup]="businessForm" *ngIf="false">
-      <div class="flex justify-between items-center pt-4">
+    <form [formGroup]="businessForm" *ngIf="true">
+      <div class="flex justify-between items-center pt-4 pb-8">
         <h1>Business profile </h1>
-        <button *ngIf="!isEditBusinessProfile" class="secondary px-5 py-2" (click)="enableFields(true)">Edit Profile
-        </button>
-        <button type="submit" *ngIf="isEditBusinessProfile" class="secondary px-5 py-2"
-          (click)="updateBusinessProfile()">Submit</button>
+        <button *ngIf="!isEditBusinessProfile" class="secondary px-5 py-2" (click)="enableFields(true)">Edit Profile</button>
+        <button type="submit" *ngIf="isEditBusinessProfile" class="secondary px-5 py-2" (click)="updateBusinessProfile()">Submit</button>
       </div>
       <!-- profile image-->
       <div class="flex items-center">
@@ -154,91 +152,99 @@
                 class="w-full h-full object-cover rounded-full overflow-hidden">
             <!-- <img [src]="businessImage ? businessImage : constants.userDefaultImage" alt="Business Profile Image"
               class="w-full h-full object-cover rounded-full overflow-hidden" /> -->
-            <div
-              class="absolute bottom-0 right-0 flex justify-center items-center w-10 h-10 rounded-full bg-magicPotion z-10">
+            <div class="absolute bottom-0 right-0 flex justify-center items-center w-10 h-10 rounded-full bg-magicPotion z-10">
               <label for="business_profile_pic">
-                <img src="../assets/images/cameraProfile.png" alt="Camera"
-                  [class]="isEditBusinessProfile ? 'cursor-pointer' : ''" />
+                <img src="../assets/images/cameraProfile.png" alt="Camera" [class]="isEditBusinessProfile ? 'cursor-pointer' : ''" />
               </label>
             </div>
           </div>
         </div>
-        <input type='file' id="business_profile_pic" accept="image/png, image/jpg, image/jpeg" *ngIf="isEditBusinessProfile"
-          (change)="onUpdateProfilePic($event, true);" style="display:none" />
+        <input type='file' id="business_profile_pic" accept="image/png, image/jpg, image/jpeg" *ngIf="isEditBusinessProfile" (change)="onUpdateProfilePic($event, true);" style="display:none" />
         <div>
           <h4>Mobina Mirbagheri</h4>
-          <h5 class="text-xl font-bold text-japaneseIndigo pt-2.5">Lorem Ipsum is simply dummy text of the printing and
-            typesetting industry.</h5>
+          <h5 class="text-xl font-bold text-japaneseIndigo pt-2.5">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h5>
         </div>
       </div>
       <!-- form Edit  -->
-      <div class="w-full">
-        <div class="flex flex-wrap justify-between -mx-2">
-          <div class="w-full lg:w-1/2 px-2 pt-3 inputHolder">
-            <span class="input-titel">Name</span>
-            <input type="text" class="input font-bold" formControlName='name' />
-            <span *ngIf="businessFirstName && businessFirstName.invalid && businessFirstName.touched"
-              class="text-red-500 text-xs">Name is required</span>
+      <div class="">
+        <div class="flex items-end flex-wrap -mx-2">
+          <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative">
+            <span class="input-titel">Company name</span>
+            <input class="input" type="text" id="name" name="name" [formControlName]="'name'" required />
+            <span class="absolute top-full text-red-500 text-xs" *ngIf="businessForm.get('name')?.invalid && (businessForm.get('name')?.dirty && businessForm.get('name')?.touched)">
+              <span *ngIf="businessForm.get('name')?.errors?.['minlength']">
+                This field must have at least 2 character.
+              </span>
+            </span>
           </div>
-          <div class="w-full lg:w-1/2 px-2 pt-3 inputHolder">
-            <span class="input-titel">Email</span>
-            <input type="text" class="input font-bold" formControlName='email' />
+          <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative">
+            <span class="input-titel">Company Email</span>
+            <input [formControlName]="'email'" class="input" type="text"/>
+            <span class="absolute top-full text-red-500 text-xs" *ngIf="businessForm.get('email')?.invalid && (businessForm.get('email')?.dirty && businessForm.get('email')?.touched)">
+              <span *ngIf="businessForm.get('email')?.errors?.['pattern']">
+                Please enter valid Email.
+              </span>
+            </span>
           </div>
-        </div>
-        <div class="flex flex-wrap justify-between pt-3 -mx-2">
-          <div class="w-full lg:w-1/2 px-2 pt-3">
-            <span class="input-titel">Phone Number</span>
-            <div class="flex items-center h-auto space-x-3">
-              <div class="">
-                <select disabled
-                  class="text-base text-japaneseIndigo bg-white rounded-md flex space-x-3 profile-arrow outline-0 whitespace-nowrap pl-5 pr-5 xl:pr-10 py-3.5 relative w-20 xl:w-28">
-                  <option>+91</option>
-                  <option>+625</option>
-                  <option>+001</option>
-                </select>
-              </div>
-              <div class="max-w-full w-full inputHolder">
-                <input type="text" class="input font-bold" formControlName='mobile' />
-              </div>
-            </div>
+          <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative">
+            <span class="input-titel">Company Contact No</span>
+            <input [formControlName]="'contact_no'" class="input" type="text" fuseValidNumber />
+            <span class="absolute top-full text-red-500 text-xs" *ngIf="businessForm.get('contact_no')?.invalid && (businessForm.get('contact_no')?.dirty && businessForm.get('contact_no')?.touched)">
+              <span *ngIf="businessForm.get('contact_no')?.errors?.['pattern']">
+                Please enter valid Contact Number.
+              </span>
+            </span>
           </div>
-          <div class="w-full lg:w-1/2 px-2 pt-3 inputHolder">
-            <span class="input-titel">Address</span>
-            <input type="text" class="input font-bold" formControlName='address' />
-            <span *ngIf="businessAddress && businessAddress.invalid && businessAddress.touched" class="text-red-500 text-xs">
-              <span *ngIf="businessAddress.errors?.required">
-                Address is required
+          <div class="w-full md:w-1/2 px-2 pt-5 inputHolder">
+            <span class="input-titel">Street Name.</span>
+            <input [formControlName]="'street'" class="input" type="text"/>
+          </div>
+          <div class="w-full md:w-1/2 px-2 pt-5 inputHolder">
+            <span class="input-titel">Area Name.</span>
+            <input [formControlName]="'area'" class="input" type="text"/>
+          </div>
+          <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative">
+            <label class="input-titel">City<span class="text-magicPotion">*</span></label>
+            <input [formControlName]="'city'" class="input" type="text"/>
+            <span class="absolute top-full text-red-500 text-xs" *ngIf="businessForm.get('city')?.invalid && (businessForm.get('city')?.dirty && businessForm.get('city')?.touched)">
+              <span *ngIf="businessForm.get('city')?.errors?.['required']">
+                City is required.
+              </span>
+            </span>
+          </div>
+          <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative">
+            <label class="input-titel">State<span class="text-magicPotion">*</span></label>
+            <input [formControlName]="'state'" class="input" type="text"/>
+            <span class="absolute top-full text-red-500 text-xs" *ngIf="businessForm.get('state')?.invalid && (businessForm.get('state')?.dirty && businessForm.get('state')?.touched)">
+              <span *ngIf="businessForm.get('state')?.errors?.['required']">
+                State is required.
+              </span>
+            </span>
+          </div>
+          <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative">
+            <label class="input-titel">Pincode<span class="text-magicPotion">*</span></label>
+            <input [formControlName]="'pincode'" class="input" type="text" fuseValidNumber />
+            <span class="absolute top-full text-red-500 text-xs" *ngIf="businessForm.get('pincode')?.invalid && (businessForm.get('pincode')?.dirty && businessForm.get('pincode')?.touched)">
+              <span *ngIf="businessForm.get('pincode')?.errors?.['required']">
+                Pincode is required.
+              </span>
+              <span *ngIf="businessForm.get('pincode')?.errors?.['pattern']">
+                Please enter valid Pincode.
               </span>
             </span>
           </div>
         </div>
-        <div class="flex flex-wrap justify-between pt-3 -mx-2">
-          <div class="w-full lg:w-1/2 px-2 pt-3 inputHolder">
-            <span class="input-titel">Date Of Birth</span>
-            <p-calendar class="input font-bold" [showIcon]="false" inputId="icon" formControlName='dob'
-              [maxDate]="maxDate" dateFormat="dd-mm-yy"></p-calendar>
-            <span *ngIf="businessDob && businessDob.invalid && businessDob.touched" class="text-red-500 text-xs">
-              DOB is required
-            </span>
-          </div>
-          <div class="w-full lg:w-1/2 px-2 pt-3 inputHolder">
-            <span class="input-titel">Country</span>
-            <input type="text" class="input font-bold" formControlName='country' />
-            <span *ngIf="businessCountry && businessCountry.invalid && businessCountry.touched" class="text-red-500 text-xs">
-              <span *ngIf="businessCountry?.errors?.required">
-                Country is required
-              </span>
-            </span>
-          </div>
-        </div>
-        <div class="w-full pt-3">
-          <span class="input-titel">About Me</span>
+        <div class="w-full pt-5 relative">
+          <span class="input-titel">About Our Company<span class="text-magicPotion">*</span></span>
           <div class="w-full bg-white rounded">
             <ckeditor (ready)="onTextEditorReady($event, 'about')" [config]="editorConfig" [editor]="detailEditor" [formControlName]="'about'" class="h-44 text-editor" id="about" name="about"></ckeditor>
           </div>
-          <!-- <textarea cols="30" rows="5" style="font-weight:bold;"
-            class="outline-none flex items-center w-full bg-white resize-none p-2 px-3.5 rounded-md placeholder:text-base placeholder:leading-6 placeholder:font-bold placeholder:text-japaneseIndigo"
-            placeholder="Type here..." formControlName="about"></textarea> -->
+          <!-- <textarea [formControlName]="'about'" class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md" cols="30" rows="4"></textarea> -->
+          <span class="absolute top-full text-red-500 text-xs" *ngIf="businessForm.get('about')?.invalid && (businessForm.get('about')?.dirty && businessForm.get('about')?.touched)">
+            <span *ngIf="businessForm.get('about')?.errors?.['required']">
+              About is required.
+            </span>
+          </span>
         </div>
       </div>
     </form>

@@ -41,15 +41,11 @@ export class EventComponent implements OnInit {
   }
 
   checkClick(event: any, eventObj: any = {}): void {
-    event.stopPropagation();
-    console.log(eventObj.is_approved);
-    console.log(eventObj.is_live);
-    
+    event.stopPropagation();    
     if (!eventObj.is_approved) { 
-      this._sNotify.error('Event Wait for Verified.', 'Oops');
-      if (eventObj.is_live) {
-        this._sNotify.error('Event already Live.', 'Oops');
-      }
+      this._sNotify.error('Wait for Event Verified.', 'Oops');
+    }else if (eventObj.is_live) {
+      this._sNotify.error('Event already Live.', 'Oops');
     }
   }
 
@@ -120,6 +116,14 @@ export class EventComponent implements OnInit {
         this._globalFunctions.errorHanding(error, this, true);
         this.isLoading = false;
       });
+    }else {
+      this._sNotify.error('Wait for Event Verified.', 'Oops');
+    }
+  }
+  liveEventCheck(event: any, eventObj: any, index: number): void {
+    event.stopPropagation();
+    if (!eventObj.is_approved) {
+      this._sNotify.error('Wait for Event Verified.', 'Oops');
     }
   }
   
@@ -143,6 +147,8 @@ export class EventComponent implements OnInit {
         this._globalFunctions.errorHanding(error, this, true);
         this.isLoading = false;
       });
+    } else {
+      this._sNotify.error('please Select Event.', 'Oops');
     }
   }
 
