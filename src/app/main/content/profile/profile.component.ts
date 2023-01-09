@@ -82,23 +82,26 @@ export class ProfileComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.maxDate = new Date();
-    this._prepareProfileForm();
-    this._prepareBusinessForm();
-    // this._getUserDetail();
-    
     this._globalService.loginUser$.subscribe((user: any) => {
       this.isLoading = true;
       if (user) {
         this.profileObj = user;
         this._prepareProfileForm(this.profileObj);
-        this.profile_pic = CONSTANTS.baseImageURL + this.profileObj.profile_pic;
+        this.profile_pic = CONSTANTS.baseImageURL + this.profileObj?.profile_pic;
+        this.business_profile_pic = CONSTANTS.baseImageURL + this.profileObj?.businessProfile?.profile_pic;
+        this.businessObj = this.profileObj?.businessProfile;
+        this._prepareBusinessForm(this.businessObj);
         this.isLoading = false;
       }
     });
+
+    this.maxDate = new Date();
+    this._prepareProfileForm();
+    this._prepareBusinessForm();
+    // this._getUserDetail();
   }
   
-  onTextEditorReady(editor: any, fieldForSetData: any): void {
+  onTextEditorReady(editor: any): void {
     editor.ui.getEditableElement().parentElement.insertBefore(
       editor.ui.view.toolbar.element,
       editor.ui.getEditableElement()
@@ -187,8 +190,31 @@ export class ProfileComponent implements OnInit {
   }
 
   updateBusinessProfile() {
+    if (this.businessForm.invalid) {
+      Object.keys(this.businessForm.controls).forEach((key) => {
+        this.businessForm.controls[key].touched = true;
+        this.businessForm.controls[key].markAsDirty();
+      });
+      return;
+    }
     if (this.businessForm.valid) {
-      console.log('submitBusinessForm');
+      const preparedBusinessObj: any = this._globalFunctions.copyObject(this.businessForm.value);
+      this.isLoading = true;
+      this._profileService.updateBusiness(preparedBusinessObj).subscribe((result: any) => {
+        if (result && result.IsSuccess) {
+          this._globalService.loginUser$.next(result.Data);
+          this._sNotify.success(result.Message, 'Success');
+          // this.enableFields();
+          this.isEditBusinessProfile = false;
+          this.isLoading = false;
+          // window.location.reload();
+        } else {  
+          this._globalFunctions.successErrorHandling(result, this, true);
+        }
+      }, (error: any) => {
+        this.isLoading = false;
+        this._globalFunctions.errorHanding(error, this, true);
+      });
     }
   }
 
@@ -196,10 +222,17 @@ export class ProfileComponent implements OnInit {
     if (isBusinessProfile) {
       this.isEditBusinessProfile = true;
       this.businessForm.get('name').enable();
-      this.businessForm.get('address').enable();
-      this.businessForm.get('dob').enable();
+      this.businessForm.get('mobile').enable();
+      this.businessForm.get('email').enable();
       this.businessForm.get('country').enable();
+      this.businessForm.get('country_code').enable();
       this.businessForm.get('about').enable();
+      this.businessForm.get('flat_no').enable();
+      this.businessForm.get('street').enable();
+      this.businessForm.get('area').enable();
+      this.businessForm.get('city').enable();
+      this.businessForm.get('state').enable();
+      this.businessForm.get('pincode').enable();
     } else {
       this.isEditProfile = true;
       this.profileForm.get('name').enable();
@@ -224,25 +257,24 @@ export class ProfileComponent implements OnInit {
       state: [{ value: personalProfileObj?.state, disabled: true }, [Validators.required]],
       country: [{ value: personalProfileObj?.country, disabled: true }, [Validators.required]],
       country_code: [{ value: personalProfileObj?.country_code, disabled: true }],
-      about: [{ value: personalProfileObj?.about, disabled: true }]
+      about: [{ value: personalProfileObj?.about || '', disabled: true }]
     });
   }
-
+  
   private _prepareBusinessForm(businessProfileObj: any = {}): void {
-    const preparedDOB: any = moment(businessProfileObj?.dob, 'DD-MM-YYYY');
     this.businessForm = this._formBuilder.group({
-      dob: [{ value: (preparedDOB && preparedDOB._d && preparedDOB._d != 'Invalid Date') ? preparedDOB._d : new Date(), disabled: true }, [Validators.required]],
-      
-      name: [{value: businessProfileObj?.name, disabled: true}, [Validators.minLength(2)]],
-      contact_no: [{value: businessProfileObj?.contact_no, disabled: true}, [Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
-      email: [{value: businessProfileObj?.email, disabled: true}, [Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
-      about: [{value: businessProfileObj?.about, disabled: true}, [Validators.required]],
-      flat_no: [{value: businessProfileObj?.flat_no, disabled: true}],
-      street: [{value: businessProfileObj?.street, disabled: true}],
-      area: [{value: businessProfileObj?.area, disabled: true}],
-      city: [{value: businessProfileObj?.city, disabled: true}, [Validators.required]],
-      state: [{value: businessProfileObj?.state, disabled: true}, [Validators.required]],
-      pincode: [{value: businessProfileObj?.pincode, disabled: true}, [Validators.required, Validators.pattern('^[1-9]{1}[0-9]{2}\\s{0,1}[0-9]{3}$')]],
+      name: [{value: businessProfileObj?.name || '', disabled: true}, [Validators.minLength(2)]],
+      mobile: [{value: businessProfileObj?.mobile || '', disabled: true}, [Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
+      email: [{value: businessProfileObj?.email || '', disabled: true}, [Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
+      country: [{value: businessProfileObj?.country || '', disabled: true}, [Validators.required]],
+      country_code: [{value: businessProfileObj?.country_code || '', disabled: true}, [Validators.required]],
+      flat_no: [{value: businessProfileObj?.flat_no || '', disabled: true}],
+      street: [{value: businessProfileObj?.street || '', disabled: true}],
+      area: [{value: businessProfileObj?.area || '', disabled: true}],
+      city: [{value: businessProfileObj?.city || '', disabled: true}, [Validators.required]],
+      state: [{value: businessProfileObj?.state || '', disabled: true}, [Validators.required]],
+      pincode: [{value: businessProfileObj?.pincode || '', disabled: true}, [Validators.required, Validators.pattern('^[1-9]{1}[0-9]{2}\\s{0,1}[0-9]{3}$')]],
+      about: [{value: businessProfileObj?.about || '', disabled: true}],
     });
   }
 }

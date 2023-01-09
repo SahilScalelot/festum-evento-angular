@@ -38,7 +38,7 @@ export class OnlineOffersComponent implements OnInit {
     const page = event ? (event.page + 1) : 1;
     const filter: any = {
       page : page || '1',
-      limit : event?.rows || '4',
+      limit : event?.rows || '10',
       search: "",
       platform: this.platformsId || ""
     };

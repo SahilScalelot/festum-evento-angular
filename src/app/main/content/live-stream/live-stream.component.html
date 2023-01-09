@@ -13,7 +13,7 @@
         <div class="flex flex-wrap lg:flex-nowrap lg:space-x-5">
           <div class="relative w-full lg:max-w-[335px] overflow-hidden rounded">
             <span class="absolute py-1.5 px-3 top-0 left-0 bg-magicPotion text-white uppercase rounded text-xs" [ngClass]="{'hidden': !liveStream?.status}">Live</span>
-            <img [src]="!!(liveStream?.photos[0]?.url) ? constants.baseImageURL + liveStream.photos[0].url : constants.defaultImage" [alt]="liveStream?.event_name" class="w-full h-full object-cover pb-5 lg:pb-0" />
+            <img [src]="!!(liveStream?.photos[0]?.url) ? constants.baseImageURL + liveStream.photos[0].url : constants.defaultImage" [alt]="liveStream?.event_name" class="w-full h-full object-cover pb-5 lg:pb-0 lg:absolute" />
           </div>
           <div class="w-full pt-5 lg:pt-0">
             <div class="flex justify-between border-b-2 pb-4">
@@ -59,7 +59,7 @@
     <p *ngIf="!liveStreamObj || !liveStreamObj?.length">No Offers Records Found, Create new Offers.</p>
     <div class="flex flex-wrap items-center justify-center" *ngIf="liveStreamObj && liveStreamObj?.length">
       <!-- <div class="pagination-festum py-2"><p class="show-text">Showing {{offset}} to {{(((offset - 1) + perPageLimit) < pTotal) ? (offset - 1) + perPageLimit : pTotal}} Of {{ pTotal }} Events.</p></div> -->
-      <p-paginator [rows]="paging?.limit" [totalRecords]="paging?.totalDocs" [rowsPerPageOptions]="[1, 4, 6, 10, 20]" (onPageChange)="getLiveStreamObj($event)"></p-paginator>
+      <p-paginator [rows]="paging?.limit" [totalRecords]="paging?.totalDocs" [rowsPerPageOptions]="[10, 20, 30, 50]" (onPageChange)="getLiveStreamObj($event)"></p-paginator>
     </div>
 
     <!-- advisement -->

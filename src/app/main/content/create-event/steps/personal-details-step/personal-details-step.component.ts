@@ -60,7 +60,11 @@ export class PersonalDetailsStepComponent implements OnInit {
     this._createEventService.getPersonalDetail(this.eventId).subscribe((result: any) => {
       if (result && result.IsSuccess) {
         const eventLocationObj: any = result?.Data?.personaldetail || {};
-        this._preparePersonalDetailsEventForm(eventLocationObj);
+        if (eventLocationObj && eventLocationObj.pincode && eventLocationObj.pincode != '') {
+          this._preparePersonalDetailsEventForm(eventLocationObj);
+        } else {
+          this.getDataFromProfileObj();
+        }
         this.isLoading = false;
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
@@ -69,6 +73,17 @@ export class PersonalDetailsStepComponent implements OnInit {
     }, (error: any) => {
       this._globalFunctions.errorHanding(error, this, true);
       this.isLoading = false;
+    });
+  }
+
+  getDataFromProfileObj(): void {
+    this._globalService.loginUser$.subscribe((user: any) => {
+      if (user) {
+        const personalProfile: any = this._globalFunctions.copyObject(user || {});
+        personalProfile.full_name = personalProfile.name;
+        personalProfile.mobile_no = personalProfile.mobile;
+        this._preparePersonalDetailsEventForm(personalProfile);
+      }
     });
   }
 

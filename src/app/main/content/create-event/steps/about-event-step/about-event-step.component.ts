@@ -109,7 +109,7 @@ export class AboutEventStepComponent implements OnInit {
     }
     this.isLoading = true;
     this.aboutEventForm.disable();
-    const preparedEventObj: any = this.prepareAboutEventObj(this.aboutEventForm.value);
+    const preparedEventObj: any = this.prepareAboutEventObj(this.aboutEventForm.value);    
     this._createEventService.about(preparedEventObj).subscribe((result: any) => {
       if (result && result.IsSuccess) {
         this.isLoading = false;
@@ -149,7 +149,7 @@ export class AboutEventStepComponent implements OnInit {
   prepareTime(dateWithTime: any): any {
     const date: any = new Date(dateWithTime);
     if (date != 'Invalid Date') {
-      return dateWithTime.getHours() + ':' + dateWithTime.getMinutes();
+      return moment(dateWithTime).format('HH') + ':' + moment(dateWithTime).format('mm');
     }
     return dateWithTime;
   }

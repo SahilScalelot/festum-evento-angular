@@ -46,7 +46,7 @@
       <p *ngIf="!notificationObj || !notificationObj?.length">No Notification Records Found, Create new Notification.</p>
       <div class="flex flex-wrap items-center justify-center" *ngIf="notificationObj && notificationObj?.length">
         <!-- <div class="pagination-festum py-2"><p class="show-text">Showing {{offset}} to {{(((offset - 1) + perPageLimit) < pTotal) ? (offset - 1) + perPageLimit : pTotal}} Of {{ pTotal }} Events.</p></div> -->
-        <p-paginator [rows]="paging?.limit" [totalRecords]="paging?.totalDocs" [rowsPerPageOptions]="[1, 4, 6, 10, 20]" (onPageChange)="getOnlineShopOffers($event)"></p-paginator>
+        <p-paginator [rows]="paging?.limit" [totalRecords]="paging?.totalDocs" [rowsPerPageOptions]="[10, 20, 30, 50]" (onPageChange)="getOnlineShopOffers($event)"></p-paginator>
       </div>
 
       <!-- advisement -->

@@ -100,11 +100,15 @@ export class CompanyDetailsStepComponent implements OnInit {
     this._createEventService.getCompanyDetail(this.eventId).subscribe((result: any) => {
       if (result && result.IsSuccess) {
         const companyDetailObj: any = result?.Data?.companydetail || {};
-        this._prepareCompanyDetailsForm(companyDetailObj);
+        if (companyDetailObj && companyDetailObj.pincode && companyDetailObj.pincode != '') {
+          this._prepareCompanyDetailsForm(companyDetailObj);
+        } else {
+          this.getDataFromProfileObj();
+        }
         this.gstPdf = companyDetailObj.gst;
         this.inputText = _.last(_.split(companyDetailObj.gst, '/'));
         this.photoArr = companyDetailObj.photos || [];
-        this.videoArr = companyDetailObj.videos || [];
+        this.videoArr = companyDetailObj.videos || [];        
         this.isLoading = false;
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
@@ -113,6 +117,16 @@ export class CompanyDetailsStepComponent implements OnInit {
     }, (error: any) => {
       this._globalFunctions.errorHanding(error, this, true);
       this.isLoading = false;
+    });
+  }
+
+  getDataFromProfileObj(): void {
+    this._globalService.loginUser$.subscribe((user: any) => {
+      if (user) {
+        const businessProfile: any = this._globalFunctions.copyObject(user?.businessProfile || {});
+        businessProfile.contact_no = businessProfile.mobile;
+        this._prepareCompanyDetailsForm(businessProfile);
+      }
     });
   }
 

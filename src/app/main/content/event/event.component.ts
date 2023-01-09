@@ -64,7 +64,7 @@ export class EventComponent implements OnInit {
     // this.offset = ((this.perPageLimit * page) - this.perPageLimit) + 1;
     const filter: any = {
       page : page || '1',
-      limit : event?.rows || '4',
+      limit : event?.rows || '10',
       search: ""
     };
     this._eventService.eventsList(filter).subscribe((result: any) => {

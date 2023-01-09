@@ -50,7 +50,7 @@ export class OfflineShopsComponent implements OnInit {
     const page = shop ? (shop.page + 1) : 1;
     const filter: any = {
       page : page || '1',
-      limit : shop?.rows || '4',
+      limit : shop?.rows || '10',
       search: ""
     };
     this._offlineShopsService.offlineShopList(filter).subscribe((result: any) => {
@@ -90,7 +90,7 @@ export class OfflineShopsComponent implements OnInit {
     const page = shop ? (shop.page + 1) : 1;
     const filter: any = {
       page : page || '1',
-      limit : shop?.rows || '4',
+      limit : shop?.rows || '10',
       search: ""
     };
   }

@@ -37,7 +37,7 @@
     </div>
     <!-- tab-holder  -->
     <div class="teb-holder">
-      <button [class]="overview ? 'active' : ''" (click)="onTabChange('overview')" type="button" *ngIf="events">Overview</button>
+      <button [class]="overview ? 'active' : ''" (click)="onTabChange('overview')" type="button">Overview</button>
       <button [class]="attendee ? 'active' : ''" (click)="onTabChange('attendee')" type="button" *ngIf="events?.attendee?.length">Attendee</button>
       <button [class]="reviews ? 'active' : ''" (click)="onTabChange('reviews')" type="button" *ngIf="events?.reviews?.length">Reviews</button>
     </div>
@@ -407,7 +407,7 @@
               </div>
               <div class="w-full">
                 <div class="text-xs lg:text-sm font-medium text-quicksilver flex items-center"><i class="icon-time mr-1.5 text-sm"></i>Time </div>
-                <span class="text-japaneseIndigo text-xs lg:text-sm font-bold">{{ events?.about?.start_time }} - {{ events?.about?.end_time }}</span>
+                <span class="text-japaneseIndigo text-xs lg:text-sm font-bold">{{ '0' + ' ' + events?.about?.start_time | date : 'hh:mm a'}} - {{ '0' + ' ' + events?.about?.end_time | date : 'hh:mm a'}}</span>
               </div>
             </div>
             <!-- Discount On Total Bill  -->

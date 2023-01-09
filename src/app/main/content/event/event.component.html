@@ -17,9 +17,9 @@
         </div>
         <div class="w-full flex items-center" (click)="gotoEventOverview($event, event)">
           <div class="w-full p-4 bg-white rounded">
-            <div class="flex items-center flex-wrap xl:flex-nowrap xl:space-x-5">
+            <div class="flex flex-wrap xl:flex-nowrap xl:space-x-5">
               <div class="relative w-full lg:max-w-[288px]">
-                <img [src]="!!(event?.banner) ? constants.baseImageURL + event.banner : constants.defaultImage" alt="{{event?.name}}" class="w-full h-full"/>
+                <img [src]="!!(event?.banner) ? constants.baseImageURL + event.banner : constants.defaultImage" alt="{{event?.name}}" class="w-full h-full object-cover"/>
                 <span class="text-base text-white font-bold px-2 py-1 absolute top-2 left-0 bg-magicPotion uppercase">{{constants?.eventTypeArr[constants?.eventTypeObj[event?.event_type]]?.displayLabel}}</span>
               </div>
               <div class="w-full pt-5 xl:pt-0">
@@ -37,7 +37,7 @@
                       </div>
                       <div class="border-l-2 border-brightGray px-2 lg:px-4">
                         <div class="text-xs lg:text-sm font-semibold text-quicksilver pt-3"><i class="icon-time mr-1.5"></i>Time</div>
-                        <span class="text-japaneseIndigo text-xs lg:text-sm font-bold">{{event?.about?.start_time}} - {{event?.about?.end_time}}</span>
+                        <span class="text-japaneseIndigo text-xs lg:text-sm font-bold">{{'0' + ' ' + event?.about?.start_time | date : 'hh:mm a'}} - {{'0' + ' ' + event?.about?.end_time | date : 'hh:mm a'}}</span>
                       </div>
                       <div class="border-l-2 border-brightGray px-2 lg:px-4">
                         <div class="text-xs lg:text-sm font-semibold text-quicksilver pt-3"><i class="icon-location-1 mr-1.5"></i>Location</div>
@@ -84,7 +84,7 @@
     <p *ngIf="!events || !events?.length">No Events Records Found.</p>
     <div class="flex flex-wrap items-center justify-center" *ngIf="events && events?.length">
       <!-- <div class="pagination-festum py-2"><p class="show-text">Showing {{offset}} to {{(((offset - 1) + perPageLimit) < pTotal) ? (offset - 1) + perPageLimit : pTotal}} Of {{ pTotal }} Events?.</p></div> -->
-      <p-paginator [rows]="paging.limit" [totalRecords]="paging.totalDocs" [rowsPerPageOptions]="[4, 6, 10, 20]" (onPageChange)="getEvent($event)"></p-paginator>
+      <p-paginator [rows]="paging.limit" [totalRecords]="paging.totalDocs" [rowsPerPageOptions]="[10, 20, 30, 50]" (onPageChange)="getEvent($event)"></p-paginator>
     </div>
 
     <!-- event_offer_banner -->

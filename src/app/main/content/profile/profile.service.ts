@@ -22,4 +22,8 @@ export class ProfileService {
     return this.http.post(environment.appURL + 'organizer/profile', profileObj, this._globalFunctions.getAuthorizationHeader());
   }
 
+  updateBusiness(businessProfileObj: any): any {
+    return this.http.post(environment.appURL + 'organizer/profile/businessprofile', businessProfileObj, this._globalFunctions.getAuthorizationHeader());
+  }
+
 }

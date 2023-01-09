@@ -84,7 +84,7 @@ export class ShopOverviewComponent implements OnInit {
     const filter: any = {
       shopid : this.shopId || '',
       page : page || '1',
-      limit : shop?.rows || '4',
+      limit : shop?.rows || '10',
       search: ""
     };
     this._offlineShopsService.offlineShopOfferList(filter).subscribe((result: any) => {
