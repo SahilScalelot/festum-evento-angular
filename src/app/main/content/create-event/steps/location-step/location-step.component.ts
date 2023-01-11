@@ -184,7 +184,6 @@ export class LocationStepComponent implements OnInit {
 
   addMapLocation() {
     this._http.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.lat},${this.lng}&key=${CONSTANTS.googleMapApiKey}`).subscribe(async (res: any) => {
-      let selectedState: any = {};
       _.each(res.results[0].address_components, (address) => {
         _.each(address.types, (type) => {
           if (type == "premise" || type == "street_number") {
@@ -229,61 +228,22 @@ export class LocationStepComponent implements OnInit {
   }
   
   next(): void {
-    this._http.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.lat},${this.lng}&key=${CONSTANTS.googleMapApiKey}`).subscribe((res: any) => {
-      console.log(res);
-      if(res){
-        if(this.locationForm.get('city').value!=this.location.city){
-           console.log(this.locationForm.get('city').value);
-           this.pincodenotmatch=true
-           return
-        }
-        if(this.locationForm.get('state').value != this.location.state){
-           console.log(this.locationForm.get('state').value);
-           this.pincodenotmatch1=true
-           return
-        }
-        if(this.locationForm.get('pincode').value!=this.location.pincode){
-           console.log(this.locationForm.get('pincode').value);
-           this.pincodenotmatch2=true
-           return
-        }
+      if(this.locationForm.get('city').value!=this.location.city){
+          console.log(this.locationForm.get('city').value);
+          this.pincodenotmatch=true
+          return
       }
-
-      // if(res){
-      //   for(var i=0;i<res.results[0].address_components.length;i++){
-      //     if(res.results[0].address_components[i].types== "postal_code" && res.results[0].address_components[i].long_name != this.locationForm.get('pincode').value){                 
-      //     }
-
-      //     // if(res.results[0].address_components[i].types== "postal_code"){
-      //     //   console.log(res.results[0].address_components[i].long_name)
-      //     //   if(res.results[0].address_components[i].long_name != this.locationForm.get('pincode').value){
-      //     //     this.pincodenotmatch=true
-      //     //     console.log('not valid');
-      //     //     return
-      //     //   }
-      //     // }
-
-      //     // if(res.results[0].address_components[i].types[0] == "administrative_area_level_3"){
-      //     //   console.log(res.results[0].address_components[i].long_name)
-      //     //   if(res.results[0].address_components[i].long_name != this.locationForm.get('city').value){
-      //     //     this.pincodenotmatch1=true
-      //     //     console.log('not valid');
-      //     //     return
-      //     //   }
-      //     // }
-
-      //     // if(res.results[0].address_components[i].types[0] == "administrative_area_level_1"){
-      //     //   console.log(res.results[0].address_components[i].long_name)
-      //     //   if(res.results[0].address_components[i].long_name != this.locationForm.get('state').value){
-      //     //     this.pincodenotmatch2=true
-      //     //     console.log('not valid');
-      //     //     return
-      //     //   }
-      //     // }
-      //   }
-      //  }
-
-
+      if(this.locationForm.get('state').value != this.location.state){
+          console.log(this.locationForm.get('state').value);
+          this.pincodenotmatch1=true
+          return
+      }
+      if(this.locationForm.get('pincode').value!=this.location.pincode){
+          console.log(this.locationForm.get('pincode').value);
+          this.pincodenotmatch2=true
+          return
+      }
+      
       if (this.locationForm.invalid) {
         Object.keys(this.locationForm.controls).forEach((key) => {
           this.locationForm.controls[key].touched = true;
@@ -310,7 +270,6 @@ export class LocationStepComponent implements OnInit {
         this.isLoading = false;
         this.locationForm.enable();
       })
-    }) 
   }
 
   prepareLocationEventObj(locationObj: any = {}): any {
