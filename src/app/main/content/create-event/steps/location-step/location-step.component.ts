@@ -22,20 +22,30 @@ export class LocationStepComponent implements OnInit {
   constants: any = CONSTANTS;
   zoom: number = CONSTANTS.defaultMapZoom;
   // initial center position for the map
-  lat: number = 0;
-  lng: number = 0;
+  lat: number = CONSTANTS.latitude;
+  lng: number = CONSTANTS.longitude;
   address: string = '';
   getState: any;
   autocomplete: any;
-  getCity: any;
-  finaLatLong: any = {lat: CONSTANTS.latitude, lng: CONSTANTS.longitude};
+  tmpLocationObj: any = {};
   map: google.maps.Map | any;
-  
-  private geoCoder: any;
-  @ViewChild('search') public searchElementRef: ElementRef | any;
-  
   locationObj: any = {event_location: {}};
   isLoading: boolean = false;
+  isLocationLoading: boolean = false;
+
+  private geoCoder: any;
+  @ViewChild('search') public searchElementRef: ElementRef | any;
+
+  get isValidCity(): any {
+    return this.locationForm.get('city')?.valid && this.locationForm.get('city')?.dirty && this.locationForm.get('city')?.touched && this.tmpLocationObj.city && this.locationForm.value.city != this.tmpLocationObj.city;
+    // this.rateCardForm.get('MediaType').invalid && (this.rateCardModel.israteCardFormSubmitted || this.rateCardForm.get('MediaType').dirty || this.rateCardForm.get('MediaType').touched);
+  }
+  get isValidState(): any {
+    return this.locationForm.get('state')?.valid && this.locationForm.get('state')?.dirty && this.locationForm.get('state')?.touched && this.tmpLocationObj.state && this.locationForm.value.state != this.tmpLocationObj.state;
+  }
+  get isValidPinCode(): any {
+    return this.locationForm.get('pincode')?.valid && this.locationForm.get('pincode')?.dirty && this.locationForm.get('pincode')?.touched && this.tmpLocationObj.pincode && this.locationForm.value.pincode != this.tmpLocationObj.pincode;
+  }
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -57,8 +67,8 @@ export class LocationStepComponent implements OnInit {
       this._router.navigate(['/events']);
     }
     this.eventId = localStorage.getItem('eId');
+    this._prepareLocationForm();
     this.getLocationEvent();
-    this._prepareLocationForm();    
   }
 
   getLocationEvent(): any {
@@ -68,6 +78,9 @@ export class LocationStepComponent implements OnInit {
         const eventLocationObj: any = result?.Data?.event_location || {};
         this._prepareLocationForm(eventLocationObj);
         this.setLocation(eventLocationObj?.location);
+        this.tmpLocationObj.state = eventLocationObj.state;
+        this.tmpLocationObj.city = eventLocationObj.city;
+        this.tmpLocationObj.pincode = eventLocationObj.pincode;
         this.isLoading = false;
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
@@ -103,9 +116,6 @@ export class LocationStepComponent implements OnInit {
           //set latitude, longitude and zoom
           this.lat = place.geometry.location.lat();
           this.lng = place.geometry.location.lng();
-
-          this.finaLatLong.lat = place.geometry.location.lat();
-          this.finaLatLong.lng = place.geometry.location.lng();
         });
       });
     });
@@ -147,7 +157,6 @@ export class LocationStepComponent implements OnInit {
   }
 
   markerDragEnd($event: any) {
-    this.finaLatLong = {lat: $event.coords.lat, lng: $event.coords.lng};
     this.lat = $event?.coords?.lat;
     this.lng = $event?.coords?.lng;
     this.locationForm.patchValue({
@@ -174,11 +183,8 @@ export class LocationStepComponent implements OnInit {
   }
 
   addMapLocation() {
-    this._http.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.finaLatLong.lat},${this.finaLatLong.lng}&key=${CONSTANTS.googleMapApiKey}`).subscribe(async (res: any) => {
-      let selectedState: any = {};
-      if (selectedState) {
-        this.getCity = selectedState.citys;
-      }
+    this.isLocationLoading = true;
+    this._globalService.getLocationByLatLong({ lat: this.lat, lng: this.lng }).subscribe(async (res: any) => {
       _.each(res.results[0].address_components, (address) => {
         _.each(address.types, (type) => {
           if (type == "premise" || type == "street_number") {
@@ -192,18 +198,21 @@ export class LocationStepComponent implements OnInit {
           }
           if (type == "administrative_area_level_1") {
             this.locationForm.get('state').setValue(address?.long_name);
+            this.tmpLocationObj.state = address?.long_name;
           }
           if (type == "administrative_area_level_3") {
             this.locationForm.get('city').setValue(address?.long_name);
+            this.tmpLocationObj.city = address?.long_name;
           }
           if (type == "postal_code") {
             this.locationForm.get('pincode').setValue(address?.long_name);
+            this.tmpLocationObj.pincode = address?.long_name;
           }
         });
       });
-      if (selectedState) {
-        this.getCity = selectedState?.citys;
-      }
+      this.isLocationLoading = false;
+    }, (error: any) => {
+      this.isLocationLoading = false;
     });
   }
 
@@ -219,13 +228,22 @@ export class LocationStepComponent implements OnInit {
     //   draggable: true
     // });
   }
-  
-  next(): void {
+
+  validateLocationForm(): boolean {
     if (this.locationForm.invalid) {
       Object.keys(this.locationForm.controls).forEach((key) => {
         this.locationForm.controls[key].touched = true;
         this.locationForm.controls[key].markAsDirty();
       });
+      return false;
+    }
+    return !((this.tmpLocationObj.state && this.locationForm.value.state != this.tmpLocationObj.state) ||
+        (this.tmpLocationObj.city && this.locationForm.value.city != this.tmpLocationObj.city) ||
+        (this.tmpLocationObj.pincode && this.locationForm.value.pincode != this.tmpLocationObj.pincode));
+  }
+  
+  next(): void {
+    if (!this.validateLocationForm()) {
       return;
     }
     this.isLoading = true;

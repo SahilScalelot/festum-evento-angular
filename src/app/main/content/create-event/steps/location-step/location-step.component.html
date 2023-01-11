@@ -24,6 +24,9 @@
             City is required.
           </span>
         </span>
+        <span class="absolute top-full text-red-500 text-xs" *ngIf="isValidCity">
+          City not match area wise.
+        </span>
       </div>
       <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-3 inputHolder relative">
         <label class="input-titel">State <span>*</span></label>
@@ -32,6 +35,9 @@
           <span *ngIf="locationForm.get('state')?.errors?.['required']">
             State is required.
           </span>
+        </span>
+        <span class="absolute top-full text-red-500 text-xs" *ngIf="isValidState">
+          State not match area wise.
         </span>
       </div>
       <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-3 inputHolder relative">
@@ -45,6 +51,9 @@
             Please enter valid Pincode.
           </span>
         </span>
+        <span class="absolute top-full text-red-500 text-xs" *ngIf="isValidPinCode">
+          Pincode not match area wise.
+        </span>
       </div>
     </div>
     <div class="w-full px-2 pt-3 lg:pt-0 inputHolder">
@@ -55,7 +64,7 @@
           <agm-marker (dragEnd)="markerDragEnd($event)" (markerClick)="clickedMarker(markers.label)" [label]="markers.label" [latitude]="lat" [longitude]="lng" [markerDraggable]="true"></agm-marker>
         </agm-map>
         <!-- (click)="googleMap()" -->
-        <button (click)="addMapLocation()" class="secondary flex justify-end ml-auto px-5 py-2 anim uppercase mt-2 absolute bottom-1 right-1">
+        <button [disabled]="isLocationLoading" (click)="addMapLocation()" class="secondary flex justify-end ml-auto px-5 py-2 anim uppercase mt-2 absolute bottom-1 right-1">
           Location from Google map
         </button>
       </div>
