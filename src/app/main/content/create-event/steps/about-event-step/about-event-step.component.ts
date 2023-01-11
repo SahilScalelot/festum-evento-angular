@@ -13,7 +13,8 @@ import { GlobalFunctions } from 'src/app/main/common/global-functions';
   styleUrls: ['./about-event-step.component.scss']
 })
 export class AboutEventStepComponent implements OnInit {
-  minDateValue: any = new Date();
+  today : any = new Date();
+  minDateValue: any = new Date(this.today.setDate(this.today.getDate() + 2));
   aboutEventForm: any;
   startTime:boolean=false
   endTime:boolean=false
@@ -84,33 +85,53 @@ export class AboutEventStepComponent implements OnInit {
     });
   }
 
-  onSelectStartAndEnd(event:any,startandendtime:any){
-    let hour = new Date(event).getHours();
+  // onSelectStartAndEnd(event:any,startandendtime:any){
+  //   let hour = new Date(event).getHours();
     
-    let min = new Date(event).getMinutes();
+  //   let min = new Date(event).getMinutes();
     
-    if(startandendtime=='start_time'){
-      this.aboutEventForm.get('start_time').value=hour + ":" + min
-    }else{
-      if(startandendtime=='end_time'){
-        this.aboutEventForm.get('end_time').value=hour + ":" + min
-      }
-    }
-  }
+  //   if(startandendtime=='start_time'){
+  //     this.aboutEventForm.get('start_time').value=hour + ":" + min
+  //   }else{
+  //     if(startandendtime=='end_time'){
+  //       this.aboutEventForm.get('end_time').value=hour + ":" + min
+  //     }
+  //   }
+  // }
 
   next(): any {
-    let beginningTime=this.aboutEventForm.get('start_time').value
-    let endTime=this.aboutEventForm.get('end_time').value
+    // let beginningTime=this.aboutEventForm.get('start_time').value
+    // let endTime=this.aboutEventForm.get('end_time').value
 
-    if( beginningTime>endTime || endTime<beginningTime){
-      this.startTime=true
-      this.endTime=true
-      return 
-    }else if(beginningTime===endTime){
+    // if( beginningTime>endTime){
+    //   this.startTime=true
+    //   return 
+    // }else if(beginningTime===endTime){
+    //   this.equalTime=true
+    //   return
+    // }
+    // else if (endTime>beginningTime){
+    //   this.endTime=true
+    // }
+
+    this.eventObj = this.prepareAboutEventObj(this.aboutEventForm.value);
+    console.log(this.eventObj.start_time);
+    console.log(this.eventObj.end_time);
+    const startTime: any = moment(this.eventObj.start_time, 'hh:mm');
+    const endTime: any = moment(this.eventObj.end_time, 'hh:mm');
+
+    console.log(startTime.isBefore(endTime));
+    let time = startTime.isBefore(endTime)
+    let equaltime = startTime.isSame(endTime)
+    if(equaltime){
       this.equalTime=true
+      return
+    } else if(time==false){
+      this.startTime=true
       return
     }
     
+      
 
     if (this.aboutEventForm.invalid) {
       Object.keys(this.aboutEventForm.controls).forEach((key) => {
@@ -122,7 +143,8 @@ export class AboutEventStepComponent implements OnInit {
 
     this.isLoading = true;
     this.aboutEventForm.disable();
-    this.eventObj = this.prepareAboutEventObj(this.aboutEventForm.value);
+    
+    
     this._createEventService.about(this.eventObj).subscribe((result: any) => {
       if (result && result.IsSuccess) {
         this.isLoading = false;

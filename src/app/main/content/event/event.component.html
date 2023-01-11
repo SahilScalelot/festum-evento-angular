@@ -3,7 +3,7 @@
   <div class="flex flex-wrap items-center">
     <h2>Events</h2>
     <div class="flex whitespace-nowrap space-x-5 ml-auto">
-      <button class="bg-white px-5 py-3 text-japaneseIndigo font-bold rounded-md tracking-wider secondary cursor-pointer" (click)="multipleLiveEvent()" [disabled]="!selectedEventIds || !selectedEventIds.length">MultipleLive</button>
+      <button class="bg-white px-5 py-3 text-japaneseIndigo font-bold rounded-md tracking-wider  hover:bg-magicPotion  hover:text-white cursor-pointer" (click)="multipleLiveEvent()" [disabled]="!selectedEventIds || !selectedEventIds.length">MultipleLive</button>
       <span class="secondary cursor-pointer px-7 py-3" (click)="openAddEventDialog()"><i class="icon-plus mr-3"></i>Create new event</span>
     </div>
   </div>
@@ -36,7 +36,7 @@
                         <span class="text-japaneseIndigo text-xs lg:text-sm font-bold">{{event?.about?.start_date | date:'MMM d, y'}} - {{event?.about?.end_date | date:'MMM d, y'}}</span>
                       </div>
                       <div class="border-l-2 border-brightGray px-2 lg:px-4">
-                        <div class="text-xs lg:text-sm font-semibold text-quicksilver pt-3"><i class="icon-time mr-1.5"></i>Time</div>
+                        <div class="text-xs lg:text-sm font-semibold text-quicksilver pt-3"><i class="icon-time mr-1.5"></i>Time----{{"0" + " " + event?.about?.start_time}}</div>
                         <span class="text-japaneseIndigo text-xs lg:text-sm font-bold">{{"0" + " " + event?.about?.start_time | date:'shortTime' }} - {{"0" + " " + event?.about?.end_time | date:'shortTime'}}</span>
                         <!-- <div>{{currentdate | date:'shortTime' }} </div> -->
                       </div>
@@ -84,7 +84,7 @@
     <p *ngIf="!events || !events?.length">No Events Records Found.</p>
     <div class="flex flex-wrap items-center justify-center" *ngIf="events && events?.length">
       <!-- <div class="pagination-festum py-2"><p class="show-text">Showing {{offset}} to {{(((offset - 1) + perPageLimit) < pTotal) ? (offset - 1) + perPageLimit : pTotal}} Of {{ pTotal }} Events?.</p></div> -->
-      <p-paginator [rows]="paging.limit" [totalRecords]="paging.totalDocs" [rowsPerPageOptions]="[4, 6, 10, 20]" (onPageChange)="getEvent($event)"></p-paginator>
+      <p-paginator [rows]="paging.limit" [totalRecords]="paging.totalDocs" [rowsPerPageOptions]="[10, 20, 50]" (onPageChange)="getEvent($event)"></p-paginator>
     </div>
 
     <!-- event_offer_banner -->

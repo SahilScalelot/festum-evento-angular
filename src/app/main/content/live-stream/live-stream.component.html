@@ -59,7 +59,7 @@
     <p *ngIf="!liveStreamObj || !liveStreamObj?.length">No Offers Records Found, Create new Offers.</p>
     <div class="flex flex-wrap items-center justify-center" *ngIf="liveStreamObj && liveStreamObj?.length">
       <!-- <div class="pagination-festum py-2"><p class="show-text">Showing {{offset}} to {{(((offset - 1) + perPageLimit) < pTotal) ? (offset - 1) + perPageLimit : pTotal}} Of {{ pTotal }} Events.</p></div> -->
-      <p-paginator [rows]="paging?.limit" [totalRecords]="paging?.totalDocs" [rowsPerPageOptions]="[1, 4, 6, 10, 20]" (onPageChange)="getLiveStreamObj($event)"></p-paginator>
+      <p-paginator [rows]="paging?.limit" [totalRecords]="paging?.totalDocs" [rowsPerPageOptions]="[10,20,50]" (onPageChange)="getLiveStreamObj($event)"></p-paginator>
     </div>
 
     <!-- advisement -->

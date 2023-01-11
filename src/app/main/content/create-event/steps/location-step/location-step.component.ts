@@ -16,6 +16,7 @@ import { GlobalFunctions } from 'src/app/main/common/global-functions';
   templateUrl: './location-step.component.html',
   styleUrls: ['./location-step.component.scss']
 })
+
 export class LocationStepComponent implements OnInit {
   eventId: any;
   locationForm: any;
@@ -30,6 +31,11 @@ export class LocationStepComponent implements OnInit {
   getCity: any;
   finaLatLong: any = {lat: CONSTANTS.latitude, lng: CONSTANTS.longitude};
   map: google.maps.Map | any;
+  pincodenotmatch:any
+  pincodenotmatch1:any
+  pincodenotmatch2:any
+  location:any={}
+  
   
   private geoCoder: any;
   @ViewChild('search') public searchElementRef: ElementRef | any;
@@ -64,7 +70,10 @@ export class LocationStepComponent implements OnInit {
   getLocationEvent(): any {
     this.isLoading = true;
     this._createEventService.getLocation(this.eventId).subscribe((result: any) => {
+      console.log(result);
       if (result && result.IsSuccess) {
+        this.location=result.Data.event_location
+        console.log(this.location);
         const eventLocationObj: any = result?.Data?.event_location || {};
         this._prepareLocationForm(eventLocationObj);
         this.setLocation(eventLocationObj?.location);
@@ -174,11 +183,8 @@ export class LocationStepComponent implements OnInit {
   }
 
   addMapLocation() {
-    this._http.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.finaLatLong.lat},${this.finaLatLong.lng}&key=${CONSTANTS.googleMapApiKey}`).subscribe(async (res: any) => {
+    this._http.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.lat},${this.lng}&key=${CONSTANTS.googleMapApiKey}`).subscribe(async (res: any) => {
       let selectedState: any = {};
-      if (selectedState) {
-        this.getCity = selectedState.citys;
-      }
       _.each(res.results[0].address_components, (address) => {
         _.each(address.types, (type) => {
           if (type == "premise" || type == "street_number") {
@@ -190,21 +196,23 @@ export class LocationStepComponent implements OnInit {
           if (type == "sublocality") {
             this.locationForm.get('area_name').setValue(address?.long_name);
           }
+
           if (type == "administrative_area_level_1") {
-            this.locationForm.get('state').setValue(address?.long_name);
+           this.locationForm.get('state').setValue(address?.long_name);
+            this.location.state=address?.long_name;
           }
           if (type == "administrative_area_level_3") {
             this.locationForm.get('city').setValue(address?.long_name);
+            this.location.city=address?.long_name;
           }
           if (type == "postal_code") {
             this.locationForm.get('pincode').setValue(address?.long_name);
+            this.location.pincode=address?.long_name;
           }
         });
       });
-      if (selectedState) {
-        this.getCity = selectedState?.citys;
-      }
     });
+    console.log(this.location);
   }
 
   clickedMarker(label: string) {
@@ -221,31 +229,88 @@ export class LocationStepComponent implements OnInit {
   }
   
   next(): void {
-    if (this.locationForm.invalid) {
-      Object.keys(this.locationForm.controls).forEach((key) => {
-        this.locationForm.controls[key].touched = true;
-        this.locationForm.controls[key].markAsDirty();
-      });
-      return;
-    }
-    this.isLoading = true;
-    this.locationForm.disable();
-    const preparedLocationObj: any = this.prepareLocationEventObj(this.locationForm.value);
-    this._createEventService.location(preparedLocationObj).subscribe((result: any) => {
-      if (result && result.IsSuccess) {
-        this.isLoading = false;
-        this.locationForm.enable();
-        this._router.navigate(['/events/create/photos-and-videos']);
-      } else {
-        this._globalFunctions.successErrorHandling(result, this, true);
-        this.isLoading = false;
-        this.locationForm.enable();
+    this._http.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.lat},${this.lng}&key=${CONSTANTS.googleMapApiKey}`).subscribe((res: any) => {
+      console.log(res);
+      if(res){
+        if(this.locationForm.get('city').value!=this.location.city){
+           console.log(this.locationForm.get('city').value);
+           this.pincodenotmatch=true
+           return
+        }
+        if(this.locationForm.get('state').value != this.location.state){
+           console.log(this.locationForm.get('state').value);
+           this.pincodenotmatch1=true
+           return
+        }
+        if(this.locationForm.get('pincode').value!=this.location.pincode){
+           console.log(this.locationForm.get('pincode').value);
+           this.pincodenotmatch2=true
+           return
+        }
       }
-    }, (error: any) => {
-      this._globalFunctions.errorHanding(error, this, true);
-      this.isLoading = false;
-      this.locationForm.enable();
-    });
+
+      // if(res){
+      //   for(var i=0;i<res.results[0].address_components.length;i++){
+      //     if(res.results[0].address_components[i].types== "postal_code" && res.results[0].address_components[i].long_name != this.locationForm.get('pincode').value){                 
+      //     }
+
+      //     // if(res.results[0].address_components[i].types== "postal_code"){
+      //     //   console.log(res.results[0].address_components[i].long_name)
+      //     //   if(res.results[0].address_components[i].long_name != this.locationForm.get('pincode').value){
+      //     //     this.pincodenotmatch=true
+      //     //     console.log('not valid');
+      //     //     return
+      //     //   }
+      //     // }
+
+      //     // if(res.results[0].address_components[i].types[0] == "administrative_area_level_3"){
+      //     //   console.log(res.results[0].address_components[i].long_name)
+      //     //   if(res.results[0].address_components[i].long_name != this.locationForm.get('city').value){
+      //     //     this.pincodenotmatch1=true
+      //     //     console.log('not valid');
+      //     //     return
+      //     //   }
+      //     // }
+
+      //     // if(res.results[0].address_components[i].types[0] == "administrative_area_level_1"){
+      //     //   console.log(res.results[0].address_components[i].long_name)
+      //     //   if(res.results[0].address_components[i].long_name != this.locationForm.get('state').value){
+      //     //     this.pincodenotmatch2=true
+      //     //     console.log('not valid');
+      //     //     return
+      //     //   }
+      //     // }
+      //   }
+      //  }
+
+
+      if (this.locationForm.invalid) {
+        Object.keys(this.locationForm.controls).forEach((key) => {
+          this.locationForm.controls[key].touched = true;
+          this.locationForm.controls[key].markAsDirty();
+        });
+        return;
+      }
+        
+      this.isLoading = true;
+      this.locationForm.disable();
+      const preparedLocationObj: any = this.prepareLocationEventObj(this.locationForm.value);
+      this._createEventService.location(preparedLocationObj).subscribe((result: any) => {
+        if (result && result.IsSuccess) {
+          this.isLoading = false;
+          this.locationForm.enable();
+          this._router.navigate(['/events/create/photos-and-videos']);
+        } else {
+          this._globalFunctions.successErrorHandling(result, this, true);
+          this.isLoading = false;
+          this.locationForm.enable();
+        }
+      }, (error: any) => {
+        this._globalFunctions.errorHanding(error, this, true);
+        this.isLoading = false;
+        this.locationForm.enable();
+      })
+    }) 
   }
 
   prepareLocationEventObj(locationObj: any = {}): any {
