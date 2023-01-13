@@ -41,21 +41,19 @@
 
       <!-- form Edit  -->
       <div class="w-full">
-        <div class="flex flex-wrap justify-between -mx-2">
-          <div class="w-full lg:w-1/2 px-2 inputHolder pt-3">
+        <div class="flex flex-wrap -mx-2">
+          <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4">
             <span class="input-titel">Name</span>
             <input type="text" class="input font-bold" formControlName='name' />
             <span *ngIf="profileFirstName && profileFirstName.invalid && profileFirstName.touched" class="text-red-500 text-xs">
               Name is required
             </span>
           </div>
-          <div class="w-full lg:w-1/2 px-2 inputHolder pt-3">
+          <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4">
             <span class="input-titel">Email</span>
             <input type="text" class="input font-bold" formControlName='email' />
           </div>
-        </div>
-        <div class="flex flex-wrap justify-between -mx-2">
-          <div class="w-full lg:w-1/2 px-2 pt-3">
+          <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4">
             <span class="input-titel">Phone Number</span>
             <div class="flex items-center h-auto space-x-3">
               <div class="inputHolder">
@@ -66,7 +64,7 @@
               </div>
             </div>
           </div>
-          <div class="w-full lg:w-1/2 px-2 inputHolder pt-3">
+          <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4">
             <span class="input-titel">Date Of Birth</span>
             <p-calendar inputStyleClass="input font-bold" [showIcon]="false" inputId="icon" formControlName='dob' [maxDate]="maxDate" dateFormat="dd-mm-yy"></p-calendar>
             <!-- <span *ngIf="dob && dob.invalid && dob.touched && submit" class="text-red-500 text-xs">DOB is required</span> -->
@@ -74,9 +72,19 @@
               <span *ngIf="profileDob?.errors?.required">Date Of Birth is required</span>
             </span>
           </div>
-        </div>
-        <div class="flex flex-wrap justify-between -mx-2">
-          <div class="w-full lg:w-1/2 px-2 inputHolder pt-3">
+          <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4">
+            <span class="input-titel">Flat No.</span>
+            <input [formControlName]="'flat_no'" class="input font-bold" type="text"/>
+          </div>
+          <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4">
+            <span class="input-titel">Street Name.</span>
+            <input [formControlName]="'street'" class="input font-bold" type="text"/>
+          </div>
+          <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4">
+            <span class="input-titel">Area Name.</span>
+            <input [formControlName]="'area'" class="input font-bold" type="text"/>
+          </div>
+          <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4">
             <span class="input-titel">City</span>
             <input type="text" class="input font-bold" formControlName='city' />
             <span *ngIf="profileCity && profileCity.invalid && profileCity.touched" class="text-red-500 text-xs">
@@ -85,7 +93,7 @@
               </span>
             </span>
           </div>
-          <div class="w-full lg:w-1/2 px-2 inputHolder pt-3">
+          <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4">
             <span class="input-titel">pincode</span>
             <input type="text" class="input font-bold" formControlName='pincode' />
             <span *ngIf="profilePincode && profilePincode.invalid && profilePincode.touched" class="text-red-500 text-xs">
@@ -98,9 +106,7 @@
               </span>
             </span>
           </div>
-        </div>
-        <div class="flex flex-wrap justify-between -mx-2">
-          <div class="w-full lg:w-1/2 px-2 inputHolder pt-3">
+          <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4">
             <span class="input-titel">State</span>
             <input type="text" class="input font-bold" formControlName='state' />
             <span *ngIf="profileState && profileState.invalid && profileState.touched" class="text-red-500 text-xs">
@@ -109,7 +115,7 @@
               </span>
             </span>
           </div>
-          <div class="w-full lg:w-1/2 px-2 inputHolder pt-3">
+          <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4">
             <span class="input-titel">Country</span>
             <input type="text" class="input font-bold" formControlName='country' />
             <span *ngIf="profileCountry && profileCountry.invalid && profileCountry.touched" class="text-red-500 text-xs">
@@ -118,15 +124,15 @@
               </span>
             </span>
           </div>
-        </div>
-        <div class="w-full inputHolder pt-3">
-          <span class="input-titel">About Me</span>
-          <div class="w-full bg-white rounded">
-            <ckeditor (ready)="onTextEditorReady($event)" [config]="editorConfig" [editor]="detailEditor" [formControlName]="'about'" class="h-44 text-editor" id="about" name="about"></ckeditor>
+          <div class="w-full px-2 inputHolder pt-4">
+            <span class="input-titel">About Me</span>
+            <div class="w-full bg-white rounded">
+              <ckeditor (ready)="onTextEditorReady($event)" [config]="editorConfig" [editor]="detailEditor" [formControlName]="'about'" class="h-44 text-editor" id="about" name="about"></ckeditor>
+            </div>
+            <!-- <textarea cols="30" rows="5" style="font-weight:bold;"
+              class="input outline-none flex items-center w-full bg-white resize-none p-2 px-3.5 rounded-md placeholder:text-base placeholder:leading-6 placeholder:font-bold placeholder:text-japaneseIndigo"
+              placeholder="Type here..." formControlName="about"></textarea> -->
           </div>
-          <!-- <textarea cols="30" rows="5" style="font-weight:bold;"
-            class="input outline-none flex items-center w-full bg-white resize-none p-2 px-3.5 rounded-md placeholder:text-base placeholder:leading-6 placeholder:font-bold placeholder:text-japaneseIndigo"
-            placeholder="Type here..." formControlName="about"></textarea> -->
         </div>
       </div>
     </form>
@@ -160,7 +166,7 @@
       <!-- form Edit  -->
       <div class="">
         <div class="flex items-end flex-wrap -mx-2">
-          <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative">
+          <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4 relative">
             <span class="input-titel">Company name</span>
             <input class="input font-bold" type="text" id="name" name="name" [formControlName]="'name'" required />
             <span class="absolute top-full text-red-500 text-xs" *ngIf="businessForm.get('name')?.invalid && (businessForm.get('name')?.dirty && businessForm.get('name')?.touched)">
@@ -169,7 +175,7 @@
               </span>
             </span>
           </div>
-          <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative">
+          <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4 relative">
             <span class="input-titel">Company Email</span>
             <input [formControlName]="'email'" class="input font-bold" type="text"/>
             <span class="absolute top-full text-red-500 text-xs" *ngIf="businessForm.get('email')?.invalid && (businessForm.get('email')?.dirty && businessForm.get('email')?.touched)">
@@ -178,7 +184,7 @@
               </span>
             </span>
           </div>
-          <div class="w-full lg:w-1/2 px-2 pt-3">
+          <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4 relative">
             <span class="input-titel">Phone Number</span>
             <div class="flex items-center h-auto space-x-3">
               <div class="inputHolder">
@@ -189,19 +195,19 @@
               </div>
             </div>
           </div>
-          <div class="w-full md:w-1/2 px-2 pt-5 inputHolder">
+          <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4 relative">
             <span class="input-titel">Flat No.</span>
             <input [formControlName]="'flat_no'" class="input font-bold" type="text"/>
           </div>
-          <div class="w-full md:w-1/2 px-2 pt-5 inputHolder">
+          <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4 relative">
             <span class="input-titel">Street Name.</span>
             <input [formControlName]="'street'" class="input font-bold" type="text"/>
           </div>
-          <div class="w-full md:w-1/2 px-2 pt-5 inputHolder">
+          <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4 relative">
             <span class="input-titel">Area Name.</span>
             <input [formControlName]="'area'" class="input font-bold" type="text"/>
           </div>
-          <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative">
+          <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4 relative">
             <label class="input-titel">City<span class="text-magicPotion">*</span></label>
             <input [formControlName]="'city'" class="input font-bold" type="text"/>
             <span class="absolute top-full text-red-500 text-xs" *ngIf="businessForm.get('city')?.invalid && (businessForm.get('city')?.dirty && businessForm.get('city')?.touched)">
@@ -210,7 +216,7 @@
               </span>
             </span>
           </div>
-          <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative">
+          <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4 relative">
             <label class="input-titel">State<span class="text-magicPotion">*</span></label>
             <input [formControlName]="'state'" class="input font-bold" type="text"/>
             <span class="absolute top-full text-red-500 text-xs" *ngIf="businessForm.get('state')?.invalid && (businessForm.get('state')?.dirty && businessForm.get('state')?.touched)">
@@ -219,7 +225,7 @@
               </span>
             </span>
           </div>
-          <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative">
+          <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4 relative">
             <label class="input-titel">Pincode<span class="text-magicPotion">*</span></label>
             <input [formControlName]="'pincode'" class="input font-bold" type="text" fuseValidNumber />
             <span class="absolute top-full text-red-500 text-xs" *ngIf="businessForm.get('pincode')?.invalid && (businessForm.get('pincode')?.dirty && businessForm.get('pincode')?.touched)">
@@ -231,22 +237,31 @@
               </span>
             </span>
           </div>
-          <div class="w-full md:w-1/2 px-2 pt-5 inputHolder">
+          <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4 relative">
             <span class="input-titel">Country Name.</span>
             <input [formControlName]="'country'" class="input font-bold" type="text"/>
           </div>
-        </div>
-        <div class="w-full pt-5 relative">
-          <span class="input-titel">About Our Company<span class="text-magicPotion">*</span></span>
-          <div class="w-full bg-white rounded">
-            <ckeditor (ready)="onTextEditorReady($event)" [config]="editorConfig" [editor]="detailEditor" [formControlName]="'about'" class="h-44 text-editor" id="about" name="about"></ckeditor>
-          </div>
-          <!-- <textarea [formControlName]="'about'" class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md" cols="30" rows="4"></textarea> -->
-          <span class="absolute top-full text-red-500 text-xs" *ngIf="businessForm.get('about')?.invalid && (businessForm.get('about')?.dirty && businessForm.get('about')?.touched)">
-            <span *ngIf="businessForm.get('about')?.errors?.['required']">
-              About is required.
+          <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4 relative">
+            <span class="input-titel">Country</span>
+            <input type="text" class="input font-bold" formControlName='country' />
+            <span *ngIf="profileCountry && profileCountry.invalid && profileCountry.touched" class="text-red-500 text-xs">
+              <span *ngIf="profileCountry?.errors?.required">
+                Country is required
+              </span>
             </span>
-          </span>
+          </div>
+          <div class="w-full px-2 inputHolder pt-4 relative">
+            <span class="input-titel">About Our Company<span class="text-magicPotion">*</span></span>
+            <div class="w-full bg-white rounded">
+              <ckeditor (ready)="onTextEditorReady($event)" [config]="editorConfig" [editor]="detailEditor" [formControlName]="'about'" class="h-44 text-editor" id="about" name="about"></ckeditor>
+            </div>
+            <!-- <textarea [formControlName]="'about'" class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md" cols="30" rows="4"></textarea> -->
+            <span class="absolute top-full text-red-500 text-xs" *ngIf="businessForm.get('about')?.invalid && (businessForm.get('about')?.dirty && businessForm.get('about')?.touched)">
+              <span *ngIf="businessForm.get('about')?.errors?.['required']">
+                About is required.
+              </span>
+            </span>
+          </div>
         </div>
       </div>
     </form>
