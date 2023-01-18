@@ -31,13 +31,9 @@
               <div class="space-y-7">
                 <div class="w-full relative">
                   <label class="input-titel">select item</label>
-                  <select (change)="onSeatingItemChange()" [formControlName]="'seating_item'"
-                          class="bg-white rounded-md flex space-x-3 outline-0 px-4 py-3 relative arrow w-full"
-                          name="seating_item" (click)="prepareSeatingItems()">
+                  <select (change)="onSeatingItemChange()" [formControlName]="'seating_item'" class="bg-white rounded-md flex space-x-3 outline-0 px-4 py-3 relative arrow w-full" name="seating_item" (click)="prepareSeatingItems()">
                     <option [value]=""></option>
-                    <option *ngFor="let seatingItem of seatingItems" [value]="seatingItem._id">
-                      {{seatingItem.itemname}}
-                    </option>
+                    <option *ngFor="let seatingItem of seatingItems" [value]="seatingItem._id">{{seatingItem.itemname}}</option>
                   </select>
                   <span class="absolute top-full text-red-500 text-xs" *ngIf="seatingForm.get('seating_item')?.invalid && (seatingForm.get('seating_item')?.dirty && seatingForm.get('seating_item')?.touched)">
                     <span *ngIf="seatingForm.get('seating_item')?.errors?.['required']">
