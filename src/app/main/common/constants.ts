@@ -32,6 +32,15 @@ export const CONSTANTS = {
   baseImageURL: environment.baseImageURL,
   appUrl: environment.appURL,
 
+  languagesJSONFileName: {
+    US_ENGLISH: 'us-english',
+    EUROPE_FRENCH: 'ep-french',
+    INDIA_HINDI: 'in-hindi',
+    GERMANY_GERMAN: 'ge-german',
+    CHINA_MANDARIN: 'ch-mandarin',
+    THAILAND_THAI: 'th-thai'
+  },
+
   editorConfig: {
     toolbar: [
       'heading', '|',

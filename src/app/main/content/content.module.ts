@@ -25,6 +25,7 @@ import { TooltipModule } from 'primeng/tooltip';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { FaqComponent } from './faq/faq.component';
 import { HelpComponent } from './help/help.component';
+import { TranslateModule } from "@ngx-translate/core";
 
 const routes: Routes = [
   {
@@ -64,6 +65,7 @@ const routes: Routes = [
     ImageModule,
     TooltipModule,
     CKEditorModule,
+    TranslateModule
   ]
 })
 export class ContentModule {

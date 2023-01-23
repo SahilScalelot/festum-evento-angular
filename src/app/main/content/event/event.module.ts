@@ -10,6 +10,7 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { PaginatorModule } from 'primeng/paginator';
 import { AgmCoreModule } from '@agm/core';
 import { ImageModule } from 'primeng/image';
+import { TranslateModule } from "@ngx-translate/core";
 
 const routes: Routes = [
   {
@@ -38,6 +39,7 @@ const routes: Routes = [
       apiKey: 'AIzaSyDLgr8YB5IK8dBIEWClexZGzXaB7UlVm7Q',
       libraries: ['places']
     }),
+    TranslateModule,
   ]
 })
 export class EventModule {

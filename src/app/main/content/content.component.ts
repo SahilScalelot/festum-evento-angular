@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
-import html2canvas from 'html2canvas';
-import { SnotifyService } from 'ng-snotify';
 import { GlobalService } from 'src/app/services/global.service';
+import { LanguageTranslateService } from "../../services/language-translate.service";
 import { CONSTANTS } from '../common/constants';
+import { SnotifyService } from 'ng-snotify';
+import { Router } from '@angular/router';
 import { ModalService } from '../_modal';
+import html2canvas from 'html2canvas';
 
 @Component({
   selector: 'app-content',
@@ -13,7 +14,7 @@ import { ModalService } from '../_modal';
 })
 export class ContentComponent implements OnInit {
   loginUser: any = {};
-  selectedLanguage: any = 'us-english';
+  selectedLanguage: any = '';
   languageModel: boolean = false;
   constants: any = CONSTANTS;
 
@@ -25,10 +26,15 @@ export class ContentComponent implements OnInit {
     private _sNotify: SnotifyService,
     private _router: Router,
     private _globalService: GlobalService,
-    private _modalService: ModalService
+    private _modalService: ModalService,
+    private _translateLanguage: LanguageTranslateService
   ) { }
 
   ngOnInit(): void {
+    this.selectedLanguage = localStorage.getItem('lang');
+    if (!this.selectedLanguage || this.selectedLanguage == '') {
+      this.selectedLanguage = this.constants.languagesJSONFileName.US_ENGLISH;
+    }
     this._globalService.loginUser$.subscribe((user: any) => {
       if (user) {
         this.loginUser = user;
@@ -58,8 +64,13 @@ export class ContentComponent implements OnInit {
     this.languageModel = true;
   }
 
+  onLanguageChange(languageCode: string = '') {
+    localStorage.setItem('lang', languageCode);
+    this.selectedLanguage = languageCode;
+    this._translateLanguage.setLanguageCode(languageCode);
+  }
+
   closeLanguageModel() {
-    console.log(this.selectedLanguage);
     this.languageModel = false;
   }
 }
