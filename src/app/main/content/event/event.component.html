@@ -60,13 +60,13 @@
                     <p-rating [(ngModel)]="event.ratings" [readonly]="true" [cancel]="false"></p-rating>
                     <span class="text-quicksilver text-xs font-bold pl-2"> {{event?.totalreview}} ratings</span>
                   </div>
-                  <!-- <div class="flex items-center space-x-2.5 pt-4">
-                    <span class="text-xs font-bold text-quicksilver">150 Sold</span>
-                    <div class="w-[70px] bg-[#D6D7DC] rounded-full h-1.5">
-                      <div class="bg-magicPotion h-1.5 rounded-full" style="width: 30%"></div>
+                  <div class="flex items-center space-x-2.5 pt-4">
+                    <span class="text-xs font-bold text-quicksilver">{{event?.total_booked_seats || 0}} Sold</span>
+                    <div class="w-[70px] h-1.5">
+                      <p-progressBar [styleClass]="'h-1.5'" [value]="((event?.total_booked_seats || 0) * 100) / (event?.total_seats || 0)" [showValue]="false"></p-progressBar>
                     </div>
-                    <span class="text-xs font-bold text-quicksilver">521 UnSold</span>
-                  </div> -->
+                    <span class="text-xs font-bold text-quicksilver">{{event?.total_available_seats || 0}} UnSold</span>
+                  </div>
                   <div class="flex space-x-2 pt-4">
                     <a href="javascript:void(0)" (click)="editEvent($event, event._id)" *ngIf="event?.iseditable" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-edit text-sm leading-0 text-japaneseIndigo"></i></a>
                     <a href="javascript:void(0)" (click)="gotoEventOverview($event, event)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-show text-xs leading-0 text-japaneseIndigo"></i></a>

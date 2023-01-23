@@ -11,6 +11,7 @@ import { PaginatorModule } from 'primeng/paginator';
 import { AgmCoreModule } from '@agm/core';
 import { ImageModule } from 'primeng/image';
 import { TranslateModule } from "@ngx-translate/core";
+import { ProgressBarModule } from "primeng/progressbar";
 
 const routes: Routes = [
   {
@@ -40,6 +41,7 @@ const routes: Routes = [
       libraries: ['places']
     }),
     TranslateModule,
+    ProgressBarModule
   ]
 })
 export class EventModule {

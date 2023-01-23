@@ -96,8 +96,8 @@ export class ProfileComponent implements OnInit {
     });
 
     this.maxDate = new Date();
-    this._prepareProfileForm();
-    this._prepareBusinessForm();
+    this._prepareProfileForm(this.profileObj);
+    this._prepareBusinessForm(this.profileObj?.businessProfile);
     // this._getUserDetail();
   }
   

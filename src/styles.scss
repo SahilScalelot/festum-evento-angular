@@ -352,6 +352,10 @@ mat-progress-spinner.mat-progress-spinner.mat-spinner.mat-primary.mat-progress-s
 
 .addsBox {@apply hidden;}
 
+// primeng's progress bar
+.p-progressbar .p-progressbar-value {
+  @apply bg-magicPotion;
+}
 
 .p-rating .p-rating-icon {
   color: #999;

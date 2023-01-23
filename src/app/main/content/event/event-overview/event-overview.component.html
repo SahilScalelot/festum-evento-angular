@@ -128,7 +128,7 @@
                                 <span class="block text-base font-bold text-quicksilver">{{((arrangement.vertical_location == 'TOP') ? 'T' : (arrangement.vertical_location == 'CENTER' ? 'C' : 'B'))}} - {{((arrangement.horizontal_location == 'LEFT') ? 'L' : ((arrangement.horizontal_location == 'CENTER') ? 'C' : (arrangement.horizontal_location == 'RIGHT' ? 'R' : 'N')))}}</span>
                               </div>
                               <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4"
-                                  *ngIf="(seating.seating_item.itemname !== 'Chair' && seating.seating_item.itemname !== 'chair') && (seating.seating_item.itemname != 'Stand' && seating.seating_item.itemname != 'stand')">
+                                  *ngIf="(seating?.seating_item?.itemname !== 'Chair' && seating?.seating_item?.itemname !== 'chair') && (seating?.seating_item?.itemname != 'Stand' && seating?.seating_item?.itemname != 'stand')">
                                 <span class="block text-xs xl:text-sm text-quicksilver">per {{seating?.seating_item?.itemname}} person capacity</span>
                                 <span class="block text-base font-bold text-quicksilver">{{arrangement.per_seating_person}}</span>
                               </div>
@@ -137,7 +137,7 @@
                                 <span class="block text-base font-bold text-quicksilver">{{arrangement.total_person}}</span>
                               </div>
                               <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4"
-                                  *ngIf="(seating.seating_item.itemname !== 'Chair' && seating.seating_item.itemname !== 'chair') && (seating.seating_item.itemname != 'Stand' && seating.seating_item.itemname != 'stand')">
+                                  *ngIf="(seating?.seating_item?.itemname !== 'Chair' && seating?.seating_item?.itemname !== 'chair') && (seating?.seating_item?.itemname != 'Stand' && seating?.seating_item?.itemname != 'stand')">
                                 <span class="block text-xs xl:text-sm text-quicksilver">Per {{seating?.seating_item?.itemname}} Price</span>
                                 <span class="block text-base font-bold text-quicksilver">{{arrangement.per_seating_price}}</span>
                               </div>
@@ -151,9 +151,9 @@
                               </div>
                               <div class="space-y-1 pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4">
                                 <p>Description</p>
-                                <span class="text-base text-quicksilver font-bold">{{arrangement?.description || 'null'}}</span>
+                                <span class="text-base text-quicksilver font-bold" [innerHTML]="arrangement?.description || 'null'"></span>
                               </div>
-                              <div class="flex items-center pt-4 ml-auto" *ngIf="(seating.seating_item.itemname !== 'Chair' && seating.seating_item.itemname !== 'chair') && (seating.seating_item.itemname != 'Stand' && seating.seating_item.itemname != 'stand')">
+                              <div class="flex items-center pt-4 ml-auto" *ngIf="(seating?.seating_item?.itemname !== 'Chair' && seating?.seating_item?.itemname !== 'chair') && (seating?.seating_item?.itemname != 'Stand' && seating?.seating_item?.itemname != 'stand')">
                                 <input class="switch mx-3 order-2" id="on" type="checkbox" [(ngModel)]="arrangement.booking_acceptance"/>
                                 <span class="off text-base font-bold anim order-1 text-caribbeanGreen">per table</span>
                                 <span class="on text-base font-bold anim order-3">per person</span>
@@ -174,7 +174,7 @@
                         </div>
                         <div class="border-l border-slate-500 px-4" *ngIf="seating?.food_description">
                           <p class="pb-1 text-slate-400">Description</p>
-                          <p class="text-xs">{{seating.food_description}}</p>
+                          <p class="text-xs" [innerHTML]="seating.food_description || ''"></p>
                         </div>
                       </div>
                     </div>
@@ -189,7 +189,7 @@
                         </div>
                         <div class="border-l border-slate-500 px-4" *ngIf="seating?.equipment_description">
                           <p class="pb-1 text-slate-400">Description</p>
-                          <p class="text-xs">{{seating.equipment_description}}</p>
+                          <p class="text-xs" [innerHTML]="seating.equipment_description || ''"></p>
                         </div>
                       </div>
                     </div>
@@ -244,7 +244,7 @@
               </div>
             </div>
             <!-- Company Details -->
-            <div *ngIf="events?.tandc?.t_and_c != ''" class="space-y-1.5">
+            <div *ngIf="events?.tandc?.t_and_c && events?.tandc?.t_and_c != ''" class="space-y-1.5">
               <h3 class="text-lg">Terms & Conditions</h3>
               <div class="p-3.5 xl:p-5 bg-white rounded-md">
                 <div [innerHtml]="events?.tandc?.t_and_c"></div>
@@ -471,15 +471,19 @@
     <div class="flex flex-wrap items-center justify-between max-w-7xl mx-auto px-5 xl:px-8">
       <div class="flex items-center space-x-2 pt-4">
         <h4 class="pr-5 border-r border-brightGray"><span class="text-quicksilver font-normal">Sold :</span>
-          {{ events.sold }}</h4>
-        <h4 class="px-5"><span class="text-quicksilver font-normal">Unsold  :</span> 235</h4>
+          {{ events?.total_booked_seats || 0}}
+        </h4>
+        <h4 class="px-5"><span class="text-quicksilver font-normal">Unsold  :</span> {{events?.total_available_seats || 0}}</h4>
       </div>
       <div class="flex items-center space-x-2 pt-4">
-        <span class="text-xs font-bold text-quicksilver whitespace-nowrap">150 Sold</span>
-        <div class="w-32 md:w-[150px] xl:w-[203px] bg-[#D6D7DC] rounded-full h-1.5">
+        <span class="text-xs font-bold text-quicksilver whitespace-nowrap">{{events?.total_booked_seats || 0}} Sold</span>
+        <!--<div class="w-32 md:w-[150px] xl:w-[203px] bg-[#D6D7DC] rounded-full h-1.5">
           <div class="bg-magicPotion h-1.5 rounded-full" style="width: 30%"></div>
+        </div>-->
+        <div class="w-32 h-1.5">
+          <p-progressBar [styleClass]="'h-1.5'" [value]="((events?.total_booked_seats || 0) * 100) / (events?.total_seats || 0)" [showValue]="false"></p-progressBar>
         </div>
-        <span class="text-xs font-bold text-quicksilver whitespace-nowrap">521 UnSold</span>
+        <span class="text-xs font-bold text-quicksilver whitespace-nowrap">{{events?.total_available_seats || 0}} UnSold</span>
       </div>
       <div class="pt-4">
         <a class="secondary px-5 py-2 flex items-end rounded-sm max-w-max mx-auto" href="javascript:void(0);"><i class="icon-scanner mr-3 text-lg"></i>SCAN QR</a>

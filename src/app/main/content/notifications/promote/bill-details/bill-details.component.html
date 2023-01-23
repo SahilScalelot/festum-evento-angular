@@ -75,7 +75,7 @@
         <div class="w-full flex justify-between">
           <div class="">
             <p class="text-base text-japaneseIndigo font-bold">Apply Coupons</p>
-            <span class="text-sm text-gray-300 font-normal">{{coupon.description}}</span>
+            <span class="text-sm text-gray-300 font-normal" [innerHTML]="coupon?.description || ''"></span>
           </div>
           <div class="flex items-center text-lg text-japaneseIndigo capitalize">
             <button class="bg-japaneseIndigo text-white border border-japaneseIndigo hover:bg-transparent hover:text-japaneseIndigo px-3 py-2 rounded-md anim" (click)="onApplyCoupon(coupon)">

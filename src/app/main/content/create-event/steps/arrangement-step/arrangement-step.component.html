@@ -60,7 +60,7 @@
                     </div>
                     <div class="space-y-1 pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4">
                       <p>Description</p>
-                      <span class="text-base text-quicksilver font-bold">{{arrangement?.description || 'null'}}</span>
+                      <span class="text-base text-quicksilver font-bold" [innerHTML]="arrangement?.description || 'null'"></span>
                     </div>
                     <div class="flex items-center pt-4 ml-auto" *ngIf="(arrangementObj?.seating_item?.itemname !== 'Chair' && arrangementObj?.seating_item?.itemname !== 'chair') && (arrangementObj?.seating_item?.itemname != 'Stand' && arrangementObj?.seating_item?.itemname != 'stand')">
                       <input class="switch mx-3 order-2" id="on" type="checkbox" [(ngModel)]="arrangement.booking_acceptance" disabled />

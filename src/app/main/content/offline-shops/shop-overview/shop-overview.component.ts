@@ -56,7 +56,6 @@ export class ShopOverviewComponent implements OnInit {
     this.offerId = this._activatedRoute.snapshot.paramMap.get('offerId');
 
     this.getShop();
-    this.offlineShopOfferList();
   }
 
   getShop(): void {
@@ -70,6 +69,7 @@ export class ShopOverviewComponent implements OnInit {
       setTimeout(() => {
         this._globalFunctions.loadAccordion();
         // this._globalFunctions.loadTabsJs();
+        this.offlineShopOfferList();
       }, 0);
       this.isLoading = false;
     }, (error: any) => {

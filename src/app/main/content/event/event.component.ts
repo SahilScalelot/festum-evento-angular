@@ -41,7 +41,8 @@ export class EventComponent implements OnInit {
   }
 
   checkClick(event: any, eventObj: any = {}): void {
-    event.stopPropagation();    
+    event.stopPropagation();
+    this._sNotify.clear();
     if (!eventObj.is_approved) { 
       this._sNotify.error('Wait for Event Verified.', 'Oops');
     }else if (eventObj.is_live) {
@@ -100,6 +101,7 @@ export class EventComponent implements OnInit {
 
   liveEvent(event: any, eventObj: any, index: number): void {
     event.stopPropagation();
+    this._sNotify.clear();
     if (eventObj.is_approved) {
       this.isLoading = true;
       this._eventService.liveEventById(eventObj._id).subscribe((result: any) => {
@@ -116,12 +118,13 @@ export class EventComponent implements OnInit {
         this._globalFunctions.errorHanding(error, this, true);
         this.isLoading = false;
       });
-    }else {
+    } else {
       this._sNotify.error('Wait for Event Verified.', 'Oops');
     }
   }
   liveEventCheck(event: any, eventObj: any, index: number): void {
     event.stopPropagation();
+    this._sNotify.clear();
     if (!eventObj.is_approved) {
       this._sNotify.error('Wait for Event Verified.', 'Oops');
     }

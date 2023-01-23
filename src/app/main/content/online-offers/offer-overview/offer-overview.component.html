@@ -1,7 +1,8 @@
+<p-progressSpinner *ngIf="isLoading" [style]="{width: '50px', height: '50px'}" animationDuration=".5s" strokeWidth="8" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-x-0 top-0 h-full w-full z-40" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
 <div class="-mt-12 relative -z-10">
   <img [src]="!!(offerObj?.poster) ? constants.baseImageURL + offerObj.poster : constants.defaultImage" [alt]="offerObj?.shop_name" class="w-full object-cover max-h-80" />
 </div>
-<div class="wrapper -mt-14 z-10">
+<div class="wrapper -mt-14 z-10" *ngIf="!isLoading">
   <div class="lg:flex items-end justify-between bg-white py-5 px-7 rounded-md">
     <div>
       <h2 class="pb-2 lg:pb-5">{{offerObj?.shop_name}}</h2>
@@ -168,8 +169,8 @@
 <modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="delete-offer-pop" title="Are you sure?" [isCloseHidden]="true" [isTitleHidden]="true">
   <div class="flex flex-wrap relative">
     <div class="w-full pb-8">
-      <h3 class="w-full pb-2 normal-case">Delete Event</h3>
-      <p class="normal-case">Are you sure you want to delete {{offerObj?.name}}</p>
+      <h3 class="w-full pb-2 normal-case">Delete Offer</h3>
+      <p class="normal-case">Are you sure you want to delete {{offerObj?.shop_name}}</p>
     </div>
     <div class="flex items-center justify-end space-x-5 w-full">
       <button type="button" class="primary py-2 px-14 anim uppercase" (click)="close()">Cancel</button>    
