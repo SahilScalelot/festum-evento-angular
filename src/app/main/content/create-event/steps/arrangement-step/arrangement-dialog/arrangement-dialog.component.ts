@@ -4,6 +4,7 @@ import { FormArray, FormBuilder, Validators } from "@angular/forms";
 import * as _ from 'lodash';
 // @ts-ignore
 import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
+import {SnotifyService} from "ng-snotify";
 
 @Component({
   selector: 'app-arrangement-dialog',
@@ -30,7 +31,8 @@ export class ArrangementDialogComponent implements OnInit {
   @Output() addEditArrangement: EventEmitter<any> = new EventEmitter();
 
   constructor(
-    private _formBuilder: FormBuilder
+    private _formBuilder: FormBuilder,
+    private _sNotify: SnotifyService
   ) {
   }
 
@@ -140,12 +142,12 @@ export class ArrangementDialogComponent implements OnInit {
   }
 
   selectItems(): void {
+    this._sNotify.clear();
     if (this.seatingForm.invalid) {
       Object.keys(this.seatingForm.controls).forEach((key) => {
         this.seatingForm.controls[key].touched = true;
         this.seatingForm.controls[key].markAsDirty();
       });
-
 
       // if (this.arrangements && this.arrangements.controls && this.arrangements.controls.length && this.arrangements.controls[key] && this.arrangements.controls[key].controls) {
       //   Object.keys(this.arrangements.controls[key].controls).forEach((subKey) => {
@@ -160,10 +162,20 @@ export class ArrangementDialogComponent implements OnInit {
           this.arrangements.controls[key].controls[subKey].markAsDirty();
         });
       });
-      
       return;
     }
-    this.selectedTab = 1
+    if (this.arrangements.value && this.arrangements.value.length) {
+      const tmpLocations: any = [];
+      _.each(this.arrangements.value, (arrangement: any) => {
+        tmpLocations.push(arrangement.vertical_location + arrangement.horizontal_location);
+      })
+      const uniqueLocationLength: any = _.uniq(tmpLocations);
+      if (uniqueLocationLength && uniqueLocationLength.length != this.arrangements.length) {
+        this._sNotify.error('Please select unique combination of vertical and horizontal locations.', 'Oops!');
+        return;
+      }
+    }
+    this.selectedTab = 1;
   }
 
   addFormData(): void {
