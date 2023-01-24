@@ -30,6 +30,10 @@ export class EventService {
     return this.http.post(environment.appURL + 'organizer/events/livemulti', {eventids: eventIds}, this._globalFunctions.getAuthorizationHeader());
   }
 
+  getAttendeesByEventId(eventIdObj: any = {}): any {
+    return this.http.post(environment.appURL + 'organizer/eventattendees', eventIdObj, this._globalFunctions.getAuthorizationHeader());
+  }
+
   // retrieveUser(): any {
   //   return this.http.get(environment.appURL + 'events/', this._globalFunctions.getAuthorizationHeader());
   // }

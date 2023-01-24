@@ -51,8 +51,14 @@
             </div>
           </div>
           <div class="flex justify-between pt-4">
-            <div class="flex items-center space-x-2.5 ">
-              <a [href]="platform?.product_link" *ngFor="let platform of shopOffer?.product_links" target="_blank"><img [src]="constants?.baseImageURL + platform?.platform?.platformimage" [alt]="platform?.platform?.name" class="w-7 h-7 object-contain" /></a>
+            <div class="flex flex-wrap items-center">
+              <div class="flex items-center space-x-1 pr-4 mr-4 border-r">
+                <p-rating [(ngModel)]="shopOffer.ratings" [readonly]="true" [cancel]="false"></p-rating>
+                <span class="text-quicksilver text-xs font-bold pl-2"> {{shopOffer?.totalreviews}} ratings</span>
+              </div>
+              <div class="flex items-center space-x-2.5 ">
+                <a [href]="platform?.product_link" *ngFor="let platform of shopOffer?.product_links" target="_blank"><img [src]="constants?.baseImageURL + platform?.platform?.platformimage" [alt]="platform?.platform?.name" class="w-7 h-7 object-contain" /></a>
+              </div>
             </div>
             <div class="flex space-x-2">
               <a href="javascript:void(0);" class="bg-brightGray text-xl px-2 py-1 text-center rounded"><i class="icon-show text-base text-japaneseIndigo"></i></a>

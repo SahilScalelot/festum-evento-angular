@@ -9,7 +9,7 @@
               <a [href]="constants.baseImageURL + exData.url" *ngIf="isImageOrVideoFlag" class="w-full h-full block">
                 <img [src]="!!(exData?.url) ? constants.baseImageURL + exData.url : constants.defaultImage" class="w-full h-full object-contain" />
               </a>
-              <video width="800" id="video1" height="600" controls [src]="!!(exData?.url) ? constants.baseImageURL + exData.url : constants.defaultImage" *ngIf="!isImageOrVideoFlag" class="w-full h-full"></video>
+              <video width="800" id="video" height="600" controls [src]="!!(exData?.url) ? constants.baseImageURL + exData.url : constants.defaultImage" *ngIf="!isImageOrVideoFlag" class="w-full h-full"></video>
             </div>
             <div class="w-full md:w-1/2 pl-10 space-y-4 max-h-full overflow-y-auto" *ngIf="!isCompanyImagesAndVideo">
               <p>{{exData.description}}</p>
@@ -21,7 +21,7 @@
       <div class="swiper-button-next"></div>
       <div class="swiper-button-prev"></div>
     </div>
-    <div class="swiper-container gallery-thumbs bg-black">
+    <div class="swiper-container gallery-thumbs bg-black" [ngClass]="{'hidden': (isSingleVideo)}">
       <div class="swiper-wrapper space-x-3">
         <div class="swiper-slide" *ngFor="let exDataThumb of expectedProp">
           <div class="rounded-md overflow-hidden w-28 h-28 bg-white">

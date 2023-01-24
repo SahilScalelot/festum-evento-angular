@@ -36,7 +36,7 @@
       <div class="teb-holder teb-box flex justify-between w-full">
         <div class="teb-holder">
           <button [class]="overview ? 'active' : ''" (click)="onTabChange('overview')" type="button">Overview</button>
-          <button [class]="reviews ? 'active' : ''" (click)="onTabChange('reviews')" type="button">Reviews</button>
+          <button [class]="reviews ? 'active' : ''" (click)="onTabChange('reviews')" type="button" *ngIf="shopObj && shopObj.reviews && shopObj.reviews.length">Reviews</button>
         </div>
         <form id="review-form" action="" class="review-form hidden">
           <div class="w-full inputHolder">
@@ -175,29 +175,27 @@
       </div>
       <!-- Reviews-Teb-Content -->
       <div class="w-full space-y-2.5 tab-main" [class]="reviews ? 'active' : ''">
-        <div class="w-full space-y-2">
+        <div *ngFor="let reviews of shopObj?.reviews" class="w-full space-y-2">
           <div class="bg-white rounded-lg p-7 lg:flex">
             <div>
               <div class="w-20 h-20">
-                <img src="../assets/images/profile-2.png" alt="Profile" />
+                <img alt="cutting-board" class="w-full h-full object-cover" [src]="!!(reviews?.userid?.profilepic) ? constants.baseImageURL + reviews?.userid?.profilepic : constants.userDefaultImage"/>
               </div>
             </div>
             <div class="lg:px-5 py-5 lg:py-0">
-              <h5>Charlotte</h5>
+              <h5>{{ reviews?.userid?.name }}</h5>
               <div class="flex items-center space-x-1 pt-1.5 pb-2.5">
-                <i class="icon-rating text-[#F8DA48]"></i>
-                <i class="icon-rating text-[#F8DA48]"></i>
-                <i class="icon-rating text-[#F8DA48]"></i>
-                <i class="icon-rating text-[#F8DA48]"></i>
-                <i class="icon-rating text-quicksilver"></i>
-                <span class="text-xs font-bold text-quicksilver">19 Jan, 2022</span>
+                <p-rating [(ngModel)]="reviews.ratings" [readonly]="true" [cancel]="false"></p-rating>
+                <span class="text-xs font-bold text-quicksilver">{{ reviews?.createdAt | date:'dd MMM, yyyy' }}</span>
               </div>
-              <span class="text-base text-[#9BA0A8] pb-2.5">Navratri Special Offer</span>
-              <p class="text-sm text-japaneseIndigo">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodoligula eget dolor.</p>
+              <span class="text-base text-[#9BA0A8] pb-2.5">{{ reviews?.offer?.offer_title }}</span>
+              <p class="text-sm text-japaneseIndigo">{{ reviews?.review }}</p>
             </div>
             <div>
               <div class="w-36">
-                <img src="../assets/images/Charlotte.jpg" alt="Profile" />
+                <img [src]="!!(reviews?.offer?.poster) ? constants.baseImageURL + reviews?.offer.poster : constants.defaultImage" [alt]="reviews?.offer?.offer_title" />
+<!--                <img [src]="!!(reviews?.offer?.poster) ? constants.baseImageURL + reviews?.offer.poster : constants.defaultImage" [alt]="reviews?.offer?.offer_title" class="w-full h-full object-cover pb-5 lg:pb-0" />-->
+                <!--<img src="../assets/images/Charlotte.jpg" alt="Profile" />-->
               </div>
             </div>
           </div>

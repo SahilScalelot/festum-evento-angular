@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter, ViewChild} from '@angular/core';
 import { CONSTANTS } from 'src/app/main/common/constants';
 declare var $:any;
 declare var Swiper:any;
@@ -13,6 +13,7 @@ export class ImageAndVideoPreviewComponent implements OnInit {
   @Input() expectedProp: any;
   @Input() isImageOrVideoFlag: boolean = false;
   @Input() isCompanyImagesAndVideo: boolean = false;
+  @Input() isSingleVideo: boolean = false;
   @Output() openClosePopup = new EventEmitter<boolean>();
 
   constructor() { }
@@ -44,6 +45,12 @@ export class ImageAndVideoPreviewComponent implements OnInit {
   }
 
   closePopup(): void {
+    if (!this.isImageOrVideoFlag) {
+      const video: any = document.getElementById("video");
+      if (video) {
+        video.pause();
+      }
+    }
     this.openClosePopup.emit(false);
   }
 }

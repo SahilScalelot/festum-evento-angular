@@ -13,6 +13,7 @@ import { CalendarModule } from 'primeng/calendar';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { RatingModule } from 'primeng/rating';
 import { Time24to12Format } from 'src/app/pipe/time24to12.pipe';
+import { MatIconModule } from "@angular/material/icon";
 
 const routes: Routes = [
   {
@@ -45,6 +46,7 @@ const routes: Routes = [
     PaginatorModule,
     ImageModule,
     RatingModule,
+    MatIconModule
   ]
 })
 export class LiveStreamModule { }

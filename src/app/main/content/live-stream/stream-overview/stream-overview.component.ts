@@ -15,6 +15,7 @@ export class StreamOverviewComponent implements OnInit {
   isLoading: boolean = false;
   isOpenPopup: boolean = false;
   isImage: boolean = false;
+  isSingleVideo: boolean = false;
   companyIAndV: boolean = false;
   imagesOrVideosArr: Array<any> = [];
 
@@ -69,10 +70,11 @@ export class StreamOverviewComponent implements OnInit {
     }
   }
 
-  openImageAndVideoDialog(imagesOrVideosArr: Array<any>, isImage: boolean, companyIAndV: boolean): void {
+  openImageAndVideoDialog(imagesOrVideosArr: Array<any>, isImage: boolean, companyIAndV: boolean, isSingleVideo: boolean = false): void {
     this.imagesOrVideosArr = imagesOrVideosArr;
     this.isImage = isImage;
     this.companyIAndV = companyIAndV;
+    this.isSingleVideo = isSingleVideo;
     this.isOpenPopup = true;
   }
 
