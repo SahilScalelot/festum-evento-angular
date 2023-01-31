@@ -193,6 +193,12 @@ export const CONSTANTS = {
     {title: 'Festum Evento Festival', offer: '250', link: 'https://festumeventos3.s3.ap-south-1.amazonaws.com/global/videos/festum_evento_festivel_video.mp4'},
   ],
 
+  entities: [
+    {entityname: 'event', value: 'event'},
+    {entityname: 'offer', value: 'offer'},
+    {entityname: 'livestream', value: 'livestream'},
+  ],
+
   maxPosterSizeInMB: 10,
   maxImageSizeInMB: 3,
   maxIconSizeInKB: 500,

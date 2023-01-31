@@ -9,11 +9,12 @@ import { ModalService } from 'src/app/main/_modal';
 // @ts-ignore
 import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
 import {CompressImageService} from "../../../../services/compress-image.service";
-import {ImageCroppedEvent} from "ngx-image-cropper";
+import { GlobalService } from 'src/app/services/global.service';
+import { NgSelectConfig } from "@ng-select/ng-select";
+import { ImageCroppedEvent } from "ngx-image-cropper";
 import { take } from 'rxjs';
 import * as _ from 'lodash';
 import * as moment from "moment";
-import { NgSelectConfig } from "@ng-select/ng-select";
 declare var $: any;
 
 @Component({
@@ -73,7 +74,8 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
     private _globalFunctions: GlobalFunctions,
     private _modalService: ModalService,
     private _compressImageService: CompressImageService,
-    private _config: NgSelectConfig
+    private _config: NgSelectConfig,
+    private _globalService: GlobalService
   ) {
     this._config.notFoundText = 'Platform not found';
   }
@@ -95,6 +97,19 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
     if (localStorage.getItem('oOId') && localStorage.getItem('oOId') != '') {
       this.offerId = localStorage.getItem('oOId');
       this.getOnlineShopOfferByOfferId(this.offerId);
+    } else {
+      this._globalService.loginUser$.subscribe((user: any) => {
+        if (user) {
+          const businessProfile: any = this._globalFunctions.copyObject(user?.businessProfile || {});
+          const companyObj: any = {
+            company_name: businessProfile?.name || '',
+            company_contact_no: businessProfile?.mobile || '',
+            company_email: businessProfile?.email || '',
+            about_company: businessProfile?.about || '',
+          }
+          this.addEditOfferForm.patchValue(companyObj);
+        }
+      });
     }
   }
 

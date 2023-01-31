@@ -5,6 +5,7 @@ import { GlobalFunctions } from '../../../common/global-functions';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { CONSTANTS } from '../../../common/constants';
 import { HttpClient } from "@angular/common/http";
+import { GlobalService } from 'src/app/services/global.service';
 import { OfflineShopsService } from '../offline-shops.service';
 import { ModalService } from "../../../_modal";
 import { SnotifyService } from 'ng-snotify';
@@ -96,7 +97,8 @@ export class AddEditShopDialogComponent implements OnInit {
     private _offlineShopsService: OfflineShopsService,
     private _globalFunctions: GlobalFunctions,
     private _compressImage: CompressImageService,
-    private _modalService: ModalService
+    private _modalService: ModalService,
+    private _globalService: GlobalService
   ) { }
 
   ngOnInit(): void {
@@ -144,6 +146,21 @@ export class AddEditShopDialogComponent implements OnInit {
           this.finaLatLong.lng = place.geometry.location.lng();
         });
       });
+    });
+
+    this._globalService.loginUser$.subscribe((user: any) => {
+      if (user) {
+        const businessProfile: any = this._globalFunctions.copyObject(user?.businessProfile || {});
+        const companyObj: any = {
+          company_name: businessProfile.name,
+          contact_number: businessProfile.mobile,
+          emailid: businessProfile.email,
+          about: businessProfile.about,
+        }
+        if (!this.shopId || this.shopId == '') {
+          this.addShopForm.patchValue(companyObj);
+        }
+      }
     });
   }
   
