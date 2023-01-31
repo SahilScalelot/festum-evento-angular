@@ -43,7 +43,7 @@ export class AddEditShopDialogComponent implements OnInit {
     { value: 'we' },
     { value: 'th' },
     { value: 'fr' },
-    { value: 'sr' }
+    { value: 'st' }
   ];
   imgChangeEvt: any = '';
   cropImgPreview: any = '';

@@ -30,7 +30,7 @@ export class ShopOverviewComponent implements OnInit {
     { value: 'we' },
     { value: 'th' },
     { value: 'fr' },
-    { value: 'sr' }
+    { value: 'st' }
   ];
   offerId: any;
   paging: any;
