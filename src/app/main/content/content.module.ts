@@ -26,6 +26,9 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { FaqComponent } from './faq/faq.component';
 import { HelpComponent } from './help/help.component';
 import { TranslateModule } from "@ngx-translate/core";
+import { RatingModule } from 'primeng/rating';
+import { SwiperModule } from 'swiper/angular';
+import { ProgressBarModule } from 'primeng/progressbar';
 
 const routes: Routes = [
   {
@@ -65,7 +68,10 @@ const routes: Routes = [
     ImageModule,
     TooltipModule,
     CKEditorModule,
-    TranslateModule
+    TranslateModule,
+    SwiperModule,
+    RatingModule,
+    ProgressBarModule
   ]
 })
 export class ContentModule {

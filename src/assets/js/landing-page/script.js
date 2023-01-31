@@ -80,6 +80,7 @@ var swiper = new Swiper(".mySwiper", {
             slidesPerView: 3,
         },
     },
+    autoplay: {delay: 2500, disableOnInteraction: false},
 });
 $(document).ready(function () {
 
@@ -116,10 +117,8 @@ var swiper = new Swiper(".mySwiper.responsive", {
         },
         1280: {
             slidesPerView: 4,
-        },
-        1536: {
-            slidesPerView: 5,
-        },
+        }
     },
+    autoplay: {delay: 2500, disableOnInteraction: false},
 });
 

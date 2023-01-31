@@ -188,6 +188,11 @@ export const CONSTANTS = {
     {value: 'existingusers', url: '/assets/images/existing-user.png', type: 'Existing User'}
   ],
 
+  adsGalleryVideoList: [
+    {title: 'Music Event', offer: '250', link: 'https://festumeventos3.s3.ap-south-1.amazonaws.com/global/videos/music_event.mp4'},
+    {title: 'Festum Evento Festival', offer: '250', link: 'https://festumeventos3.s3.ap-south-1.amazonaws.com/global/videos/festum_evento_festivel_video.mp4'},
+  ],
+
   maxPosterSizeInMB: 10,
   maxImageSizeInMB: 3,
   maxIconSizeInKB: 500,

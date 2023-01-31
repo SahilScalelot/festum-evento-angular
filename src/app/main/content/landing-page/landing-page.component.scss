@@ -1,8 +1,30 @@
+// .swiper-button-next, .swiper-button-prev {
+//   color: #fe4d5f !important;
+// }
 .swiper-button-next, .swiper-button-prev {
-  color: #fe4d5f !important;
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+  background-position: 50%;
+  color: transparent !important;
 }
-:ng-deep {
+.swiper-button-next {
+  background-image: url(../../../../assets/images/landing-page/rightArrow.png);
+}
+.swiper-button-prev {
+  background-image: url(../../../../assets/images/landing-page/leftArrow.png);
+}
+img.fix_images {
+  height: 9rem;
+  width: 9rem;
+  -o-object-fit: contain;
+  object-fit: contain;
+}
+::ng-deep {
   body {
     background-color: #fff !important;
+  }
+
+  .p-progressbar .p-progressbar-value {
+    @apply bg-[#FBA92F];
   }
 }
