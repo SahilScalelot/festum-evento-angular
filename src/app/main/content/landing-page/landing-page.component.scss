@@ -20,9 +20,9 @@ img.fix_images {
   object-fit: contain;
 }
 ::ng-deep {
-  body {
-    background-color: #fff !important;
-  }
+  // body {
+  //   background-color: #fff !important;
+  // }
 
   .p-progressbar .p-progressbar-value {
     @apply bg-[#FBA92F];
