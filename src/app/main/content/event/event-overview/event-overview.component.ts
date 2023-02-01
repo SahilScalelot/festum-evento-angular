@@ -15,6 +15,7 @@ export class EventOverviewComponent implements OnInit {
   event: any = {};
   constants: any = CONSTANTS;
   isLoading: boolean = false;
+  isExportLoading: boolean = false;
   isOpenPopup: boolean = false;
   isImage: boolean = false;
   companyIAndV: boolean = false;
@@ -122,6 +123,25 @@ export class EventOverviewComponent implements OnInit {
     }, (error: any) => {
       this._globalFunctions.errorHanding(error, this, true);
       this.isLoading = false;
+    });
+  }
+
+  exportAttendees(): void {
+    if (this.isExportLoading) {
+      return;
+    }
+    this.isExportLoading = true;
+    this._eventService.exportAttendees({eventid: this.event._id}).subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        window.open(result.Data, '_blank');
+        this.isExportLoading = false;
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+        this.isExportLoading = false;
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isExportLoading = false;
     });
   }
 
