@@ -17,6 +17,7 @@ export class BookingComponent implements OnInit {
   bookings: any = [];
   categories: any = [];
   isLoading: boolean = false;
+  isCategoryLoading: boolean = false;
   filterObj: any = {};
   constants: any = CONSTANTS;
   date: any = [];
@@ -31,6 +32,7 @@ export class BookingComponent implements OnInit {
     private _createEventService: CreateEventService,
     private _sNotify: SnotifyService,
   ) {
+    this.getEventCategories();
     this.search = _.debounce(this.search, 1000)
   }
 
@@ -45,7 +47,6 @@ export class BookingComponent implements OnInit {
       search: ''
     };
     this.getBookings();
-    this.getEventCategories();
   }
 
   getBookings(): void {
@@ -64,15 +65,15 @@ export class BookingComponent implements OnInit {
   }
 
   getEventCategories(): void {
-    this.isLoading = true;
+    this.isCategoryLoading = true;
     this._createEventService.getEventCategories({event_type: ''}).subscribe((result: any) => {
       if (result && result.IsSuccess) {
         this.categories = result.Data;
-        this.isLoading = false;
+        this.isCategoryLoading = false;
       }
     }, (error: any) => {
       // this._globalFunctions.errorHanding(error, this, true);
-      this.isLoading = false;
+      this.isCategoryLoading = false;
     });
   }
 
