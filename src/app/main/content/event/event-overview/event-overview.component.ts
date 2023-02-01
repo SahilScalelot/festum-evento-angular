@@ -29,6 +29,7 @@ export class EventOverviewComponent implements OnInit {
   // initial center position for the map
   lat: number = 0;
   lng: number = 0;
+  isSingleVideo: boolean = false;
 
   constructor(
     private _eventService: EventService,
@@ -139,10 +140,11 @@ export class EventOverviewComponent implements OnInit {
     }
   }
 
-  openImageAndVideoDialog(imagesOrVideosArr: Array<any>, isImage: boolean, companyIAndV: boolean): void {
+  openImageAndVideoDialog(imagesOrVideosArr: Array<any>, isImage: boolean, companyIAndV: boolean, isSingleVideo: boolean = false): void {
     this.imagesOrVideosArr = imagesOrVideosArr;
     this.isImage = isImage;
     this.companyIAndV = companyIAndV;
+    this.isSingleVideo = isSingleVideo;
     this.isOpenPopup = true;
   }
 

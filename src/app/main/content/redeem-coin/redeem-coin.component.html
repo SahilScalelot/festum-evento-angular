@@ -13,7 +13,30 @@
       <img src="../assets/images/coin.png" alt="Coin" />
     </div>
     <div class="space-y-2.5">
-      <div class="flex items-center justify-between p-2.5 bg-white rounded-md">
+      <div class="flex items-center justify-between p-2.5 bg-white rounded-md" *ngFor="let history of redeemCoinHistory">
+        <div class="flex items-center space-x-4">
+          <div class="rounded text-4xl w-14 h-14 flex items-center justify-center" [ngClass]="{'bg-[#D5DBFF]': (history?.transaction_type == 'redeem'), 'bg-[#FFF0C8]': (history?.transaction_type == 'refer'), 'bg-[#C8FFF2]': (history?.transaction_type == 'transaction')}">
+            <img [src]="!!(history?.transaction_icon) ? constants.baseImageURL + history?.transaction_icon : constants.defaultImage" [alt]="history?.transaction_type" />
+          </div>
+          <div *ngIf="history?.transaction_type == 'redeem'">
+            <h3 class="text-base">Coin Redeem</h3>
+            <span class="input-titel">Processing</span>
+          </div>
+          <div *ngIf="history?.transaction_type == 'refer'">
+            <h3 class="text-base">Login Refer</h3>
+            <span class="input-titel">Refer by {{(history?.refer_data?.to_refer?._id != userObj?._id) ? history?.refer_data?.to_refer.name : history?.refer_data?.from_refer.name}}</span>
+          </div>
+          <div *ngIf="history?.transaction_type == 'transaction'">
+            <h3 class="text-base">Coin Send</h3>
+            <span class="input-titel">Refer by {{(history?.refer_data?.to_refer?._id != userObj?._id) ? history?.refer_data?.to_refer.name : history?.refer_data?.from_refer.name}}</span>
+          </div>
+        </div>
+        <div class="flex items-center">
+          <p class="pr-5 border-r-2 text-sm font-bold border-quicksilver">{{history?.createdAt | date:'MMM dd, yyyy'}}</p>
+          <h5 class="pl-5 pr-3 {{history?.transaction_type == 'refer' ? 'text-ufoGreen' : 'text-red-500'}}">{{history?.transaction_type == 'refer' ? '+' : '-'}}{{history?.f_coins}}</h5>
+        </div>
+      </div>
+      <!-- <div class="flex items-center justify-between p-2.5 bg-white rounded-md">
         <div class="flex items-center space-x-4">
           <div class="rounded bg-[#D5DBFF] text-4xl w-14 h-14 flex items-center justify-center">
             <img src="../assets/images/coin-redeem.png" alt="Coin Redeem" />
@@ -57,7 +80,7 @@
           <p class="pr-5 border-r-2 text-sm font-bold border-quicksilver">Jan 18, 2021</p>
           <h5 class="pl-5 pr-3 text-red-500">-14</h5>
         </div>
-      </div>
+      </div> -->
     </div>    
     <div class="w-full mt-5 addsBox">
       <img src="/assets/images/banner-ads.png" alt="ring-ad" class="w-full object-cover" />

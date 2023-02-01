@@ -50,7 +50,7 @@
       </div>
     </div>
     <div class="space-y-5">
-      <div class="w-full bg-white flex flex-wrap lg:flex-nowrap p-2.5 rounded-md cursor-pointer" *ngFor="let booking of bookings">
+      <div class="w-full bg-white flex flex-wrap lg:flex-nowrap p-2.5 rounded-md" *ngFor="let booking of bookings">
         <div class="max-w-[170px] w-full h-[170px]">
           <img [src]="!!(booking?.event_id?.banner) ? constants.baseImageURL + booking?.event_id?.banner : constants.defaultImage" [alt]="booking?.event_id?.name" class="w-full h-full object-cover" />
         </div>
@@ -59,9 +59,17 @@
             <h4 class="text-japaneseIndigo">{{booking?.event_id?.name}}</h4>
             <h4>{{booking?.amount | number: '1.2-2'}} INR</h4>
           </div>
-          <div class="flex items-center space-x-2 pb-4 border-b">
-            <img [src]="!!(booking?.userid?.profilepic) ? constants.baseImageURL + booking?.userid?.profilepic : constants.defaultImage" [alt]="booking?.userid?.name" class="w-9 h-9 object-cover rounded-full" />
-            <p class="text-base text-quicksilver font-normal">{{booking?.userid?.name}}</p>
+          <div class="flex items-center justify-between space-x-2 pb-4 border-b">
+            <div class="flex items-center space-x-2">
+              <img [src]="!!(booking?.userid?.profilepic) ? constants.baseImageURL + booking?.userid?.profilepic : constants.defaultImage" [alt]="booking?.userid?.name" class="w-9 h-9 object-cover rounded-full" />
+              <p class="text-base text-quicksilver font-normal">{{booking?.userid?.name}}</p>
+            </div>
+            <div class="text-base text-japaneseIndigo flex items-center justify-end space-x-2 font-bold">
+              <span>#{{booking?.invoice_no}}</span>
+              <a [href]="constants.baseImageURL + booking?.invoice" target="_blank">
+                <span><i class="w-6 block text-center text-lg icon-download font-bold outline-none"></i></span>
+              </a>
+            </div>
           </div>
           <div class="flex items-center pt-4 space-x-7">
             <div>

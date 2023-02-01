@@ -119,8 +119,14 @@
               </div>
             </div>
             <!-- Social Media -->
-            <div class="space-y-4" *ngIf="shopObj?.companydetails?.social_media_links">
-              <h5>Social Media</h5>
+            <div class="space-y-4" *ngIf="shopObj?.companydetails?.social_media_links &&
+              shopObj?.companydetails?.social_media_links?.facebook_link && shopObj?.companydetails?.social_media_links?.facebook_link != '' ||
+              shopObj?.companydetails?.social_media_links?.twitter_link && shopObj?.companydetails?.social_media_links?.twitter_link != '' ||
+              shopObj?.companydetails?.social_media_links?.youtube_link && shopObj?.companydetails?.social_media_links?.youtube_link != '' ||
+              shopObj?.companydetails?.social_media_links?.pinterest_link && shopObj?.companydetails?.social_media_links?.pinterest_link != '' ||
+              shopObj?.companydetails?.social_media_links?.instagram_link && shopObj?.companydetails?.social_media_links?.instagram_link != '' ||
+              shopObj?.companydetails?.social_media_links?.linkedin_link && shopObj?.companydetails?.social_media_links?.linkedin_link != ''">
+              <h5>Social Media</h5> 
               <div class="p-7 bg-white rounded-md space-y-1 flex items-center space-x-7">
                 <a *ngIf="shopObj?.companydetails?.social_media_links?.facebook_link != ''" [href]="shopObj?.companydetails?.social_media_links?.facebook_link" target="_blank"><img class="w-10 h-10 object-cover" alt="facebook" src="../assets/images/facebook.png" /></a>
                 <a *ngIf="shopObj?.companydetails?.social_media_links?.twitter_link != ''" [href]="shopObj?.companydetails?.social_media_links?.twitter_link" target="_blank"><img class="w-10 h-10 object-cover" alt="twiiter" src="../assets/images/twiiter.png" /></a>

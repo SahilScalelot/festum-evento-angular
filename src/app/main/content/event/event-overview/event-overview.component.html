@@ -38,7 +38,7 @@
     <!-- tab-holder  -->
     <div class="teb-holder">
       <button [class]="overview ? 'active' : ''" (click)="onTabChange('overview')" type="button">Overview</button>
-      <button [class]="attendee ? 'active' : ''" (click)="onTabChange('attendee')" type="button" *ngIf="!!(event?.accept_booking)">Attendee</button>
+      <button [class]="attendee ? 'active' : ''" (click)="onTabChange('attendee')" type="button" *ngIf="!!(event?.accept_booking) && event?.is_live">Attendee</button>
       <button [class]="reviews ? 'active' : ''" (click)="onTabChange('reviews')" type="button" *ngIf="event?.reviews?.length">Reviews</button>
     </div>
     <!-- tab-contents-holder -->
@@ -81,10 +81,12 @@
               <!-- media-holder -->
               <div class="w-full">
                 <div class="flex flex-wrap -mx-2">
-                  <div *ngFor="let video of event.videos" class="w-full lg:w-1/5 p-2 ov-p">
-                    <div class="rounded relative overflow-hidden h-28">
+                  <div *ngFor="let video of event.videos" class="w-full lg:w-1/5 p-2 ov-p group hover:bg-slate-100">
+                    <div class="rounded relative overflow-hidden h-28 cursor-pointer" (click)="openImageAndVideoDialog([video], false, false, true)">
                       <video [src]="!!(video?.url) ? constants.baseImageURL + video.url : constants.defaultImage" class="w-full h-full object-cover bg-white"></video>
-                    </div>
+                      <div class="opacity-0 bg-black bg-opacity-50 flex items-center justify-center group-hover:opacity-100 absolute inset-0 transition-all duration-300">
+                        <i class="pi pi-eye text-2xl text-white"></i>
+                      </div>
                   </div>
                 </div>
               </div>
@@ -235,10 +237,12 @@
               <!-- media-holder -->
               <div class="w-full">
                 <div class="flex flex-wrap -mx-2">
-                  <div *ngFor="let video of event.companydetail.videos" class="w-full lg:w-1/5 p-2 ov-p">
-                    <div class="rounded relative overflow-hidden h-28">
+                  <div *ngFor="let video of event.companydetail.videos" class="w-full lg:w-1/5 p-2 ov-p group hover:bg-slate-100">
+                    <div class="rounded relative overflow-hidden h-28 cursor-pointer" (click)="openImageAndVideoDialog([video], false, false, true)">
                       <video [src]="!!(video?.url) ? constants.baseImageURL + video.url : constants.defaultImage" class="w-full h-full object-cover bg-white"></video>
-                    </div>
+                      <div class="opacity-0 bg-black bg-opacity-50 flex items-center justify-center group-hover:opacity-100 absolute inset-0 transition-all duration-300">
+                        <i class="pi pi-eye text-2xl text-white"></i>
+                      </div>
                   </div>
                 </div>
               </div>
@@ -445,5 +449,5 @@
     </div>
   </div>
   
-  <app-image-and-video-preview *ngIf="isOpenPopup" (openClosePopup)="closePop($event)" [isImageOrVideoFlag]="isImage" [isCompanyImagesAndVideo]="companyIAndV" [expectedProp]="imagesOrVideosArr"></app-image-and-video-preview>
+  <app-image-and-video-preview *ngIf="isOpenPopup" (openClosePopup)="closePop($event)" [isSingleVideo]="isSingleVideo" [isImageOrVideoFlag]="isImage" [isCompanyImagesAndVideo]="companyIAndV" [expectedProp]="imagesOrVideosArr"></app-image-and-video-preview>
 </div>
