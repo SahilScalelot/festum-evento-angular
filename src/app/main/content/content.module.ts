@@ -29,6 +29,7 @@ import { TranslateModule } from "@ngx-translate/core";
 import { RatingModule } from 'primeng/rating';
 import { SwiperModule } from 'swiper/angular';
 import { ProgressBarModule } from 'primeng/progressbar';
+import { DropdownModule } from 'primeng/dropdown';
 
 const routes: Routes = [
   {
@@ -71,7 +72,8 @@ const routes: Routes = [
     TranslateModule,
     SwiperModule,
     RatingModule,
-    ProgressBarModule
+    ProgressBarModule,
+    DropdownModule,
   ]
 })
 export class ContentModule {

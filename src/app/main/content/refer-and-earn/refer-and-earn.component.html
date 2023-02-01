@@ -6,7 +6,7 @@
          <img src="../assets/images/coin.png" alt="Coin" />
          <h2 class="text-white px-3 text-center text-xl lg:text-3xl">
            <span class="font-normal text-xl lg:text-3xl">Total Rewards Earned :</span>
-           <br class="lg:hidden" /> 250 F-Coins
+           <br class="lg:hidden" /> {{userObj?.f_coin}} F-Coins
          </h2>
          <img src="../assets/images/coin.png" alt="Coin" />
        </div>
@@ -44,9 +44,9 @@
              <div class="rounded-md border-2 border-dotted border-caribbeanGreen bg-caribbeanGreen bg-opacity-20 p-3 flex items-center justify-between">
                <div class="pr-7">
                  <p class="text-xs text-japaneseIndigo">Referral Code</p>
-                 <h1 class="text-40 text-caribbeanGreen">Z128HN</h1>
+                 <h1 class="text-40 text-caribbeanGreen">{{userObj?.refer_code}}</h1>
                </div>
-               <div class="px-3 border-l-2 border-ufoGreen border-dotted">
+               <div class="px-3 border-l-2 border-ufoGreen border-dotted" (click)="copyLink(userObj?.refer_code)">
                  <a href="javascript:void(0);" class="text-sm text-japaneseIndigo font-black uppercase">Copy <br>Code </a>
                </div>
              </div>

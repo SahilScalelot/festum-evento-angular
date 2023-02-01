@@ -5,6 +5,7 @@ import { SnotifyService } from "ng-snotify";
 import { GlobalFunctions } from "../../../../common/global-functions";
 import { CreateStreamService } from "../create-stream.service";
 import {CONSTANTS} from "../../../../common/constants";
+import { GlobalService } from 'src/app/services/global.service';
 
 @Component({
   selector: 'app-personal-details',
@@ -24,6 +25,7 @@ export class PersonalDetailsComponent implements OnInit {
     private _sNotify: SnotifyService,
     private _globalFunctions: GlobalFunctions,
     private _createStreamService: CreateStreamService,
+    private _globalService: GlobalService
   ) { }
 
   ngOnInit(): void {
@@ -31,6 +33,24 @@ export class PersonalDetailsComponent implements OnInit {
     this.liveStreamId = localStorage.getItem('lsId');
     if (this.liveStreamId && this.liveStreamId != '') {
       this.getPersonalDetailsById(this.liveStreamId);
+    } else {
+      this._globalService.loginUser$.subscribe((user: any) => {
+        if (user) {
+          const personalProfile: any = this._globalFunctions.copyObject(user || {});
+          const preparePersonalProfile: any = {
+            full_name: personalProfile?.name || '',
+            mobile_no: personalProfile?.mobile || '',
+            email: personalProfile?.email || '',
+            flat_no: personalProfile?.flat_no || '',
+            street: personalProfile?.street || '',
+            area: personalProfile?.area || '',
+            state: personalProfile?.state || '',
+            city: personalProfile?.city || '',
+            pincode: personalProfile?.pincode || '',
+          };
+          this.personalDetailForm.patchValue(preparePersonalProfile);
+        }
+      });
     }
   }
 

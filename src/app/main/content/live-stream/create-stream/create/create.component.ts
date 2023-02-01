@@ -166,7 +166,9 @@ export class CreateComponent implements OnInit {
       event_type: [liveStreamObj?.event_type || 'free', [Validators.required]],
       price_per_user: [liveStreamObj?.price_per_user || '', [Validators.required]],
     });
-    this.onEventTypeChange(liveStreamObj?.event_type || 'free');
+    setTimeout(() => {
+      this.onEventTypeChange(liveStreamObj?.event_type || 'free');
+    }, 0);
   }
 
 }

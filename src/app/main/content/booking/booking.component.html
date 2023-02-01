@@ -1,127 +1,88 @@
-<div class="wrapper min-h-full">
+<p-progressSpinner *ngIf="isLoading || isCategoryLoading" [style]="{width: '50px', height: '50px'}" animationDuration=".5s" strokeWidth="8" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-x-0 top-0 h-full w-full z-40" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
+
+<div class="wrapper min-h-full p-ngCss">
   <div class="space-y-8 h-full">
     <div class="flex flex-wrap justify-between items-center">
-      <div class="w-full lg:w-4/12">
+      <div class="w-full lg:w-auto py-3">
         <h2>Booking</h2>
       </div>
-      <div class="w-full lg:w-8/12 pt-5 lg:pt-0">
-        <div class="flex flex-wrap justify-between items-center -mx-3">
-          <div class="w-1/3 px-2 xl:px-3">
-            <label for="date" class="bg-white rounded-md flex space-x-3 w-full relative">
-              <i class="icon-calendar-2 text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0"></i>
-              <input type="date" id="date" class="w-full rounded-md outline-none py-4" />
+      <div class="w-full lg:w-auto pt-5 lg:pt-0">
+        <div class="flex flex-wrap justify-start xl:justify-end items-center -mx-3">
+          <div class="w-auto px-2 xl:px-3 inputHolder relative">
+            <span class="input-titel">Search</span>
+            <input id="search" (keyup)="search($event)" autocapitalize="off" autocorrect="off" class="input" spellcheck="off" type="text" />
+          </div>
+
+          <div class="min-w-[250px] w-[250px] px-2 xl:px-3 relative">
+            <span class="input-titel">Start And End Date</span>
+            <label for="date" class="bg-white rounded-md flex w-full relative">
+              <i class="icon-calendar text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0 z-10"></i>
+              <p-calendar class="w-full" styleClass="w-full rounded-md outline-none" [(ngModel)]="date" name="date" [showButtonBar]="true" selectionMode="range" [readonlyInput]="true" inputId="range" (onClose)="filterChange(true)"></p-calendar>
             </label>
           </div>
-          <div class="w-1/3 px-2 xl:px-3">
-            <label for="start-time" class="bg-white rounded-md flex space-x-3 w-full relative">
-              <i class="icon-time text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0"></i>
-              <input type="time" id="start-time" class="w-full rounded-md outline-none py-4" />
-            </label>
+          <div class="w-auto px-2 xl:px-3">
+            <div class="flex flex-wrap justify-between items-center">
+              <div class="min-w-[125px] w-[125px] pr-3 relative">
+                <span class="input-titel">Start Time</span>
+                <label for="start-time" class="bg-white rounded-md flex relative">
+                  <i class="icon-time text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0 z-10"></i>
+                  <p-calendar class="w-4/5" [(ngModel)]="startTime" name="start_time" [showTime]="true" [timeOnly]="true" inputId="start_time" (onBlur)="filterChange(false, true)"></p-calendar>
+                </label>
+              </div>
+              <div class="min-w-[125px] w-[125px] pl-3 relative">
+                <span class="input-titel">End Time</span>
+                <label for="end-time" class="bg-white rounded-md flex relative">
+                  <i class="icon-time text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0 z-10"></i>
+                  <p-calendar class="w-4/5" [(ngModel)]="endTime" name="end_time" [showTime]="true" [timeOnly]="true" inputId="end_time" (onBlur)="filterChange(false, true)"></p-calendar>
+                </label>
+              </div>
+            </div>
           </div>
-          <div class="w-1/3 px-2 xl:px-3">
-            <select name="All Category" class="arrow bg-white pl-5 pr-11 py-4 text-japaneseIndigo font-bold rounded-md tracking-wider appearance-none focus-visible:outline-none">
-              <option value="">Select Category</option>
-              <option value="">Event Category 2</option>
-              <option value="">Event Category 3</option>
-              <option value="">Event Category 4</option>
-            </select>
+          <div class="min-w-[225px] w-[225px] px-2 xl:px-3 relative">
+            <span class="input-titel">Categories</span>
+            <p-dropdown styleClass="w-full border-0 font-bold" panelStyleClass="p-0" [(ngModel)]="filterObj.category" [options]="categories" placeholder="All categories" optionLabel="categoryname" optionValue="_id" [showClear]="true" (onChange)="filterChange()"></p-dropdown>
+          </div>
+          <div class="min-w-[225px] w-[225px] px-2 xl:px-3 relative">
+            <span class="input-titel">Entity</span>
+            <p-dropdown styleClass="w-full border-0 font-bold" panelStyleClass="p-0" [(ngModel)]="filterObj.entity" [options]="constants.entities" placeholder="All Entities" optionLabel="entityname" optionValue="value" [showClear]="true" (onChange)="filterChange()"></p-dropdown>
           </div>
         </div>
       </div>
     </div>
     <div class="space-y-5">
-      <div class="w-full bg-white flex flex-wrap lg:flex-nowrap p-2.5 rounded-md">
+      <div class="w-full bg-white flex flex-wrap lg:flex-nowrap p-2.5 rounded-md" *ngFor="let booking of bookings">
         <div class="max-w-[170px] w-full h-[170px]">
-          <img src="../assets/images/sweet-love-catering.png" alt="sweet-love-catering-2" class="w-full h-full object-cover" />
+          <img [src]="!!(booking?.event_id?.banner) ? constants.baseImageURL + booking?.event_id?.banner : constants.defaultImage" [alt]="booking?.event_id?.name" class="w-full h-full object-cover" />
         </div>
-        <div class="w-full pt-3 lg:pt-0 px-3">
+        <div class="w-full pt-2 px-3">
           <div class="flex justify-between items-center pb-2">
-            <h5>Sweet Love Catering</h5>
-            <h5>250 INR</h5>
+            <h4 class="text-japaneseIndigo">{{booking?.event_id?.name}}</h4>
+            <h4>{{booking?.amount | number: '1.2-2'}} INR</h4>
           </div>
-          <div class="flex items-center space-x-2 pb-5 border-b">
-            <img src="../assets/images/profile-3.png" alt="user-3" class="w-9 h-9 object-cover" />
-            <p class="text-base text-quicksilver font-normal">Mobina Mirbagheri</p>
+          <div class="flex items-center justify-between space-x-2 pb-4 border-b">
+            <div class="flex items-center space-x-2">
+              <img [src]="!!(booking?.userid?.profilepic) ? constants.baseImageURL + booking?.userid?.profilepic : constants.defaultImage" [alt]="booking?.userid?.name" class="w-9 h-9 object-cover rounded-full" />
+              <p class="text-base text-quicksilver font-normal">{{booking?.userid?.name}}</p>
+            </div>
+            <div class="text-base text-japaneseIndigo flex items-center justify-end space-x-2 font-bold">
+              <span>#{{booking?.invoice_no}}</span>
+              <a [href]="constants.baseImageURL + booking?.invoice" target="_blank">
+                <span><i class="w-6 block text-center text-lg icon-download font-bold outline-none"></i></span>
+              </a>
+            </div>
           </div>
-          <div class="flex items-center pt-5 space-x-7">
+          <div class="flex items-center pt-4 space-x-7">
             <div>
-              <span class="text-xs text-quicksilver font-bold">
-                <i class="icon-calendar2 pr-2"></i>Date </span>
-              <p class="text-base">July 23, 2021</p>
+              <span class="text-xs lg:text-sm font-semibold text-quicksilver pt-3"><i class="icon-calendar pr-2"></i>Date </span>
+              <p class="text-japaneseIndigo text-xs lg:text-sm font-bold">{{booking?.startDate | date:'dd MMM, yyyy'}} - {{booking?.endDate | date:'dd MMM, yyyy'}}</p>
             </div>
             <div class="border-x px-7">
-              <span class="text-xs text-quicksilver font-bold">
-                <i class="icon-light-fill-time pr-2"></i>Time </span>
-              <p class="text-base">04:00PM</p>
+              <span class="text-xs lg:text-sm font-semibold text-quicksilver pt-3"><i class="icon-time pr-2"></i>Time </span>
+              <p class="text-japaneseIndigo text-xs lg:text-sm font-bold">{{'0' + ' ' + booking?.startTime | date : 'hh:mm a'}} - {{'0' + ' ' + booking?.endTime | date : 'hh:mm a'}}</p>
             </div>
             <div>
-              <span class="text-xs text-quicksilver font-bold">
-                <i class="icon-location pr-2"></i>Location </span>
-              <p class="text-base">Vesu, Surat</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="w-full bg-white flex flex-wrap lg:flex-nowrap p-2.5 rounded-md">
-        <div class="max-w-[170px] w-full h-[170px]">
-          <img src="../assets/images/sweet-love-catering.png" alt="sweet-love-catering-2" class="w-full h-full object-cover" />
-        </div>
-        <div class="w-full pt-3 lg:pt-0 px-3">
-          <div class="flex justify-between items-center pb-2">
-            <h5>Sweet Love Catering</h5>
-            <h5>250 INR</h5>
-          </div>
-          <div class="flex items-center space-x-2 pb-5 border-b">
-            <img src="../assets/images/profile-3.png" alt="user-3" class="w-9 h-9 object-cover" />
-            <p class="text-base text-quicksilver font-normal">Mobina Mirbagheri</p>
-          </div>
-          <div class="flex items-center pt-5 space-x-7">
-            <div>
-              <span class="text-xs text-quicksilver font-bold">
-                <i class="icon-calendar2 pr-2"></i>Date </span>
-              <p class="text-base">July 23, 2021</p>
-            </div>
-            <div class="border-x px-7">
-              <span class="text-xs text-quicksilver font-bold">
-                <i class="icon-light-fill-time pr-2"></i>Time </span>
-              <p class="text-base">04:00PM</p>
-            </div>
-            <div>
-              <span class="text-xs text-quicksilver font-bold">
-                <i class="icon-location pr-2"></i>Location </span>
-              <p class="text-base">Vesu, Surat</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="w-full bg-white flex flex-wrap lg:flex-nowrap p-2.5 rounded-md">
-        <div class="max-w-[170px] w-full h-[170px]">
-          <img src="../assets/images/sweet-love-catering.png" alt="sweet-love-catering-2" class="w-full h-full object-cover" />
-        </div>
-        <div class="w-full pt-3 lg:pt-0 px-3">
-          <div class="flex justify-between items-center pb-2">
-            <h5>Sweet Love Catering</h5>
-            <h5>250 INR</h5>
-          </div>
-          <div class="flex items-center space-x-2 pb-5 border-b">
-            <img src="../assets/images/profile-3.png" alt="user-3" class="w-9 h-9 object-cover" />
-            <p class="text-base text-quicksilver font-normal">Mobina Mirbagheri</p>
-          </div>
-          <div class="flex items-center pt-5 space-x-7">
-            <div>
-              <span class="text-xs text-quicksilver font-bold">
-                <i class="icon-calendar2 pr-2"></i>Date </span>
-              <p class="text-base">July 23, 2021</p>
-            </div>
-            <div class="border-x px-7">
-              <span class="text-xs text-quicksilver font-bold">
-                <i class="icon-light-fill-time pr-2"></i>Time </span>
-              <p class="text-base">04:00PM</p>
-            </div>
-            <div>
-              <span class="text-xs text-quicksilver font-bold">
-                <i class="icon-location pr-2"></i>Location </span>
-              <p class="text-base">Vesu, Surat</p>
+              <span class="text-xs lg:text-sm font-semibold text-quicksilver pt-3"><i class="icon-location-1 pr-2"></i>Location </span>
+              <p class="text-japaneseIndigo text-xs lg:text-sm font-bold">{{booking?.event_id?.event_location?.area_name}}, {{booking?.event_id?.event_location?.city}}</p>
             </div>
           </div>
         </div>
@@ -131,4 +92,6 @@
       <img src="/assets/images/banner-ads.png" alt="ring-ad" class="w-full object-cover" />
     </div>
   </div>
+
+  <p class="text-center text-xl" *ngIf="!bookings || !bookings?.length">No Booking Records Found.</p>
 </div>

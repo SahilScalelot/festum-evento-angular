@@ -6,6 +6,7 @@ import { CONSTANTS } from "../../../../common/constants";
 import { SnotifyService } from "ng-snotify";
 import { Router } from "@angular/router";
 import * as _ from "lodash";
+import { GlobalService } from 'src/app/services/global.service';
 
 @Component({
   selector: 'app-company-details',
@@ -28,6 +29,7 @@ export class CompanyDetailsComponent implements OnInit {
     private _sNotify: SnotifyService,
     private _globalFunctions: GlobalFunctions,
     private _createStreamService: CreateStreamService,
+    private _globalService: GlobalService
   ) { }
 
   ngOnInit(): void {
@@ -35,6 +37,14 @@ export class CompanyDetailsComponent implements OnInit {
     this.liveStreamId = localStorage.getItem('lsId');
     if (this.liveStreamId && this.liveStreamId != '') {
       this.getCompanyDetailsById(this.liveStreamId);
+    } else {
+      this._globalService.loginUser$.subscribe((user: any) => {
+        if (user) {
+          const businessProfile: any = this._globalFunctions.copyObject(user?.businessProfile || {});
+          businessProfile.contact_no = businessProfile?.mobile || '';
+          this.companyForm.patchValue(businessProfile);
+        }
+      });
     }
   }
 
