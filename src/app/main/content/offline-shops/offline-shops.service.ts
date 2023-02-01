@@ -76,4 +76,9 @@ export class OfflineShopsService {
   uploadImage(imageFormData: any): any {
     return this.http.post(environment.appURL + 'organizer/offlineoffer/image', imageFormData, this._globalFunctions.getFileAuthorizationHeader());
   }
+
+  // Export Attendees
+  exportAttendees(offerIdObj: any = {}): any {
+    return this.http.post(environment.appURL + 'organizer/offlineofferattendees/export', offerIdObj, this._globalFunctions.getAuthorizationHeader());
+  }
 }

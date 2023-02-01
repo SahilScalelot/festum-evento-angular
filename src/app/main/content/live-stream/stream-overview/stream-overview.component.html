@@ -29,6 +29,8 @@
       <button [class]="attendee ? 'active' : ''" (click)="onTabChange('attendee')" type="button" *ngIf="liveStreamObj?.attendee?.length">Attendee</button>
       <button [class]="reviews ? 'active' : ''" (click)="onTabChange('reviews')" type="button" *ngIf="liveStreamObj?.reviews?.length">Reviews</button>
       <button [class]="subscription ? 'active' : ''" (click)="onTabChange('subscription')" type="button" *ngIf="liveStreamObj?.subscription?.length">Subscription</button>
+
+      <a class="secondary px-5 py-2 flex items-end rounded-sm max-w-max ml-auto" href="javascript:void(0);" (click)="exportAttendees()" *ngIf="liveStreamObj?.reviews?.length && attendee">Export</a>
     </div>
     <!-- tab-contents-holder -->
     <div class="pt-3.5 lg:pt-7">
@@ -45,7 +47,6 @@
             </div>
             <!-- Rainy season sale -->
             <div class="space-y-2.5">
-              
               <!-- Photo-holder -->
               <div *ngIf="liveStreamObj.photos != ''" class="media-upload-holder">
                 <!-- media title  -->
@@ -80,63 +81,65 @@
                         <div class="opacity-0 bg-black bg-opacity-50 flex items-center justify-center group-hover:opacity-100 absolute inset-0 transition-all duration-300">
                           <i class="pi pi-eye text-2xl text-white"></i>
                         </div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <!-- Company Details -->
-            <div class="space-y-4" *ngIf="liveStreamObj?.companydetail?.about">
-              <h5>Company Details</h5>
-              <div class="p-7 bg-white rounded-md space-y-1">
-                <h3 class="text-lg">About Shop</h3>
-                <div [innerHtml]="liveStreamObj?.companydetail?.about"></div>
-                <!-- <p class="text-quicksilver text-sm font-normal">{{liveStreamObj?.companydetail?.about}}</p> -->
+
+              <!-- Company Details -->
+              <div class="space-y-4" *ngIf="liveStreamObj?.companydetail?.about">
+                <h5>Company Details</h5>
+                <div class="p-7 bg-white rounded-md space-y-1">
+                  <h3 class="text-lg">About Shop</h3>
+                  <div [innerHtml]="liveStreamObj?.companydetail?.about"></div>
+                  <!-- <p class="text-quicksilver text-sm font-normal">{{liveStreamObj?.companydetail?.about}}</p> -->
+                </div>
               </div>
-            </div>
-            <!-- Terms & Conditions -->
-            <div *ngIf="liveStreamObj?.tandc?.t_and_c != ''" class="space-y-4">
-              <h3 class="text-lg">Terms & Conditions</h3>
-              <div class="p-3.5 xl:p-5 bg-white rounded-md">
-                <div [innerHtml]="liveStreamObj?.tandc?.t_and_c"></div>
+              <!-- Terms & Conditions -->
+              <div *ngIf="liveStreamObj?.tandc?.t_and_c != ''" class="space-y-4">
+                <h3 class="text-lg">Terms & Conditions</h3>
+                <div class="p-3.5 xl:p-5 bg-white rounded-md">
+                  <div [innerHtml]="liveStreamObj?.tandc?.t_and_c"></div>
+                </div>
               </div>
-            </div>
-            <!-- Social-Media -->
-            <div class="w-full space-y-3"
-            *ngIf="liveStreamObj?.tandc?.facebook && liveStreamObj?.tandc?.facebook != '' ||
-                  liveStreamObj?.tandc?.twitter && liveStreamObj?.tandc?.twitter != '' ||
-                  liveStreamObj?.tandc?.youtube && liveStreamObj?.tandc?.youtube != '' ||
-                  liveStreamObj?.tandc?.pinterest && liveStreamObj?.tandc?.pinterest != '' ||
-                  liveStreamObj?.tandc?.instagram && liveStreamObj?.tandc?.instagram != '' ||
-                  liveStreamObj?.tandc?.linkedin && liveStreamObj?.tandc?.linkedin != ''"
-                  >
-              <span class="block text-base lg:text-xl font-bold">Social Media</span>
-              <div class="flex items-center space-x-5 p-5 lg:p-7 bg-white rounded-lg">
-                <a *ngIf="liveStreamObj?.tandc?.facebook != ''" [href]="liveStreamObj?.tandc?.facebook" target="_blank">
-                  <img class="w-10 h-10 object-cover" alt="facebook" src="../assets/images/facebook.png" />
-                </a>
-                <a *ngIf="liveStreamObj?.tandc?.twitter != ''" [href]="liveStreamObj?.tandc?.twitter" target="_blank">
-                  <img class="w-10 h-10 object-cover" alt="twiiter" src="../assets/images/twiiter.png" />
-                </a>
-                <a *ngIf="liveStreamObj?.tandc?.youtube != ''" [href]="liveStreamObj?.tandc?.youtube" target="_blank">
-                  <img class="w-10 h-10 object-cover" alt="youtube" src="../assets/images/youtube.png" />
-                </a>
-                <a *ngIf="liveStreamObj?.tandc?.pinterest != ''" [href]="liveStreamObj?.tandc?.pinterest" target="_blank">
-                  <img class="w-10 h-10 object-cover" alt="pinterest" src="../assets/images/pinterest.png" />
-                </a>
-                <a *ngIf="liveStreamObj?.tandc?.instagram != ''" [href]="liveStreamObj?.tandc?.instagram" target="_blank">
-                  <img class="w-10 h-10 object-cover" alt="instagram" src="../assets/images/instagram.png" />
-                </a>
-                <a *ngIf="liveStreamObj?.tandc?.linkedin != ''" [href]="liveStreamObj?.tandc?.linkedin" target="_blank">
-                  <img class="w-10 h-10 object-cover" alt="linkdin" src="../assets/images/linked.png" />
-                </a>
+              <!-- Social-Media -->
+              <div class="w-full space-y-3"
+              *ngIf="liveStreamObj?.tandc?.facebook && liveStreamObj?.tandc?.facebook != '' ||
+                    liveStreamObj?.tandc?.twitter && liveStreamObj?.tandc?.twitter != '' ||
+                    liveStreamObj?.tandc?.youtube && liveStreamObj?.tandc?.youtube != '' ||
+                    liveStreamObj?.tandc?.pinterest && liveStreamObj?.tandc?.pinterest != '' ||
+                    liveStreamObj?.tandc?.instagram && liveStreamObj?.tandc?.instagram != '' ||
+                    liveStreamObj?.tandc?.linkedin && liveStreamObj?.tandc?.linkedin != ''"
+                    >
+                <span class="block text-base lg:text-xl font-bold">Social Media</span>
+                <div class="flex items-center space-x-5 p-5 lg:p-7 bg-white rounded-lg">
+                  <a *ngIf="liveStreamObj?.tandc?.facebook != ''" [href]="liveStreamObj?.tandc?.facebook" target="_blank">
+                    <img class="w-10 h-10 object-cover" alt="facebook" src="../assets/images/facebook.png" />
+                  </a>
+                  <a *ngIf="liveStreamObj?.tandc?.twitter != ''" [href]="liveStreamObj?.tandc?.twitter" target="_blank">
+                    <img class="w-10 h-10 object-cover" alt="twiiter" src="../assets/images/twiiter.png" />
+                  </a>
+                  <a *ngIf="liveStreamObj?.tandc?.youtube != ''" [href]="liveStreamObj?.tandc?.youtube" target="_blank">
+                    <img class="w-10 h-10 object-cover" alt="youtube" src="../assets/images/youtube.png" />
+                  </a>
+                  <a *ngIf="liveStreamObj?.tandc?.pinterest != ''" [href]="liveStreamObj?.tandc?.pinterest" target="_blank">
+                    <img class="w-10 h-10 object-cover" alt="pinterest" src="../assets/images/pinterest.png" />
+                  </a>
+                  <a *ngIf="liveStreamObj?.tandc?.instagram != ''" [href]="liveStreamObj?.tandc?.instagram" target="_blank">
+                    <img class="w-10 h-10 object-cover" alt="instagram" src="../assets/images/instagram.png" />
+                  </a>
+                  <a *ngIf="liveStreamObj?.tandc?.linkedin != ''" [href]="liveStreamObj?.tandc?.linkedin" target="_blank">
+                    <img class="w-10 h-10 object-cover" alt="linkdin" src="../assets/images/linked.png" />
+                  </a>
+                </div>
               </div>
-            </div>
-            <!-- ad banner -->
-            <div class="w-full mt-5 addsBox">
-              <img src="/assets/images/banner-ads.png" alt="ring-ad" class="w-full object-cover" />
-            </div>
+              <!-- ad banner -->
+              <div class="w-full mt-5 addsBox">
+                <img src="/assets/images/banner-ads.png" alt="ring-ad" class="w-full object-cover" />
+              </div>
             <!-- ad banner end -->
+            </div>
           </div>
           <!-- Attendee-Teb-Content   -->
           <div class="w-full lg:w-8/12 lg:pr-5 space-y-7" *ngIf="attendee">

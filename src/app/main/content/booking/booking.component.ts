@@ -88,9 +88,19 @@ export class BookingComponent implements OnInit {
       }
     }
     if (isTime) {
+      this._sNotify.clear();
       this.filterObj.start_time = (this.startTime && this.startTime != '') ? this.prepareTime(this.startTime) : '';
       this.filterObj.end_time = (this.endTime && this.endTime != '') ? this.prepareTime(this.endTime) : '';
       if (this.tempFilterObj.start_time !== this.filterObj.start_time || this.tempFilterObj.end_time !== this.filterObj.end_time) {
+        if (this.filterObj.start_time && this.filterObj.start_time != '' && this.filterObj.end_time && this.filterObj.end_time != '') {
+          const startTime = moment(this.filterObj.start_time, 'hh:mm');
+          const endTime = moment(this.filterObj.end_time, 'hh:mm');
+          if (!startTime.isBefore(endTime) || startTime.isSame(endTime)) {
+            this._sNotify.error('Start time is must before End time Or Both time should not same', 'Oops');
+            return;
+          }
+        }
+
         this.getBookings();
       }
     }
