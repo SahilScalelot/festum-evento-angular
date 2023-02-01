@@ -19,6 +19,7 @@ export class BookingComponent implements OnInit {
   isLoading: boolean = false;
   isCategoryLoading: boolean = false;
   filterObj: any = {};
+  tempFilterObj: any = {};
   constants: any = CONSTANTS;
   date: any = [];
   startTime: any = '';
@@ -51,6 +52,7 @@ export class BookingComponent implements OnInit {
 
   getBookings(): void {
     this.isLoading = true;
+    this.tempFilterObj = this._globalFunctions.copyObject(this.filterObj);
     this._bookingService.getBookings(this.filterObj).subscribe((result: any) => {
       if (result && result.IsSuccess) {
         this.bookings = result.Data;
@@ -81,12 +83,16 @@ export class BookingComponent implements OnInit {
     if (isDate) {
       this.filterObj.start_date = (this.date && this.date[0] && this.date[0] != '') ? moment(this.date[0]).format('YYYY-MM-DD') : '';
       this.filterObj.end_date = (this.date && this.date[1] && this.date[1] != '') ? moment(this.date[1]).format('YYYY-MM-DD') : '';
-      this.getBookings();
+      if (this.tempFilterObj.start_date !== this.filterObj.start_date || this.tempFilterObj.end_date !== this.filterObj.end_date) {
+        this.getBookings();
+      }
     }
     if (isTime) {
       this.filterObj.start_time = (this.startTime && this.startTime != '') ? this.prepareTime(this.startTime) : '';
       this.filterObj.end_time = (this.endTime && this.endTime != '') ? this.prepareTime(this.endTime) : '';
-      this.getBookings();
+      if (this.tempFilterObj.start_time !== this.filterObj.start_time || this.tempFilterObj.end_time !== this.filterObj.end_time) {
+        this.getBookings();
+      }
     }
     if (!isDate && !isTime) {
       this.getBookings();
