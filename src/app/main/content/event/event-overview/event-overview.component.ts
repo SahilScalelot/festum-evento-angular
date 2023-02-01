@@ -117,11 +117,11 @@ export class EventOverviewComponent implements OnInit {
         this.attendees = result.Data.docs;
         this.isLoading = false;
       } else {
-        this._globalFunctions.successErrorHandling(result, this, true);
+        // this._globalFunctions.successErrorHandling(result, this, true);
         this.isLoading = false;
       }
     }, (error: any) => {
-      this._globalFunctions.errorHanding(error, this, true);
+      // this._globalFunctions.errorHanding(error, this, true);
       this.isLoading = false;
     });
   }

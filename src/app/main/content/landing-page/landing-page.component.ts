@@ -80,6 +80,8 @@ export class LandingPageComponent implements OnInit {
     this._queryForm();
     this.upcomingEvents = true;
     this.getUpcomingEvents();
+    this.getUpcomingOffers();
+    this.getUpcomingStreams();
   }
 
 
@@ -95,15 +97,15 @@ export class LandingPageComponent implements OnInit {
     if (!this.upcomingEvents && tabVarName == 'Events') {
       this.upcomingEvents = true;
       this.upcomingOffers = this.upcomingLiveStream = false;
-      this.getUpcomingEvents();
+      // this.getUpcomingEvents();
     } else if (!this.upcomingOffers && tabVarName == 'Offers') {
       this.upcomingOffers = true;
       this.upcomingEvents = this.upcomingLiveStream = false;
-      this.getUpcomingOffers();
+      // this.getUpcomingOffers();
     } else if (!this.upcomingLiveStream && tabVarName == 'LiveStream') {
       this.upcomingLiveStream = true;
       this.upcomingEvents = this.upcomingOffers = false;
-      this.getUpcomingStreams();
+      // this.getUpcomingStreams();
     }
   }
 
