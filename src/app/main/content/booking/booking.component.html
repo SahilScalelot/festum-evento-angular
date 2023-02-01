@@ -17,7 +17,7 @@
             <span class="input-titel">Start And End Date</span>
             <label for="date" class="bg-white rounded-md flex w-full relative">
               <i class="icon-calendar text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0 z-10"></i>
-              <p-calendar class="w-full" styleClass="w-full rounded-md outline-none" [(ngModel)]="date" name="date" selectionMode="range" [readonlyInput]="true" inputId="range" (onClose)="filterChange(true)"></p-calendar>
+              <p-calendar class="w-full" styleClass="w-full rounded-md outline-none" [(ngModel)]="date" name="date" [showButtonBar]="true" selectionMode="range" [readonlyInput]="true" inputId="range" (onClose)="filterChange(true)"></p-calendar>
             </label>
           </div>
           <div class="w-auto px-2 xl:px-3">
