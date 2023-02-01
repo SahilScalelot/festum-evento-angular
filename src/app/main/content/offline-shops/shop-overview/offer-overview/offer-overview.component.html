@@ -25,6 +25,8 @@
     <button [class]="overview ? 'active' : ''" (click)="onTabChange('overview')" type="button">Overview</button>
     <button [class]="attendee ? 'active' : ''" (click)="onTabChange('attendee')" type="button">Attendee</button>
     <button [class]="reviews ? 'active' : ''" (click)="onTabChange('reviews')" type="button">Reviews</button>
+
+    <a class="secondary px-5 py-2 flex items-end rounded-sm max-w-max ml-auto" href="javascript:void(0);" (click)="exportAttendees()" *ngIf="attendee">Export</a>
   </div>
   <!-- tab-contents-holder -->
   <div class="pt-3.5 lg:pt-7">

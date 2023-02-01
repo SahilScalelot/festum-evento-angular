@@ -13,6 +13,7 @@ export class StreamOverviewComponent implements OnInit {
   liveStreamObj: any = [];
   constants: any = CONSTANTS;
   isLoading: boolean = false;
+  isExportLoading: boolean = false;
   isOpenPopup: boolean = false;
   isImage: boolean = false;
   isSingleVideo: boolean = false;
@@ -68,6 +69,27 @@ export class StreamOverviewComponent implements OnInit {
     } else if (tabVarName == 'subscription') {
       this.subscription = true;
     }
+  }
+
+  exportAttendees(): void {
+    console.log('exportAttendees');
+    
+    // if (this.isExportLoading) {
+    //   return;
+    // }
+    // this.isExportLoading = true;
+    // this._liveStreamService.exportAttendees({livestreamid: this.liveStreamObj._id}).subscribe((result: any) => {
+    //   if (result && result.IsSuccess) {
+    //     window.open(result.Data, '_blank');
+    //     this.isExportLoading = false;
+    //   } else {
+    //     this._globalFunctions.successErrorHandling(result, this, true);
+    //     this.isExportLoading = false;
+    //   }
+    // }, (error: any) => {
+    //   this._globalFunctions.errorHanding(error, this, true);
+    //   this.isExportLoading = false;
+    // });
   }
 
   openImageAndVideoDialog(imagesOrVideosArr: Array<any>, isImage: boolean, companyIAndV: boolean, isSingleVideo: boolean = false): void {

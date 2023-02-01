@@ -18,6 +18,7 @@ export class OfferOverviewComponent implements OnInit {
   offerObj: any;
   shopId: any;
   offerId: any;
+  isExportLoading: boolean = false;
   overview: boolean = true;
   attendee: boolean = false;
   reviews: boolean = false;
@@ -128,6 +129,26 @@ export class OfferOverviewComponent implements OnInit {
     }
   }
 
+  exportAttendees(): void {
+    console.log('exportAttendees');
+    
+    // if (this.isExportLoading) {
+    //   return;
+    // }
+    // this.isExportLoading = true;
+    // this._offlineShopsService.exportAttendees({offerid: this.offerId}).subscribe((result: any) => {
+    //   if (result && result.IsSuccess) {
+    //     window.open(result.Data, '_blank');
+    //     this.isExportLoading = false;
+    //   } else {
+    //     this._globalFunctions.successErrorHandling(result, this, true);
+    //     this.isExportLoading = false;
+    //   }
+    // }, (error: any) => {
+    //   this._globalFunctions.errorHanding(error, this, true);
+    //   this.isExportLoading = false;
+    // });
+  }
   
   closeDeleteDialog(): void {
     this._modalService.close("delete-shop-offer-pop");

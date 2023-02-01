@@ -25,4 +25,10 @@ export class LiveStreamService {
     return this.http.post(environment.appURL + 'organizer/livestream/remove', {livestreamid: liveStreamId}, this._globalFunctions.getAuthorizationHeader());
   }
 
+  // Export Attendees
+  exportAttendees(liveStreamIdObj: any = {}): any {
+    return this.http.post(environment.appURL + 'organizer/livestreamattendees/export', liveStreamIdObj, this._globalFunctions.getAuthorizationHeader());
+  }
+
+
 }
