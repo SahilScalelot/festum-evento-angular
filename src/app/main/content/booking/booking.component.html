@@ -73,16 +73,20 @@
           </div>
           <div class="flex items-center pt-4 space-x-7">
             <div>
-              <span class="text-xs lg:text-sm font-semibold text-quicksilver pt-3"><i class="icon-calendar pr-2"></i>Date </span>
+              <span class="text-xs lg:text-sm font-semibold text-quicksilver pt-3"><i class="icon-calendar pr-2"></i>Event Date </span>
               <p class="text-japaneseIndigo text-xs lg:text-sm font-bold">{{booking?.startDate | date:'dd MMM, yyyy'}} - {{booking?.endDate | date:'dd MMM, yyyy'}}</p>
             </div>
             <div class="border-x px-7">
-              <span class="text-xs lg:text-sm font-semibold text-quicksilver pt-3"><i class="icon-time pr-2"></i>Time </span>
+              <span class="text-xs lg:text-sm font-semibold text-quicksilver pt-3"><i class="icon-time pr-2"></i>Event Time </span>
               <p class="text-japaneseIndigo text-xs lg:text-sm font-bold">{{'0' + ' ' + booking?.startTime | date : 'hh:mm a'}} - {{'0' + ' ' + booking?.endTime | date : 'hh:mm a'}}</p>
             </div>
             <div>
-              <span class="text-xs lg:text-sm font-semibold text-quicksilver pt-3"><i class="icon-location-1 pr-2"></i>Location </span>
+              <span class="text-xs lg:text-sm font-semibold text-quicksilver pt-3"><i class="icon-location-1 pr-2"></i>Event Location </span>
               <p class="text-japaneseIndigo text-xs lg:text-sm font-bold">{{booking?.event_id?.event_location?.area_name}}, {{booking?.event_id?.event_location?.city}}</p>
+            </div>
+            <div class="border-l pl-7">
+              <span class="text-xs lg:text-sm font-semibold text-quicksilver pt-3"><i class="icon-time pr-2"></i>Booking Time </span>
+              <p class="text-japaneseIndigo text-xs lg:text-sm font-bold">{{booking?.createdAt | date:'dd MMM, yyyy  hh:mm a'}}</p>
             </div>
           </div>
         </div>

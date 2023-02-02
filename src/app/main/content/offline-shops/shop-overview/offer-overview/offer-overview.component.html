@@ -81,8 +81,9 @@
                 </span>
               </div>
               <div class="space-y-5">
-                <div class="flex items-center justify-between" *ngFor="let product of offerObj?.all_product_conditions; let i = index">
-                  <p class="text-base font-bold text-japaneseIndigo">{{product?.person_limitation}}</p>
+                <div class="flex items-center justify-between space-x-3" *ngFor="let product of offerObj?.all_product_conditions; let i = index">
+                  <p class="text-base font-bold text-japaneseIndigo mr-auto" *ngIf="product?.description != ''">{{product?.description}}</p>
+                  <!-- <p class="text-base font-bold text-japaneseIndigo" *ngIf="product?.person_limitation != ''">{{product?.person_limitation}}</p> -->
                   <span class="bg-[#FFDBDF] border border-dashed border-magicPotion rounded-md py-2 px-6 text-sm font-bold text-magicPotion">{{product?.discount}}{{(product?.discount_type == 'percentage') ? '%' : '₹'}} Off</span>
                 </div>
               </div>

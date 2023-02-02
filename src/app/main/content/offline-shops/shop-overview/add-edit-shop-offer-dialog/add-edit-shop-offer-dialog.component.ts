@@ -206,6 +206,7 @@ export class AddEditShopOfferDialogComponent implements OnInit {
             this.allProductConditions.controls[key].controls[subKey].markAsDirty();
           });
         });
+        return false;
       } else if (isProductFormValidation) {
         Object.keys(this.offerTypeConditions.controls).forEach((key) => {
           Object.keys(this.offerTypeConditions.controls[key].controls).forEach((subKey) => {
@@ -213,8 +214,10 @@ export class AddEditShopOfferDialogComponent implements OnInit {
             this.offerTypeConditions.controls[key].controls[subKey].markAsDirty();
           });
         });
+        return false;
+      } else if (!this.offerTypeConditions.invalid) { 
+        return false;
       }
-      return false;
     }
     return true;
   }
@@ -230,7 +233,9 @@ export class AddEditShopOfferDialogComponent implements OnInit {
       this.isTAndC = true;
       this.isAddUserWiseOffers = false;
     } else {
-      this.addProductOffer({}, this.offerType.value);
+      if (!this.offerObj || !this.offerObj.offer_type_conditions || !this.offerObj.offer_type_conditions.length) { 
+        this.addProductOffer({}, this.offerType.value);
+      }
       this.isTAndC = false;
       this.isAddUserWiseOffers = true;
     }
@@ -400,6 +405,7 @@ export class AddEditShopOfferDialogComponent implements OnInit {
     if (this.allProductConditions.length < CONSTANTS.maxOfferOnAllProductsLimit) {
       const productLimitation: any = this._formBuilder.group({
         person_limitation: [productLimitationObj?.person_limitation || '', [Validators.required]],
+        description: [productLimitationObj?.description || '', [Validators.required]],
         discount: [productLimitationObj?.discount || '', [Validators.required]],
         discount_type: [productLimitationObj?.discount_type || CONSTANTS.discountTypeArr[CONSTANTS.discountTypeObj.percentage].value, [Validators.required]]
       });
@@ -423,7 +429,7 @@ export class AddEditShopOfferDialogComponent implements OnInit {
     const isLimitedPersons: boolean = (personType == CONSTANTS.offerTypeArr[CONSTANTS.offerTypeObj.limited].value);
     const productOffer: any = this._formBuilder.group({
       url: [productOfferObj?.url || '', [Validators.required]],
-      product_name: [productOfferObj?.person_name || '', [Validators.required]],
+      product_name: [productOfferObj?.product_name || '', [Validators.required]],
       discount: [productOfferObj?.discount || '', [Validators.required]],
       discount_type: [productOfferObj?.discount_type || CONSTANTS.discountTypeArr[CONSTANTS.discountTypeObj.percentage].value, [Validators.required]]
     });
@@ -450,7 +456,7 @@ export class AddEditShopOfferDialogComponent implements OnInit {
       poster: [offerObj?.poster || '', [Validators.required]],
       video: [offerObj?.video || ''],
       description: [offerObj?.description || '', [Validators.required]],
-      status: [false],
+      status: [offerObj?.status || false],
       offer_on_all_products: [(offerObj.offer_on_all_products) ? [offerObj.offer_on_all_products.toString()] : ''],
       all_product_images: [(offerObj.all_product_images && offerObj.all_product_images.length) ? offerObj.all_product_images : []],
       all_product_conditions: this._formBuilder.array([]),

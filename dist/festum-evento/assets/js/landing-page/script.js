@@ -82,6 +82,76 @@ var swiper = new Swiper(".mySwiper", {
     },
     autoplay: {delay: 2500, disableOnInteraction: false},
 });
+// swiper-slider
+var swiper = new Swiper("#upcomingEvents", {
+    slidesPerView: 1,
+    spaceBetween: 10,
+    loop: true,
+    navigation: {
+        nextEl: ".swiper-button-next upcomingEventsN",
+        prevEl: ".swiper-button-prev upcomingEventsP",
+        clickable: true,
+    },
+    breakpoints: {
+        640: {
+            slidesPerView: 1,
+        },
+        768: {
+            slidesPerView: 2,
+        },
+        1024: {
+            slidesPerView: 3,
+        },
+    },
+    autoplay: {delay: 2500, disableOnInteraction: false},
+});
+// swiper-slider
+var swiper = new Swiper("#upcomingOffers", {
+    slidesPerView: 1,
+    spaceBetween: 10,
+    loop: true,
+    navigation: {
+        nextEl: ".swiper-button-next upcomingOffersN",
+        prevEl: ".swiper-button-prev upcomingOffersP",
+        clickable: true,
+    },
+    breakpoints: {
+        640: {
+            slidesPerView: 1,
+        },
+        768: {
+            slidesPerView: 2,
+        },
+        1024: {
+            slidesPerView: 3,
+        },
+    },
+    autoplay: {delay: 2500, disableOnInteraction: false},
+});
+// swiper-slider
+var swiper = new Swiper("#upcomingLiveStream", {
+    slidesPerView: 1,
+    spaceBetween: 10,
+    loop: true,
+    navigation: {
+        nextEl: ".swiper-button-next upcomingLiveStreamN",
+        prevEl: ".swiper-button-prev upcomingLiveStreamP",
+        clickable: true,
+    },
+    breakpoints: {
+        640: {
+            slidesPerView: 1,
+        },
+        768: {
+            slidesPerView: 2,
+        },
+        1024: {
+            slidesPerView: 3,
+        },
+    },
+    autoplay: {delay: 2500, disableOnInteraction: false},
+});
+
 $(document).ready(function () {
 
     $('.u-tabs li').click(function () {
@@ -121,4 +191,3 @@ var swiper = new Swiper(".mySwiper.responsive", {
     },
     autoplay: {delay: 2500, disableOnInteraction: false},
 });
-

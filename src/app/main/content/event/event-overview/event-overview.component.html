@@ -38,10 +38,10 @@
     <!-- tab-holder  -->
     <div class="teb-holder">
       <button [class]="overview ? 'active' : ''" (click)="onTabChange('overview')" type="button">Overview</button>
-      <button [class]="attendee ? 'active' : ''" (click)="onTabChange('attendee')" type="button" *ngIf="!!(event?.accept_booking) && event?.is_live">Attendee</button>
+      <button [class]="attendee ? 'active' : ''" (click)="onTabChange('attendee')" type="button" *ngIf="!!(event?.accept_booking) && event?.is_live && attendees && attendees.length">Attendee</button>
       <button [class]="reviews ? 'active' : ''" (click)="onTabChange('reviews')" type="button" *ngIf="event?.reviews?.length">Reviews</button>
 
-      <a class="secondary px-5 py-2 flex items-end rounded-sm max-w-max ml-auto" href="javascript:void(0);" (click)="exportAttendees()" *ngIf="!!(event?.accept_booking) && event?.is_live && attendee">Export</a>
+      <a class="secondary px-5 py-2 flex items-end rounded-sm max-w-max ml-auto" href="javascript:void(0);" (click)="exportAttendees()" *ngIf="!!(event?.accept_booking) && event?.is_live && attendee && attendees && attendees.length">Export</a>
     </div>
     <!-- tab-contents-holder -->
     <div class="pt-7 lg:pt-10">
@@ -295,7 +295,7 @@
             </div>
           </div>
           <!-- Attendee left-bar -->
-          <div class="accordions w-full lg:w-8/12 space-y-2.5" *ngIf="attendees && attendees.length">
+          <div class="accordions w-full lg:w-8/12 space-y-2.5" *ngIf="attendee && attendees && attendees.length">
             <div *ngFor="let attendee of attendees;let i = index;" class="accordion_item p-0 cursor-pointer relative">
               <div #accordionClick (click)="toggleAccordion($event, i)" class="title_tab bg-white px-5 py-2.5 flex justify-between items-center rounded-md accordion">
                 <div class="space-y-2">
@@ -303,7 +303,7 @@
                     <h3 class="text-base">{{attendee?.userid?.name}}</h3>
                     <span class="input-titel font-bold text-caribbeanGreen pb-0" *ngIf="attendee && attendee.invoice_no">#{{attendee.invoice_no}}</span>
                   </div>
-                  <p class="text-quicksilver text-xs font-bold flex items-center" *ngIf="attendee && attendee.createdAt">{{event?.createdAt | date:'dd MMM, yyyy'}}</p>
+                  <p class="text-quicksilver text-xs font-bold flex items-center" *ngIf="attendee && attendee.createdAt">{{attendee?.createdAt | date:'dd MMM, yyyy  hh:mm a'}}</p>
                 </div>
                 <div class="space-y-1">
                   <h3 class="text-lg" *ngIf="attendee && attendee.amount">${{attendee.amount | number: '1.2-2'}}</h3>

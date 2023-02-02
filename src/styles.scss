@@ -7,6 +7,8 @@
 @import "~swiper/css/pagination";
 @import "~swiper/css/navigation";
 
+html, body {scroll-behavior: smooth;}
+
 * {@apply font-primary}
 
 body{@apply font-primary text-japaneseIndigo bg-brightGray m-0 capitalize;}

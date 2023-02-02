@@ -74,7 +74,11 @@
                   <div class="w-full lg:pl-5 pt-4 lg:pt-0 space-y-2">
                     <div class="flex items-start justify-between">
                       <div><h4 class="text-japaneseIndigo">{{offer?.offer_title}}</h4></div>
-                      <div><h5 class="text-magicPotion flex justify-end">30% Off</h5></div>
+                      <div>
+                        <h5 class="text-magicPotion flex justify-end">   
+                          {{!!(offer?.maxDiscountObj) ? (offer.maxDiscountObj?.discount) : ''}}{{!!(offer?.maxDiscountObj && offer.maxDiscountObj?.discount_type == 'percentage') ? '%' : '₹'}} Off
+                        </h5>
+                      </div>
                     </div>
                     <div class="flex items-end justify-between">
                       <div class="space-y-2 xl:space-y-3">

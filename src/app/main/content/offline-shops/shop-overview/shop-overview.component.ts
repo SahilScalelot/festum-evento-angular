@@ -5,6 +5,7 @@ import { ModalService } from 'src/app/main/_modal';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OfflineShopsService } from '../offline-shops.service';
 import { SnotifyService } from 'ng-snotify';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-shop-overview',
@@ -51,10 +52,12 @@ export class ShopOverviewComponent implements OnInit {
     private _sNotify: SnotifyService,
   ) { }
 
+
+  testDesc: any;
+
   ngOnInit(): void {
     this.shopId = this._activatedRoute.snapshot.paramMap.get('shopId');
     this.offerId = this._activatedRoute.snapshot.paramMap.get('offerId');
-
     this.getShop();
   }
 
@@ -91,6 +94,22 @@ export class ShopOverviewComponent implements OnInit {
       if (result && result.IsSuccess) {
         this.paging = result.Data;
         this.shopOffer = result.Data.docs;
+
+        _.each(this.shopOffer, (shopOffer: any) => {
+          const offers = (shopOffer && shopOffer.all_product_conditions && shopOffer.all_product_conditions.length) ? shopOffer.all_product_conditions : shopOffer.offer_type_conditions || [];
+          const maxPercentageOfferObj: any = _.maxBy(offers, (offerObj: any) => {
+            if (offerObj.discount_type == 'percentage') {
+              return offerObj.discount; 
+            }
+          });
+          const maxRupeeOfferObj: any = _.maxBy(offers, (offerObj: any) => {
+            if (offerObj.discount_type == 'rupee') {
+              return offerObj.discount;
+            }
+          });
+          shopOffer.maxDiscountObj = (maxPercentageOfferObj && maxPercentageOfferObj.discount) ? maxPercentageOfferObj : maxRupeeOfferObj || {};
+        });
+        
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
       }

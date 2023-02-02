@@ -50,6 +50,7 @@ export class EventOverviewComponent implements OnInit {
     this._eventService.getSingleEvents(eventId).subscribe((result: any) => {
       this.event = result.Data;
       setTimeout(() => {
+        this.getAttendees();
         this._globalFunctions.loadAccordion();
         // this._globalFunctions.loadTabsJs();
         $('#rateYo').rateYo({
@@ -91,14 +92,10 @@ export class EventOverviewComponent implements OnInit {
   }
 
   onTabChange(tabVarName: any): void {
-    const tmpAttendee = this._globalFunctions.copyObject(this.attendee);
     this.overview = this.attendee = this.reviews = false;
     if (tabVarName == 'overview') {
       this.overview = true;
     } else if (tabVarName == 'attendee') {
-      if (!tmpAttendee) {
-        this.getAttendees();
-      }
       this.attendee = true;
     } else if (tabVarName == 'reviews') {
       this.reviews = true;
@@ -106,7 +103,7 @@ export class EventOverviewComponent implements OnInit {
   }
 
   getAttendees(): void {
-    this.isLoading = true;
+    // this.isLoading = true;
     const filterObj: any = {
       eventid: this.event._id,
       page: 1,
@@ -115,14 +112,14 @@ export class EventOverviewComponent implements OnInit {
     this._eventService.getAttendeesByEventId(filterObj).subscribe((result: any) => {
       if (result && result.IsSuccess) {
         this.attendees = result.Data.docs;
-        this.isLoading = false;
+        // this.isLoading = false;
       } else {
         // this._globalFunctions.successErrorHandling(result, this, true);
-        this.isLoading = false;
+        // this.isLoading = false;
       }
     }, (error: any) => {
       // this._globalFunctions.errorHanding(error, this, true);
-      this.isLoading = false;
+      // this.isLoading = false;
     });
   }
 
