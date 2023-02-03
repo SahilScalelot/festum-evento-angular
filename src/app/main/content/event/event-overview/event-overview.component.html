@@ -30,7 +30,7 @@
           <input type="checkbox" class="switch mr-1.5 lg:mx-3 order-2" (click)="liveEvent($event, event)" [checked]="event?.is_live" [disabled]="!event.is_approved"/>
           <span class="text-base font-bold anim order-3">Live</span>
           </label>
-          <span class="px-3 py-1 rounded-sm text-xs text-white font-bold bg-magicPotion">{{event?.event_category?.categoryname}}</span>
+          <span class="px-3 py-1 rounded-sm text-xs text-white font-bold bg-magicPotion">{{(event?.event_category?.categoryname) ? event?.event_category?.categoryname : event?.other }}</span>
           <span class="px-3 py-1 rounded-sm text-xs text-white font-bold bg-japaneseIndigo">{{constants?.eventTypeArr[constants?.eventTypeObj[event?.event_type]]?.displayLabel}}</span>
         </div>
       </div>

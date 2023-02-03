@@ -422,8 +422,10 @@ export class AddEditShopDialogComponent implements OnInit {
 
   prepareShopObj(shopObj: any): any {
     const preparedShopObj: any = this._globalFunctions.copyObject(shopObj);
-    preparedShopObj.start_date = moment(shopObj.start_date).format('YYYY-MM-DD');
-    preparedShopObj.end_date = moment(shopObj.end_date).format('YYYY-MM-DD');
+    // preparedShopObj.start_date = moment(shopObj.start_date).format('YYYY-MM-DD');
+    // preparedShopObj.end_date = moment(shopObj.end_date).format('YYYY-MM-DD');
+    preparedShopObj.shop_open_time = this.prepareTime(shopObj.shop_open_time);
+    preparedShopObj.shop_close_time = this.prepareTime(shopObj.shop_close_time);
     preparedShopObj.longitude = this.lng;
     preparedShopObj.latitude = this.lat;
     preparedShopObj.gst_file = this.gstPdf;
@@ -444,8 +446,12 @@ export class AddEditShopDialogComponent implements OnInit {
     }
     this.isLoading = true;
     const preparedShopObj: any = this.prepareShopObj(this.addShopForm.value);
+    console.log(preparedShopObj);
+    
     this._offlineShopsService.addEditOfflineShop(preparedShopObj).subscribe((result: any) => {
       if (result && result.IsSuccess) {
+        console.log(result);
+        
         this.closeAddEditShopDialog(true);
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
@@ -480,8 +486,10 @@ export class AddEditShopDialogComponent implements OnInit {
       shop_name: [addShopObj?.shop_name || '', [Validators.required]],
       shop_category: [(addShopObj.shop_category && addShopObj.shop_category._id) ? addShopObj.shop_category._id : '', [Validators.required]],
       shop_days: this._formBuilder.array((addShopObj.shop_days && addShopObj.shop_days.length) ? addShopObj.shop_days : [], [Validators.required]),
-      start_date: [(addShopObj.start_date) ? new Date(addShopObj.start_date) : '', [Validators.required]],
-      end_date: [(addShopObj.end_date) ? new Date(addShopObj.end_date) : '', [Validators.required]],
+      start_date: [(addShopObj.start_date) ? new Date(addShopObj.start_date) : ''],
+      end_date: [(addShopObj.end_date) ? new Date(addShopObj.end_date) : ''],
+      shop_open_time: [addShopObj?.shop_open_time, [Validators.required]],
+      shop_close_time: [addShopObj?.shop_close_time, [Validators.required]],
       about_shop: [addShopObj?.about_shop || ''],
       flat_no: [addShopObj?.flat_no || ''],
       street_name: [addShopObj?.street_name || ''],
@@ -505,6 +513,14 @@ export class AddEditShopDialogComponent implements OnInit {
         return dayObj;
       });
     }
+  }
+
+  prepareTime(dateWithTime: any): any {
+    const date: any = new Date(dateWithTime);
+    if (date != 'Invalid Date') {
+      return moment(dateWithTime).format('HH') + ':' + moment(dateWithTime).format('mm');
+    }
+    return dateWithTime;
   }
 
   markers: marker = {

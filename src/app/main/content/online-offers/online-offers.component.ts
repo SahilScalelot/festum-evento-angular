@@ -74,6 +74,10 @@ export class OnlineOffersComponent implements OnInit {
     });
   }
 
+  stopPropagation(event: any): void {
+    event.stopPropagation();
+  }
+
   editOffer(event: any, offerId: any): void {
     event.stopPropagation();
     localStorage.setItem('oOId', offerId);

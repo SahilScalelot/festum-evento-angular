@@ -57,7 +57,7 @@
                 <span class="text-quicksilver text-xs font-bold pl-2"> {{shopOffer?.totalreviews}} ratings</span>
               </div>
               <div class="flex items-center space-x-2.5 ">
-                <a [href]="platform?.product_link" *ngFor="let platform of shopOffer?.product_links" target="_blank"><img [src]="constants?.baseImageURL + platform?.platform?.platformimage" [alt]="platform?.platform?.name" class="w-7 h-7 object-contain" /></a>
+                <a [href]="platform?.product_link" *ngFor="let platform of shopOffer?.product_links" (click)="stopPropagation($event)" target="_blank"><img [src]="constants?.baseImageURL + platform?.platform?.platformimage" [alt]="platform?.platform?.name" class="w-7 h-7 object-contain" /></a>
               </div>
             </div>
             <div class="flex space-x-2">

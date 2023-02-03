@@ -206,7 +206,6 @@ export class AddEditShopOfferDialogComponent implements OnInit {
             this.allProductConditions.controls[key].controls[subKey].markAsDirty();
           });
         });
-        return false;
       } else if (isProductFormValidation) {
         Object.keys(this.offerTypeConditions.controls).forEach((key) => {
           Object.keys(this.offerTypeConditions.controls[key].controls).forEach((subKey) => {
@@ -214,10 +213,8 @@ export class AddEditShopOfferDialogComponent implements OnInit {
             this.offerTypeConditions.controls[key].controls[subKey].markAsDirty();
           });
         });
-        return false;
-      } else if (!this.offerTypeConditions.invalid) { 
-        return false;
       }
+      return false;
     }
     return true;
   }
