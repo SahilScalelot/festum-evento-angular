@@ -50,7 +50,9 @@ export class EventOverviewComponent implements OnInit {
     this._eventService.getSingleEvents(eventId).subscribe((result: any) => {
       this.event = result.Data;
       setTimeout(() => {
-        this.getAttendees();
+        if (this.event?.accept_booking && this.event?.is_live) {
+          this.getAttendees();
+        }
         this._globalFunctions.loadAccordion();
         // this._globalFunctions.loadTabsJs();
         $('#rateYo').rateYo({

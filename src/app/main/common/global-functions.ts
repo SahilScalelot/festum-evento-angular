@@ -146,7 +146,8 @@ export class GlobalFunctions {
 
   loadAccordion(): void {
     if ($('.title_tab')) {
-      $('.title_tab.active').next('.inner_content').slideDown();
+      $('.inner_content').slideUp();
+      $('.title_tab.active').next().slideDown();
       $('.title_tab').on('click', (e: any) => {
         if (e && e.target) {
           e.preventDefault();
