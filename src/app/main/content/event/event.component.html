@@ -23,9 +23,9 @@
                 <img [src]="!!(event?.banner) ? constants.baseImageURL + event.banner : constants.defaultImage" alt="{{event?.name}}" class="w-full h-full object-cover"/>
                 <span class="text-base text-white font-bold px-2 py-1 absolute top-2 left-0 bg-magicPotion uppercase">{{constants?.eventTypeArr[constants?.eventTypeObj[event?.event_type]]?.displayLabel}}</span>
               </div>
-              <div class="w-full pt-5 xl:pt-0 lg:max-w-[calc(100%-300px)]">
+              <div class="w-full pt-5 xl:pt-0 xl:max-w-[calc(100%-300px)]">
                 <div class="flex flex-wrap justify-between border-b-2 pb-4">
-                  <div class="w-full lg:w-auto max-w-[calc(100%-120px)]">
+                  <div class="w-auto max-w-[calc(100%-120px)]">
                     <div class="flex items-center space-x-2 lg:space-x-4">
                       <h4 class="text-japaneseIndigo text-ellipsis whitespace-nowrap overflow-hidden" [title]="event?.name">{{event?.name}}</h4>
                       <span class="text-xs text-white font-bold px-3 rounded-xl py-1 whitespace-nowrap" [ngClass]="!!(event?.is_approved) ? 'bg-caribbeanGreen' : 'bg-magicPotion'">{{!!(event?.is_approved) ? 'Verified' : 'Unverified'}}</span>
@@ -46,7 +46,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="text-left pt-5 w-full flex justify-between lg:inline-block lg:w-auto lg:pt-0 lg:text-right space-y-3 lg:space-y-5">
+                  <div class="text-left pt-5 lg:pt-0 w-auto flex justify-between lg:inline-block lg:text-right space-y-3 lg:space-y-5">
                     <label class="flex items-center relative" (click)="liveEventCheck($event, event, i)">
                       <span class="absolute opacity-0 inset-y-0 left-3 right-10 block z-10" *ngIf="!event.is_approved"></span>
                       <input type="checkbox" class="switch mr-1.5 lg:mx-3 order-2" (click)="liveEvent($event, event, i)" [checked]="event?.is_live" [disabled]="!event.is_approved"/>
