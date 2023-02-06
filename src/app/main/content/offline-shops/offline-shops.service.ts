@@ -84,6 +84,6 @@ export class OfflineShopsService {
 
   // Export Attendees
   exportAttendees(offerIdObj: any = {}): any {
-    return this.http.post(environment.appURL + 'organizer/offlineofferattendees/export', offerIdObj, this._globalFunctions.getAuthorizationHeader());
+    return this.http.post(environment.appURL + 'organizer/offlineoffer/exportattendees', offerIdObj, this._globalFunctions.getAuthorizationHeader());
   }
 }

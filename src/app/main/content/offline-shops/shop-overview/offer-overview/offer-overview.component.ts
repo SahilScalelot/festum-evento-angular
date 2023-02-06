@@ -156,24 +156,27 @@ export class OfferOverviewComponent implements OnInit {
   }
 
   exportAttendees(): void {
-    console.log('exportAttendees');
+    if (this.isExportLoading) {
+      return;
+    }
+    this.isExportLoading = true;
     
-    // if (this.isExportLoading) {
-    //   return;
-    // }
-    // this.isExportLoading = true;
-    // this._offlineShopsService.exportAttendees({offerid: this.offerId}).subscribe((result: any) => {
-    //   if (result && result.IsSuccess) {
-    //     window.open(result.Data, '_blank');
-    //     this.isExportLoading = false;
-    //   } else {
-    //     this._globalFunctions.successErrorHandling(result, this, true);
-    //     this.isExportLoading = false;
-    //   }
-    // }, (error: any) => {
-    //   this._globalFunctions.errorHanding(error, this, true);
-    //   this.isExportLoading = false;
-    // });
+    const ids: any = {
+      shopid: this.shopId,
+      offlineofferid: this.offerId,
+    }
+    this._offlineShopsService.exportAttendees(ids).subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        window.open(result.Data, '_blank');
+        this.isExportLoading = false;
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+        this.isExportLoading = false;
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isExportLoading = false;
+    });
   }
   
   closeDeleteDialog(): void {
