@@ -87,11 +87,11 @@
                           <p class="text-sm font-bold text-japaneseIndigo">{{offer?.start_date | date: 'dd MMM, yyyy'}} - {{offer?.end_date | date: 'dd MMM, yyyy'}}</p>
                         </div>
                         <div class="flex items-center space-x-2.5">
-                          <span class="text-xs font-bold text-quicksilver">150 Sold</span>
+                          <span class="text-xs font-bold text-quicksilver">{{offer?.noofbooked}} Sold</span>
                           <div class="w-[70px] bg-[#D6D7DC] rounded-full h-2">
                             <div class="bg-magicPotion h-2 rounded-full" style="width: 50%"></div>
                           </div>
-                          <span class="text-xs font-bold text-quicksilver">Unlimiterd</span>
+                          <span class="text-xs font-bold text-quicksilver">{{offer?.noofunbooked}}</span>
                         </div>
                       </div>
                       <div>
@@ -179,7 +179,7 @@
                 <span class="text-quicksilver text-xs font-bold"><i class="icon-calendar mr-2"></i> Date</span>
                 <p class="text-sm font-bold text-japaneseIndigo">{{shopObj?.start_date | date: 'dd MMM, yyyy'}} - {{shopObj?.end_date | date: 'dd MMM, yyyy'}}</p>
               </div> -->
-              <div>
+              <div *ngIf="shopObj?.shop_open_time">
                 <span class="text-quicksilver text-xs font-bold"><i class="icon-time mr-2"></i> Shop Open Time</span>
                 <p class="text-sm font-bold text-japaneseIndigo">{{"0" + " " + shopObj?.shop_open_time | date:'shortTime'}} - {{"0" + " " + shopObj?.shop_close_time | date:'shortTime'}}</p>
               </div>
@@ -192,7 +192,7 @@
         <div *ngFor="let reviews of shopObj?.reviews" class="w-full space-y-2">
           <div class="bg-white rounded-lg p-7 lg:flex">
             <div>
-              <div class="w-20 h-20">
+              <div class="w-20 h-20 rounded-full overflow-hidden">
                 <img alt="cutting-board" class="w-full h-full object-cover" [src]="!!(reviews?.userid?.profilepic) ? constants.baseImageURL + reviews?.userid?.profilepic : constants.userDefaultImage"/>
               </div>
             </div>
@@ -207,7 +207,7 @@
             </div>
             <div>
               <div class="w-36">
-                <img [src]="!!(reviews?.offer?.poster) ? constants.baseImageURL + reviews?.offer.poster : constants.defaultImage" [alt]="reviews?.offer?.offer_title" />
+                <img [src]="!!(reviews?.offerid?.poster) ? constants.baseImageURL + reviews?.offerid.poster : constants.defaultImage" [alt]="reviews?.offer?.offer_title" />
               </div>
             </div>
           </div>

@@ -53,6 +53,11 @@ export class OfflineShopsService {
     return this.http.post(environment.appURL + 'organizer/offlineoffer/getone', offerObj, this._globalFunctions.getFileAuthorizationHeader());
   }
 
+  // Offline Shop Offer Attendees
+  getAttendeesByEventId(offerObj: any): any {
+    return this.http.post(environment.appURL + 'organizer/offlineoffer/attendees', offerObj, this._globalFunctions.getFileAuthorizationHeader());
+  }
+
   // Save Offline Offer
   saveOfflineOffer(shopObj: any): any {
     return this.http.post(environment.appURL + 'organizer/offlineoffer/save', shopObj, this._globalFunctions.getAuthorizationHeader());

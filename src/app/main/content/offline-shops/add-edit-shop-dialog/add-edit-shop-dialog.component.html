@@ -85,7 +85,7 @@
             <div class="w-full lg:w-1/2 relative">
               <span class="input-titel">Shop Open Time <span>*</span></span>
               <label class="bg-white rounded-md flex space-x-3 relative">
-                <i class="icon-calendar-2 text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0"></i>
+                <i class="icon-time text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0"></i>
                 <p-calendar class="w-full" [formControlName]="'shop_open_time'" [touchUI]="true" [showTime]="true" [timeOnly]="true" name="shop_open_time" inputId="shop_open_time"></p-calendar>
               </label>
               <span class="absolute top-full text-red-500 text-xs" *ngIf="addShopForm.get('shop_open_time')?.invalid && (addShopForm.get('shop_open_time')?.dirty && addShopForm.get('shop_open_time')?.touched)">
@@ -97,7 +97,7 @@
             <div class="w-full lg:w-1/2 relative">
               <span class="input-titel">Shop Close Time <span>*</span></span>
               <label class="bg-white rounded-md flex space-x-3 relative">
-                <i class="icon-calendar-2 text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0"></i>
+                <i class="icon-time text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0"></i>
                 <p-calendar class="w-full" [formControlName]="'shop_close_time'" [touchUI]="true" [showTime]="true" [timeOnly]="true" name="shop_close_time" inputId="shop_close_time"></p-calendar>
               </label>
               <span class="absolute top-full text-red-500 text-xs" *ngIf="addShopForm.get('shop_close_time')?.invalid && (addShopForm.get('shop_close_time')?.dirty && addShopForm.get('shop_close_time')?.touched)">

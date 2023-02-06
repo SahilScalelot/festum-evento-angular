@@ -18,6 +18,7 @@ export class OfferOverviewComponent implements OnInit {
   offerObj: any;
   shopId: any;
   offerId: any;
+  attendees: any;
   isExportLoading: boolean = false;
   overview: boolean = true;
   attendee: boolean = false;
@@ -64,11 +65,36 @@ export class OfferOverviewComponent implements OnInit {
     this._offlineShopsService.getOfflineOffer(offerObj).subscribe((result: any) => {
       if (result && result.IsSuccess) {
         this.offerObj = result.Data;
+        setTimeout(() => {
+          this.getAttendees();
+        }, 0);
       }
       this.isLoading = false;
     }, (error: any) => {
       this._globalFunctions.errorHanding(error, this, true);
       this.isLoading = false;
+    });
+  }
+
+  getAttendees(): void {
+    // this.isLoading = true;
+    const filterObj: any = {
+      shopid: this.shopId,
+      offlineofferid: this.offerId,
+      page: 1,
+      limit: 10
+    }
+    this._offlineShopsService.getAttendeesByEventId(filterObj).subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        this.attendees = result.Data.docs;
+        // this.isLoading = false;
+      } else {
+        // this._globalFunctions.successErrorHandling(result, this, true);
+        // this.isLoading = false;
+      }
+    }, (error: any) => {
+      // this._globalFunctions.errorHanding(error, this, true);
+      // this.isLoading = false;
     });
   }
 

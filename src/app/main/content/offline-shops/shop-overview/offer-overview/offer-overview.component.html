@@ -23,8 +23,8 @@
   <!-- tab-holder  -->
   <div class="teb-holder">
     <button [class]="overview ? 'active' : ''" (click)="onTabChange('overview')" type="button">Overview</button>
-    <button [class]="attendee ? 'active' : ''" (click)="onTabChange('attendee')" type="button">Attendee</button>
-    <button [class]="reviews ? 'active' : ''" (click)="onTabChange('reviews')" type="button">Reviews</button>
+    <button [class]="attendee ? 'active' : ''" (click)="onTabChange('attendee')" type="button" *ngIf="attendees && attendees.length">Attendee</button>
+    <button [class]="reviews ? 'active' : ''" (click)="onTabChange('reviews')" type="button" *ngIf="offerObj?.reviews && offerObj?.reviews.length">Reviews</button>
 
     <a class="secondary px-5 py-2 flex items-end rounded-sm max-w-max ml-auto" href="javascript:void(0);" (click)="exportAttendees()" *ngIf="attendee">Export</a>
   </div>
@@ -116,67 +116,21 @@
           </div>
         </div>
         <!-- left-bar -->
-        <div class="w-full lg:w-8/12 lg:pr-3 xl:pr-5 space-y-7" *ngIf="attendee">
+        <div class="w-full lg:w-8/12 lg:pr-3 xl:pr-5 space-y-7" *ngIf="attendee && attendees && attendees.length">
           <!-- Reynaldo Franklin -->
           <div class="space-y-2.5">
-            <div class="bg-white flex items-center justify-between p-5 rounded-md">
-              <div class="space-y-2">
-                <div class="flex items-center space-x-3">
-                  <p class="text-base font-bold text-japaneseIndigo">Reynaldo Franklin</p>
-                  <span class="text-xs font-bold text-caribbeanGreen">#55841251</span>
+            <div *ngFor="let attendee of attendees;let i = index;">
+              <div class="bg-white flex items-center justify-between p-5 rounded-md cursor-pointer">
+                <div class="space-y-2">
+                  <div class="flex items-center space-x-3">
+                    <p class="text-base font-bold text-japaneseIndigo">{{attendee?.userid?.name}}</p>
+                    <span class="text-xs font-bold text-caribbeanGreen">#{{attendee?.invoice_no}}</span>
+                  </div>
+                  <span class="text-xs font-bold text-quicksilver">{{attendee?.timestamp | date:'dd MMM, yyyy  hh:mm a'}}</span>
                 </div>
-                <span class="text-xs font-bold text-quicksilver">July 13, 2021</span>
-              </div>
-              <div class="text-sm">
-                <p class="text-lg font-bold text-caribbeanGreen">Booked Offer</p>
-              </div>
-            </div>
-            <div class="bg-white flex items-center justify-between p-5 rounded-md">
-              <div class="space-y-2">
-                <div class="flex items-center space-x-3">
-                  <p class="text-base font-bold text-japaneseIndigo">Mark Jecno</p>
-                  <span class="text-xs font-bold text-caribbeanGreen">#23541251</span>
+                <div class="text-sm">
+                  <p class="text-lg font-bold text-caribbeanGreen">Booked Offer</p>
                 </div>
-                <span class="text-xs font-bold text-quicksilver">July 13, 2021</span>
-              </div>
-              <div class="text-sm">
-                <p class="text-lg font-bold text-caribbeanGreen">Booked Offer</p>
-              </div>
-            </div>
-            <div class="bg-white flex items-center justify-between p-5 rounded-md">
-              <div class="space-y-2">
-                <div class="flex items-center space-x-3">
-                  <p class="text-base font-bold text-japaneseIndigo">Joila balia</p>
-                  <span class="text-xs font-bold text-caribbeanGreen">#69852563</span>
-                </div>
-                <span class="text-xs font-bold text-quicksilver">July 15, 2021</span>
-              </div>
-              <div class="text-sm">
-                <p class="text-lg font-bold text-caribbeanGreen">Booked Offer</p>
-              </div>
-            </div>
-            <div class="bg-white flex items-center justify-between p-5 rounded-md">
-              <div class="space-y-2">
-                <div class="flex items-center space-x-3">
-                  <p class="text-base font-bold text-japaneseIndigo">Mackenzie Holder</p>
-                  <span class="text-xs font-bold text-caribbeanGreen">#69552563</span>
-                </div>
-                <span class="text-xs font-bold text-quicksilver">July 15, 2021</span>
-              </div>
-              <div class="text-sm">
-                <p class="text-lg font-bold text-caribbeanGreen">Booked Offer</p>
-              </div>
-            </div>
-            <div class="bg-white flex items-center justify-between p-5 rounded-md">
-              <div class="space-y-2">
-                <div class="flex items-center space-x-3">
-                  <p class="text-base font-bold text-japaneseIndigo">Mackenzie Holder</p>
-                  <span class="text-xs font-bold text-caribbeanGreen">#69552563</span>
-                </div>
-                <span class="text-xs font-bold text-quicksilver">July 15, 2021</span>
-              </div>
-              <div class="text-sm">
-                <p class="text-lg font-bold text-caribbeanGreen">Booked Offer</p>
               </div>
             </div>
             <!-- ad banner -->
@@ -184,20 +138,9 @@
               <img src="/assets/images/banner-ads.png" alt="ring-ad" class="w-full object-cover" />
             </div>
             <!-- ad banner end -->
-            <div class="bg-white flex items-center justify-between p-5 rounded-md">
-              <div class="space-y-2">
-                <div class="flex items-center space-x-3">
-                  <p class="text-base font-bold text-japaneseIndigo">Mackenzie Holder</p>
-                  <span class="text-xs font-bold text-caribbeanGreen">#69552563</span>
-                </div>
-                <span class="text-xs font-bold text-quicksilver">July 15, 2021</span>
-              </div>
-              <div class="text-sm">
-                <p class="text-lg font-bold text-caribbeanGreen">Booked Offer</p>
-              </div>
-            </div>
           </div>
         </div>
+        
         <!-- <div *ngIf="attendee && (!attendees || !attendees.length)">
           <h3>No attendees Found</h3>
         </div> -->
@@ -235,9 +178,9 @@
                 </label>
               </div>
             </div>
-            <div>
-              <span class="text-quicksilver text-xs font-bold"><i class="icon-calendar mr-2"></i> Date</span>
-              <p class="text-sm font-bold text-japaneseIndigo">{{shopObj?.start_date | date: 'dd MMM, yyyy'}} - {{shopObj?.end_date | date: 'dd MMM, yyyy'}}</p>
+            <div *ngIf="shopObj?.shop_open_time">
+              <span class="text-quicksilver text-xs font-bold"><i class="icon-time mr-2"></i> Shop Open Time</span>
+              <p class="text-sm font-bold text-japaneseIndigo">{{"0" + " " + shopObj?.shop_open_time | date:'shortTime'}} - {{"0" + " " + shopObj?.shop_close_time | date:'shortTime'}}</p>
             </div>
           </div>
         </div>
@@ -246,72 +189,23 @@
     <!-- Reviews-Teb-Content -->
     <div class="tab-main" id="reviews" [class]="reviews ? 'active' : ''">
       <div class="w-full space-y-2.5">
-        <div class="w-full space-y-2">
+        <div *ngFor="let reviews of shopObj?.reviews" class="w-full space-y-2">
           <div class="bg-white rounded-lg p-7 lg:flex">
             <div>
-              <div class="w-20 h-20">
-                <img src="../assets/images/profile-2.png" alt="Profile" />
+              <div class="w-20 h-20 rounded-full overflow-hidden">
+                <img alt="cutting-board" class="w-full h-full object-cover" [src]="!!(reviews?.userid?.profilepic) ? constants.baseImageURL + reviews?.userid?.profilepic : constants.userDefaultImage"/>
               </div>
             </div>
-            <div class="lg:px-5 py-5 lg:py-0">
+            <div class="lg:px-5 py-5 lg:py-0 w-full">
               <div class="flex justify-between items-center">
-                <h5>Charlotte</h5>
-                <div class="flex items-center space-x-1 pt-1.5 pb-2.5">
-                  <span class="text-xs font-bold text-quicksilver mr-4">19 Jan, 2022</span>
-                  <i class="icon-rating text-[#F8DA48]"></i>
-                  <i class="icon-rating text-[#F8DA48]"></i>
-                  <i class="icon-rating text-[#F8DA48]"></i>
-                  <i class="icon-rating text-[#F8DA48]"></i>
-                  <i class="icon-rating text-quicksilver"></i>
+                <h5>{{ reviews?.userid?.name }}</h5>
+                <div class="flex items-center space-x-5 pt-1.5 pb-2.5">
+                  <span class="text-xs font-bold text-quicksilver">{{ reviews?.createdAt | date:'dd MMM, yyyy' }}</span>
+                  <p-rating [(ngModel)]="reviews.ratings" [readonly]="true" [cancel]="false"></p-rating>
                 </div>
               </div>
-              <p class="text-sm text-japaneseIndigo pt-4">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodoligula eget dolor.</p>
-            </div>
-          </div>
-        </div>
-        <div class="w-full space-y-2">
-          <div class="bg-white rounded-lg p-7 lg:flex">
-            <div>
-              <div class="w-20 h-20">
-                <img src="../assets/images/profile-2.png" alt="Profile" />
-              </div>
-            </div>
-            <div class="lg:px-5 py-5 lg:py-0">
-              <div class="flex justify-between items-center">
-                <h5>Charlotte</h5>
-                <div class="flex items-center space-x-1 pt-1.5 pb-2.5">
-                  <span class="text-xs font-bold text-quicksilver mr-4">19 Jan, 2022</span>
-                  <i class="icon-rating text-[#F8DA48]"></i>
-                  <i class="icon-rating text-[#F8DA48]"></i>
-                  <i class="icon-rating text-[#F8DA48]"></i>
-                  <i class="icon-rating text-[#F8DA48]"></i>
-                  <i class="icon-rating text-quicksilver"></i>
-                </div>
-              </div>
-              <p class="text-sm text-japaneseIndigo pt-4">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodoligula eget dolor.</p>
-            </div>
-          </div>
-        </div>
-        <div class="w-full space-y-2">
-          <div class="bg-white rounded-lg p-7 lg:flex">
-            <div>
-              <div class="w-20 h-20">
-                <img src="../assets/images/profile-2.png" alt="Profile" />
-              </div>
-            </div>
-            <div class="lg:px-5 py-5 lg:py-0">
-              <div class="flex justify-between items-center">
-                <h5>Charlotte</h5>
-                <div class="flex items-center space-x-1 pt-1.5 pb-2.5">
-                  <span class="text-xs font-bold text-quicksilver mr-4">19 Jan, 2022</span>
-                  <i class="icon-rating text-[#F8DA48]"></i>
-                  <i class="icon-rating text-[#F8DA48]"></i>
-                  <i class="icon-rating text-[#F8DA48]"></i>
-                  <i class="icon-rating text-[#F8DA48]"></i>
-                  <i class="icon-rating text-quicksilver"></i>
-                </div>
-              </div>
-              <p class="text-sm text-japaneseIndigo pt-4">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodoligula eget dolor.</p>
+              <span class="text-base text-[#9BA0A8] pb-2.5" *ngIf="reviews?.offer?.offer_title">{{ reviews?.offer?.offer_title }}</span>
+              <p class="text-sm text-japaneseIndigo" *ngIf="reviews?.review">{{ reviews?.review }}</p>
             </div>
           </div>
         </div>
