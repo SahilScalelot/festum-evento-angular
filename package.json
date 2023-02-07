@@ -37,6 +37,7 @@
     "moment": "^2.29.4",
     "ng-otp-input": "^1.8.5",
     "ng-snotify": "^9.0.1",
+    "ngx-dropzone": "^3.1.0",
     "ngx-image-cropper": "^6.2.2",
     "primeicons": "^5.0.0",
     "primeng": "^14.0.2",

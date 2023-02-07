@@ -8,7 +8,7 @@ import { ModalService } from 'src/app/main/_modal';
 import { SnotifyService } from "ng-snotify";
 import { Router } from '@angular/router';
 import { CompressImageService } from 'src/app/services/compress-image.service';
-import { take } from 'rxjs';
+import { forkJoin, merge, Observable, take } from 'rxjs';
 import * as _ from 'lodash';
 
 declare var $: any;
@@ -219,50 +219,101 @@ export class PhotosVideosStepComponent implements OnInit {
     this._modalService.close(popId);
   }
 
+  // uploadImage(): any {
+  //   let image = $('#create-photo-upload')[0].files[0];
+  //   if (image != undefined) {
+  //     if (image.type != 'image/jpeg' && image.type != 'image/jpg' && image.type != 'image/png') {
+  //       this._sNotify.error('Image type is Invalid.', 'Oops!');
+  //       $('#create-photo-upload').focus();
+  //       return false;
+  //     }
+
+  //     const image_size = image.size / 1024 / 1024;
+  //     if (image_size > CONSTANTS.maxImageSizeInMB) {
+  //       this._sNotify.error('Maximum Image Size is ' + CONSTANTS.maxImageSizeInMB + 'MB.', 'Oops!');
+  //       $('#create-photo-upload').focus();
+  //       return false;
+  //     }
+
+  //     if (this.posterImageAndVideoObj.photos && this.posterImageAndVideoObj.photos.length && this.posterImageAndVideoObj.photos.length >= 15) {
+  //       this._sNotify.error('Maximum 15 images can upload!', 'Oops!');
+  //       this._modalService.close("photo");
+  //       return false;
+  //     }
+
+  //     if (!this.isPhotoLoading) {
+  //       const photoFormData = new FormData();
+  //       photoFormData.append('file', image);
+  //       this.isPhotoLoading = true;
+        
+  //       this._createEventService.uploadImages(photoFormData).subscribe((result: any) => {
+  //         if (result && result.IsSuccess) {
+  //           this.posterImageAndVideoObj.photos.push({url: result.Data.url, description: this.photoForm.value?.description});
+  //           this._sNotify.success('Image Uploaded Successfully.', 'Success');
+  //           this.isPhotoLoading = false;
+  //           $('#create-photo-upload').val(null);
+  //           this.inputText = '';
+  //           this._modalService.close('photo');
+  //         } else {
+  //           this._globalFunctions.successErrorHandling(result, this, true);
+  //           this.isPhotoLoading = false;
+  //         }
+  //       }, (error: any) => {
+  //         this._globalFunctions.errorHanding(error, this, true);
+  //         this.isPhotoLoading = false;
+  //       });
+  //     }
+  //   }
+  // }
+
   uploadImage(): any {
-    let image = $('#create-photo-upload')[0].files[0];
-    if (image != undefined) {
-      if (image.type != 'image/jpeg' && image.type != 'image/jpg' && image.type != 'image/png') {
-        this._sNotify.error('Image type is Invalid.', 'Oops!');
-        $('#create-photo-upload').focus();
-        return false;
-      }
+    const responseObj: Observable<any>[] = [];
+    this.files.forEach((image: any) => {
+      console.log(image);
+      
+      if (image != undefined) {
+        if (image.type != 'image/jpeg' && image.type != 'image/jpg' && image.type != 'image/png') {
+          this._sNotify.error('Image type is Invalid.', 'Oops!');
+          return;
+        }
+  
+        const image_size = image.size / 1024 / 1024;
+        if (image_size > CONSTANTS.maxImageSizeInMB) {
+          this._sNotify.error('Maximum Image Size is ' + CONSTANTS.maxImageSizeInMB + 'MB.', 'Oops!');
+          return;
+        }
+  
+        if (this.posterImageAndVideoObj.photos && this.posterImageAndVideoObj.photos.length && this.posterImageAndVideoObj.photos.length >= 15) {
+          this._sNotify.error('Maximum 15 images can upload!', 'Oops!');
+          this._modalService.close("photo");
+          return;
+        }
 
-      const image_size = image.size / 1024 / 1024;
-      if (image_size > CONSTANTS.maxImageSizeInMB) {
-        this._sNotify.error('Maximum Image Size is ' + CONSTANTS.maxImageSizeInMB + 'MB.', 'Oops!');
-        $('#create-photo-upload').focus();
-        return false;
-      }
-
-      if (this.posterImageAndVideoObj.photos && this.posterImageAndVideoObj.photos.length && this.posterImageAndVideoObj.photos.length >= 15) {
-        this._sNotify.error('Maximum 15 images can upload!', 'Oops!');
-        this._modalService.close("photo");
-        return false;
-      }
-
-      if (!this.isPhotoLoading) {
         const photoFormData = new FormData();
         photoFormData.append('file', image);
         this.isPhotoLoading = true;
-        this._createEventService.uploadImages(photoFormData).subscribe((result: any) => {
-          if (result && result.IsSuccess) {
-            this.posterImageAndVideoObj.photos.push({url: result.Data.url, description: this.photoForm.value?.description});
-            this._sNotify.success('Image Uploaded Successfully.', 'Success');
-            this.isPhotoLoading = false;
-            $('#create-photo-upload').val(null);
-            this.inputText = '';
-            this._modalService.close('photo');
-          } else {
-            this._globalFunctions.successErrorHandling(result, this, true);
-            this.isPhotoLoading = false;
-          }
-        }, (error: any) => {
-          this._globalFunctions.errorHanding(error, this, true);
-          this.isPhotoLoading = false;
-        });
+        responseObj.push(this._createEventService.uploadImages(photoFormData));
       }
-    }
+    });
+
+    forkJoin(...responseObj).subscribe((resultArr: any) => {
+      _.each(resultArr, (result: any) => {
+        if (result && result.IsSuccess) {
+          this.posterImageAndVideoObj.photos.push({url: result.Data.url, description: this.photoForm.value?.description});
+          this._sNotify.success('Image Uploaded Successfully.', 'Success');
+          this.isPhotoLoading = false;
+          // this.inputText = '';
+          this._modalService.close('photo');
+        } else {
+          this._globalFunctions.successErrorHandling(result, this, true);
+          this.isPhotoLoading = false;
+        }
+      });
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isPhotoLoading = false;
+    });
+    
   }
 
   uploadVideo(): any {
@@ -354,4 +405,17 @@ export class PhotosVideosStepComponent implements OnInit {
     this.close();
   }
 
+  // in app.component.ts
+  files: File[] = [];
+
+  onSelect(event: any) {
+    this.files.push(...event.addedFiles);
+  }
+
+  onRemove(event: any) {
+    console.log(event);
+    this.files.splice(this.files.indexOf(event), 1);
+  }
+
 }
+
