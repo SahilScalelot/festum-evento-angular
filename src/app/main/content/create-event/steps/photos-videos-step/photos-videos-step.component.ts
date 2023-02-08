@@ -43,6 +43,9 @@ export class PhotosVideosStepComponent implements OnInit {
   imagesAndVideoObj: any = { photos_and_videos: {} };
   inputText: any;
   drEvent: any;
+  photosUploadLimit: number = 15;
+  rejectedPhotosList: any;  
+  files: File[] = [];
 
   constructor(
     private _modalService: ModalService,
@@ -141,7 +144,7 @@ export class PhotosVideosStepComponent implements OnInit {
 
   openUploadPhotoDialog(): void {
     this.photosNgForm.resetForm();
-    if (this.posterImageAndVideoObj.photos && this.posterImageAndVideoObj.photos.length && this.posterImageAndVideoObj.photos.length >= 15) {
+    if (this.posterImageAndVideoObj.photos && this.posterImageAndVideoObj.photos.length && this.posterImageAndVideoObj.photos.length >= this.photosUploadLimit) {
       this._sNotify.error('Maximum 15 images can upload!', 'Oops!');
     } else {
       this._modalService.open('photo');
@@ -235,7 +238,7 @@ export class PhotosVideosStepComponent implements OnInit {
   //       return false;
   //     }
 
-  //     if (this.posterImageAndVideoObj.photos && this.posterImageAndVideoObj.photos.length && this.posterImageAndVideoObj.photos.length >= 15) {
+  //     if (this.posterImageAndVideoObj.photos && this.posterImageAndVideoObj.photos.length && this.posterImageAndVideoObj.photos.length >= this.photosUploadLimit) {
   //       this._sNotify.error('Maximum 15 images can upload!', 'Oops!');
   //       this._modalService.close("photo");
   //       return false;
@@ -283,7 +286,7 @@ export class PhotosVideosStepComponent implements OnInit {
           return;
         }
   
-        if (this.posterImageAndVideoObj.photos && this.posterImageAndVideoObj.photos.length && this.posterImageAndVideoObj.photos.length >= 15) {
+        if (this.posterImageAndVideoObj.photos && this.posterImageAndVideoObj.photos.length && this.posterImageAndVideoObj.photos.length >= this.photosUploadLimit) {
           this._sNotify.error('Maximum 15 images can upload!', 'Oops!');
           this._modalService.close("photo");
           return;
@@ -300,6 +303,7 @@ export class PhotosVideosStepComponent implements OnInit {
       _.each(resultArr, (result: any) => {
         if (result && result.IsSuccess) {
           this.posterImageAndVideoObj.photos.push({url: result.Data.url, description: this.photoForm.value?.description});
+          this.photoForm.get('description').setValue('');
           this._sNotify.success('Image Uploaded Successfully.', 'Success');
           this.isPhotoLoading = false;
           // this.inputText = '';
@@ -314,6 +318,28 @@ export class PhotosVideosStepComponent implements OnInit {
       this.isPhotoLoading = false;
     });
     
+  }
+
+  onSelect(event: any) {
+    const totalPhotos = this.photosUploadLimit - ((this.posterImageAndVideoObj?.photos?.length || 0) + (event?.addedFiles?.length || 0) + (this.files?.length || 0));
+    if ((totalPhotos >= 0) && (totalPhotos <= this.photosUploadLimit)) {
+      this.files.push(...event.addedFiles);
+      this.rejectedPhotosList = event?.rejectedFiles;
+    } else {
+      this._sNotify.warning('You have exceeded the maximum photos limit!', 'Oops..');
+    }
+  }
+
+  onRemove(event: any) {
+    console.log(event);
+    this.files.splice(this.files.indexOf(event), 1);
+  }
+
+  removeImage(index: number) {
+    this.deleteItemObj = {index: index, type: 'photo'};
+    this._modalService.open("delete-event-pop");
+    // this.posterImageAndVideoObj.photos.splice(index: index, 1);
+    // this.allPhotosFilesArr.splice(index, 1);
   }
 
   uploadVideo(): any {
@@ -363,13 +389,6 @@ export class PhotosVideosStepComponent implements OnInit {
     }
   }
 
-  removeImage(index: number) {
-    this.deleteItemObj = {index: index, type: 'photo'};
-    this._modalService.open("delete-event-pop");
-    // this.posterImageAndVideoObj.photos.splice(index: index, 1);
-    // this.allPhotosFilesArr.splice(index, 1);
-  }
-
   removeVideo(index: number) {
     this.deleteItemObj = {index: index, type: 'video'};
     this._modalService.open("delete-event-pop");
@@ -403,18 +422,6 @@ export class PhotosVideosStepComponent implements OnInit {
     this.posterImageAndVideoObj[this.deleteItemObj.type + 's'].splice(this.deleteItemObj.index, 1);
     this.isDeleteLoading = false;
     this.close();
-  }
-
-  // in app.component.ts
-  files: File[] = [];
-
-  onSelect(event: any) {
-    this.files.push(...event.addedFiles);
-  }
-
-  onRemove(event: any) {
-    console.log(event);
-    this.files.splice(this.files.indexOf(event), 1);
   }
 
 }

@@ -430,6 +430,9 @@ MIT
 ng-snotify
 MIT
 
+ngx-dropzone
+MIT
+
 ngx-image-cropper
 MIT
 MIT License

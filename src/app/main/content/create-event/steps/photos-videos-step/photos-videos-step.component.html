@@ -85,12 +85,20 @@
 <modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="photo" title="Upload Photo" *ngIf="photoForm">
   <form #photosNgForm="ngForm" [formGroup]="photoForm" class="py-6 space-y-5">
     <div class="upload-holder- w-full">
-      <h6 class="input-titel text-sm font-bold text-quicksilver flex items-center">Select Photo <p class="text-10 ml-2"> {{ 15 - posterImageAndVideoObj.photos.length}} Images (up to 3MB/Image)</p></h6>
+      <h6 class="input-titel text-sm font-bold text-quicksilver flex items-center">Select Photo <p class="text-10 ml-2">15 Images (up to 3MB/Image)</p></h6>
+      <!--  {{(posterImageAndVideoObj?.photos?.length) ? (posterImageAndVideoObj?.photos?.length + '(Already Uploaded) - 15 =') : ''}} {{ 15 - (posterImageAndVideoObj?.photos?.length || 0)}} -->
       <div class="block">
-        <ngx-dropzone #dropzonePhotos class="flex-wrap" (change)="onSelect($event)" style="height: 130px;" [maxFileSize]="3145728" accept="image/jpeg,image/jpg,image/png,image/gif">
+        <ngx-dropzone #dropzonePhotos class="flex-wrap" (change)="onSelect($event)" [maxFileSize]="3145728" accept="image/jpeg,image/jpg,image/png,image/gif">
           <ngx-dropzone-label>Drop it, images!</ngx-dropzone-label>
           <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files" [file]="f" [removable]="true" (removed)="onRemove(f)"></ngx-dropzone-image-preview>
         </ngx-dropzone>
+      </div>
+
+      <div class="text-red-500 text-xs pt-1" *ngIf="rejectedPhotosList?.length">
+        Rejected Photos ( Because of Maximum Image Size is {{constants.maxImageSizeInMB}} MB. ) :-
+        <div>
+          <span *ngFor="let rpl of rejectedPhotosList">{{rpl?.name}}, </span>
+        </div>
       </div>
       <!-- <label class="upload upload-popup py-3" for="create-photo-upload">
         <input accept="image/png, image/jpeg, image/gif" class="appearance-none hidden" id="create-photo-upload" name="images" type="file" (change)="readURL($event);" multiple />
