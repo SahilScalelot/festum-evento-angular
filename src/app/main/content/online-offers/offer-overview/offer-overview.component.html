@@ -69,7 +69,7 @@
                 <div class="flex items-center space-x-2.5">
                   <img [src]="!!(platform?.platform?.platformimage) ? constants.baseImageURL + platform.platform.platformimage : constants.defaultImage" [alt]="platform.platform.name" class="w-7 h-7 object-contain" />
                   <!-- <input type="text" class="w-full outline-none bg-transparent" [value]="platform.product_link" readonly /> -->
-                  <a [href]="platform.product_link" target="_blank" class="text-sm normal-case">{{platform?.product_link}}</a>
+                  <a [href]="platform.product_link" target="_blank" class="text-sm normal-case break-all">{{platform?.product_link}}</a>
                 </div>
                 <div class="text-xl leading-0">
                   <a href="javascript:void(0);" class="px-3" title="Copy" (click)="copyLink(platform.product_link)">
