@@ -6,6 +6,9 @@ import { SnotifyService } from 'ng-snotify';
 import { Router } from '@angular/router';
 import { ModalService } from '../_modal';
 import html2canvas from 'html2canvas';
+import { ContentService } from './content.service';
+import { GlobalFunctions } from '../common/global-functions';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-content',
@@ -15,9 +18,12 @@ import html2canvas from 'html2canvas';
 export class ContentComponent implements OnInit {
   loginUser: any = {};
   selectedLanguage: any = '';
+  isLoading: boolean = false;
   languageModel: boolean = false;
   constants: any = CONSTANTS;
-
+  searchObj: any;
+  
+  
   @ViewChild('screenShort') screenShort: any;
   @ViewChild('canvas') canvas: any;
   @ViewChild('downloadLink') downloadLink: any;
@@ -25,11 +31,15 @@ export class ContentComponent implements OnInit {
   constructor(
     private _sNotify: SnotifyService,
     private _router: Router,
+    private _contentService: ContentService,
     private _globalService: GlobalService,
+    private _globalFunctions: GlobalFunctions,
     private _modalService: ModalService,
     private _translateLanguage: LanguageTranslateService
-  ) { }
-
+  ) { 
+    this.getSearch = _.debounce(this.getSearch, 1000)
+  }
+    
   ngOnInit(): void {
     this.selectedLanguage = localStorage.getItem('lang');
     if (!this.selectedLanguage || this.selectedLanguage == '') {
@@ -72,5 +82,31 @@ export class ContentComponent implements OnInit {
 
   closeLanguageModel() {
     this.languageModel = false;
+  }
+
+
+  getSearch(event: any = ''): void {
+    const searchWord = event.target.value;
+    if (searchWord != "") {      
+      this.isLoading = true;
+      this._contentService.searchList(searchWord).subscribe((result: any) => {
+        if (result && result.IsSuccess) {
+          this.searchObj = result.Data; 
+          console.log(this.searchObj);
+          // this.shopOffers = this._globalFunctions.copyObject(result.Data.docs);
+          // this.paging = this._globalFunctions.copyObject(result.Data);
+          // this.paging = result.Data;
+          // delete this.paging.docs;
+        } else {
+          this._globalFunctions.successErrorHandling(result, this, true);
+        }
+        this.isLoading = false;
+      }, (error: any) => {
+        this._globalFunctions.errorHanding(error, this, true);
+        this.isLoading = false;
+      });
+    } else {
+      this.searchObj = '';
+    }
   }
 }
