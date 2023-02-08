@@ -50,7 +50,7 @@ export class EventOverviewComponent implements OnInit {
     this._eventService.getSingleEvents(eventId).subscribe((result: any) => {
       this.event = result.Data;
       setTimeout(() => {
-        if (this.event?.accept_booking && this.event?.is_live) {
+        if (this.event.accept_booking && this.event.is_live && !this.event.iseditable) {
           this.getAttendees();
         }
         this._globalFunctions.loadAccordion();
