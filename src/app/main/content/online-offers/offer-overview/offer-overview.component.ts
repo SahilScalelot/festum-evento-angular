@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, NavigationStart, Event as NavigationEvent } from '@angular/router';
 import { CONSTANTS } from 'src/app/main/common/constants';
 import { GlobalFunctions } from 'src/app/main/common/global-functions';
 import { OnlineOffersService } from '../online-offers.service';
@@ -31,6 +31,14 @@ export class OfferOverviewComponent implements OnInit {
 
   ngOnInit(): void {
     this.offerId = this._activatedRoute.snapshot.paramMap.get('id');
+    this._router.events.subscribe((event: NavigationEvent) => {
+      if (event instanceof NavigationStart) {
+        setTimeout(() => {
+          this.offerId = this._activatedRoute.snapshot.paramMap.get('id');
+          this.getOnlineShopOfferByOfferId(this.offerId);
+        }, 0);
+      }
+    });
     this.getOnlineShopOfferByOfferId(this.offerId);
   }
 

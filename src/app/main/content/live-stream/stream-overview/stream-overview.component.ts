@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, NavigationStart, Event as NavigationEvent } from '@angular/router';
 import { CONSTANTS } from 'src/app/main/common/constants';
 import { GlobalFunctions } from 'src/app/main/common/global-functions';
 import { LiveStreamService } from '../live-stream.service';
@@ -39,6 +39,13 @@ export class StreamOverviewComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this._router.events.subscribe((event: NavigationEvent) => {
+      if (event instanceof NavigationStart) {
+        setTimeout(() => {
+          this.getLiveStreamObj();
+        }, 0);
+      }
+    });
     this.getLiveStreamObj();
   }
 

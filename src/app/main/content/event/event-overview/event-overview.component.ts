@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, NavigationStart, Event as NavigationEvent } from '@angular/router';
 import { CONSTANTS } from 'src/app/main/common/constants';
 import { GlobalFunctions } from 'src/app/main/common/global-functions';
 import { EventService } from '../event.service';
@@ -13,6 +13,7 @@ declare var $: any;
 })
 export class EventOverviewComponent implements OnInit {
   event: any = {};
+  eventId: any = '';
   constants: any = CONSTANTS;
   isLoading: boolean = false;
   isExportLoading: boolean = false;
@@ -41,13 +42,21 @@ export class EventOverviewComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.eventId = this._activatedRoute.snapshot.paramMap.get('id');
+    this._router.events.subscribe((event: NavigationEvent) => {
+      if (event instanceof NavigationStart) {
+        setTimeout(() => {
+          this.eventId = this._activatedRoute.snapshot.paramMap.get('id');
+          this.getEvent();
+        }, 0);
+      }
+    });
     this.getEvent();
   }
 
   getEvent(): void {
     this.isLoading = true;
-    const eventId = this._activatedRoute.snapshot.paramMap.get('id');
-    this._eventService.getSingleEvents(eventId).subscribe((result: any) => {
+    this._eventService.getSingleEvents(this.eventId).subscribe((result: any) => {
       this.event = result.Data;
       setTimeout(() => {
         if (this.event.accept_booking && this.event.is_live && !this.event.iseditable) {
@@ -130,7 +139,7 @@ export class EventOverviewComponent implements OnInit {
       return;
     }
     this.isExportLoading = true;
-    this._eventService.exportAttendees({eventid: this.event._id}).subscribe((result: any) => {
+    this._eventService.exportAttendees({ eventid: this.event._id }).subscribe((result: any) => {
       if (result && result.IsSuccess) {
         window.open(result.Data, '_blank');
         this.isExportLoading = false;

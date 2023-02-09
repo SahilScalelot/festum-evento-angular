@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { GlobalService } from 'src/app/services/global.service';
 import { LanguageTranslateService } from "../../services/language-translate.service";
 import { CONSTANTS } from '../common/constants';
@@ -22,9 +22,8 @@ export class ContentComponent implements OnInit {
   languageModel: boolean = false;
   constants: any = CONSTANTS;
   searchObj: any;
-  tmpEObj: any;
   
-  
+  @ViewChild('searchInput') searchInput: any;
   @ViewChild('screenShort') screenShort: any;
   @ViewChild('canvas') canvas: any;
   @ViewChild('downloadLink') downloadLink: any;
@@ -92,8 +91,7 @@ export class ContentComponent implements OnInit {
       this.isLoading = true;
       this._contentService.searchList(searchWord).subscribe((result: any) => {
         if (result && result.IsSuccess) {
-          this.searchObj = result.Data; 
-          console.log(this.searchObj);
+          this.searchObj = result.Data;
           // this.shopOffers = this._globalFunctions.copyObject(result.Data.docs);
           // this.paging = this._globalFunctions.copyObject(result.Data);
           // this.paging = result.Data;
@@ -112,9 +110,7 @@ export class ContentComponent implements OnInit {
   }
 
   openUrl(event: any, type: any = ''): void {
-    console.log(event, type);
-    
-    this.tmpEObj = type;
+    this.searchObj = '';
     switch (type) {
       case 'events':
         this._router.navigate(['/events/'+event?._id]);
@@ -123,7 +119,7 @@ export class ContentComponent implements OnInit {
         this._router.navigate(['/offline-shops/'+event?._id]);
         break;
       case 'offlineoffer':
-        this._router.navigate(['/offline-shops/'+event?._id+'/offer-overview/'+event?._id]);
+        this._router.navigate(['/offline-shops/'+event?.shopid?._id+'/offer-overview/'+event?._id]);
         break;
       case 'onlineoffer':
         this._router.navigate(['/online-offers/'+event?._id]);
@@ -132,5 +128,6 @@ export class ContentComponent implements OnInit {
         this._router.navigate(['/live-stream/'+event?._id]);
         break;
     }
+    this.searchInput.nativeElement.value = '';
   }
 }

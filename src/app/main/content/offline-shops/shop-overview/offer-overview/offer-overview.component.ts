@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, NavigationStart, Event as NavigationEvent } from '@angular/router';
 import { SnotifyService } from 'ng-snotify';
 import { CONSTANTS } from 'src/app/main/common/constants';
 import { GlobalFunctions } from 'src/app/main/common/global-functions';
@@ -52,6 +52,16 @@ export class OfferOverviewComponent implements OnInit {
   ngOnInit(): void {
     this.shopId = this._activatedRoute.snapshot.paramMap.get('shopId');
     this.offerId = this._activatedRoute.snapshot.paramMap.get('offerId');
+    this._router.events.subscribe((event: NavigationEvent) => {
+      if (event instanceof NavigationStart) {
+        setTimeout(() => {
+          this.shopId = this._activatedRoute.snapshot.paramMap.get('shopId');
+          this.offerId = this._activatedRoute.snapshot.paramMap.get('offerId');
+          this.getShopOfferById();
+          this.getShopById();
+        }, 0);
+      }
+    });
     this.getShopOfferById();
     this.getShopById();
   }

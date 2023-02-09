@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CONSTANTS } from 'src/app/main/common/constants';
 import { GlobalFunctions } from 'src/app/main/common/global-functions';
 import { ModalService } from 'src/app/main/_modal';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, NavigationStart, Event as NavigationEvent } from '@angular/router';
 import { OfflineShopsService } from '../offline-shops.service';
 import { SnotifyService } from 'ng-snotify';
 import * as _ from 'lodash';
@@ -58,6 +58,15 @@ export class ShopOverviewComponent implements OnInit {
   ngOnInit(): void {
     this.shopId = this._activatedRoute.snapshot.paramMap.get('shopId');
     this.offerId = this._activatedRoute.snapshot.paramMap.get('offerId');
+    this._router.events.subscribe((event: NavigationEvent) => {
+      if (event instanceof NavigationStart) {
+        setTimeout(() => {
+          this.shopId = this._activatedRoute.snapshot.paramMap.get('shopId');
+          this.offerId = this._activatedRoute.snapshot.paramMap.get('offerId');
+          this.getShop();
+        }, 0);
+      }
+    });
     this.getShop();
   }
 
