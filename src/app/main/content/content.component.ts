@@ -22,6 +22,7 @@ export class ContentComponent implements OnInit {
   languageModel: boolean = false;
   constants: any = CONSTANTS;
   searchObj: any;
+  tmpEObj: any;
   
   
   @ViewChild('screenShort') screenShort: any;
@@ -107,6 +108,29 @@ export class ContentComponent implements OnInit {
       });
     } else {
       this.searchObj = '';
+    }
+  }
+
+  openUrl(event: any, type: any = ''): void {
+    console.log(event, type);
+    
+    this.tmpEObj = type;
+    switch (type) {
+      case 'events':
+        this._router.navigate(['/events/'+event?._id]);
+        break;
+      case 'shops':
+        this._router.navigate(['/offline-shops/'+event?._id]);
+        break;
+      case 'offlineoffer':
+        this._router.navigate(['/offline-shops/'+event?._id+'/offer-overview/'+event?._id]);
+        break;
+      case 'onlineoffer':
+        this._router.navigate(['/online-offers/'+event?._id]);
+        break;
+      case 'livestreams':
+        this._router.navigate(['/live-stream/'+event?._id]);
+        break;
     }
   }
 }
