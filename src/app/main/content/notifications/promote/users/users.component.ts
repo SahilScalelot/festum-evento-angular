@@ -25,12 +25,14 @@ export class UsersComponent implements OnInit {
   isLoading: boolean = false;
   constants: any = CONSTANTS;
   tmpSelectedPlan: any = '';
-  totalUsersCount: any = 0;
+  totalUsersCount: any = 5999;
+  usersSelectionLimit: any = 500;
   pageObj: any = {};
   math: any = Math;
 
   get totalOptions() {
-    return new Array(this.totalUsersCount ? (Math.ceil(this.totalUsersCount / Math.ceil(this.totalUsersCount / 10))) : 0);
+    return new Array(this.totalUsersCount ? (Math.ceil((this.totalUsersCount + 1) / this.usersSelectionLimit)) : 0);
+    // return new Array(this.totalUsersCount ? (Math.ceil(this.totalUsersCount / Math.ceil(this.totalUsersCount / 10))) : 0);
   }
 
   constructor(
