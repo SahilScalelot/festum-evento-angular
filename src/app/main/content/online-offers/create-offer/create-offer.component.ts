@@ -395,6 +395,7 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
     const platformObj = this._formBuilder.group({
       platform: [tempPlatformObj?.platform?._id || '', [Validators.required]],
       product_link: [tempPlatformObj?.product_link || '', [Validators.required]],
+      short_link_id: [tempPlatformObj?.short_link_id || ''],
     });
     this.productLinks.push(platformObj);
   }

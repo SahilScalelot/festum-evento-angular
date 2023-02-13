@@ -14,6 +14,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 // Localization module import
 import { TranslateModule, TranslateLoader, TranslateService } from  '@ngx-translate/core';
 import { TranslateHttpLoader } from  '@ngx-translate/http-loader';
+import { PlatformLinksComponent } from './main/content/online-offers/platform_links/platform_links.component';
 
 // Loader of Translate language module
 export function HttpLoaderFactory(http:  HttpClient) {
@@ -22,7 +23,8 @@ export function HttpLoaderFactory(http:  HttpClient) {
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    PlatformLinksComponent
   ],
   imports: [
     BrowserModule,

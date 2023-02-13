@@ -3,7 +3,8 @@
     <div class="w-full lg:w-1/2">
       <h5 class="pb-3">Select User</h5>
       <select class="bg-white rounded-md flex space-x-3 outline-0 px-6 py-[18px] relative arrow option" [formControlName]="'numberofusers'">
-        <option *ngFor='let in of totalOptions;let i = index' [value]="i ? (i * math.ceil(totalUsersCount / 10)) : totalUsersCount">{{i ? (i * math.ceil(totalUsersCount / 10)) : 'Select All'}}</option>
+          <option *ngFor='let in of totalOptions;let i = index' [value]="i ? (i * usersSelectionLimit) : totalUsersCount">{{i ? (i * usersSelectionLimit) : 'Select All'}}</option>
+          <!-- <option *ngFor='let in of totalOptions;let i = index' [value]="i ? (i * math.ceil(totalUsersCount / 10)) : totalUsersCount">{{i ? (i * math.ceil(totalUsersCount / 10)) : 'Select All'}}</option> -->
       </select>
     </div>
     <div class="bg-white p-[18px] rounded-md mt-5 lg:mt-0">

@@ -16,10 +16,12 @@ import { OurProductComponent } from './main/content/our-product/our-product.comp
 import { BookingComponent } from './main/content/booking/booking.component';
 import { FaqComponent } from './main/content/faq/faq.component';
 import { HelpComponent } from './main/content/help/help.component';
+import { PlatformLinksComponent } from './main/content/online-offers/platform_links/platform_links.component';
 
 const routes: Routes = [
 
   { path: '', component: LandingPageComponent },
+  { path: 'abcd/:linkId', component: PlatformLinksComponent },
   {
     path: '',
     canActivate: [NoAuthGuard],
@@ -127,7 +129,6 @@ const routes: Routes = [
     ]
   },
   { path: '**', redirectTo: '/events' },
-
 ];
 
 @NgModule({
