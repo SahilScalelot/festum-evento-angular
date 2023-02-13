@@ -86,7 +86,7 @@ export class LandingPageComponent implements OnInit {
 
 
   onSlideChange() {
-    console.log('slide change');
+    // console.log('slide change');
   }
 
   Dashboard(): void {
@@ -135,7 +135,7 @@ export class LandingPageComponent implements OnInit {
         _.each(result.Data.onlineoffer, (offer: any) => {
           this.upcomingOfferList.push(offer);
         });
-        console.log(this.upcomingOfferList);
+        // console.log(this.upcomingOfferList);
         
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);

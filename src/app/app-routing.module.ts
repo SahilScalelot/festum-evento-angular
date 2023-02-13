@@ -21,7 +21,7 @@ import { PlatformLinksComponent } from './main/content/online-offers/platform_li
 const routes: Routes = [
 
   { path: '', component: LandingPageComponent },
-  { path: 'abcd/:linkId', component: PlatformLinksComponent },
+  { path: 'platform/:linkId', component: PlatformLinksComponent },
   {
     path: '',
     canActivate: [NoAuthGuard],

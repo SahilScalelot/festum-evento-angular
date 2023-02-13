@@ -16,6 +16,7 @@ import * as _ from 'lodash';
 })
 export class PlatformLinksComponent implements OnInit {
   constants: any = CONSTANTS;
+  isLoading: boolean = false;
   linkForm: any;
   short_link_id: any;
 
@@ -33,15 +34,49 @@ export class PlatformLinksComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this._prepareLinkForm();
+    this.validateShortLink();
+  }
+
+  validateShortLink(): void {
     this.short_link_id = this._activatedRoute.snapshot.paramMap.get('linkId');
-    console.log(this.short_link_id);
+    if (this.short_link_id && this.short_link_id != '' && this.short_link_id.length == 10) {
+      this.linkForm.get('link').setValue(this.short_link_id);
+    } else {
+      this._router.navigate(['/']);
+    }
+  }
+
+  getLink(): void {
+    console.log(this.linkForm.value);
     
+    if (this.linkForm.invalid) {
+      return;
+    }
+    this.isLoading = true;
+    this.linkForm.disable();
+    this._onlineOffersService.linkPlatform(this.linkForm.value).subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        this.isLoading = false;
+        this.linkForm.enable();
+        window.location.replace(result.Data);
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+        this.isLoading = false;
+        this.linkForm.enable();
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isLoading = false;
+      this.linkForm.enable();
+      this._router.navigate(['/']);
+    });
   }
 
   private _prepareLinkForm(linkForm: any = {}): void {
     this.linkForm = this._formBuilder.group({
-      short_link_id: [this.short_link_id || ''],
-      contact_no: [linkForm?.contact_no || '', [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
+      link: ['', [Validators.required]],
+      mobile: [linkForm?.mobile || '', [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
     });
   }
 }

@@ -2,23 +2,31 @@
   <div class="modal-background fixed inset-0 w-full h-full -z-30 "></div>
   <div class="table-cell align-middle relative z-50 lg:px-9 " style="transform: scale3d(1, 1, 1);">
     <div class="lg:max-w-xl max-h-[calc(100vh-55px)] max-w-2xl mx-auto overflow-y-auto popin w-full xl:px-0">
-      <div class="bg-brightGray p-10">
+      <div class="bg-brightGray p-10" *ngIf="!isLoading">
         <div class="flex items-center justify-center" style="">
           <h2 class="">Verification</h2>
         </div>
         <!---->
         <div class="">
-          <form class="">
+          <form class="" [formGroup]="linkForm">
             <div class="w-full pt-5 lg:pt-6">
               <div class="w-full flex flex-wrap p-2">
-                <div class="w-full p-3.5 bg-white rounded flex items-center space-x-4">
-                  <input type="text" formcontrolname="mobile_number" name="mobile_number" placeholder="Enter Mobile Number" class="w-full outline-none">
+                <div class="w-full p-3.5 bg-white rounded flex items-center relative">
+                  <input type="text" [formControlName]="'mobile'" name="mobile" placeholder="Enter Mobile Number" class="w-full outline-none" fuseValidNumber>
+                  <span class="absolute top-full text-red-500 text-xs left-0" *ngIf="linkForm.get('mobile')?.invalid && (linkForm.get('mobile')?.dirty && linkForm.get('mobile')?.touched)">
+                    <span *ngIf="linkForm.get('mobile')?.errors?.['required']">
+                      Mobile is required.
+                    </span>
+                    <span *ngIf="linkForm.get('mobile')?.errors?.['pattern']">
+                      Please enter valid mobile number.
+                    </span>
+                  </span>
                 </div>
               </div>
             </div>
             <div class="flex justify-center pt-5">
               <div class="relative">
-                <button class="secondary py-3 px-5 uppercase text-lg font-bold">Get Offer Link</button>
+                <button class="secondary py-3 px-5 uppercase text-lg font-bold" type="submit" (click)="getLink()" [disabled]="linkForm.invalid">Get Offer Link</button>
               </div>
             </div>
           </form>

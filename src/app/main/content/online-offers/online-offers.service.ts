@@ -57,4 +57,8 @@ export class OnlineOffersService {
   savePlatform(platformObj: any): any {
     return this.http.post(environment.appURL + 'organizer/platform/save', platformObj, this._globalFunctions.getAuthorizationHeader());
   }
+
+  linkPlatform(platformObj: any): any {
+    return this.http.post(environment.appURL + 'landing/onlineoffer/click', platformObj, this._globalFunctions.getAuthorizationHeader());
+  }
 }
