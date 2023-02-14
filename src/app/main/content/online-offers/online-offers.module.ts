@@ -16,6 +16,7 @@ import { NgSelectModule } from "@ng-select/ng-select";
 import { DropdownModule } from 'primeng/dropdown';
 import { ImageModule } from 'primeng/image';
 import { RatingModule } from "primeng/rating";
+import { TableModule } from 'primeng/table';
 
 const routes: Routes = [
   {
@@ -49,7 +50,8 @@ const routes: Routes = [
     NgSelectModule,
     DropdownModule,
     ImageModule,
-    RatingModule
+    RatingModule,
+    TableModule
   ]
 })
 export class OnlineOffersModule { }

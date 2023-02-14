@@ -1,6 +1,9 @@
-<p-progressSpinner *ngIf="isLoading" [style]="{width: '50px', height: '50px'}" animationDuration=".5s" strokeWidth="8" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-x-0 top-0 h-full w-full z-40" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
+<p-progressSpinner *ngIf="isLoading" [style]="{width: '50px', height: '50px'}" animationDuration=".5s" strokeWidth="8"
+  class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-x-0 top-0 h-full w-full z-40"
+  styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
 <div class="-mt-12 relative -z-10">
-  <img [src]="!!(offerObj?.poster) ? constants.baseImageURL + offerObj.poster : constants.defaultImage" [alt]="offerObj?.shop_name" class="w-full object-cover max-h-80" />
+  <img [src]="!!(offerObj?.poster) ? constants.baseImageURL + offerObj.poster : constants.defaultImage"
+    [alt]="offerObj?.shop_name" class="w-full object-cover max-h-80" />
 </div>
 <div class="wrapper -mt-14 z-10" *ngIf="!isLoading">
   <div class="lg:flex items-end justify-between bg-white py-5 px-7 rounded-md">
@@ -18,14 +21,16 @@
           <div class="text-sm font-semibold text-quicksilver">
             <i class="icon-calendar mr-1.5"></i>Offer Date
           </div>
-          <span class="text-japaneseIndigo text-sm font-bold">{{offerObj?.start_date | date:'dd MMM, yyyy'}} - {{offerObj?.end_date | date:'dd MMM, yyyy'}}</span>
+          <span class="text-japaneseIndigo text-sm font-bold">{{offerObj?.start_date | date:'dd MMM, yyyy'}} -
+            {{offerObj?.end_date | date:'dd MMM, yyyy'}}</span>
         </div>
         <div class="border-l-2 border-brightGray px-2 lg:px-4">
           <div class="text-sm font-semibold text-quicksilver">
             <i class="icon-online_offer mr-1.5"></i>Offer Status
           </div>
           <div class="flex items-center">
-            <input type="checkbox" id="on" class="switch mx-3 order-2" (click)="offerLive($event, offerObj)" [checked]="offerObj?.status" />
+            <input type="checkbox" id="on" class="switch mx-3 order-2" (click)="offerLive($event, offerObj)"
+              [checked]="offerObj?.status" />
             <span class="off text-base font-bold anim order-1 text-caribbeanGreen">On</span>
             <span class="on text-base font-bold anim order-3">Off</span>
           </div>
@@ -33,10 +38,12 @@
       </div>
     </div>
     <div class="flex justify-end space-x-2 mt-2.5">
-      <a href="javascript:void(0);" class="bg-brightGray px-2 py-1 text-center rounded" (click)="editOffer($event, offerObj?._id)"><i class="icon-edit text-base text-black"></i></a>
+      <a href="javascript:void(0);" class="bg-brightGray px-2 py-1 text-center rounded"
+        (click)="editOffer($event, offerObj?._id)"><i class="icon-edit text-base text-black"></i></a>
       <!-- <a href="javascript:void(0);" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-fill_megaphone text-base text-black"></i></a> -->
       <!-- <a href="javascript:void(0);" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-share text-base text-black"></i></a> -->
-      <a href="javascript:void(0);" class="bg-brightGray px-2 py-1 text-center rounded" (click)="deletePop()"><i class="icon-delete_fill text-base text-black"></i></a>
+      <a href="javascript:void(0);" class="bg-brightGray px-2 py-1 text-center rounded" (click)="deletePop()"><i
+          class="icon-delete_fill text-base text-black"></i></a>
     </div>
   </div>
   <div class="pt-3.5 lg:pt-7">
@@ -48,7 +55,9 @@
               <p class="text-lg text-japaneseIndigo font-bold">Product Image</p>
               <div class="flex space-x-5 items-center">
                 <span *ngFor="let prod_imgs of offerObj?.images; let i = index" class="block w-40 h-40">
-                  <p-image [src]="!!(prod_imgs?.url) ? constants.baseImageURL + prod_imgs.url : constants.defaultImage" [alt]="'product-'+i" imageClass="w-full h-full object-cover rounded" styleClass="w-full h-full" [preview]="true"></p-image>
+                  <p-image [src]="!!(prod_imgs?.url) ? constants.baseImageURL + prod_imgs.url : constants.defaultImage"
+                    [alt]="'product-'+i" imageClass="w-full h-full object-cover rounded" styleClass="w-full h-full"
+                    [preview]="true"></p-image>
                 </span>
               </div>
             </div>
@@ -65,17 +74,22 @@
           <div class="space-y-3">
             <h5>Platform & Product Link</h5>
             <div class="bg-white p-7 space-y-2.5 rounded-md">
-              <div class="flex items-center justify-between bg-brightGray py-3 px-4 rounded-md" *ngFor="let platform of offerObj?.product_links; let i = index">
+              <div class="flex items-center justify-between bg-brightGray py-3 px-4 rounded-md"
+                *ngFor="let platform of offerObj?.product_links; let i = index">
                 <div class="flex items-center space-x-2.5">
-                  <img [src]="!!(platform?.platform?.platformimage) ? constants.baseImageURL + platform.platform.platformimage : constants.defaultImage" [alt]="platform.platform.name" class="w-7 h-7 object-contain" />
+                  <img
+                    [src]="!!(platform?.platform?.platformimage) ? constants.baseImageURL + platform.platform.platformimage : constants.defaultImage"
+                    [alt]="platform.platform.name" class="w-7 h-7 object-contain" />
                   <!-- <input type="text" class="w-full outline-none bg-transparent" [value]="platform.product_link" readonly /> -->
-                  <a [href]="platform.product_link" target="_blank" class="text-sm normal-case break-all">{{platform?.product_link}}</a>
+                  <a [href]="platform.product_link" target="_blank"
+                    class="text-sm normal-case break-all">{{platform?.product_link}}</a>
                 </div>
                 <div class="text-xl leading-0">
                   <a href="javascript:void(0);" class="px-3" title="Copy" (click)="copyLink(platform.product_link)">
                     <i class="icon-copy"></i>
-                  </a>
-                  <a [href]="platform.product_link" class="px-3 border-l border-quicksilver" target="_blank" title="View This Link">
+                    <a [href]="platform.product_link" class="px-3 border-l border-quicksilver" target="_blank"
+                      title="View This Link">
+                    </a>
                     <i class="icon-big_screen"></i>
                   </a>
                   <!-- <a href="javascript:void(0);" class="px-3 border-l border-quicksilver" title="Share">
@@ -101,14 +115,12 @@
             <div class="p-3 lg:p-7 bg-white rounded-md space-y-1" [innerHtml]="offerObj?.tandc?.t_and_c"></div>
           </div>
           <!-- Social-Media -->
-          <div class="w-full space-y-3"
-          *ngIf="offerObj?.tandc?.facebook && offerObj?.tandc?.facebook != '' ||
+          <div class="w-full space-y-3" *ngIf="offerObj?.tandc?.facebook && offerObj?.tandc?.facebook != '' ||
                 offerObj?.tandc?.twitter && offerObj?.tandc?.twitter != '' ||
                 offerObj?.tandc?.youtube && offerObj?.tandc?.youtube != '' ||
                 offerObj?.tandc?.pinterest && offerObj?.tandc?.pinterest != '' ||
                 offerObj?.tandc?.instagram && offerObj?.tandc?.instagram != '' ||
-                offerObj?.tandc?.linkedin && offerObj?.tandc?.linkedin != ''"
-                >
+                offerObj?.tandc?.linkedin && offerObj?.tandc?.linkedin != ''">
             <span class="block text-base lg:text-xl font-bold">Social Media</span>
             <div class="flex items-center space-x-5 p-5 lg:p-7 bg-white rounded-lg">
               <a *ngIf="offerObj?.tandc?.facebook != ''" [href]="offerObj?.tandc?.facebook" target="_blank">
@@ -141,25 +153,15 @@
           </div>
           <div class="bg-white p-7 rounded-md space-y-7">
             <p class="text-lg text-japaneseIndigo font-bold">user click on platform</p>
-            <div class="flex items-center space-x-2.5">
-              <img src="../assets/images/flipkard-icon.png" alt="flipkart" class="w-10 h-10" />
-              <div>
-                <p class="text-base text-japaneseIndigo font-bold">flipkart</p>
-                <span class="text-xs text-quicksilver">10K User Click</span>
-              </div>
-            </div>
-            <div class="flex items-center space-x-2.5">
-              <img src="../assets/images/amzon-icon.png" alt="amazon" class="w-10 h-10" />
-              <div>
-                <p class="text-base text-japaneseIndigo font-bold">amazon</p>
-                <span class="text-xs text-quicksilver">10K User Click</span>
-              </div>
-            </div>
-            <div class="flex items-center space-x-2.5">
-              <img src="../assets/images/myntra-icon.png" alt="myntra" class="w-10 h-10" />
-              <div>
-                <p class="text-base text-japaneseIndigo font-bold">myntra </p>
-                <span class="text-xs text-quicksilver">10K User Click</span>
+            <div class="flex items-center space-x-2.5 cursor-pointer"
+              *ngFor="let click of offerObj?.product_links;let i = index;"
+              (click)="userClick(click?.short_link_id?.short_url)">
+              <img
+                [src]="!!(click?.platform?.platformimage) ? constants.baseImageURL + click.platform.platformimage : constants.defaultImage"
+                [alt]="click?.platform?.name" class="w-10 h-10" />
+              <div class="flex flex-col justify-center">
+                <p class="text-base text-japaneseIndigo font-bold mb-0">{{click?.platform?.name}}</p>
+                <span class="text-xs text-quicksilver">{{click?.short_link_id?.clicks}} User Click</span>
               </div>
             </div>
           </div>
@@ -173,14 +175,15 @@
 </div>
 
 <!-- Delete Online Offer -->
-<modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="delete-offer-pop" title="Are you sure?" [isCloseHidden]="true" [isTitleHidden]="true">
+<modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="delete-offer-pop"
+  title="Are you sure?" [isCloseHidden]="true" [isTitleHidden]="true">
   <div class="flex flex-wrap relative">
     <div class="w-full pb-8">
       <h3 class="w-full pb-2 normal-case">Delete Offer</h3>
       <p class="normal-case">Are you sure you want to delete {{offerObj?.shop_name}}</p>
     </div>
     <div class="flex items-center justify-end space-x-5 w-full">
-      <button type="button" class="primary py-2 px-14 anim uppercase" (click)="close()">Cancel</button>    
+      <button type="button" class="primary py-2 px-14 anim uppercase" (click)="close()">Cancel</button>
       <div class="relative">
         <button class="secondary py-2 px-14 anim uppercase" type="submit" (click)="deleteEvent()">
           <span [ngClass]="{'opacity-0': isDeleteLoading}">Delete</span>
@@ -189,6 +192,37 @@
           <mat-progress-spinner [diameter]="22" [mode]="'indeterminate'" class="mx-auto"></mat-progress-spinner>
         </div>
       </div>
+    </div>
+  </div>
+</modal>
+
+<!-- Delete Online Offer -->
+<modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="clickUserList" [isCloseHidden]="true" [isTitleHidden]="true">
+  <div class="flex flex-wrap relative">
+    <div class="w-full pb-8">
+      <h3 class="w-full pb-2 normal-case">Clicked User List</h3>
+      <p-table [value]="clickUsersObj" dataKey="id">
+        <ng-template pTemplate="header">
+          <tr>
+            <th class="w-1/2">User Name</th>
+            <th class="w-1/2">Clicked Time</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-user>
+          <tr class="p-selectable-row">
+            <td>{{user?.userid?.name}}</td>
+            <td>{{user?.timestamp | date:'dd MMM, yyyy hh:mm a'}}</td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="8">No clicks found.</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+    <div class="flex items-center justify-end space-x-5 w-full">
+      <button type="button" class="secondary py-2 px-14 anim uppercase" (click)="clickPopClose()">Cancel</button>
     </div>
   </div>
 </modal>

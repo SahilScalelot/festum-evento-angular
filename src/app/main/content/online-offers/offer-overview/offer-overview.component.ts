@@ -15,6 +15,7 @@ import { ModalService } from 'src/app/main/_modal';
 export class OfferOverviewComponent implements OnInit {
   offerId: any;
   offerObj: any;
+  clickUsersObj: any = [];
   constants: any = CONSTANTS;
   isLoading: boolean = false;
   isDeleteLoading: boolean = false;
@@ -88,7 +89,29 @@ export class OfferOverviewComponent implements OnInit {
       this.isLoading = false;
     });
   }
-
+  
+  
+  userClick(shortUrl: any = ''): void {
+    // this.isLoading = true;
+    // this._onlineOffersService.clickList('47LWZA1K6Z').subscribe((result: any) => {
+    this._onlineOffersService.clickList(shortUrl).subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        this.clickUsersObj = result?.Data || [];
+        this._modalService.open("clickUserList");
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+        this._modalService.close("clickUserList");
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this._modalService.close("clickUserList");
+    });    
+  }
+  clickPopClose(): void {
+    this._modalService.close("clickUserList");
+    this.clickUsersObj = [];
+  }
+  
   // Delete Online Offer
   deletePop(): void {
     this._modalService.open("delete-offer-pop");

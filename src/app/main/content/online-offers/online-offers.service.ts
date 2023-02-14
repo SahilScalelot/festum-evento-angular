@@ -65,4 +65,8 @@ export class OnlineOffersService {
   onOff(offerId: any): any {
     return this.http.post(environment.appURL + 'organizer/onlineoffer/onoff', {offerid: offerId}, this._globalFunctions.getAuthorizationHeader());
   }
+
+  clickList(link: any): any {
+    return this.http.post(environment.appURL + 'organizer/onlineoffer/clicks', {link: link}, this._globalFunctions.getAuthorizationHeader());
+  }
 }
