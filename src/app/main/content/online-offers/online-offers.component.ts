@@ -4,6 +4,7 @@ import {CONSTANTS} from "../../common/constants";
 import {OnlineOffersService} from "./online-offers.service";
 import {GlobalFunctions} from "../../common/global-functions";
 import { ModalService } from '../../_modal';
+import { SnotifyService } from 'ng-snotify';
 
 @Component({
   selector: 'app-online-offers',
@@ -22,6 +23,7 @@ export class OnlineOffersComponent implements OnInit {
 
   constructor(
     private _router: Router,
+    private _sNotify: SnotifyService,
     private _modalService: ModalService,
     private _globalFunctions: GlobalFunctions,
     private _onlineOffersService: OnlineOffersService,
@@ -63,6 +65,26 @@ export class OnlineOffersComponent implements OnInit {
     this._onlineOffersService.getPlatformList().subscribe((result: any) => {
       if (result && result.IsSuccess) {
         this.platformsArr = result?.Data || {};
+        this.isLoading = false;
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+        this.isLoading = false;
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isLoading = false;
+    });
+  }
+
+  offerLive(event: any, offerObj: any, index: number): void {
+    event.stopPropagation();
+    this._sNotify.clear();
+    this.isLoading = true;
+    this._onlineOffersService.onOff(offerObj._id).subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        const tmpEvents = this._globalFunctions.copyObject(this.shopOffers);
+        tmpEvents[index].status = event.target.checked;
+        this.shopOffers = this._globalFunctions.copyObject(tmpEvents);
         this.isLoading = false;
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);

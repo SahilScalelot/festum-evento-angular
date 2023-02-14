@@ -69,6 +69,26 @@ export class OfferOverviewComponent implements OnInit {
     });
   }
 
+  offerLive(event: any, offerObj: any): void {
+    event.stopPropagation();
+    this._sNotify.clear();
+    this.isLoading = true;
+    this._onlineOffersService.onOff(offerObj._id).subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        const tmpEvents = this._globalFunctions.copyObject(this.offerObj);
+        tmpEvents.status = event.target.checked;
+        this.offerObj = this._globalFunctions.copyObject(tmpEvents);
+        this.isLoading = false;
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+        this.isLoading = false;
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isLoading = false;
+    });
+  }
+
   // Delete Online Offer
   deletePop(): void {
     this._modalService.open("delete-offer-pop");

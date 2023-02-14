@@ -25,7 +25,7 @@
             <i class="icon-online_offer mr-1.5"></i>Offer Status
           </div>
           <div class="flex items-center">
-            <input type="checkbox" id="on" class="switch mx-3 order-2" [checked]="offerObj?.status" />
+            <input type="checkbox" id="on" class="switch mx-3 order-2" (click)="offerLive($event, offerObj)" [checked]="offerObj?.status" />
             <span class="off text-base font-bold anim order-1 text-caribbeanGreen">On</span>
             <span class="on text-base font-bold anim order-3">Off</span>
           </div>

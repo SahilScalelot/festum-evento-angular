@@ -61,4 +61,8 @@ export class OnlineOffersService {
   linkPlatform(platformObj: any): any {
     return this.http.post(environment.appURL + 'landing/onlineoffer/click', platformObj, this._globalFunctions.getAuthorizationHeader());
   }
+
+  onOff(offerId: any): any {
+    return this.http.post(environment.appURL + 'organizer/onlineoffer/onoff', {offerid: offerId}, this._globalFunctions.getAuthorizationHeader());
+  }
 }
