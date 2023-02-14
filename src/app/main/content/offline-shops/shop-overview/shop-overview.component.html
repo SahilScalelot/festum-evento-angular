@@ -18,7 +18,7 @@
           </div>
           <div class="lg:pl-5">
             <span class="text-xs font-bold text-quicksilver"><i class="icon-online_offer pr-1"></i>running offers</span>
-            <p class="text-sm text-japaneseIndigo font-bold pt-1">250 is running offers</p>
+            <p class="text-sm text-japaneseIndigo font-bold pt-1">{{(!shopObj?.total_running_offers) ? 'There are no' : shopObj?.total_running_offers}} Offer{{((shopObj?.total_running_offers > 1) || 0) ? 's are' : ' is'}} running.</p>
           </div>
         </div>
       </div>
