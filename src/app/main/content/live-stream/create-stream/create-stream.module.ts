@@ -17,6 +17,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { SharedModule } from "../../../../shared/shared.module";
 import { ModalModule } from 'src/app/main/_modal';
 import { DropdownModule } from 'primeng/dropdown';
+import { NgxDropzoneModule } from 'ngx-dropzone';
 
 const routes: Routes = [
   {
@@ -65,6 +66,7 @@ const routes: Routes = [
     SharedModule,
     ModalModule,
     DropdownModule,
+    NgxDropzoneModule,
   ]
 })
 export class CreateStreamModule { }

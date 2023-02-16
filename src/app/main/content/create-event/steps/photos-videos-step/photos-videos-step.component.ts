@@ -260,6 +260,7 @@ export class PhotosVideosStepComponent implements OnInit {
           this.posterImageAndVideoObj.photos.push({ url: result.Data.url, description: this.photoForm.value?.description });
           this.photoForm.get('description').setValue('');
           this._sNotify.success('Image Uploaded Successfully.', 'Success');
+          this.imagesFiles = [];
           this.isPhotoLoading = false;
           // this.inputText = '';
           this._modalService.close('photo');
@@ -375,6 +376,7 @@ export class PhotosVideosStepComponent implements OnInit {
           this.posterImageAndVideoObj.videos.push({ url: result.Data.url, description: this.videoForm.value?.description });
           this.videoForm.get('description').setValue('');
           this._sNotify.success('Video Uploaded Successfully.', 'Success');
+          this.videosFiles = [];
           this.isVideoLoading = false;
           $('#create-video-upload').val(null);
           // this.inputText = '';

@@ -10,6 +10,7 @@ import * as _ from 'lodash';
 import { ModalService } from 'src/app/main/_modal';
 // @ts-ignore
 import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
+import { forkJoin, Observable, switchMap } from 'rxjs';
 
 declare var $: any;
 
@@ -48,6 +49,13 @@ export class CompanyDetailsStepComponent implements OnInit {
   isInValidPDF: boolean = false;
   detailEditor = DecoupledEditor;
   editorConfig: any = {};
+  
+  photosUploadLimit: number = 5;
+  rejectedPhotosList: any;
+  imagesFiles: File[] = [];
+  videosUploadLimit: number = 1;
+  rejectedVideosList: any;
+  videosFiles: File[] = [];
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -162,91 +170,68 @@ export class CompanyDetailsStepComponent implements OnInit {
     }
   }
 
+  // Upload Images
   uploadImage(): any {
-    const image = $('#create-photo-upload')[0].files[0];
-    const imgFormData = new FormData();
-    if (image != undefined) {
-      if (image.type != 'image/jpeg' && image.type != 'image/jpg' && image.type != 'image/png') {
-        this._sNotify.error('Image type is Invalid.', 'Oops!');
-        $('#create-photo-upload').focus();
-        return false;
-      }
-
-      const image_size = image.size / 1024 / 1024;
-      if (image_size > CONSTANTS.maxImageSizeInMB) {
-        this._sNotify.error('Maximum Image Size is ' + CONSTANTS.maxImageSizeInMB + 'MB.', 'Oops!');
-        $('#create-photo-upload').focus();
-        return false;
-      }
-
-      if (this.photoArr && this.photoArr.length && this.photoArr.length >= 5) {
-        this._sNotify.error('Maximum 5 images can upload!', 'Oops!');
-        return false;
-      }
-
-      imgFormData.append('file', image);
-      this.isImgLoading = true;
-      this._createEventService.uploadImages(imgFormData).subscribe((result: any) => {
-        if (result && result.IsSuccess) {
-          const photo = result.Data.url;
-          this.photoArr.push({ url: photo });
-          this._sNotify.success('Image Uploaded Successfully.', 'Success');
-          this.isImgLoading = false;
-        } else {
-          this._globalFunctions.successErrorHandling(result, this, true);
-          this.isImgLoading = false;
+    const responseObj: Observable<any>[] = [];
+    this.imagesFiles.forEach((image: any) => {
+      if (image != undefined) {
+        if (image.type != 'image/jpeg' && image.type != 'image/jpg' && image.type != 'image/png') {
+          this._sNotify.error('Image type is Invalid.', 'Oops!');
+          return;
         }
-      }, (error: any) => {
-        this._globalFunctions.errorHanding(error, this, true);
+
+        const image_size = image.size / 1024 / 1024;
+        if (image_size > CONSTANTS.maxImageSizeInMB) {
+          this._sNotify.error('Maximum Image Size is ' + CONSTANTS.maxImageSizeInMB + 'MB.', 'Oops!');
+          return;
+        }
+
+        if (this.photoArr && this.photoArr.length && this.photoArr.length >= this.photosUploadLimit) {
+          this._sNotify.error('Maximum 15 images can upload!', 'Oops!');
+          this._modalService.close("photo");
+          return;
+        }
+
+        const photoFormData = new FormData();
+        photoFormData.append('file', image);
+        this.isImgLoading = true;
+        responseObj.push(this._createEventService.uploadImages(photoFormData));
+      }
+    });
+
+    forkJoin(...responseObj)
+    .pipe(
+      switchMap((result: any) => {
+        return result;
+      })
+    )
+    .subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        this.photoArr.push({ url: result.Data.url });
+        this._sNotify.success('Image Uploaded Successfully.', 'Success');
+        this.imagesFiles = [];
         this.isImgLoading = false;
-      });
-      $('#create-photo-upload').val(null);
-    }
-    
-
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+        this.isImgLoading = false;
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isImgLoading = false;
+    });
   }
-
-  uploadVideo(): any {
-    const video = $('#create-video-upload')[0].files[0];
-    const videoFormData = new FormData();
-    if (video != undefined) {
-      if (video.type != 'video/mp4') {
-        this._sNotify.error('Video type should only mp4.', 'Oops!');
-        $('#create-video-upload').focus();
-        return false;
-      }
-
-      const video_size = video.size / 1024 / 1024 / 1024;
-      if (video_size > CONSTANTS.maxCompanyVideoSizeInMB) {
-        this._sNotify.error('Maximum Company Video Size is ' + CONSTANTS.maxCompanyVideoSizeInMB + 'GB.', 'Oops!');
-        $('#create-video-upload').focus();
-        return false;
-      }
-      
-      if (this.videoArr && this.videoArr.length && this.videoArr.length >= 1) {
-        this._sNotify.error('Maximum 1 videos can upload!', 'Oops!');
-        return false;
-      }
-      videoFormData.append('file', video);
-      this.isVideoLoading = true;
-      this._createEventService.uploadVideos(videoFormData).subscribe((result: any) => {
-        if (result && result.IsSuccess) {
-          const video = result.Data.url;
-          this.videoArr.push({ url: video });
-          this._sNotify.success('Video Uploaded Successfully.', 'Success');
-          this.isVideoLoading = false;
-        } else {
-          this._globalFunctions.successErrorHandling(result, this, true);
-          this.isVideoLoading = false;
-        }
-      }, (error: any) => {
-        this._globalFunctions.errorHanding(error, this, true);
-        this.isVideoLoading = false;
-      });
-      $('#create-video-upload').val(null);
+  onSelectImages(event: any) {
+    const totalPhotos = this.photosUploadLimit - ((this.photoArr?.length || 0) + (event?.addedFiles?.length || 0) + (this.imagesFiles?.length || 0));
+    if ((totalPhotos >= 0) && (totalPhotos <= this.photosUploadLimit)) {
+      this.imagesFiles.push(...event.addedFiles);
+      this.rejectedPhotosList = event?.rejectedFiles;
+    } else {
+      this._sNotify.warning('You have exceeded the maximum photos limit!', 'Oops..');
     }
   }
-
+  onRemoveImages(event: any) {
+    this.imagesFiles.splice(this.imagesFiles.indexOf(event), 1);
+  }
   removeImage(index: number) {
     // this.photoArr.splice(index, 1);
     // this.allPhotosFilesArr.splice(index, 1);
@@ -254,6 +239,64 @@ export class CompanyDetailsStepComponent implements OnInit {
     this._modalService.open("delete-event-pop");
   }
 
+  // Upload Videos
+  uploadVideo(): any {
+    const responseObj: Observable<any>[] = [];
+    this.videosFiles.forEach((video: any) => {
+      if (video != undefined) {
+        if (video.type != 'video/mp4') {
+          this._sNotify.error('Video type should only mp4.', 'Oops!');
+          return;
+        }
+
+        const video_size = video.size / 1024 / 1024;
+        if (video_size > CONSTANTS.maxVideoSizeInMB) {
+          this._sNotify.error('Maximum Video Size is ' + CONSTANTS.maxVideoSizeInMB + 'MB.', 'Oops!');
+          return;
+        }
+
+        if (this.videoArr && this.videoArr.length && this.videoArr.length >= 2) {
+          this._sNotify.error('Maximum 2 videos can upload!', 'Oops!');
+          return;
+        }
+
+        const videoFormData = new FormData();
+        videoFormData.append('file', video);
+        this.isVideoLoading = true;
+        responseObj.push(this._createEventService.uploadVideos(videoFormData));
+      }
+    });
+
+    forkJoin(...responseObj).subscribe((resultArr: any) => {
+      _.each(resultArr, (result: any) => {
+        if (result && result.IsSuccess) {
+          this.videoArr.push({ url: result.Data.url });
+          this._sNotify.success('Video Uploaded Successfully.', 'Success');
+          this.videosFiles = [];
+          this.isVideoLoading = false;
+          $('#create-video-upload').val(null);
+        } else {
+          this._globalFunctions.successErrorHandling(result, this, true);
+          this.isVideoLoading = false;
+        }
+      });
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isVideoLoading = false;
+    });
+  }
+  onSelectVideos(event: any) {
+    const totalVideos = this.videosUploadLimit - ((this.videoArr?.length || 0) + (event?.addedFiles?.length || 0) + (this.videosFiles?.length || 0));
+    if ((totalVideos >= 0) && (totalVideos <= this.videosUploadLimit)) {
+      this.videosFiles.push(...event.addedFiles);
+      this.rejectedVideosList = event?.rejectedFiles;
+    } else {
+      this._sNotify.warning('You have exceeded the maximum videos limit!', 'Oops..');
+    }
+  }
+  onRemoveVideos(event: any) {
+    this.videosFiles.splice(this.videosFiles.indexOf(event), 1);
+  }
   removeVideo(index: number) {
     // this.videoArr.splice(index, 1);
     // this.allVideosFilesArr.splice(index, 1);

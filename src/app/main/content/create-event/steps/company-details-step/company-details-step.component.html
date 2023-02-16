@@ -113,7 +113,23 @@
     <div class="flex flex-wrap justify-between -mx-2 mt-7">
       <div class="w-full lg:w-1/2 px-2">
         <div class="media-upload-holder">
-          <span class="text-quicksilver font-semibold">Company Photos<span class="font-normal"> Max 5 images (up to 5MB/image)</span></span>
+          <span class="text-quicksilver font-semibold">Company Photos<span class="font-normal"> Max {{photosUploadLimit}} images (up to 5MB/image)</span></span>
+          <div class="w-full pt-2" *ngIf="photoArr.length < photosUploadLimit">
+            <div class="block relative">
+              <ngx-dropzone #dropzonePhotos class="flex-wrap" (change)="onSelectImages($event)" [maxFileSize]="3145728" accept="image/jpeg,image/jpg,image/png,image/gif">
+                <ngx-dropzone-label>Max {{photosUploadLimit - photoArr.length}} images (up to 5MB/image)</ngx-dropzone-label>
+                <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of imagesFiles" [file]="f" [removable]="true" (removed)="onRemoveImages(f)"></ngx-dropzone-image-preview>
+              </ngx-dropzone>
+              <button (click)="uploadImage()" *ngIf="imagesFiles?.length" class="absolute bottom-2 right-2 text-xs font-semibold text-magicPotion uppercase">Upload</button>
+              <p-progressSpinner *ngIf="isImgLoading" [style]="{width: '20px', height: '20px'}" animationDuration=".5s" strokeWidth="4" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-0 z-20" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
+            </div>
+            <div class="text-red-500 text-xs pt-1" *ngIf="rejectedPhotosList?.length">
+              Rejected Photos ( Because of Maximum Image Size is {{constants.maxImageSizeInMB}} MB. ) :-
+              <div>
+                <span *ngFor="let rpl of rejectedPhotosList">{{rpl?.name}}, </span>
+              </div>
+            </div>
+          </div>
           <div class="flex flex-wrap h-full pt-2">
             <div *ngFor="let photo of photoArr; let i = index" class="upload-box mr-2.5 mb-2.5">
               <div class="rounded relative overflow-hidden h-full w-full">
@@ -121,7 +137,8 @@
                 <button (click)="removeImage(i)">Remove</button>
               </div>
             </div>
-            <div class="upload-holder relative" *ngIf="photoArr.length < 5">
+            <div class="upload-holder relative" *ngIf="false">
+            <!-- <div class="upload-holder relative" *ngIf="photoArr.length < photosUploadLimit"> -->
               <p-progressSpinner *ngIf="isImgLoading" [style]="{width: '20px', height: '20px'}" animationDuration=".5s" strokeWidth="4" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-0 z-20" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
               <label class="upload-photo">
                 <input (change)="uploadImage()" accept="image/png, image/jpeg, image/gif" class="appearance-none hidden" id="create-photo-upload" multiple name="images" type="file"/>
@@ -134,7 +151,23 @@
       </div>
       <div class="w-full lg:w-1/2 px-2">
         <div class="media-upload-holder">
-          <span class="text-quicksilver font-semibold">Company Video <span class="font-normal">Max 1 videos (up to 2GB/video)</span></span>
+          <span class="text-quicksilver font-semibold">Company Video <span class="font-normal">Max {{videosUploadLimit}} videos (up to 2GB/video)</span></span>
+          <div class="w-full pt-2" *ngIf="videoArr.length < videosUploadLimit">
+            <div class="block relative">
+              <ngx-dropzone #dropzoneVideos class="flex-wrap" (change)="onSelectVideos($event)" [maxFileSize]="4294967296" accept="video/mp4,video/x-m4v,video/*">
+                <ngx-dropzone-label>Max {{videosUploadLimit - videoArr.length}} videos (up to 2GB/video)</ngx-dropzone-label>
+                <ngx-dropzone-video-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of videosFiles" [file]="f" [removable]="true" (removed)="onRemoveVideos(f)"></ngx-dropzone-video-preview>
+              </ngx-dropzone>
+              <button (click)="uploadVideo()" *ngIf="videosFiles?.length" class="absolute bottom-2 right-2 text-xs font-semibold text-magicPotion uppercase">Upload</button>
+              <p-progressSpinner *ngIf="isVideoLoading" [style]="{width: '20px', height: '20px'}" animationDuration=".5s" strokeWidth="4" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-0 z-20" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
+            </div>
+            <div class="text-red-500 text-xs pt-1" *ngIf="rejectedVideosList?.length">
+              Rejected Videos ( Because of Maximum Image Size is {{constants.maxVideoSizeInMB}} MB. ) :-
+              <div>
+                <span *ngFor="let rpl of rejectedVideosList">{{rpl?.name}}, </span>
+              </div>
+            </div>
+          </div>
           <div class="flex flex-wrap h-full pt-2">
             <div *ngFor="let video of videoArr; let i = index" class="upload-box mr-2.5 mb-2.5">
               <div class="rounded relative overflow-hidden h-full w-full">
@@ -144,7 +177,8 @@
                 <button (click)="removeVideo(i)">Remove</button>
               </div>
             </div>
-            <div class="upload-holder relative" *ngIf="videoArr.length < 1">
+            <div class="upload-holder relative" *ngIf="false">
+            <!-- <div class="upload-holder relative" *ngIf="videoArr.length < videosUploadLimit"> -->
               <p-progressSpinner *ngIf="isVideoLoading" [style]="{width: '20px', height: '20px'}" animationDuration=".5s" strokeWidth="4" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-0 z-20" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
               <label class="upload-photo">
                 <input (change)="uploadVideo()" accept="video/mp4" class="appearance-none hidden" id="create-video-upload" name="videos" type="file"/>

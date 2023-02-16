@@ -103,7 +103,7 @@ const routes: Routes = [
         component: FaqComponent
       },
       {
-        path: 'help',
+        path: 'ask-srivalli',
         component: HelpComponent
       },
       {
