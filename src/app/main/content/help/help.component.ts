@@ -9,12 +9,16 @@ import { Message, HelpService } from './help.service';
 export class HelpComponent implements OnInit, AfterViewChecked {
 
   @ViewChild('scrollMe') private myScrollContainer: any;
-
+  currentTime: Date = new Date();
   messages: Message[] = [];
   value: any;
   constructor(
     public _helpService: HelpService
-  ) { }
+  ) {
+    setInterval(() => {
+      this.currentTime = new Date();
+    })
+  }
 
   ngOnInit() {
     this.scrollToBottom();

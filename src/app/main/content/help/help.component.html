@@ -21,7 +21,7 @@
               <!-- chat-text  -->
               <div class="chat-holder bg-gray-100 py-12" #scrollMe>
                 <div class="text-massage {{message.author === 'bot' ? 'left-massage' : 'right-massage'}}" *ngFor="let message of messages">
-                  <p>{{ message.content }} <span>2:55PM</span></p>
+                  <p>{{ message.content }} <span>{{message.date | date : 'shortTime'}}</span></p>
                   <span class="arrow"></span>
                 </div>
               </div>
