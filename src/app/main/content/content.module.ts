@@ -24,12 +24,12 @@ import { ImageModule } from 'primeng/image';
 import { TooltipModule } from 'primeng/tooltip';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { FaqComponent } from './faq/faq.component';
-import { HelpComponent } from './help/help.component';
 import { TranslateModule } from "@ngx-translate/core";
 import { RatingModule } from 'primeng/rating';
 import { SwiperModule } from 'swiper/angular';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { DropdownModule } from 'primeng/dropdown';
+import { HelpModule } from './help/help.module';
 
 const routes: Routes = [
   {
@@ -47,7 +47,6 @@ const routes: Routes = [
     ReferAndEarnComponent,
     RedeemCoinComponent,
     FaqComponent,
-    HelpComponent,
     EntertainmentComponent,
     OurProductComponent,
     BookingComponent,
@@ -74,6 +73,7 @@ const routes: Routes = [
     RatingModule,
     ProgressBarModule,
     DropdownModule,
+    HelpModule
   ]
 })
 export class ContentModule {

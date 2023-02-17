@@ -227,7 +227,7 @@ input:checked + .check-language i{@apply scale-100;}
 /* chat-area */
 .chat-holder{@apply h-[calc(100vh-350px)] overflow-y-auto p-7 space-y-8;}
 .text-massage{@apply max-w-[70%] relative;}
-.text-massage p{@apply relative max-w-fit text-sm font-bold p-3 pb-5 rounded-md pr-7 min-w-[284px];}
+.text-massage p{@apply relative max-w-fit text-sm font-bold p-3 pb-4 pl-4 rounded-md pr-7;}
 .text-massage p span{@apply absolute -bottom-5 left-0 text-quicksilver text-10 tracking-wider;}
 .text-massage.right-massage p{@apply bg-[#D1D1D1] ml-auto;}
 .text-massage.left-massage p{@apply bg-white;}
