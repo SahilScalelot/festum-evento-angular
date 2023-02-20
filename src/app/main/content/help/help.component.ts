@@ -1,12 +1,11 @@
-import { Component, OnInit, ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Message, HelpService } from './help.service';
-
 @Component({
   selector: 'app-help',
   templateUrl: './help.component.html',
   styleUrls: ['./help.component.scss']
 })
-export class HelpComponent implements OnInit, AfterViewChecked {
+export class HelpComponent implements OnInit {
 
   @ViewChild('scrollMe') private myScrollContainer: any;
   currentTime: Date = new Date();
@@ -21,19 +20,20 @@ export class HelpComponent implements OnInit, AfterViewChecked {
   }
 
   ngOnInit() {
-    this.scrollToBottom();
     this._helpService.conversation.subscribe((val) => {
       this.messages = this.messages.concat(val);
+      setTimeout(() => {
+        this.scrollToBottom();
+      }, 0);
     });
   }
   sendMessage() {
     this._helpService.getBotAnswer(this.value);
     this.value = '';
+    setTimeout(() => {
+      this.scrollToBottom();
+    }, 0);
   }
-
-  ngAfterViewChecked() {        
-    this.scrollToBottom();        
-  } 
 
   scrollToBottom(): void {
     try {

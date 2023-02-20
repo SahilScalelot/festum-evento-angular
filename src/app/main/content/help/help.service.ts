@@ -27,7 +27,7 @@ export class HelpService {
     const botMessage = new Message('bot', this.getBotMessage(msg), new Date());
     setTimeout(()=>{
       this.conversation.next([botMessage]);
-    }, 1500);
+    }, 500);
   }
   getBotMessage(question: any = ''){
     question = question.toLowerCase();

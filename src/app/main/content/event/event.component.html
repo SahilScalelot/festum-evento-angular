@@ -13,8 +13,8 @@
     
     <div class="space-y-5" *ngIf="!isLoading">
       <div class="w-full flex items-center cursor-pointer" *ngFor="let event of events; let i = index">
-        <div class="" [ngClass]="{'opacity-50' : !event.is_approved || event.is_live}">
-          <p-checkbox name="groupname" class="mr-5" [value]="event._id" [(ngModel)]="selectedEventIds" [disabled]="!event.is_approved || event.is_live" (click)="checkClick($event, event)"></p-checkbox>
+        <div class="" [ngClass]="{'opacity-50' : !event?.is_approved || event?.is_live}">
+          <p-checkbox name="groupname" class="mr-5" [value]="event._id" [(ngModel)]="selectedEventIds" [disabled]="!event?.is_approved || event?.is_live" (click)="checkClick($event, event)"></p-checkbox>
         </div>
         <div class="w-full flex items-center" (click)="gotoEventOverview($event, event)">
           <div class="w-full p-4 bg-white rounded">
@@ -49,7 +49,7 @@
                   <div class="text-left pt-5 lg:pt-0 w-auto flex justify-between lg:inline-block lg:text-right space-y-3 lg:space-y-5">
                     <label class="flex items-center relative" (click)="liveEventCheck($event, event, i)">
                       <span class="absolute opacity-0 inset-y-0 left-3 right-10 block z-10" *ngIf="!event.is_approved"></span>
-                      <input type="checkbox" class="switch mr-1.5 lg:mx-3 order-2" (click)="liveEvent($event, event, i)" [checked]="event?.is_live" [disabled]="!event.is_approved"/>
+                      <input type="checkbox" class="switch mr-1.5 lg:mx-3 order-2" (click)="liveEvent($event, event, i)" [checked]="event?.is_live" [disabled]="!event?.is_approved"/>
                       <span class="text-base font-bold anim order-3">Live</span>
                     </label>
                     <!-- <h3 class="text-right">250 INR</h3>-->
@@ -68,7 +68,7 @@
                     <span class="text-xs font-bold text-quicksilver">{{event?.total_available_seats || 0}} UnSold</span>
                   </div>
                   <div class="flex space-x-2 pt-4">
-                    <a href="javascript:void(0)" (click)="editEvent($event, event._id)" *ngIf="event?.iseditable" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-edit text-sm leading-0 text-japaneseIndigo"></i></a>
+                    <a href="javascript:void(0)" (click)="editEvent($event, event?._id)" *ngIf="event?.iseditable" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-edit text-sm leading-0 text-japaneseIndigo"></i></a>
                     <a href="javascript:void(0)" (click)="gotoEventOverview($event, event)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-show text-xs leading-0 text-japaneseIndigo"></i></a>
                     <!-- <a href="javascript:void(0)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-fill_megaphone text-sm leading-0 text-japaneseIndigo"></i></a> -->
                     <!-- <a href="javascript:void(0)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-online_offer text-xl leading-0 text-japaneseIndigo"></i></a> -->
