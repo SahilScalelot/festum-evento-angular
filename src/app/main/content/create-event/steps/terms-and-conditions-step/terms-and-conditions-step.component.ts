@@ -98,25 +98,27 @@ export class TermsAndConditionsStepComponent implements OnInit {
         this.termsAndConditionsForm.controls[key].markAsDirty();
       });
       return;
+    }    
+    if (this.termsAndConditionsForm.value.status != '') {
+      this.isLoading = true;
+      this.termsAndConditionsForm.disable();
+      const preparedLocationObj: any = this.prepareTAndCEventObj(this.termsAndConditionsForm.value);
+      this._createEventService.tAndC(preparedLocationObj).subscribe((result: any) => {
+        if (result && result.IsSuccess) {
+          this.isLoading = false;
+          this.termsAndConditionsForm.enable();
+          this._router.navigate(['/events']);
+        } else {
+          this._globalFunctions.successErrorHandling(result, this, true);
+          this.isLoading = false;
+          this.termsAndConditionsForm.enable();
+        }
+      }, (error: any) => {
+        this._globalFunctions.errorHanding(error, this, true);
+        this.isLoading = false;
+        this.termsAndConditionsForm.enable();
+      });
     }
-    this.isLoading = true;
-    this.termsAndConditionsForm.disable();
-    const preparedLocationObj: any = this.prepareTAndCEventObj(this.termsAndConditionsForm.value);
-    this._createEventService.tAndC(preparedLocationObj).subscribe((result: any) => {
-      if (result && result.IsSuccess) {
-        this.isLoading = false;
-        this.termsAndConditionsForm.enable();
-        this._router.navigate(['/events']);
-      } else {
-        this._globalFunctions.successErrorHandling(result, this, true);
-        this.isLoading = false;
-        this.termsAndConditionsForm.enable();
-      }
-    }, (error: any) => {
-      this._globalFunctions.errorHanding(error, this, true);
-      this.isLoading = false;
-      this.termsAndConditionsForm.enable();
-    });
   }
 
   prepareTAndCEventObj(locationObj: any = {}): any {
@@ -134,7 +136,7 @@ export class TermsAndConditionsStepComponent implements OnInit {
       pinterest: [eventObj?.pinterest],
       instagram: [eventObj?.instagram],
       linkedin: [eventObj?.linkedin],
-      status: [eventObj?.status, { disabled: true }],
+      status: ['', { disabled: true }, [Validators.required]],
     });
   }
 

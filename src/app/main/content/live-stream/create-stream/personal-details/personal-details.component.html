@@ -60,14 +60,14 @@
         </div>
         <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-5 pb-0.5 inputHolder relative">
           <label class="input-titel">City <span>*</span></label>
-          <input [formControlName]="'city'" class="input" name="city" required type="text"/>
+          <input [formControlName]="'city'" class="input" name="city" required type="text" fuseValidAlphabet/>
             <span class="absolute top-full text-red-500 text-xs" *ngIf="personalDetailForm.get('city')?.invalid && (personalDetailForm.get('city')?.dirty && personalDetailForm.get('city')?.touched)">
             <span *ngIf="personalDetailForm.get('city')?.errors?.['required']">City is required</span>
           </span>
         </div>
         <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-5 pb-0.5 inputHolder relative">
           <label class="input-titel">State <span>*</span></label>
-          <input [formControlName]="'state'" class="input" name="state" required type="text"/>
+          <input [formControlName]="'state'" class="input" name="state" required type="text" fuseValidAlphabet/>
             <span class="absolute top-full text-red-500 text-xs" *ngIf="personalDetailForm.get('state')?.invalid && (personalDetailForm.get('state')?.dirty && personalDetailForm.get('state')?.touched)">
             <span *ngIf="personalDetailForm.get('state')?.errors?.['required']">State is required</span>
           </span>

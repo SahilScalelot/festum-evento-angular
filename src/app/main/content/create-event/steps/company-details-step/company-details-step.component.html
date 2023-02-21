@@ -79,7 +79,7 @@
         </div>
         <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-5 inputHolder relative">
           <label class="input-titel">City<span class="text-magicPotion">*</span></label>
-          <input [formControlName]="'city'" class="input" type="text"/>
+          <input [formControlName]="'city'" class="input" type="text" fuseValidAlphabet/>
           <span class="absolute top-full text-red-500 text-xs" *ngIf="companyForm.get('city')?.invalid && (companyForm.get('city')?.dirty && companyForm.get('city')?.touched)">
             <span *ngIf="companyForm.get('city')?.errors?.['required']">
               City is required.
@@ -88,7 +88,7 @@
         </div>
         <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-5 inputHolder relative">
           <label class="input-titel">State<span class="text-magicPotion">*</span></label>
-          <input [formControlName]="'state'" class="input" type="text"/>
+          <input [formControlName]="'state'" class="input" type="text" fuseValidAlphabet/>
           <span class="absolute top-full text-red-500 text-xs" *ngIf="companyForm.get('state')?.invalid && (companyForm.get('state')?.dirty && companyForm.get('state')?.touched)">
             <span *ngIf="companyForm.get('state')?.errors?.['required']">
               State is required.
@@ -97,7 +97,7 @@
         </div>
         <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-5 inputHolder relative">
           <label class="input-titel">Pincode<span class="text-magicPotion">*</span></label>
-          <input [formControlName]="'pincode'" class="input" type="text" fuseValidNumber />
+          <input [formControlName]="'pincode'" class="input" type="text" fuseValidNumber/>
           <span class="absolute top-full text-red-500 text-xs" *ngIf="companyForm.get('pincode')?.invalid && (companyForm.get('pincode')?.dirty && companyForm.get('pincode')?.touched)">
             <span *ngIf="companyForm.get('pincode')?.errors?.['required']">
               Pincode is required.

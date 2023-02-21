@@ -128,8 +128,8 @@ export class LocationStepComponent implements OnInit {
       area_name: [locationObj?.area_name || ''],
       longitude: [(locationObj && locationObj.location && locationObj.location.coordinates && locationObj.location.coordinates.length) ? locationObj.location.coordinates[0] : CONSTANTS.longitude],
       latitude: [(locationObj && locationObj.location && locationObj.location.coordinates && locationObj.location.coordinates.length) ? locationObj.location.coordinates[1] : CONSTANTS.latitude],
-      city: [locationObj?.city || '', [Validators.required]],
-      state: [locationObj?.state || '', [Validators.required]],
+      city: [locationObj?.city || '', [Validators.required, Validators.pattern('^[a-zA-Z ]*$')]],
+      state: [locationObj?.state || '', [Validators.required, Validators.pattern('^[a-zA-Z ]*$')]],
       pincode: [locationObj?.pincode || '', [Validators.required, Validators.pattern('^[1-9]{1}[0-9]{2}\\s{0,1}[0-9]{3}$')]],
     });
   }
