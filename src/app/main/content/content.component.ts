@@ -84,7 +84,6 @@ export class ContentComponent implements OnInit {
     this.languageModel = false;
   }
 
-
   getSearch(event: any = ''): void {
     const searchWord = event.target.value;
     if (searchWord != "") {      

@@ -165,7 +165,6 @@ export class BillDetailsComponent implements OnInit {
       return false;
     }
     const preparedCalculatedObj: any = this.prepareCalculatedObj();
-    console.log(preparedCalculatedObj);
     this.isLoading = true;
     this._promoteService.processPayment(preparedCalculatedObj).subscribe((result: any) => {
       if (result && result.IsSuccess) {

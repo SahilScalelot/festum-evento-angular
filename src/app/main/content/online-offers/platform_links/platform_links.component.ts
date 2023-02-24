@@ -48,8 +48,6 @@ export class PlatformLinksComponent implements OnInit {
   }
 
   getLink(): void {
-    console.log(this.linkForm.value);
-    
     if (this.linkForm.invalid) {
       return;
     }

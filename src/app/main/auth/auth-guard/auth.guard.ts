@@ -20,18 +20,23 @@ export class AuthGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     const token = localStorage.getItem('accessToken');
-    return new Promise((resolve, reject) => {
-      if (token && token != '') {
-        Promise.all([
-          this.verify(state.url)
-        ]).then(() => {
-          resolve(true);
-        }, reject);
-      } else {
-        this.redirectLogin();
-        reject();
-      }
-    });
+    if (token && token != "") {
+      return new Promise((resolve, reject) => {
+        if (token && token != '') {
+          Promise.all([
+            this.verify(state.url)
+          ]).then(() => {
+            resolve(true);
+          }, reject);
+        } else {
+          this.redirectLogin();
+          reject();
+        }
+      });
+    } else {
+      // this._router.navigate(['/']);
+      return false;
+    }
   }
 
   verify(url: any): Promise<any> {

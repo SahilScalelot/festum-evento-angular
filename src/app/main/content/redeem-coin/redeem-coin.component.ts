@@ -37,7 +37,6 @@ export class RedeemCoinComponent implements OnInit {
     this._redeemCoinService.getRedeemHistory().subscribe((result: any) => {
       if (result && result.IsSuccess) {
         this.redeemCoinHistory = result.Data;
-        console.log(this.redeemCoinHistory[0]);
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
       }

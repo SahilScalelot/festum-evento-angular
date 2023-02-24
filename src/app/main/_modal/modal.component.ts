@@ -72,7 +72,6 @@ export class ModalComponent implements OnInit, OnDestroy {
         this.state = "in";        
         this.element.style.display = 'table';                
         document.body.classList.add('modal-open');
-        // console.log(this.state);
     }
 
     // close modal
@@ -80,6 +79,5 @@ export class ModalComponent implements OnInit, OnDestroy {
         this.state = "out";
         this.element.style.display = 'none';        
         document.body.classList.remove('modal-open');
-        // console.log(this.state);
     }
 }

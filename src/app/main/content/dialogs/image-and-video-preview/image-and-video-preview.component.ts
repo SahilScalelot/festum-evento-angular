@@ -19,8 +19,6 @@ export class ImageAndVideoPreviewComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-      // console.log(this.expectedProp);
-      // console.log(this.isImageOrVideoFlag);
       // gallery slider 
       var galleryTop = new Swiper('.gallery-top', {
         spaceBetween: 10,

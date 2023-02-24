@@ -53,9 +53,7 @@ export class SetNewPasswordComponent implements OnInit {
       var newPassword ={
         mobile:mobile,
         password:this.setNewPasswordForm.value.password,
-      }
-      console.log(newPassword);
-      
+      }      
       this._auth.changePassword(newPassword).subscribe((result:any)=>{
         if(result.IsSuccess){
           this._sNotify.success('Password change successfully', 'Success');

@@ -78,9 +78,7 @@ export class StreamOverviewComponent implements OnInit {
     }
   }
 
-  exportAttendees(): void {
-    console.log('exportAttendees');
-    
+  exportAttendees(): void {    
     // if (this.isExportLoading) {
     //   return;
     // }
