@@ -106,8 +106,8 @@
       </label> -->
     </div>
     <div class="w-full">
-      <span class="input-titel">Details</span>
-      <textarea class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md" cols="30" rows="5" formControlName="description"></textarea>
+      <span class="input-titel">Details <i class="text-xs font-medium" [ngClass]="{'text-magicPotion' : (descriptionLimit > constants.CKEditorCharacterLimit0)}">( You have {{descriptionLimit}} of {{constants.CKEditorCharacterLimit0}} characters remaining ) </i></span>
+      <textarea #imageDescription class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md" cols="30" rows="5" formControlName="description" (keyup)="descriptionLimit = imageDescription.value.length"></textarea>
     </div>
   </form>
   <button (click)="uploadImage()" class="secondary w-full uppercase py-2 anim" [disabled]="isPhotoLoading">{{ isPhotoLoading ? 'Please wait...' : 'Submit' }}</button>
@@ -136,8 +136,8 @@
       </div>
     </div>
     <div class="w-full">
-      <span class="input-titel">Details</span>
-      <textarea class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md" cols="30" rows="5" formControlName="description"></textarea>
+      <span class="input-titel">Details <i class="text-xs font-medium" [ngClass]="{'text-magicPotion' : (descriptionLimit > constants.CKEditorCharacterLimit0)}">( You have {{descriptionLimit}} of {{constants.CKEditorCharacterLimit0}} characters remaining ) </i></span>
+      <textarea #videoDescription class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md" cols="30" rows="5" formControlName="description" (keyup)="descriptionLimit = videoDescription.value.length"></textarea>
     </div>
   </form>
   <button (click)="uploadVideo()" class="secondary w-full uppercase py-2 anim" [disabled]="isVideoLoading">{{ isVideoLoading ? 'Please wait...' : 'Submit' }}</button>
