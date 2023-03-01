@@ -374,9 +374,9 @@
                   </div>
                 </div>
                 <div class="w-full">
-                  <span class="input-titel">Food description?</span>
+                  <span class="input-titel">Food description?  <i class="text-xs font-medium" [ngClass]="{'text-magicPotion' : textEditorFood}">( You have {{textEditorLimitFood}} of {{textEditorMaxLimit}} characters remaining ) </i></span>
                   <div class="w-full bg-white rounded">
-                    <ckeditor (ready)="onTextEditorReady($event, 'food_description')" [config]="editorConfig" [editor]="detailEditor" [formControlName]="'food_description'" class="h-44 text-editor" id="food_description" name="food_description"></ckeditor>
+                    <ckeditor (ready)="onTextEditorReady($event, 'food_description')" (keyup)="editorCharacterSetFood()" (keydown)="editorCharacterSetFood()" [config]="editorConfig" [editor]="detailEditor" [formControlName]="'food_description'" class="h-44 text-editor" id="food_description" name="food_description"></ckeditor>
                   </div>
                   <!-- <textarea class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-tl-md rounded-tr-md placeholder:text-sm placeholder:text-[#a6a6a6] placeholder:font-bold" cols="30" rows="4" [formControlName]="'food_description'"></textarea> -->
                   <div class="flex items-center space-x-3 bg-white justify-end pr-4 pb-2 rounded-bl-md rounded-br-md">
@@ -405,7 +405,7 @@
                   <i class="icon-left_arrow mr-3"></i>
                   <h5>Back</h5>
                 </button>
-                <button (click)="selectedTab = 2" class="flex items-center active" type="button">
+                <button (click)="validateTextEditor()" class="flex items-center active" type="button">
                   <h5>Next</h5>
                   <i class="icon-right_arrow ml-3"></i>
                 </button>
@@ -451,9 +451,9 @@
                   </div>
                 </div>
                 <div class="w-full">
-                  <span class="input-titel">Equipment description?</span>
+                  <span class="input-titel">Equipment description?  <i class="text-xs font-medium" [ngClass]="{'text-magicPotion' : textEditorEquipment}">( You have {{textEditorLimitEquipment}} of {{textEditorMaxLimit}} characters remaining ) </i></span>
                   <div class="w-full bg-white rounded">
-                    <ckeditor (ready)="onTextEditorReady($event, 'equipment_description')" [config]="editorConfig" [editor]="detailEditor" [formControlName]="'equipment_description'" class="h-44 text-editor" id="equipment_description" name="equipment_description"></ckeditor>
+                    <ckeditor (ready)="onTextEditorReady($event, 'equipment_description')" (keyup)="editorCharacterSetEquipment()" (keydown)="editorCharacterSetEquipment()" [config]="editorConfig" [editor]="detailEditor" [formControlName]="'equipment_description'" class="h-44 text-editor" id="equipment_description" name="equipment_description"></ckeditor>
                   </div>
                   <!-- <textarea class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-tl-md rounded-tr-md placeholder:text-sm placeholder:text-[#a6a6a6] placeholder:font-bold" cols="30" rows="4" [formControlName]="'equipment_description'"></textarea> -->
                   <div class="flex items-center space-x-3 bg-white justify-end pr-4 pb-2 rounded-bl-md rounded-br-md">
