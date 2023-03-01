@@ -11,7 +11,7 @@ html, body {scroll-behavior: smooth;}
 
 * {@apply font-primary}
 
-body{@apply font-primary text-japaneseIndigo bg-brightGray m-0 capitalize;}
+body{@apply font-primary text-japaneseIndigo bg-brightGray m-0;}
 
 /* ANim */
 .anim {@apply transition-all duration-300;}
@@ -65,7 +65,7 @@ button.primary,.primary{@apply bg-caribbeanGreen rounded-md font-bold text-white
 .input-titel span{@apply text-red-500 text-lg leading-none;}
 .input-titel span.textLow{@apply text-quicksilver text-xs;}
 .input-titel span.textLow-red{@apply text-magicPotion font-bold text-xs;}
-.inputHolder input.input,.inputHolder textarea.input,.inputHolder select,.inputHolder .bgquicksilver,.inputHolder .bgmagicpotion,.inputHolder .bormagicpotion{@apply flex w-full bg-white p-3.5 py-3 outline-none rounded-md;}
+.inputHolder input.input,.inputHolder textarea.input,.inputHolder select,.inputHolder .bgquicksilver,.inputHolder .bgmagicpotion,.inputHolder .bormagicpotion{@apply flex w-full bg-white p-3.5 py-3 outline-none rounded-md placeholder:text-base;}
 .input-label-holder .input-checkd{@apply text-sm font-bold text-quicksilver flex items-center align-middle;}
 .teb-holder .inputHolder select {@apply py-2.5 w-52 lg:w-72;}
 

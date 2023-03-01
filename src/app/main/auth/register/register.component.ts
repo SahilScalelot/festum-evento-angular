@@ -44,6 +44,7 @@ export class RegisterComponent implements OnInit {
       mobile: ['', [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
       country_code: ['+91'],
       password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(16)]],
+      confirm_password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(16)]],
       refer_code: [''],
       fcm_token: [''],
     }, {

@@ -253,6 +253,25 @@ export class GlobalFunctions {
     return new File([blob], name + '.jpeg', { type: "image/jpeg" });
   }
 
+
+  getPlainText(strSrc: any) {
+    var resultStr = "";
+    // Ignore the <p> tag if it is in very start of the text
+    if (strSrc.indexOf('<p>') == 0)
+      resultStr = strSrc.substring(3);
+    else
+      resultStr = strSrc;
+    // Replace <p> with two newlines
+    // resultStr = resultStr.replace(/<p>/gi, "\r\n\r\n");
+    // Replace <br /> with one newline
+    // resultStr = resultStr.replace(/<br \/>/gi, "\r\n");
+    // resultStr = resultStr.replace(/<br>/gi, "\r\n");
+    
+    // Replace &nbsp; with space
+    resultStr = resultStr.replace(/&nbsp;/gi, " ");
+    return resultStr.replace(/<[^<|>]+?>/gi, '').trim();
+  }
+
   removeIdsFromLocalStorage(): void {
     localStorage.removeItem('eId');
     localStorage.removeItem('oOId');

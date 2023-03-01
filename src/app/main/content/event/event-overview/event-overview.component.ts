@@ -3,6 +3,8 @@ import { ActivatedRoute, Router, NavigationStart, Event as NavigationEvent } fro
 import { CONSTANTS } from 'src/app/main/common/constants';
 import { GlobalFunctions } from 'src/app/main/common/global-functions';
 import { EventService } from '../event.service';
+import {MatAccordion} from '@angular/material/expansion';
+
 
 declare var $: any;
 
@@ -22,6 +24,8 @@ export class EventOverviewComponent implements OnInit {
   companyIAndV: boolean = false;
   imagesOrVideosArr: Array<any> = [];
   attendees: Array<any> = [];
+
+  panelOpenState: boolean = false;
 
   overview: boolean = true;
   attendee: boolean = false;

@@ -208,6 +208,12 @@ export const CONSTANTS = {
   latitude: 21.228125,
   longitude: 72.833771,
   googleMapApiKey: 'AIzaSyDLgr8YB5IK8dBIEWClexZGzXaB7UlVm7Q',
-
+  
   maxOfferOnAllProductsLimit: 7,
+
+  // CK Editor Character limit
+  CKEditorCharacterLimit0: 500,
+  CKEditorCharacterLimit1: 1000,
+  CKEditorCharacterLimit2: 2000,
+  CKEditorCharacterLimit3: 3000,
 };

@@ -57,14 +57,14 @@ export class ArrangementDialogComponent implements OnInit {
 
   addArrangements(tempArrangementObj: any = {}): void {
     const arrangementsObj = this._formBuilder.group({
-      number_of_seating_item: [tempArrangementObj?.number_of_seating_item || 0, [Validators.required, Validators.min(1)]],
+      number_of_seating_item: [tempArrangementObj?.number_of_seating_item || '', [Validators.required, Validators.min(1)]],
       vertical_location: [tempArrangementObj?.vertical_location || this.constants.verticalLocationsArr[this.constants.verticalLocationsObj.TOP].value, [Validators.required, Validators.min(1)]],
       horizontal_location: [tempArrangementObj?.horizontal_location || this.constants.horizontalLocationsArr[this.constants.horizontalLocationsObj.NONE].value, [Validators.required, Validators.min(1)]],
-      per_seating_person: [tempArrangementObj?.per_seating_person || 0],
-      total_person: [tempArrangementObj?.total_person || 0, [Validators.required, Validators.min(1)]],
-      per_seating_price: [tempArrangementObj?.per_seating_price || 0],
-      per_person_price: [tempArrangementObj?.per_person_price || 0, [Validators.required, Validators.min(1)]],
-      total_amount: [tempArrangementObj?.total_amount || 0, [Validators.required, Validators.min(1)]],
+      per_seating_person: [tempArrangementObj?.per_seating_person || ''],
+      total_person: [tempArrangementObj?.total_person || '', [Validators.required, Validators.min(1)]],
+      per_seating_price: [tempArrangementObj?.per_seating_price || ''],
+      per_person_price: [tempArrangementObj?.per_person_price || '', [Validators.required, Validators.min(1)]],
+      total_amount: [tempArrangementObj?.total_amount || '', [Validators.required, Validators.min(1)]],
       description: [tempArrangementObj?.description || ''],
       booking_acceptance: [tempArrangementObj?.booking_acceptance || false],
     });

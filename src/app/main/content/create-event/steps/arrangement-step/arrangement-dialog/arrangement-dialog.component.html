@@ -35,29 +35,34 @@
                     <option [value]=""></option>
                     <option *ngFor="let seatingItem of seatingItems" [value]="seatingItem._id">{{seatingItem.itemname}}</option>
                   </select>
-                  <span class="absolute top-full text-red-500 text-xs" *ngIf="seatingForm.get('seating_item')?.invalid && (seatingForm.get('seating_item')?.dirty && seatingForm.get('seating_item')?.touched)">
+                  <span class="absolute top-full text-red-500 text-10" *ngIf="seatingForm.get('seating_item')?.invalid && (seatingForm.get('seating_item')?.dirty && seatingForm.get('seating_item')?.touched)">
                     <span *ngIf="seatingForm.get('seating_item')?.errors?.['required']">
                       Please select item.
                     </span>
                   </span>
                 </div>
                 <div *ngIf="seatingForm?.value?.seating_item || editArrangementObj?.seating_item" class="">
-                  <label class="input-titel">arrangement</label>
+                  <div class="flex items-center justify-between pb-2">
+                    <label class="input-titel">arrangement</label>
+                    <button (click)="addArrangements()" class="pluse border-2 border-japaneseIndigo w-7 h-7 rounded-full flex justify-center items-center">
+                      <i class="icon-plus_round leading-0"></i>
+                    </button>
+                  </div>
                   <div class="w-full">
                     <div class="bg-white p-7 rounded-md">
-                      <div class="overflow-auto max-h-[430px] relative">
+                      <div class="overflow-auto max-h-[430px]">
                         <div formArrayName="arrangements">
                           <div *ngFor="let child of arrangements.controls; let i = index" class="pluseBox">
                             <ul [formGroupName]="i" class="flex items-center space-x-2 py-2">
-                              <li>
+                              <li class="pb-3">
                                 <div class="w-[151px]">
                                   <span class="input-titel text-xs">
                                     No of {{selectedSeatingObj.itemname}}
                                   </span>
                                   <div class="w-full flex items-center space-x-5">
                                     <div class="w-full inputHolder relative">
-                                      <input (input)="updateCalculatedValue()" [formControlName]="'number_of_seating_item'" [min]="0" [name]="'number_of_seating_item' + i" class="bgquicksilver" fuseValidNumber type="number">
-                                      <span class="absolute top-full text-red-500 text-xs" *ngIf="child?.get('number_of_seating_item')?.invalid && (child?.get('number_of_seating_item')?.dirty && child?.get('number_of_seating_item')?.touched)">
+                                      <input (input)="updateCalculatedValue()" [formControlName]="'number_of_seating_item'" [min]="0" placeholder="0" [name]="'number_of_seating_item' + i" class="bgquicksilver" fuseValidNumber type="number">
+                                      <span class="absolute top-full text-red-500 text-10" *ngIf="child?.get('number_of_seating_item')?.invalid && (child?.get('number_of_seating_item')?.dirty && child?.get('number_of_seating_item')?.touched)">
                                         <span *ngIf="child?.get('number_of_seating_item')?.errors?.['required']">
                                           This field must have required.
                                         </span>
@@ -69,7 +74,7 @@
                                   </div>
                                 </div>
                               </li>
-                              <li>
+                              <li class="pb-3">
                                 <div class="w-[151px] inputHolder">
                                   <span class="input-titel text-xs">Vertical Location</span>
                                   <select (input)="updateCalculatedValue()" [formControlName]="'vertical_location'" [name]="'vertical_location' + i" class="arrow bgquicksilver py-3 text-japaneseIndigo font-bold rounded-md tracking-wider appearance-none focus-visible:outline-none">
@@ -77,7 +82,7 @@
                                   </select>
                                 </div>
                               </li>
-                              <li>
+                              <li class="pb-3">
                                 <div class="w-[151px] inputHolder">
                                   <span class="input-titel text-xs">Horizontal Location</span>
                                   <select (input)="updateCalculatedValue()" [formControlName]="'horizontal_location'" [name]="'horizontal_location' + i" class="arrow bgquicksilver py-3 text-japaneseIndigo font-bold rounded-md tracking-wider appearance-none focus-visible:outline-none">
@@ -85,13 +90,13 @@
                                   </select>
                                 </div>
                               </li>
-                              <li *ngIf="(selectedSeatingObj.itemname !== 'Chair' && selectedSeatingObj.itemname !== 'chair') && (selectedSeatingObj.itemname != 'Stand' && selectedSeatingObj.itemname != 'stand')">
+                              <li class="pb-3" *ngIf="(selectedSeatingObj.itemname !== 'Chair' && selectedSeatingObj.itemname !== 'chair') && (selectedSeatingObj.itemname != 'Stand' && selectedSeatingObj.itemname != 'stand')">
                                 <div class="w-[151px]">
                                   <span class="input-titel text-xs">per {{selectedSeatingObj.itemname}} person capacity</span>
                                   <div class="w-full flex items-center space-x-5">
                                     <div class="w-full inputHolder relative">
-                                      <input (input)="updateCalculatedValue()" [formControlName]="'per_seating_person'" [min]="0" [name]="'per_seating_person' + i" class="bgquicksilver" fuseValidNumber type="number">
-                                      <span class="absolute top-full text-red-500 text-xs" *ngIf="child?.get('per_seating_person')?.invalid && (child?.get('per_seating_person')?.dirty && child?.get('per_seating_person')?.touched)">
+                                      <input (input)="updateCalculatedValue()" [formControlName]="'per_seating_person'" [min]="0" placeholder="0" [name]="'per_seating_person' + i" class="bgquicksilver" fuseValidNumber type="number">
+                                      <span class="absolute top-full text-red-500 text-10" *ngIf="child?.get('per_seating_person')?.invalid && (child?.get('per_seating_person')?.dirty && child?.get('per_seating_person')?.touched)">
                                         <span *ngIf="child?.get('per_seating_person')?.errors?.['required']">
                                           This field must have required.
                                         </span>
@@ -103,13 +108,13 @@
                                   </div>
                                 </div>
                               </li>
-                              <li>
+                              <li class="pb-3">
                                 <div class="w-[151px]">
                                   <span class="input-titel text-xs">Total person capacity</span>
                                   <div class="w-full flex items-center space-x-5">
                                     <div class="w-full inputHolder relative">
-                                      <input (input)="updateCalculatedValue()" [formControlName]="'total_person'" [min]="0" [name]="'total_person' + i" class="bgquicksilver" fuseValidNumber type="number">
-                                      <span class="absolute top-full text-red-500 text-xs" *ngIf="child?.get('total_person')?.invalid && (child?.get('total_person')?.dirty && child?.get('total_person')?.touched)">
+                                      <input (input)="updateCalculatedValue()" [formControlName]="'total_person'" [min]="0" placeholder="0" [name]="'total_person' + i" class="bgquicksilver" fuseValidNumber type="number">
+                                      <span class="absolute top-full text-red-500 text-10" *ngIf="child?.get('total_person')?.invalid && (child?.get('total_person')?.dirty && child?.get('total_person')?.touched)">
                                         <span *ngIf="child?.get('total_person')?.errors?.['required']">
                                           This field must have required.
                                         </span>
@@ -121,15 +126,15 @@
                                   </div>
                                 </div>
                               </li>
-                              <li *ngIf="(selectedSeatingObj.itemname !== 'Chair' && selectedSeatingObj.itemname !== 'chair') && (selectedSeatingObj.itemname != 'Stand' && selectedSeatingObj.itemname != 'stand')">
+                              <li class="pb-3" *ngIf="(selectedSeatingObj.itemname !== 'Chair' && selectedSeatingObj.itemname !== 'chair') && (selectedSeatingObj.itemname != 'Stand' && selectedSeatingObj.itemname != 'stand')">
                                 <div class="w-[151px]">
                                   <span class="input-titel text-xs">
                                     Per {{selectedSeatingObj.itemname}} Price
                                   </span>
                                   <div class="w-full flex items-center space-x-5">
                                     <div class="w-full inputHolder relative">
-                                      <input (input)="updateCalculatedValue()" [formControlName]="'per_seating_price'" [min]="0" [name]="'per_seating_price' + i" class="bgquicksilver" fuseValidNumber type="number">
-                                      <span class="absolute top-full text-red-500 text-xs" *ngIf="child?.get('per_seating_price')?.invalid && (child?.get('per_seating_price')?.dirty && child?.get('per_seating_price')?.touched)">
+                                      <input (input)="updateCalculatedValue()" [formControlName]="'per_seating_price'" [min]="0" placeholder="0" [name]="'per_seating_price' + i" class="bgquicksilver" fuseValidNumber type="number">
+                                      <span class="absolute top-full text-red-500 text-10" *ngIf="child?.get('per_seating_price')?.invalid && (child?.get('per_seating_price')?.dirty && child?.get('per_seating_price')?.touched)">
                                         <span *ngIf="child?.get('per_seating_price')?.errors?.['required']">
                                           This field must have required.
                                         </span>
@@ -141,13 +146,13 @@
                                   </div>
                                 </div>
                               </li>
-                              <li>
+                              <li class="pb-3">
                                 <div class="w-[151px]">
                                   <span class="input-titel text-xs">per person price</span>
                                   <div class="w-full flex items-center space-x-5">
                                     <div class="w-full inputHolder relative">
-                                      <input (input)="updateCalculatedValue()" [formControlName]="'per_person_price'" [min]="0" [name]="'per_person_price' + i" class="bgquicksilver" fuseValidNumber type="number">                                      
-                                      <span class="absolute top-full text-red-500 text-xs" *ngIf="child?.get('per_person_price')?.invalid && (child?.get('per_person_price')?.dirty && child?.get('per_person_price')?.touched)">
+                                      <input (input)="updateCalculatedValue()" [formControlName]="'per_person_price'" [min]="0" placeholder="0" [name]="'per_person_price' + i" class="bgquicksilver" fuseValidNumber type="number">                                      
+                                      <span class="absolute top-full text-red-500 text-10" *ngIf="child?.get('per_person_price')?.invalid && (child?.get('per_person_price')?.dirty && child?.get('per_person_price')?.touched)">
                                         <span *ngIf="child?.get('per_person_price')?.errors?.['required']">
                                           This field must have required.
                                         </span>
@@ -159,13 +164,13 @@
                                   </div>
                                 </div>
                               </li>
-                              <li>
+                              <li class="pb-3">
                                 <div class="w-[151px]">
                                   <span class="input-titel text-xs">Total Amount</span>
                                   <div class="w-full flex items-center space-x-5">
                                     <div class="w-full inputHolder relative">
-                                      <input (input)="updateCalculatedValue()" [formControlName]="'total_amount'" [min]="0" [name]="'total_amount' + i" class="bgquicksilver" fuseValidNumber type="number">                                      
-                                      <span class="absolute top-full text-red-500 text-xs" *ngIf="child?.get('total_amount')?.invalid && (child?.get('total_amount')?.dirty && child?.get('total_amount')?.touched)">
+                                      <input (input)="updateCalculatedValue()" [formControlName]="'total_amount'" [min]="0" placeholder="0" [name]="'total_amount' + i" class="bgquicksilver" fuseValidNumber type="number">                                      
+                                      <span class="absolute top-full text-red-500 text-10" *ngIf="child?.get('total_amount')?.invalid && (child?.get('total_amount')?.dirty && child?.get('total_amount')?.touched)">
                                         <span *ngIf="child?.get('total_amount')?.errors?.['required']">
                                           This field must have required.
                                         </span>
@@ -177,7 +182,7 @@
                                   </div>
                                 </div>
                               </li>
-                              <li>
+                              <li class="pb-3">
                                 <div class="w-[151px]">
                                   <span class="input-titel text-xs">description</span>
                                   <div class="w-full flex items-center space-x-5">
@@ -187,7 +192,7 @@
                                   </div>
                                 </div>
                               </li>
-                              <li>
+                              <li class="pb-3">
                                 <div class="w-full 2xl:w-1/6 2xl:pl-5">
                                   <span *ngIf="(selectedSeatingObj.itemname !== 'Chair' && selectedSeatingObj.itemname !== 'chair') && (selectedSeatingObj.itemname != 'Stand' && selectedSeatingObj.itemname != 'stand')" class="input-titel text-xs whitespace-nowrap">booking acceptance</span>
                                   <div class="flex 2xl:justify-between items-center">
@@ -196,11 +201,8 @@
                                       <span class="off text-xs font-bold anim whitespace-nowrap order-1 text-caribbeanGreen">per {{selectedSeatingObj.itemname}}</span>
                                       <span class="on text-xs font-bold anim whitespace-nowrap order-3">per person</span>
                                     </div>
-                                    <div class="addDeleteBtn" [ngClass]="{'pt-5' : (selectedSeatingObj.itemname !== 'Chair' && selectedSeatingObj.itemname !== 'chair') && (selectedSeatingObj.itemname != 'Stand' && selectedSeatingObj.itemname != 'stand')}">
-                                      <button (click)="addArrangements()" *ngIf="i == (arrangements.controls.length - 1)" class="pluse border-2 border-japaneseIndigo w-7 h-7 rounded-full flex justify-center items-center">
-                                        <i class="icon-plus_round leading-0"></i>
-                                      </button>
-                                      <button (click)="removeArrangement(i)" *ngIf="i != (arrangements.controls.length - 1)" class="minus border-2 border-magicPotion w-7 h-7 rounded-full flex justify-center items-center">
+                                    <div class="addDeleteBtn" [ngClass]="{'pt-5' : (selectedSeatingObj.itemname === 'Chair' || selectedSeatingObj.itemname === 'chair') || (selectedSeatingObj.itemname === 'Stand' || selectedSeatingObj.itemname === 'stand')}">
+                                      <button (click)="removeArrangement(i)" [disabled]="i == 0" [ngClass]="{'opacity-50' : (i == 0)}" class="minus border-2 border-magicPotion w-7 h-7 rounded-full flex justify-center items-center">
                                         <span class="border border-magicPotion flex border-x-8 border-y-5 bg-magicPotion rounded"></span>
                                       </button>
                                     </div>

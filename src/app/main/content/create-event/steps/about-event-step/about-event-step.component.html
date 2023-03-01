@@ -7,7 +7,7 @@
       <label class="bg-white rounded-md flex space-x-3 relative">
         <i class="icon-calendar-2 text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0 z-10"></i>
         <p-calendar class="w-full" styleClass="w-full"
-        [formControlName]="'date'" name="date" [minDate]="minDateValue" selectionMode="range" [touchUI]="true" [readonlyInput]="true" inputId="range"></p-calendar>
+        [formControlName]="'date'" name="date" [minDate]="minStartDateValue" [defaultDate]="minStartDateValue" [dateFormat]="'dd/mm/yy'" selectionMode="range" [touchUI]="true" [readonlyInput]="true" inputId="range"></p-calendar>
       </label>
       <span class="absolute top-full text-red-500 text-xs" *ngIf="aboutEventForm.get('date')?.invalid && (aboutEventForm.get('date')?.dirty && aboutEventForm.get('date')?.touched)">
         <span *ngIf="aboutEventForm.get('date')?.errors?.['required']">
@@ -23,11 +23,11 @@
         <span class="input-titel">Start Time</span>
         <label class="bg-white rounded-md flex space-x-3 relative">
           <i class="icon-time text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0"></i>
-          <p-calendar class="w-4/5" [formControlName]="'start_time'" name="start_time" [showTime]="true" [timeOnly]="true" inputId="start_time"></p-calendar>
+          <p-calendar class="w-4/5" [formControlName]="'start_time'" name="start_time" [showTime]="true" [hourFormat]="'12'" [timeOnly]="true" inputId="start_time" [showButtonBar]="true"></p-calendar>
         </label>
         <span class="absolute top-full text-red-500 text-xs" *ngIf="aboutEventForm.get('start_time')?.invalid && (aboutEventForm.get('start_time')?.dirty && aboutEventForm.get('start_time')?.touched)">
           <span *ngIf="aboutEventForm.get('start_time')?.errors?.['required']">
-            Date is required.
+            Start time is required.
           </span>
         </span>
       </div>
@@ -35,20 +35,21 @@
         <span class="input-titel">End Time</span>
         <label class="bg-white rounded-md flex space-x-3 relative">
           <i class="icon-time text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0"></i>
-          <p-calendar class="w-4/5" [formControlName]="'end_time'" name="end_time" [showTime]="true" [timeOnly]="true" inputId="end_time"></p-calendar>
+          <p-calendar class="w-4/5" [formControlName]="'end_time'" name="end_time" [showTime]="true" [hourFormat]="'12'" [timeOnly]="true" inputId="end_time" [showButtonBar]="true"></p-calendar>
         </label>
         <span class="absolute top-full text-red-500 text-xs" *ngIf="aboutEventForm.get('end_time')?.invalid && (aboutEventForm.get('end_time')?.dirty && aboutEventForm.get('end_time')?.touched)">
           <span *ngIf="aboutEventForm.get('end_time')?.errors?.['required']">
-            Date is required.
+            End time is required.
           </span>
         </span>
       </div>
     </div>
   </div>
   <div class="w-full relative">
-    <span class="input-titel">About Event</span>
-    <div class="w-full bg-white rounded">
-      <ckeditor (ready)="onTextEditorReady($event)" [config]="editorConfig" [editor]="detailEditor" [formControlName]="'about_event'" class="h-44 text-editor" id="about_event" name="about_event"></ckeditor>
+    <span class="input-titel">About Event <i class="text-xs font-medium" [ngClass]="{'text-magicPotion' : textEditor}">( You have {{textEditorLimit}} of {{textEditorMaxLimit}} characters remaining ) </i></span>
+    <div class="w-full bg-white rounded relative">
+      <ckeditor (ready)="onTextEditorReady($event)" (keyup)="editorCharacterSet()" (keydown)="editorCharacterSet()" [config]="editorConfig" [editor]="detailEditor" [formControlName]="'about_event'" class="h-44 text-editor" id="about_event" name="about_event"></ckeditor>
+      <!-- <span class="absolute top-full text-red-500 text-xs" *ngIf="textEditor != ''">{{textEditor}}</span> -->
     </div>
     <!-- <textarea cols="30" rows="4" [formControlName]="'about_event'" name="about_event" class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md placeholder:text-sm placeholder:text-[#a6a6a6] placeholder:font-bold"></textarea> -->
   </div>

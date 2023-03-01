@@ -8,6 +8,7 @@ import { CreateEventService } from '../../create-event.service';
 import { GlobalFunctions } from 'src/app/main/common/global-functions';
 // @ts-ignore
 import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
+import { CONSTANTS } from 'src/app/main/common/constants';
 
 @Component({
   selector: 'app-about-event-step',
@@ -16,8 +17,13 @@ import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
 })
 export class AboutEventStepComponent implements OnInit {
   minDateValue: any = new Date(new Date().setDate(new Date().getDate() + 2));
+  constants: any = CONSTANTS;
+  minStartDateValue: any = '';
   aboutEventForm: any;
   isLoading: boolean = false;
+  textEditor: boolean = false;
+  textEditorMaxLimit: any = this.constants.CKEditorCharacterLimit2;
+  textEditorLimit: any = this.textEditorMaxLimit;
   aboutObj: any;
   eventId: any;
   detailEditor = DecoupledEditor;
@@ -32,8 +38,12 @@ export class AboutEventStepComponent implements OnInit {
     private _globalFunctions: GlobalFunctions,
   ) {
   }
-
+  
   ngOnInit(): void {
+    const todayDate = new Date();
+    const minSetDate = new Date('06-01-2023');
+    this.minStartDateValue = (todayDate >= minSetDate) ? this.minDateValue : minSetDate;
+
     this.getEventId();
     this.getAboutEvent();
     this._prepareAboutEventForm(this.aboutObj);
@@ -43,7 +53,7 @@ export class AboutEventStepComponent implements OnInit {
     editor.ui.getEditableElement().parentElement.insertBefore(
       editor.ui.view.toolbar.element,
       editor.ui.getEditableElement()
-    );
+    );    
   }
 
   getEventId(): void {
@@ -57,8 +67,8 @@ export class AboutEventStepComponent implements OnInit {
   private _prepareAboutEventForm(eventObj: any = {}): void {
     this.aboutEventForm = this._formBuilder.group({
       date: [eventObj && eventObj.start_date ? [new Date(eventObj?.start_date), new Date(eventObj?.end_date)] : '', [Validators.required, this.startAndEndDateValidator]],
-      start_time: [eventObj?.start_time, [Validators.required]],
-      end_time: [eventObj?.end_time, [Validators.required]],
+      start_time: [(eventObj?.start_time) ? moment(eventObj?.start_time, 'hh:mm').format('hh:mm a') : '', [Validators.required]],
+      end_time: [(eventObj?.end_time) ? moment(eventObj?.end_time, 'hh:mm').format('hh:mm a') : '', [Validators.required]],
       about_event: [eventObj?.about_event],
     });
   }
@@ -69,6 +79,7 @@ export class AboutEventStepComponent implements OnInit {
       if (result && result.IsSuccess) {
         this.aboutObj = result.Data.about;
         this._prepareAboutEventForm(this.aboutObj);
+        this.editorCharacterSet();
         this.isLoading = false;
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
@@ -78,6 +89,15 @@ export class AboutEventStepComponent implements OnInit {
       this._globalFunctions.errorHanding(error, this, true);
       this.isLoading = false;
     });
+  }
+
+  editorCharacterSet(): any {
+    this.textEditorLimit = '0';
+    if (this.aboutEventForm.value.about_event && this.aboutEventForm.value.about_event != '') {
+      const stringOfCKEditor = this._globalFunctions.getPlainText(this.aboutEventForm.value.about_event);
+      this.textEditorLimit = stringOfCKEditor.length;
+      this.textEditor = (stringOfCKEditor.length > this.textEditorMaxLimit);
+    }
   }
 
   validateAboutEventForm(): boolean {
@@ -91,14 +111,15 @@ export class AboutEventStepComponent implements OnInit {
 
     const preparedStartTime: any = this.prepareTime(this.aboutEventForm.value.start_time);
     const preparedEndTime: any = this.prepareTime(this.aboutEventForm.value.end_time);
-    const startTime = moment(preparedStartTime, 'hh:mm');
-    const endTime = moment(preparedEndTime, 'hh:mm');
+    const startTime = moment(preparedStartTime, 'hh:mm a');
+    const endTime = moment(preparedEndTime, 'hh:mm a');
     if (!startTime.isBefore(endTime) || startTime.isSame(endTime)) {
       this.isLoading = false;
       this.aboutEventForm.enable();
       this._sNotify.error('Start time is must before End time Or Both time should not same', 'Oops');
       return false;
     }
+    this.editorCharacterSet();
 
     return true;
   }
@@ -109,7 +130,7 @@ export class AboutEventStepComponent implements OnInit {
     }
     this.isLoading = true;
     this.aboutEventForm.disable();
-    const preparedEventObj: any = this.prepareAboutEventObj(this.aboutEventForm.value);    
+    const preparedEventObj: any = this.prepareAboutEventObj(this.aboutEventForm.value);
     this._createEventService.about(preparedEventObj).subscribe((result: any) => {
       if (result && result.IsSuccess) {
         this.isLoading = false;
@@ -140,16 +161,16 @@ export class AboutEventStepComponent implements OnInit {
     preparedAboutEventObj.eventid = this.eventId;
     preparedAboutEventObj.start_date = moment(aboutEventObj.date[0]).format('YYYY-MM-DD');
     preparedAboutEventObj.end_date = moment(aboutEventObj.date[1]).format('YYYY-MM-DD');
-    preparedAboutEventObj.start_time = this.prepareTime(aboutEventObj.start_time);
-    preparedAboutEventObj.end_time = this.prepareTime(aboutEventObj.end_time);
-    preparedAboutEventObj.about_event = aboutEventObj.about_event;
+    preparedAboutEventObj.start_time = this.prepareTime(moment(aboutEventObj.start_time, 'hh:mm a'));
+    preparedAboutEventObj.end_time = this.prepareTime(moment(aboutEventObj.end_time, 'hh:mm a'));
+    preparedAboutEventObj.about_event = aboutEventObj.about_event;    
     return preparedAboutEventObj;
   }
 
   prepareTime(dateWithTime: any): any {
     const date: any = new Date(dateWithTime);
     if (date != 'Invalid Date') {
-      return moment(dateWithTime).format('HH') + ':' + moment(dateWithTime).format('mm');
+      return date.getHours() + ':' + date.getMinutes();
     }
     return dateWithTime;
   }
