@@ -202,7 +202,10 @@
                                       <span class="on text-xs font-bold anim whitespace-nowrap order-3">per person</span>
                                     </div>
                                     <div class="addDeleteBtn" [ngClass]="{'pt-5' : (selectedSeatingObj.itemname === 'Chair' || selectedSeatingObj.itemname === 'chair') || (selectedSeatingObj.itemname === 'Stand' || selectedSeatingObj.itemname === 'stand')}">
-                                      <button (click)="removeArrangement(i)" [disabled]="i == 0" [ngClass]="{'opacity-50' : (i == 0)}" class="minus border-2 border-magicPotion w-7 h-7 rounded-full flex justify-center items-center">
+                                      <button (click)="removeArrangement(i)" *ngIf="i != 0" class="minus border-2 border-magicPotion w-7 h-7 rounded-full flex justify-center items-center">
+                                        <span class="border border-magicPotion flex border-x-8 border-y-5 bg-magicPotion rounded"></span>
+                                      </button>
+                                      <button type="reset" *ngIf="i == 0" class="minus border-2 border-magicPotion w-7 h-7 rounded-full flex justify-center items-center">
                                         <span class="border border-magicPotion flex border-x-8 border-y-5 bg-magicPotion rounded"></span>
                                       </button>
                                     </div>

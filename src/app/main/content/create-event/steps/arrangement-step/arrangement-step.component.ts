@@ -4,6 +4,7 @@ import {CONSTANTS} from 'src/app/main/common/constants';
 import {GlobalFunctions} from 'src/app/main/common/global-functions';
 import {CreateEventService} from "../../create-event.service";
 import * as _ from 'lodash';
+import { ModalService } from 'src/app/main/_modal';
 
 @Component({
   selector: 'app-arrangement-step',
@@ -16,8 +17,10 @@ export class ArrangementStepComponent implements OnInit {
   isArrangement: boolean = false;
   constants: any = CONSTANTS;
   editArrangementObj: any = {};
+  tmpSeatingObj: any = '';
   eventId: any = '';
   isLoading: boolean = false;
+  isDeleteLoading: boolean = false;
   arrangementsArr: any = [];
 
   @Input() arrangementObj: any = {};
@@ -25,6 +28,7 @@ export class ArrangementStepComponent implements OnInit {
   constructor(
     public _globalFunctions: GlobalFunctions,
     public _router: Router,
+    private _modalService: ModalService,
     private _createEventService: CreateEventService) {
   }
 
@@ -87,15 +91,27 @@ export class ArrangementStepComponent implements OnInit {
     }
   }
 
+  
+  deletePop(seatingId: any = ''): void {
+    this.tmpSeatingObj = seatingId;
+    this._modalService.open("delete-event-pop");
+  }
+  close(): void {
+    this.tmpSeatingObj = '';
+    this._modalService.close("delete-event-pop");
+  }
+  
   openArrangementPopup(arrangementObj: any = {}): void {
     this.editArrangementObj = arrangementObj;
     this.isArrangement = true;
   }
-
+  
   deleteArrangement(seatingId: any = ''): void {
     this.arrangementsArr = _.remove(this.arrangementsArr, (arrangement: any) => {
       return arrangement.seating_item != seatingId;
     });
+    this.tmpSeatingObj = '';
+    this._modalService.close("delete-event-pop");
   }
 
   closePop(flag: boolean): void {
