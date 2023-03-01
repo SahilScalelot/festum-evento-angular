@@ -5,6 +5,7 @@ import * as _ from 'lodash';
 // @ts-ignore
 import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
 import {SnotifyService} from "ng-snotify";
+import { GlobalFunctions } from 'src/app/main/common/global-functions';
 
 @Component({
   selector: 'app-arrangement-dialog',
@@ -22,6 +23,11 @@ export class ArrangementDialogComponent implements OnInit {
 
   detailEditor = DecoupledEditor;
   editorConfig: any = {};
+  textEditorFood: boolean = false;
+  textEditorEquipment: boolean = false;
+  textEditorMaxLimit: any = this.constants.CKEditorCharacterLimit0;
+  textEditorLimitFood: any = this.textEditorMaxLimit;
+  textEditorLimitEquipment: any = this.textEditorMaxLimit;
 
   @Input() arrangementsArr: any = {};
   @Input() popClass: any;
@@ -32,7 +38,8 @@ export class ArrangementDialogComponent implements OnInit {
 
   constructor(
     private _formBuilder: FormBuilder,
-    private _sNotify: SnotifyService
+    private _sNotify: SnotifyService,
+    private _globalFunctions: GlobalFunctions,
   ) {
   }
 
@@ -82,6 +89,13 @@ export class ArrangementDialogComponent implements OnInit {
         this.addArrangements();
       }
     }
+  }
+
+  validateTextEditor(): void {
+    if (this.textEditorLimitFood && this.textEditorMaxLimit && this.textEditorLimitFood > this.textEditorMaxLimit) {
+      return;
+    }
+    this.selectedTab = 2;
   }
 
   updateCalculatedValue(): void {
@@ -146,6 +160,7 @@ export class ArrangementDialogComponent implements OnInit {
 
   selectItems(): void {
     this._sNotify.clear();
+    console.log(this.seatingForm);
     if (this.seatingForm.invalid) {
       Object.keys(this.seatingForm.controls).forEach((key) => {
         this.seatingForm.controls[key].touched = true;
@@ -178,10 +193,15 @@ export class ArrangementDialogComponent implements OnInit {
         return;
       }
     }
+    this.editorCharacterSetFood();
+    this.editorCharacterSetEquipment();
     this.selectedTab = 1;
   }
 
   addFormData(): void {
+    if (this.textEditorLimitEquipment && this.textEditorMaxLimit && this.textEditorLimitEquipment > this.textEditorMaxLimit) {
+      return;
+    }
     if (!this.arrangementsArr || !this.arrangementsArr.length) {
       this.arrangementsArr = [];
     }
@@ -205,6 +225,26 @@ export class ArrangementDialogComponent implements OnInit {
     preparedSeatingArr.push(seatingObj);
     this.arrangementsArr = preparedSeatingArr;
     this.closePopup(this.arrangementsArr);
+  }
+
+  editorCharacterSetFood(): any {
+    this.textEditorLimitFood = '0';
+    const textfield = this.seatingForm.value.food_description;    
+    if (textfield && textfield != '') {
+      const stringOfCKEditor = this._globalFunctions.getPlainText(textfield);
+      this.textEditorLimitFood = stringOfCKEditor.length;
+      this.textEditorFood = (stringOfCKEditor.length > this.textEditorMaxLimit);
+    }
+  }
+
+  editorCharacterSetEquipment(): any {
+    this.textEditorLimitEquipment = '0';
+    const textfield = this.seatingForm.value.equipment_description;    
+    if (textfield && textfield != '') {
+      const stringOfCKEditor = this._globalFunctions.getPlainText(textfield);
+      this.textEditorLimitEquipment = stringOfCKEditor.length;
+      this.textEditorEquipment = (stringOfCKEditor.length > this.textEditorMaxLimit);
+    }
   }
 
   closePopup(arrangementsArr: any = []): void {
