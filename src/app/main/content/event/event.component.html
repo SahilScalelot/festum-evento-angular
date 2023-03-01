@@ -34,15 +34,15 @@
                     <div class="flex flex-wrap pt-3">
                       <div class="border-brightGray px-2 lg:pl-0 lg:pr-4">
                         <div class="text-xs lg:text-sm font-semibold text-quicksilver pt-3"><i class="icon-calendar mr-1.5"></i>Date</div>
-                        <span class="text-japaneseIndigo text-xs lg:text-sm font-bold">{{event?.about?.start_date | date:'dd MMM, yyyy'}} - {{event?.about?.end_date | date:'dd MMM, yyyy'}}</span>
+                        <span class="text-japaneseIndigo text-xs lg:text-sm font-bold" *ngIf="event?.about?.start_date && event?.about?.end_date">{{event?.about?.start_date | date:'dd MMM, yyyy'}} - {{event?.about?.end_date | date:'dd MMM, yyyy'}}</span>
                       </div>
                       <div class="border-l-2 border-brightGray px-2 lg:px-4">
                         <div class="text-xs lg:text-sm font-semibold text-quicksilver pt-3"><i class="icon-time mr-1.5"></i>Time</div>
-                        <span class="text-japaneseIndigo text-xs lg:text-sm font-bold">{{'0' + ' ' + event?.about?.start_time | date : 'hh:mm a'}} - {{'0' + ' ' + event?.about?.end_time | date : 'hh:mm a'}}</span>
+                        <span class="text-japaneseIndigo text-xs lg:text-sm font-bold" *ngIf="event?.about?.start_time && event?.about?.end_time">{{'0' + ' ' + event?.about?.start_time | date : 'hh:mm a'}} - {{'0' + ' ' + event?.about?.end_time | date : 'hh:mm a'}}</span>
                       </div>
                       <div class="border-l-2 border-brightGray px-2 lg:px-4">
                         <div class="text-xs lg:text-sm font-semibold text-quicksilver pt-3"><i class="icon-location-1 mr-1.5"></i>Location</div>
-                        <span class="text-japaneseIndigo text-xs lg:text-sm font-bold">{{event?.event_location?.city}}, {{event?.event_location?.state}}</span>
+                        <span class="text-japaneseIndigo text-xs lg:text-sm font-bold" *ngIf="event?.event_location?.city && event?.event_location?.state">{{event?.event_location?.city}}, {{event?.event_location?.state}}</span>
                       </div>
                     </div>
                   </div>
@@ -58,7 +58,7 @@
                 <div class="flex flex-wrap justify-between">
                   <div class="flex items-center space-x-1 pt-4">
                     <p-rating [(ngModel)]="event.ratings" [readonly]="true" [cancel]="false"></p-rating>
-                    <span class="text-quicksilver text-xs font-bold pl-2"> {{event?.totalreview}} ratings</span>
+                    <span class="text-quicksilver text-xs font-bold pl-2" *ngIf="event?.totalreview"> {{event?.totalreview}} ratings</span>
                   </div>
                   <div class="flex items-center space-x-2.5 pt-4">
                     <span class="text-xs font-bold text-quicksilver">{{event?.total_booked_seats || 0}} Sold</span>
