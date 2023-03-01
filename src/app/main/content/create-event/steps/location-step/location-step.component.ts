@@ -131,6 +131,7 @@ export class LocationStepComponent implements OnInit {
       city: [locationObj?.city || '', [Validators.required, Validators.pattern('^[a-zA-Z ]*$')]],
       state: [locationObj?.state || '', [Validators.required, Validators.pattern('^[a-zA-Z ]*$')]],
       pincode: [locationObj?.pincode || '', [Validators.required, Validators.pattern('^[1-9]{1}[0-9]{2}\\s{0,1}[0-9]{3}$')]],
+      manual_address:[locationObj?.manual_address || '']
     });
   }
 
@@ -245,6 +246,8 @@ export class LocationStepComponent implements OnInit {
     if (!this.validateLocationForm()) {
       return;
     }
+
+    console.log(this.locationForm.value);
     this.isLoading = true;
     this.locationForm.disable();
     const preparedLocationObj: any = this.prepareLocationEventObj(this.locationForm.value);
