@@ -6,6 +6,7 @@ import {Router} from "@angular/router";
 import { CreateEventService } from '../../create-event.service';
 import { GlobalFunctions } from 'src/app/main/common/global-functions';
 import * as _ from 'lodash';
+import { GlobalService } from 'src/app/services/global.service';
 declare var $: any;
 
 @Component({
@@ -24,6 +25,8 @@ export class PermissionStepComponent implements OnInit {
   permissionObj: any;
   permissionPdf: any;
   eventId: any;
+  items: any = [];
+  isHideDiscountitem: boolean = false;
 
   @Input() eventObj: any = {};
   @Output() newEventObj: EventEmitter<any> = new EventEmitter();
@@ -33,6 +36,7 @@ export class PermissionStepComponent implements OnInit {
     private _sNotify: SnotifyService,
     private _router: Router,
     private _globalFunctions: GlobalFunctions,
+    private _globalService: GlobalService,
     private _createEventService: CreateEventService,
   ) {
   }
@@ -121,7 +125,13 @@ export class PermissionStepComponent implements OnInit {
       if (result && result.IsSuccess) {
         this.isLoading = false;
         this.permissionForm.enable();
-        this._router.navigate(['/events/create/discount']);
+        if (result?.Data?.accept_booking) {
+          this._globalService.isHideDiscountitem$.next(false);
+          this._router.navigate(['/events/create/discount']);
+        } else {
+          this._globalService.isHideDiscountitem$.next(true);
+          this._router.navigate(['/events/create/company-details']);
+        }       
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
         this.isLoading = false;

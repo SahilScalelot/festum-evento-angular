@@ -12,7 +12,12 @@
       <i class="icon-plus mr-3"></i>Add</span>
     </div>
     <div class="w-full overflow-hidden overflow-x-auto capitalize">
-      <p-steps [model]="items" [readonly]="isReadonly"></p-steps>
+      <div *ngIf="isHideDiscountitem;else other_content">
+        <p-steps [model]="hiddenDiscountItems" [readonly]="isReadonly"></p-steps>
+      </div>
+      <ng-template #other_content>
+        <p-steps [model]="items" [readonly]="isReadonly"></p-steps>
+      </ng-template>
     </div>
   </div>
   <!-- main-content  -->

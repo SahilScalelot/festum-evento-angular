@@ -199,6 +199,49 @@ export const CONSTANTS = {
     {entityname: 'livestream', value: 'livestream'},
   ],
 
+  eventStepsArr: [
+    {
+      label: 'Add Event',
+      routerLink: 'add-event'
+    },
+    {
+      label: 'About Event',
+      routerLink: 'about-event'
+    },
+    {
+      label: 'Arrangement',
+      routerLink: 'arrangement'
+    },
+    {
+      label: 'Location',
+      routerLink: 'location'
+    },
+    {
+      label: 'Photos & Videos',
+      routerLink: 'photos-and-videos'
+    },
+    {
+      label: 'Permission',
+      routerLink: 'permission'
+    },
+    {
+      label: 'Discount',
+      routerLink: 'discount'
+    },
+    {
+      label: 'Company Details',
+      routerLink: 'company-details'
+    },
+    {
+      label: 'Personal Details',
+      routerLink: 'personal-details'
+    },
+    {
+      label: 'Terms & Conditions',
+      routerLink: 'terms-and-conditions'
+    }
+  ],
+
   maxPosterSizeInMB: 10,
   maxImageSizeInMB: 3,
   maxIconSizeInKB: 500,

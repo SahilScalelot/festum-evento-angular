@@ -69,8 +69,8 @@ export class CreateEventService {
   }
   
   // Discounts Apis
-  getDiscounts(): any {
-    return this.http.get(environment.appURL + 'organizer/discount/list', this._globalFunctions.getAuthorizationHeader());
+  getDiscounts(eventId: any = ''): any {
+    return this.http.get(environment.appURL + 'organizer/discount/list?eventid=' + eventId, this._globalFunctions.getAuthorizationHeader());
   }
   getDiscountByEventId(eventId: any): any {
     return this.http.get(environment.appURL + 'organizer/events/discount?eventid=' + eventId, this._globalFunctions.getAuthorizationHeader());

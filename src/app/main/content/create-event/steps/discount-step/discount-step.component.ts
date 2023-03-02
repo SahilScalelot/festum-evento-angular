@@ -43,8 +43,11 @@ export class DiscountStepComponent implements OnInit {
 
   getAllDiscounts(): void {
     this.isLoading = true;
-    this._createEventService.getDiscounts().subscribe((result: any) => {
+    this._createEventService.getDiscounts(this.eventId).subscribe((result: any) => {
       if (result && result.IsSuccess) {
+        if (result.Data && result.Data.accept_booking == false) {
+          this._router.navigate(['/events/create/company-details']);
+        }
         this.allDiscounts = result.Data || [];
         this.getDiscountByEventId();
       } else {

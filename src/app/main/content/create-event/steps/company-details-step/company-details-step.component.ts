@@ -56,6 +56,7 @@ export class CompanyDetailsStepComponent implements OnInit {
   videosUploadLimit: number = 1;
   rejectedVideosList: any;
   videosFiles: File[] = [];
+  isHideDiscountitem: any = false;
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -71,6 +72,9 @@ export class CompanyDetailsStepComponent implements OnInit {
     if (!localStorage.getItem('eId') || localStorage.getItem('eId') == '') {
       this._router.navigate(['/events']);
     }
+    this._globalService.isHideDiscountitem$.subscribe((isHideDiscountitem: boolean = false) => {
+      this.isHideDiscountitem = isHideDiscountitem;
+    });
     this.eventId = localStorage.getItem('eId');
     this.getCompanyDetailsEvent();
     this._prepareCompanyDetailsForm();

@@ -5,6 +5,9 @@ import { GlobalService } from "../../../services/global.service";
 import { NavigationEnd, Router } from "@angular/router";
 import { CreateEventService } from "./create-event.service";
 import { EventService } from '../event/event.service';
+import * as _ from 'lodash';
+import { CONSTANTS } from '../../common/constants';
+import { GlobalFunctions } from '../../common/global-functions';
 
 @Component({
   selector: 'app-create-event',
@@ -13,15 +16,18 @@ import { EventService } from '../event/event.service';
 })
 export class CreateEventComponent implements OnInit {
   items: MenuItem[] | any;
+  hiddenDiscountItems: MenuItem[] | any;
   isAddArrangement: boolean = false;
   currentURL: any = '';
   eventObj: any = {};
   eventId: any = '';
   isReadonly: any = '';
+  isHideDiscountitem: any = false;
 
   constructor(
     private _eventService: EventService,
     public _globalService: GlobalService,
+    public _globalFunctions: GlobalFunctions,
     private _router: Router,
     private _createEventService: CreateEventService
   ) {
@@ -39,48 +45,17 @@ export class CreateEventComponent implements OnInit {
     } else {
       this.eventId = localStorage.getItem('eId');
     }
-    this.items = [
-      {
-        label: 'Add Event',
-        routerLink: 'add-event'
-      },
-      {
-        label: 'About Event',
-        routerLink: 'about-event'
-      },
-      {
-        label: 'Arrangement',
-        routerLink: 'arrangement'
-      },
-      {
-        label: 'Location',
-        routerLink: 'location'
-      },
-      {
-        label: 'Photos & Videos',
-        routerLink: 'photos-and-videos'
-      },
-      {
-        label: 'Permission',
-        routerLink: 'permission'
-      },
-      {
-        label: 'Discount',
-        routerLink: 'discount'
-      },
-      {
-        label: 'Company Details',
-        routerLink: 'company-details'
-      },
-      {
-        label: 'Personal Details',
-        routerLink: 'personal-details'
-      },
-      {
-        label: 'Terms & Conditions',
-        routerLink: 'terms-and-conditions'
-      }
-    ];
+    this._globalService.isHideDiscountitem$.subscribe((isHideDiscountitem: boolean = false) => {
+      this.isHideDiscountitem = isHideDiscountitem;
+    });
+
+    this.items = this._globalFunctions.copyObject(CONSTANTS.eventStepsArr);
+    const hiddenDiscountItems = this._globalFunctions.copyObject(CONSTANTS.eventStepsArr);
+    const indexOfDiscount = _.findIndex(this.items, ['routerLink', 'discount']);
+    if (indexOfDiscount != -1) {
+      hiddenDiscountItems.splice(indexOfDiscount, 1);
+    }
+    this.hiddenDiscountItems = this._globalFunctions.copyObject(hiddenDiscountItems);
     this.getEvent();
   }
 
@@ -101,6 +76,8 @@ export class CreateEventComponent implements OnInit {
       (condata?.personaldetail?._id != "") && 
       (condata?.seating_arrangements?.length) && 
       (condata?.tandc?._id != ""));
+      this.isHideDiscountitem = (!condata.accept_booking);
+      this._globalService.isHideDiscountitem$.next(this.isHideDiscountitem);
     });
   }
 
