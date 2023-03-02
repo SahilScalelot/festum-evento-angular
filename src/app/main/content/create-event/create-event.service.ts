@@ -127,9 +127,4 @@ export class CreateEventService {
   deleteEvent(eventId: any): any {
     return this.http.post(environment.appURL + 'organizer/events/remove', {eventid: eventId}, this._globalFunctions.getAuthorizationHeader());
   }
-
-  // Delete Event
-  pincodeValidation(pin: any): any {
-    return this.http.get('https://api.postalpincode.in/pincode/' + pin);
-  }
 }

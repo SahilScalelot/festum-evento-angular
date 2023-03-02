@@ -27,6 +27,8 @@ export class TermsAndConditionsStepComponent implements OnInit {
 
   termsAndConditionsObj: any = {};
 
+  textEditor: boolean = false;
+  textEditorMaxLimit: any = this.constants.CKEditorCharacterLimit3;
   textEditorLimit: any = 0;
 
   constructor(
@@ -96,11 +98,11 @@ export class TermsAndConditionsStepComponent implements OnInit {
   }
   
   editorCharacterSet(): any {
-    this.textEditorLimit = 0;
-    const textfield = this.termsAndConditionsForm.value.about;    
+    const textfield = this.termsAndConditionsForm.value.t_and_c;    
     // if (textfield && textfield != '') {
       const stringOfCKEditor = this._globalFunctions.getPlainText(textfield);
       this.textEditorLimit = stringOfCKEditor.length;
+      this.textEditor = (stringOfCKEditor.length > this.textEditorMaxLimit);
     // }
   }
 
@@ -110,10 +112,11 @@ export class TermsAndConditionsStepComponent implements OnInit {
         this.termsAndConditionsForm.controls[key].touched = true;
         this.termsAndConditionsForm.controls[key].markAsDirty();
       });
+      
       return;
     }
     this.editorCharacterSet();
-    if (this.textEditorLimit && this.textEditorLimit > CONSTANTS.CKEditorCharacterLimit0) {
+    if (this.textEditorLimit && this.textEditorMaxLimit && this.textEditorLimit > this.textEditorMaxLimit) {
       return;
     }
     if (this.termsAndConditionsForm.value.status != '') {

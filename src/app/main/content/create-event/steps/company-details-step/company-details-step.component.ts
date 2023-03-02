@@ -60,8 +60,8 @@ export class CompanyDetailsStepComponent implements OnInit {
   pincodeValidationObj: any = '';
   
   textEditor: boolean = false;
-  textEditorMaxLimit: any = this.constants.CKEditorCharacterLimit0;
-  textEditorLimit: any = this.textEditorMaxLimit;
+  textEditorMaxLimit: any = this.constants.CKEditorCharacterLimit1;
+  textEditorLimit: any = 0;
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -107,6 +107,7 @@ export class CompanyDetailsStepComponent implements OnInit {
     });
 
     this.inputText = companyDetailObj?.company_details?.company_detail?.gst_name;
+    this.pincodeValidation(this.companyForm.value.pincode);
   }
   
   getCompanyDetailsEvent(): any {
@@ -123,7 +124,7 @@ export class CompanyDetailsStepComponent implements OnInit {
         this.gstPdf = companyDetailObj.gst;
         this.inputText = _.last(_.split(companyDetailObj.gst, '/'));
         this.photoArr = companyDetailObj.photos || [];
-        this.videoArr = companyDetailObj.videos || [];        
+        this.videoArr = companyDetailObj.videos || [];
         this.isLoading = false;
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
@@ -136,15 +137,32 @@ export class CompanyDetailsStepComponent implements OnInit {
   }
 
   pincodeValidation(pincode: any = ''): any {
-    this._createEventService.pincodeValidation(pincode).subscribe((result: any) => {
-      this.pincodeValidationObj = result[0].PostOffice[0];
-      console.log(this.pincodeValidationObj);
-      console.log(this.pincodeValidationObj.District);
-      console.log(this.pincodeValidationObj.State);
-      console.log(this.pincodeValidationObj.Pincode);
-    }, (error: any) => {
-      this._globalFunctions.errorHanding(error, this, true);
-    });
+    if (pincode && pincode != '') {
+      this._globalService.pincodeValidation(pincode).subscribe((result: any) => {
+        if (result && result[0] && result[0].Status) {
+          if (result[0].Status == 'Success') {
+            this.pincodeValidationObj = result[0].PostOffice[0];
+            const companyFormValueObj = this.companyForm?.value || {};
+
+            this.companyForm.markAsTouched();
+            this.companyForm?.get('city')?.markAsTouched();
+            this.companyForm?.get('state')?.markAsTouched();
+            this.companyForm?.get('pincode')?.markAsTouched();
+            this.companyForm?.controls['city']?.markAsDirty();
+            this.companyForm?.controls['state']?.markAsDirty();
+            this.companyForm?.controls['pincode']?.markAsDirty();
+
+            this.companyForm?.controls['city']?.setErrors((this.pincodeValidationObj?.District && companyFormValueObj?.city && (this.pincodeValidationObj.District).toLowerCase() != (companyFormValueObj?.city).toLowerCase()) ? {'not_match': true} : null);
+            this.companyForm?.controls['state']?.setErrors((this.pincodeValidationObj?.State && companyFormValueObj?.state && (this.pincodeValidationObj.State).toLowerCase() != (companyFormValueObj?.state).toLowerCase()) ? {'not_match': true} : null);
+            this.companyForm?.controls['pincode']?.setErrors((this.pincodeValidationObj?.Pincode && companyFormValueObj?.pincode && this.pincodeValidationObj.Pincode != companyFormValueObj?.pincode) ? {'not_match': true} : null);
+          } else if (result[0].Status == 'Error') {
+            this.companyForm?.controls['pincode']?.setErrors({'pattern': true});
+          }          
+        }
+      }, (error: any) => {
+        this._globalFunctions.errorHanding(error, this, true);
+      });
+    }
   }
 
   getDataFromProfileObj(): void {
@@ -349,13 +367,12 @@ export class CompanyDetailsStepComponent implements OnInit {
   }
 
   editorCharacterSet(): any {
-    this.textEditorLimit = '0';
     const textfield = this.companyForm.value.about;    
-    if (textfield && textfield != '') {
+    // if (textfield && textfield != '') {
       const stringOfCKEditor = this._globalFunctions.getPlainText(textfield);
       this.textEditorLimit = stringOfCKEditor.length;
       this.textEditor = (stringOfCKEditor.length > this.textEditorMaxLimit);
-    }
+    // }
   }
 
   nextStep(): void {
@@ -370,26 +387,24 @@ export class CompanyDetailsStepComponent implements OnInit {
     if (this.textEditorLimit && this.textEditorMaxLimit && this.textEditorLimit > this.textEditorMaxLimit) {
       return;
     }
-    this.pincodeValidation(this.companyForm.value.pincode);
-    
     this.isLoading = true;
     this.companyForm.disable();
     const preparedCompanyDetailsObj: any = this.prepareObj(this.companyForm.value);
-    // this._createEventService.companyDetail(preparedCompanyDetailsObj).subscribe((result: any) => {
-    //   if (result && result.IsSuccess) {
-    //     this.isLoading = false;
-    //     this.companyForm.enable();
-    //     this._router.navigate(['/events/create/personal-details']);
-    //   } else {
-    //     this._globalFunctions.successErrorHandling(result, this, true);
-    //     this.isLoading = false;
-    //     this.companyForm.enable();
-    //   }
-    // }, (error: any) => {
-    //   this._globalFunctions.errorHanding(error, this, true);
-    //   this.isLoading = false;
-    //   this.companyForm.enable();
-    // });
+    this._createEventService.companyDetail(preparedCompanyDetailsObj).subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        this.isLoading = false;
+        this.companyForm.enable();
+        this._router.navigate(['/events/create/personal-details']);
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+        this.isLoading = false;
+        this.companyForm.enable();
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isLoading = false;
+      this.companyForm.enable();
+    });
   }
 
   isString(val: any): boolean {

@@ -19,4 +19,9 @@ export class GlobalService {
   getLocationByLatLong(latLongObj: any): any {
     return this.http.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latLongObj.lat},${latLongObj.lng}&key=${CONSTANTS.googleMapApiKey}`);
   }
+  
+  // Delete Event
+  pincodeValidation(pin: any): any {
+    return this.http.get('https://api.postalpincode.in/pincode/' + pin);
+  }
 }

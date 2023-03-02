@@ -43,8 +43,8 @@
         <span *ngIf="personalDetailForm.get('email')?.errors?.['pattern']">Please enter valid Email</span>
       </span>
     </div>
-    <div class="w-full pt-5 relative">
-      <span class="input-titel">About Our Company <i class="text-xs font-medium" [ngClass]="{'text-magicPotion' : textEditor}">( You have {{textEditorLimit}} of {{textEditorMaxLimit}} characters remaining ) </i></span>
+    <div class="w-full px-2 pt-5 relative">
+      <span class="input-titel">About <i class="text-xs font-medium" [ngClass]="{'text-magicPotion' : textEditor}">( You have {{textEditorLimit}} of {{textEditorMaxLimit}} characters remaining ) </i></span>
       <div class="w-full bg-white rounded">
         <ckeditor (ready)="onTextEditorReady($event, 'about')" (keyup)="editorCharacterSet()" (keydown)="editorCharacterSet()" [config]="editorConfig" [editor]="detailEditor" [formControlName]="'about'" class="h-44 text-editor" id="about" name="about"></ckeditor>
       </div>
@@ -76,6 +76,9 @@
         <input [formControlName]="'city'" class="input" name="city" required type="text" fuseValidAlphabet/>
         <span class="absolute top-full text-red-500 text-xs" *ngIf="personalDetailForm.get('city')?.invalid && (personalDetailForm.get('city')?.dirty && personalDetailForm.get('city')?.touched)">
           <span *ngIf="personalDetailForm.get('city')?.errors?.['required']">City is required</span>
+          <span *ngIf="personalDetailForm.get('city')?.errors?.['not_match']">
+              City is not match pin code wise.
+            </span>
         </span>
       </div>
       <div class="w-full md:w-1/2 lg:w-1/3 px-2 mb-5 inputHolder relative">
@@ -83,6 +86,9 @@
         <input [formControlName]="'state'" class="input" name="state" required type="text" fuseValidAlphabet/>
         <span class="absolute top-full text-red-500 text-xs" *ngIf="personalDetailForm.get('state')?.invalid && (personalDetailForm.get('state')?.dirty && personalDetailForm.get('state')?.touched)">
           <span *ngIf="personalDetailForm.get('state')?.errors?.['required']">State is required</span>
+          <span *ngIf="personalDetailForm.get('state')?.errors?.['not_match']">
+              State is not match pin code wise.
+            </span>
         </span>
       </div>
       <div class="w-full md:w-1/2 lg:w-1/3 px-2 mb-5 inputHolder relative">
@@ -91,6 +97,9 @@
         <span class="absolute top-full text-red-500 text-xs" *ngIf="personalDetailForm.get('pincode')?.invalid && (personalDetailForm.get('pincode')?.dirty && personalDetailForm.get('pincode')?.touched)">
           <span *ngIf="personalDetailForm.get('pincode')?.errors?.['required']">Pincode is required</span>
           <span *ngIf="personalDetailForm.get('pincode')?.errors?.['pattern']">Please enter valid Pincode.</span>
+          <span *ngIf="personalDetailForm.get('pincode')?.errors?.['not_match']">
+              Pincode is not found.
+            </span>
         </span>
       </div>
     </div>

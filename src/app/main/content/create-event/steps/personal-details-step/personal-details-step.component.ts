@@ -26,7 +26,7 @@ export class PersonalDetailsStepComponent implements OnInit {
   detailEditor = DecoupledEditor;
   editorConfig: any = {};
   textEditor: boolean = false;
-  textEditorMaxLimit: any = this.constants.CKEditorCharacterLimit0;
+  textEditorMaxLimit: any = this.constants.CKEditorCharacterLimit1;
   textEditorLimit: any = this.textEditorMaxLimit;
 
   constructor(
@@ -64,6 +64,7 @@ export class PersonalDetailsStepComponent implements OnInit {
       city: [personalDetailsObj?.city || '', [Validators.required]],
       pincode: [personalDetailsObj?.pincode || '', [Validators.required, Validators.pattern('^[1-9]{1}[0-9]{2}\\s{0,1}[0-9]{3}$')]],
     });
+    this.pincodeValidation(this.personalDetailForm.value.pincode);
   }
 
   onTextEditorReady(editor: any, fieldForSetData: any): void {
@@ -93,6 +94,35 @@ export class PersonalDetailsStepComponent implements OnInit {
       this._globalFunctions.errorHanding(error, this, true);
       this.isLoading = false;
     });
+  }
+
+  pincodeValidation(pincode: any = ''): any {
+    if (pincode && pincode != '') {
+      this._globalService.pincodeValidation(pincode).subscribe((result: any) => {
+        if (result && result[0] && result[0].Status) {
+          if (result[0].Status == 'Success') {
+            this.personalDetailsObj = result[0].PostOffice[0];
+            const companyFormValueObj = this.personalDetailForm?.value || {};
+
+            this.personalDetailForm.markAsTouched();
+            this.personalDetailForm?.get('city')?.markAsTouched();
+            this.personalDetailForm?.get('state')?.markAsTouched();
+            this.personalDetailForm?.get('pincode')?.markAsTouched();
+            this.personalDetailForm?.controls['city']?.markAsDirty();
+            this.personalDetailForm?.controls['state']?.markAsDirty();
+            this.personalDetailForm?.controls['pincode']?.markAsDirty();
+
+            this.personalDetailForm?.controls['city']?.setErrors((this.personalDetailsObj?.District && companyFormValueObj?.city && (this.personalDetailsObj.District).toLowerCase() != (companyFormValueObj?.city).toLowerCase()) ? {'not_match': true} : null);
+            this.personalDetailForm?.controls['state']?.setErrors((this.personalDetailsObj?.State && companyFormValueObj?.state && (this.personalDetailsObj.State).toLowerCase() != (companyFormValueObj?.state).toLowerCase()) ? {'not_match': true} : null);
+            this.personalDetailForm?.controls['pincode']?.setErrors((this.personalDetailsObj?.Pincode && companyFormValueObj?.pincode && this.personalDetailsObj.Pincode != companyFormValueObj?.pincode) ? {'not_match': true} : null);
+          } else if (result[0].Status == 'Error') {
+            this.personalDetailForm?.controls['pincode']?.setErrors({'pattern': true});
+          }          
+        }
+      }, (error: any) => {
+        this._globalFunctions.errorHanding(error, this, true);
+      });
+    }
   }
 
   getDataFromProfileObj(): void {
