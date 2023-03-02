@@ -319,7 +319,13 @@
           <a href="javascript:void(0);" class="block hover:text-spiroDiscoBall anim" title="language" (click)="openLanguageModel()"><span class="icon-language text-2xl block"></span></a>
           <!-- <a href="javascript:void(0);" class="block hover:text-spiroDiscoBall anim" title="massage"><span class="icon-massage text-2xl block"></span></a> -->
           <!-- <a href="javascript:void(0);" class="block hover:text-spiroDiscoBall anim" title="megaphone" routerLinkActive="active"><span class="icon-megaphone text-2xl block"></span></a> -->
-          <a href="javascript:void(0);" class="block hover:text-spiroDiscoBall anim" title="QR Scanner" (click)="openBarcode()"><span class="icon-qr_scanner text-2xl block"></span></a>
+          <a href="javascript:void(0);" class="block hover:text-spiroDiscoBall anim" title="QR Code" (click)="openBarcode()">
+            <span class="flex items-center w-6 h-8">
+              <span class="block overflow-hidden w-6 h-6">
+                <span class="icon-qr_scanner text-2xl block transform scale-125 -translate-y-1"></span>
+              </span>
+            </span>
+          </a>
           <div class="relative group">
             <span class="block cursor-pointer">
               <img #img [src]="!!(loginUser?.profile_pic) ? constants.baseImageURL + loginUser.profile_pic : constants.userDefaultImage" alt="user name"

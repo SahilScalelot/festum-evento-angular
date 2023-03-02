@@ -17,6 +17,7 @@ declare let $: any;
   styleUrls: ['./terms-and-conditions-step.component.scss']
 })
 export class TermsAndConditionsStepComponent implements OnInit {
+  constants: any = CONSTANTS;
   termsAndConditionsForm: any;
   isLoading: boolean = false;
   detailEditor = DecoupledEditor;
@@ -25,6 +26,8 @@ export class TermsAndConditionsStepComponent implements OnInit {
   eventId: any;
 
   termsAndConditionsObj: any = {};
+
+  textEditorLimit: any = 0;
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -80,6 +83,7 @@ export class TermsAndConditionsStepComponent implements OnInit {
       if (result && result.IsSuccess) {
         const eventLocationObj: any = result?.Data?.tandc || {};
         this._prepareTAndCForm(eventLocationObj);
+        this.editorCharacterSet();
         this.isLoading = false;
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
@@ -90,6 +94,15 @@ export class TermsAndConditionsStepComponent implements OnInit {
       this.isLoading = false;
     });
   }
+  
+  editorCharacterSet(): any {
+    this.textEditorLimit = 0;
+    const textfield = this.termsAndConditionsForm.value.about;    
+    // if (textfield && textfield != '') {
+      const stringOfCKEditor = this._globalFunctions.getPlainText(textfield);
+      this.textEditorLimit = stringOfCKEditor.length;
+    // }
+  }
 
   saveFullEvent(): void {
     if (this.termsAndConditionsForm.invalid) {
@@ -98,7 +111,11 @@ export class TermsAndConditionsStepComponent implements OnInit {
         this.termsAndConditionsForm.controls[key].markAsDirty();
       });
       return;
-    }    
+    }
+    this.editorCharacterSet();
+    if (this.textEditorLimit && this.textEditorLimit > CONSTANTS.CKEditorCharacterLimit0) {
+      return;
+    }
     if (this.termsAndConditionsForm.value.status != '') {
       this.isLoading = true;
       this.termsAndConditionsForm.disable();
