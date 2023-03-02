@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { GlobalFunctions } from 'src/app/main/common/global-functions';
 import { CreateEventService } from '../../create-event.service';
@@ -49,6 +49,7 @@ export class PhotosVideosStepComponent implements OnInit {
   videosUploadLimit: number = 2;
   rejectedVideosList: any;
   videosFiles: File[] = [];
+  descriptionLimit: any = 0;
 
   constructor(
     private _modalService: ModalService,
@@ -146,6 +147,7 @@ export class PhotosVideosStepComponent implements OnInit {
   }
 
   openUploadPhotoDialog(): void {
+    this.descriptionLimit = 0;
     this.photosNgForm.resetForm();
     if (this.posterImageAndVideoObj.photos && this.posterImageAndVideoObj.photos.length && this.posterImageAndVideoObj.photos.length >= this.photosUploadLimit) {
       this._sNotify.error('Maximum 15 images can upload!', 'Oops!');
@@ -155,6 +157,7 @@ export class PhotosVideosStepComponent implements OnInit {
   }
 
   openUploadVideoDialog(): void {
+    this.descriptionLimit = 0;
     this.videosNgForm.resetForm();
     if (this.posterImageAndVideoObj.videos && this.posterImageAndVideoObj.videos.length && this.posterImageAndVideoObj.videos.length >= 2) {
       this._sNotify.error('Maximum 2 videos can upload!', 'Oops!');
@@ -227,6 +230,10 @@ export class PhotosVideosStepComponent implements OnInit {
 
   // Images Upload
   uploadImage(): any {
+    if (this.descriptionLimit > CONSTANTS.CKEditorCharacterLimit0) {
+      return false;
+    }
+
     const responseObj: Observable<any>[] = [];
     this.imagesFiles.forEach((image: any) => {
       if (image != undefined) {
@@ -263,6 +270,7 @@ export class PhotosVideosStepComponent implements OnInit {
           this.imagesFiles = [];
           this.isPhotoLoading = false;
           // this.inputText = '';
+          this.descriptionLimit = 0;
           this._modalService.close('photo');
         } else {
           this._globalFunctions.successErrorHandling(result, this, true);
@@ -344,6 +352,10 @@ export class PhotosVideosStepComponent implements OnInit {
   // }
 
   uploadVideo(): any {
+    if (this.descriptionLimit > CONSTANTS.CKEditorCharacterLimit0) {
+      return false;
+    }
+
     const responseObj: Observable<any>[] = [];
     this.videosFiles.forEach((video: any) => {
       if (video != undefined) {

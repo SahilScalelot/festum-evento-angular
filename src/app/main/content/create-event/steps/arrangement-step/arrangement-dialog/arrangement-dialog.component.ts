@@ -85,6 +85,9 @@ export class ArrangementDialogComponent implements OnInit {
       this.arrangements.removeAt(index.toString());
       this.arrangements.updateValueAndValidity();
       this.updateCalculatedValue();
+      if (!this.arrangements?.value?.length) {
+        this.addArrangements();
+      }
     }
   }
 
