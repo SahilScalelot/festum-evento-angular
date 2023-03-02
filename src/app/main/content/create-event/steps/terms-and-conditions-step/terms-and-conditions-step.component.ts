@@ -17,6 +17,7 @@ declare let $: any;
   styleUrls: ['./terms-and-conditions-step.component.scss']
 })
 export class TermsAndConditionsStepComponent implements OnInit {
+  constants: any = CONSTANTS;
   termsAndConditionsForm: any;
   isLoading: boolean = false;
   detailEditor = DecoupledEditor;
@@ -25,6 +26,10 @@ export class TermsAndConditionsStepComponent implements OnInit {
   eventId: any;
 
   termsAndConditionsObj: any = {};
+
+  textEditor: boolean = false;
+  textEditorMaxLimit: any = this.constants.CKEditorCharacterLimit3;
+  textEditorLimit: any = 0;
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -80,6 +85,7 @@ export class TermsAndConditionsStepComponent implements OnInit {
       if (result && result.IsSuccess) {
         const eventLocationObj: any = result?.Data?.tandc || {};
         this._prepareTAndCForm(eventLocationObj);
+        this.editorCharacterSet();
         this.isLoading = false;
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
@@ -90,6 +96,15 @@ export class TermsAndConditionsStepComponent implements OnInit {
       this.isLoading = false;
     });
   }
+  
+  editorCharacterSet(): any {
+    const textfield = this.termsAndConditionsForm.value.t_and_c;    
+    // if (textfield && textfield != '') {
+      const stringOfCKEditor = this._globalFunctions.getPlainText(textfield);
+      this.textEditorLimit = stringOfCKEditor.length;
+      this.textEditor = (stringOfCKEditor.length > this.textEditorMaxLimit);
+    // }
+  }
 
   saveFullEvent(): void {
     if (this.termsAndConditionsForm.invalid) {
@@ -97,8 +112,13 @@ export class TermsAndConditionsStepComponent implements OnInit {
         this.termsAndConditionsForm.controls[key].touched = true;
         this.termsAndConditionsForm.controls[key].markAsDirty();
       });
+      
       return;
-    }    
+    }
+    this.editorCharacterSet();
+    if (this.textEditorLimit && this.textEditorMaxLimit && this.textEditorLimit > this.textEditorMaxLimit) {
+      return;
+    }
     if (this.termsAndConditionsForm.value.status != '') {
       this.isLoading = true;
       this.termsAndConditionsForm.disable();

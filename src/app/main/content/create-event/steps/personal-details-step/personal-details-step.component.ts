@@ -2,9 +2,12 @@ import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SnotifyService } from 'ng-snotify';
+import { CONSTANTS } from 'src/app/main/common/constants';
 import { GlobalFunctions } from 'src/app/main/common/global-functions';
 import { GlobalService } from 'src/app/services/global.service';
 import { CreateEventService } from '../../create-event.service';
+// @ts-ignore
+import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
 
 @Component({
   selector: 'app-personal-details-step',
@@ -15,9 +18,16 @@ export class PersonalDetailsStepComponent implements OnInit {
   personalDetailForm: any;
   submit: boolean = false;
   isLoading: boolean = false;
+  constants: any = CONSTANTS;
   
   eventId: any;
   personalDetailsObj: any = {};
+  
+  detailEditor = DecoupledEditor;
+  editorConfig: any = {};
+  textEditor: boolean = false;
+  textEditorMaxLimit: any = this.constants.CKEditorCharacterLimit1;
+  textEditorLimit: any = this.textEditorMaxLimit;
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -46,6 +56,7 @@ export class PersonalDetailsStepComponent implements OnInit {
       is_alt_mobile_hidden: [personalDetailsObj?.is_alt_mobile_hidden || false],
       email: [personalDetailsObj?.email || '', [Validators.required,Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
       is_email_hidden: [personalDetailsObj?.is_email_hidden || false],
+      about: [personalDetailsObj?.about || ''],
       flat_no: [personalDetailsObj?.flat_no || ''],
       street: [personalDetailsObj?.street || ''],
       area: [personalDetailsObj?.area || ''],
@@ -53,6 +64,14 @@ export class PersonalDetailsStepComponent implements OnInit {
       city: [personalDetailsObj?.city || '', [Validators.required]],
       pincode: [personalDetailsObj?.pincode || '', [Validators.required, Validators.pattern('^[1-9]{1}[0-9]{2}\\s{0,1}[0-9]{3}$')]],
     });
+    this.pincodeValidation(this.personalDetailForm.value.pincode);
+  }
+
+  onTextEditorReady(editor: any, fieldForSetData: any): void {
+    editor.ui.getEditableElement().parentElement.insertBefore(
+      editor.ui.view.toolbar.element,
+      editor.ui.getEditableElement()
+    );
   }
 
   getPersonalDetailsEvent(): any {
@@ -65,6 +84,7 @@ export class PersonalDetailsStepComponent implements OnInit {
         } else {
           this.getDataFromProfileObj();
         }
+        this.editorCharacterSet();
         this.isLoading = false;
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
@@ -74,6 +94,35 @@ export class PersonalDetailsStepComponent implements OnInit {
       this._globalFunctions.errorHanding(error, this, true);
       this.isLoading = false;
     });
+  }
+
+  pincodeValidation(pincode: any = ''): any {
+    if (pincode && pincode != '') {
+      this._globalService.pincodeValidation(pincode).subscribe((result: any) => {
+        if (result && result[0] && result[0].Status) {
+          if (result[0].Status == 'Success') {
+            this.personalDetailsObj = result[0].PostOffice[0];
+            const companyFormValueObj = this.personalDetailForm?.value || {};
+
+            this.personalDetailForm.markAsTouched();
+            this.personalDetailForm?.get('city')?.markAsTouched();
+            this.personalDetailForm?.get('state')?.markAsTouched();
+            this.personalDetailForm?.get('pincode')?.markAsTouched();
+            this.personalDetailForm?.controls['city']?.markAsDirty();
+            this.personalDetailForm?.controls['state']?.markAsDirty();
+            this.personalDetailForm?.controls['pincode']?.markAsDirty();
+
+            this.personalDetailForm?.controls['city']?.setErrors((this.personalDetailsObj?.District && companyFormValueObj?.city && (this.personalDetailsObj.District).toLowerCase() != (companyFormValueObj?.city).toLowerCase()) ? {'not_match': true} : null);
+            this.personalDetailForm?.controls['state']?.setErrors((this.personalDetailsObj?.State && companyFormValueObj?.state && (this.personalDetailsObj.State).toLowerCase() != (companyFormValueObj?.state).toLowerCase()) ? {'not_match': true} : null);
+            this.personalDetailForm?.controls['pincode']?.setErrors((this.personalDetailsObj?.Pincode && companyFormValueObj?.pincode && this.personalDetailsObj.Pincode != companyFormValueObj?.pincode) ? {'not_match': true} : null);
+          } else if (result[0].Status == 'Error') {
+            this.personalDetailForm?.controls['pincode']?.setErrors({'pattern': true});
+          }          
+        }
+      }, (error: any) => {
+        this._globalFunctions.errorHanding(error, this, true);
+      });
+    }
   }
 
   getDataFromProfileObj(): void {
@@ -86,6 +135,16 @@ export class PersonalDetailsStepComponent implements OnInit {
       }
     });
   }
+  
+  editorCharacterSet(): any {
+    this.textEditorLimit = '0';
+    const textfield = this.personalDetailForm.value.about;    
+    if (textfield && textfield != '') {
+      const stringOfCKEditor = this._globalFunctions.getPlainText(textfield);
+      this.textEditorLimit = stringOfCKEditor.length;
+      this.textEditor = (stringOfCKEditor.length > this.textEditorMaxLimit);
+    }
+  }
 
   personalDetail(): any {
     if (this.personalDetailForm.invalid) {
@@ -93,6 +152,10 @@ export class PersonalDetailsStepComponent implements OnInit {
         this.personalDetailForm.controls[key].touched = true;
         this.personalDetailForm.controls[key].markAsDirty();
       });
+      return;
+    }
+    this.editorCharacterSet();
+    if (this.textEditorLimit && this.textEditorMaxLimit && this.textEditorLimit > this.textEditorMaxLimit) {
       return;
     }
     this.isLoading = true;

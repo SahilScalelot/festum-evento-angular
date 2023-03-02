@@ -1,13 +1,13 @@
-<div class="fixed inset-0 w-full h-full bg-[rgba(0,0,0,0.6)] flex z-50">
+<div class="fixed inset-0 w-full h-full bg-[rgba(0,0,0,1)] flex z-50">
   <button type="button" class="absolute right-10 top-10 z-50 rounded-full text-white text-lg" (click)="closePopup()"><i class="icon-close"></i></button>
   <div class="relative w-full py-10">
     <div class="swiper-container gallery-top relative">
       <div class="swiper-wrapper">
         <div class="swiper-slide" *ngFor="let exData of expectedProp">
           <div class="swiper-slide-container w-full flex flex-wrap py-5">
-            <div class="w-full rounded-md overflow-hidden h-full bg-white p-1" [ngClass]="{'md:w-1/2': (!isCompanyImagesAndVideo && exData && exData.description)}">
+            <div class="w-full rounded-md overflow-hidden h-full p-1" [ngClass]="{'md:w-1/2': (!isCompanyImagesAndVideo && exData && exData.description)}">
               <a [href]="constants.baseImageURL + exData.url" *ngIf="isImageOrVideoFlag" class="w-full h-full block">
-                <img [src]="!!(exData?.url) ? constants.baseImageURL + exData.url : constants.defaultImage" class="w-full h-full object-contain" />
+                <img [src]="!!(exData?.url) ? constants.baseImageURL + exData.url : constants.defaultImage" class="w-full h-full object-contain m-auto" />
               </a>
               <video width="800" id="video" height="600" controls [src]="!!(exData?.url) ? constants.baseImageURL + exData.url : constants.defaultImage" *ngIf="!isImageOrVideoFlag" class="w-full h-full"></video>
             </div>

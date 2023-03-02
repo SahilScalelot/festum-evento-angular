@@ -5,7 +5,7 @@
     <div class="flex items-end flex-wrap -mx-2">
       <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative">
         <span class="input-titel">Company name</span>
-        <input class="input" type="text" id="name" name="name" [formControlName]="'name'" required />
+        <input class="input" type="text" id="name" name="name" [formControlName]="'name'" />
         <span class="absolute top-full text-red-500 text-xs" *ngIf="companyForm.get('name')?.invalid && (companyForm.get('name')?.dirty && companyForm.get('name')?.touched)">
           <span *ngIf="companyForm.get('name')?.errors?.['minlength']">
             This field must have at least 2 character.
@@ -50,9 +50,9 @@
       </div>
     </div>
     <div class="w-full pt-5 relative">
-      <span class="input-titel">About Our Company<span class="text-magicPotion">*</span></span>
+      <span class="input-titel">About Our Company <i class="text-xs font-medium" [ngClass]="{'text-magicPotion' : textEditor}">( You have {{textEditorLimit}} of {{textEditorMaxLimit}} characters remaining ) </i></span>
       <div class="w-full bg-white rounded">
-        <ckeditor (ready)="onTextEditorReady($event, 'about')" [config]="editorConfig" [editor]="detailEditor" [formControlName]="'about'" class="h-44 text-editor" id="about" name="about"></ckeditor>
+        <ckeditor (ready)="onTextEditorReady($event, 'about')" (keyup)="editorCharacterSet()" (keydown)="editorCharacterSet()" [config]="editorConfig" [editor]="detailEditor" [formControlName]="'about'" class="h-44 text-editor" id="about" name="about"></ckeditor>
       </div>
       <!-- <textarea [formControlName]="'about'" class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md" cols="30" rows="4"></textarea> -->
       <span class="absolute top-full text-red-500 text-xs" *ngIf="companyForm.get('about')?.invalid && (companyForm.get('about')?.dirty && companyForm.get('about')?.touched)">
@@ -78,32 +78,41 @@
           <input [formControlName]="'area'" class="input" type="text"/>
         </div>
         <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-5 inputHolder relative">
-          <label class="input-titel">City<span class="text-magicPotion">*</span></label>
-          <input [formControlName]="'city'" class="input" type="text" fuseValidAlphabet/>
+          <label class="input-titel">City</label>
+          <input [formControlName]="'city'" class="input" type="text" fuseValidAlphabet (blur)="pincodeValidation(pincode.value)"/>
           <span class="absolute top-full text-red-500 text-xs" *ngIf="companyForm.get('city')?.invalid && (companyForm.get('city')?.dirty && companyForm.get('city')?.touched)">
             <span *ngIf="companyForm.get('city')?.errors?.['required']">
               City is required.
             </span>
-          </span>
-        </div>
-        <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-5 inputHolder relative">
-          <label class="input-titel">State<span class="text-magicPotion">*</span></label>
-          <input [formControlName]="'state'" class="input" type="text" fuseValidAlphabet/>
-          <span class="absolute top-full text-red-500 text-xs" *ngIf="companyForm.get('state')?.invalid && (companyForm.get('state')?.dirty && companyForm.get('state')?.touched)">
-            <span *ngIf="companyForm.get('state')?.errors?.['required']">
-              State is required.
+            <span *ngIf="companyForm.get('city')?.errors?.['not_match']">
+              City is not match pin code wise.
             </span>
           </span>
         </div>
         <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-5 inputHolder relative">
-          <label class="input-titel">Pincode<span class="text-magicPotion">*</span></label>
-          <input [formControlName]="'pincode'" class="input" type="text" fuseValidNumber/>
+          <label class="input-titel">State</label>
+          <input [formControlName]="'state'" class="input" type="text" fuseValidAlphabet (blur)="pincodeValidation(pincode.value)"/>
+          <span class="absolute top-full text-red-500 text-xs" *ngIf="companyForm.get('state')?.invalid && (companyForm.get('state')?.dirty && companyForm.get('state')?.touched)">
+            <span *ngIf="companyForm.get('state')?.errors?.['required']">
+              State is required.
+            </span>
+            <span *ngIf="companyForm.get('state')?.errors?.['not_match']">
+              State is not match pin code wise.
+            </span>
+          </span>
+        </div>
+        <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-5 inputHolder relative">
+          <label class="input-titel">Pincode</label>
+          <input #pincode [formControlName]="'pincode'" class="input" type="text" fuseValidNumber (blur)="pincodeValidation(pincode.value)"/>
           <span class="absolute top-full text-red-500 text-xs" *ngIf="companyForm.get('pincode')?.invalid && (companyForm.get('pincode')?.dirty && companyForm.get('pincode')?.touched)">
             <span *ngIf="companyForm.get('pincode')?.errors?.['required']">
               Pincode is required.
             </span>
             <span *ngIf="companyForm.get('pincode')?.errors?.['pattern']">
               Please enter valid Pincode.
+            </span>
+            <span *ngIf="companyForm.get('pincode')?.errors?.['not_match']">
+              Pincode is not found.
             </span>
           </span>
         </div>
@@ -151,11 +160,11 @@
       </div>
       <div class="w-full lg:w-1/2 px-2">
         <div class="media-upload-holder">
-          <span class="text-quicksilver font-semibold">Company Video <span class="font-normal">Max {{videosUploadLimit}} videos (up to 2GB/video)</span></span>
+          <span class="text-quicksilver font-semibold">Company Video <span class="font-normal">Max {{videosUploadLimit}} videos (up to 512MB/video)</span></span>
           <div class="w-full pt-2" *ngIf="videoArr.length < videosUploadLimit">
             <div class="block relative">
               <ngx-dropzone #dropzoneVideos class="flex-wrap" (change)="onSelectVideos($event)" [maxFileSize]="4294967296" accept="video/mp4,video/x-m4v,video/*">
-                <ngx-dropzone-label>Max {{videosUploadLimit - videoArr.length}} videos (up to 2GB/video)</ngx-dropzone-label>
+                <ngx-dropzone-label>Max {{videosUploadLimit - videoArr.length}} videos (up to 512MB/video)</ngx-dropzone-label>
                 <ngx-dropzone-video-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of videosFiles" [file]="f" [removable]="true" (removed)="onRemoveVideos(f)"></ngx-dropzone-video-preview>
               </ngx-dropzone>
               <button (click)="uploadVideo()" *ngIf="videosFiles?.length" class="absolute bottom-2 right-2 text-xs font-semibold text-magicPotion uppercase">Upload</button>

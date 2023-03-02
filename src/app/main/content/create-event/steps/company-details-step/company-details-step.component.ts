@@ -58,6 +58,12 @@ export class CompanyDetailsStepComponent implements OnInit {
   videosFiles: File[] = [];
   isHideDiscountitem: any = false;
 
+  pincodeValidationObj: any = '';
+  
+  textEditor: boolean = false;
+  textEditorMaxLimit: any = this.constants.CKEditorCharacterLimit1;
+  textEditorLimit: any = 0;
+
   constructor(
     private _formBuilder: FormBuilder,
     private _router: Router,
@@ -93,18 +99,19 @@ export class CompanyDetailsStepComponent implements OnInit {
       gst: [this.gstPdf || ''],
       contact_no: [companyDetailObj?.contact_no || '', [Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
       email: [companyDetailObj?.email || '', [Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
-      about: [companyDetailObj?.about || '', [Validators.required]],
+      about: [companyDetailObj?.about || ''],
       flat_no: [companyDetailObj?.flat_no || ''],
       street: [companyDetailObj?.street || ''],
       area: [companyDetailObj?.area || ''],
-      city: [companyDetailObj?.city || '', [Validators.required]],
-      state: [companyDetailObj?.state || '', [Validators.required]],
-      pincode: [companyDetailObj?.pincode || '', [Validators.required, Validators.pattern('^[1-9]{1}[0-9]{2}\\s{0,1}[0-9]{3}$')]],
+      city: [companyDetailObj?.city || ''],
+      state: [companyDetailObj?.state || ''],
+      pincode: [companyDetailObj?.pincode || '', [Validators.pattern('^[1-9]{1}[0-9]{2}\\s{0,1}[0-9]{3}$')]],
       photos: [this.photoArr || []],
       videos: [this.videoArr || []],
     });
 
     this.inputText = companyDetailObj?.company_details?.company_detail?.gst_name;
+    this.pincodeValidation(this.companyForm.value.pincode);
   }
   
   getCompanyDetailsEvent(): any {
@@ -117,10 +124,11 @@ export class CompanyDetailsStepComponent implements OnInit {
         } else {
           this.getDataFromProfileObj();
         }
+        this.editorCharacterSet();
         this.gstPdf = companyDetailObj.gst;
         this.inputText = _.last(_.split(companyDetailObj.gst, '/'));
         this.photoArr = companyDetailObj.photos || [];
-        this.videoArr = companyDetailObj.videos || [];        
+        this.videoArr = companyDetailObj.videos || [];
         this.isLoading = false;
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
@@ -130,6 +138,35 @@ export class CompanyDetailsStepComponent implements OnInit {
       this._globalFunctions.errorHanding(error, this, true);
       this.isLoading = false;
     });
+  }
+
+  pincodeValidation(pincode: any = ''): any {
+    if (pincode && pincode != '') {
+      this._globalService.pincodeValidation(pincode).subscribe((result: any) => {
+        if (result && result[0] && result[0].Status) {
+          if (result[0].Status == 'Success') {
+            this.pincodeValidationObj = result[0].PostOffice[0];
+            const companyFormValueObj = this.companyForm?.value || {};
+
+            this.companyForm.markAsTouched();
+            this.companyForm?.get('city')?.markAsTouched();
+            this.companyForm?.get('state')?.markAsTouched();
+            this.companyForm?.get('pincode')?.markAsTouched();
+            this.companyForm?.controls['city']?.markAsDirty();
+            this.companyForm?.controls['state']?.markAsDirty();
+            this.companyForm?.controls['pincode']?.markAsDirty();
+
+            this.companyForm?.controls['city']?.setErrors((this.pincodeValidationObj?.District && companyFormValueObj?.city && (this.pincodeValidationObj.District).toLowerCase() != (companyFormValueObj?.city).toLowerCase()) ? {'not_match': true} : null);
+            this.companyForm?.controls['state']?.setErrors((this.pincodeValidationObj?.State && companyFormValueObj?.state && (this.pincodeValidationObj.State).toLowerCase() != (companyFormValueObj?.state).toLowerCase()) ? {'not_match': true} : null);
+            this.companyForm?.controls['pincode']?.setErrors((this.pincodeValidationObj?.Pincode && companyFormValueObj?.pincode && this.pincodeValidationObj.Pincode != companyFormValueObj?.pincode) ? {'not_match': true} : null);
+          } else if (result[0].Status == 'Error') {
+            this.companyForm?.controls['pincode']?.setErrors({'pattern': true});
+          }          
+        }
+      }, (error: any) => {
+        this._globalFunctions.errorHanding(error, this, true);
+      });
+    }
   }
 
   getDataFromProfileObj(): void {
@@ -333,12 +370,25 @@ export class CompanyDetailsStepComponent implements OnInit {
     this.close();
   }
 
+  editorCharacterSet(): any {
+    const textfield = this.companyForm.value.about;    
+    // if (textfield && textfield != '') {
+      const stringOfCKEditor = this._globalFunctions.getPlainText(textfield);
+      this.textEditorLimit = stringOfCKEditor.length;
+      this.textEditor = (stringOfCKEditor.length > this.textEditorMaxLimit);
+    // }
+  }
+
   nextStep(): void {
     if (this.companyForm.invalid) {
       Object.keys(this.companyForm.controls).forEach((key) => {
         this.companyForm.controls[key].touched = true;
         this.companyForm.controls[key].markAsDirty();
       });
+      return;
+    }
+    this.editorCharacterSet();
+    if (this.textEditorLimit && this.textEditorMaxLimit && this.textEditorLimit > this.textEditorMaxLimit) {
       return;
     }
     this.isLoading = true;

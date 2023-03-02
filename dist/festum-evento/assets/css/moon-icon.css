@@ -176,80 +176,110 @@
   content: "\e92e";
 }
 .icon-img_upload:before {
-  content: "\e92f";
-}
-.icon-top_Arrow:before {
-  content: "\e930";
-}
-.icon-left_arrow:before {
-  content: "\e931";
-}
-.icon-right_arrow:before {
-  content: "\e932";
-}
-.icon-delete:before {
-  content: "\e933";
-}
-.icon-drop_arrow:before {
-  content: "\e934";
-}
-.icon-close:before {
-  content: "\e935";
-}
-.icon-right:before {
   content: "\e936";
 }
-.icon-location-1:before {
+.icon-top_Arrow:before {
   content: "\e937";
 }
-.icon-time:before {
+.icon-left_arrow:before {
   content: "\e938";
 }
-.icon-calendar-2:before {
+.icon-right_arrow:before {
   content: "\e939";
 }
-.icon-share:before {
+.icon-delete:before {
   content: "\e93a";
 }
-.icon-fill_megaphone:before {
+.icon-drop_arrow:before {
   content: "\e93b";
 }
-.icon-show:before {
+.icon-close:before {
   content: "\e93c";
 }
-.icon-edit:before {
-  content: "\e93d";
-}
-.icon-plus:before {
-  content: "\e93e";
-}
-.icon-qr_scanner:before {
+.icon-right:before {
   content: "\e93f";
 }
-.icon-megaphone:before {
+.icon-location-1:before {
   content: "\e940";
 }
-.icon-massage:before {
+.icon-time:before {
   content: "\e941";
 }
-.icon-language:before {
+.icon-calendar-2:before {
   content: "\e942";
 }
-.icon-scanner:before {
+.icon-share:before {
   content: "\e943";
 }
-.icon-live_stream:before {
+.icon-fill_megaphone:before {
   content: "\e944";
 }
-.icon-online_offer:before {
+.icon-show:before {
   content: "\e945";
 }
-.icon-shop_offer:before {
+.icon-edit:before {
   content: "\e946";
 }
-.icon-events:before {
+.icon-plus:before {
   content: "\e947";
 }
-.icon-pass_show:before {
+.icon-qr_scanner:before {
   content: "\e948";
+}
+.icon-megaphone:before {
+  content: "\e94a";
+}
+.icon-massage1:before {
+  content: "\e94b";
+}
+.icon-language:before {
+  content: "\e94c";
+}
+.icon-scanner:before {
+  content: "\e94d";
+}
+.icon-live_stream:before {
+  content: "\e94e";
+}
+.icon-online_offer:before {
+  content: "\e94f";
+}
+.icon-shop_offer:before {
+  content: "\e950";
+}
+.icon-events:before {
+  content: "\e951";
+}
+.icon-pass_show:before {
+  content: "\e952";
+}
+.icon-our-product:before {
+  content: "\e949";
+}
+.icon-booking:before {
+  content: "\e93d";
+}
+.icon-massage:before {
+  content: "\e93e";
+}
+.icon-redem:before {
+  content: "\e933";
+}
+.icon-refer:before {
+  content: "\e92f";
+}
+.icon-gallery:before {
+  content: "\e930";
+}
+.icon-help:before {
+  content: "\e931";
+}
+.icon-f-evanto:before {
+  content: "\e932";
+}
+.icon-subsciption:before {
+  content: "\e934";
+}
+.icon-invoice:before {
+  content: "\e935";
 }

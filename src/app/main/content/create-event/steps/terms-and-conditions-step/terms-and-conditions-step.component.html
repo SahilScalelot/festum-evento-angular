@@ -1,8 +1,9 @@
 <div [formGroup]="termsAndConditionsForm" class="space-y-5 px-2">
   <div class="w-full space-y-2.5">
-    <h5>Terms And Conditions</h5>
+    <h5>Terms And Conditions <i class="text-xs font-medium" [ngClass]="{'text-magicPotion' : textEditor}">( You have {{textEditorLimit}} of {{textEditorMaxLimit}} characters remaining ) </i></h5>
     <div class="w-full bg-white rounded relative">
       <ckeditor (ready)="onTextEditorReady($event, 't_and_c')" [config]="editorConfig"
+                (keyup)="editorCharacterSet()" (keydown)="editorCharacterSet()"
                 [editor]="detailEditor" [formControlName]="'t_and_c'"
                 class="h-44 text-editor" id="t_and_c" name="t_and_c"></ckeditor>
       <span class="absolute top-full text-red-500 text-xs" *ngIf="termsAndConditionsForm.get('t_and_c')?.invalid && (termsAndConditionsForm.get('t_and_c')?.dirty && termsAndConditionsForm.get('t_and_c')?.touched)">

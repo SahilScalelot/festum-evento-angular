@@ -160,7 +160,6 @@ export class ArrangementDialogComponent implements OnInit {
 
   selectItems(): void {
     this._sNotify.clear();
-    console.log(this.seatingForm);
     if (this.seatingForm.invalid) {
       Object.keys(this.seatingForm.controls).forEach((key) => {
         this.seatingForm.controls[key].touched = true;
