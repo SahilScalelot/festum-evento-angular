@@ -16,7 +16,6 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { TranslateModule, TranslateLoader, TranslateService } from  '@ngx-translate/core';
 import { TranslateHttpLoader } from  '@ngx-translate/http-loader';
 import { PlatformLinksComponent } from './main/content/online-offers/platform_links/platform_links.component';
-import { HashLocationStrategy, LocationStrategy, PathLocationStrategy } from '@angular/common';
 
 // Loader of Translate language module
 export function HttpLoaderFactory(http:  HttpClient) {
@@ -52,8 +51,7 @@ export function HttpLoaderFactory(http:  HttpClient) {
     GlobalService,
     { provide: 'SnotifyToastConfig', useValue: ToastDefaults },
     SnotifyService,
-    TranslateService,
-    {provide: LocationStrategy, useClass: PathLocationStrategy}
+    TranslateService
   ],
   exports: [
     AppComponent,
