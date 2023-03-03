@@ -374,13 +374,14 @@
         </div>
       </div>
     </div>
-    <div class="flex justify-end pt-5">
-      <div class="relative">
+    <div class="flex justify-between pt-5">
+        <button class="flex items-center" type="button" (click)="popClose('tAndC');">
+          <i class="icon-left_arrow mr-3"></i><h5>back</h5>
+        </button>
         <button (click)="addEditOnlineShopOffer()" class="secondary py-3 px-5 uppercase text-lg font-bold" [disabled]="isLoading || isImgLoading || isPdfLoading || isInValidPDF || isSaveLoading">Save</button>
         <div class="absolute inset-0 text-white flex items-center" *ngIf="isSaveLoading">
           <mat-progress-spinner [diameter]="22" [mode]="'indeterminate'" class="mx-auto"></mat-progress-spinner>
         </div>
-      </div>
     </div>
   </form>
 </modal>

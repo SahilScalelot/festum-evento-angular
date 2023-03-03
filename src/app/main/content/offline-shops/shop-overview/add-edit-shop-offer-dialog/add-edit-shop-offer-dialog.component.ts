@@ -297,6 +297,103 @@ export class AddEditShopOfferDialogComponent implements OnInit {
     this.closeAddEditOfferFormEvent.emit(isReload);
   }
 
+  closeTermsAndConditionDialog(isReload: boolean = false): void {
+    setTimeout(() => {
+      this.dropifyOption = {
+        messages: {
+          default: 'Add Poster',
+          icon: '<svg width="21" height="17" viewBox="0 0 21 17" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19.6666 0.333496H1.33335C0.59702 0.333496 0 0.930479 0 1.66681V15.3335C0 16.0698 0.59702 16.6668 1.33335 16.6668H19.6666C20.403 16.6668 21 16.0698 21 15.3335V1.66681C21 0.930479 20.403 0.333496 19.6666 0.333496ZM19.6666 1.66681V11.3638L17.0389 8.9748C16.644 8.61581 16.0366 8.63014 15.6593 9.00782L12.9999 11.6668L7.75634 5.40347C7.35998 4.93013 6.63397 4.92548 6.23167 5.39314L1.33335 11.0858V1.66681H19.6666ZM14 5.16682C14 4.15414 14.8206 3.33347 15.8333 3.33347C16.846 3.33347 17.6666 4.15414 17.6666 5.16682C17.6666 6.17949 16.846 7.00012 15.8333 7.00012C14.8206 7.00016 14 6.17949 14 5.16682Z" fill="#A6A6A6"/></svg>',
+        }
+      };
+      this.dropifyOption.messages.default = 'Add Poster';
+      this.drPosterEvent = $('#poster-upload').dropify(this.dropifyOption);
+      this.drPosterEvent.on('dropify.afterClear', (event: any, element: any) => {
+        this.poster?.setValue('');
+      });
+
+      this.dropifyOption.messages.default = 'Add Video';
+      this.drVideoEvent = $('#video-upload').dropify(this.dropifyOption);
+      this.drVideoEvent.on('dropify.afterClear', (event: any, element: any) => {
+        this.video?.setValue('');
+      });
+      
+      const offerObj: any = {
+        shopid : this.shopId || '',
+        offlineofferid : this.offerId || '',
+      };
+
+      this._offlineShopsService.getOfflineOffer(offerObj).subscribe((result: any) => {
+        console.log(result);
+        if (result && result.IsSuccess) {
+          this.offerObj = result.Data;
+          if (result?.Data?.poster) {
+            this.setPosterInDropify(result?.Data?.poster);
+          }
+          if (result?.Data?.video) {
+            this.setVideoInDropify(result?.Data?.video);
+          }
+        } else {
+          this._globalFunctions.successErrorHandling(result, this, true);
+        }
+      })
+
+      // if (this.offerId && this.offerId != '') {
+      //   this.getOfflineShopOfferByOfferId(this.offerId);
+      // }
+    }, 0);
+    this.isTAndC == false && this.isAddUserWiseOffers ==false 
+    this.isTAndC=false
+  }
+
+  closeEditOfferProductDialog(isReload: boolean = false): void {
+    setTimeout(() => {
+      this.dropifyOption = {
+        messages: {
+          default: 'Add Poster',
+          icon: '<svg width="21" height="17" viewBox="0 0 21 17" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19.6666 0.333496H1.33335C0.59702 0.333496 0 0.930479 0 1.66681V15.3335C0 16.0698 0.59702 16.6668 1.33335 16.6668H19.6666C20.403 16.6668 21 16.0698 21 15.3335V1.66681C21 0.930479 20.403 0.333496 19.6666 0.333496ZM19.6666 1.66681V11.3638L17.0389 8.9748C16.644 8.61581 16.0366 8.63014 15.6593 9.00782L12.9999 11.6668L7.75634 5.40347C7.35998 4.93013 6.63397 4.92548 6.23167 5.39314L1.33335 11.0858V1.66681H19.6666ZM14 5.16682C14 4.15414 14.8206 3.33347 15.8333 3.33347C16.846 3.33347 17.6666 4.15414 17.6666 5.16682C17.6666 6.17949 16.846 7.00012 15.8333 7.00012C14.8206 7.00016 14 6.17949 14 5.16682Z" fill="#A6A6A6"/></svg>',
+        }
+      };
+      this.dropifyOption.messages.default = 'Add Poster';
+      this.drPosterEvent = $('#poster-upload').dropify(this.dropifyOption);
+      this.drPosterEvent.on('dropify.afterClear', (event: any, element: any) => {
+        this.poster?.setValue('');
+      });
+
+      this.dropifyOption.messages.default = 'Add Video';
+      this.drVideoEvent = $('#video-upload').dropify(this.dropifyOption);
+      this.drVideoEvent.on('dropify.afterClear', (event: any, element: any) => {
+        this.video?.setValue('');
+      });
+
+      const offerObj: any = {
+        shopid : this.shopId || '',
+        offlineofferid : this.offerId || '',
+      };
+
+      this._offlineShopsService.getOfflineOffer(offerObj).subscribe((result: any) => {
+        console.log(result);
+        if (result && result.IsSuccess) {
+          this.offerObj = result.Data;
+          if (result?.Data?.poster) {
+            this.setPosterInDropify(result?.Data?.poster);
+          }
+          if (result?.Data?.video) {
+            this.setVideoInDropify(result?.Data?.video);
+          }
+        } else {
+          this._globalFunctions.successErrorHandling(result, this, true);
+        }
+      })
+      
+      // if (this.offerId && this.offerId != '') {
+      //   this.getOfflineShopOfferByOfferId(this.offerId);
+      // }
+    }, 0);
+    this.isTAndC == false && this.isAddUserWiseOffers ==false
+    this.isAddUserWiseOffers =false
+  }
+
+
   onPosterChange(event: any): any {
     if (event.target.files.length > 0) {
       const poster = event.target.files[0];
