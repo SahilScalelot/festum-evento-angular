@@ -4,6 +4,7 @@ import {Router} from '@angular/router';
 import {SnotifyService} from 'ng-snotify';
 import {GlobalService} from 'src/app/services/global.service';
 import {GlobalFunctions} from '../../common/global-functions';
+import { ModalService } from '../../_modal';
 import {AuthService} from '../auth.service';
 import {FuseValidators} from '../validators';
 
@@ -31,7 +32,8 @@ export class RegisterComponent implements OnInit {
     private _router: Router,
     private _globalFunctions: GlobalFunctions,
     private _globalService: GlobalService,
-    private _sNotify: SnotifyService
+    private _sNotify: SnotifyService,
+    private _modalService: ModalService,
   ) {
 
   }
@@ -47,6 +49,7 @@ export class RegisterComponent implements OnInit {
       confirm_password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(16)]],
       refer_code: [''],
       fcm_token: [''],
+      tandc: [false, [Validators.requiredTrue]],
     }, {
       validators: FuseValidators.mustMatch('password', 'confirm_password')
     });
@@ -80,5 +83,22 @@ export class RegisterComponent implements OnInit {
       this._globalFunctions.errorHanding(error, this, true);
       // this._sNotify.error(error.Message, 'error');
     });
+  }
+
+  tAndCPop(): void {
+    if (this.registerForm.value && this.registerForm.value.tandc == false) {
+      this.registerForm.get('tandc').setValue(false);
+      this._modalService.open("tandc");
+    }
+  }
+
+  closePop(): any {
+    this.registerForm.get('tandc').setValue(false);
+    this._modalService.close("tandc");
+  }
+
+  applyTAndC(): void {
+    this.registerForm.get('tandc').setValue(true);
+    this._modalService.close("tandc");
   }
 }

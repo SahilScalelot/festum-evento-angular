@@ -54,11 +54,25 @@
     <div class="relative">
       <label class="input-titel">Refer Code</label>
       <input type="text" name="Refer Code" class="input_box" [formControlName]="'refer_code'" id="refer_code"/>
-      <span class="text-quicksilver text-sm font-light absolute right-0 top-0">(Optional)</span>
+      <span class="text-quicksilver text-xs font-light absolute right-0 top-0">(Optional)</span>
+    </div>
+    <div class="block w-full relative">
+      <label class="inline-flex items-center cursor-pointer" (click)="tAndCPop()">
+        <div class="checkbox rounded bg-white">
+          <input type="checkbox" [formControlName]="'tandc'" name="tandc" [checked]="false" style="width: 26px !important;height: 26px !important;" />
+          <i class="icon-right text-white text-13"></i>
+        </div>
+        <span class="input-titel text-sm pl-3 pt-1">By continuing, I agree to the <strong class="text-magicPotion">terms and conditions</strong>.</span>
+      </label>
+      <span class="absolute top-full left-0 text-red-500 text-xs" *ngIf="registerForm.get('tandc')?.invalid && (registerForm.get('tandc')?.dirty && registerForm.get('tandc')?.touched)">
+        <span *ngIf="registerForm.get('tandc')?.errors?.['required']">
+          Terms And Conditions is required.
+        </span>
+      </span>
     </div>
 
     <!-- Register Button -->
-    <div class="relative">
+    <div class="relative pt-4">
       <button class="secondary w-full py-[15px] uppercase relative" type="submit" (click)="register()">
         <span [ngClass]="{'opacity-0': registerForm.disabled}">Register Now</span>
       </button>
@@ -84,3 +98,21 @@
     <span class="block text-sm text-japaneseIndigo font-bold text-center">Are you new? <a [routerLink]="'/login'">Login</a></span>
   </form>
 </div>
+
+<!-- T & C -->
+<modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="tandc" title="Terms and Conditions">
+  <div class="pt-6 space-y-5 lg:space-y-8">
+    <ul class="space-y-2.5 list-disc list-inside text-xs font-medium">
+      <li>Lorem Ipsum is simply dummy text of the printing and typesetting industry. LoremIpsum.</li>
+      <li>Lorem Ipsum is simply dummy text of the printing and typesetting industry. LoremIpsum.</li>
+      <li>Lorem Ipsum is simply dummy text of the printing and typesetting industry. LoremIpsum.</li>
+      <li>Lorem Ipsum is simply dummy text of the printing and typesetting industry. LoremIpsum.</li>
+      <li>Lorem Ipsum is simply dummy text of the printing and typesetting industry. LoremIpsum.</li>
+      <li>Lorem Ipsum is simply dummy text of the printing and typesetting industry. LoremIpsum.</li>
+    </ul>
+    <div class="flex items-center space-x-5">
+      <!-- <button class="secondary w-full py-2 anim" accesskey="alt+tab" (click)="closePop()">CANCEL</button> -->
+      <button class="primary w-full py-2 anim" (click)="applyTAndC()">APPLY</button>
+    </div>
+  </div>
+</modal>
