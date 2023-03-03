@@ -215,5 +215,9 @@ export class OfferOverviewComponent implements OnInit {
       this.isDeleteLoading = false;
     });
   }
+  
+  backRouter(): void {
+    this._router.navigate(['/offline-shops/' + this.shopId]);
+  }
 
 }

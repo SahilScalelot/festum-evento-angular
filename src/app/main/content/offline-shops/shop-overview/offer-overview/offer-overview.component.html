@@ -6,7 +6,9 @@
 <div class="wrapper -mt-14 z-10" *ngIf="!isLoading">
   <div class="flex items-center justify-between bg-white py-5 px-7 rounded-md">
     <div class="space-y-5">
-      <h2>{{offerObj?.offer_title}}</h2>
+      <h2>
+        <strong class="inline-flex items-center mr-5 text-black cursor-pointer"><i class="icon-left_arrow text-lg"></i><span class="text-5xl font-thin mb-1.5" style="line-height: 10px !important;">-</span></strong>
+        {{offerObj?.offer_title}}</h2>
       <div>
         <span class="text-quicksilver text-xs font-bold"><i class="icon-calendar mr-2"></i> Date</span>
         <p class="text-sm font-bold text-japaneseIndigo">{{offerObj?.start_date | date: 'dd MMM, yyyy'}} - {{offerObj?.end_date | date: 'dd MMM, yyyy'}}</p>
