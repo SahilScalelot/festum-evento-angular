@@ -53,6 +53,18 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
   platformArr: any = [];
   deleteItemObj: any = {};
 
+  proDescTextEditor: boolean = false;
+  proDescTextEditorMaxLimit: any = this.constants.CKEditorCharacterLimit1;
+  proDescTextEditorLimit: any = this.proDescTextEditorMaxLimit;
+
+  comDescTextEditor: boolean = false;
+  comDescTextEditorMaxLimit: any = this.constants.CKEditorCharacterLimit1;
+  comDescTextEditorLimit: any = this.comDescTextEditorMaxLimit;
+
+  tcDescTextEditor: boolean = false;
+  tcDescTextEditorMaxLimit: any = this.constants.CKEditorCharacterLimit3;
+  tcDescTextEditorLimit: any = this.tcDescTextEditorMaxLimit;
+
   get poster(): any {
     return this.addEditOfferForm?.get('poster');
   }
@@ -350,6 +362,12 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
     if (!this.validateForm()) {
       return false;
     }
+    if (this.proDescTextEditorLimit && this.proDescTextEditorMaxLimit && this.proDescTextEditorLimit > this.proDescTextEditorMaxLimit) {
+      return;
+    }
+    if (this.comDescTextEditorLimit && this.comDescTextEditorMaxLimit && this.comDescTextEditorLimit > this.comDescTextEditorMaxLimit) {
+      return;
+    }
     this._modalService.open("tAndC");
   }
 
@@ -372,6 +390,15 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
   addEditOnlineShopOffer(): any {
     if (!this.validateForm(true)) {
       return false;
+    }
+    if (this.proDescTextEditorLimit && this.proDescTextEditorMaxLimit && this.proDescTextEditorLimit > this.proDescTextEditorMaxLimit) {
+      return;
+    }
+    if (this.comDescTextEditorLimit && this.comDescTextEditorMaxLimit && this.comDescTextEditorLimit > this.comDescTextEditorMaxLimit) {
+      return;
+    }
+    if (this.tcDescTextEditorLimit && this.tcDescTextEditorMaxLimit && this.tcDescTextEditorLimit > this.tcDescTextEditorMaxLimit) {
+      return;
     }
     const preparedOnlineShopOfferObj: any = this.prepareOfferObj(this.addEditOfferForm.value);
     this.isLoading = true;
@@ -441,6 +468,25 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
     }
   }
 
+  editorCharacterSet(editorField: string = ''): any {
+    if (editorField == 'description') {
+      this.proDescTextEditorLimit = '0';
+      const stringOfCKEditor = this._globalFunctions.getPlainText(this.addEditOfferForm.value.description);
+      this.proDescTextEditorLimit = stringOfCKEditor.length;
+      this.proDescTextEditor = (stringOfCKEditor.length > this.proDescTextEditorMaxLimit);
+    } else if (editorField == 'company') {
+      this.comDescTextEditorLimit = '0';
+      const stringOfCKEditor = this._globalFunctions.getPlainText(this.addEditOfferForm.value.about_company);
+      this.comDescTextEditorLimit = stringOfCKEditor.length;
+      this.comDescTextEditor = (stringOfCKEditor.length > this.comDescTextEditorMaxLimit);
+    } else if (editorField == 'tc') {
+      this.tcDescTextEditorLimit = '0';
+      const stringOfCKEditor = this._globalFunctions.getPlainText(this.tandcForm.value.t_and_c);
+      this.tcDescTextEditorLimit = stringOfCKEditor.length;
+      this.tcDescTextEditor = (stringOfCKEditor.length > this.tcDescTextEditorMaxLimit);
+    }
+  }
+
   validatePlatformObj(): any {
     if (!this.platformObj.platformimage || this.platformObj.platformimage == '') {
       this._sNotify.error('Platform icon is required', 'Oops!');
@@ -483,7 +529,7 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
       offerid: [this.offerId || ''],
       shop_name: [addEditOfferObj?.shop_name || '', [Validators.required]],
       offer_amount: [addEditOfferObj?.offer_amount || '', [Validators.required]],
-      offer_type: [addEditOfferObj?.discount_type || CONSTANTS.discountTypeArr[CONSTANTS.discountTypeObj.percentage].value, [Validators.required]],
+      offer_type: [addEditOfferObj?.offer_type || CONSTANTS.discountTypeArr[CONSTANTS.discountTypeObj.percentage].value, [Validators.required]],
       start_date: [(addEditOfferObj.start_date) ? new Date(addEditOfferObj.start_date) : '', [Validators.required]],
       end_date: [(addEditOfferObj.end_date) ? new Date(addEditOfferObj.end_date) : '', [Validators.required]],
       product_name: [addEditOfferObj?.product_name || '', [Validators.required]],
@@ -513,7 +559,17 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
       pinterest: [addEditOfferObj?.tandc?.pinterest || ''],
       instagram: [addEditOfferObj?.tandc?.instagram || ''],
       linkedin: [addEditOfferObj?.tandc?.linkedin || ''],
-      status: ['', [Validators.required]],
-    })
+      status: [addEditOfferObj?.tandc?.status, [Validators.required]],
+    });
+
+    if (addEditOfferObj?.description) {
+      this.editorCharacterSet('description');
+    }
+    if (addEditOfferObj?.about_company) {
+      this.editorCharacterSet('company');
+    }
+    if (addEditOfferObj?.tandc?.t_and_c) {
+      this.editorCharacterSet('tc');
+    }
   }
 }
