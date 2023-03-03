@@ -246,8 +246,6 @@ export class LocationStepComponent implements OnInit {
     if (!this.validateLocationForm()) {
       return;
     }
-
-    console.log(this.locationForm.value);
     this.isLoading = true;
     this.locationForm.disable();
     const preparedLocationObj: any = this.prepareLocationEventObj(this.locationForm.value);

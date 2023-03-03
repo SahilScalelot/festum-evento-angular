@@ -45,6 +45,7 @@
           </div>
         </div>
       </div>
+
       <div class="flex flex-wrap items-end -mx-2">
         <div class="upload-holder w-full md:w-1/2 h-full px-2 pt-5 relative">
           <label class="upload upload-popup p-0 relative group" id="shop-img-obj-upload">
@@ -56,12 +57,14 @@
             </span>
           </span>
         </div>
+
         <div class="upload-holder w-full md:w-1/2 h-full px-2 pt-5">
           <label class="upload upload-popup p-0 relative group" id="video-upload-obj">
             <input (change)="onVideoChange($event)" accept="video/mp4" class="video-upload hidden" name="videos" id="video-upload" type="file" />
           </label>
         </div>
       </div>
+
       <div class="w-full pt-5 relative">
         <span class="input-titel">Offer Description <span>*</span></span>
         <div class="w-full bg-white rounded">
@@ -266,7 +269,10 @@
           </div>
         </div>
       </div>
-      <div class="flex justify-end pt-5">
+      <div class="flex justify-between pt-5">
+        <button class="flex items-center" type="button" (click)="closeEditOfferProductDialog();">
+          <i class="icon-left_arrow mr-3"></i><h5>back</h5>
+        </button>
         <button (click)="onSaveAndContinueClick()" class="secondary py-3 px-5 uppercase text-lg font-bold">Save and Continue</button>
       </div>
     </div>
@@ -294,14 +300,15 @@
           </label>
         </div>
       </div>
-      <div class="flex justify-end pt-5">
-        <div class="relative">
+      <div class="flex justify-between pt-5">
+          <button class="flex items-center" type="button" (click)="closeTermsAndConditionDialog()">
+            <i class="icon-left_arrow mr-3"></i><h5>back</h5>
+          </button>
           <button (click)="addEditOffer()" class="secondary py-3 px-5 uppercase text-lg font-bold"
                   [disabled]="isLoading || isUploadPosterLoading || isUploadImageLoading || isUploadVideoLoading || isSaveLoading || !addEditOfferForm.get('status').value">Save</button>
           <div class="absolute inset-0 text-white flex items-center" *ngIf="isSaveLoading">
             <mat-progress-spinner [diameter]="22" [mode]="'indeterminate'" class="mx-auto"></mat-progress-spinner>
           </div>
-        </div>
       </div>
     </div>
   </form>
