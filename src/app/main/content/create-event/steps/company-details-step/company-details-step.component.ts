@@ -124,7 +124,6 @@ export class CompanyDetailsStepComponent implements OnInit {
         } else {
           this.getDataFromProfileObj();
         }
-        this.editorCharacterSet();
         this.gstPdf = companyDetailObj.gst;
         this.inputText = _.last(_.split(companyDetailObj.gst, '/'));
         this.photoArr = companyDetailObj.photos || [];
@@ -371,12 +370,10 @@ export class CompanyDetailsStepComponent implements OnInit {
   }
 
   editorCharacterSet(): any {
-    const textfield = this.companyForm.value.about;    
-    // if (textfield && textfield != '') {
-      const stringOfCKEditor = this._globalFunctions.getPlainText(textfield);
-      this.textEditorLimit = stringOfCKEditor.length;
-      this.textEditor = (stringOfCKEditor.length > this.textEditorMaxLimit);
-    // }
+    const textfield = this.companyForm.value.about;
+    const stringOfCKEditor = this._globalFunctions.getPlainText(textfield);
+    this.textEditorLimit = stringOfCKEditor.length;
+    this.textEditor = (stringOfCKEditor.length > this.textEditorMaxLimit);
   }
 
   nextStep(): void {

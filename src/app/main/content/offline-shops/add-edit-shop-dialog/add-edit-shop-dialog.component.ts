@@ -77,6 +77,16 @@ export class AddEditShopDialogComponent implements OnInit {
     linkedin_link: ''
   };
 
+  pincodeValidationObj: any = '';
+
+  textEditor: boolean = false;
+  textEditorMaxLimit: any = this.constants.CKEditorCharacterLimit1;
+  textEditorLimit: any = 0;
+
+  textEditorTac: boolean = false;
+  textEditorMaxLimitTac: any = this.constants.CKEditorCharacterLimit1;
+  textEditorLimitTac: any = 0;
+
   @Input() shopId: any = '';
   @Input() shopObj: any = {};
   @Output() closeAddEditFormEvent: EventEmitter<any> = new EventEmitter();
@@ -169,6 +179,36 @@ export class AddEditShopDialogComponent implements OnInit {
       editor.ui.view.toolbar.element,
       editor.ui.getEditableElement()
     );
+  }
+  
+  pincodeValidation(pincode: any = ''): any {
+    if (pincode && pincode != '') {
+      this._globalService.pincodeValidation(pincode).subscribe((result: any) => {
+        if (result && result[0] && result[0].Status) {
+          const formName = this.addShopForm;
+          if (result[0].Status == 'Success') {
+            this.pincodeValidationObj = result[0].PostOffice[0];
+            const companyFormValueObj = formName?.value || {};
+
+            formName.markAsTouched();
+            formName?.get('city')?.markAsTouched();
+            formName?.get('state')?.markAsTouched();
+            formName?.get('pincode')?.markAsTouched();
+            formName?.controls['city']?.markAsDirty();
+            formName?.controls['state']?.markAsDirty();
+            formName?.controls['pincode']?.markAsDirty();
+
+            formName?.controls['city']?.setErrors((this.pincodeValidationObj?.District && companyFormValueObj?.city && (this.pincodeValidationObj.District).toLowerCase() != (companyFormValueObj?.city).toLowerCase()) ? {'not_match': true} : null);
+            formName?.controls['state']?.setErrors((this.pincodeValidationObj?.State && companyFormValueObj?.state && (this.pincodeValidationObj.State).toLowerCase() != (companyFormValueObj?.state).toLowerCase()) ? {'not_match': true} : null);
+            formName?.controls['pincode']?.setErrors((this.pincodeValidationObj?.Pincode && companyFormValueObj?.pincode && this.pincodeValidationObj.Pincode != companyFormValueObj?.pincode) ? {'not_match': true} : null);
+          } else if (result[0].Status == 'Error') {
+            formName?.controls['pincode']?.setErrors({'pattern': true});
+          }          
+        }
+      }, (error: any) => {
+        this._globalFunctions.errorHanding(error, this, true);
+      });
+    }
   }
 
   getShopCategories(): void {
@@ -415,6 +455,10 @@ export class AddEditShopDialogComponent implements OnInit {
       });
       return;
     }
+    this.editorCharacterSet();
+    if (this.textEditorLimit && this.textEditorMaxLimit && this.textEditorLimit > this.textEditorMaxLimit) {
+      return;
+    }
     this.isContinue = true;
   }
 
@@ -447,6 +491,19 @@ export class AddEditShopDialogComponent implements OnInit {
     }
   }
 
+  editorCharacterSet(): any {
+    const textfield = this.addShopForm?.get('about_shop')?.value;
+    const stringOfCKEditor = this._globalFunctions.getPlainText(textfield);
+    this.textEditorLimit = stringOfCKEditor.length;
+    this.textEditor = (stringOfCKEditor.length > this.textEditorMaxLimit);
+  }
+  editorCharacterSetTac(): any {
+    const textfield = this.addShopForm?.get('about')?.value;
+    const stringOfCKEditor = this._globalFunctions.getPlainText(textfield);
+    this.textEditorLimitTac = stringOfCKEditor.length;
+    this.textEditorTac = (stringOfCKEditor.length > this.textEditorMaxLimitTac);
+  }
+
   prepareShopObj(shopObj: any): any {
     const preparedShopObj: any = this._globalFunctions.copyObject(shopObj);
     preparedShopObj.shop_open_time = this.prepareTime(moment(shopObj.shop_open_time, 'hh:mm a'));
@@ -468,6 +525,10 @@ export class AddEditShopDialogComponent implements OnInit {
     }
     if (this.isLoading) {
       return false;
+    }
+    this.editorCharacterSetTac();
+    if (this.textEditorLimitTac && this.textEditorMaxLimitTac && this.textEditorLimitTac > this.textEditorMaxLimitTac) {
+      return;
     }
     this.isLoading = true;
     const preparedShopObj: any = this.prepareShopObj(this.addShopForm.value);
@@ -527,6 +588,13 @@ export class AddEditShopDialogComponent implements OnInit {
       emailid: [addShopObj?.companydetails?.emailid || ''],
       about: [addShopObj?.companydetails?.about || '']
     });
+    
+    if (addShopObj?.about_shop) {
+      this.editorCharacterSet();
+    }
+    if (addShopObj?.about) {
+      this.editorCharacterSetTac();
+    }
 
     if (addShopObj && addShopObj.shop_days && addShopObj.shop_days.length) {
       this.weekDays = this.weekDays.map((dayObj: any) => {
@@ -534,6 +602,7 @@ export class AddEditShopDialogComponent implements OnInit {
         return dayObj;
       });
     }
+    this.pincodeValidation(this.addShopForm.value.pincode);
   }
 
   prepareTime(dateWithTime: any): any {

@@ -109,9 +109,9 @@
           </div>
         </div>
         <div class="w-full pt-5 relative">
-          <span class="input-titel">About us</span>
+          <span class="input-titel">About us <i class="text-xs font-medium" [ngClass]="{'text-magicPotion' : textEditor}">( You have {{textEditorLimit}} of {{textEditorMaxLimit}} characters remaining ) </i></span>
           <div class="w-full bg-white rounded">
-            <ckeditor (ready)="onTextEditorReady($event, 'about_shop')" [config]="editorConfig" [editor]="detailEditor" [formControlName]="'about_shop'" class="h-44 text-editor" id="about_shop" name="about_shop"></ckeditor>
+            <ckeditor (ready)="onTextEditorReady($event, 'about_shop')" (keyup)="editorCharacterSet()" (keydown)="editorCharacterSet()" [config]="editorConfig" [editor]="detailEditor" [formControlName]="'about_shop'" class="h-44 text-editor" id="about_shop" name="about_shop"></ckeditor>
           </div>
           <!-- <textarea [formControlName]="'about_shop'" name="about_shop" cols="30" rows="4" class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md"></textarea> -->
         </div>
@@ -134,30 +134,39 @@
           <div class="w-full flex flex-wrap">
             <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-3 inputHolder relative">
               <label class="input-titel">City <span>*</span></label>
-              <input class="input" [formControlName]="'city'" name="city" type="text" fuseValidAlphabet/>
+              <input class="input" [formControlName]="'city'" name="city" type="text" (blur)="pincodeValidation(pincode.value)" fuseValidAlphabet/>
               <span class="absolute top-full text-red-500 text-xs" *ngIf="addShopForm.get('city')?.invalid && (addShopForm.get('city')?.dirty && addShopForm.get('city')?.touched)">
                 <span *ngIf="addShopForm.get('city')?.errors?.['required']">
                   City is required.
+                </span>
+                <span *ngIf="addShopForm.get('city')?.errors?.['not_match']">
+                  City is not match pin code wise.
                 </span>
               </span>
             </div>
 
             <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-3 inputHolder relative">
               <label class="input-titel">State <span>*</span></label>
-              <input class="input" [formControlName]="'state'" name="state" type="text" fuseValidAlphabet/>
+              <input class="input" [formControlName]="'state'" name="state" type="text" (blur)="pincodeValidation(pincode.value)" fuseValidAlphabet/>
               <span class="absolute top-full text-red-500 text-xs" *ngIf="addShopForm.get('state')?.invalid && (addShopForm.get('state')?.dirty && addShopForm.get('state')?.touched)">
                 <span *ngIf="addShopForm.get('state')?.errors?.['required']">
                   State is required.
+                </span>
+                <span *ngIf="addShopForm.get('state')?.errors?.['not_match']">
+                  State is not match pin code wise.
                 </span>
               </span>
             </div>
 
             <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-3 inputHolder relative">
               <label class="input-titel">Pincode <span>*</span></label>
-              <input class="input" [formControlName]="'pincode'" name="pincode" type="text" fuseValidNumber/>
+              <input #pincode class="input" [formControlName]="'pincode'" name="pincode" type="text" (blur)="pincodeValidation(pincode.value)" fuseValidNumber/>
               <span class="absolute top-full text-red-500 text-xs" *ngIf="addShopForm.get('pincode')?.invalid && (addShopForm.get('pincode')?.dirty && addShopForm.get('pincode')?.touched)">
                 <span *ngIf="addShopForm.get('pincode')?.errors?.['required']">
                   Pincode is required.
+                </span>
+                <span *ngIf="addShopForm.get('pincode')?.errors?.['not_match']">
+                  Pincode is not found.
                 </span>
                 <span *ngIf="addShopForm.get('pincode')?.errors?.['pattern']">
                   Please enter valid Pincode.
@@ -179,9 +188,6 @@
             </button>
           </div>
         </div>
-
-        
-
         <!-- <div class="flex justify-start pt-5">
           <button (click)="closeAddEditShopDialog();" class="secondary py-3 px-7 uppercase text-lg font-bold">back</button>
         </div> -->
@@ -223,9 +229,9 @@
           </div>
         </div>
         <div class="w-full pt-5 inputHolder relative">
-          <span class="input-titel">About Our Company</span>
+          <span class="input-titel">About Our Company <i class="text-xs font-medium" [ngClass]="{'text-magicPotion' : textEditorTac}">( You have {{textEditorLimitTac}} of {{textEditorMaxLimitTac}} characters remaining ) </i></span>
           <div class="w-full bg-white rounded">
-            <ckeditor (ready)="onTextEditorReady($event, 'about')" [config]="editorConfig" [editor]="detailEditor" [formControlName]="'about'" class="h-44 text-editor" id="about" name="about"></ckeditor>
+            <ckeditor (ready)="onTextEditorReady($event, 'about')" (keyup)="editorCharacterSetTac()" (keydown)="editorCharacterSetTac()" [config]="editorConfig" [editor]="detailEditor" [formControlName]="'about'" class="h-44 text-editor" id="about" name="about"></ckeditor>
           </div>
           <!-- <textarea cols="30" rows="4" [formControlName]="'about'" name="about" class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md"></textarea> -->
         </div>
