@@ -7,7 +7,10 @@
   <div class="wrapper -mt-14 z-10" *ngIf="!isLoading">
     <div class="flex justify-between bg-white py-5 px-7 rounded-md">
       <div>
-        <h2 class="pb-2 lg:pb-5">{{shopObj?.shop_name}}</h2>
+        <div class="flex items-center pb-2 lg:pb-5">
+          <i routerLink=".." class="icon-left_arrow cursor-pointer mr-4 text-xl"></i>
+          <h2 class="">{{shopObj?.shop_name}}</h2>
+        </div>
         <div class="w-full flex flex-wrap space-y-2 xl:space-y-0">
           <div class="pr-2.5 lg:pr-5 border-r">
             <span class="text-xs font-bold text-quicksilver"><i class="icon-rating pr-1"></i>Ratings</span>

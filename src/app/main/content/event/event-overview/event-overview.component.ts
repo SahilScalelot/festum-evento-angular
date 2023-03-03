@@ -50,8 +50,11 @@ export class EventOverviewComponent implements OnInit {
     this._router.events.subscribe((event: NavigationEvent) => {
       if (event instanceof NavigationStart) {
         setTimeout(() => {
-          this.eventId = this._activatedRoute.snapshot.paramMap.get('id');
-          this.getEvent();
+          const accessToken: any = localStorage.getItem('accessToken');
+          if (accessToken && accessToken != '') {
+            this.eventId = this._activatedRoute.snapshot.paramMap.get('id');
+            this.getEvent();
+          }
         }, 0);
       }
     });

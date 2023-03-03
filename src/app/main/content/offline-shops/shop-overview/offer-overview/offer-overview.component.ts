@@ -55,10 +55,13 @@ export class OfferOverviewComponent implements OnInit {
     this._router.events.subscribe((event: NavigationEvent) => {
       if (event instanceof NavigationStart) {
         setTimeout(() => {
-          this.shopId = this._activatedRoute.snapshot.paramMap.get('shopId');
-          this.offerId = this._activatedRoute.snapshot.paramMap.get('offerId');
-          this.getShopOfferById();
-          this.getShopById();
+          const accessToken: any = localStorage.getItem('accessToken');
+          if (accessToken && accessToken != '') {
+            this.shopId = this._activatedRoute.snapshot.paramMap.get('shopId');
+            this.offerId = this._activatedRoute.snapshot.paramMap.get('offerId');
+            this.getShopOfferById();
+            this.getShopById();
+          }
         }, 0);
       }
     });
@@ -69,8 +72,8 @@ export class OfferOverviewComponent implements OnInit {
   getShopOfferById(): void {
     this.isLoading = true;
     const offerObj: any = {
-      shopid : this.shopId || '',
-      offlineofferid : this.offerId || '',
+      shopid: this.shopId || '',
+      offlineofferid: this.offerId || '',
     };
     this._offlineShopsService.getOfflineOffer(offerObj).subscribe((result: any) => {
       if (result && result.IsSuccess) {
@@ -124,12 +127,12 @@ export class OfferOverviewComponent implements OnInit {
       this.isLoading = false;
     });
   }
-  
+
   openUploadVideoDialog(): void {
-    this.popUp = true;    
+    this.popUp = true;
   }
-  
-  closeDialog():void {
+
+  closeDialog(): void {
     this.popUp = false;
   }
 
@@ -170,7 +173,7 @@ export class OfferOverviewComponent implements OnInit {
       return;
     }
     this.isExportLoading = true;
-    
+
     const ids: any = {
       shopid: this.shopId,
       offlineofferid: this.offerId,
@@ -188,11 +191,11 @@ export class OfferOverviewComponent implements OnInit {
       this.isExportLoading = false;
     });
   }
-  
+
   closeDeleteDialog(): void {
     this._modalService.close("delete-shop-offer-pop");
   }
-  
+
   openOfflineShopsOffer(event: any): void {
     event.stopPropagation();
     this._modalService.open("delete-shop-offer-pop");
@@ -215,7 +218,7 @@ export class OfferOverviewComponent implements OnInit {
       this.isDeleteLoading = false;
     });
   }
-  
+
   backRouter(): void {
     this._router.navigate(['/offline-shops/' + this.shopId]);
   }

@@ -61,9 +61,12 @@ export class ShopOverviewComponent implements OnInit {
     this._router.events.subscribe((event: NavigationEvent) => {
       if (event instanceof NavigationStart) {
         setTimeout(() => {
-          this.shopId = this._activatedRoute.snapshot.paramMap.get('shopId');
-          this.offerId = this._activatedRoute.snapshot.paramMap.get('offerId');
-          this.getShop();
+          const accessToken: any = localStorage.getItem('accessToken');
+          if (accessToken && accessToken != '') {
+            this.shopId = this._activatedRoute.snapshot.paramMap.get('shopId');
+            this.offerId = this._activatedRoute.snapshot.paramMap.get('offerId');
+            this.getShop();
+          }
         }, 0);
       }
     });
@@ -94,9 +97,9 @@ export class ShopOverviewComponent implements OnInit {
     this.isLoading = true;
     const page = shop ? (shop.page + 1) : 1;
     const filter: any = {
-      shopid : this.shopId || '',
-      page : page || '1',
-      limit : shop?.rows || '10',
+      shopid: this.shopId || '',
+      page: page || '1',
+      limit: shop?.rows || '10',
       search: ""
     };
     this._offlineShopsService.offlineShopOfferList(filter).subscribe((result: any) => {
@@ -108,7 +111,7 @@ export class ShopOverviewComponent implements OnInit {
           const offers = (shopOffer && shopOffer.all_product_conditions && shopOffer.all_product_conditions.length) ? shopOffer.all_product_conditions : shopOffer.offer_type_conditions || [];
           const maxPercentageOfferObj: any = _.maxBy(offers, (offerObj: any) => {
             if (offerObj.discount_type == 'percentage') {
-              return offerObj.discount; 
+              return offerObj.discount;
             }
           });
           const maxRupeeOfferObj: any = _.maxBy(offers, (offerObj: any) => {
@@ -118,7 +121,7 @@ export class ShopOverviewComponent implements OnInit {
           });
           shopOffer.maxDiscountObj = (maxPercentageOfferObj && maxPercentageOfferObj.discount) ? maxPercentageOfferObj : maxRupeeOfferObj || {};
         });
-        
+
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
       }
@@ -184,7 +187,7 @@ export class ShopOverviewComponent implements OnInit {
       this.reviews = true;
     }
   }
-  
+
   openDeleteDialog(event: any, offerObj: any, isDeleteOffer: boolean = false): void {
     event.stopPropagation();
     this.isDeleteOffer = isDeleteOffer;
@@ -216,9 +219,9 @@ export class ShopOverviewComponent implements OnInit {
       this.isDeleteLoading = false;
     });
   }
-  
+
   openOfflineShopsOffer(event: any, offerObj: any, isDeleteOffer: boolean = false): void {
-    event.stopPropagation();    
+    event.stopPropagation();
     // this.isDeleteOffer = isDeleteOffer;
     this.tmpOfferObj = offerObj;
     this._modalService.open("delete-shop-offer-pop");

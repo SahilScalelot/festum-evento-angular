@@ -42,7 +42,10 @@ export class StreamOverviewComponent implements OnInit {
     this._router.events.subscribe((event: NavigationEvent) => {
       if (event instanceof NavigationStart) {
         setTimeout(() => {
-          this.getLiveStreamObj();
+          const accessToken: any = localStorage.getItem('accessToken');
+          if (accessToken && accessToken != '') {
+            this.getLiveStreamObj();
+          }
         }, 0);
       }
     });
@@ -78,7 +81,7 @@ export class StreamOverviewComponent implements OnInit {
     }
   }
 
-  exportAttendees(): void {    
+  exportAttendees(): void {
     // if (this.isExportLoading) {
     //   return;
     // }

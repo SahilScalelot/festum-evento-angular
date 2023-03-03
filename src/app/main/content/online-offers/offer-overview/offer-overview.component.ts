@@ -35,8 +35,11 @@ export class OfferOverviewComponent implements OnInit {
     this._router.events.subscribe((event: NavigationEvent) => {
       if (event instanceof NavigationStart) {
         setTimeout(() => {
-          this.offerId = this._activatedRoute.snapshot.paramMap.get('id');
-          this.getOnlineShopOfferByOfferId(this.offerId);
+          const accessToken: any = localStorage.getItem('accessToken');
+          if (accessToken && accessToken != '') {
+            this.offerId = this._activatedRoute.snapshot.paramMap.get('id');
+            this.getOnlineShopOfferByOfferId(this.offerId);
+          }
         }, 0);
       }
     });
@@ -47,7 +50,7 @@ export class OfferOverviewComponent implements OnInit {
     this._clipboard.copy(copyText);
     this._sNotify.success('Link Copied.');
   }
-  
+
   editOffer(event: any, offerId: any): void {
     event.stopPropagation();
     localStorage.setItem('oOId', offerId);
@@ -89,8 +92,8 @@ export class OfferOverviewComponent implements OnInit {
       this.isLoading = false;
     });
   }
-  
-  
+
+
   userClick(shortUrl: any = ''): void {
     // this.isLoading = true;
     // this._onlineOffersService.clickList('47LWZA1K6Z').subscribe((result: any) => {
@@ -105,13 +108,13 @@ export class OfferOverviewComponent implements OnInit {
     }, (error: any) => {
       this._globalFunctions.errorHanding(error, this, true);
       this._modalService.close("clickUserList");
-    });    
+    });
   }
   clickPopClose(): void {
     this._modalService.close("clickUserList");
     this.clickUsersObj = [];
   }
-  
+
   // Delete Online Offer
   deletePop(): void {
     this._modalService.open("delete-offer-pop");
