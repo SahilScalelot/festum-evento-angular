@@ -254,10 +254,10 @@ export class GlobalFunctions {
   }
 
 
-  getPlainText(strSrc: any) {
+  getPlainText(strSrc: any = '') {
     var resultStr = "";
     // Ignore the <p> tag if it is in very start of the text
-    if (strSrc.indexOf('<p>') == 0)
+    if (strSrc && strSrc != '' && strSrc.indexOf('<p>') == 0)
       resultStr = strSrc.substring(3);
     else
       resultStr = strSrc;

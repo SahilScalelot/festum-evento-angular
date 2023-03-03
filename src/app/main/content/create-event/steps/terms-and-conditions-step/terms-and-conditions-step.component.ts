@@ -85,7 +85,6 @@ export class TermsAndConditionsStepComponent implements OnInit {
       if (result && result.IsSuccess) {
         const eventLocationObj: any = result?.Data?.tandc || {};
         this._prepareTAndCForm(eventLocationObj);
-        this.editorCharacterSet();
         this.isLoading = false;
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
@@ -98,12 +97,10 @@ export class TermsAndConditionsStepComponent implements OnInit {
   }
   
   editorCharacterSet(): any {
-    const textfield = this.termsAndConditionsForm.value.t_and_c;    
-    // if (textfield && textfield != '') {
-      const stringOfCKEditor = this._globalFunctions.getPlainText(textfield);
-      this.textEditorLimit = stringOfCKEditor.length;
-      this.textEditor = (stringOfCKEditor.length > this.textEditorMaxLimit);
-    // }
+    const textfield = this.termsAndConditionsForm?.get('t_and_c')?.value;
+    const stringOfCKEditor = this._globalFunctions.getPlainText(textfield);
+    this.textEditorLimit = stringOfCKEditor.length;
+    this.textEditor = (stringOfCKEditor.length > this.textEditorMaxLimit);
   }
 
   saveFullEvent(): void {
@@ -111,8 +108,7 @@ export class TermsAndConditionsStepComponent implements OnInit {
       Object.keys(this.termsAndConditionsForm.controls).forEach((key) => {
         this.termsAndConditionsForm.controls[key].touched = true;
         this.termsAndConditionsForm.controls[key].markAsDirty();
-      });
-      
+      });      
       return;
     }
     this.editorCharacterSet();
@@ -156,8 +152,12 @@ export class TermsAndConditionsStepComponent implements OnInit {
       pinterest: [eventObj?.pinterest],
       instagram: [eventObj?.instagram],
       linkedin: [eventObj?.linkedin],
-      status: ['', { disabled: true }, [Validators.required]],
+      status: [false, [Validators.requiredTrue]],
     });
+
+    if (eventObj?.t_and_c) {
+      this.editorCharacterSet();
+    }    
   }
 
 }

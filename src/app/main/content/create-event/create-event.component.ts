@@ -69,13 +69,10 @@ export class CreateEventComponent implements OnInit {
       this.isReadonly = 
       !((condata?.about?._id != "") && 
       (condata?.banner != "") && 
-      (condata?.companydetail?._id != "") && 
       (condata?.discounts?.length) && 
       (condata?.event_location?._id != "") && 
       (condata?.permission_letter != "") && 
-      (condata?.personaldetail?._id != "") && 
-      (condata?.seating_arrangements?.length) && 
-      (condata?.tandc?._id != ""));
+      (condata?.seating_arrangements?.length));
       this.isHideDiscountitem = (!condata.accept_booking);
       this._globalService.isHideDiscountitem$.next(this.isHideDiscountitem);
     });
