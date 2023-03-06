@@ -166,6 +166,7 @@ export class LocationStepComponent implements OnInit {
     });
     
     this.getAddress(this.lat, this.lng);
+    this.addMapLocation();
   }
 
   getAddress(latitude: any, longitude: any) {
