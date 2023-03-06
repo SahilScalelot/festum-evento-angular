@@ -56,7 +56,7 @@ export class PersonalDetailsStepComponent implements OnInit {
       is_alt_mobile_hidden: [personalDetailsObj?.is_alt_mobile_hidden || false],
       email: [personalDetailsObj?.email || '', [Validators.required,Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
       is_email_hidden: [personalDetailsObj?.is_email_hidden || false],
-      about: [personalDetailsObj?.about || ''],
+      about: [personalDetailsObj?.about || '', [Validators.required]],
       flat_no: [personalDetailsObj?.flat_no || ''],
       street: [personalDetailsObj?.street || ''],
       area: [personalDetailsObj?.area || ''],

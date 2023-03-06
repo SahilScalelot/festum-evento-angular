@@ -21,13 +21,14 @@ export class AboutEventStepComponent implements OnInit {
   minStartDateValue: any = '';
   aboutEventForm: any;
   isLoading: boolean = false;
-  textEditor: boolean = false;
-  textEditorMaxLimit: any = this.constants.CKEditorCharacterLimit2;
-  textEditorLimit: any = this.textEditorMaxLimit;
   aboutObj: any;
   eventId: any;
   detailEditor = DecoupledEditor;
   editorConfig: any = {};
+
+  textEditor: boolean = false;
+  textEditorMaxLimit: any = this.constants.CKEditorCharacterLimit2;
+  textEditorLimit: any = 0;
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -71,6 +72,10 @@ export class AboutEventStepComponent implements OnInit {
       end_time: [(eventObj?.end_time) ? moment(eventObj?.end_time, 'hh:mm').format('hh:mm a') : '', [Validators.required]],
       about_event: [eventObj?.about_event],
     });
+
+    if (eventObj?.about_event) {
+      this.editorCharacterSet();
+    } 
   }
 
   getAboutEvent(): any {
@@ -79,7 +84,6 @@ export class AboutEventStepComponent implements OnInit {
       if (result && result.IsSuccess) {
         this.aboutObj = result.Data.about;
         this._prepareAboutEventForm(this.aboutObj);
-        this.editorCharacterSet();
         this.isLoading = false;
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
@@ -92,12 +96,10 @@ export class AboutEventStepComponent implements OnInit {
   }
 
   editorCharacterSet(): any {
-    this.textEditorLimit = '0';
-    if (this.aboutEventForm.value.about_event && this.aboutEventForm.value.about_event != '') {
-      const stringOfCKEditor = this._globalFunctions.getPlainText(this.aboutEventForm.value.about_event);
-      this.textEditorLimit = stringOfCKEditor.length;
-      this.textEditor = (stringOfCKEditor.length > this.textEditorMaxLimit);
-    }
+    const textfield = this.aboutEventForm?.get('about_event')?.value;
+    const stringOfCKEditor = this._globalFunctions.getPlainText(textfield);
+    this.textEditorLimit = stringOfCKEditor.length;
+    this.textEditor = (stringOfCKEditor.length > this.textEditorMaxLimit);
   }
 
   validateAboutEventForm(): boolean {
@@ -119,13 +121,15 @@ export class AboutEventStepComponent implements OnInit {
       this._sNotify.error('Start time is must before End time Or Both time should not same', 'Oops');
       return false;
     }
-    this.editorCharacterSet();
-
     return true;
   }
 
   next(): void {
     if (!this.validateAboutEventForm()) {
+      return;
+    }    
+    this.editorCharacterSet();
+    if (this.textEditorLimit && this.textEditorMaxLimit && this.textEditorLimit > this.textEditorMaxLimit) {
       return;
     }
     this.isLoading = true;

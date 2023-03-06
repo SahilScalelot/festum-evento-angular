@@ -140,13 +140,14 @@ export class CompanyDetailsStepComponent implements OnInit {
   }
 
   pincodeValidation(pincode: any = ''): any {
+    this.isLoading = true;
     if (pincode && pincode != '') {
       this._globalService.pincodeValidation(pincode).subscribe((result: any) => {
         if (result && result[0] && result[0].Status) {
           if (result[0].Status == 'Success') {
             this.pincodeValidationObj = result[0].PostOffice[0];
             const companyFormValueObj = this.companyForm?.value || {};
-
+            
             this.companyForm.markAsTouched();
             this.companyForm?.get('city')?.markAsTouched();
             this.companyForm?.get('state')?.markAsTouched();
@@ -154,18 +155,22 @@ export class CompanyDetailsStepComponent implements OnInit {
             this.companyForm?.controls['city']?.markAsDirty();
             this.companyForm?.controls['state']?.markAsDirty();
             this.companyForm?.controls['pincode']?.markAsDirty();
-
+            
             this.companyForm?.controls['city']?.setErrors((this.pincodeValidationObj?.District && companyFormValueObj?.city && (this.pincodeValidationObj.District).toLowerCase() != (companyFormValueObj?.city).toLowerCase()) ? {'not_match': true} : null);
             this.companyForm?.controls['state']?.setErrors((this.pincodeValidationObj?.State && companyFormValueObj?.state && (this.pincodeValidationObj.State).toLowerCase() != (companyFormValueObj?.state).toLowerCase()) ? {'not_match': true} : null);
             this.companyForm?.controls['pincode']?.setErrors((this.pincodeValidationObj?.Pincode && companyFormValueObj?.pincode && this.pincodeValidationObj.Pincode != companyFormValueObj?.pincode) ? {'not_match': true} : null);
+            this.isLoading = false;
           } else if (result[0].Status == 'Error') {
             this.companyForm?.controls['pincode']?.setErrors({'pattern': true});
+            this.isLoading = false;
           }          
         }
       }, (error: any) => {
         this._globalFunctions.errorHanding(error, this, true);
+        this.isLoading = false;
       });
     }
+    this.isLoading = false;
   }
 
   getDataFromProfileObj(): void {

@@ -44,7 +44,7 @@
       </span>
     </div>
     <div class="w-full px-2 pt-5 relative">
-      <span class="input-titel">About <i class="text-xs font-medium" [ngClass]="{'text-magicPotion' : textEditor}">( You have {{textEditorLimit}} of {{textEditorMaxLimit}} characters remaining ) </i></span>
+      <span class="input-titel">About<span>*</span> <i class="text-xs font-medium" [ngClass]="{'text-magicPotion' : textEditor}">( You have {{textEditorLimit}} of {{textEditorMaxLimit}} characters remaining ) </i></span>
       <div class="w-full bg-white rounded">
         <ckeditor (ready)="onTextEditorReady($event, 'about')" (keyup)="editorCharacterSet()" (keydown)="editorCharacterSet()" [config]="editorConfig" [editor]="detailEditor" [formControlName]="'about'" class="h-44 text-editor" id="about" name="about"></ckeditor>
       </div>
