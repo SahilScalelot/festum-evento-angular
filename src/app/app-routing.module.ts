@@ -36,6 +36,10 @@ const routes: Routes = [
         loadChildren: () => import('../app/main/auth/register/register.module').then(m => m.RegisterModule)
       },
       {
+        path: 'register/:agentId',
+        loadChildren: () => import('../app/main/auth/register/register.module').then(m => m.RegisterModule)
+      },
+      {
         path: 'otp',
         loadChildren: () => import('../app/main/auth/otp/otp.module').then(m => m.OtpModule)
       },

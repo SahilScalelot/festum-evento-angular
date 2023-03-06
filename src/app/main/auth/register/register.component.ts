@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, Validators} from '@angular/forms';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {SnotifyService} from 'ng-snotify';
 import {GlobalService} from 'src/app/services/global.service';
 import {GlobalFunctions} from '../../common/global-functions';
@@ -16,6 +16,7 @@ import {FuseValidators} from '../validators';
 export class RegisterComponent implements OnInit {
   @ViewChild('registerNgForm') registerNgForm: any;
   registerForm: any;
+  agentId: any;
 
   pwd: boolean = false;
   confirmPwd: boolean = false;
@@ -34,11 +35,13 @@ export class RegisterComponent implements OnInit {
     private _globalService: GlobalService,
     private _sNotify: SnotifyService,
     private _modalService: ModalService,
+    private _activatedRoute: ActivatedRoute,
   ) {
 
   }
 
   ngOnInit(): void {
+    this.agentId = this._activatedRoute.snapshot.paramMap.get('agentId');
     localStorage.clear();
     this.registerForm = this._formBuilder.group({
       name: ['', [Validators.required]],
@@ -49,6 +52,7 @@ export class RegisterComponent implements OnInit {
       confirm_password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(16)]],
       refer_code: [''],
       fcm_token: [''],
+      agentid: [this.agentId || ''],
       tandc: [false, [Validators.requiredTrue]],
     }, {
       validators: FuseValidators.mustMatch('password', 'confirm_password')

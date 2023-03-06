@@ -16,7 +16,7 @@ export class HelpService {
   conversation = new Subject<Message[]>();
   messageMap: any = {
     "hi": "Hello",
-    "who are you": "My name is Test Sat Bot",
+    "who are you": "My name is Srivalli",
     "what is your role": "Just guide for the user",
     "lorem": "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Delectus rerum dolorum iste eos aspernatur ducimus nisi quam commodi ipsam quo, perspiciatis, ratione est vitae voluptatem voluptates quos debitis tenetur vel.",
     "defaultmsg": "I can't understand your text. Can you please repeat"
