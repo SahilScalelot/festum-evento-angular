@@ -189,8 +189,13 @@ export const CONSTANTS = {
   ],
 
   adsGalleryVideoList: [
-    {title: 'Music Event', offer: '250', link: 'https://festumeventos3.s3.ap-south-1.amazonaws.com/global/videos/music_event.mp4'},
+    {title: 'Music Event',            offer: '250', link: 'https://festumeventos3.s3.ap-south-1.amazonaws.com/global/videos/music_event.mp4'},
     {title: 'Festum Evento Festival', offer: '250', link: 'https://festumeventos3.s3.ap-south-1.amazonaws.com/global/videos/festum_evento_festivel_video.mp4'},
+    {title: 'Clothing Store',         offer: '250', link: 'https://festumeventos3.s3.ap-south-1.amazonaws.com/global/videos/clothing_store.mp4'},
+    {title: 'Footwear store',         offer: '250', link: 'https://festumeventos3.s3.ap-south-1.amazonaws.com/global/videos/footwear_store.mp4'},
+    {title: 'Jewelry store',          offer: '250', link: 'https://festumeventos3.s3.ap-south-1.amazonaws.com/global/videos/jwellery_store.mp4'},
+    {title: 'Men Salon',              offer: '250', link: 'https://festumeventos3.s3.ap-south-1.amazonaws.com/global/videos/mens_salon.mp4'},
+    {title: 'Watch Store',            offer: '250', link: 'https://festumeventos3.s3.ap-south-1.amazonaws.com/global/videos/watch_store.mp4'},
   ],
 
   entities: [

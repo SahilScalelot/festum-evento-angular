@@ -15,7 +15,7 @@
         <div class="flex items-center space-x-1">
           <p-rating [(ngModel)]="event.ratings" [readonly]="true" [cancel]="false"></p-rating>
           <!-- <div id="rateYo"></div> -->
-          <span class="text-quicksilver text-xs font-bold pl-2"> {{event.totalreview}} Ratings </span>
+          <span class="text-quicksilver text-xs font-bold pl-2"> {{event?.totalreview}} Ratings </span>
         </div>
       </div>
       <div class="w-full md:w-1/2 space-y-3">
@@ -27,7 +27,7 @@
         </div>
         <div class="flex items-center justify-end space-x-3">
           <label class="flex items-center justify-end">
-          <input type="checkbox" class="switch mr-1.5 lg:mx-3 order-2" (click)="liveEvent($event, event)" [checked]="event?.is_live" [disabled]="!event.is_approved"/>
+          <input type="checkbox" class="switch mr-1.5 lg:mx-3 order-2" (click)="liveEvent($event, event)" [checked]="event?.is_live" [disabled]="!event?.is_approved"/>
           <span class="text-base font-bold anim order-3">Live</span>
           </label>
           <span class="px-3 py-1 rounded-sm text-xs text-white font-bold bg-magicPotion">{{(event?.event_category?.categoryname) ? event?.event_category?.categoryname : event?.other }}</span>
@@ -38,10 +38,10 @@
     <!-- tab-holder  -->
     <div class="teb-holder">
       <button [class]="overview ? 'active' : ''" (click)="onTabChange('overview')" type="button">Overview</button>
-      <button [class]="attendee ? 'active' : ''" (click)="onTabChange('attendee')" type="button" *ngIf="!!(event?.accept_booking) && event?.is_live && attendees && attendees.length">Attendee</button>
+      <button [class]="attendee ? 'active' : ''" (click)="onTabChange('attendee')" type="button" *ngIf="!!(event?.accept_booking) && event?.is_live && attendees && attendees?.length">Attendee</button>
       <button [class]="reviews ? 'active' : ''" (click)="onTabChange('reviews')" type="button" *ngIf="event?.reviews?.length">Reviews</button>
 
-      <a class="secondary px-5 py-2 flex items-end rounded-sm max-w-max ml-auto" href="javascript:void(0);" (click)="exportAttendees()" *ngIf="!!(event?.accept_booking) && event?.is_live && attendee && attendees && attendees.length">Export</a>
+      <a class="secondary px-5 py-2 flex items-end rounded-sm max-w-max ml-auto" href="javascript:void(0);" (click)="exportAttendees()" *ngIf="!!(event?.accept_booking) && event?.is_live && attendee && attendees && attendees?.length">Export</a>
     </div>
     <!-- tab-contents-holder -->
     <div class="pt-7 lg:pt-10">
@@ -55,7 +55,7 @@
               <div [innerHtml]="event?.about?.about_event"></div>
             </div>
             <!-- Photo-holder -->
-            <div *ngIf="event?.photos != ''" class="media-upload-holder">
+            <div *ngIf="event?.photos?.length" class="media-upload-holder">
               <!-- media title  -->
               <div class="flex justify-between items-center">
                 <h3 class="text-lg">Photo</h3>
@@ -74,7 +74,7 @@
               </div>
             </div>
             <!-- videos-holder -->
-            <div *ngIf="event?.videos != ''" class="media-upload-holder">
+            <div *ngIf="event?.videos?.length" class="media-upload-holder">
               <!-- media title  -->
               <div class="flex justify-between items-center">
                 <h3 class="text-lg">Videos</h3>
@@ -225,33 +225,33 @@
                             <div class="flex flex-wrap items-center">
                               <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4">
                                 <span class="block text-xs xl:text-sm text-quicksilver">No of {{seating?.seating_item?.itemname}}</span>
-                                <span class="block text-base font-bold text-quicksilver">{{arrangement.number_of_seating_item}}</span>
+                                <span class="block text-base font-bold text-quicksilver">{{arrangement?.number_of_seating_item}}</span>
                               </div>
                               <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4">
                                 <span class="block text-xs xl:text-sm text-quicksilver">Location</span>
-                                <span class="block text-base font-bold text-quicksilver">{{((arrangement.vertical_location == 'TOP') ? 'T' : (arrangement.vertical_location == 'CENTER' ? 'C' : 'B'))}} - {{((arrangement.horizontal_location == 'LEFT') ? 'L' : ((arrangement.horizontal_location == 'CENTER') ? 'C' : (arrangement.horizontal_location == 'RIGHT' ? 'R' : 'N')))}}</span>
+                                <span class="block text-base font-bold text-quicksilver">{{((arrangement?.vertical_location == 'TOP') ? 'T' : (arrangement?.vertical_location == 'CENTER' ? 'C' : 'B'))}} - {{((arrangement?.horizontal_location == 'LEFT') ? 'L' : ((arrangement?.horizontal_location == 'CENTER') ? 'C' : (arrangement?.horizontal_location == 'RIGHT' ? 'R' : 'N')))}}</span>
                               </div>
                               <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4"
                                 *ngIf="(seating?.seating_item?.itemname !== 'Chair' && seating?.seating_item?.itemname !== 'chair') && (seating?.seating_item?.itemname != 'Stand' && seating?.seating_item?.itemname != 'stand')">
                                 <span class="block text-xs xl:text-sm text-quicksilver">per {{seating?.seating_item?.itemname}} person capacity</span>
-                                <span class="block text-base font-bold text-quicksilver">{{arrangement.per_seating_person}}</span>
+                                <span class="block text-base font-bold text-quicksilver">{{arrangement?.per_seating_person}}</span>
                               </div>
                               <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4">
                                 <span class="block text-xs xl:text-sm text-quicksilver">Total person capacity</span>
-                                <span class="block text-base font-bold text-quicksilver">{{arrangement.total_person}}</span>
+                                <span class="block text-base font-bold text-quicksilver">{{arrangement?.total_person}}</span>
                               </div>
                               <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4"
                                 *ngIf="(seating?.seating_item?.itemname !== 'Chair' && seating?.seating_item?.itemname !== 'chair') && (seating?.seating_item?.itemname != 'Stand' && seating?.seating_item?.itemname != 'stand')">
                                 <span class="block text-xs xl:text-sm text-quicksilver">Per {{seating?.seating_item?.itemname}} Price</span>
-                                <span class="block text-base font-bold text-quicksilver">{{arrangement.per_seating_price || 0 | number:'1.2-2'}}</span>
+                                <span class="block text-base font-bold text-quicksilver">{{arrangement?.per_seating_price || 0 | number:'1.2-2'}}</span>
                               </div>
                               <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4">
                                 <span class="block text-xs xl:text-sm text-quicksilver">per person price</span>
-                                <span class="block text-base font-bold text-quicksilver">{{arrangement.per_person_price || 0 | number:'1.2-2'}} INR</span>
+                                <span class="block text-base font-bold text-quicksilver">{{arrangement?.per_person_price || 0 | number:'1.2-2'}} INR</span>
                               </div>
                               <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4">
                                 <span class="block text-xs xl:text-sm text-quicksilver">Total Amount</span>
-                                <span class="block text-base font-bold text-japaneseIndigo">{{arrangement.total_amount || 0 | number:'1.2-2'}} INR</span>
+                                <span class="block text-base font-bold text-japaneseIndigo">{{arrangement?.total_amount || 0 | number:'1.2-2'}} INR</span>
                               </div>
                               <div class="space-y-1 pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4">
                                 <p class="block text-xs xl:text-sm text-quicksilver">Description</p>
@@ -261,8 +261,8 @@
                                 <!-- <input class="switch mx-3 order-2" id="on" type="checkbox" [(ngModel)]="arrangement.booking_acceptance"/>
                                 <span class="off text-base font-bold anim order-1 text-caribbeanGreen">Per table</span>
                                 <span class="on text-base font-bold anim order-3">Per person</span> -->
-                                <span class="off text-base font-bold anim order-1 text-caribbeanGreen capitalize" *ngIf="!arrangement.booking_acceptance">Per table</span>
-                                <span class="on text-base font-bold anim order-3 text-caribbeanGreen capitalize" *ngIf="arrangement.booking_acceptance">Per person</span>
+                                <span class="off text-base font-bold anim order-1 text-caribbeanGreen capitalize" *ngIf="!arrangement?.booking_acceptance">Per table</span>
+                                <span class="on text-base font-bold anim order-3 text-caribbeanGreen capitalize" *ngIf="arrangement?.booking_acceptance">Per person</span>
                               </div>
                             </div>
                           </div>
@@ -276,11 +276,11 @@
                       <div class="flex w-full space-y-2">
                         <div class="min-w-[148px] pr-5">
                           <p>Food</p>
-                          <span class="text-lg font-bold text-japaneseIndigo capitalize">{{(seating.food == 'BOTH') ? 'Veg & Non-Veg' : seating.food}}</span>
+                          <span class="text-lg font-bold text-japaneseIndigo capitalize">{{(seating?.food == 'BOTH') ? 'Veg & Non-Veg' : seating?.food}}</span>
                         </div>
                         <div class="border-l border-slate-500 px-4" *ngIf="seating?.food_description">
                           <p class="pb-1 text-slate-400">Description</p>
-                          <p class="text-xs" [innerHTML]="seating.food_description || ''"></p>
+                          <p class="text-xs" [innerHTML]="seating?.food_description || ''"></p>
                         </div>
                       </div>
                     </div>
@@ -291,11 +291,11 @@
                       <div class="flex w-full space-y-2">
                         <div class="min-w-[148px] pr-5">
                           <p>Equipment</p>
-                          <span class="text-lg font-bold text-japaneseIndigo capitalize">{{seating.equipment ? 'Not Include' : 'Include'}}</span>
+                          <span class="text-lg font-bold text-japaneseIndigo capitalize">{{seating?.equipment ? 'Not Include' : 'Include'}}</span>
                         </div>
                         <div class="border-l border-slate-500 px-4" *ngIf="seating?.equipment_description">
                           <p class="pb-1 text-slate-400">Description</p>
-                          <p class="text-xs" [innerHTML]="seating.equipment_description || ''"></p>
+                          <p class="text-xs" [innerHTML]="seating?.equipment_description || ''"></p>
                         </div>
                       </div>
                     </div>
@@ -314,7 +314,7 @@
               </div>
             </div>
             <!-- Photo-holder -->
-            <div *ngIf="event?.companydetail?.photos != ''" class="media-upload-holder">
+            <div *ngIf="event?.companydetail?.photos?.length" class="media-upload-holder">
               <!-- media title  -->
               <div class="flex justify-between items-center">
                 <h3 class="text-lg">Photo</h3>
@@ -333,16 +333,16 @@
               </div>
             </div>
             <!-- videos-holder -->
-            <div *ngIf="event.companydetail.videos != ''" class="media-upload-holder">
+            <div *ngIf="event?.companydetail?.videos?.length" class="media-upload-holder">
               <!-- media title  -->
               <div class="flex justify-between items-center">
                 <h3 class="text-lg">Videos</h3>
-                <a class="text-spiroDiscoBall text-sm font-bold opacity-60" href="javascript:void(0);" (click)="openImageAndVideoDialog(event.companydetail.videos, false, true)">View All</a>
+                <a class="text-spiroDiscoBall text-sm font-bold opacity-60" href="javascript:void(0);" (click)="openImageAndVideoDialog(event?.companydetail?.videos, false, true)">View All</a>
               </div>
               <!-- media-holder -->
               <div class="w-full">
                 <div class="flex -mx-2">
-                  <div *ngFor="let video of event.companydetail.videos" class="p-2 group hover:bg-slate-100">
+                  <div *ngFor="let video of event?.companydetail?.videos" class="p-2 group hover:bg-slate-100">
                     <div class="rounded relative overflow-hidden h-32 w-36 cursor-pointer" (click)="openImageAndVideoDialog([video], false, false, true)">
                       <video [src]="!!(video?.url) ? constants?.baseImageURL + video.url : constants?.defaultImage" class="w-full h-full object-cover bg-white"></video>
                       <div class="opacity-0 bg-black bg-opacity-50 flex items-center justify-center group-hover:opacity-100 absolute inset-0 transition-all duration-300">
@@ -397,20 +397,20 @@
             </div>
           </div>
           <!-- Attendee left-bar -->
-          <div class="w-full lg:w-8/12 space-y-2.5" *ngIf="attendee && attendees && attendees.length">
+          <div class="w-full lg:w-8/12 space-y-2.5" *ngIf="attendee && attendees && attendees?.length">
             <div class="accordions">
-              <div *ngFor="let attendee of attendees;let i = index;" class="accordion_item p-0 cursor-pointer relative">
+              <div *ngFor="let attendee of attendees;let i = index;" class="accordion_item p-0 cursor-pointer relative mb-5">
                 <div #accordionClick (click)="toggleAccordion($event, i)" class="title_tab bg-white px-5 py-2.5 flex justify-between items-center rounded-md accordion">
                   <div class="space-y-2">
                     <div class="flex items-center space-x-3">
                       <h3 class="text-base">{{attendee?.userid?.name}}</h3>
-                      <span class="input-titel font-bold text-caribbeanGreen pb-0" *ngIf="attendee && attendee.invoice_no">#{{attendee.invoice_no}}</span>
+                      <span class="input-titel font-bold text-caribbeanGreen pb-0" *ngIf="attendee && attendee?.invoice_no">#{{attendee?.invoice_no}}</span>
                     </div>
-                    <p class="text-quicksilver text-xs font-bold flex items-center" *ngIf="attendee && attendee.createdAt">{{attendee?.createdAt | date:'dd MMM, yyyy  hh:mm a'}}</p>
+                    <p class="text-quicksilver text-xs font-bold flex items-center" *ngIf="attendee && attendee?.createdAt">{{attendee?.createdAt | date:'dd MMM, yyyy  hh:mm a'}}</p>
                   </div>
                   <div class="space-y-1">
-                    <h3 class="text-lg" *ngIf="attendee && attendee.amount">${{attendee.amount | number: '1.2-2'}}</h3>
-                    <span class="block input-titel text-magicPotion text-right" *ngIf="attendee && attendee.booked_tickets">{{attendee.booked_tickets}} Ticket</span>
+                    <h3 class="text-lg" *ngIf="attendee && attendee?.amount">₹{{attendee?.amount | number: '1.2-2'}}</h3>
+                    <span class="block input-titel text-magicPotion text-right" *ngIf="attendee && attendee?.booked_tickets">{{attendee?.booked_tickets}} Ticket</span>
                   </div>
                 </div>
                 <div class="border-t panel overflow-y-auto">
@@ -422,7 +422,7 @@
                             <span class="block w-1/6 py-1">{{seat?.seating_item?.itemname}}</span>
                             <span class="block w-2/6 py-1">{{arrangement?.vertical_location}} - {{arrangement?.horizontal_location}}</span>
                             <span class="block w-2/6 py-1">{{arrangement?.ItemCount || 0}} Ticket Booked</span>
-                            <span class="block w-1/6 py-1 text-right">${{arrangement?.totalAmountItemCount | number: '1.2-2'}}</span>
+                            <span class="block w-1/6 py-1 text-right">₹{{arrangement?.totalAmountItemCount | number: '1.2-2'}}</span>
                           </div>
                         </div>
                       </div>
@@ -434,7 +434,7 @@
             <div class="w-full addsBox">
               <img src="/assets/images/banner-ads.png" alt="ring-ad" class="w-full object-cover" />
             </div>
-            <div *ngIf="attendee && (!attendees || !attendees.length)">
+            <div *ngIf="attendee && (!attendees || !attendees?.length)">
               <h3>No attendees Found</h3>
             </div>
           </div>
@@ -477,16 +477,18 @@
               </div>
             </div>
             <!-- Book_ticket_detils -->
-            <div class="bg-white rounded-md overflow-hidden" *ngIf="event?.seating_arrangements?.length">
+            <div class="bg-white rounded-md overflow-hidden">
               <div class="flex justify-between px-5 py-2 bg-japaneseIndigo">
                 <span class="text-sm font-bold text-white">Book Ticket</span>
                 <span class="text-sm font-bold text-white">Total Amount</span>
               </div>
-              <div class="bg-white" *ngFor="let book of event?.seating_arrangements">
-                <div class="flex justify-between border-t border-brightGray px-5 py-2" *ngFor="let ticket of book?.arrangements">
-                  <span class="text-sm font-bold text-japaneseIndigo">{{ticket?.total_person}} {{((ticket.vertical_location == 'TOP') ? 'T' : (ticket.vertical_location == 'CENTER' ? 'C' : 'B'))}} - {{((ticket.horizontal_location == 'LEFT') ? 'L' : ((ticket.horizontal_location == 'CENTER') ? 'C' : (ticket.horizontal_location == 'RIGHT' ? 'R' : 'N')))}}</span>
-                  <span class="text-sm font-bold text-japaneseIndigo">{{book?.seating_item?.itemname}}</span>
-                  <span class="text-sm font-bold text-japaneseIndigo">₹{{ticket?.total_amount}}</span>
+              <div class="" *ngFor="let attendee of attendees;let i = index;">
+                <div class="bg-white" *ngFor="let seat of attendee?.seats || []">
+                  <div class="flex justify-between border-t border-brightGray px-5 py-2" *ngFor="let arrangement of seat?.arrangements || []">
+                    <span class="text-sm font-bold text-japaneseIndigo w-1/3">{{arrangement?.ItemCount || 0}} {{((arrangement.vertical_location == 'TOP') ? 'T' : (arrangement.vertical_location == 'CENTER' ? 'C' : 'B'))}} - {{((arrangement.horizontal_location == 'LEFT') ? 'L' : ((arrangement.horizontal_location == 'CENTER') ? 'C' : (arrangement.horizontal_location == 'RIGHT' ? 'R' : 'N')))}}</span>
+                    <span class="text-sm font-bold text-japaneseIndigo w-1/3 text-center">{{seat?.seating_item?.itemname}}</span>
+                    <span class="text-sm font-bold text-japaneseIndigo w-1/3 text-right">₹{{attendee?.amount | number: '1.2-2'}}</span>
+                  </div>
                 </div>
               </div>
             </div>

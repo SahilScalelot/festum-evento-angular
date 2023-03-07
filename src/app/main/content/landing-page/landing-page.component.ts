@@ -67,9 +67,9 @@ export class LandingPageComponent implements OnInit {
         768: {
           slidesPerView: 2,
         },
-        // 1024: {
-        //   slidesPerView: 4,
-        // },
+        1024: {
+          slidesPerView: 4,
+        },
       },
       slidesPerView: 1,
       spaceBetween: 0,

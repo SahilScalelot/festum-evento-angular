@@ -128,8 +128,8 @@ export class PhotosVideosStepComponent implements OnInit {
     if (event.target.files.length > 0) {
       const poster = event.target.files[0];
       if (poster != undefined) {
-        if (poster.type != 'image/jpeg' && poster.type != 'image/jpg' && poster.type != 'image/png') {
-          this._sNotify.error('Poster type is Invalid.', 'Oops!');
+        if (poster.type != 'image/jpeg' && poster.type != 'image/jpg' && poster.type != 'image/png' && poster.type != 'image/gif' && poster.type != 'image/avif' && poster.type != 'image/raw') {
+          this._sNotify.error('Images type should only jpeg, jpg, png, gif, avif and raw.', 'Oops!');
           return false;
         }
 
@@ -237,8 +237,8 @@ export class PhotosVideosStepComponent implements OnInit {
     const responseObj: Observable<any>[] = [];
     this.imagesFiles.forEach((image: any) => {
       if (image != undefined) {
-        if (image.type != 'image/jpeg' && image.type != 'image/jpg' && image.type != 'image/png') {
-          this._sNotify.error('Image type is Invalid.', 'Oops!');
+        if (image.type != 'image/jpeg' && image.type != 'image/jpg' && image.type != 'image/png' && image.type != 'image/gif' && image.type != 'image/avif' && image.type != 'image/raw') {
+          this._sNotify.error('Images type should only jpeg, jpg, png, gif, avif and raw.', 'Oops!');
           return;
         }
 
@@ -359,8 +359,8 @@ export class PhotosVideosStepComponent implements OnInit {
     const responseObj: Observable<any>[] = [];
     this.videosFiles.forEach((video: any) => {
       if (video != undefined) {
-        if (video.type != 'video/mp4') {
-          this._sNotify.error('Video type should only mp4.', 'Oops!');
+        if (video.type != 'video/mp4' && video.type != 'video/mov' && video.type != 'video/wmv' && video.type != 'video/avi' && video.type != 'video/mkv' && video.type != 'video/flv' && video.type != 'video/f4v' && video.type != 'video/swf') {
+          this._sNotify.error('Video type should only MP4, MOV, WMV, AVI, MKV, FLV, F4V and SWF', 'Oops!');
           return;
         }
 

@@ -1,3 +1,5 @@
+<p-progressSpinner *ngIf="isLoading" [style]="{width: '50px', height: '50px'}" animationDuration=".5s" strokeWidth="8" class="fixed bg-white bg-opacity-25 backdrop-blur-sm right-0 bottom-0 h-[calc(100vh-76px)] w-full lg:w-[calc(100vw-230px)] z-30" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
+
 <div [formGroup]="termsAndConditionsForm" class="space-y-5 px-2">
   <div class="w-full space-y-2.5">
     <h5>Terms And Conditions <i class="text-xs font-medium" [ngClass]="{'text-magicPotion' : textEditor}">( You have {{textEditorLimit}} of {{textEditorMaxLimit}} characters remaining ) </i></h5>
@@ -86,11 +88,11 @@
         <input type="checkbox" [formControlName]="'status'" name="status" [checked]="false" />
         <i class="icon-right text-white"></i>
       </div>
-      <span class="input-titel text-base ml-4">Agree terms and conditions</span>
+      <span class="input-titel text-base ml-4">Agree with our terms and conditions</span>
     </label>
     <span class="absolute top-full left-0 text-red-500 text-xs" *ngIf="termsAndConditionsForm.get('status')?.invalid && (termsAndConditionsForm.get('status')?.dirty && termsAndConditionsForm.get('status')?.touched)">
       <span *ngIf="termsAndConditionsForm.get('status')?.errors?.['required']">
-        Terms And Conditions is required.
+        Accepting Terms and Conditions is Required.
       </span>
     </span>
   </div>

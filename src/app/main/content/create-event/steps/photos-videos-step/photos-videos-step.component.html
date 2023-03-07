@@ -1,3 +1,5 @@
+<p-progressSpinner *ngIf="isLoading" [style]="{width: '50px', height: '50px'}" animationDuration=".5s" strokeWidth="8" class="fixed bg-white bg-opacity-25 backdrop-blur-sm right-0 bottom-0 h-[calc(100vh-76px)] w-full lg:w-[calc(100vw-230px)] z-30" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
+
 <form class="space-y-5">
   <div class="upload-holder w-full h-auto">
     <span class="text-sm text-quicksilver font-semibold">Add Poster <span class="font-normal">(Max size 10MB)</span></span>
@@ -89,7 +91,7 @@
       <!--  {{(posterImageAndVideoObj?.photos?.length) ? (posterImageAndVideoObj?.photos?.length + '(Already Uploaded) - 15 =') : ''}} {{ 15 - (posterImageAndVideoObj?.photos?.length || 0)}} -->
       <div class="block">
         <ngx-dropzone #dropzonePhotos class="flex-wrap" (change)="onSelectImages($event)" [maxFileSize]="3145728" accept="image/jpeg,image/jpg,image/png,image/gif">
-          <ngx-dropzone-label>Drop it, images!</ngx-dropzone-label>
+          <ngx-dropzone-label>Drop images here</ngx-dropzone-label>
           <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of imagesFiles" [file]="f" [removable]="true" (removed)="onRemoveImages(f)"></ngx-dropzone-image-preview>
         </ngx-dropzone>
       </div>
@@ -123,7 +125,7 @@
       </label> -->
       <div class="block">
         <ngx-dropzone #dropzoneVideos class="flex-wrap" (change)="onSelectVideos($event)" [maxFileSize]="4294967296" accept="video/mp4,video/x-m4v,video/*">
-          <ngx-dropzone-label>Drop it, videos!</ngx-dropzone-label>
+          <ngx-dropzone-label>Drop videos here</ngx-dropzone-label>
           <ngx-dropzone-video-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of videosFiles" [file]="f" [removable]="true" (removed)="onRemoveVideos(f)"></ngx-dropzone-video-preview>
         </ngx-dropzone>
       </div>
