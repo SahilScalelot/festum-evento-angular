@@ -10,6 +10,7 @@ import * as _ from 'lodash';
 
 // import Swiper core and required modules
 import SwiperCore, { Autoplay, Pagination, Navigation, SwiperOptions } from "swiper";
+import { ModalService } from '../../_modal';
 
 // install Swiper modules
 SwiperCore.use([Autoplay, Pagination, Navigation]);
@@ -48,6 +49,7 @@ export class LandingPageComponent implements OnInit {
     private _sNotify: SnotifyService,
     private _globalFunctions: GlobalFunctions,
     private _landingPageService: LandingPageService,
+    private _modalService: ModalService,
   ) {
     const script = this._renderer.createElement('script');
     script.src = `./assets/js/landing-page/script.js`;
@@ -203,5 +205,15 @@ export class LandingPageComponent implements OnInit {
       description: ['', [Validators.required]],
     });
   }
+
+
+  tAndCPop(popId: any = ''): void {
+    this._modalService.open(popId);
+  }
+
+  closePop(popId: any = ''): any {
+    this._modalService.close(popId);
+  }
+
 
 }

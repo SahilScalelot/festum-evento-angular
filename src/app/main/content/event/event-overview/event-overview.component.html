@@ -38,7 +38,7 @@
     <!-- tab-holder  -->
     <div class="teb-holder">
       <button [class]="overview ? 'active' : ''" (click)="onTabChange('overview')" type="button">Overview</button>
-      <button [class]="attendee ? 'active' : ''" (click)="onTabChange('attendee')" type="button" *ngIf="!!(event?.accept_booking) && event?.is_live && attendees && attendees?.length">Attendee</button>
+      <button [class]="attendee ? 'active' : ''" (click)="onTabChange('attendee')" type="button" *ngIf="!!(event?.accept_booking) && attendees && attendees?.length">Attendee</button>
       <button [class]="reviews ? 'active' : ''" (click)="onTabChange('reviews')" type="button" *ngIf="event?.reviews?.length">Reviews</button>
 
       <a class="secondary px-5 py-2 flex items-end rounded-sm max-w-max ml-auto" href="javascript:void(0);" (click)="exportAttendees()" *ngIf="!!(event?.accept_booking) && event?.is_live && attendee && attendees && attendees?.length">Export</a>
@@ -477,7 +477,7 @@
               </div>
             </div>
             <!-- Book_ticket_detils -->
-            <div class="bg-white rounded-md overflow-hidden">
+            <div class="bg-white rounded-md overflow-hidden" *ngIf="attendees?.length">
               <div class="flex justify-between px-5 py-2 bg-japaneseIndigo">
                 <span class="text-sm font-bold text-white">Book Ticket</span>
                 <span class="text-sm font-bold text-white">Total Amount</span>

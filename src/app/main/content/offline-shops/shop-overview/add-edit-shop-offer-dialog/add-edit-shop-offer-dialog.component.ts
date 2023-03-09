@@ -496,7 +496,7 @@ export class AddEditShopOfferDialogComponent implements OnInit {
   addProductLimitation(productLimitationObj: any = {}): void {
     if (this.allProductConditions.length < CONSTANTS.maxOfferOnAllProductsLimit) {
       const productLimitation: any = this._formBuilder.group({
-        person_limitation: [productLimitationObj?.person_limitation || '', [Validators.required]],
+        person_limitation: [productLimitationObj?.person_limitation || '', [Validators.required, Validators.min(0)]],
         description: [productLimitationObj?.description || '', [Validators.required]],
         discount: [productLimitationObj?.discount || '', [Validators.required]],
         discount_type: [productLimitationObj?.discount_type || CONSTANTS.discountTypeArr[CONSTANTS.discountTypeObj.percentage].value, [Validators.required]]

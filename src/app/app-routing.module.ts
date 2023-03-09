@@ -60,7 +60,8 @@ const routes: Routes = [
     children: [
       {
         path: 'events',
-        loadChildren: () => import('../app/main/content/event/event.module').then(m => m.EventModule)
+        loadChildren: () => import('../app/main/content/event/event.module').then(m => m.EventModule),
+        // title: 'Events Box'
       },
       {
         path: 'events/create',

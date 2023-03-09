@@ -1,7 +1,7 @@
 <p-progressSpinner *ngIf="isLoading" [style]="{width: '50px', height: '50px'}" animationDuration=".5s" strokeWidth="8" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-x-0 top-0 h-full w-full z-40" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
 <div class="space-y-5 relative">
   <form #offerNgForm="ngForm" [formGroup]="addEditOfferForm" class="p-ngCss">
-    <span (click)="closeAddEditOfferDialog();" class="absolute right-0 -top-8 cursor-pointer text-xl"><i class="icon-close"></i></span>
+    <span (click)="closeAddEditOfferDialog();" class="absolute right-0 -top-14 mt-1 cursor-pointer text-xl"><i class="icon-close"></i></span>
     <div *ngIf="!isTAndC && !isAddUserWiseOffers">
       <div class="flex flex-wrap items-end -mx-2">
         <div class="w-full lg:w-1/2 px-2 pt-5 inputHolder relative">
@@ -117,16 +117,18 @@
               <div class="inputHolder w-full lg:w-1/3 px-2 pt-2.5 relative">                
                 <input type="number" class="input" [formControlName]="'person_limitation'"
                 [placeholder]="'Person Limitation ( e.g. 100 )'" [min]="0" fuseValidNumber/>
-                <span class="absolute top-full left-0 text-red-500 text-xs ml-0"
-                      *ngIf="allProductConditions.controls[i].get('person_limitation')?.invalid && (allProductConditions.controls[i].get('person_limitation')?.dirty && allProductConditions.controls[i].get('person_limitation')?.touched)">
+                <span class="absolute top-full left-0 text-red-500 text-xs ml-2" *ngIf="allProductConditions.controls[i].get('person_limitation')?.invalid && (allProductConditions.controls[i].get('person_limitation')?.dirty && allProductConditions.controls[i].get('person_limitation')?.touched)">
                   <span *ngIf="allProductConditions.controls[i].get('person_limitation')?.errors?.['required']">
+                    Person limitation is required.
+                  </span>
+                  <span *ngIf="allProductConditions.controls[i].get('person_limitation')?.errors?.['min']">
                     Person limitation is required.
                   </span>
                 </span>
               </div>
               <div class="inputHolder w-full lg:w-1/3 px-2 pt-2.5 relative">
                 <input type="text" placeholder="Description ( e.g. First 100 person )" [formControlName]="'description'" class="input" />
-                <span class="absolute top-full left-0 text-red-500 text-xs ml-0"
+                <span class="absolute top-full left-0 text-red-500 text-xs ml-2"
                       *ngIf="allProductConditions.controls[i].get('description')?.invalid && (allProductConditions.controls[i].get('description')?.dirty && allProductConditions.controls[i].get('description')?.touched)">
                   <span *ngIf="allProductConditions.controls[i].get('description')?.errors?.['required']">
                     Description is required.

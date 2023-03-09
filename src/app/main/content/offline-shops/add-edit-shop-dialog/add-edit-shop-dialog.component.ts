@@ -65,6 +65,17 @@ export class AddEditShopDialogComponent implements OnInit {
   map: google.maps.Map | any;
   finaLatLong: any = { lat: CONSTANTS.latitude, lng: CONSTANTS.longitude };
   private geoCoder: any;
+  tmpLocationObj: any = {};
+
+  get isValidCity(): any {
+    return this.addShopForm.get('city')?.valid && this.addShopForm.get('city')?.dirty && this.addShopForm.get('city')?.touched && this.tmpLocationObj.city && this.addShopForm.value.city != this.tmpLocationObj.city;
+  }
+  get isValidState(): any {
+    return this.addShopForm.get('state')?.valid && this.addShopForm.get('state')?.dirty && this.addShopForm.get('state')?.touched && this.tmpLocationObj.state && this.addShopForm.value.state != this.tmpLocationObj.state;
+  }
+  get isValidPinCode(): any {
+    return this.addShopForm.get('pincode')?.valid && this.addShopForm.get('pincode')?.dirty && this.addShopForm.get('pincode')?.touched && this.tmpLocationObj.pincode && this.addShopForm.value.pincode != this.tmpLocationObj.pincode;
+  }
 
   inputText: any;
   gstPdf: any;
@@ -258,6 +269,7 @@ export class AddEditShopDialogComponent implements OnInit {
     });
 
     this.getAddress(this.lat, this.lng);
+    this.addMapLocation();
   }
 
   getAddress(latitude: any, longitude: any) {
@@ -568,8 +580,8 @@ export class AddEditShopDialogComponent implements OnInit {
       shop_name: [addShopObj?.shop_name || '', [Validators.required]],
       shop_category: [(addShopObj.shop_category && addShopObj.shop_category._id) ? addShopObj.shop_category._id : '', [Validators.required]],
       shop_days: this._formBuilder.array((addShopObj.shop_days && addShopObj.shop_days.length) ? addShopObj.shop_days : [], [Validators.required]),
-      start_date: [(addShopObj.start_date) ? new Date(addShopObj.start_date) : ''],
-      end_date: [(addShopObj.end_date) ? new Date(addShopObj.end_date) : ''],
+      // start_date: [(addShopObj.start_date) ? new Date(addShopObj.start_date) : ''],
+      // end_date: [(addShopObj.end_date) ? new Date(addShopObj.end_date) : ''],
       shop_open_time: [(addShopObj?.shop_open_time) ? moment(addShopObj?.shop_open_time, 'hh:mm').format('hh:mm a') : '', [Validators.required]],
       shop_close_time: [(addShopObj?.shop_close_time) ? moment(addShopObj?.shop_close_time, 'hh:mm').format('hh:mm a') : '', [Validators.required]],
       about_shop: [addShopObj?.about_shop || ''],
@@ -579,6 +591,7 @@ export class AddEditShopDialogComponent implements OnInit {
       city: [addShopObj?.city || '', [Validators.required]],
       state: [addShopObj?.state || '', [Validators.required]],
       pincode: [addShopObj?.pincode || '', [Validators.required, Validators.pattern('^[1-9]{1}[0-9]{2}\\s{0,1}[0-9]{3}$')]],
+      manual_address: [addShopObj?.manual_address || ''],
       longitude: [this.lng],
       latitude: [this.lat],
 

@@ -849,13 +849,28 @@
         <span>© 2023 Festum Evento - Devepoled By Scalelot Technoligies</span>
         <ul class="flex items-center capitalize space-x-3">
           <li>
-            <a href="#">privacy policy</a>
+            <span class="cursor-pointer" (click)="tAndCPop('privacyPolicyPop')">Privacy policy</span>
           </li>
           <li>|</li>
           <li>
-            <a href="#">terms and conditions</a>
+            <span class="cursor-pointer" (click)="tAndCPop('tandc')">Terms and conditions</span>
           </li>
         </ul>
       </div>
     </div>
   </footer>
+
+
+<!-- T & C -->
+<modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="tandc" title="Terms and Conditions" [stickyTop]="true">
+  <div class="space-y-5 lg:space-y-8">
+    <app-terms-and-conditions></app-terms-and-conditions>
+  </div>
+</modal>
+
+<!-- Privacy Policy -->
+<modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="privacyPolicyPop" title="Privacy Policy" [stickyTop]="true">
+  <div class="space-y-5 lg:space-y-8">
+    <app-privacy-policy></app-privacy-policy>
+  </div>
+</modal>

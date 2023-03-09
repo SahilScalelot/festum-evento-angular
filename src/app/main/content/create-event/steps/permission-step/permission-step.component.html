@@ -1,7 +1,7 @@
 <p-progressSpinner *ngIf="isLoading" [style]="{width: '50px', height: '50px'}" animationDuration=".5s" strokeWidth="8" class="fixed bg-white bg-opacity-25 backdrop-blur-sm right-0 bottom-0 h-[calc(100vh-76px)] w-full lg:w-[calc(100vw-230px)] z-30" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
 <form [formGroup]="permissionForm" class="space-y-5">
   <div class="upload-holder w-full h-full relative">
-    <span class="text-sm text-quicksilver font-semibold">Add Permission Letter</span>
+    <span class="text-sm text-quicksilver font-semibold">Add Permission Letter<span class="text-magicPotion">*</span> <i class="text-xs font-normal">( Adding a permission letter is a must. )</i></span>
     <p-progressSpinner *ngIf="isPdfLoading" [style]="{width: '20px', height: '20px'}" animationDuration=".5s" strokeWidth="4" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-x-0 bottom-0 top-6 z-20" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
     <label class="upload upload-popup py-9">
       <input (change)="onChangePDF($event)" [formControlName]="'permission_letter'" accept="application/pdf" class="appearance-none hidden" id="permission_letter" name="permission_letter" type="file"/>
@@ -30,6 +30,11 @@
   <div class="ml-12 flex">
     <i class="icon-info text-quicksilver pr-3"></i>
     <span class="text-xs font-bold text-quicksilver max-w-[288px] inline-block">If the price of the ticket is 0 no commission will be Charged</span>
+  </div>
+  
+  <div class="w-full text-xs space-y-1 pt-6">
+    <h6 class="text-red-600">*Note:</h6>
+    <p><strong>Accept Booking :-</strong> Select to allow ticket booking. Deselect if you don’t want to sell tickets.</p>
   </div>
 </form>
 

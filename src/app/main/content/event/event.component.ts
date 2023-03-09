@@ -23,6 +23,7 @@ export class EventComponent implements OnInit {
   paging: any;
   perPageLimit: any = 4;
   offset: any = 1;
+  
 
   constructor(
     private _eventService: EventService,

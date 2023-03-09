@@ -1,8 +1,8 @@
 <div (click)="close();" class="modal-background fixed inset-0 w-full h-full -z-30"></div>
 <div class="table-cell align-middle relative z-50 lg:px-9" [@fade]="state">
   <div class="popin max-w-2xl w-full mx-auto max-h-[calc(100vh-55px)] overflow-y-auto {{maxWidth}}">
-    <div class="bg-brightGray p-10">
-      <div class="flex {{(isTitleHidden && !isCloseHidden) ? 'justify-end' :  'justify-between'}} items-center" *ngIf="!isTitleHidden || !isCloseHidden">
+    <div class="bg-brightGray px-10 pb-10 pt-5">
+      <div class="bg-brightGray py-5 flex {{(isTitleHidden && !isCloseHidden) ? 'justify-end' :  'justify-between'}} items-center" [ngClass]="{'sticky top-0': stickyTop}" *ngIf="!isTitleHidden || !isCloseHidden">
         <h2 *ngIf="!isTitleHidden">{{title}}</h2>
         <div *ngIf="!isCloseHidden">
           <a href="javascript:void(0);" (click)="close();" class="text-xl"><i class="icon-close"></i></a>

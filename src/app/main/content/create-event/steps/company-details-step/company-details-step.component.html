@@ -50,7 +50,7 @@
       </div>
     </div>
     <div class="w-full pt-5 relative">
-      <span class="input-titel">About Our Company <i class="text-xs font-medium" [ngClass]="{'text-magicPotion' : textEditor}">( You have {{textEditorLimit}} of {{textEditorMaxLimit}} characters remaining ) </i></span>
+      <span class="input-titel">About Our Company <i class="text-xs font-medium" [ngClass]="{'text-magicPotion' : textEditor}">( {{textEditorLimit}} characters out of {{textEditorMaxLimit}} )</i></span>
       <div class="w-full bg-white rounded">
         <ckeditor (ready)="onTextEditorReady($event, 'about')" (keyup)="editorCharacterSet()" (keydown)="editorCharacterSet()" [config]="editorConfig" [editor]="detailEditor" [formControlName]="'about'" class="h-44 text-editor" id="about" name="about"></ckeditor>
       </div>

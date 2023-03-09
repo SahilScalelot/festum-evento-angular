@@ -44,8 +44,8 @@
                 <div *ngIf="seatingForm?.value?.seating_item || editArrangementObj?.seating_item" class="">
                   <div class="flex items-center justify-between pb-2">
                     <label class="input-titel">arrangement</label>
-                    <button (click)="addArrangements()" class="pluse border-2 border-japaneseIndigo w-7 h-7 rounded-full flex justify-center items-center">
-                      <i class="icon-plus_round leading-0"></i>
+                    <button (click)="addArrangements()" class="text-xs text-white font-bold px-3 rounded py-1 whitespace-nowrap bg-magicPotion flex items-center">
+                      <i class="icon-plus_round leading-0 mr-2"></i> Add siting arrangement
                     </button>
                   </div>
                   <div class="w-full">
@@ -374,7 +374,7 @@
                   </div>
                 </div>
                 <div class="w-full">
-                  <span class="input-titel">Food description?  <i class="text-xs font-medium" [ngClass]="{'text-magicPotion' : textEditorFood}">( You have {{textEditorLimitFood}} of {{textEditorMaxLimit}} characters remaining ) </i></span>
+                  <span class="input-titel">Food description?  <i class="text-xs font-medium" [ngClass]="{'text-magicPotion' : textEditorFood}">( {{textEditorLimitFood}} characters out of {{textEditorMaxLimit}} )</i></span>
                   <div class="w-full bg-white rounded">
                     <ckeditor (ready)="onTextEditorReady($event, 'food_description')" (keyup)="editorCharacterSetFood()" (keydown)="editorCharacterSetFood()" [config]="editorConfig" [editor]="detailEditor" [formControlName]="'food_description'" class="h-44 text-editor" id="food_description" name="food_description"></ckeditor>
                   </div>
@@ -451,7 +451,7 @@
                   </div>
                 </div>
                 <div class="w-full">
-                  <span class="input-titel">Equipment description?  <i class="text-xs font-medium" [ngClass]="{'text-magicPotion' : textEditorEquipment}">( You have {{textEditorLimitEquipment}} of {{textEditorMaxLimit}} characters remaining ) </i></span>
+                  <span class="input-titel">Equipment description?  <i class="text-xs font-medium" [ngClass]="{'text-magicPotion' : textEditorEquipment}">( {{textEditorLimitEquipment}} characters out of {{textEditorMaxLimit}} )</i></span>
                   <div class="w-full bg-white rounded">
                     <ckeditor (ready)="onTextEditorReady($event, 'equipment_description')" (keyup)="editorCharacterSetEquipment()" (keydown)="editorCharacterSetEquipment()" [config]="editorConfig" [editor]="detailEditor" [formControlName]="'equipment_description'" class="h-44 text-editor" id="equipment_description" name="equipment_description"></ckeditor>
                   </div>

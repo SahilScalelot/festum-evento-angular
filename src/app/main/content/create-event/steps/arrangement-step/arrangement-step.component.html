@@ -110,6 +110,11 @@
   </mat-accordion>
 </div>
 
+<div class="bg-white rounded-md text-center p-9 space-y-2" *ngIf="!arrangementsArr || !arrangementsArr?.length">
+  <h4 class="w-full">No arrangements added.</h4>
+  <p class="">To add arrangements click on the Add button on the top right of the page..</p>
+</div>
+
 <div class="mt-auto">
   <!-- advisement -->
   <div class="w-full mt-5 addsBox">

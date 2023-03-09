@@ -13,6 +13,7 @@ import { ImageModule } from 'primeng/image';
 import { TranslateModule } from "@ngx-translate/core";
 import { ProgressBarModule } from "primeng/progressbar";
 import { MatExpansionModule } from '@angular/material/expansion';
+import { TooltipModule } from 'primeng/tooltip';
 
 const routes: Routes = [
   {
@@ -38,6 +39,7 @@ const routes: Routes = [
     PaginatorModule,
     ImageModule,
     MatExpansionModule,
+    TooltipModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyDLgr8YB5IK8dBIEWClexZGzXaB7UlVm7Q',
       libraries: ['places']
