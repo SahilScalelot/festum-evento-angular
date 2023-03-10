@@ -1,3 +1,4 @@
+<p-progressSpinner *ngIf="isLoading" [style]="{width: '50px', height: '50px'}" animationDuration=".5s" strokeWidth="8" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-x-0 top-0 h-full w-full z-40" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
 <!-- main-content  -->
 <form class="w-full flex items-end flex-wrap p-ngCss"  [formGroup]="createStreamForm">
   <div class="w-full lg:w-1/2 px-2 pt-5 pb-0.5 inputHolder relative">
@@ -21,9 +22,9 @@
     </span>
   </div>
   <div class="w-full px-2 pt-5 pb-0.5 relative">
-    <span class="input-titel">Event Description</span>
+    <span class="input-titel">Event Description <i class="text-xs font-medium" [ngClass]="{'text-magicPotion' : textEditor}">( {{textEditorLimit}} characters out of {{textEditorMaxLimit}} )</i></span>
     <div class="w-full bg-white rounded">
-      <ckeditor (ready)="onTextEditorReady($event, 'event_description')" [config]="editorConfig" [editor]="detailEditor" [formControlName]="'event_description'" class="h-44 text-editor" id="event_description" name="event_description"></ckeditor>
+      <ckeditor (ready)="onTextEditorReady($event, 'event_description')" (keyup)="editorCharacterSet()" [config]="editorConfig" [editor]="detailEditor" [formControlName]="'event_description'" class="h-44 text-editor" id="event_description" name="event_description"></ckeditor>
     </div>
     <!-- <textarea name="event_description" formControlName="event_description" cols="30" rows="4" class="outline-none flex items-center w-full bg-white p-3 rounded-md placeholder:text-sm placeholder:text-[#a6a6a6] placeholder:font-bold" placeholder="Type here"></textarea> -->
     <span class="absolute top-full text-red-500 text-xs" *ngIf="createStreamForm.get('event_description')?.invalid && (createStreamForm.get('event_description')?.dirty && createStreamForm.get('event_description')?.touched)">
@@ -36,7 +37,7 @@
     <span class="input-titel">Start Date<span>*</span></span>
     <label class="bg-white rounded-md flex space-x-3 relative">
       <i class="icon-calendar-2 text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0 z-10"></i>
-      <p-calendar class="input w-full" formControlName="event_date" [touchUI]="true" [minDate]="minDateValue" name="event_date" inputId="event_date"></p-calendar>
+      <p-calendar class="input w-full" formControlName="event_date" [touchUI]="true" [minDate]="minStartDateValue" [defaultDate]="minStartDateValue" [dateFormat]="'dd/mm/yy'" name="event_date" inputId="event_date"></p-calendar>
     </label>
     <span class="absolute top-full text-red-500 text-xs" *ngIf="createStreamForm.get('event_date')?.invalid && (createStreamForm.get('event_date')?.dirty && createStreamForm.get('event_date')?.touched)">
       <span *ngIf="createStreamForm.get('event_date')?.errors?.['required']">
@@ -48,7 +49,7 @@
     <span class="input-titel">Start Time</span>
     <label class="bg-white rounded-md flex space-x-3 relative">
       <i class="icon-time text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0"></i>
-      <p-calendar class="w-4/5" [formControlName]="'event_start_time'" name="event_start_time" [showTime]="true" [timeOnly]="true" inputId="event_start_time"></p-calendar>
+      <p-calendar class="w-4/5" [formControlName]="'event_start_time'" name="event_start_time" [showTime]="true" [hourFormat]="'12'" [timeOnly]="true" inputId="event_start_time"></p-calendar>
     </label>
     <span class="absolute top-full text-red-500 text-xs" *ngIf="createStreamForm.get('event_start_time')?.invalid && (createStreamForm.get('event_start_time')?.dirty && createStreamForm.get('event_start_time')?.touched)">
       <span *ngIf="createStreamForm.get('event_start_time')?.errors?.['required']">
@@ -60,7 +61,7 @@
     <span class="input-titel">End Time</span>
     <label class="bg-white rounded-md flex space-x-3 relative">
       <i class="icon-time text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0"></i>
-      <p-calendar class="w-4/5" [formControlName]="'event_end_time'" name="event_end_time" [showTime]="true" [timeOnly]="true" inputId="event_end_time"></p-calendar>
+      <p-calendar class="w-4/5" [formControlName]="'event_end_time'" name="event_end_time" [showTime]="true" [hourFormat]="'12'" [timeOnly]="true" inputId="event_end_time"></p-calendar>
     </label>
     <span class="absolute top-full text-red-500 text-xs" *ngIf="createStreamForm.get('event_end_time')?.invalid && (createStreamForm.get('event_end_time')?.dirty && createStreamForm.get('event_end_time')?.touched)">
       <span *ngIf="createStreamForm.get('event_end_time')?.errors?.['required']">

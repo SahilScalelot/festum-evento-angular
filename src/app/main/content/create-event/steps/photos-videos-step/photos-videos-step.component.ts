@@ -51,6 +51,12 @@ export class PhotosVideosStepComponent implements OnInit {
   videosFiles: File[] = [];
   descriptionLimit: any = 0;
 
+  isOpenPopup: boolean = false;
+  isSingleVideo: boolean = false;
+  companyIAndV: boolean = false;
+  isImage: boolean = false;
+  imagesOrVideosArr: Array<any> = [];
+
   constructor(
     private _modalService: ModalService,
     private _formBuilder: FormBuilder,
@@ -451,6 +457,18 @@ export class PhotosVideosStepComponent implements OnInit {
     this.posterImageAndVideoObj[this.deleteItemObj.type + 's'].splice(this.deleteItemObj.index, 1);
     this.isDeleteLoading = false;
     this.close();
+  }
+
+  openImageAndVideoDialog(imagesOrVideosArr: Array<any>, isImage: boolean, companyIAndV: boolean): void {
+    this.imagesOrVideosArr = imagesOrVideosArr;
+    this.isImage = isImage;
+    this.companyIAndV = companyIAndV;
+    // this.isSingleVideo = isSingleVideo;
+    this.isOpenPopup = true;
+  }
+  
+  closePop(flag: boolean): void {
+    this.isOpenPopup = flag;
   }
 
 }

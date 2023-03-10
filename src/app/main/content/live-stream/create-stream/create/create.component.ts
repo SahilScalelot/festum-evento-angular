@@ -21,12 +21,17 @@ export class CreateComponent implements OnInit {
   createStreamForm: any;
   liveStreamId: any = '';
   minDateValue: any = new Date();
+  minStartDateValue: any = '';
   isLoading: boolean = false;
 
   eventCategories: any = [];
 
   detailEditor = DecoupledEditor;
   editorConfig: any = {};
+
+  textEditor: boolean = false;
+  textEditorMaxLimit: any = this.constants.CKEditorCharacterLimit3;
+  textEditorLimit: any = 0;
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -39,12 +44,23 @@ export class CreateComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    const todayDate = new Date();
+    const minSetDate = new Date('06-01-2023');
+    this.minStartDateValue = (todayDate >= minSetDate) ? this.minDateValue : minSetDate;
+
     this._prepareLiveStreamForm();
     this.getCategories();
     this.liveStreamId = localStorage.getItem('lsId');
     if (this.liveStreamId && this.liveStreamId != '') {
       this.getLiveStreamById(this.liveStreamId);
     }
+  }
+
+  editorCharacterSet(): any {
+    const textfield = this.createStreamForm?.get('event_description')?.value;
+    const stringOfCKEditor = this._globalFunctions.getPlainText(textfield);
+    this.textEditorLimit = stringOfCKEditor.length;
+    this.textEditor = (stringOfCKEditor.length > this.textEditorMaxLimit);
   }
 
   onTextEditorReady(editor: any, fieldForSetData: any): void {
@@ -101,15 +117,17 @@ export class CreateComponent implements OnInit {
   prepareLiveStreamObj(liveStreamObj: any = {}): any {
     const preparedOnlineShopOfferObj: any = this._globalFunctions.copyObject(liveStreamObj);
     preparedOnlineShopOfferObj.event_date = moment(liveStreamObj.event_date).format('YYYY-MM-DD');
-    preparedOnlineShopOfferObj.event_start_time = this.prepareTime(liveStreamObj.event_start_time);
-    preparedOnlineShopOfferObj.event_end_time = this.prepareTime(liveStreamObj.event_end_time);
+    // preparedOnlineShopOfferObj.event_start_time = this.prepareTime(liveStreamObj.event_start_time);
+    // preparedOnlineShopOfferObj.event_end_time = this.prepareTime(liveStreamObj.event_end_time);
+    preparedOnlineShopOfferObj.event_start_time = this.prepareTime(moment(liveStreamObj.event_start_time, 'hh:mm a'));
+    preparedOnlineShopOfferObj.event_end_time = this.prepareTime(moment(liveStreamObj.event_end_time, 'hh:mm a'));
     return preparedOnlineShopOfferObj;
   }
 
   prepareTime(dateWithTime: any): any {
     const date: any = new Date(dateWithTime);
     if (date != 'Invalid Date') {
-      return dateWithTime.getHours() + ':' + dateWithTime.getMinutes();
+      return date.getHours() + ':' + date.getMinutes();
     }
     return dateWithTime;
   }
@@ -119,6 +137,16 @@ export class CreateComponent implements OnInit {
     //   this._sNotify.error('Notification Date is required!', 'Oops!');
     //   return false;
     // }
+    const preparedStartTime: any = this.prepareTime(this.createStreamForm.value.event_start_time);
+    const preparedEndTime: any = this.prepareTime(this.createStreamForm.value.event_end_time);
+    const startTime = moment(preparedStartTime, 'hh:mm a');
+    const endTime = moment(preparedEndTime, 'hh:mm a');
+    if (!startTime.isBefore(endTime) || startTime.isSame(endTime)) {
+      this.isLoading = false;
+      this.createStreamForm.enable();
+      this._sNotify.error('Start time is must before End time Or Both time should not same', 'Oops');
+      return false;
+    }
     return true;
   }
 
@@ -131,6 +159,10 @@ export class CreateComponent implements OnInit {
       return;
     }
     if (!this.validateLiveStreamObj(this.createStreamForm.value)) {
+      return;
+    }
+    this.editorCharacterSet();
+    if (this.textEditorLimit && this.textEditorMaxLimit && this.textEditorLimit > this.textEditorMaxLimit) {
       return;
     }
     this.isLoading = true;
@@ -156,19 +188,25 @@ export class CreateComponent implements OnInit {
 
   private _prepareLiveStreamForm(liveStreamObj: any = {}): void {
     this.createStreamForm = this._formBuilder.group({
-      livestreamid: [this.liveStreamId || ''],
-      event_name: [liveStreamObj?.event_name || '', [Validators.required]],
-      event_category: [liveStreamObj?.event_category?._id || '', [Validators.required]],
-      event_description: [liveStreamObj?.event_description || '', [Validators.required]],
-      event_date: [liveStreamObj && liveStreamObj.event_date ? new Date(liveStreamObj?.event_date) : '', [Validators.required]],
-      event_start_time: [liveStreamObj?.event_start_time || '', [Validators.required]],
-      event_end_time: [liveStreamObj?.event_end_time || '', [Validators.required]],
-      event_type: [liveStreamObj?.event_type || 'free', [Validators.required]],
-      price_per_user: [liveStreamObj?.price_per_user || '', [Validators.required]],
+      livestreamid         : [this.liveStreamId || ''],
+      event_name           : [liveStreamObj?.event_name || '', [Validators.required]],
+      event_category       : [liveStreamObj?.event_category?._id || '', [Validators.required]],
+      event_description    : [liveStreamObj?.event_description || '', [Validators.required]],
+      event_date           : [liveStreamObj && liveStreamObj.event_date ? new Date(liveStreamObj?.event_date) : '', [Validators.required]],
+      event_start_time     : [(liveStreamObj?.event_start_time) ? moment(liveStreamObj?.event_start_time, 'hh:mm').format('hh:mm a') : '', [Validators.required]],
+      event_end_time       : [(liveStreamObj?.event_end_time) ? moment(liveStreamObj?.event_end_time, 'hh:mm').format('hh:mm a') : '', [Validators.required]],
+      // event_start_time  : [liveStreamObj?.event_start_time || '', [Validators.required]],
+      // event_end_time    : [liveStreamObj?.event_end_time || '', [Validators.required]],
+      event_type           : [liveStreamObj?.event_type || 'free', [Validators.required]],
+      price_per_user       : [liveStreamObj?.price_per_user || '', [Validators.required]],
     });
     setTimeout(() => {
       this.onEventTypeChange(liveStreamObj?.event_type || 'free');
     }, 0);
+    
+    if (liveStreamObj?.event_description) {
+      this.editorCharacterSet();
+    } 
   }
 
 }

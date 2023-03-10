@@ -9,7 +9,10 @@
     </label>
   </div>
   <div class="media-upload-holder pt-5">
-    <span class="text-sm text-quicksilver font-semibold">Add Photos <span class="font-normal">(15 Images - up to 3MB/Image)</span></span>
+    <div class="flex items-center justify-between">
+      <span class="text-sm text-quicksilver font-semibold">Add Photos <span class="font-normal">(15 Images - up to 3MB/Image)</span></span>
+      <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(posterImageAndVideoObj.photos, true, false)">View All</a>
+    </div>
     <div class="flex flex-wrap h-full pt-2">
       <div *ngFor="let photo of posterImageAndVideoObj.photos; let i = index" class="upload-box mr-2.5 mb-2.5">
         <div class="rounded relative overflow-hidden h-full w-full">
@@ -27,7 +30,10 @@
     </div>
   </div>
   <div class="media-upload-holder">
-    <span class="text-sm text-quicksilver font-semibold">Add Video <span class="font-normal">(2 videos - up to 512MB/Video)</span></span>
+    <div class="flex items-center justify-between">
+      <span class="text-sm text-quicksilver font-semibold">Add Video <span class="font-normal">(2 videos - up to 512MB/Video)</span></span>
+      <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(posterImageAndVideoObj.videos, false, false)">View All</a>
+    </div>
     <div class="flex space-x-2.5 h-full pt-2">
       <div *ngFor="let video of posterImageAndVideoObj.videos; let i = index" class="upload-box">
         <div class="rounded relative overflow-hidden h-full w-full">
@@ -165,3 +171,5 @@
     </div>
   </div>
 </modal>
+
+<app-image-and-video-preview *ngIf="isOpenPopup" (openClosePopup)="closePop($event)" [isSingleVideo]="isSingleVideo" [isImageOrVideoFlag]="isImage" [isCompanyImagesAndVideo]="companyIAndV" [expectedProp]="imagesOrVideosArr"></app-image-and-video-preview>

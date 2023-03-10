@@ -1,4 +1,5 @@
-<!-- <p-progressSpinner *ngIf="isLoading" [style]="{width: '50px', height: '50px'}" animationDuration=".5s" strokeWidth="8" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-x-0 top-0 h-full w-full z-40" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner> -->
+<p-progressSpinner *ngIf="isLoading" [style]="{width: '50px', height: '50px'}" animationDuration=".5s" strokeWidth="8" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-x-0 top-0 h-full w-full z-40" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
+
 <div class="wrapper">
   <div class="flex flex-wrap items-center">
     <h2>Live Stream</h2>
@@ -7,48 +8,50 @@
     </div>
   </div>
 
-  <div class="space-y-5 pt-10" *ngIf="!isLoading">
-    <div class="w-full flex items-center cursor-pointer" *ngFor="let liveStream of liveStreamObj" (click)="liveStreamOverview($event, liveStream?._id)">
-      <div class="w-full p-4 pr-7 bg-white rounded">
-        <div class="flex flex-wrap lg:flex-nowrap lg:space-x-5">
-          <div class="relative w-full lg:max-w-[335px] overflow-hidden rounded">
-            <span class="absolute py-1.5 px-3 top-0 left-0 bg-magicPotion text-white uppercase rounded text-xs" [ngClass]="{'hidden': !liveStream?.status}">Live</span>
-            <img [src]="!!(liveStream?.photos[0]?.url) ? constants.baseImageURL + liveStream.photos[0].url : constants.defaultImage" [alt]="liveStream?.event_name" class="w-full h-full object-cover pb-5 lg:pb-0 lg:absolute" />
-          </div>
-          <div class="w-full pt-5 lg:pt-0">
-            <div class="flex justify-between border-b-2 pb-4">
-              <div class="">
-                <h4 class="text-japaneseIndigo">{{liveStream?.event_name}}</h4>
-                <div class="flex pt-3">
-                  <div class="">
-                    <div class="text-sm font-semibold text-quicksilver pt-3"><i class="icon-calendar-2 mr-3"></i>Date</div>
-                    <span class="text-japaneseIndigo text-sm font-bold">{{liveStream?.event_date | date:'dd MMM, yyyy'}}</span>
-                  </div>
-                  <div class="border-l-2 border-brightGray pl-3 lg:pl-7 ml-3 lg:ml-7">
-                    <div class="text-sm font-semibold text-quicksilver pt-3"><i class="icon-time mr-3"></i>Time</div>
-                    <span class="text-japaneseIndigo text-sm font-bold uppercase">{{liveStream?.event_start_time | convertFrom24To12Format}} - {{liveStream?.event_end_time | convertFrom24To12Format}}</span>
+  <div class="space-y-5 pt-10">
+    <div class="space-y-5" *ngIf="!isLoading">
+      <div class="w-full flex items-center cursor-pointer" *ngFor="let liveStream of liveStreamObj" (click)="liveStreamOverview($event, liveStream?._id)">
+        <div class="w-full p-4 pr-7 bg-white rounded">
+          <div class="flex flex-wrap lg:flex-nowrap lg:space-x-5">
+            <div class="relative w-full lg:max-w-[335px] overflow-hidden rounded">
+              <span class="absolute py-1.5 px-3 top-0 left-0 bg-magicPotion text-white uppercase rounded text-xs" [ngClass]="{'hidden': !liveStream?.status}">Live</span>
+              <img [src]="!!(liveStream?.photos[0]?.url) ? constants.baseImageURL + liveStream.photos[0].url : constants.defaultImage" [alt]="liveStream?.event_name" class="w-full h-full object-cover pb-5 lg:pb-0 lg:absolute" />
+            </div>
+            <div class="w-full pt-5 lg:pt-0">
+              <div class="flex justify-between border-b-2 pb-4">
+                <div class="">
+                  <h4 class="text-japaneseIndigo">{{liveStream?.event_name}}</h4>
+                  <div class="flex pt-3">
+                    <div class="">
+                      <div class="text-sm font-semibold text-quicksilver pt-3"><i class="icon-calendar-2 mr-3"></i>Date</div>
+                      <span class="text-japaneseIndigo text-sm font-bold">{{liveStream?.event_date | date:'dd MMM, yyyy'}}</span>
+                    </div>
+                    <div class="border-l-2 border-brightGray pl-3 lg:pl-7 ml-3 lg:ml-7">
+                      <div class="text-sm font-semibold text-quicksilver pt-3"><i class="icon-time mr-3"></i>Time</div>
+                      <span class="text-japaneseIndigo text-sm font-bold uppercase">{{liveStream?.event_start_time | convertFrom24To12Format}} - {{liveStream?.event_end_time | convertFrom24To12Format}}</span>
+                    </div>
                   </div>
                 </div>
+                <div class="text-right">
+                  <button class="bg-quicksilver rounded-md font-bold text-white text-base border anim px-5 py-2 uppercase"
+                    [ngClass]="{'secondary': liveStream?.status}"
+                  ><i class="icon-live mr-3"></i>go live</button>
+                  <p class="capitalize text-magicPotion font-semibold pt-5" [ngClass]="{'text-caribbeanGreen': liveStream?.status}">{{liveStream?.event_type}} live streaming</p>
+                </div>
               </div>
-              <div class="text-right">
-                <button class="bg-quicksilver rounded-md font-bold text-white text-base border anim px-5 py-2 uppercase"
-                  [ngClass]="{'secondary': liveStream?.status}"
-                ><i class="icon-live mr-3"></i>go live</button>
-                <p class="capitalize text-magicPotion font-semibold pt-5" [ngClass]="{'text-caribbeanGreen': liveStream?.status}">{{liveStream?.event_type}} live streaming</p>
-              </div>
-            </div>
-            <div class="flex justify-between pt-4">
-              <div class="flex items-center space-x-1">
-                <p-rating [(ngModel)]="liveStream.ratings" [readonly]="true" [cancel]="false"></p-rating>
-                <span class="text-quicksilver text-xs font-bold pl-2"> {{liveStream?.totalreview}} ratings</span>
-              </div>
-              <div class="flex space-x-2">
-                <!-- <a href="javascript:void(0);" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-time_revarse text-base text-japaneseIndigo"></i></a> -->
-                <a href="javascript:void(0);" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-show text-base text-japaneseIndigo"></i></a>
-                <a href="javascript:void(0);" (click)="editLiveStream($event, liveStream?._id)" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-edit text-base text-japaneseIndigo"></i></a>
-                <!-- <a href="javascript:void(0);" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-fill_megaphone text-base text-japaneseIndigo"></i></a> -->
-                <!-- <a href="javascript:void(0);" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-share text-base text-japaneseIndigo"></i></a> -->
-                <a href="javascript:void(0);" (click)="openDeleteDialog($event, liveStream)" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-delete_fill text-base text-japaneseIndigo"></i></a>                
+              <div class="flex justify-between pt-4">
+                <div class="flex items-center space-x-1">
+                  <p-rating [(ngModel)]="liveStream.ratings" [readonly]="true" [cancel]="false"></p-rating>
+                  <span class="text-quicksilver text-xs font-bold pl-2"> {{liveStream?.totalreview}} ratings</span>
+                </div>
+                <div class="flex space-x-2">
+                  <!-- <a href="javascript:void(0);" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-time_revarse text-base text-japaneseIndigo"></i></a> -->
+                  <a href="javascript:void(0);" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-show text-base text-japaneseIndigo"></i></a>
+                  <a href="javascript:void(0);" (click)="editLiveStream($event, liveStream?._id)" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-edit text-base text-japaneseIndigo"></i></a>
+                  <!-- <a href="javascript:void(0);" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-fill_megaphone text-base text-japaneseIndigo"></i></a> -->
+                  <!-- <a href="javascript:void(0);" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-share text-base text-japaneseIndigo"></i></a> -->
+                  <a href="javascript:void(0);" (click)="openDeleteDialog($event, liveStream)" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-delete_fill text-base text-japaneseIndigo"></i></a>                
+                </div>
               </div>
             </div>
           </div>
@@ -56,7 +59,6 @@
       </div>
     </div>
 
-    <p *ngIf="!liveStreamObj || !liveStreamObj?.length">No Offers Records Found, Create new Offers.</p>
     <div class="flex flex-wrap items-center justify-center" *ngIf="liveStreamObj && liveStreamObj?.length">
       <!-- <div class="pagination-festum py-2"><p class="show-text">Showing {{offset}} to {{(((offset - 1) + perPageLimit) < pTotal) ? (offset - 1) + perPageLimit : pTotal}} Of {{ pTotal }} Events.</p></div> -->
       <p-paginator [rows]="paging?.limit" [totalRecords]="paging?.totalDocs" [rowsPerPageOptions]="[10, 20, 30, 50]" (onPageChange)="getLiveStreamObj($event)"></p-paginator>
@@ -67,6 +69,11 @@
       <img src="/assets/images/banner-ads.png" alt="ring-ad" class="w-full object-cover" />
     </div>
     <!-- advisement end-->
+  </div>
+  
+  <div class="bg-white rounded-md text-center p-9 space-y-2" *ngIf="!liveStreamObj || !liveStreamObj?.length">
+    <h4 class="w-full">You have no streams yet.</h4>
+    <p class="">Create an stream using the Create new stream button on the top right of the page..</p>
   </div>
 </div>
 

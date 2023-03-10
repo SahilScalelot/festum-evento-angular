@@ -8,9 +8,9 @@ import { ValidNumberWithDecimalDirective } from "../directives/valid-number-with
 import { ImageAndVideoPreviewComponent } from '../main/content/dialogs/image-and-video-preview/image-and-video-preview.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ValidAlphabetDirective } from '../directives/valid-alphabet.directive';
-import { TermsAndConditionsComponent } from '../main/common/terms-and-conditions/terms-and-conditions.component';
 import { TooltipModule } from 'primeng/tooltip';
-import {MatTooltipModule} from '@angular/material/tooltip';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { TermsAndConditionsComponent } from '../main/common/terms-and-conditions/terms-and-conditions.component';
 import { PrivacyPolicyComponent } from '../main/common/privacy-policy/privacy-policy.component';
 
 
