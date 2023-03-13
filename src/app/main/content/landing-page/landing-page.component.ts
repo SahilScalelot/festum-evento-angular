@@ -86,6 +86,10 @@ export class LandingPageComponent implements OnInit {
     this.getUpcomingStreams();
   }
 
+  // On Click to scroll
+  scrollToElement($element: any): void {
+    $element.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+  }
 
   onSlideChange() {
     // console.log('slide change');
@@ -136,7 +140,7 @@ export class LandingPageComponent implements OnInit {
         });
         _.each(result.Data.onlineoffer, (offer: any) => {
           this.upcomingOfferList.push(offer);
-        });        
+        });
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
       }

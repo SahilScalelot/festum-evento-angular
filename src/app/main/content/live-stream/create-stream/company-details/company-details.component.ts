@@ -23,6 +23,8 @@ export class CompanyDetailsComponent implements OnInit {
   isInvalidPDF: boolean = false;
   isPdfLoading: boolean = false;
 
+  pincodeValidationObj: any = '';
+  
   constructor(
     private _formBuilder: FormBuilder,
     private _router: Router,
@@ -67,6 +69,36 @@ export class CompanyDetailsComponent implements OnInit {
       this._globalFunctions.errorHanding(error, this, true);
       this.isLoading = false;
     });
+  }
+
+  pincodeValidation(pincode: any = ''): any {
+    if (pincode && pincode != '') {
+      this._globalService.pincodeValidation(pincode).subscribe((result: any) => {
+        if (result && result[0] && result[0].Status) {
+          const formName = this.companyForm;
+          if (result[0].Status == 'Success') {
+            this.pincodeValidationObj = result[0].PostOffice[0];
+            const companyFormValueObj = formName?.value || {};
+
+            formName.markAsTouched();
+            formName?.get('city')?.markAsTouched();
+            formName?.get('state')?.markAsTouched();
+            formName?.get('pincode')?.markAsTouched();
+            formName?.controls['city']?.markAsDirty();
+            formName?.controls['state']?.markAsDirty();
+            formName?.controls['pincode']?.markAsDirty();
+
+            formName?.controls['city']?.setErrors((this.pincodeValidationObj?.District && companyFormValueObj?.city && (this.pincodeValidationObj.District).toLowerCase() != (companyFormValueObj?.city).toLowerCase()) ? {'not_match': true} : null);
+            formName?.controls['state']?.setErrors((this.pincodeValidationObj?.State && companyFormValueObj?.state && (this.pincodeValidationObj.State).toLowerCase() != (companyFormValueObj?.state).toLowerCase()) ? {'not_match': true} : null);
+            formName?.controls['pincode']?.setErrors((this.pincodeValidationObj?.Pincode && companyFormValueObj?.pincode && this.pincodeValidationObj.Pincode != companyFormValueObj?.pincode) ? {'not_match': true} : null);
+          } else if (result[0].Status == 'Error') {
+            formName?.controls['pincode']?.setErrors({'pattern': true});
+          }          
+        }
+      }, (error: any) => {
+        this._globalFunctions.errorHanding(error, this, true);
+      });
+    }
   }
 
   onChangePDF(event: any): any {

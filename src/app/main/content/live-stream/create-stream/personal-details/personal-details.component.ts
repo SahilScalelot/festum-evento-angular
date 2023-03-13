@@ -19,6 +19,8 @@ export class PersonalDetailsComponent implements OnInit {
   constants: any = CONSTANTS;
   isLoading: boolean = false;
 
+  pincodeValidationObj: any = '';
+
   constructor(
     private _formBuilder: FormBuilder,
     private _router: Router,
@@ -71,6 +73,36 @@ export class PersonalDetailsComponent implements OnInit {
     });
   }
 
+  pincodeValidation(pincode: any = ''): any {
+    if (pincode && pincode != '') {
+      this._globalService.pincodeValidation(pincode).subscribe((result: any) => {
+        if (result && result[0] && result[0].Status) {
+          const formName = this.personalDetailForm;
+          if (result[0].Status == 'Success') {
+            this.pincodeValidationObj = result[0].PostOffice[0];
+            const companyFormValueObj = formName?.value || {};
+
+            formName.markAsTouched();
+            formName?.get('city')?.markAsTouched();
+            formName?.get('state')?.markAsTouched();
+            formName?.get('pincode')?.markAsTouched();
+            formName?.controls['city']?.markAsDirty();
+            formName?.controls['state']?.markAsDirty();
+            formName?.controls['pincode']?.markAsDirty();
+
+            formName?.controls['city']?.setErrors((this.pincodeValidationObj?.District && companyFormValueObj?.city && (this.pincodeValidationObj.District).toLowerCase() != (companyFormValueObj?.city).toLowerCase()) ? {'not_match': true} : null);
+            formName?.controls['state']?.setErrors((this.pincodeValidationObj?.State && companyFormValueObj?.state && (this.pincodeValidationObj.State).toLowerCase() != (companyFormValueObj?.state).toLowerCase()) ? {'not_match': true} : null);
+            formName?.controls['pincode']?.setErrors((this.pincodeValidationObj?.Pincode && companyFormValueObj?.pincode && this.pincodeValidationObj.Pincode != companyFormValueObj?.pincode) ? {'not_match': true} : null);
+          } else if (result[0].Status == 'Error') {
+            formName?.controls['pincode']?.setErrors({'pattern': true});
+          }          
+        }
+      }, (error: any) => {
+        this._globalFunctions.errorHanding(error, this, true);
+      });
+    }
+  }
+
   nextStep(): any {
     if (this.personalDetailForm.invalid) {
       Object.keys(this.personalDetailForm.controls).forEach((key) => {
@@ -115,6 +147,7 @@ export class PersonalDetailsComponent implements OnInit {
       city: [companyDetailObj?.city || '', [Validators.required]],
       pincode: [companyDetailObj?.pincode || '', [Validators.required, Validators.pattern('^[1-9]{1}[0-9]{2}\\s{0,1}[0-9]{3}$')]],
     });
+    this.pincodeValidation(this.personalDetailForm.value.pincode);
   }
 
 }
