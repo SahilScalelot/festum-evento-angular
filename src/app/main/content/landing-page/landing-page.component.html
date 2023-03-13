@@ -203,11 +203,11 @@
                         </svg>
                       </div>
                     </div>
-                    <h2 class="text-ev-dark text-lg xl:text-2xl font-semibold py-2">{{upcomingEvent?.name}}</h2>
+                    <h2 class="text-ev-dark text-lg xl:text-2xl font-semibold py-2 truncate" [title]="upcomingEvent?.name">{{upcomingEvent?.name}}</h2>
                     <div class="flex pt-4 border-t border-[#dddddd]">
                       <span class="p-1 px-2 bg-ev-red text-sm text-white mr-3">{{constants?.eventTypeArr[constants?.eventTypeObj[upcomingEvent?.event_type]]?.displayLabel}}</span>
                       <div class="flex items-center space-x-3 w-full">
-                        <p class="text-sm truncate w-2/5">{{upcomingEvent?.event_category?.categoryname}}</p>
+                        <p class="text-sm truncate w-2/5" [title]="upcomingEvent?.event_category?.categoryname">{{upcomingEvent?.event_category?.categoryname}}</p>
                         <div class="h-2 w-2/5 sold-seats-progress-bar">
                           <p-progressBar [styleClass]="'h-2'" color="bg-black" [value]="((upcomingEvent?.total_booked_seats || 0) * 100) / (upcomingEvent?.total_seats || 0)" [showValue]="false"></p-progressBar>
                         </div>
@@ -243,12 +243,12 @@
                         </svg>
                       </div>
                     </div>
-                    <h2 class="text-ev-dark text-lg xl:text-2xl font-semibold py-2">{{upcomingOffer?.offer_title ? upcomingOffer?.offer_title : upcomingOffer?.product_name}}</h2>
+                    <h2 class="text-ev-dark text-lg xl:text-2xl font-semibold py-2 truncate w-full" [title]="upcomingOffer?.offer_title ? upcomingOffer?.offer_title : upcomingOffer?.product_name">{{upcomingOffer?.offer_title ? upcomingOffer?.offer_title : upcomingOffer?.product_name}}</h2>
                     <div class="flex pt-4 border-t border-[#dddddd]">
                       <span class="p-1 px-2 bg-ev-red text-sm text-white mr-3 whitespace-nowrap">{{upcomingOffer.shopid ? 'Offline' : 'Online'}} Offer</span>
-                      <div class="flex items-center space-x-3 w-full">
-                        <p class="text-sm truncate w-1/2" [title]="upcomingOffer?.shopid?.shop_name ? upcomingOffer?.shopid?.shop_name : upcomingOffer?.shop_name">{{upcomingOffer?.shopid?.shop_name ? upcomingOffer?.shopid?.shop_name : upcomingOffer?.shop_name}}</p>
-                        <p class="text-[#999999] text-sm font-bold whitespace-nowrap text-right w-1/2">{{upcomingOffer?.start_date | date:'dd MMM, yyyy'}} - {{upcomingOffer?.end_date | date:'dd MMM, yyyy'}}</p>
+                      <div class="flex items-center space-x-3 w-full max-w-[calc(100%-92px)]">
+                        <p class="text-sm truncate w-2/5" [title]="upcomingOffer?.shopid?.shop_name ? upcomingOffer?.shopid?.shop_name : upcomingOffer?.shop_name">{{upcomingOffer?.shopid?.shop_name ? upcomingOffer?.shopid?.shop_name : upcomingOffer?.shop_name}}</p>
+                        <p class="text-[#999999] text-sm font-bold whitespace-nowrap text-right">{{upcomingOffer?.start_date | date:'dd MMM, yyyy'}} - {{upcomingOffer?.end_date | date:'dd MMM, yyyy'}}</p>
                       </div>
                     </div>
                   </div>
