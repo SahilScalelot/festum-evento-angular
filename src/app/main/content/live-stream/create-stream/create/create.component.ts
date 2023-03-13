@@ -30,7 +30,7 @@ export class CreateComponent implements OnInit {
   editorConfig: any = {};
 
   textEditor: boolean = false;
-  textEditorMaxLimit: any = this.constants.CKEditorCharacterLimit3;
+  textEditorMaxLimit: any = this.constants.CKEditorCharacterLimit1;
   textEditorLimit: any = 0;
 
   constructor(
