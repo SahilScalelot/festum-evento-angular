@@ -261,16 +261,16 @@
         </span>
       </div>
       <div class="block w-full relative pt-4">
-        <label class="inline-flex items-end cursor-pointer">
+        <label class="inline-flex items-end cursor-pointer" (click)="tAndCPop()">
           <div class="checkbox rounded bg-white">
-            <input type="checkbox" [formControlName]="'status'" name="status"/>
+            <input type="checkbox" [formControlName]="'status'" name="status" [checked]="false" />
             <i class="icon-right text-white"></i>
           </div>
-          <span class="input-titel text-base ml-4">Accept Your Terms and Conditions</span>
+          <span class="input-titel text-base ml-4">Agree with our terms and conditions</span>
         </label>
-        <span class="absolute top-full text-red-500 text-xs ml-0 left-0" *ngIf="tandcForm.get('status')?.invalid && (tandcForm.get('status')?.dirty && tandcForm.get('status')?.touched)">
+        <span class="absolute top-full left-0 text-red-500 text-xs" *ngIf="tandcForm.get('status')?.invalid && (tandcForm.get('status')?.dirty && tandcForm.get('status')?.touched)">
           <span *ngIf="tandcForm.get('status')?.errors?.['required']">
-            Please accept your terms and conditions.
+            Accepting Terms and Conditions is Required.
           </span>
         </span>
       </div>
@@ -376,13 +376,13 @@
       </div>
     </div>
     <div class="flex justify-between pt-5">
-        <button class="flex items-center" type="button" (click)="popClose('tAndC');">
-          <i class="icon-left_arrow mr-3"></i><h5>back</h5>
-        </button>
-        <button (click)="addEditOnlineShopOffer()" class="secondary py-3 px-5 uppercase text-lg font-bold" [disabled]="isLoading || isImgLoading || isPdfLoading || isInValidPDF || isSaveLoading">Save</button>
-        <div class="absolute inset-0 text-white flex items-center" *ngIf="isSaveLoading">
-          <mat-progress-spinner [diameter]="22" [mode]="'indeterminate'" class="mx-auto"></mat-progress-spinner>
-        </div>
+      <button class="flex items-center" type="button" (click)="popClose('tAndC');">
+        <i class="icon-left_arrow mr-3"></i><h5>back</h5>
+      </button>
+      <button (click)="addEditOnlineShopOffer()" class="secondary py-3 px-5 uppercase text-lg font-bold" [disabled]="isLoading || isImgLoading || isPdfLoading || isInValidPDF || isSaveLoading">Save</button>
+      <div class="absolute inset-0 text-white flex items-center" *ngIf="isSaveLoading">
+        <mat-progress-spinner [diameter]="22" [mode]="'indeterminate'" class="mx-auto"></mat-progress-spinner>
+      </div>
     </div>
   </form>
 </modal>
@@ -404,6 +404,17 @@
           <mat-progress-spinner [diameter]="22" [mode]="'indeterminate'" class="mx-auto"></mat-progress-spinner>
         </div>
       </div>
+    </div>
+  </div>
+</modal>
+
+<!-- T & C -->
+<modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="tandc" title="Terms and Conditions">
+  <div class="space-y-5 lg:space-y-8">
+    <app-terms-and-conditions></app-terms-and-conditions>
+    <div class="flex items-center space-x-5">
+      <button class="secondary w-full py-2 anim" accesskey="alt+tab" (click)="closePop()">CANCEL</button>
+      <button class="primary w-full py-2 anim" (click)="applyTAndC()">APPLY</button>
     </div>
   </div>
 </modal>

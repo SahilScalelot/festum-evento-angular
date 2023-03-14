@@ -8,6 +8,7 @@ import { SnotifyService } from 'ng-snotify';
 import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
 import * as moment from 'moment';
 import * as _ from 'lodash';
+import { ModalService } from 'src/app/main/_modal';
 declare var $: any;
 
 @Component({
@@ -19,6 +20,8 @@ export class AddEditShopOfferDialogComponent implements OnInit {
   offerObj: any;
   addEditOfferForm: any;
   constants: any = CONSTANTS;
+  minDateValue: any = new Date(new Date().setDate(new Date().getDate() + 2));
+  minStartDateValue: any = '';
   positiveMaxNumber: any = Number.POSITIVE_INFINITY;
   dropifyOption: any = {};
   editorConfig: any = {};
@@ -31,7 +34,6 @@ export class AddEditShopOfferDialogComponent implements OnInit {
   isUploadPosterLoading: boolean = false;
   isUploadVideoLoading: boolean = false;
   isUploadImageLoading: boolean = false;
-  minDateValue: any = new Date();
   offerImageArray: any = new Array(3);
   detailEditor = DecoupledEditor;
 
@@ -67,10 +69,15 @@ export class AddEditShopOfferDialogComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private _sNotify: SnotifyService,
     private _offlineShopsService: OfflineShopsService,
-    private _globalFunctions: GlobalFunctions
+    private _globalFunctions: GlobalFunctions,
+    private _modalService: ModalService,
   ) { }
 
   ngOnInit(): void {
+    const todayDate = new Date();
+    const minSetDate = new Date('06-01-2023');
+    this.minStartDateValue = (todayDate >= minSetDate) ? this.minDateValue : minSetDate;
+
     this._prepareOfferForm();
     this.editorConfig = CONSTANTS.editorConfig;
 
@@ -536,6 +543,24 @@ export class AddEditShopOfferDialogComponent implements OnInit {
       this.offerTypeConditions.removeAt(index.toString());
       this.offerTypeConditions.updateValueAndValidity();
     }
+  }
+
+  
+  tAndCPop(): void {
+    if (this.addEditOfferForm.value && this.addEditOfferForm.value.status == false) {
+      this.addEditOfferForm.get('status').setValue(false);
+      this._modalService.open("tandc");
+    }
+  }
+
+  closePop(): any {
+    this.addEditOfferForm.get('status').setValue(false);
+    this._modalService.close("tandc");
+  }
+
+  applyTAndC(): void {
+    this.addEditOfferForm.get('status').setValue(true);
+    this._modalService.close("tandc");
   }
 
   private _prepareOfferForm(offerObj: any = {}): void {

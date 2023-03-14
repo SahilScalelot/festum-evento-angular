@@ -487,6 +487,24 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
     }
   }
 
+  
+  tAndCPop(): void {
+    if (this.tandcForm.value && this.tandcForm.value.status == false) {
+      this.tandcForm.get('status').setValue(false);
+      this._modalService.open("tandc");
+    }
+  }
+
+  closePop(): any {
+    this.tandcForm.get('status').setValue(false);
+    this._modalService.close("tandc");
+  }
+
+  applyTAndC(): void {
+    this.tandcForm.get('status').setValue(true);
+    this._modalService.close("tandc");
+  }
+
   validatePlatformObj(): any {
     if (!this.platformObj.platformimage || this.platformObj.platformimage == '') {
       this._sNotify.error('Platform icon is required', 'Oops!');
@@ -559,7 +577,7 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
       pinterest: [addEditOfferObj?.tandc?.pinterest || ''],
       instagram: [addEditOfferObj?.tandc?.instagram || ''],
       linkedin: [addEditOfferObj?.tandc?.linkedin || ''],
-      status: [addEditOfferObj?.tandc?.status, [Validators.required]],
+      status: [false, [Validators.requiredTrue]],
     });
 
     if (addEditOfferObj?.description) {

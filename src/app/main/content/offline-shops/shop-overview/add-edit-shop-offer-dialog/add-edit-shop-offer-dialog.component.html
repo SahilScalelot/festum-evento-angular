@@ -18,7 +18,7 @@
             <span class="input-titel">Start Date <span>*</span></span>
             <label class="bg-white rounded-md flex space-x-3 relative">
               <i class="icon-calendar-2 text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0 z-10"></i>
-              <p-calendar class="w-full" [formControlName]="'start_date'" [touchUI]="true" [minDate]="minDateValue"
+              <p-calendar class="w-full" [formControlName]="'start_date'" [touchUI]="true" [minDate]="minDateValue" [defaultDate]="minStartDateValue" [dateFormat]="'dd/mm/yy'"
                           name="start_date" inputId="start_date"></p-calendar>
             </label>
             <span class="absolute top-full text-red-500 text-xs"
@@ -32,8 +32,7 @@
             <span class="input-titel">End Date <span>*</span></span>
             <label class="bg-white rounded-md flex space-x-3 relative">
               <i class="icon-calendar-2 text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0 z-10"></i>
-              <p-calendar class="w-full" [formControlName]="'end_date'" [touchUI]="true"
-                          [minDate]="addEditOfferForm.get('start_date').value ? addEditOfferForm.get('start_date').value : minDateValue"
+              <p-calendar class="w-full" [formControlName]="'end_date'" [touchUI]="true" [minDate]="addEditOfferForm.get('start_date').value ? addEditOfferForm.get('start_date').value : minDateValue" [defaultDate]="minStartDateValue"
                           name="end_date" inputId="end_date"></p-calendar>
             </label>
             <span class="absolute top-full text-red-500 text-xs"
@@ -285,33 +284,47 @@
           <div class="w-full bg-white rounded">
             <ckeditor (ready)="onTextEditorReady($event, 'tandc')" [config]="editorConfig" [editor]="detailEditor" [formControlName]="'tandc'" class="h-44 text-editor" id="tandc" name="tandc"></ckeditor>
           </div>
-          <span class="absolute top-full left-0 text-red-500 text-xs ml-0"
-                *ngIf="addEditOfferForm.get('tandc')?.invalid && (addEditOfferForm.get('tandc')?.dirty && addEditOfferForm.get('tandc')?.touched)">
+          <span class="absolute top-full left-0 text-red-500 text-xs ml-0" *ngIf="addEditOfferForm.get('tandc')?.invalid && (addEditOfferForm.get('tandc')?.dirty && addEditOfferForm.get('tandc')?.touched)">
             <span *ngIf="addEditOfferForm.get('tandc')?.errors?.['required']">
               Terms and conditions is required.
             </span>
           </span>
         </div>
-        <div class="block w-full">
-          <label class="inline-flex items-end cursor-pointer">
+        <div class="block w-full relative">
+          <label class="inline-flex items-end cursor-pointer" (click)="tAndCPop()">
             <div class="checkbox rounded bg-white">
-              <input type="checkbox" [formControlName]="'status'" name="status"/>
+              <input type="checkbox" [formControlName]="'status'" name="status" [checked]="false" />
               <i class="icon-right text-white"></i>
             </div>
-            <span class="input-titel text-base ml-4">Accept Your Terms and Conditions</span>
+            <span class="input-titel text-base ml-4">Agree with our terms and conditions</span>
           </label>
+          <span class="absolute top-full left-0 text-red-500 text-xs" *ngIf="addEditOfferForm.get('status')?.invalid && (addEditOfferForm.get('status')?.dirty && addEditOfferForm.get('status')?.touched)">
+            <span *ngIf="addEditOfferForm.get('status')?.errors?.['required']">
+              Accepting Terms and Conditions is Required.
+            </span>
+          </span>
         </div>
       </div>
       <div class="flex justify-between pt-5">
-          <button class="flex items-center" type="button" (click)="closeTermsAndConditionDialog()">
-            <i class="icon-left_arrow mr-3"></i><h5>back</h5>
-          </button>
-          <button (click)="addEditOffer()" class="secondary py-3 px-5 uppercase text-lg font-bold"
-                  [disabled]="isLoading || isUploadPosterLoading || isUploadImageLoading || isUploadVideoLoading || isSaveLoading || !addEditOfferForm.get('status').value">Save</button>
-          <div class="absolute inset-0 text-white flex items-center" *ngIf="isSaveLoading">
-            <mat-progress-spinner [diameter]="22" [mode]="'indeterminate'" class="mx-auto"></mat-progress-spinner>
-          </div>
+        <button class="flex items-center" type="button" (click)="closeTermsAndConditionDialog()">
+          <i class="icon-left_arrow mr-3"></i><h5>back</h5>
+        </button>
+        <button (click)="addEditOffer()" class="secondary py-3 px-5 uppercase text-lg font-bold" [disabled]="isLoading || isUploadPosterLoading || isUploadImageLoading || isUploadVideoLoading || isSaveLoading || !addEditOfferForm.get('status').value">Save</button>
+        <div class="absolute inset-0 text-white flex items-center" *ngIf="isSaveLoading">
+          <mat-progress-spinner [diameter]="22" [mode]="'indeterminate'" class="mx-auto"></mat-progress-spinner>
+        </div>
       </div>
     </div>
   </form>
 </div>
+
+<!-- T & C -->
+<modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="tandc" title="Terms and Conditions">
+  <div class="space-y-5 lg:space-y-8">
+    <app-terms-and-conditions></app-terms-and-conditions>
+    <div class="flex items-center space-x-5">
+      <button class="secondary w-full py-2 anim" accesskey="alt+tab" (click)="closePop()">CANCEL</button>
+      <button class="primary w-full py-2 anim" (click)="applyTAndC()">APPLY</button>
+    </div>
+  </div>
+</modal>
