@@ -14,5 +14,8 @@ export class EntertainmentService {
   getEntertainmentApi(): any {
     return this.http.get(environment.appURL + 'organizer/entertainment', this._globalFunctions.getAuthorizationHeader());
   }
+  getMyPostsApi(): any {
+    return this.http.get(environment.appURL + 'organizer/entertainment/myposts', this._globalFunctions.getAuthorizationHeader());
+  }
 
 }

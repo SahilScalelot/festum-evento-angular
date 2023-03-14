@@ -28,3 +28,8 @@ figcaption {
   column-count: 4;
   column-gap: 10px;
 }
+::ng-deep {
+  p-image .p-component.p-image-preview-container {
+    display: block !important;
+  }
+}

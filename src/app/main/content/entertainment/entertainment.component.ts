@@ -15,11 +15,13 @@ export class EntertainmentComponent implements OnInit {
   constants = CONSTANTS;
   allEntertainmentPhotosAndVideosList: any = [];
   entertainmentArrObj: any = {};
+  myPostsObj: any = [];
   isLoading: boolean = false;
 
   all: boolean = true;
   images: boolean = false;
   videos: boolean = false;
+  myPosts: boolean = false;
 
   tmpEObj: any;
 
@@ -40,6 +42,18 @@ export class EntertainmentComponent implements OnInit {
       if (result && result.IsSuccess) {
         this.allEntertainmentPhotosAndVideosList = this._globalFunctions.copyObject(result?.Data || []);
         this.entertainmentArrObj = _.mapValues(_.groupBy(this.allEntertainmentPhotosAndVideosList, 'media'));
+        this.isLoading = false;
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+        this.isLoading = false;
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isLoading = false;
+    });
+    this._entertainment.getMyPostsApi().subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        this.myPostsObj = this._globalFunctions.copyObject(result?.Data || []);
         this.isLoading = false;
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
