@@ -165,6 +165,7 @@ export class AddEditShopDialogComponent implements OnInit {
 
           this.finaLatLong.lat = place.geometry.location.lat();
           this.finaLatLong.lng = place.geometry.location.lng();
+          this.addMapLocation();
         });
       });
     });

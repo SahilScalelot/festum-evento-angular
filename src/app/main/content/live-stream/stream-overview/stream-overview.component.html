@@ -197,18 +197,18 @@
             <!-- copy links  -->
             <div class="rounded-md bg-white p-8 space-y-6">
               <div class="flex w-full justify-between">
-                <div class="">
+                <div class="flex flex-col">
                   <span class="text-quicksilver text-xs font-bold">Join User Link</span>
-                  <p class="text-sm font-bold text-japaneseIndigo">http://Join User Link</p>
+                  <a [href]="liveStreamObj?.join_user_link" class="text-sm font-bold text-japaneseIndigo">{{liveStreamObj?.join_user_link}}</a>
                 </div>
                 <div class="">
                   <a href="javascript:void(0);" class="icon-copy text-quicksilver text-xl"></a>
                 </div>
               </div>
               <div class="flex w-full justify-between">
-                <div class="">
-                  <span class="text-quicksilver text-xs font-bold">Organiser / Media Connect Link</span>
-                  <p class="text-sm font-bold text-japaneseIndigo">http://Join User Link</p>
+                <div class="flex flex-col">
+                  <span class="text-quicksilver text-xs font-bold">Organizer / Media Connect Link</span>
+                  <a [href]="liveStreamObj?.media_content_link" class="text-sm font-bold text-japaneseIndigo">{{liveStreamObj?.media_content_link}}</a>
                 </div>
                 <div class="">
                   <a href="javascript:void(0);" class="icon-copy text-quicksilver text-xl"></a>

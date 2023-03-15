@@ -9,14 +9,15 @@ import { MenuItem } from 'primeng/api';
 })
 export class CreateStreamComponent implements OnInit {
   items: MenuItem[] | any;
+  streamId: any = '';
 
   constructor(private _router: Router) { }
 
   ngOnInit(): void {
-    
     if (!localStorage.getItem('lsId') || localStorage.getItem('lsId') == '') {
       this._router.navigate(['/live-stream']);
-      console.log('rout');
+    } else {
+      this.streamId = localStorage.getItem('lsId');
     }
 
     this.items = [

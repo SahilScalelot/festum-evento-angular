@@ -6,8 +6,6 @@
         <i routerLink=".." class="icon-left_arrow cursor-pointer mr-4 text-2xl"></i>
         <h2>Create new event</h2>
       </div>
-      <!--<span [routerLink]="'/events/create'" class="secondary cursor-pointer px-7 py-3" (click)="isAddEvent = true">
-        <i class="icon-plus mr-3"></i>Add event</span>-->
       <span class="secondary cursor-pointer px-7 py-3" *ngIf="isAddArrangement" (click)="openAddArrangementDialog()">
       <i class="icon-plus mr-3"></i>Add</span>
     </div>

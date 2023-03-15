@@ -28,7 +28,7 @@
                 <div class="flex flex-wrap justify-between border-b-2 pb-4">
                   <div class="w-auto max-w-[calc(100%-120px)]">
                     <div class="flex items-center space-x-2 lg:space-x-4">
-                      <h4 class="text-japaneseIndigo text-ellipsis whitespace-nowrap overflow-hidden" [title]="event?.name">{{event?.name}}</h4>
+                      <h4 class="text-japaneseIndigo text-ellipsis whitespace-nowrap overflow-hidden max-w-sm" [title]="event?.name">{{event?.name}}</h4>
                       <span class="text-xs text-white font-bold px-3 rounded-xl py-1 whitespace-nowrap" [ngClass]="!!(event?.is_approved) ? 'bg-caribbeanGreen' : 'bg-magicPotion'">{{!!(event?.is_approved) ? 'Verified' : 'Unverified'}}</span>
                       <span class="text-xs text-white font-bold px-3 rounded-xl py-1 whitespace-nowrap" [ngClass]="!!(event?.accept_booking) ? 'bg-caribbeanGreen' : 'bg-magicPotion'">{{!!(event?.accept_booking) ? 'Booking Accepting' : 'Booking Not Accepting'}}</span>
                     </div>

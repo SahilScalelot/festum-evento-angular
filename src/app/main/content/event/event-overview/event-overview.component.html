@@ -487,7 +487,7 @@
                   <div class="flex justify-between border-t border-brightGray px-5 py-2" *ngFor="let arrangement of seat?.arrangements || []">
                     <span class="text-sm font-bold text-japaneseIndigo w-1/3">{{arrangement?.ItemCount || 0}} {{((arrangement.vertical_location == 'TOP') ? 'T' : (arrangement.vertical_location == 'CENTER' ? 'C' : 'B'))}} - {{((arrangement.horizontal_location == 'LEFT') ? 'L' : ((arrangement.horizontal_location == 'CENTER') ? 'C' : (arrangement.horizontal_location == 'RIGHT' ? 'R' : 'N')))}}</span>
                     <span class="text-sm font-bold text-japaneseIndigo w-1/3 text-center">{{seat?.seating_item?.itemname}}</span>
-                    <span class="text-sm font-bold text-japaneseIndigo w-1/3 text-right">₹{{attendee?.amount | number: '1.2-2'}}</span>
+                    <span class="text-sm font-bold text-japaneseIndigo w-1/3 text-right">₹{{arrangement?.totalAmountItemCount | number: '1.2-2'}}</span>
                   </div>
                 </div>
               </div>

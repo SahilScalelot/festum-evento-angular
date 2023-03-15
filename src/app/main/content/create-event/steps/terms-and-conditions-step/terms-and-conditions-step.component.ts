@@ -1,14 +1,13 @@
-import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from "@angular/forms";
 import { Router } from '@angular/router';
-// @ts-ignore
-import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
 import { GlobalFunctions } from 'src/app/main/common/global-functions';
 import { ModalService } from 'src/app/main/_modal';
-import { GlobalService } from 'src/app/services/global.service';
+import { CONSTANTS } from "../../../../common/constants";
 import { CreateEventService } from '../../create-event.service';
+// @ts-ignore
+import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
 import * as _ from 'lodash';
-import {CONSTANTS} from "../../../../common/constants";
 declare let $: any;
 
 @Component({
@@ -35,9 +34,8 @@ export class TermsAndConditionsStepComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private _modalService: ModalService,
     private _router: Router,
-    private _createEventService: CreateEventService,
     private _globalFunctions: GlobalFunctions,
-    private _globalService: GlobalService,
+    private _createEventService: CreateEventService,
   ) { }
 
   ngOnInit(): void {
@@ -95,7 +93,7 @@ export class TermsAndConditionsStepComponent implements OnInit {
       this.isLoading = false;
     });
   }
-  
+
   editorCharacterSet(): any {
     const textfield = this.termsAndConditionsForm?.get('t_and_c')?.value;
     const stringOfCKEditor = this._globalFunctions.getPlainText(textfield);
@@ -108,14 +106,14 @@ export class TermsAndConditionsStepComponent implements OnInit {
       Object.keys(this.termsAndConditionsForm.controls).forEach((key) => {
         this.termsAndConditionsForm.controls[key].touched = true;
         this.termsAndConditionsForm.controls[key].markAsDirty();
-      });      
+      });
       return;
     }
     this.editorCharacterSet();
     if (this.textEditorLimit && this.textEditorMaxLimit && this.textEditorLimit > this.textEditorMaxLimit) {
       return;
     }
-    if (this.termsAndConditionsForm.value.status != '') {
+    if (this.termsAndConditionsForm?.value?.status != '') {
       this.isLoading = true;
       this.termsAndConditionsForm.disable();
       const preparedLocationObj: any = this.prepareTAndCEventObj(this.termsAndConditionsForm.value);
@@ -159,5 +157,4 @@ export class TermsAndConditionsStepComponent implements OnInit {
       this.editorCharacterSet();
     }
   }
-
 }

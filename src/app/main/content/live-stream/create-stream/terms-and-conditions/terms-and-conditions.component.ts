@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from "@angular/forms";
 import { Router } from '@angular/router';
 import { GlobalFunctions } from 'src/app/main/common/global-functions';
 import { ModalService } from 'src/app/main/_modal';
+import { CONSTANTS } from "../../../../common/constants";
 import { CreateStreamService } from '../create-stream.service';
 // @ts-ignore
 import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
 import * as _ from 'lodash';
-import {CONSTANTS} from "../../../../common/constants";
 declare let $: any;
 
 @Component({
@@ -77,13 +77,6 @@ export class TermsAndConditionsComponent implements OnInit {
     this._router.navigate(['/live-stream/create/personal-details']);
   }
 
-  editorCharacterSet(): any {
-    const textfield = this.termsAndConditionsForm?.get('t_and_c')?.value;
-    const stringOfCKEditor = this._globalFunctions.getPlainText(textfield);
-    this.textEditorLimit = stringOfCKEditor.length;
-    this.textEditor = (stringOfCKEditor.length > this.textEditorMaxLimit);
-  }
-
   getTAndCEvent(): any {
     this.isLoading = true;
     this._createStreamService.getTAndCById(this.liveStreamId).subscribe((result: any) => {
@@ -101,6 +94,13 @@ export class TermsAndConditionsComponent implements OnInit {
     });
   }
 
+  editorCharacterSet(): any {
+    const textfield = this.termsAndConditionsForm?.get('t_and_c')?.value;
+    const stringOfCKEditor = this._globalFunctions.getPlainText(textfield);
+    this.textEditorLimit = stringOfCKEditor.length;
+    this.textEditor = (stringOfCKEditor.length > this.textEditorMaxLimit);
+  }
+
   saveFullEvent(): void {
     if (this.termsAndConditionsForm.invalid) {
       Object.keys(this.termsAndConditionsForm.controls).forEach((key) => {
@@ -113,24 +113,26 @@ export class TermsAndConditionsComponent implements OnInit {
     if (this.textEditorLimit && this.textEditorMaxLimit && this.textEditorLimit > this.textEditorMaxLimit) {
       return;
     }
-    this.isLoading = true;
-    this.termsAndConditionsForm.disable();
-    const preparedLocationObj: any = this.prepareTAndCEventObj(this.termsAndConditionsForm.value);
-    this._createStreamService.saveLiveStreamTAndC(preparedLocationObj).subscribe((result: any) => {
-      if (result && result.IsSuccess) {
+    if (this.termsAndConditionsForm?.value?.status != '') {
+      this.isLoading = true;
+      this.termsAndConditionsForm.disable();
+      const preparedLocationObj: any = this.prepareTAndCEventObj(this.termsAndConditionsForm.value);
+      this._createStreamService.saveLiveStreamTAndC(preparedLocationObj).subscribe((result: any) => {
+        if (result && result.IsSuccess) {
+          this.isLoading = false;
+          this.termsAndConditionsForm.enable();
+          this._router.navigate(['/live-stream']);
+        } else {
+          this._globalFunctions.successErrorHandling(result, this, true);
+          this.isLoading = false;
+          this.termsAndConditionsForm.enable();
+        }
+      }, (error: any) => {
+        this._globalFunctions.errorHanding(error, this, true);
         this.isLoading = false;
         this.termsAndConditionsForm.enable();
-        this._router.navigate(['/live-stream']);
-      } else {
-        this._globalFunctions.successErrorHandling(result, this, true);
-        this.isLoading = false;
-        this.termsAndConditionsForm.enable();
-      }
-    }, (error: any) => {
-      this._globalFunctions.errorHanding(error, this, true);
-      this.isLoading = false;
-      this.termsAndConditionsForm.enable();
-    });
+      });
+    }
   }
 
   prepareTAndCEventObj(locationObj: any = {}): any {
@@ -148,7 +150,7 @@ export class TermsAndConditionsComponent implements OnInit {
       pinterest: [eventObj?.pinterest],
       instagram: [eventObj?.instagram],
       linkedin: [eventObj?.linkedin],
-      status: [eventObj?.status, { disabled: true }],
+      status: [false, [Validators.requiredTrue]],
     });
 
     if (eventObj?.t_and_c) {

@@ -1,21 +1,22 @@
 <p-progressSpinner *ngIf="isLoading" [style]="{width: '50px', height: '50px'}" animationDuration=".5s" strokeWidth="8" class="fixed bg-white bg-opacity-25 backdrop-blur-sm right-0 bottom-0 h-[calc(100vh-76px)] w-full lg:w-[calc(100vw-230px)] z-30" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
+
 <div [formGroup]="termsAndConditionsForm" class="space-y-5 px-2">
   <div class="w-full space-y-2.5">
-    <h5>Terms And Conditions  <i class="text-xs font-medium" [ngClass]="{'text-magicPotion' : textEditor}">( {{textEditorLimit}} characters out of {{textEditorMaxLimit}} )</i></h5>
+    <h5>Terms And Conditions <i class="text-xs font-medium" [ngClass]="{'text-magicPotion' : textEditor}">( {{textEditorLimit}} characters out of {{textEditorMaxLimit}} )</i></h5>
     <div class="w-full bg-white rounded relative">
       <ckeditor (ready)="onTextEditorReady($event, 't_and_c')" [config]="editorConfig"
                 (keyup)="editorCharacterSet()"
                 [editor]="detailEditor" [formControlName]="'t_and_c'"
                 class="h-44 text-editor" id="t_and_c" name="t_and_c"></ckeditor>
-      <span class="absolute top-full text-red-500 text-xs" *ngIf="termsAndConditionsForm.get('t_and_c')?.invalid && (termsAndConditionsForm.get('t_and_c')?.dirty && termsAndConditionsForm.get('t_and_c')?.touched)">
+      <span class="absolute top-full mt-1 text-red-500 text-xs" *ngIf="termsAndConditionsForm.get('t_and_c')?.invalid && (termsAndConditionsForm.get('t_and_c')?.dirty && termsAndConditionsForm.get('t_and_c')?.touched)">
         <span *ngIf="termsAndConditionsForm.get('t_and_c')?.errors?.['required']">
           Terms And Conditions is required.
         </span>
       </span>
     </div>
   </div>
-  <div class="w-full">
-    <h3>Social Media</h3>
+  <div class="w-full pt-5">
+    <h3 class="pb-2">Social Media</h3>
     <div class="-mx-2">
       <div class="w-full flex flex-wrap">
         <div class="w-full md:w-1/2 p-2">
@@ -81,16 +82,20 @@
       </div>
     </div>
   </div>
-  <div class="block w-full">
+  <div class="block w-full relative">
     <label class="inline-flex items-end cursor-pointer" (click)="tAndCPop()">
       <div class="checkbox rounded bg-white">
-        <input type="checkbox" [formControlName]="'status'" name="status" [checked]="'agreeTAndC'"/>
+        <input type="checkbox" [formControlName]="'status'" name="status" [checked]="false" />
         <i class="icon-right text-white"></i>
       </div>
-      <span class="input-titel text-base ml-4">Accept Your Terms and Conditions</span>
+      <span class="input-titel text-base ml-4">Agree with our terms and conditions</span>
     </label>
+    <span class="absolute top-full left-0 text-red-500 text-xs" *ngIf="termsAndConditionsForm.get('status')?.invalid && (termsAndConditionsForm.get('status')?.dirty && termsAndConditionsForm.get('status')?.touched)">
+      <span *ngIf="termsAndConditionsForm.get('status')?.errors?.['required']">
+        Accepting Terms and Conditions is Required.
+      </span>
+    </span>
   </div>
-  
   <div class="relative">
     <button class="secondary py-2.5 w-full uppercase anim relative" type="submit" (click)="saveFullEvent()">
       <span [ngClass]="{'opacity-0': termsAndConditionsForm.disabled}">Save</span>
@@ -112,10 +117,6 @@
       <i class="icon-left_arrow mr-3"></i>
       <h5>Back</h5>
     </button>
-    <!-- <button [routerLink]="'/'" class="flex items-center active" type="button">
-      <h5>Next</h5>
-      <i class="icon-right_arrow ml-3"></i>
-    </button> -->
   </div>
 </div>
 <!-- T & C -->

@@ -116,6 +116,7 @@ export class LocationStepComponent implements OnInit {
           //set latitude, longitude and zoom
           this.lat = place.geometry.location.lat();
           this.lng = place.geometry.location.lng();
+          this.addMapLocation();
         });
       });
     });

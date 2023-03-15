@@ -67,12 +67,14 @@ export class CreateEventComponent implements OnInit {
     this._eventService.getSingleEvents(this.eventId).subscribe((result: any) => {
       const condata = result?.Data;
       this.isReadonly = 
-      !((condata?.about?._id != "") && 
-      (condata?.banner != "") && 
-      (condata?.discounts?.length) && 
-      (condata?.event_location?._id != "") && 
-      (condata?.permission_letter != "") && 
-      (condata?.seating_arrangements?.length));
+      !(
+        (condata?.about?._id != "") &&
+        (condata?.seating_arrangements?.length) &&
+        (condata?.event_location?._id != "") &&
+        (condata?.banner != "") &&
+        (condata?.permission_letter != "")
+      );
+
       this.isHideDiscountitem = (!condata.accept_booking);
       this._globalService.isHideDiscountitem$.next(this.isHideDiscountitem);
     });
