@@ -157,7 +157,7 @@ export class TermsAndConditionsStepComponent implements OnInit {
 
     if (eventObj?.t_and_c) {
       this.editorCharacterSet();
-    }    
+    }
   }
 
 }

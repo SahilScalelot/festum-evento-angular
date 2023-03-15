@@ -16,6 +16,7 @@ declare let $: any;
   styleUrls: ['./terms-and-conditions.component.scss']
 })
 export class TermsAndConditionsComponent implements OnInit {
+  constants: any = CONSTANTS;
   termsAndConditionsForm: any;
   isLoading: boolean = false;
   detailEditor = DecoupledEditor;
@@ -24,6 +25,10 @@ export class TermsAndConditionsComponent implements OnInit {
   liveStreamId: any;
 
   termsAndConditionsObj: any = {};
+
+  textEditor: boolean = false;
+  textEditorMaxLimit: any = this.constants.CKEditorCharacterLimit3;
+  textEditorLimit: any = 0;
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -34,6 +39,9 @@ export class TermsAndConditionsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    if (!localStorage.getItem('lsId') || localStorage.getItem('lsId') == '') {
+      this._router.navigate(['/live-stream']);
+    }
     this.liveStreamId = localStorage.getItem('lsId');
     this.getTAndCEvent();
     this.editorConfig = CONSTANTS.editorConfig;
@@ -69,6 +77,13 @@ export class TermsAndConditionsComponent implements OnInit {
     this._router.navigate(['/live-stream/create/personal-details']);
   }
 
+  editorCharacterSet(): any {
+    const textfield = this.termsAndConditionsForm?.get('t_and_c')?.value;
+    const stringOfCKEditor = this._globalFunctions.getPlainText(textfield);
+    this.textEditorLimit = stringOfCKEditor.length;
+    this.textEditor = (stringOfCKEditor.length > this.textEditorMaxLimit);
+  }
+
   getTAndCEvent(): any {
     this.isLoading = true;
     this._createStreamService.getTAndCById(this.liveStreamId).subscribe((result: any) => {
@@ -92,6 +107,10 @@ export class TermsAndConditionsComponent implements OnInit {
         this.termsAndConditionsForm.controls[key].touched = true;
         this.termsAndConditionsForm.controls[key].markAsDirty();
       });
+      return;
+    }
+    this.editorCharacterSet();
+    if (this.textEditorLimit && this.textEditorMaxLimit && this.textEditorLimit > this.textEditorMaxLimit) {
       return;
     }
     this.isLoading = true;
@@ -131,5 +150,9 @@ export class TermsAndConditionsComponent implements OnInit {
       linkedin: [eventObj?.linkedin],
       status: [eventObj?.status, { disabled: true }],
     });
+
+    if (eventObj?.t_and_c) {
+      this.editorCharacterSet();
+    }
   }
 }
