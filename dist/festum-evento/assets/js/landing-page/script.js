@@ -87,11 +87,7 @@ var swiper = new Swiper("#upcomingEvents", {
     slidesPerView: 1,
     spaceBetween: 10,
     loop: true,
-    navigation: {
-        nextEl: ".swiper-button-next upcomingEventsN",
-        prevEl: ".swiper-button-prev upcomingEventsP",
-        clickable: true,
-    },
+    autoplay: {delay: 2500, disableOnInteraction: true},
     breakpoints: {
         640: {
             slidesPerView: 1,
@@ -103,18 +99,18 @@ var swiper = new Swiper("#upcomingEvents", {
             slidesPerView: 3,
         },
     },
-    autoplay: {delay: 2500, disableOnInteraction: false},
+    navigation: {
+        nextEl: ".upcomingEventsN",
+        prevEl: ".upcomingEventsP",
+        clickable: true,
+    },
 });
 // swiper-slider
 var swiper = new Swiper("#upcomingOffers", {
     slidesPerView: 1,
     spaceBetween: 10,
     loop: true,
-    navigation: {
-        nextEl: ".swiper-button-next upcomingOffersN",
-        prevEl: ".swiper-button-prev upcomingOffersP",
-        clickable: true,
-    },
+    autoplay: {delay: 2500, disableOnInteraction: true},
     breakpoints: {
         640: {
             slidesPerView: 1,
@@ -126,18 +122,18 @@ var swiper = new Swiper("#upcomingOffers", {
             slidesPerView: 3,
         },
     },
-    autoplay: {delay: 2500, disableOnInteraction: false},
+    navigation: {
+        nextEl: ".upcomingOffersN",
+        prevEl: ".upcomingOffersP",
+        clickable: true,
+    },
 });
 // swiper-slider
 var swiper = new Swiper("#upcomingLiveStream", {
     slidesPerView: 1,
     spaceBetween: 10,
     loop: true,
-    navigation: {
-        nextEl: ".swiper-button-next upcomingLiveStreamN",
-        prevEl: ".swiper-button-prev upcomingLiveStreamP",
-        clickable: true,
-    },
+    autoplay: {delay: 2500, disableOnInteraction: true},
     breakpoints: {
         640: {
             slidesPerView: 1,
@@ -149,7 +145,11 @@ var swiper = new Swiper("#upcomingLiveStream", {
             slidesPerView: 3,
         },
     },
-    autoplay: {delay: 2500, disableOnInteraction: false},
+    navigation: {
+        nextEl: ".upcomingLiveStreamN",
+        prevEl: ".upcomingLiveStreamP",
+        clickable: true,
+    },
 });
 
 $(document).ready(function () {

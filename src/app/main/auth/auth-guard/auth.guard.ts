@@ -19,6 +19,14 @@ export class AuthGuard implements CanActivate {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
+    const splittedUrl = state.url.split('/');
+
+    if (state.url.includes('register') && splittedUrl[1] == 'register' && splittedUrl[2] && splittedUrl[2] != '') {
+      const isVerified = this._checkAgent(splittedUrl[2]);
+      if (isVerified) {
+        return true;
+      }
+    }
     const token = localStorage.getItem('accessToken');
     if (token && token != "") {
       return new Promise((resolve, reject) => {
@@ -63,5 +71,19 @@ export class AuthGuard implements CanActivate {
   redirectLogin(): void {
     // localStorage.clear();
     // this._router.navigate(['login']);
+  }
+  
+  private _checkAgent(agentId: any): boolean {
+    // this._location.back();
+    this._authService.checkAgent(agentId).subscribe((result: any) => {
+      console.log(result.IsSuccess);
+      if (result && result.IsSuccess && result.IsSuccess == true) {
+        localStorage.clear();
+        return true;
+      } else {
+        return false;
+      }
+    })
+    return false;
   }
 }

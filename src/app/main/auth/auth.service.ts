@@ -37,4 +37,8 @@ export class AuthService {
   changePassword(newPassword: any): Observable<any> {
     return this._httpClient.post(CONSTANTS.appUrl + 'organizer/register/changepassword', newPassword, this._globalFunctions.getHeader());
   }
+
+  checkAgent(agentId: any): Observable<any> {
+    return this._httpClient.post(CONSTANTS.appUrl + 'organizer/checkagent', {agentid: agentId}, this._globalFunctions.getHeader());
+  }
 }

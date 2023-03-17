@@ -58,10 +58,10 @@ export class LandingPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.config = {
-      navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
-      },
+      slidesPerView: 1,
+      spaceBetween: 0,
+      loop: true,
+      autoplay: { delay: 2500, disableOnInteraction: true },
       breakpoints: {
         640: {
           slidesPerView: 1,
@@ -73,10 +73,10 @@ export class LandingPageComponent implements OnInit {
           slidesPerView: 4,
         },
       },
-      slidesPerView: 1,
-      spaceBetween: 0,
-      loop: true,
-      autoplay: { delay: 2500, disableOnInteraction: false },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
     };
 
     this._queryForm();

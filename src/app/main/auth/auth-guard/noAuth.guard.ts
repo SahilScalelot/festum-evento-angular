@@ -1,8 +1,8 @@
-import {Injectable} from '@angular/core';
-import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
-import {Observable} from 'rxjs';
-import {Location} from '@angular/common';
-import {AuthService} from '../auth.service';
+import { Injectable } from '@angular/core';
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
+import { Observable } from 'rxjs';
+import { Location } from '@angular/common';
+import { AuthService } from '../auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +17,15 @@ export class NoAuthGuard implements CanActivate {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
+    const splittedUrl = state.url.split('/');
+
+    if (state.url.includes('register') && splittedUrl[1] == 'register' && splittedUrl[2] && splittedUrl[2] != '') {
+      const isVerified = this._checkAgent(splittedUrl[2]);
+      if (isVerified) {
+        return true;
+      }
+    }
+
     return new Promise((resolve, reject) => {
       Promise.all([
         this._check(state)
@@ -41,5 +50,20 @@ export class NoAuthGuard implements CanActivate {
       }
       return true;
     }
+  }
+
+  private _checkAgent(agentId: any): boolean {
+    // this._location.back();
+    this._authService.checkAgent(agentId).subscribe((result: any) => {
+      console.log(result.IsSuccess);
+      if (result && result.IsSuccess && result.IsSuccess == true) {
+        localStorage.clear();
+        this._router.navigate(['/register/' + agentId]);
+        return true;
+      } else {
+        return false;
+      }
+    })
+    return false;
   }
 }

@@ -184,7 +184,7 @@
         </ul>
       </div>
       <div [class]="upcomingEvents ? 'current' : 'hidden'" class="tabs-call">
-        <div class="swiper mySwiper px-4" id="upcomingEvents">
+        <div class="swiper mySwiper-01 px-4" id="upcomingEvents">
           <div class="swiper-wrapper">
             <div class="swiper-slide py-5" *ngFor="let upcomingEvent of upcomingEventList">
               <div class="px-1 md:px-3.5 w-full">
@@ -224,7 +224,7 @@
         </div>
       </div>
       <div [class]="upcomingOffers ? 'current' : 'hidden'" class="tabs-call">
-        <div class="swiper mySwiper px-4" id="upcomingOffers">
+        <div class="swiper mySwiper-01 px-4" id="upcomingOffers">
           <div class="swiper-wrapper">
             <div class="swiper-slide py-5" *ngFor="let upcomingOffer of upcomingOfferList">
               <div class="px-1 md:px-3.5 w-full">
@@ -261,7 +261,7 @@
         </div>
       </div>
       <div [class]="upcomingLiveStream ? 'current' : 'hidden'" class="tabs-call">
-        <div class="swiper mySwiper px-4" id="upcomingLiveStream">
+        <div class="swiper mySwiper-01 px-4" id="upcomingLiveStream">
           <div class="swiper-wrapper">
             <div class="swiper-slide py-5" *ngFor="let upcomingStream of upcomingStreamList">
               <div class="px-1 md:px-3.5 w-full">
@@ -541,7 +541,7 @@
     <div class="wrapper pt-14 md:pt-24">
       <div class="flex flex-wrap items-center bg-[#EEEEEE]">
         <div class="w-full lg:w-6/12">
-          <img src="/assets/images/landing-page/our-company.jpg" alt="Our Company" class="w-full">
+          <img src="/assets/images/landing-page/company.svg" alt="Our Company" class="w-full">
         </div>
         <div class="w-full lg:w-6/12">
           <div class="px-5 lg:px-14 py-10 lg:py-0">
@@ -626,7 +626,7 @@
         <div class="swiper mySwiper px-5 responsive max-w-6xl">
           <div class="swiper-wrapper">
             <div class="swiper-slide px-2.5 py-5">
-              <a href="https://eventopackage.com/" target="_blank" class="block p-6 bg-white drop-shadow-lg">
+              <a href="https://eventopackage.com/" target="_blank" class="block p-6 bg-white drop-shadow-lg min-h-[260px]">
                 <img src="/assets/images/landing-page/sider-evento.png" class="mx-auto fix_images" alt="slider-evento">
                 <div class="text-center pt-12">
                   <p class="text-xl font-bold text-ev-dark">Evento Package</p>
@@ -634,7 +634,7 @@
               </a>
             </div>
             <div class="swiper-slide px-2.5 py-5">
-              <div class="p-6 bg-white drop-shadow-lg">
+              <div class="p-6 bg-white drop-shadow-lg min-h-[260px]">
                 <img src="/assets/images/landing-page/festumcoin.png" class="mx-auto fix_images" alt="festumcoin">
                 <div class="text-center pt-12">
                   <p class="text-xl font-bold text-ev-dark">F-coin</p>
@@ -642,7 +642,7 @@
               </div>
             </div>
             <div class="swiper-slide px-2.5 py-5">
-              <div class="p-6 bg-white drop-shadow-lg">
+              <div class="p-6 bg-white drop-shadow-lg min-h-[260px]">
                 <img src="/assets/images/landing-page/FF.png" class="mx-auto fix_images" alt="ff">
                 <div class="text-center pt-12">
                   <p class="text-xl font-bold text-ev-dark">Friends Fields</p>
@@ -650,10 +650,18 @@
               </div>
             </div>
             <div class="swiper-slide px-2.5 py-5">
-              <div class="p-6 bg-white drop-shadow-lg">
+              <div class="p-6 bg-white drop-shadow-lg min-h-[260px]">
                 <img src="/assets/images/landing-page/festumadvertising.jpg" class="mx-auto fix_images" alt="festumadvertising"/>
                 <div class="text-center pt-4">
                   <p class="text-xl font-bold text-ev-dark">Festum Advertising Media</p>
+                </div>
+              </div>
+            </div>
+            <div class="swiper-slide px-2.5 py-5">
+              <div class="p-6 bg-white drop-shadow-lg min-h-[260px]">
+                <img src="/assets/images/landing-page/perfect.jpeg" class="mx-auto fix_images" alt="Perfect Account Manage"/>
+                <div class="text-center pt-4">
+                  <p class="text-xl font-bold text-ev-dark">Perfect Account Manage</p>
                 </div>
               </div>
             </div>
