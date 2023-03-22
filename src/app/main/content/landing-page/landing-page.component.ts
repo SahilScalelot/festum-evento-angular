@@ -95,6 +95,16 @@ export class LandingPageComponent implements OnInit {
     // console.log('slide change');
   }
 
+  downloadMyFile(){
+    const link = document.createElement('a');
+    link.setAttribute('target', '_blank');
+    link.setAttribute('href', '/assets/file/FE-Brochure-0.1.pdf');
+    link.setAttribute('download', `FE-Brochure-0.1.pdf`);
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  }
+
   Dashboard(): void {
     window.location.href = '/login';
   }

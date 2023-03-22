@@ -8,6 +8,7 @@ import { CreateEventService } from '../../create-event.service';
 // @ts-ignore
 import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
 import * as _ from 'lodash';
+import { SnotifyService } from 'ng-snotify';
 declare let $: any;
 
 @Component({
@@ -36,6 +37,7 @@ export class TermsAndConditionsStepComponent implements OnInit {
     private _router: Router,
     private _globalFunctions: GlobalFunctions,
     private _createEventService: CreateEventService,
+    private _sNotify: SnotifyService
   ) { }
 
   ngOnInit(): void {
@@ -122,6 +124,7 @@ export class TermsAndConditionsStepComponent implements OnInit {
           this.isLoading = false;
           this.termsAndConditionsForm.enable();
           this._router.navigate(['/events']);
+          this._sNotify.success('Event Created And Update Successfully.', 'Success');
         } else {
           this._globalFunctions.successErrorHandling(result, this, true);
           this.isLoading = false;
