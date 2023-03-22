@@ -12,6 +12,8 @@ import { TooltipModule } from 'primeng/tooltip';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TermsAndConditionsComponent } from '../main/common/terms-and-conditions/terms-and-conditions.component';
 import { PrivacyPolicyComponent } from '../main/common/privacy-policy/privacy-policy.component';
+import { TermsAndConditionsUserComponent } from '../main/common/terms-and-conditions-user/terms-and-conditions.component';
+import { PrivacyPolicyUserComponent } from '../main/common/privacy-policy-user/privacy-policy.component';
 
 
 @NgModule({
@@ -22,7 +24,9 @@ import { PrivacyPolicyComponent } from '../main/common/privacy-policy/privacy-po
     ValidAlphabetDirective,
     ValidNumberWithDecimalDirective,
     TermsAndConditionsComponent,
-    PrivacyPolicyComponent
+    PrivacyPolicyComponent,
+    TermsAndConditionsUserComponent,
+    PrivacyPolicyUserComponent
   ],
   imports: [
     CommonModule,

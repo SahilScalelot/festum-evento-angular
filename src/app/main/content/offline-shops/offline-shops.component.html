@@ -51,7 +51,7 @@
 
     <div class="flex flex-wrap items-center justify-center" *ngIf="shops && shops.length">
       <!-- <div class="pagination-festum py-2"><p class="show-text">Showing {{offset}} to {{(((offset - 1) + perPageLimit) < pTotal) ? (offset - 1) + perPageLimit : pTotal}} Of {{ pTotal }} Events.</p></div> -->
-      <p-paginator [rows]="pageObj.limit" [totalRecords]="pageObj.totalDocs" [rowsPerPageOptions]="[10, 20, 30, 50]" (onPageChange)="getOfflineShops($event)"></p-paginator>
+      <p-paginator [rows]="pageObj.limit" [totalRecords]="pageObj.totalDocs" [rowsPerPageOptions]="[10, 20, 30, 40, 50]" (onPageChange)="getOfflineShops($event)"></p-paginator>
     </div>
 
     <!-- ad banner -->
