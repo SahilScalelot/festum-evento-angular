@@ -18,11 +18,15 @@
             <span class="input-titel">Start Date <span>*</span></span>
             <label class="bg-white rounded-md flex space-x-3 relative">
               <i class="icon-calendar-2 text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0 z-10"></i>
-              <p-calendar class="w-full" [formControlName]="'start_date'" [touchUI]="true" [minDate]="minDateValue" [defaultDate]="minStartDateValue" [dateFormat]="'dd/mm/yy'"
-                          name="start_date" inputId="start_date"></p-calendar>
+              <p-calendar class="w-full" [formControlName]="'start_date'" [touchUI]="true" 
+                [minDate]="minDateValue" 
+                [maxDate]="addEditOfferForm.get('end_date').value" 
+                [defaultDate]="minStartDateValue" 
+                [dateFormat]="'dd/mm/yy'" 
+                name="start_date" 
+                inputId="start_date"></p-calendar>
             </label>
-            <span class="absolute top-full text-red-500 text-xs"
-                  *ngIf="addEditOfferForm.get('start_date')?.invalid && (addEditOfferForm.get('start_date')?.dirty && addEditOfferForm.get('start_date')?.touched)">
+            <span class="absolute top-full text-red-500 text-xs" *ngIf="addEditOfferForm.get('start_date')?.invalid && (addEditOfferForm.get('start_date')?.dirty && addEditOfferForm.get('start_date')?.touched)">
               <span *ngIf="addEditOfferForm.get('start_date')?.errors?.['required']">
                 Start date is required.
               </span>
@@ -32,11 +36,14 @@
             <span class="input-titel">End Date <span>*</span></span>
             <label class="bg-white rounded-md flex space-x-3 relative">
               <i class="icon-calendar-2 text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0 z-10"></i>
-              <p-calendar class="w-full" [formControlName]="'end_date'" [touchUI]="true" [minDate]="addEditOfferForm.get('start_date').value ? addEditOfferForm.get('start_date').value : minDateValue" [defaultDate]="minStartDateValue"
-                          name="end_date" inputId="end_date"></p-calendar>
+              <p-calendar class="w-full" [formControlName]="'end_date'" [touchUI]="true" 
+                [minDate]="addEditOfferForm.get('start_date').value ? addEditOfferForm.get('start_date').value : minDateValue" 
+                [defaultDate]="minStartDateValue"
+                [dateFormat]="'dd/mm/yy'" 
+                name="end_date" 
+                inputId="end_date"></p-calendar>
             </label>
-            <span class="absolute top-full text-red-500 text-xs"
-                  *ngIf="addEditOfferForm.get('end_date')?.invalid && (addEditOfferForm.get('end_date')?.dirty && addEditOfferForm.get('end_date')?.touched)">
+            <span class="absolute top-full text-red-500 text-xs" *ngIf="addEditOfferForm.get('end_date')?.invalid && (addEditOfferForm.get('end_date')?.dirty && addEditOfferForm.get('end_date')?.touched)">
               <span *ngIf="addEditOfferForm.get('end_date')?.errors?.['required']">
                 End date is required.
               </span>

@@ -47,17 +47,17 @@ export class EventOverviewComponent implements OnInit {
 
   ngOnInit(): void {
     this.eventId = this._activatedRoute.snapshot.paramMap.get('id');
-    this._router.events.subscribe((event: NavigationEvent) => {
-      if (event instanceof NavigationStart) {
-        setTimeout(() => {
-          const accessToken: any = localStorage.getItem('accessToken');
-          if (accessToken && accessToken != '') {
-            this.eventId = this._activatedRoute.snapshot.paramMap.get('id');
-            this.getEvent();
-          }
-        }, 0);
-      }
-    });
+    // this._router.events.subscribe((event: NavigationEvent) => {
+    //   if (event instanceof NavigationStart) {
+    //     setTimeout(() => {
+    //       const accessToken: any = localStorage.getItem('accessToken');
+    //       if (accessToken && accessToken != '') {
+    //         this.eventId = this._activatedRoute.snapshot.paramMap.get('id');
+    //         this.getEvent();
+    //       }
+    //     }, 0);
+    //   }
+    // });
     this.getEvent();
   }
 

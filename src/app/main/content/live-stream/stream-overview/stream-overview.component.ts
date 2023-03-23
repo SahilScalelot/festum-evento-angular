@@ -39,16 +39,16 @@ export class StreamOverviewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this._router.events.subscribe((event: NavigationEvent) => {
-      if (event instanceof NavigationStart) {
-        setTimeout(() => {
-          const accessToken: any = localStorage.getItem('accessToken');
-          if (accessToken && accessToken != '') {
-            this.getLiveStreamObj();
-          }
-        }, 0);
-      }
-    });
+    // this._router.events.subscribe((event: NavigationEvent) => {
+    //   if (event instanceof NavigationStart) {
+    //     setTimeout(() => {
+    //       const accessToken: any = localStorage.getItem('accessToken');
+    //       if (accessToken && accessToken != '') {
+    //         this.getLiveStreamObj();
+    //       }
+    //     }, 0);
+    //   }
+    // });
     this.getLiveStreamObj();
   }
 

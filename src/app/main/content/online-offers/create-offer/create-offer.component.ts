@@ -38,6 +38,7 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
   isSaveLoading: boolean = false;
   isPlatformLoading: boolean = false;
   minDateValue: any = new Date();
+  minStartDateValue: any = '';
   imgChangeEvt: any;
   posterObj: any = {};
   addEditOfferForm: any;
@@ -93,6 +94,10 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
   }
   
   ngOnInit(): void {
+    const todayDate = new Date();
+    const minSetDate = new Date('06-01-2023');
+    this.minStartDateValue = (todayDate >= minSetDate) ? this.minDateValue : minSetDate;
+    
     this.getPlatformList();
     this.editorConfig = CONSTANTS.editorConfig;
     this.dropifyOption = {
@@ -401,20 +406,20 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
       return;
     }
     const preparedOnlineShopOfferObj: any = this.prepareOfferObj(this.addEditOfferForm.value);
-    this.isLoading = true;
+    this.isSaveLoading = true;
     this._onlineOffersService.createOnlineOffer(preparedOnlineShopOfferObj).subscribe((result: any) => {
       if (result && result.IsSuccess) {
         this._modalService.close("tAndC");
         this._sNotify.success('Online Service Created Successfully.', 'Success');
         this._router.navigate(['/online-offers']);
-        this.isLoading = false;
+        this.isSaveLoading = false;
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
-        this.isLoading = false;
+        this.isSaveLoading = false;
       }
     }, (error: any) => {
       this._globalFunctions.errorHanding(error, this, true);
-      this.isLoading = false;
+      this.isSaveLoading = false;
     });
   }
 

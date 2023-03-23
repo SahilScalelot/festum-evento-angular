@@ -32,17 +32,17 @@ export class OfferOverviewComponent implements OnInit {
 
   ngOnInit(): void {
     this.offerId = this._activatedRoute.snapshot.paramMap.get('id');
-    this._router.events.subscribe((event: NavigationEvent) => {
-      if (event instanceof NavigationStart) {
-        setTimeout(() => {
-          const accessToken: any = localStorage.getItem('accessToken');
-          if (accessToken && accessToken != '') {
-            this.offerId = this._activatedRoute.snapshot.paramMap.get('id');
-            this.getOnlineShopOfferByOfferId(this.offerId);
-          }
-        }, 0);
-      }
-    });
+    // this._router.events.subscribe((event: NavigationEvent) => {
+    //   if (event instanceof NavigationStart) {
+    //     setTimeout(() => {
+    //       const accessToken: any = localStorage.getItem('accessToken');
+    //       if (accessToken && accessToken != '') {
+    //         this.offerId = this._activatedRoute.snapshot.paramMap.get('id');
+    //         this.getOnlineShopOfferByOfferId(this.offerId);
+    //       }
+    //     }, 0);
+    //   }
+    // });
     this.getOnlineShopOfferByOfferId(this.offerId);
   }
 

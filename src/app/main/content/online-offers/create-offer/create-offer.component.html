@@ -16,7 +16,7 @@
           <input type="text" name="shop_name" formControlName="shop_name" class="input" />
           <span class="absolute top-full text-red-500 text-xs" *ngIf="addEditOfferForm.get('shop_name')?.invalid && (addEditOfferForm.get('shop_name')?.dirty && addEditOfferForm.get('shop_name')?.touched)">
             <span *ngIf="addEditOfferForm.get('shop_name')?.errors?.['required']">
-              Start date is required.
+              Shope Name is required.
             </span>
           </span>
         </div>
@@ -53,7 +53,13 @@
             <span class="input-titel">Offer Start Date<span>*</span></span>
             <label class="bg-white rounded-md flex space-x-3 relative">
               <i class="icon-calendar-2 text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0 z-10"></i>
-              <p-calendar class="input w-full" formControlName="start_date" [touchUI]="true" [dateFormat]="'dd/mm/yy'" [minDate]="minDateValue" name="start_date" inputId="start_date"></p-calendar>
+              <p-calendar class="input w-full" formControlName="start_date" [touchUI]="true" 
+                [minDate]="minDateValue" 
+                [maxDate]="addEditOfferForm.get('end_date').value" 
+                [defaultDate]="minStartDateValue" 
+                [dateFormat]="'dd/mm/yy'" 
+                name="start_date" 
+                inputId="start_date"></p-calendar>
             </label>
             <span class="absolute top-full text-red-500 text-xs" *ngIf="addEditOfferForm.get('start_date')?.invalid && (addEditOfferForm.get('start_date')?.dirty && addEditOfferForm.get('start_date')?.touched)">
               <span *ngIf="addEditOfferForm.get('start_date')?.errors?.['required']">
@@ -65,7 +71,12 @@
             <span class="input-titel">Offer End Date<span>*</span></span>
             <label class="bg-white rounded-md flex space-x-3 relative">
               <i class="icon-calendar-2 text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0 z-10"></i>
-              <p-calendar class="input w-full" formControlName="end_date" [touchUI]="true" [dateFormat]="'dd/mm/yy'" [minDate]="addEditOfferForm.get('end_date').value ? addEditOfferForm.get('end_date').value : minDateValue" name="end_date" inputId="end_date"></p-calendar>
+              <p-calendar class="input w-full" formControlName="end_date" [touchUI]="true" 
+                [dateFormat]="'dd/mm/yy'" 
+                [minDate]="addEditOfferForm.get('start_date').value ? addEditOfferForm.get('start_date').value : minDateValue" 
+                [defaultDate]="minStartDateValue" 
+                name="end_date" 
+                inputId="end_date"></p-calendar>
             </label>
             <span class="absolute top-full text-red-500 text-xs" *ngIf="addEditOfferForm.get('end_date')?.invalid && (addEditOfferForm.get('end_date')?.dirty && addEditOfferForm.get('end_date')?.touched)">
               <span *ngIf="addEditOfferForm.get('end_date')?.errors?.['required']">
@@ -379,10 +390,14 @@
       <button class="flex items-center" type="button" (click)="popClose('tAndC');">
         <i class="icon-left_arrow mr-3"></i><h5>back</h5>
       </button>
-      <button (click)="addEditOnlineShopOffer()" class="secondary py-3 px-5 uppercase text-lg font-bold" [disabled]="isLoading || isImgLoading || isPdfLoading || isInValidPDF || isSaveLoading">Save</button>
-      <div class="absolute inset-0 text-white flex items-center" *ngIf="isSaveLoading">
-        <mat-progress-spinner [diameter]="22" [mode]="'indeterminate'" class="mx-auto"></mat-progress-spinner>
-      </div>
+      <button class="secondary py-3 px-5 uppercase text-lg font-bold" 
+        (click)="addEditOnlineShopOffer()" 
+        [disabled]="isLoading || isImgLoading || isPdfLoading || isInValidPDF || isSaveLoading">
+        <span>Save</span>
+        <div class="absolute inset-0 text-white flex items-center" *ngIf="isSaveLoading">
+          <mat-progress-spinner [diameter]="22" [mode]="'indeterminate'" class="mx-auto"></mat-progress-spinner>
+        </div>
+      </button>
     </div>
   </form>
 </modal>

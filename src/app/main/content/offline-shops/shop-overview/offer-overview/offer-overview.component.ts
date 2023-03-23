@@ -52,19 +52,19 @@ export class OfferOverviewComponent implements OnInit {
   ngOnInit(): void {
     this.shopId = this._activatedRoute.snapshot.paramMap.get('shopId');
     this.offerId = this._activatedRoute.snapshot.paramMap.get('offerId');
-    this._router.events.subscribe((event: NavigationEvent) => {
-      if (event instanceof NavigationStart) {
-        setTimeout(() => {
-          const accessToken: any = localStorage.getItem('accessToken');
-          if (accessToken && accessToken != '') {
-            this.shopId = this._activatedRoute.snapshot.paramMap.get('shopId');
-            this.offerId = this._activatedRoute.snapshot.paramMap.get('offerId');
-            this.getShopOfferById();
-            this.getShopById();
-          }
-        }, 0);
-      }
-    });
+    // this._router.events.subscribe((event: NavigationEvent) => {
+    //   if (event instanceof NavigationStart) {
+    //     setTimeout(() => {
+    //       const accessToken: any = localStorage.getItem('accessToken');
+    //       if (accessToken && accessToken != '') {
+    //         this.shopId = this._activatedRoute.snapshot.paramMap.get('shopId');
+    //         this.offerId = this._activatedRoute.snapshot.paramMap.get('offerId');
+    //         this.getShopOfferById();
+    //         this.getShopById();
+    //       }
+    //     }, 0);
+    //   }
+    // });
     this.getShopOfferById();
     this.getShopById();
   }
