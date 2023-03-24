@@ -548,6 +548,7 @@ export class AddEditShopDialogComponent implements OnInit {
     this._offlineShopsService.addEditOfflineShop(preparedShopObj).subscribe((result: any) => {
       if (result && result.IsSuccess) {
         this.closeAddEditShopDialog(true);
+        this._sNotify.success('Shop Created And Update Successfully.', 'Success');
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
       }
