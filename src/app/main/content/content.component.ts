@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { GlobalService } from 'src/app/services/global.service';
 import { LanguageTranslateService } from "../../services/language-translate.service";
 import { CONSTANTS } from '../common/constants';
@@ -15,7 +15,7 @@ import * as _ from 'lodash';
   templateUrl: './content.component.html',
   styleUrls: ['./content.component.scss']
 })
-export class ContentComponent implements OnInit {
+export class ContentComponent implements OnInit, OnDestroy {
   loginUser: any = {};
   selectedLanguage: any = '';
   isLoading: boolean = false;
@@ -37,7 +37,7 @@ export class ContentComponent implements OnInit {
     private _modalService: ModalService,
     private _translateLanguage: LanguageTranslateService
   ) { 
-    this.getSearch = _.debounce(this.getSearch, 1000)
+    // this.getSearch = _.debounce(this.getSearch, 1000)
   }
     
   ngOnInit(): void {
@@ -50,6 +50,10 @@ export class ContentComponent implements OnInit {
         this.loginUser = user;
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    this._globalService.loginUser$.complete();
   }
 
   screenCapture() {
@@ -85,26 +89,11 @@ export class ContentComponent implements OnInit {
   }
 
   getSearch(event: any = ''): void {
-    const searchWord = event.target.value;
-    if (searchWord != "") {      
-      this.isLoading = true;
-      this._contentService.searchList(searchWord).subscribe((result: any) => {
-        if (result && result.IsSuccess) {
-          this.searchObj = result.Data;
-          // this.shopOffers = this._globalFunctions.copyObject(result.Data.docs);
-          // this.paging = this._globalFunctions.copyObject(result.Data);
-          // this.paging = result.Data;
-          // delete this.paging.docs;
-        } else {
-          this._globalFunctions.successErrorHandling(result, this, true);
-        }
-        this.isLoading = false;
-      }, (error: any) => {
-        this._globalFunctions.errorHanding(error, this, true);
-        this.isLoading = false;
-      });
-    } else {
-      this.searchObj = '';
+    // const searchWord = event.target.value;
+    const searchWord = event;
+    if (searchWord != "") {
+      this._router.navigate(['/search']);
+      this._globalService.searchValue$.next(searchWord);
     }
   }
 

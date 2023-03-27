@@ -10,12 +10,14 @@ export class GlobalService {
   public loginUser$: BehaviorSubject<any>;
   public addEditEvent$: BehaviorSubject<any>;
   public promoteNotification$: BehaviorSubject<any>;
+  public searchValue$: BehaviorSubject<any>;
 
   constructor(private http: HttpClient) {
     this.isHideDiscountitem$ = new BehaviorSubject<any>(null);
     this.loginUser$ = new BehaviorSubject<any>(null);
     this.addEditEvent$ = new BehaviorSubject<any>(null);
     this.promoteNotification$ = new BehaviorSubject<any>(null);
+    this.searchValue$ = new BehaviorSubject<any>(null);
   }
 
   // Location Api

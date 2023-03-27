@@ -31,6 +31,7 @@ import { ProgressBarModule } from 'primeng/progressbar';
 import { DropdownModule } from 'primeng/dropdown';
 import { HelpModule } from './help/help.module';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { SearchComponent } from './search/search.component';
 
 const routes: Routes = [
   {
@@ -51,6 +52,7 @@ const routes: Routes = [
     EntertainmentComponent,
     OurProductComponent,
     BookingComponent,
+    SearchComponent
   ],
   imports: [
     RouterModule.forChild(routes),

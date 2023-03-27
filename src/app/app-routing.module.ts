@@ -19,6 +19,7 @@ import { HelpComponent } from './main/content/help/help.component';
 import { PlatformLinksComponent } from './main/content/online-offers/platform_links/platform_links.component';
 import { TermsAndConditionsUserComponent } from './main/common/terms-and-conditions-user/terms-and-conditions.component';
 import { PrivacyPolicyUserComponent } from './main/common/privacy-policy-user/privacy-policy.component';
+import { SearchComponent } from './main/content/search/search.component';
 
 const routes: Routes = [
 
@@ -130,6 +131,10 @@ const routes: Routes = [
       {
         path: 'buy-space-plans',
         component: BuySpacePlansComponent
+      },
+      {
+        path: 'search',
+        component: SearchComponent
       },
       {
         path: 'profile',
