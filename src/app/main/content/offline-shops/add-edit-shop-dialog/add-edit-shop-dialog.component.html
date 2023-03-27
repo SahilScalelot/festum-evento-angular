@@ -46,7 +46,7 @@
             <div class="weekDays-selector flex flex-wrap">
               <div class="" *ngFor="let weekday of weekDays" [formArrayName]="'shop_days'">
                 <input type="checkbox" name="weekday" [value]="weekday.value" [id]="weekday.value" class="weekday" [checked]="weekday.isSelected" (change)="onCheckboxChange($event)" />
-                <label class="cursor-pointer uppercase" [for]="weekday.value">{{weekday.value}}</label>
+                <label class="cursor-pointer uppercase" [for]="weekday.value">{{weekday.label}}</label>
               </div>
             </div>
             <span class="absolute top-full text-red-500 text-xs" *ngIf="addShopForm.get('shop_days')?.invalid && (addShopForm.get('shop_days')?.dirty && addShopForm.get('shop_days')?.touched)">

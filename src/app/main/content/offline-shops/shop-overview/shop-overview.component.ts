@@ -24,14 +24,14 @@ export class ShopOverviewComponent implements OnInit {
   isDeleteLoading: boolean = false;
   isAddUserWiseOffers: boolean = false;
   isLoading: boolean = false;
-  weekdays: any = [
-    { value: 'su' },
-    { value: 'mo' },
-    { value: 'tu' },
-    { value: 'we' },
-    { value: 'th' },
-    { value: 'fr' },
-    { value: 'st' }
+  weekDays: any = [
+    { value: 'su', label: 'Sun' },
+    { value: 'mo', label: 'Mon' },
+    { value: 'tu', label: 'Tue' },
+    { value: 'we', label: 'Wed' },
+    { value: 'th', label: 'Thu' },
+    { value: 'fr', label: 'Fri' },
+    { value: 'st', label: 'Sat' }
   ];
   offerId: any;
   paging: any;
@@ -77,7 +77,7 @@ export class ShopOverviewComponent implements OnInit {
     this.isLoading = true;
     this._offlineShopsService.getOfflineShopByShopId(this.shopId).subscribe((result: any) => {
       this.shopObj = result.Data;
-      this.weekdays = this.weekdays.map((dayObj: any) => {
+      this.weekDays = this.weekDays.map((dayObj: any) => {
         dayObj.isSelected = (this.shopObj && this.shopObj.shop_days && this.shopObj.shop_days.indexOf(dayObj.value) != -1);
         return dayObj;
       });

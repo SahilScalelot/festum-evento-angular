@@ -88,7 +88,7 @@
         <input type="checkbox" [formControlName]="'status'" name="status" [checked]="false" />
         <i class="icon-right text-white"></i>
       </div>
-      <span class="input-titel text-base ml-4">Agree with our terms and conditions</span>
+      <span class="input-titel text-base ml-4">Agree with our Terms And Conditions</span>
     </label>
     <span class="absolute top-full left-0 text-red-500 text-xs" *ngIf="termsAndConditionsForm.get('status')?.invalid && (termsAndConditionsForm.get('status')?.dirty && termsAndConditionsForm.get('status')?.touched)">
       <span *ngIf="termsAndConditionsForm.get('status')?.errors?.['required']">

@@ -86,4 +86,8 @@
       <img src="/assets/images/banner-ads.png" alt="ring-ad" class="w-full object-cover" />
     </div>
   </div>
+
+  <div class="bg-white rounded-md text-center p-9 space-y-2" *ngIf="!redeemCoinHistory || !redeemCoinHistory?.length">
+    <h4 class="w-full">You have no Redeem Coin History yet</h4>
+  </div>
 </div>

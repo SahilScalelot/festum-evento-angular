@@ -38,13 +38,13 @@ export class AddEditShopDialogComponent implements OnInit {
   editorConfig: any = {};
 
   weekDays: any = [
-    { value: 'su' },
-    { value: 'mo' },
-    { value: 'tu' },
-    { value: 'we' },
-    { value: 'th' },
-    { value: 'fr' },
-    { value: 'st' }
+    { value: 'su', label: 'Sun' },
+    { value: 'mo', label: 'Mon' },
+    { value: 'tu', label: 'Tue' },
+    { value: 'we', label: 'Wed' },
+    { value: 'th', label: 'Thu' },
+    { value: 'fr', label: 'Fri' },
+    { value: 'st', label: 'Sat' }
   ];
   imgChangeEvt: any = '';
   cropImgPreview: any = '';

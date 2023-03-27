@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router, NavigationStart, Event as NavigationEvent } from '@angular/router';
+import { ActivatedRoute, Router, NavigationStart, Event as NavigationEvent, NavigationEnd } from '@angular/router';
 import { CONSTANTS } from 'src/app/main/common/constants';
 import { GlobalFunctions } from 'src/app/main/common/global-functions';
 import { EventService } from '../event.service';
@@ -47,17 +47,17 @@ export class EventOverviewComponent implements OnInit {
 
   ngOnInit(): void {
     this.eventId = this._activatedRoute.snapshot.paramMap.get('id');
-    // this._router.events.subscribe((event: NavigationEvent) => {
-    //   if (event instanceof NavigationStart) {
-    //     setTimeout(() => {
-    //       const accessToken: any = localStorage.getItem('accessToken');
-    //       if (accessToken && accessToken != '') {
-    //         this.eventId = this._activatedRoute.snapshot.paramMap.get('id');
-    //         this.getEvent();
-    //       }
-    //     }, 0);
-    //   }
-    // });
+    this._router.events.subscribe((event: NavigationEvent) => {
+      if (event instanceof NavigationEnd) {
+        setTimeout(() => {
+          const accessToken: any = localStorage.getItem('accessToken');
+          if (accessToken && accessToken != '') {
+            this.eventId = this._activatedRoute.snapshot.paramMap.get('id');
+            this.getEvent();
+          }
+        }, 0);
+      }
+    });
     this.getEvent();
   }
 

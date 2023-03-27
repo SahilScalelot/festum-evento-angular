@@ -26,7 +26,7 @@
   <!-- tab-holder  -->
   <div class="teb-holder">
     <button [class]="overview ? 'active' : ''" (click)="onTabChange('overview')" type="button">Overview</button>
-    <button [class]="attendee ? 'active' : ''" (click)="onTabChange('attendee')" type="button" *ngIf="attendees && attendees.length">Attendee</button>
+    <button [class]="attendee ? 'active' : ''" (click)="onTabChange('attendee')" type="button" *ngIf="attendees && attendees.length">Attendees</button>
     <button [class]="reviews ? 'active' : ''" (click)="onTabChange('reviews')" type="button" *ngIf="offerObj?.reviews && offerObj?.reviews.length">Reviews</button>
 
     <a class="secondary px-5 py-2 flex items-end rounded-sm max-w-max ml-auto" href="javascript:void(0);" (click)="exportAttendees()" *ngIf="attendee">Export</a>
@@ -175,9 +175,9 @@
                 </svg>                              
                 Open Day</span>
               <div class="weekDays-selector-box flex justify-between">
-                <label for="weekday-su" class="flex flex-col items-center" *ngFor="let day of weekdays">
+                <label for="weekday-su" class="flex flex-col items-center" *ngFor="let day of weekDays">
                   <input type="checkbox" id="weekday-su" class="weekday appearance-none w-1 h-1 rounded-full bg-transparent" [checked]="day.isSelected" disabled/>
-                  <span class="block text-base font-bold text-quicksilver">{{day.value}}</span>
+                  <span class="block text-base font-bold text-quicksilver">{{day.label}}</span>
                 </label>
               </div>
             </div>

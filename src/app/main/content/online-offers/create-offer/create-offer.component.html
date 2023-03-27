@@ -96,7 +96,7 @@
         </div>
         <div class="w-full lg:w-1/2 px-2 pt-5">
           <div class="upload-holder w-full h-auto relative">
-            <span class="text-sm text-quicksilver font-semibold">Add Poster <span class="font-normal">(Max size 10MB)</span></span>
+            <span class="text-sm text-quicksilver font-semibold">Add Poster <span class="font-normal">(Max size 10MB)</span><span class="text-magicPotion">*</span></span>
             <label class="upload upload-popup p-0 relative group" id="posterUpload">
               <input (change)="onPosterChange($event)" accept="image/png, image/jpeg, image/gif" class="poster hidden" id="poster" type="file" />
             </label>
@@ -140,10 +140,9 @@
         </div>
         <div class="w-full px-2 pt-5">
           <div class="bg-white p-3.5 lg:p-5 offerProducts rounded-md w-full" formArrayName="product_links">
-            <div class="flex items-center -mx-2" *ngFor="let child of productLinks.controls; let i = index" [formGroupName]="i">
+            <div class="flex items-center mb-4 -mx-2" *ngFor="let child of productLinks.controls; let i = index" [formGroupName]="i">
               <div class="w-full lg:w-1/2 px-2 inputHolder relative">
-                <span class="input-titel">select platform</span>
-
+                <span class="input-titel">Select platform<span>*</span></span>
                 <!--Using items input-->
                 <ng-select [items]="platformArr" class="selectBox" bindLabel="name" bindValue="_id" formControlName="platform">
                   <ng-template ng-header-tmp>
@@ -168,7 +167,7 @@
                 </span>
               </div>
               <div class="w-full lg:w-1/2 px-2 relative">
-                <span class="input-titel">enter platform product link</span>
+                <span class="input-titel">Enter platform product link<span>*</span></span>
                 <div class="w-full flex items-center space-x-5">
                   <div class="w-full inputHolder">
                     <input type="text" class="bgquicksilver bg-white" formControlName="product_link" />
@@ -277,7 +276,7 @@
             <input type="checkbox" [formControlName]="'status'" name="status" [checked]="false" />
             <i class="icon-right text-white"></i>
           </div>
-          <span class="input-titel text-base ml-4">Agree with our terms and conditions</span>
+          <span class="input-titel text-base ml-4">Agree with our Terms And Conditions</span>
         </label>
         <span class="absolute top-full left-0 text-red-500 text-xs" *ngIf="tandcForm.get('status')?.invalid && (tandcForm.get('status')?.dirty && tandcForm.get('status')?.touched)">
           <span *ngIf="tandcForm.get('status')?.errors?.['required']">

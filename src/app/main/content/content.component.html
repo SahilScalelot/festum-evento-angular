@@ -310,6 +310,9 @@
             </div>
           </div>
         </div>
+        <div class="bg-white rounded-md text-center p-9 space-y-2" *ngIf="!searchObj?.events?.length && !searchObj?.shops?.length && !searchObj?.offlineoffer?.length && !searchObj?.onlineoffer?.length && !searchObj?.livestreams?.length">
+          <h4 class="w-full">No result found</h4>
+        </div>
       </div>
 
       <!-- Right Bar -->

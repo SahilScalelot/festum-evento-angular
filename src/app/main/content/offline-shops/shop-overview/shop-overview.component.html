@@ -172,9 +172,9 @@
                   </svg>
                   Open Day</span>
                 <div class="weekDays-selector-box flex justify-between">
-                  <label for="weekday-su" class="flex flex-col items-center" *ngFor="let day of weekdays">
+                  <label for="weekday-su" class="flex flex-col items-center" *ngFor="let day of weekDays">
                     <input type="checkbox" id="weekday-su" class="weekday appearance-none w-1 h-1 rounded-full bg-transparent" [checked]="day.isSelected" disabled/>
-                    <span class="block text-base font-bold text-quicksilver">{{day.value}}</span>
+                    <span class="block text-base font-bold text-quicksilver">{{day.label}}</span>
                   </label>
                 </div>
               </div>

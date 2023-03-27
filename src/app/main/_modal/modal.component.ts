@@ -14,7 +14,7 @@ import { trigger, transition, style, animate, state } from '@angular/animations'
         trigger('fade', [
             state('out', style({
                 transform: 'scale3d(0.9, 0.9, 0.9)'
-            })),          
+            })),
             state('in', style({
                 transform: 'scale3d(1, 1, 1)'
             })),

@@ -26,7 +26,7 @@
     <!-- tab-holder  -->
     <div class="teb-holder">
       <button [class]="overview ? 'active' : ''" (click)="onTabChange('overview')" type="button">Overview</button>
-      <button [class]="attendee ? 'active' : ''" (click)="onTabChange('attendee')" type="button" *ngIf="liveStreamObj?.attendee?.length">Attendee</button>
+      <button [class]="attendee ? 'active' : ''" (click)="onTabChange('attendee')" type="button" *ngIf="liveStreamObj?.attendee?.length">Attendees</button>
       <button [class]="reviews ? 'active' : ''" (click)="onTabChange('reviews')" type="button" *ngIf="liveStreamObj?.reviews?.length">Reviews</button>
       <button [class]="subscription ? 'active' : ''" (click)="onTabChange('subscription')" type="button" *ngIf="liveStreamObj?.subscription?.length">Subscription</button>
 
