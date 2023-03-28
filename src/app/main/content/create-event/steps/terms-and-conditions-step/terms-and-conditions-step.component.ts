@@ -146,13 +146,13 @@ export class TermsAndConditionsStepComponent implements OnInit {
 
   private _prepareTAndCForm(eventObj: any = {}): void {
     this.termsAndConditionsForm = this._formBuilder.group({
-      t_and_c: [eventObj?.t_and_c, [Validators.required]],
-      facebook: [eventObj?.facebook],
-      youtube: [eventObj?.youtube],
-      twitter: [eventObj?.twitter],
-      pinterest: [eventObj?.pinterest],
-      instagram: [eventObj?.instagram],
-      linkedin: [eventObj?.linkedin],
+      t_and_c: [eventObj?.t_and_c || '', [Validators.required]],
+      facebook: [eventObj?.facebook || ''],
+      youtube: [eventObj?.youtube || ''],
+      twitter: [eventObj?.twitter || ''],
+      pinterest: [eventObj?.pinterest || ''],
+      instagram: [eventObj?.instagram || ''],
+      linkedin: [eventObj?.linkedin || ''],
       status: [false, [Validators.requiredTrue]],
     });
 
