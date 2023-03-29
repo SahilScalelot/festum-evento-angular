@@ -697,7 +697,7 @@
             <div class="relative">
               <label for="name" class="leading-7 text-sm font-medium">Company Name <span class="text-ev-red">*</span>
               </label>
-              <input type="text" id="company_name" [formControlName]="'company_name'" name="company_name" placeholder="Festume Evento" class="relative flex-auto min-w-0 block w-full px-3 py-2 md:py-3 lg:py-4 text-base font-normal text-gray-700 bg-[#EEEEEE] bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0focus:border-gray-500 focus:ring-2 focus:ring-gray-300 outline-none" value="">
+              <input type="text" id="company_name" [formControlName]="'company_name'" name="company_name" placeholder="Company Name" class="relative flex-auto min-w-0 block w-full px-3 py-2 md:py-3 lg:py-4 text-base font-normal text-gray-700 bg-[#EEEEEE] bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0focus:border-gray-500 focus:ring-2 focus:ring-gray-300 outline-none" value="">
               <small class="absolute top-full left-0 text-ev-red text-xs" *ngIf="queryForm.get('company_name')?.invalid && (queryForm.get('company_name')?.dirty && queryForm.get('company_name')?.touched)">
                 <span *ngIf="queryForm.get('company_name')?.errors?.['required']">Company name is Required.</span>
               </small>
