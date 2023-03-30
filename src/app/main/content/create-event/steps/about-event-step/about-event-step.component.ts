@@ -70,7 +70,7 @@ export class AboutEventStepComponent implements OnInit {
       date: [eventObj && eventObj.start_date ? [new Date(eventObj?.start_date), new Date(eventObj?.end_date)] : '', [Validators.required, this.startAndEndDateValidator]],
       start_time: [(eventObj?.start_time) ? moment(eventObj?.start_time, 'hh:mm').format('hh:mm a') : '', [Validators.required]],
       end_time: [(eventObj?.end_time) ? moment(eventObj?.end_time, 'hh:mm').format('hh:mm a') : '', [Validators.required]],
-      about_event: [eventObj?.about_event],
+      about_event: [eventObj?.about_event, [Validators.required]],
     });
 
     if (eventObj?.about_event) {

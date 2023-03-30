@@ -3,7 +3,7 @@
 <form #newEventNgForm="ngForm" [formGroup]="aboutEventForm" class="p-ngCss space-y-5 px-2" id="about-event">
   <div class="flex flex-wrap -mx-2">
     <div class="w-full xl:w-1/2 px-2 pt-5 relative">
-      <span class="input-titel">Start And End Date</span>
+      <span class="input-titel">Start And End Date <span class="text-ev-red">*</span></span>
       <label class="bg-white rounded-md flex space-x-3 relative">
         <i class="icon-calendar-2 text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0 z-10"></i>
         <p-calendar class="w-full" styleClass="w-full"
@@ -20,7 +20,7 @@
     </div>
     <div class="w-full xl:w-1/2 px-2 pt-5 flex space-x-4">
       <div class="w-full lg:w-1/2 relative">
-        <span class="input-titel">Start Time</span>
+        <span class="input-titel">Start Time <span class="text-ev-red">*</span></span>
         <label class="bg-white rounded-md flex space-x-3 relative">
           <i class="icon-time text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0"></i>
           <p-calendar class="w-4/5" [formControlName]="'start_time'" name="start_time" [showTime]="true" [hourFormat]="'12'" [timeOnly]="true" inputId="start_time" [showButtonBar]="true"></p-calendar>
@@ -32,7 +32,7 @@
         </span>
       </div>
       <div class="w-full lg:w-1/2 relative">
-        <span class="input-titel">End Time</span>
+        <span class="input-titel">End Time <span class="text-ev-red">*</span></span>
         <label class="bg-white rounded-md flex space-x-3 relative">
           <i class="icon-time text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0"></i>
           <p-calendar class="w-4/5" [formControlName]="'end_time'" name="end_time" [showTime]="true" [hourFormat]="'12'" [timeOnly]="true" inputId="end_time" [showButtonBar]="true"></p-calendar>
@@ -46,10 +46,15 @@
     </div>
   </div>
   <div class="w-full relative">
-    <span class="input-titel">About Event <i class="text-xs font-medium" [ngClass]="{'text-magicPotion' : textEditor}">( {{textEditorLimit}} characters out of {{textEditorMaxLimit}} )</i></span>
+    <span class="input-titel">About Event <span class="text-ev-red">*</span> <i class="text-xs font-medium" [ngClass]="{'text-magicPotion' : textEditor}">( {{textEditorLimit}} characters out of {{textEditorMaxLimit}} )</i></span>
     <div class="w-full bg-white rounded relative">
       <ckeditor (ready)="onTextEditorReady($event)" (keyup)="editorCharacterSet()" [config]="editorConfig" [editor]="detailEditor" [formControlName]="'about_event'" class="h-44 text-editor" id="about_event" name="about_event"></ckeditor>
       <!-- <span class="absolute top-full text-red-500 text-xs" *ngIf="textEditor != ''">{{textEditor}}</span> -->
+      <span class="absolute top-full text-red-500 text-xs" *ngIf="aboutEventForm.get('about_event')?.invalid && (aboutEventForm.get('about_event')?.dirty && aboutEventForm.get('about_event')?.touched)">
+        <span *ngIf="aboutEventForm.get('about_event')?.errors?.['required']">
+          About Event is required.
+        </span>
+      </span>
     </div>
     <!-- <textarea cols="30" rows="4" [formControlName]="'about_event'" name="about_event" class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md placeholder:text-sm placeholder:text-[#a6a6a6] placeholder:font-bold"></textarea> -->
   </div>
