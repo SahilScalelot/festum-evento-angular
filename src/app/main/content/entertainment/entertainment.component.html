@@ -36,10 +36,13 @@
 <modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="detailPop" [title]="tmpEObj?.name" maxWidth="lg:max-w-3xl" *ngIf="allEntertainmentPhotosAndVideosList && allEntertainmentPhotosAndVideosList.length">
   <div class="pt-6 space-y-5">
     <div class="flex items-center relative">
-      <img [src]="!!(tmpEObj?.url) ? constants.baseImageURL + tmpEObj.url : constants.defaultImage" [alt]="tmpEObj?.name" *ngIf="tmpEObj?.media == 'photo'"
-        class="mx-auto" />
-      <video [src]="!!(tmpEObj?.url) ? constants.baseImageURL + tmpEObj.url : constants.defaultImage" *ngIf="tmpEObj?.media == 'video'"
-        class="w-full h-full object-cover bg-white" controls></video>
+      <div class="w-1/2">
+        <img [src]="!!(tmpEObj?.url) ? constants.baseImageURL + tmpEObj.url : constants.defaultImage" [alt]="tmpEObj?.name" *ngIf="tmpEObj?.media == 'photo'" class="mx-auto" />
+        <video [src]="!!(tmpEObj?.url) ? constants.baseImageURL + tmpEObj.url : constants.defaultImage" *ngIf="tmpEObj?.media == 'video'" class="w-full h-full object-cover bg-white" controls></video>
+      </div>
+      <div class="w-1/2">
+        
+      </div>
     </div>
   </div>
 </modal>
