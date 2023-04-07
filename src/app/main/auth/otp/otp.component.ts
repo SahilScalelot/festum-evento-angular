@@ -49,7 +49,7 @@ export class OtpComponent implements OnInit {
     this.isLoading = true;
     this._authService.sendOTP({ mobile: this.phone }, this.isForgotPwdFlow).subscribe((result: any) => {
       if (result && result.IsSuccess) {
-        this.smsKey = result.smsKey;        
+        this.smsKey = result.smsKey;
         if (this.isForgotPwdFlow) {
           this.forgotPwdObj.smsKey = result.smsKey;
           localStorage.setItem('forgot-password', JSON.stringify(this.forgotPwdObj));
@@ -70,6 +70,23 @@ export class OtpComponent implements OnInit {
   }
 
   onChangeNumberClick(): void {
+    if (this.registerObj && this.registerObj?.organizerid) {
+      this.isLoading = true;
+      this._authService.changeNumber(this.registerObj.organizerid).subscribe((result: any) => {
+        if (result && result.IsSuccess) {
+          this._sNotify.success(result.Message, 'Success');
+          this.isLoading = false;
+          this._router.navigate(['/register']);
+        } else {
+          // this._sNotify.success(result.Message, 'error');
+          this._globalFunctions.successErrorHandling(result, this, true);
+          this.isLoading = false;
+        }
+      }, (error: any) => {
+        this._globalFunctions.errorHanding(error, this, true);
+        this.isLoading = false;
+      });
+    }
     this._router.navigate([this.isForgotPwdFlow ? '/forgot-password' : '/register']);
   }
 
@@ -111,7 +128,7 @@ export class OtpComponent implements OnInit {
   }
 
   registerUser(verifyOTP: any): any {
-    this.isLoading = true;    
+    this.isLoading = true;
     this._authService.verifyCode(verifyOTP).subscribe((result: any) => {
       if (result.IsSuccess) {
         localStorage.removeItem('register');

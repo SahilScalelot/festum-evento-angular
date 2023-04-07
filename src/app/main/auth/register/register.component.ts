@@ -74,6 +74,7 @@ export class RegisterComponent implements OnInit {
       if (result && result.IsSuccess) {
         const preparedForgotPwdObj: any = this.registerForm.value;
         preparedForgotPwdObj.smsKey = result.Data.key;
+        preparedForgotPwdObj.organizerid = result.Data.organizerid;
         localStorage.setItem("register", JSON.stringify(preparedForgotPwdObj));
         this._router.navigate(['/otp']);
       } else {

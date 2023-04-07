@@ -18,4 +18,12 @@ export class EntertainmentService {
     return this.http.get(environment.appURL + 'organizer/entertainment/myposts', this._globalFunctions.getAuthorizationHeader());
   }
 
+  
+  getAllComments(itemEV: any = {}): any {
+    return this.http.post(environment.appURL + 'organizer/entertainment/allcomments', itemEV, this._globalFunctions.getAuthorizationHeader());
+  }
+  comment(itemEV: any = {}): any {
+    return this.http.post(environment.appURL + 'organizer/entertainment/comment', itemEV, this._globalFunctions.getAuthorizationHeader());
+  }
+
 }
