@@ -8,6 +8,7 @@ import { GlobalService } from 'src/app/services/global.service';
 import { CreateEventService } from '../../create-event.service';
 // @ts-ignore
 import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-personal-details-step',
@@ -36,7 +37,9 @@ export class PersonalDetailsStepComponent implements OnInit {
     private _globalService: GlobalService,
     private _createEventService: CreateEventService,
     private _globalFunctions: GlobalFunctions,
-  ) {}
+  ) {
+    this.pincodeValidation = _.debounce(this.pincodeValidation, 1000)
+  }
 
   ngOnInit(): void {
     if (!localStorage.getItem('eId') || localStorage.getItem('eId') == '') {
@@ -97,6 +100,7 @@ export class PersonalDetailsStepComponent implements OnInit {
   }
 
   pincodeValidation(pincode: any = ''): any {
+    this.isLoading = true;
     if (pincode && pincode != '') {
       this._globalService.pincodeValidation(pincode).subscribe((result: any) => {
         if (result && result[0] && result[0].Status) {
@@ -115,7 +119,12 @@ export class PersonalDetailsStepComponent implements OnInit {
             this.personalDetailForm?.controls['city']?.setErrors((this.personalDetailsObj?.District && companyFormValueObj?.city && (this.personalDetailsObj.District).toLowerCase() != (companyFormValueObj?.city).toLowerCase()) ? {'not_match': true} : null);
             this.personalDetailForm?.controls['state']?.setErrors((this.personalDetailsObj?.State && companyFormValueObj?.state && (this.personalDetailsObj.State).toLowerCase() != (companyFormValueObj?.state).toLowerCase()) ? {'not_match': true} : null);
             this.personalDetailForm?.controls['pincode']?.setErrors((this.personalDetailsObj?.Pincode && companyFormValueObj?.pincode && this.personalDetailsObj.Pincode != companyFormValueObj?.pincode) ? {'not_match': true} : null);
+
+            this.personalDetailForm.get('state').setValue(result[0]?.PostOffice[0]?.State);
+            this.personalDetailForm.get('city').setValue(result[0]?.PostOffice[0]?.District);
+            this.isLoading = false;
           } else if (result[0].Status == 'Error') {
+            this.isLoading = false;
             this.personalDetailForm?.controls['pincode']?.setErrors({'pattern': true});
           }          
         }

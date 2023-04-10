@@ -83,35 +83,43 @@
           <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4">
             <span class="input-titel">Area Name.</span>
             <input [formControlName]="'area'" class="input font-bold" type="text"/>
-          </div>
-          <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4">
-            <span class="input-titel">City</span>
-            <input type="text" class="input font-bold" formControlName='city' fuseValidAlphabet/>
-            <span *ngIf="profileCity && profileCity.invalid && profileCity.touched" class="text-red-500 text-xs">
-              <span *ngIf="profileCity?.errors?.required">
-                City is required
+          </div>          
+          <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4 relative">
+            <label class="input-titel">City</label>
+            <input [formControlName]="'city'" class="input font-bold" type="text" fuseValidAlphabet (keyup)="pincodeValidation(pincode.value)"/>
+            <span class="absolute top-full text-red-500 text-xs" *ngIf="profileForm.get('city')?.invalid && (profileForm.get('city')?.dirty && profileForm.get('city')?.touched)">
+              <span *ngIf="profileForm.get('city')?.errors?.['required']">
+                City is required.
+              </span>
+              <span *ngIf="profileForm.get('city')?.errors?.['not_match']">
+                City is not match pin code wise.
               </span>
             </span>
           </div>
-          <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4">
-            <span class="input-titel">pincode</span>
-            <input type="text" class="input font-bold" formControlName='pincode' fuseValidNumber/>
-            <span *ngIf="profilePincode && profilePincode.invalid && profilePincode.touched" class="text-red-500 text-xs">
-              <span *ngIf="profilePincode?.errors?.maxlength">
-                pincode must be 6 characters.
+          <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4 relative">
+            <label class="input-titel">State</label>
+            <input [formControlName]="'state'" class="input font-bold" type="text" fuseValidAlphabet (keyup)="pincodeValidation(pincode.value)"/>
+            <span class="absolute top-full text-red-500 text-xs" *ngIf="profileForm.get('state')?.invalid && (profileForm.get('state')?.dirty && profileForm.get('state')?.touched)">
+              <span *ngIf="profileForm.get('state')?.errors?.['required']">
+                State is required.
               </span>
-
-              <span *ngIf="profilePincode?.errors?.required">
-                Pincode is required
+              <span *ngIf="profileForm.get('state')?.errors?.['not_match']">
+                State is not match pin code wise.
               </span>
             </span>
           </div>
-          <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4">
-            <span class="input-titel">State</span>
-            <input type="text" class="input font-bold" formControlName='state' fuseValidAlphabet/>
-            <span *ngIf="profileState && profileState.invalid && profileState.touched" class="text-red-500 text-xs">
-              <span *ngIf="profileState?.errors?.required">
-                State is required
+          <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4 relative">
+            <label class="input-titel">Pincode</label>
+            <input #pincode [formControlName]="'pincode'" class="input font-bold" type="text" fuseValidNumber (keyup)="pincodeValidation(pincode.value)"/>
+            <span class="absolute top-full text-red-500 text-xs" *ngIf="profileForm.get('pincode')?.invalid && (profileForm.get('pincode')?.dirty && profileForm.get('pincode')?.touched)">
+              <span *ngIf="profileForm.get('pincode')?.errors?.['required']">
+                Pincode is required.
+              </span>
+              <span *ngIf="profileForm.get('pincode')?.errors?.['pattern']">
+                Please enter valid Pincode.
+              </span>
+              <span *ngIf="profileForm.get('pincode')?.errors?.['not_match']">
+                Pincode is not found.
               </span>
             </span>
           </div>
@@ -207,7 +215,48 @@
             <span class="input-titel">Area Name.</span>
             <input [formControlName]="'area'" class="input font-bold" type="text"/>
           </div>
+
           <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4 relative">
+            <label class="input-titel">City</label>
+            <input [formControlName]="'city'" class="input font-bold" type="text" fuseValidAlphabet (keyup)="pincodeValidation(pincode.value, true)"/>
+            <span class="absolute top-full text-red-500 text-xs" *ngIf="profileForm.get('city')?.invalid && (profileForm.get('city')?.dirty && profileForm.get('city')?.touched)">
+              <span *ngIf="businessForm.get('city')?.errors?.['required']">
+                City is required.
+              </span>
+              <span *ngIf="businessForm.get('city')?.errors?.['not_match']">
+                City is not match pin code wise.
+              </span>
+            </span>
+          </div>
+          <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4 relative">
+            <label class="input-titel">State</label>
+            <input [formControlName]="'state'" class="input font-bold" type="text" fuseValidAlphabet (keyup)="pincodeValidation(pincode.value, true)"/>
+            <span class="absolute top-full text-red-500 text-xs" *ngIf="businessForm.get('state')?.invalid && (businessForm.get('state')?.dirty && businessForm.get('state')?.touched)">
+              <span *ngIf="businessForm.get('state')?.errors?.['required']">
+                State is required.
+              </span>
+              <span *ngIf="businessForm.get('state')?.errors?.['not_match']">
+                State is not match pin code wise.
+              </span>
+            </span>
+          </div>
+          <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4 relative">
+            <label class="input-titel">Pincode</label>
+            <input #pincode [formControlName]="'pincode'" class="input font-bold" type="text" fuseValidNumber (keyup)="pincodeValidation(pincode.value, true)"/>
+            <span class="absolute top-full text-red-500 text-xs" *ngIf="businessForm.get('pincode')?.invalid && (businessForm.get('pincode')?.dirty && businessForm.get('pincode')?.touched)">
+              <span *ngIf="businessForm.get('pincode')?.errors?.['required']">
+                Pincode is required.
+              </span>
+              <span *ngIf="businessForm.get('pincode')?.errors?.['pattern']">
+                Please enter valid Pincode.
+              </span>
+              <span *ngIf="businessForm.get('pincode')?.errors?.['not_match']">
+                Pincode is not found.
+              </span>
+            </span>
+          </div>
+          
+          <!-- <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4 relative">
             <label class="input-titel">City<span class="text-magicPotion">*</span></label>
             <input [formControlName]="'city'" class="input font-bold" type="text" fuseValidAlphabet/>
             <span class="absolute top-full text-red-500 text-xs" *ngIf="businessForm.get('city')?.invalid && (businessForm.get('city')?.dirty && businessForm.get('city')?.touched)">
@@ -236,7 +285,7 @@
                 Please enter valid Pincode.
               </span>
             </span>
-          </div>
+          </div> -->
           <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4 relative">
             <span class="input-titel">Country Name.</span>
             <input [formControlName]="'country'" class="input font-bold" type="text"/>

@@ -6,6 +6,7 @@ import { ProfileService } from './profile.service';
 import { GlobalFunctions } from '../../common/global-functions';
 import * as moment from 'moment';
 import { SnotifyService } from 'ng-snotify';
+import * as _ from 'lodash';
 declare let $: any;
 // @ts-ignore
 import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
@@ -72,12 +73,16 @@ export class ProfileComponent implements OnInit {
     return this.businessForm.get('country')
   }
 
+  pincodeValidationObj: any = '';
+
   constructor(
     private _formBuilder: FormBuilder,
     private _globalService: GlobalService,
     private _globalFunctions: GlobalFunctions,
     private _sNotify: SnotifyService,
-    private _profileService: ProfileService) {
+    private _profileService: ProfileService
+  ) {
+    this.pincodeValidation = _.debounce(this.pincodeValidation, 1000)
   }
 
 
@@ -99,8 +104,9 @@ export class ProfileComponent implements OnInit {
     this._prepareProfileForm(this.profileObj);
     this._prepareBusinessForm(this.profileObj?.businessProfile);
     // this._getUserDetail();
+    this.pincodeValidation(this.profileObj.value.pincode);
   }
-  
+
   onTextEditorReady(editor: any): void {
     editor.ui.getEditableElement().parentElement.insertBefore(
       editor.ui.view.toolbar.element,
@@ -108,6 +114,69 @@ export class ProfileComponent implements OnInit {
     );
   }
 
+  pincodeValidation(pincode: any = '', isBusinessProfile: boolean = false): any {
+    this.isLoading = true;
+    if (pincode && pincode != '') {
+      this._globalService.pincodeValidation(pincode).subscribe((result: any) => {
+        if (result && result[0] && result[0].Status) {
+          if (isBusinessProfile) {
+            if (result[0].Status == 'Success') {
+              this.pincodeValidationObj = result[0].PostOffice[0];
+              const businessFormValueObj = this.businessForm?.value || {};
+
+              this.businessForm.markAsTouched();
+              this.businessForm?.get('city')?.markAsTouched();
+              this.businessForm?.get('state')?.markAsTouched();
+              this.businessForm?.get('pincode')?.markAsTouched();
+              this.businessForm?.controls['city']?.markAsDirty();
+              this.businessForm?.controls['state']?.markAsDirty();
+              this.businessForm?.controls['pincode']?.markAsDirty();
+              
+              this.businessForm?.controls['city']?.setErrors((this.pincodeValidationObj?.District && businessFormValueObj?.city && (this.pincodeValidationObj.District).toLowerCase() != (businessFormValueObj?.city).toLowerCase()) ? {'not_match': true} : null);
+              this.businessForm?.controls['state']?.setErrors((this.pincodeValidationObj?.State && businessFormValueObj?.state && (this.pincodeValidationObj.State).toLowerCase() != (businessFormValueObj?.state).toLowerCase()) ? {'not_match': true} : null);
+              this.businessForm?.controls['pincode']?.setErrors((this.pincodeValidationObj?.Pincode && businessFormValueObj?.pincode && this.pincodeValidationObj.Pincode != businessFormValueObj?.pincode) ? {'not_match': true} : null);
+
+              this.businessForm.get('state').setValue(result[0]?.PostOffice[0]?.State);
+              this.businessForm.get('city').setValue(result[0]?.PostOffice[0]?.District);
+              this.isLoading = false;
+            } else if (result[0].Status == 'Error') {
+              this.businessForm?.controls['pincode']?.setErrors({'pattern': true});
+              this.isLoading = false;
+            }
+          } else {
+            if (result[0].Status == 'Success') {
+              this.pincodeValidationObj = result[0].PostOffice[0];
+              const profileFormValueObj = this.profileForm?.value || {};
+  
+              this.profileForm.markAsTouched();
+              this.profileForm?.get('city')?.markAsTouched();
+              this.profileForm?.get('state')?.markAsTouched();
+              this.profileForm?.get('pincode')?.markAsTouched();
+              this.profileForm?.controls['city']?.markAsDirty();
+              this.profileForm?.controls['state']?.markAsDirty();
+              this.profileForm?.controls['pincode']?.markAsDirty();
+              
+              this.profileForm?.controls['city']?.setErrors((this.pincodeValidationObj?.District && profileFormValueObj?.city && (this.pincodeValidationObj.District).toLowerCase() != (profileFormValueObj?.city).toLowerCase()) ? {'not_match': true} : null);
+              this.profileForm?.controls['state']?.setErrors((this.pincodeValidationObj?.State && profileFormValueObj?.state && (this.pincodeValidationObj.State).toLowerCase() != (profileFormValueObj?.state).toLowerCase()) ? {'not_match': true} : null);
+              this.profileForm?.controls['pincode']?.setErrors((this.pincodeValidationObj?.Pincode && profileFormValueObj?.pincode && this.pincodeValidationObj.Pincode != profileFormValueObj?.pincode) ? {'not_match': true} : null);
+  
+              this.profileForm.get('state').setValue(result[0]?.PostOffice[0]?.State);
+              this.profileForm.get('city').setValue(result[0]?.PostOffice[0]?.District);
+              this.isLoading = false;
+            } else if (result[0].Status == 'Error') {
+              this.profileForm?.controls['pincode']?.setErrors({'pattern': true});
+              this.isLoading = false;
+            }
+
+          }
+        }
+      }, (error: any) => {
+        this._globalFunctions.errorHanding(error, this, true);
+        this.isLoading = false;
+      });
+    }
+    this.isLoading = false;
+  }
   // private _getUserDetail(): void {
   //   this.isLoading = true;
   //   this._authService.getLoginUser().subscribe((result: any) => {
@@ -132,7 +201,7 @@ export class ProfileComponent implements OnInit {
           this.enableFields();
           this.isImageLoading = false;
           // window.location.reload();
-        } else {  
+        } else {
           this._globalFunctions.successErrorHandling(result, this, true);
         }
       }, (error: any) => {
@@ -163,7 +232,7 @@ export class ProfileComponent implements OnInit {
           this.isEditProfile = false;
           this.isLoading = false;
           // window.location.reload();
-        } else {  
+        } else {
           this._globalFunctions.successErrorHandling(result, this, true);
         }
       }, (error: any) => {
@@ -180,7 +249,7 @@ export class ProfileComponent implements OnInit {
         personalProfileDataObj.append(field, value);
       }
     });
-    
+
     const profile_pic = $('input[id=profile_pic]')[0].files[0];
     if (profile_pic !== undefined) {
       personalProfileDataObj.append('profile_pic', profile_pic);
@@ -208,7 +277,7 @@ export class ProfileComponent implements OnInit {
           this.isEditBusinessProfile = false;
           this.isLoading = false;
           // window.location.reload();
-        } else {  
+        } else {
           this._globalFunctions.successErrorHandling(result, this, true);
         }
       }, (error: any) => {
@@ -255,9 +324,9 @@ export class ProfileComponent implements OnInit {
       email: [{ value: personalProfileObj?.email, disabled: true }, [Validators.required]],
       mobile: [{ value: personalProfileObj?.mobile, disabled: true }, [Validators.required]],
       dob: [{ value: (preparedDOB && preparedDOB._d && preparedDOB._d != 'Invalid Date') ? preparedDOB._d : null, disabled: true }, [Validators.required]],
-      flat_no: [{value: personalProfileObj?.flat_no || '', disabled: true}],
-      street: [{value: personalProfileObj?.street || '', disabled: true}],
-      area: [{value: personalProfileObj?.area || '', disabled: true}],
+      flat_no: [{ value: personalProfileObj?.flat_no || '', disabled: true }],
+      street: [{ value: personalProfileObj?.street || '', disabled: true }],
+      area: [{ value: personalProfileObj?.area || '', disabled: true }],
       city: [{ value: personalProfileObj?.city, disabled: true }, [Validators.required]],
       pincode: [{ value: personalProfileObj?.pincode, disabled: true }, [Validators.required, Validators.maxLength(6), Validators.pattern('^[0-9]+(\.?[0-9]+)?$')]],
       state: [{ value: personalProfileObj?.state, disabled: true }, [Validators.required]],
@@ -266,21 +335,21 @@ export class ProfileComponent implements OnInit {
       about: [{ value: personalProfileObj?.about || '', disabled: true }]
     });
   }
-  
+
   private _prepareBusinessForm(businessProfileObj: any = {}): void {
     this.businessForm = this._formBuilder.group({
-      name: [{value: businessProfileObj?.name || '', disabled: true}, [Validators.minLength(2)]],
-      mobile: [{value: businessProfileObj?.mobile || '', disabled: true}, [Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
-      email: [{value: businessProfileObj?.email || '', disabled: true}, [Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
-      country: [{value: businessProfileObj?.country || '', disabled: true}, [Validators.required]],
-      country_code: [{value: businessProfileObj?.country_code || '', disabled: true}, [Validators.required]],
-      flat_no: [{value: businessProfileObj?.flat_no || '', disabled: true}],
-      street: [{value: businessProfileObj?.street || '', disabled: true}],
-      area: [{value: businessProfileObj?.area || '', disabled: true}],
-      city: [{value: businessProfileObj?.city || '', disabled: true}, [Validators.required]],
-      state: [{value: businessProfileObj?.state || '', disabled: true}, [Validators.required]],
-      pincode: [{value: businessProfileObj?.pincode || '', disabled: true}, [Validators.required, Validators.pattern('^[1-9]{1}[0-9]{2}\\s{0,1}[0-9]{3}$')]],
-      about: [{value: businessProfileObj?.about || '', disabled: true}],
+      name: [{ value: businessProfileObj?.name || '', disabled: true }, [Validators.minLength(2)]],
+      mobile: [{ value: businessProfileObj?.mobile || '', disabled: true }, [Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
+      email: [{ value: businessProfileObj?.email || '', disabled: true }, [Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
+      country: [{ value: businessProfileObj?.country || '', disabled: true }, [Validators.required]],
+      country_code: [{ value: businessProfileObj?.country_code || '', disabled: true }, [Validators.required]],
+      flat_no: [{ value: businessProfileObj?.flat_no || '', disabled: true }],
+      street: [{ value: businessProfileObj?.street || '', disabled: true }],
+      area: [{ value: businessProfileObj?.area || '', disabled: true }],
+      city: [{ value: businessProfileObj?.city || '', disabled: true }, [Validators.required]],
+      state: [{ value: businessProfileObj?.state || '', disabled: true }, [Validators.required]],
+      pincode: [{ value: businessProfileObj?.pincode || '', disabled: true }, [Validators.required, Validators.pattern('^[1-9]{1}[0-9]{2}\\s{0,1}[0-9]{3}$')]],
+      about: [{ value: businessProfileObj?.about || '', disabled: true }],
     });
   }
 }

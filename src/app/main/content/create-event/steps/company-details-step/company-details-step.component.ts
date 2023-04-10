@@ -72,7 +72,9 @@ export class CompanyDetailsStepComponent implements OnInit {
     private _createEventService: CreateEventService,
     private _globalService: GlobalService,
     private _modalService: ModalService,
-  ) {}
+  ) {
+    this.pincodeValidation = _.debounce(this.pincodeValidation, 1000)
+  }
 
   ngOnInit(): void {
     if (!localStorage.getItem('eId') || localStorage.getItem('eId') == '') {
@@ -147,7 +149,7 @@ export class CompanyDetailsStepComponent implements OnInit {
           if (result[0].Status == 'Success') {
             this.pincodeValidationObj = result[0].PostOffice[0];
             const companyFormValueObj = this.companyForm?.value || {};
-            
+
             this.companyForm.markAsTouched();
             this.companyForm?.get('city')?.markAsTouched();
             this.companyForm?.get('state')?.markAsTouched();
@@ -159,6 +161,9 @@ export class CompanyDetailsStepComponent implements OnInit {
             this.companyForm?.controls['city']?.setErrors((this.pincodeValidationObj?.District && companyFormValueObj?.city && (this.pincodeValidationObj.District).toLowerCase() != (companyFormValueObj?.city).toLowerCase()) ? {'not_match': true} : null);
             this.companyForm?.controls['state']?.setErrors((this.pincodeValidationObj?.State && companyFormValueObj?.state && (this.pincodeValidationObj.State).toLowerCase() != (companyFormValueObj?.state).toLowerCase()) ? {'not_match': true} : null);
             this.companyForm?.controls['pincode']?.setErrors((this.pincodeValidationObj?.Pincode && companyFormValueObj?.pincode && this.pincodeValidationObj.Pincode != companyFormValueObj?.pincode) ? {'not_match': true} : null);
+
+            this.companyForm.get('state').setValue(result[0]?.PostOffice[0]?.State);
+            this.companyForm.get('city').setValue(result[0]?.PostOffice[0]?.District);
             this.isLoading = false;
           } else if (result[0].Status == 'Error') {
             this.companyForm?.controls['pincode']?.setErrors({'pattern': true});

@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, Input, NgZone, OnInit, Output, Renderer2, ViewChild} from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, NgZone, OnInit, Output, Renderer2, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, Validators } from "@angular/forms";
 import { CompressImageService } from 'src/app/services/compress-image.service';
 import { GlobalFunctions } from '../../../common/global-functions';
@@ -33,7 +33,7 @@ export class AddEditShopDialogComponent implements OnInit {
   isPdfLoading: boolean = false;
   isPosterLoading: boolean = false;
   isCropperLoading: boolean = false;
-  
+
   detailEditor = DecoupledEditor;
   editorConfig: any = {};
 
@@ -120,7 +120,9 @@ export class AddEditShopDialogComponent implements OnInit {
     private _compressImage: CompressImageService,
     private _modalService: ModalService,
     private _globalService: GlobalService
-  ) { }
+  ) {
+    this.pincodeValidation = _.debounce(this.pincodeValidation, 1000)
+  }
 
   ngOnInit(): void {
     this.getShopCategories();
@@ -185,15 +187,16 @@ export class AddEditShopDialogComponent implements OnInit {
       }
     });
   }
-  
+
   onTextEditorReady(editor: any, fieldForSetData: any): void {
     editor.ui.getEditableElement().parentElement.insertBefore(
       editor.ui.view.toolbar.element,
       editor.ui.getEditableElement()
     );
   }
-  
+
   pincodeValidation(pincode: any = ''): any {
+    this.isLoading = true;
     if (pincode && pincode != '') {
       this._globalService.pincodeValidation(pincode).subscribe((result: any) => {
         if (result && result[0] && result[0].Status) {
@@ -210,12 +213,17 @@ export class AddEditShopDialogComponent implements OnInit {
             formName?.controls['state']?.markAsDirty();
             formName?.controls['pincode']?.markAsDirty();
 
-            formName?.controls['city']?.setErrors((this.pincodeValidationObj?.District && companyFormValueObj?.city && (this.pincodeValidationObj.District).toLowerCase() != (companyFormValueObj?.city).toLowerCase()) ? {'not_match': true} : null);
-            formName?.controls['state']?.setErrors((this.pincodeValidationObj?.State && companyFormValueObj?.state && (this.pincodeValidationObj.State).toLowerCase() != (companyFormValueObj?.state).toLowerCase()) ? {'not_match': true} : null);
-            formName?.controls['pincode']?.setErrors((this.pincodeValidationObj?.Pincode && companyFormValueObj?.pincode && this.pincodeValidationObj.Pincode != companyFormValueObj?.pincode) ? {'not_match': true} : null);
+            formName?.controls['city']?.setErrors((this.pincodeValidationObj?.District && companyFormValueObj?.city && (this.pincodeValidationObj.District).toLowerCase() != (companyFormValueObj?.city).toLowerCase()) ? { 'not_match': true } : null);
+            formName?.controls['state']?.setErrors((this.pincodeValidationObj?.State && companyFormValueObj?.state && (this.pincodeValidationObj.State).toLowerCase() != (companyFormValueObj?.state).toLowerCase()) ? { 'not_match': true } : null);
+            formName?.controls['pincode']?.setErrors((this.pincodeValidationObj?.Pincode && companyFormValueObj?.pincode && this.pincodeValidationObj.Pincode != companyFormValueObj?.pincode) ? { 'not_match': true } : null);
+            
+            formName.get('state').setValue(result[0]?.PostOffice[0]?.State);
+            formName.get('city').setValue(result[0]?.PostOffice[0]?.District);
+            this.isLoading = false;
           } else if (result[0].Status == 'Error') {
-            formName?.controls['pincode']?.setErrors({'pattern': true});
-          }          
+            formName?.controls['pincode']?.setErrors({ 'pattern': true });
+            this.isLoading = false;
+          }
         }
       }, (error: any) => {
         this._globalFunctions.errorHanding(error, this, true);
@@ -379,13 +387,13 @@ export class AddEditShopDialogComponent implements OnInit {
       // if (this.shopId && this.shopId != '') {
       //   this.getOfflineShopByShopId(this.shopId);
       // }
-      
+
       this._offlineShopsService.getOfflineShopByShopId(this.shopId).subscribe((result: any) => {
         if (result?.Data?.banner) {
           this.setPosterInDropify(result?.Data?.banner);
         }
       })
-    },0);
+    }, 0);
     this.isContinue = false;
     // this.closeAddEditFormEvent.emit(isReload==true)
   }
@@ -603,7 +611,7 @@ export class AddEditShopDialogComponent implements OnInit {
       emailid: [addShopObj?.companydetails?.emailid || ''],
       about: [addShopObj?.companydetails?.about || '']
     });
-    
+
     if (addShopObj?.about_shop) {
       this.editorCharacterSet();
     }
