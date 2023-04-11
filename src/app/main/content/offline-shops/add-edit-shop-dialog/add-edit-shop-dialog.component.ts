@@ -196,8 +196,8 @@ export class AddEditShopDialogComponent implements OnInit {
   }
 
   pincodeValidation(pincode: any = ''): any {
-    this.isLoading = true;
     if (pincode && pincode != '') {
+      this.isLoading = true;
       this._globalService.pincodeValidation(pincode).subscribe((result: any) => {
         if (result && result[0] && result[0].Status) {
           const formName = this.addShopForm;
@@ -226,6 +226,7 @@ export class AddEditShopDialogComponent implements OnInit {
           }
         }
       }, (error: any) => {
+        this.isLoading = false;
         this._globalFunctions.errorHanding(error, this, true);
       });
     }

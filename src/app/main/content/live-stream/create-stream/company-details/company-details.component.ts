@@ -75,6 +75,7 @@ export class CompanyDetailsComponent implements OnInit {
 
   pincodeValidation(pincode: any = ''): any {
     if (pincode && pincode != '') {
+      this.isLoading = true;
       this._globalService.pincodeValidation(pincode).subscribe((result: any) => {
         if (result && result[0] && result[0].Status) {
           const formName = this.companyForm;
@@ -96,11 +97,14 @@ export class CompanyDetailsComponent implements OnInit {
             
             formName.get('state').setValue(result[0]?.PostOffice[0]?.State);
             formName.get('city').setValue(result[0]?.PostOffice[0]?.District);
+            this.isLoading = false;
           } else if (result[0].Status == 'Error') {
             formName?.controls['pincode']?.setErrors({'pattern': true});
+            this.isLoading = false;
           }          
         }
       }, (error: any) => {
+        this.isLoading = false;
         this._globalFunctions.errorHanding(error, this, true);
       });
     }

@@ -142,8 +142,8 @@ export class CompanyDetailsStepComponent implements OnInit {
   }
 
   pincodeValidation(pincode: any = ''): any {
-    this.isLoading = true;
     if (pincode && pincode != '') {
+      this.isLoading = true;
       this._globalService.pincodeValidation(pincode).subscribe((result: any) => {
         if (result && result[0] && result[0].Status) {
           if (result[0].Status == 'Success') {

@@ -115,8 +115,8 @@ export class ProfileComponent implements OnInit {
   }
 
   pincodeValidation(pincode: any = '', isBusinessProfile: boolean = false): any {
-    this.isLoading = true;
     if (pincode && pincode != '') {
+      this.isLoading = true;
       this._globalService.pincodeValidation(pincode).subscribe((result: any) => {
         if (result && result[0] && result[0].Status) {
           const formName = isBusinessProfile ? this.businessForm : this.profileForm;
@@ -149,7 +149,6 @@ export class ProfileComponent implements OnInit {
         this.isLoading = false;
       });
     }
-    this.isLoading = false;
   }
   // private _getUserDetail(): void {
   //   this.isLoading = true;
