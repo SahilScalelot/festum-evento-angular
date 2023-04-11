@@ -129,9 +129,11 @@ export class PersonalDetailsStepComponent implements OnInit {
           }          
         }
       }, (error: any) => {
+        this.isLoading = false;
         this._globalFunctions.errorHanding(error, this, true);
       });
     }
+    this.isLoading = false;
   }
 
   getDataFromProfileObj(): void {

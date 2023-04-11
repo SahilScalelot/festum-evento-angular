@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, Validators} from "@angular/forms";
+import { FormBuilder, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { SnotifyService } from "ng-snotify";
 import { GlobalFunctions } from "../../../../common/global-functions";
 import { CreateStreamService } from "../create-stream.service";
-import {CONSTANTS} from "../../../../common/constants";
+import { CONSTANTS } from "../../../../common/constants";
+import * as _ from "lodash";
 import { GlobalService } from 'src/app/services/global.service';
 
 @Component({
@@ -28,7 +29,9 @@ export class PersonalDetailsComponent implements OnInit {
     private _globalFunctions: GlobalFunctions,
     private _createStreamService: CreateStreamService,
     private _globalService: GlobalService
-  ) { }
+  ) {
+    this.pincodeValidation = _.debounce(this.pincodeValidation, 1000)
+  }
 
   ngOnInit(): void {
     this._preparePersonalDetailForm();
@@ -90,12 +93,15 @@ export class PersonalDetailsComponent implements OnInit {
             formName?.controls['state']?.markAsDirty();
             formName?.controls['pincode']?.markAsDirty();
 
-            formName?.controls['city']?.setErrors((this.pincodeValidationObj?.District && companyFormValueObj?.city && (this.pincodeValidationObj.District).toLowerCase() != (companyFormValueObj?.city).toLowerCase()) ? {'not_match': true} : null);
-            formName?.controls['state']?.setErrors((this.pincodeValidationObj?.State && companyFormValueObj?.state && (this.pincodeValidationObj.State).toLowerCase() != (companyFormValueObj?.state).toLowerCase()) ? {'not_match': true} : null);
-            formName?.controls['pincode']?.setErrors((this.pincodeValidationObj?.Pincode && companyFormValueObj?.pincode && this.pincodeValidationObj.Pincode != companyFormValueObj?.pincode) ? {'not_match': true} : null);
+            formName?.controls['city']?.setErrors((this.pincodeValidationObj?.District && companyFormValueObj?.city && (this.pincodeValidationObj.District).toLowerCase() != (companyFormValueObj?.city).toLowerCase()) ? { 'not_match': true } : null);
+            formName?.controls['state']?.setErrors((this.pincodeValidationObj?.State && companyFormValueObj?.state && (this.pincodeValidationObj.State).toLowerCase() != (companyFormValueObj?.state).toLowerCase()) ? { 'not_match': true } : null);
+            formName?.controls['pincode']?.setErrors((this.pincodeValidationObj?.Pincode && companyFormValueObj?.pincode && this.pincodeValidationObj.Pincode != companyFormValueObj?.pincode) ? { 'not_match': true } : null);
+            
+            formName.get('state').setValue(result[0]?.PostOffice[0]?.State);
+            formName.get('city').setValue(result[0]?.PostOffice[0]?.District);
           } else if (result[0].Status == 'Error') {
-            formName?.controls['pincode']?.setErrors({'pattern': true});
-          }          
+            formName?.controls['pincode']?.setErrors({ 'pattern': true });
+          }
         }
       }, (error: any) => {
         this._globalFunctions.errorHanding(error, this, true);
@@ -138,7 +144,7 @@ export class PersonalDetailsComponent implements OnInit {
       is_mobile_hidden: [companyDetailObj?.is_mobile_hidden || false],
       alt_mobile_no: [companyDetailObj?.alt_mobile_no || '', [Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
       is_alt_mobile_hidden: [companyDetailObj?.is_alt_mobile_hidden || false],
-      email: [companyDetailObj?.email || '', [Validators.required,Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
+      email: [companyDetailObj?.email || '', [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
       is_email_hidden: [companyDetailObj?.is_email_hidden || false],
       flat_no: [companyDetailObj?.flat_no || ''],
       street: [companyDetailObj?.street || ''],

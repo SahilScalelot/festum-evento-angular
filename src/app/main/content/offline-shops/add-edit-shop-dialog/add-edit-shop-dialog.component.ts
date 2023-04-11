@@ -330,6 +330,19 @@ export class AddEditShopDialogComponent implements OnInit {
     });
   }
 
+  clickedMarker(label: string) {
+    // console.log(`clicked the marker: ${label}`)
+  }
+
+  mapClicked(markers: marker,event: any) {
+    this.markerDragEnd(markers, event);
+    // this.markers.push({
+    //   lat: $event.coords.lat,
+    //   lng: $event.coords.lng,
+    //   draggable: true
+    // });
+  }
+
   getOfflineShopByShopId(shopId: any = ''): void {
     this.isLoading = true;
     this._offlineShopsService.getOfflineShopByShopId(shopId).subscribe((result: any) => {

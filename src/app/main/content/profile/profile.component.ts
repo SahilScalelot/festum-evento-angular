@@ -119,55 +119,29 @@ export class ProfileComponent implements OnInit {
     if (pincode && pincode != '') {
       this._globalService.pincodeValidation(pincode).subscribe((result: any) => {
         if (result && result[0] && result[0].Status) {
-          if (isBusinessProfile) {
-            if (result[0].Status == 'Success') {
-              this.pincodeValidationObj = result[0].PostOffice[0];
-              const businessFormValueObj = this.businessForm?.value || {};
+          const formName = isBusinessProfile ? this.businessForm : this.profileForm;
+          if (result[0].Status == 'Success') {
+            this.pincodeValidationObj = result[0].PostOffice[0];
+            const formValueObj = formName?.value || {};
 
-              this.businessForm.markAsTouched();
-              this.businessForm?.get('city')?.markAsTouched();
-              this.businessForm?.get('state')?.markAsTouched();
-              this.businessForm?.get('pincode')?.markAsTouched();
-              this.businessForm?.controls['city']?.markAsDirty();
-              this.businessForm?.controls['state']?.markAsDirty();
-              this.businessForm?.controls['pincode']?.markAsDirty();
-              
-              this.businessForm?.controls['city']?.setErrors((this.pincodeValidationObj?.District && businessFormValueObj?.city && (this.pincodeValidationObj.District).toLowerCase() != (businessFormValueObj?.city).toLowerCase()) ? {'not_match': true} : null);
-              this.businessForm?.controls['state']?.setErrors((this.pincodeValidationObj?.State && businessFormValueObj?.state && (this.pincodeValidationObj.State).toLowerCase() != (businessFormValueObj?.state).toLowerCase()) ? {'not_match': true} : null);
-              this.businessForm?.controls['pincode']?.setErrors((this.pincodeValidationObj?.Pincode && businessFormValueObj?.pincode && this.pincodeValidationObj.Pincode != businessFormValueObj?.pincode) ? {'not_match': true} : null);
+            formName.markAsTouched();
+            formName?.get('city')?.markAsTouched();
+            formName?.get('state')?.markAsTouched();
+            formName?.get('pincode')?.markAsTouched();
+            formName?.controls['city']?.markAsDirty();
+            formName?.controls['state']?.markAsDirty();
+            formName?.controls['pincode']?.markAsDirty();
 
-              this.businessForm.get('state').setValue(result[0]?.PostOffice[0]?.State);
-              this.businessForm.get('city').setValue(result[0]?.PostOffice[0]?.District);
-              this.isLoading = false;
-            } else if (result[0].Status == 'Error') {
-              this.businessForm?.controls['pincode']?.setErrors({'pattern': true});
-              this.isLoading = false;
-            }
-          } else {
-            if (result[0].Status == 'Success') {
-              this.pincodeValidationObj = result[0].PostOffice[0];
-              const profileFormValueObj = this.profileForm?.value || {};
-  
-              this.profileForm.markAsTouched();
-              this.profileForm?.get('city')?.markAsTouched();
-              this.profileForm?.get('state')?.markAsTouched();
-              this.profileForm?.get('pincode')?.markAsTouched();
-              this.profileForm?.controls['city']?.markAsDirty();
-              this.profileForm?.controls['state']?.markAsDirty();
-              this.profileForm?.controls['pincode']?.markAsDirty();
-              
-              this.profileForm?.controls['city']?.setErrors((this.pincodeValidationObj?.District && profileFormValueObj?.city && (this.pincodeValidationObj.District).toLowerCase() != (profileFormValueObj?.city).toLowerCase()) ? {'not_match': true} : null);
-              this.profileForm?.controls['state']?.setErrors((this.pincodeValidationObj?.State && profileFormValueObj?.state && (this.pincodeValidationObj.State).toLowerCase() != (profileFormValueObj?.state).toLowerCase()) ? {'not_match': true} : null);
-              this.profileForm?.controls['pincode']?.setErrors((this.pincodeValidationObj?.Pincode && profileFormValueObj?.pincode && this.pincodeValidationObj.Pincode != profileFormValueObj?.pincode) ? {'not_match': true} : null);
-  
-              this.profileForm.get('state').setValue(result[0]?.PostOffice[0]?.State);
-              this.profileForm.get('city').setValue(result[0]?.PostOffice[0]?.District);
-              this.isLoading = false;
-            } else if (result[0].Status == 'Error') {
-              this.profileForm?.controls['pincode']?.setErrors({'pattern': true});
-              this.isLoading = false;
-            }
-
+            formName?.controls['city']?.setErrors((this.pincodeValidationObj?.District && formValueObj?.city && (this.pincodeValidationObj.District).toLowerCase() != (formValueObj?.city).toLowerCase()) ? { 'not_match': true } : null);
+            formName?.controls['state']?.setErrors((this.pincodeValidationObj?.State && formValueObj?.state && (this.pincodeValidationObj.State).toLowerCase() != (formValueObj?.state).toLowerCase()) ? { 'not_match': true } : null);
+            formName?.controls['pincode']?.setErrors((this.pincodeValidationObj?.Pincode && formValueObj?.pincode && this.pincodeValidationObj.Pincode != formValueObj?.pincode) ? { 'not_match': true } : null);
+            
+            formName.get('state').setValue(result[0]?.PostOffice[0]?.State);
+            formName.get('city').setValue(result[0]?.PostOffice[0]?.District);
+            this.isLoading = false;
+          } else if (result[0].Status == 'Error') {
+            formName?.controls['pincode']?.setErrors({ 'pattern': true });
+            this.isLoading = false;
           }
         }
       }, (error: any) => {

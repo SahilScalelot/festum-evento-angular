@@ -223,7 +223,8 @@ export class LocationStepComponent implements OnInit {
     // console.log(`clicked the marker: ${label}`)
   }
 
-  mapClicked($event: any) {
+  mapClicked(event: any) {
+    this.markerDragEnd(event);
     // this.markers.push({
     //   lat: $event.coords.lat,
     //   lng: $event.coords.lng,

@@ -32,7 +32,9 @@ export class CompanyDetailsComponent implements OnInit {
     private _globalFunctions: GlobalFunctions,
     private _createStreamService: CreateStreamService,
     private _globalService: GlobalService
-  ) { }
+  ) {
+    this.pincodeValidation = _.debounce(this.pincodeValidation, 1000)
+  }
 
   ngOnInit(): void {
     this._prepareCompanyDetailForm();
@@ -91,6 +93,9 @@ export class CompanyDetailsComponent implements OnInit {
             formName?.controls['city']?.setErrors((this.pincodeValidationObj?.District && companyFormValueObj?.city && (this.pincodeValidationObj.District).toLowerCase() != (companyFormValueObj?.city).toLowerCase()) ? {'not_match': true} : null);
             formName?.controls['state']?.setErrors((this.pincodeValidationObj?.State && companyFormValueObj?.state && (this.pincodeValidationObj.State).toLowerCase() != (companyFormValueObj?.state).toLowerCase()) ? {'not_match': true} : null);
             formName?.controls['pincode']?.setErrors((this.pincodeValidationObj?.Pincode && companyFormValueObj?.pincode && this.pincodeValidationObj.Pincode != companyFormValueObj?.pincode) ? {'not_match': true} : null);
+            
+            formName.get('state').setValue(result[0]?.PostOffice[0]?.State);
+            formName.get('city').setValue(result[0]?.PostOffice[0]?.District);
           } else if (result[0].Status == 'Error') {
             formName?.controls['pincode']?.setErrors({'pattern': true});
           }          

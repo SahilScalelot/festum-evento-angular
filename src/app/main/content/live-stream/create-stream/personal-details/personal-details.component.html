@@ -60,7 +60,7 @@
         </div>
         <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-5 inputHolder relative">
           <label class="input-titel">City</label>
-          <input [formControlName]="'city'" class="input" type="text" fuseValidAlphabet (blur)="pincodeValidation(pincode.value)"/>
+          <input [formControlName]="'city'" class="input" type="text" fuseValidAlphabet (keyup)="pincodeValidation(pincode.value)"/>
           <span class="absolute top-full text-red-500 text-xs" *ngIf="personalDetailForm.get('city')?.invalid && (personalDetailForm.get('city')?.dirty && personalDetailForm.get('city')?.touched)">
             <span *ngIf="personalDetailForm.get('city')?.errors?.['required']">
               City is required.
@@ -72,7 +72,7 @@
         </div>
         <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-5 inputHolder relative">
           <label class="input-titel">State</label>
-          <input [formControlName]="'state'" class="input" type="text" fuseValidAlphabet (blur)="pincodeValidation(pincode.value)"/>
+          <input [formControlName]="'state'" class="input" type="text" fuseValidAlphabet (keyup)="pincodeValidation(pincode.value)"/>
           <span class="absolute top-full text-red-500 text-xs" *ngIf="personalDetailForm.get('state')?.invalid && (personalDetailForm.get('state')?.dirty && personalDetailForm.get('state')?.touched)">
             <span *ngIf="personalDetailForm.get('state')?.errors?.['required']">
               State is required.
@@ -84,7 +84,7 @@
         </div>
         <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-5 inputHolder relative">
           <label class="input-titel">Pincode</label>
-          <input #pincode [formControlName]="'pincode'" class="input" type="text" fuseValidNumber (blur)="pincodeValidation(pincode.value)"/>
+          <input #pincode [formControlName]="'pincode'" class="input" type="text" fuseValidNumber (keyup)="pincodeValidation(pincode.value)"/>
           <span class="absolute top-full text-red-500 text-xs" *ngIf="personalDetailForm.get('pincode')?.invalid && (personalDetailForm.get('pincode')?.dirty && personalDetailForm.get('pincode')?.touched)">
             <span *ngIf="personalDetailForm.get('pincode')?.errors?.['required']">
               Pincode is required.
