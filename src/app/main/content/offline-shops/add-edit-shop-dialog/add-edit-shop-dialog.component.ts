@@ -168,6 +168,7 @@ export class AddEditShopDialogComponent implements OnInit {
           this.finaLatLong.lat = place.geometry.location.lat();
           this.finaLatLong.lng = place.geometry.location.lng();
           this.addMapLocation();
+          this.markerDragEnd(this.markers, {}, true);
         });
       });
     });
@@ -269,7 +270,12 @@ export class AddEditShopDialogComponent implements OnInit {
     }
   }
 
-  markerDragEnd(latLong: marker, $event: any) {
+  markerDragEnd(latLong: marker, $event: any, isWithoutCheckLatLong: boolean = false) {
+  // markerDragEnd($event: any, isWithoutCheckLatLong: boolean = false) {
+    if (!isWithoutCheckLatLong) {
+      this.lat = $event?.coords?.lat;
+      this.lng = $event?.coords?.lng;
+    }
     this.finaLatLong = { lat: $event.coords.lat, lng: $event.coords.lng };
     this.lat = $event.coords.lat;
     this.lng = $event.coords.lng;

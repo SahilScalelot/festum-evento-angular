@@ -117,6 +117,7 @@ export class LocationStepComponent implements OnInit {
           this.lat = place.geometry.location.lat();
           this.lng = place.geometry.location.lng();
           this.addMapLocation();
+          this.markerDragEnd({}, true);
         });
       });
     });
@@ -158,9 +159,11 @@ export class LocationStepComponent implements OnInit {
     }
   }
 
-  markerDragEnd($event: any) {
-    this.lat = $event?.coords?.lat;
-    this.lng = $event?.coords?.lng;
+  markerDragEnd($event: any, isWithoutCheckLatLong: boolean = false) {
+    if (!isWithoutCheckLatLong) {
+      this.lat = $event?.coords?.lat;
+      this.lng = $event?.coords?.lng;
+    }
     this.locationForm.patchValue({
       latitude: this.lat,
       longitude: this.lng
