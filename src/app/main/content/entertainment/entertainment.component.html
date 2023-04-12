@@ -64,13 +64,13 @@
             <!-- chat-titel  -->
             <div class="p-5 py-3.5 flex items-center bg-gray-100">
               <div>
-                <div class="w-12 h-12 rounded-full overflow-hidden">
-                  <img [src]="!!(tmpPopObj?.url) ? constants.baseImageURL + tmpPopObj.url : constants.defaultImage" class="w-full h-full object-cover" alt="upload-2" />
+                <div class="w-12 h-12 rounded-full overflow-hidden" [ngClass]="{'border': !tmpPopObj?.organiser_profile_pic}">
+                  <img [src]="!!(tmpPopObj?.organiser_profile_pic) ? constants.baseImageURL + tmpPopObj.organiser_profile_pic : constants.defaultImage" class="w-full h-full object-cover" alt="upload-2" />
                 </div>
               </div>
               <div class="w-full pl-3.5">
                 <h3 class="text-sm">{{tmpPopObj?.organiser_name}}</h3>
-                <span class="input-titel text-10 pb-0">Description</span>
+                <div class="text-10 pb-0" [innerHTML]="tmpPopObj?.about_organiser"></div>
               </div>
             </div>
             <!-- chat-text  -->
@@ -85,7 +85,7 @@
                   <div class="">
                     <img [src]="!!(comment?.user_id?.profile_pic) ? constants.baseImageURL + comment.user_id.profile_pic : constants.defaultImage" class="relativell bg-black rounded-full h-5 w-5 object-cover" alt="" loading="lazy">
                   </div>
-                  <pre class="text-xs whitespace-pre-wrap break-words w-[calc(100%-20px-140px)]">{{comment?.comment}}</pre>
+                  <pre class="text-base whitespace-pre-wrap break-words w-[calc(100%-20px-140px)]">{{comment?.comment}}</pre>
                   <div class="flex flex-col space-y-1 opacity-75">
                     <p class="relative text-10 whitespace-nowrap truncate overflow-hidden">{{comment?.user_id?.name}}</p>
                     <p class="text-10">{{comment?.createdAt | date:"dd MMM yyyy, hh:mm a"}}</p>
