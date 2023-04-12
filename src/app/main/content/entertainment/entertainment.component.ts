@@ -29,6 +29,31 @@ export class EntertainmentComponent implements OnInit {
   tmpPopObj: any;
 
   tmpEObj: any;
+  selectedEmoji: any;
+
+
+  showEmojiPicker: boolean = false;
+
+  toggleEmojiPicker() {
+    this.showEmojiPicker = !this.showEmojiPicker;
+  }
+
+  addEmoji(event: any) {
+    let message = '';
+    if (this.commentInput.nativeElement.value && this.commentInput.nativeElement.value != '') {
+      message = this._globalFunctions.copyObject(this.commentInput.nativeElement.value);
+    }
+    const text = `${message}${event.emoji.native}`;    
+    this.commentInput.nativeElement.value = text;
+    // this.showEmojiPicker = false;
+  }
+
+  onFocus() {
+    this.showEmojiPicker = false;
+  }
+  onBlur() {
+    this.showEmojiPicker = false;
+  }
 
   @ViewChild('commentInput') commentInput: any;
 
@@ -73,10 +98,9 @@ export class EntertainmentComponent implements OnInit {
   }
 
   commentBox(event: any): void {
-    console.log(event);
     const itemEV: any = {
-      entertainment_id  : event?._id || event?.entertainment_id,
-      entertainment_url : event?.url || event?.entertainment_url
+      entertainment_id: event?._id || event?.entertainment_id,
+      entertainment_url: event?.url || event?.entertainment_url
     }
     this.isLoading = true;
     this._entertainment.getAllComments(itemEV).subscribe((result: any) => {
@@ -102,7 +126,7 @@ export class EntertainmentComponent implements OnInit {
     if (comment && comment != '') {
       this.isLoading = true;
       const itemEV: any = {
-        entertainment_id:  this.tmpPopObj?._id,
+        entertainment_id: this.tmpPopObj?._id,
         entertainment_url: this.tmpPopObj?.url,
         comment: comment
       }
@@ -110,7 +134,6 @@ export class EntertainmentComponent implements OnInit {
       this._entertainment.comment(itemEV).subscribe((result: any) => {
         if (result && result.IsSuccess) {
           this.commentsArr.push(result?.Data);
-          console.log(this.commentsArr);
           this.commentInput.nativeElement.value = "";
           this.isLoading = false;
           setTimeout(() => {
@@ -158,7 +181,7 @@ export class EntertainmentComponent implements OnInit {
   scrollToBottom(): void {
     try {
       this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
-    } catch(err) { }
+    } catch (err) { }
   }
 
 }

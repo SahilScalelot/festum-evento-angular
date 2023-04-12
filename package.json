@@ -25,6 +25,7 @@
     "@ckeditor/ckeditor5-angular": "^4.0.0",
     "@ckeditor/ckeditor5-build-classic": "^35.1.0",
     "@ckeditor/ckeditor5-build-decoupled-document": "^35.1.0",
+    "@ctrl/ngx-emoji-mart": "^7.1.0",
     "@ng-select/ng-select": "^9.1.0",
     "@ngx-translate/core": "^14.0.0",
     "@ngx-translate/http-loader": "^7.0.0",

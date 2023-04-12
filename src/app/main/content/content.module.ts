@@ -32,6 +32,8 @@ import { DropdownModule } from 'primeng/dropdown';
 import { HelpModule } from './help/help.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { SearchComponent } from './search/search.component';
+import { PickerModule } from '@ctrl/ngx-emoji-mart';
+
 
 const routes: Routes = [
   {
@@ -77,7 +79,8 @@ const routes: Routes = [
     ProgressBarModule,
     DropdownModule,
     HelpModule,
-    SharedModule
+    SharedModule,
+    PickerModule
   ]
 })
 export class ContentModule {
