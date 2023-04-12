@@ -85,7 +85,7 @@
               <div class=""><button (click)="toggleEmojiPicker()">😀</button></div>
               <textarea #commentInput class="w-full outline-none resize-none text-sm bg-transparent" placeholder="Type here..." rows="2" (blur)="onBlur()" (focus)="onFocus()"></textarea>
               <i class="icon-send text-magicPotion text-2xl cursor-pointer active:animate-ping" (click)="sendComment(commentInput.value)"></i>
-              <emoji-mart class="emoji-mart absolute bottom-full right-0 w-full" style="width: 100%;" *ngIf="showEmojiPicker" (emojiSelect)="addEmoji($event)" title="Pick your emoji…"></emoji-mart>
+              <emoji-mart class="emoji-mart absolute bottom-full right-0 w-full" *ngIf="showEmojiPicker" (emojiSelect)="addEmoji($event)" title="Pick your emoji…"></emoji-mart>
             </div>
           </div>
         </div>
