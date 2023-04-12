@@ -33,6 +33,7 @@ import { HelpModule } from './help/help.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { SearchComponent } from './search/search.component';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
+import { MyPostsComponent } from './my-posts/my-posts.component';
 
 
 const routes: Routes = [
@@ -54,7 +55,8 @@ const routes: Routes = [
     EntertainmentComponent,
     OurProductComponent,
     BookingComponent,
-    SearchComponent
+    SearchComponent,
+    MyPostsComponent
   ],
   imports: [
     RouterModule.forChild(routes),

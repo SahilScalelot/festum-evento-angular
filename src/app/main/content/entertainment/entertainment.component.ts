@@ -123,12 +123,12 @@ export class EntertainmentComponent implements OnInit {
   }
 
   sendComment(comment: any = ''): void {
-    if (comment && comment != '') {
+    if (comment && comment != '' && comment.trim() != '') {
       this.isLoading = true;
       const itemEV: any = {
         entertainment_id: this.tmpPopObj?._id,
         entertainment_url: this.tmpPopObj?.url,
-        comment: comment
+        comment: comment.trim()
       }
 
       this._entertainment.comment(itemEV).subscribe((result: any) => {

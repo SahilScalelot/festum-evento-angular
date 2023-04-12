@@ -20,6 +20,7 @@ import { PlatformLinksComponent } from './main/content/online-offers/platform_li
 import { TermsAndConditionsUserComponent } from './main/common/terms-and-conditions-user/terms-and-conditions.component';
 import { PrivacyPolicyUserComponent } from './main/common/privacy-policy-user/privacy-policy.component';
 import { SearchComponent } from './main/content/search/search.component';
+import { MyPostsComponent } from './main/content/my-posts/my-posts.component';
 
 const routes: Routes = [
 
@@ -119,6 +120,10 @@ const routes: Routes = [
       {
         path: 'entertainment',
         component: EntertainmentComponent
+      },
+      {
+        path: 'myposts',
+        component: MyPostsComponent
       },
       {
         path: 'our-product',
