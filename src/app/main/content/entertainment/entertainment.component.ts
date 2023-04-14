@@ -83,18 +83,18 @@ export class EntertainmentComponent implements OnInit {
       this._globalFunctions.errorHanding(error, this, true);
       this.isLoading = false;
     });
-    this._entertainment.getMyPostsApi().subscribe((result: any) => {
-      if (result && result.IsSuccess) {
-        this.myPostsObj = this._globalFunctions.copyObject(result?.Data || []);
-        this.isLoading = false;
-      } else {
-        this._globalFunctions.successErrorHandling(result, this, true);
-        this.isLoading = false;
-      }
-    }, (error: any) => {
-      this._globalFunctions.errorHanding(error, this, true);
-      this.isLoading = false;
-    });
+    // this._entertainment.getMyPostsApi().subscribe((result: any) => {
+    //   if (result && result.IsSuccess) {
+    //     this.myPostsObj = this._globalFunctions.copyObject(result?.Data || []);
+    //     this.isLoading = false;
+    //   } else {
+    //     this._globalFunctions.successErrorHandling(result, this, true);
+    //     this.isLoading = false;
+    //   }
+    // }, (error: any) => {
+    //   this._globalFunctions.errorHanding(error, this, true);
+    //   this.isLoading = false;
+    // });
   }
 
   commentBox(event: any): void {
