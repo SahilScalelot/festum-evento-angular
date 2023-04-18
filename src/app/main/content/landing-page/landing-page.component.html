@@ -268,7 +268,7 @@
             <div class="swiper-slide py-5" *ngFor="let upcomingStream of upcomingStreamList">
               <div class="px-1 md:px-3.5 w-full">
                 <div class="block p-4 shadow-lg bg-white rounded-lg">
-                  <img [src]="!!(upcomingStream?.banner) ? constants.baseImageURL + upcomingStream.banner : constants.defaultImage" alt="{{upcomingStream?.name}}" class="object-cover w-full h-56 rounded-md"/>
+                  <img [src]="!!(upcomingStream?.photos[0]?.url) ? constants.baseImageURL + upcomingStream.photos[0].url : constants.defaultImage" alt="{{upcomingStream?.name}}" class="object-cover w-full h-56 rounded-md"/>
                   <!-- <img src="/assets/images/landing-page/mask-group.png" alt="card-1" class="object-cover w-full h-56 rounded-md">                     -->
                   <div class="pt-5 px-2">
                     <div class="flex flex-wrap justify-between items-center">
@@ -276,21 +276,21 @@
                         <p-rating [(ngModel)]="upcomingStream.ratings" [readonly]="true" [cancel]="false"></p-rating>
                       </div>
                       <div class="flex space-x-5">
-                        <p class="text-sm text-[#999999]">{{upcomingStream?.event_location?.area_name}}, {{upcomingStream?.event_location?.city}}</p>
+                        <p class="text-sm text-[#999999]">{{upcomingStream?.event_date | date:'dd MMM, yyyy'}}</p>
                         <svg width="17" height="18" viewBox="0 0 17 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path d="M13.8125 11.6719C12.7627 11.6719 11.8376 12.1845 11.2566 12.964L6.23298 10.4106C6.31639 10.1284 6.375 9.83595 6.375 9.52734C6.375 9.10877 6.28855 8.71084 6.1392 8.34483L11.3966 5.20439C11.9817 5.886 12.8417 6.32812 13.8125 6.32812C15.5702 6.32812 17 4.90883 17 3.16406C17 1.41929 15.5702 0 13.8125 0C12.0548 0 10.625 1.41929 10.625 3.16406C10.625 3.56614 10.7084 3.94755 10.8468 4.30165L5.5737 7.4513C4.98911 6.78994 4.14152 6.36328 3.1875 6.36328C1.42981 6.36328 0 7.78257 0 9.52734C0 11.2721 1.42981 12.6914 3.1875 12.6914C4.2546 12.6914 5.19531 12.1637 5.77416 11.3623L10.7812 13.9074C10.689 14.2029 10.625 14.5107 10.625 14.8359C10.625 16.5807 12.0548 18 13.8125 18C15.5702 18 17 16.5807 17 14.8359C17 13.0912 15.5702 11.6719 13.8125 11.6719Z" fill="#999999"/>
                         </svg>
                       </div>
                     </div>
-                    <h2 class="text-ev-dark text-lg xl:text-2xl font-semibold py-2">{{upcomingStream?.name}}</h2>
+                    <h2 class="text-ev-dark text-lg xl:text-2xl font-semibold py-2 truncate">{{upcomingStream?.event_name}}</h2>
                     <div class="flex pt-4 border-t border-[#dddddd]">
-                      <span class="p-1 px-2 bg-ev-red text-sm text-white mr-3">{{constants?.eventTypeArr[constants?.eventTypeObj[upcomingStream?.event_type]]?.displayLabel}}</span>
+                      <span class="p-1 px-2 bg-ev-red text-sm text-white mr-3 uppercase">{{upcomingStream?.event_type}}</span>
                       <div class="flex items-center space-x-3 w-full">
                         <p class="text-sm truncate w-2/5">{{upcomingStream?.event_category?.categoryname}}</p>
-                        <div class="h-2 w-2/5 sold-seats-progress-bar">
+                        <!-- <div class="h-2 w-2/5 sold-seats-progress-bar">
                           <p-progressBar [styleClass]="'h-2'" color="bg-black" [value]="((upcomingStream?.total_booked_seats || 0) * 100) / (upcomingStream?.total_seats || 0)" [showValue]="false"></p-progressBar>
                         </div>
-                        <p class="text-[#999999] text-sm font-medium whitespace-nowrap w-1/5 text-right">{{upcomingStream?.total_booked_seats}} Sold</p>
+                        <p class="text-[#999999] text-sm font-medium whitespace-nowrap w-1/5 text-right">{{upcomingStream?.total_booked_seats}} Sold</p> -->
                       </div>
                     </div>
                   </div>
@@ -629,9 +629,9 @@
           <div class="swiper-wrapper">
             <div class="swiper-slide px-2.5 py-5">
               <a href="https://eventopackage.com/" target="_blank" class="block p-6 bg-white drop-shadow-lg min-h-[260px]">
-                <img src="/assets/images/landing-page/sider-evento.png" class="mx-auto fix_images" alt="slider-evento">
+                <img src="/assets/images/evento-package.svg" class="mx-auto fix_images" alt="slider-evento">
                 <div class="text-center pt-12">
-                  <p class="text-xl font-bold text-ev-dark">Festum Evento</p>
+                  <p class="text-xl font-bold text-ev-dark">Evento Package</p>
                 </div>
               </a>
             </div>
