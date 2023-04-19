@@ -110,6 +110,10 @@
                   </div>
                 </div>
               </div>
+              <div class="bg-white rounded-md text-center p-9 space-y-2" *ngIf="!shopOffer || !shopOffer.length">
+                <h4 class="w-full">You have no Shop Offer yet.</h4>
+                <p class="">Create an offer using the Create Offer button on the top right of the page..</p>
+              </div>
               <!-- ad banner -->
               <div class="w-full mt-5 addsBox">
                 <img src="/assets/images/banner-ads.png" alt="ring-ad" class="w-full object-cover" />
