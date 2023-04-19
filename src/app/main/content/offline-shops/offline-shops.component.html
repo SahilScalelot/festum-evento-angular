@@ -35,7 +35,8 @@
               </div>
               <div class="w-full md:w-1/3 px-2.5 lg:px-5">
                 <span class="text-xs font-bold text-quicksilver"><i class="icon-online_offer pr-1"></i>Running Offers</span>
-                <p class="text-sm text-japaneseIndigo font-bold pt-2">{{(!shop?.total_running_offers) ? 'There are no' : shop?.total_running_offers}} Offer{{((shop?.total_running_offers > 1) || 0) ? 's are' : ' is'}} running.</p>
+                <!-- <p class="text-sm text-japaneseIndigo font-bold pt-2">{{(!shop?.total_running_offers) ? 'There are no' : shop?.total_running_offers}} Offer{{((shop?.total_running_offers > 1) || 0) ? 's are' : ' is'}} running.</p> -->
+                <p class="text-sm text-japaneseIndigo font-bold pt-2">{{(!shop?.total_running_offers) ? 'There are no' : shop?.total_running_offers}} Offer{{((shop?.total_running_offers > 1) || 0) ? 's are' : ' '}} running. Click here to create an offer.</p>
               </div>
             </div>
           </div>
