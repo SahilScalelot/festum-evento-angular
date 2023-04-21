@@ -36,6 +36,7 @@ export class AddEditShopOfferDialogComponent implements OnInit {
   isUploadImageLoading: boolean = false;
   offerImageArray: any = new Array(3);
   detailEditor = DecoupledEditor;
+  successfully: boolean = false;
 
   get offerOnAllProducts(): any {
     return this.addEditOfferForm.get('offer_on_all_products');
@@ -277,8 +278,12 @@ export class AddEditShopOfferDialogComponent implements OnInit {
     this._offlineShopsService.saveOfflineOffer(preparedOfferObj).subscribe((result: any) => {
       if (result && result.IsSuccess) {
         this.setPosterInDropify(result.Data.url);
-        this.closeAddEditOfferDialog(true);
-        this._sNotify.success('Offer Stored Successfully.', 'Success');
+        this.successfully = true;
+        setTimeout(() => {
+          this.successfully = false;
+          this.closeAddEditOfferDialog(true);
+        }, 3000);
+        // this._sNotify.success('Offer Stored Successfully.', 'Success');
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
       }

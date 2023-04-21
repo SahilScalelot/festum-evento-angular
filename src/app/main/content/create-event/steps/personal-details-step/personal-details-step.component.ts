@@ -23,7 +23,7 @@ export class PersonalDetailsStepComponent implements OnInit {
   
   eventId: any;
   personalDetailsObj: any = {};
-  
+  pincodeValidationObj: any = '';
   detailEditor = DecoupledEditor;
   editorConfig: any = {};
   textEditor: boolean = false;
@@ -54,11 +54,11 @@ export class PersonalDetailsStepComponent implements OnInit {
     this.personalDetailForm = this._formBuilder.group({
       full_name: [personalDetailsObj?.full_name || '', [Validators.required]],
       mobile_no: [personalDetailsObj?.mobile_no || '', [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
-      is_mobile_hidden: [personalDetailsObj?.is_mobile_hidden || false],
+      is_mobile_hidden: [personalDetailsObj?.is_mobile_hidden || true],
       alt_mobile_no: [personalDetailsObj?.alt_mobile_no || '', [Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
-      is_alt_mobile_hidden: [personalDetailsObj?.is_alt_mobile_hidden || false],
+      is_alt_mobile_hidden: [personalDetailsObj?.is_alt_mobile_hidden || true],
       email: [personalDetailsObj?.email || '', [Validators.required,Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
-      is_email_hidden: [personalDetailsObj?.is_email_hidden || false],
+      is_email_hidden: [personalDetailsObj?.is_email_hidden || true],
       about: [personalDetailsObj?.about || '', [Validators.required]],
       flat_no: [personalDetailsObj?.flat_no || ''],
       street: [personalDetailsObj?.street || ''],
@@ -104,33 +104,34 @@ export class PersonalDetailsStepComponent implements OnInit {
       this.isLoading = true;
       this._globalService.pincodeValidation(pincode).subscribe((result: any) => {
         if (result && result[0] && result[0].Status) {
+          const formName = this.personalDetailForm;
           if (result[0].Status == 'Success') {
-            this.personalDetailsObj = result[0].PostOffice[0];
-            const companyFormValueObj = this.personalDetailForm?.value || {};
+            this.pincodeValidationObj = result[0].PostOffice[0];
+            const companyFormValueObj = formName?.value || {};
 
-            this.personalDetailForm.markAsTouched();
-            this.personalDetailForm?.get('city')?.markAsTouched();
-            this.personalDetailForm?.get('state')?.markAsTouched();
-            this.personalDetailForm?.get('pincode')?.markAsTouched();
-            this.personalDetailForm?.controls['city']?.markAsDirty();
-            this.personalDetailForm?.controls['state']?.markAsDirty();
-            this.personalDetailForm?.controls['pincode']?.markAsDirty();
+            formName.markAsTouched();
+            formName?.get('city')?.markAsTouched();
+            formName?.get('state')?.markAsTouched();
+            formName?.get('pincode')?.markAsTouched();
+            formName?.controls['city']?.markAsDirty();
+            formName?.controls['state']?.markAsDirty();
+            formName?.controls['pincode']?.markAsDirty();
 
-            this.personalDetailForm?.controls['city']?.setErrors((this.personalDetailsObj?.District && companyFormValueObj?.city && (this.personalDetailsObj.District).toLowerCase() != (companyFormValueObj?.city).toLowerCase()) ? {'not_match': true} : null);
-            this.personalDetailForm?.controls['state']?.setErrors((this.personalDetailsObj?.State && companyFormValueObj?.state && (this.personalDetailsObj.State).toLowerCase() != (companyFormValueObj?.state).toLowerCase()) ? {'not_match': true} : null);
-            this.personalDetailForm?.controls['pincode']?.setErrors((this.personalDetailsObj?.Pincode && companyFormValueObj?.pincode && this.personalDetailsObj.Pincode != companyFormValueObj?.pincode) ? {'not_match': true} : null);
-
-            this.personalDetailForm.get('state').setValue(result[0]?.PostOffice[0]?.State);
-            this.personalDetailForm.get('city').setValue(result[0]?.PostOffice[0]?.District);
+            formName?.controls['city']?.setErrors((this.pincodeValidationObj?.District && companyFormValueObj?.city && (this.pincodeValidationObj.District).toLowerCase() != (companyFormValueObj?.city).toLowerCase()) ? { 'not_match': true } : null);
+            formName?.controls['state']?.setErrors((this.pincodeValidationObj?.State && companyFormValueObj?.state && (this.pincodeValidationObj.State).toLowerCase() != (companyFormValueObj?.state).toLowerCase()) ? { 'not_match': true } : null);
+            formName?.controls['pincode']?.setErrors((this.pincodeValidationObj?.Pincode && companyFormValueObj?.pincode && this.pincodeValidationObj.Pincode != companyFormValueObj?.pincode) ? { 'not_match': true } : null);
+            
+            formName.get('state').setValue(result[0]?.PostOffice[0]?.State);
+            formName.get('city').setValue(result[0]?.PostOffice[0]?.District);
             this.isLoading = false;
           } else if (result[0].Status == 'Error') {
+            formName?.controls['pincode']?.setErrors({ 'pattern': true });
             this.isLoading = false;
-            this.personalDetailForm?.controls['pincode']?.setErrors({'pattern': true});
-          }          
+          }
         }
       }, (error: any) => {
-        this.isLoading = false;
         this._globalFunctions.errorHanding(error, this, true);
+        this.isLoading = false;
       });
     }
   }

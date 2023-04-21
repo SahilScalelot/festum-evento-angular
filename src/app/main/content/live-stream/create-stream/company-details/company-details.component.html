@@ -1,132 +1,125 @@
 <p-progressSpinner *ngIf="isLoading" [style]="{width: '50px', height: '50px'}" animationDuration=".5s" strokeWidth="8" class="fixed bg-white bg-opacity-25 backdrop-blur-sm right-0 bottom-0 h-[calc(100vh-76px)] w-full lg:w-[calc(100vw-230px)] z-30" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
 <div class="px-2">
+  <!-- company details  -->
   <form [formGroup]="companyForm">
-    <!-- main-content  -->
-    <div class="space-y-5 -mx-2">
-      <div class="w-full flex flex-wrap">
-        <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative">
-          <span class="input-titel">Company name<span class="text-magicPotion">*</span></span>
-          <input class="input" type="text" id="name" name="name" [formControlName]="'name'" required />
-          <span class="absolute top-full text-red-500 text-xs" *ngIf="companyForm.get('name')?.invalid && (companyForm.get('name')?.dirty && companyForm.get('name')?.touched)">
-            <span *ngIf="companyForm.get('name')?.errors?.['required']">
-              Company name is required.
-            </span>
-            <span *ngIf="companyForm.get('name')?.errors?.['minlength']">
-              This field must have at least 2 character.
-            </span>
+    <div class="flex items-end flex-wrap -mx-2">
+      <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative">
+        <span class="input-titel">Company name</span>
+        <input class="input" type="text" id="name" name="name" [formControlName]="'name'" />
+        <span class="absolute top-full text-red-500 text-xs" *ngIf="companyForm.get('name')?.invalid && (companyForm.get('name')?.dirty && companyForm.get('name')?.touched)">
+          <span *ngIf="companyForm.get('name')?.errors?.['minlength']">
+            This field must have at least 2 character.
           </span>
-        </div>
-        <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative group">
-          <span class="input-titel">Company GST (Optional)</span>
-          <p-progressSpinner *ngIf="isPdfLoading" [style]="{width: '20px', height: '20px'}" animationDuration=".5s" strokeWidth="4" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-x-1 bottom-0 top-10 z-20" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
-          <label class="upload upload-popup py-3">
-            <input (change)="onChangePDF($event)" accept="application/pdf" class="appearance-none hidden" id="company_gst" name="images" type="file"/>
-            <span class="input-titel text-base p-0">
-              <i class="icon-pdf_upload mr-2"></i>
-              <span class="normal-case">{{inputText ? inputText : 'Upload PDF'}}</span>
-            </span>
-          </label>
-          <a *ngIf="inputText" class="absolute right-4 bottom-3 py-0.5 px-2 normal-case text-gray-400 anim hover:text-magicPotion text-sm font-semibold hidden border border-current group-hover:inline-block" [href]="constants.baseImageURL + gstPdf" target="_blank" title="View File">View</a>
-          <span class="absolute top-full text-red-500 text-xs" *ngIf="isInvalidPDF">
-            Please upload only PDF file.
-          </span>
-        </div>
-        <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative">
-          <span class="input-titel">Company Contact No<span class="text-magicPotion">*</span></span>
-          <input [formControlName]="'contact_no'" class="input" type="text" fuseValidNumber />
-          <span class="absolute top-full text-red-500 text-xs" *ngIf="companyForm.get('contact_no')?.invalid && (companyForm.get('contact_no')?.dirty && companyForm.get('contact_no')?.touched)">
-            <span *ngIf="companyForm.get('contact_no')?.errors?.['required']">
-              Company Contact No is required.
-            </span>
-            <span *ngIf="companyForm.get('contact_no')?.errors?.['pattern']">
-              Please enter valid Contact Number.
-            </span>
-          </span>
-        </div>
-        <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative">
-          <span class="input-titel">Company Email<span class="text-magicPotion">*</span></span>
-          <input [formControlName]="'email'" class="input" type="text"/>
-          <span class="absolute top-full text-red-500 text-xs" *ngIf="companyForm.get('email')?.invalid && (companyForm.get('email')?.dirty && companyForm.get('email')?.touched)">
-            <span *ngIf="companyForm.get('email')?.errors?.['required']">
-              Company Email is required.
-            </span>
-            <span *ngIf="companyForm.get('email')?.errors?.['pattern']">
-              Please enter valid Email.
-            </span>
-          </span>
-        </div>
+        </span>
       </div>
-      <div class="">
-        <h5  class="px-2">Address</h5>
-        <div class="w-full flex flex-wrap">
-          <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-5 inputHolder">
-            <span class="input-titel">Flat No.</span>
-            <input [formControlName]="'flat_no'" class="input" type="text"/>
-          </div>
-          <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-5 inputHolder">
-            <span class="input-titel">Street Name.</span>
-            <input [formControlName]="'street'" class="input" type="text"/>
-          </div>
-          <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-5 inputHolder">
-            <span class="input-titel">Area Name.</span>
-            <input [formControlName]="'area'" class="input" type="text"/>
-          </div>
-          <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-5 inputHolder relative">
-            <label class="input-titel">City</label>
-            <input [formControlName]="'city'" class="input" type="text" fuseValidAlphabet (keyup)="pincodeValidation(pincode.value)"/>
-            <span class="absolute top-full text-red-500 text-xs" *ngIf="companyForm.get('city')?.invalid && (companyForm.get('city')?.dirty && companyForm.get('city')?.touched)">
-              <span *ngIf="companyForm.get('city')?.errors?.['required']">
-                City is required.
-              </span>
-              <span *ngIf="companyForm.get('city')?.errors?.['not_match']">
-                City is not match pin code wise.
-              </span>
+      <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative group">
+        <span class="input-titel">Company GST (Optional)</span>
+        <p-progressSpinner *ngIf="isPdfLoading" [style]="{width: '20px', height: '20px'}" animationDuration=".5s" strokeWidth="4" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-x-1 bottom-0 top-10 z-20" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
+        <label class="upload upload-popup py-3">
+          <input (change)="onChangePDF($event)" accept="application/pdf" class="appearance-none hidden" id="company_gst" name="images" type="file"/>
+          <span class="input-titel text-base p-0">
+            <i class="icon-pdf_upload mr-2"></i> 
+            <span class="normal-case">{{inputText ? inputText : 'Upload PDF'}}</span>
+            <!-- <span>{{companyObj?.company_details?.gst}}</span> -->
+          </span>
+        </label>
+        <a *ngIf="inputText" class="absolute right-4 bottom-3 py-0.5 px-2 normal-case text-gray-400 anim hover:text-magicPotion text-sm font-semibold hidden border border-current group-hover:inline-block" [href]="constants.baseImageURL + gstPdf" target="_blank" title="View File">View</a>
+        <span class="absolute top-full text-red-500 text-xs" *ngIf="isInValidPDF">
+          Please upload only PDF file. 
+        </span>
+      </div>
+    </div>
+    <div class="flex items-end flex-wrap -mx-2">
+      <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative">
+        <span class="input-titel">Company Contact No</span>
+        <input [formControlName]="'contact_no'" class="input" type="text" fuseValidNumber />
+        <span class="absolute top-full text-red-500 text-xs" *ngIf="companyForm.get('contact_no')?.invalid && (companyForm.get('contact_no')?.dirty && companyForm.get('contact_no')?.touched)">
+          <span *ngIf="companyForm.get('contact_no')?.errors?.['pattern']">
+            Please enter valid Contact Number.
+          </span>
+        </span>
+      </div>
+      <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative">
+        <span class="input-titel">Company Email</span>
+        <input [formControlName]="'email'" class="input" type="text"/>
+        <span class="absolute top-full text-red-500 text-xs" *ngIf="companyForm.get('email')?.invalid && (companyForm.get('email')?.dirty && companyForm.get('email')?.touched)">
+          <span *ngIf="companyForm.get('email')?.errors?.['pattern']">
+            Please enter valid Email.
+          </span>
+        </span>
+      </div>
+    </div>
+    <!-- Address  -->
+    <div class="pt-5 -mx-2">
+      <h3 class="px-2">Address</h3>
+      <div class="w-full flex flex-wrap">
+        <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-5 inputHolder">
+          <span class="input-titel">Flat No.</span>
+          <input [formControlName]="'flat_no'" class="input" type="text"/>
+        </div>
+        <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-5 inputHolder">
+          <span class="input-titel">Street Name.</span>
+          <input [formControlName]="'street'" class="input" type="text"/>
+        </div>
+        <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-5 inputHolder">
+          <span class="input-titel">Area Name.</span>
+          <input [formControlName]="'area'" class="input" type="text"/>
+        </div>
+        <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-5 inputHolder relative">
+          <label class="input-titel">City</label>
+          <input [formControlName]="'city'" class="input" type="text" fuseValidAlphabet (keyup)="pincodeValidation(pincode.value)"/>
+          <span class="absolute top-full text-red-500 text-xs" *ngIf="companyForm.get('city')?.invalid && (companyForm.get('city')?.dirty && companyForm.get('city')?.touched)">
+            <span *ngIf="companyForm.get('city')?.errors?.['required']">
+              City is required.
             </span>
-          </div>
-          <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-5 inputHolder relative">
-            <label class="input-titel">State</label>
-            <input [formControlName]="'state'" class="input" type="text" fuseValidAlphabet (keyup)="pincodeValidation(pincode.value)"/>
-            <span class="absolute top-full text-red-500 text-xs" *ngIf="companyForm.get('state')?.invalid && (companyForm.get('state')?.dirty && companyForm.get('state')?.touched)">
-              <span *ngIf="companyForm.get('state')?.errors?.['required']">
-                State is required.
-              </span>
-              <span *ngIf="companyForm.get('state')?.errors?.['not_match']">
-                State is not match pin code wise.
-              </span>
+            <span *ngIf="companyForm.get('city')?.errors?.['not_match']">
+              City is not match pin code wise.
             </span>
-          </div>
-          <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-5 inputHolder relative">
-            <label class="input-titel">Pincode</label>
-            <input #pincode [formControlName]="'pincode'" class="input" type="text" fuseValidNumber (keyup)="pincodeValidation(pincode.value)"/>
-            <span class="absolute top-full text-red-500 text-xs" *ngIf="companyForm.get('pincode')?.invalid && (companyForm.get('pincode')?.dirty && companyForm.get('pincode')?.touched)">
-              <span *ngIf="companyForm.get('pincode')?.errors?.['required']">
-                Pincode is required.
-              </span>
-              <span *ngIf="companyForm.get('pincode')?.errors?.['pattern']">
-                Please enter valid Pincode.
-              </span>
-              <span *ngIf="companyForm.get('pincode')?.errors?.['not_match']">
-                Pincode is not found.
-              </span>
+          </span>
+        </div>
+        <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-5 inputHolder relative">
+          <label class="input-titel">State</label>
+          <input [formControlName]="'state'" class="input" type="text" fuseValidAlphabet (keyup)="pincodeValidation(pincode.value)"/>
+          <span class="absolute top-full text-red-500 text-xs" *ngIf="companyForm.get('state')?.invalid && (companyForm.get('state')?.dirty && companyForm.get('state')?.touched)">
+            <span *ngIf="companyForm.get('state')?.errors?.['required']">
+              State is required.
             </span>
-          </div>
+            <span *ngIf="companyForm.get('state')?.errors?.['not_match']">
+              State is not match pin code wise.
+            </span>
+          </span>
+        </div>
+        <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-5 inputHolder relative">
+          <label class="input-titel">Pincode</label>
+          <input #pincode [formControlName]="'pincode'" class="input" type="text" fuseValidNumber (keyup)="pincodeValidation(pincode.value)"/>
+          <span class="absolute top-full text-red-500 text-xs" *ngIf="companyForm.get('pincode')?.invalid && (companyForm.get('pincode')?.dirty && companyForm.get('pincode')?.touched)">
+            <span *ngIf="companyForm.get('pincode')?.errors?.['required']">
+              Pincode is required.
+            </span>
+            <span *ngIf="companyForm.get('pincode')?.errors?.['pattern']">
+              Please enter valid Pincode.
+            </span>
+            <span *ngIf="companyForm.get('pincode')?.errors?.['not_match']">
+              Pincode is not found.
+            </span>
+          </span>
         </div>
       </div>
     </div>
   </form>
 </div>
-
-<div class="mt-auto">
+<div class="mt-auto pt-7">
   <!-- advisement -->
   <div class="w-full mt-5 addsBox">
     <img src="/assets/images/banner-ads.png" alt="ring-ad" class="w-full object-cover" />
   </div>
+  <!-- pre and next button -->
   <div class="prw-next-btn">
     <button [routerLink]="'/live-stream/create/photos-and-videos'" class="flex items-center active" type="button">
       <i class="icon-left_arrow mr-3"></i>
       <h5>Back</h5>
     </button>
-    <button (click)="nextStep()" class="flex items-center active" type="button">
+    <button (click)="nextStep()" class="flex items-center active" type="button" [disabled]="isLoading || isPdfLoading || isImgLoading || isVideoLoading">
       <h5>Next</h5>
       <i class="icon-right_arrow ml-3"></i>
     </button>

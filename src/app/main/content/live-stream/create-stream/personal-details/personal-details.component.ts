@@ -1,70 +1,92 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from "@angular/forms";
-import { Router } from "@angular/router";
-import { SnotifyService } from "ng-snotify";
-import { GlobalFunctions } from "../../../../common/global-functions";
-import { CreateStreamService } from "../create-stream.service";
-import { CONSTANTS } from "../../../../common/constants";
-import * as _ from "lodash";
+import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { SnotifyService } from 'ng-snotify';
+import { CONSTANTS } from 'src/app/main/common/constants';
+import { GlobalFunctions } from 'src/app/main/common/global-functions';
 import { GlobalService } from 'src/app/services/global.service';
+import { CreateStreamService } from '../create-stream.service';
+// @ts-ignore
+import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-personal-details',
   templateUrl: './personal-details.component.html',
-  styleUrls: ['./personal-details.component.scss']
+  styleUrls: ['./personal-details.component.scss'],
 })
 export class PersonalDetailsComponent implements OnInit {
-  liveStreamId: any = '';
   personalDetailForm: any;
   submit: boolean = false;
-  constants: any = CONSTANTS;
   isLoading: boolean = false;
-
+  constants: any = CONSTANTS;
+  
+  liveStreamId: any;
+  personalDetailsObj: any = {};
   pincodeValidationObj: any = '';
+  detailEditor = DecoupledEditor;
+  editorConfig: any = {};
+  textEditor: boolean = false;
+  textEditorMaxLimit: any = this.constants.CKEditorCharacterLimit1;
+  textEditorLimit: any = this.textEditorMaxLimit;
 
   constructor(
     private _formBuilder: FormBuilder,
     private _router: Router,
     private _sNotify: SnotifyService,
-    private _globalFunctions: GlobalFunctions,
+    private _globalService: GlobalService,
     private _createStreamService: CreateStreamService,
-    private _globalService: GlobalService
+    private _globalFunctions: GlobalFunctions,
   ) {
     this.pincodeValidation = _.debounce(this.pincodeValidation, 1000)
   }
 
   ngOnInit(): void {
-    this._preparePersonalDetailForm();
-    this.liveStreamId = localStorage.getItem('lsId');
-    if (this.liveStreamId && this.liveStreamId != '') {
-      this.getPersonalDetailsById(this.liveStreamId);
-    } else {
-      this._globalService.loginUser$.subscribe((user: any) => {
-        if (user) {
-          const personalProfile: any = this._globalFunctions.copyObject(user || {});
-          const preparePersonalProfile: any = {
-            full_name: personalProfile?.name || '',
-            mobile_no: personalProfile?.mobile || '',
-            email: personalProfile?.email || '',
-            flat_no: personalProfile?.flat_no || '',
-            street: personalProfile?.street || '',
-            area: personalProfile?.area || '',
-            state: personalProfile?.state || '',
-            city: personalProfile?.city || '',
-            pincode: personalProfile?.pincode || '',
-          };
-          this.personalDetailForm.patchValue(preparePersonalProfile);
-        }
-      });
+    if (!localStorage.getItem('lsId') || localStorage.getItem('lsId') == '') {
+      this._router.navigate(['/live-stream']);
     }
+    this.liveStreamId = localStorage.getItem('lsId');
+    this.getPersonalDetailsEvent();
+    this._preparePersonalDetailsEventForm(this.personalDetailsObj);
   }
 
-  getPersonalDetailsById(liveStreamId: any = ''): any {
+  private _preparePersonalDetailsEventForm(personalDetailsObj: any = {}): void {
+    this.personalDetailForm = this._formBuilder.group({
+      full_name: [personalDetailsObj?.full_name || '', [Validators.required]],
+      mobile_no: [personalDetailsObj?.mobile_no || '', [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
+      is_mobile_hidden: [personalDetailsObj?.is_mobile_hidden || true],
+      alt_mobile_no: [personalDetailsObj?.alt_mobile_no || '', [Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
+      is_alt_mobile_hidden: [personalDetailsObj?.is_alt_mobile_hidden || true],
+      email: [personalDetailsObj?.email || '', [Validators.required,Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
+      is_email_hidden: [personalDetailsObj?.is_email_hidden || true],
+      flat_no: [personalDetailsObj?.flat_no || ''],
+      street: [personalDetailsObj?.street || ''],
+      area: [personalDetailsObj?.area || ''],
+      state: [personalDetailsObj?.state || '', [Validators.required]],
+      city: [personalDetailsObj?.city || '', [Validators.required]],
+      pincode: [personalDetailsObj?.pincode || '', [Validators.required, Validators.pattern('^[1-9]{1}[0-9]{2}\\s{0,1}[0-9]{3}$')]],
+    });
+    this.pincodeValidation(this.personalDetailForm.value.pincode);
+  }
+
+  onTextEditorReady(editor: any, fieldForSetData: any): void {
+    editor.ui.getEditableElement().parentElement.insertBefore(
+      editor.ui.view.toolbar.element,
+      editor.ui.getEditableElement()
+    );
+  }
+
+  getPersonalDetailsEvent(): any {
     this.isLoading = true;
-    this._createStreamService.getPersonalDetailsById(liveStreamId).subscribe((result: any) => {
+    this._createStreamService.getPersonalDetailsById(this.liveStreamId).subscribe((result: any) => {
       if (result && result.IsSuccess) {
-        const personalDetailObj: any = result?.Data?.personaldetail || {};
-        this._preparePersonalDetailForm(personalDetailObj);
+        const eventLocationObj: any = result?.Data?.personaldetail || {};
+        if (eventLocationObj && eventLocationObj.pincode && eventLocationObj.pincode != '') {
+          this._preparePersonalDetailsEventForm(eventLocationObj);
+        } else {
+          this.getDataFromProfileObj();
+        }
+        this.editorCharacterSet();
         this.isLoading = false;
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
@@ -113,7 +135,28 @@ export class PersonalDetailsComponent implements OnInit {
     }
   }
 
-  nextStep(): any {
+  getDataFromProfileObj(): void {
+    this._globalService.loginUser$.subscribe((user: any) => {
+      if (user) {
+        const personalProfile: any = this._globalFunctions.copyObject(user || {});
+        personalProfile.full_name = personalProfile.name;
+        personalProfile.mobile_no = personalProfile.mobile;
+        this._preparePersonalDetailsEventForm(personalProfile);
+      }
+    });
+  }
+  
+  editorCharacterSet(): any {
+    this.textEditorLimit = '0';
+    const textfield = this.personalDetailForm.value.about;    
+    if (textfield && textfield != '') {
+      const stringOfCKEditor = this._globalFunctions.getPlainText(textfield);
+      this.textEditorLimit = stringOfCKEditor.length;
+      this.textEditor = (stringOfCKEditor.length > this.textEditorMaxLimit);
+    }
+  }
+
+  personalDetail(): any {
     if (this.personalDetailForm.invalid) {
       Object.keys(this.personalDetailForm.controls).forEach((key) => {
         this.personalDetailForm.controls[key].touched = true;
@@ -121,9 +164,14 @@ export class PersonalDetailsComponent implements OnInit {
       });
       return;
     }
+    this.editorCharacterSet();
+    if (this.textEditorLimit && this.textEditorMaxLimit && this.textEditorLimit > this.textEditorMaxLimit) {
+      return;
+    }
     this.isLoading = true;
     this.personalDetailForm.disable();
-    this._createStreamService.savePersonalDetails(this.personalDetailForm.value).subscribe((result: any) => {
+    const preparedLocationObj: any = this.preparePersonalDetailObj(this.personalDetailForm.value);
+    this._createStreamService.savePersonalDetails(preparedLocationObj).subscribe((result: any) => {
       if (result && result.IsSuccess) {
         this.isLoading = false;
         this.personalDetailForm.enable();
@@ -140,24 +188,9 @@ export class PersonalDetailsComponent implements OnInit {
     });
   }
 
-  private _preparePersonalDetailForm(companyDetailObj: any = {}): void {
-    this.personalDetailForm = this._formBuilder.group({
-      livestreamid: [this.liveStreamId || ''],
-      full_name: [companyDetailObj?.full_name || '', [Validators.required]],
-      mobile_no: [companyDetailObj?.mobile_no || '', [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
-      is_mobile_hidden: [companyDetailObj?.is_mobile_hidden || false],
-      alt_mobile_no: [companyDetailObj?.alt_mobile_no || '', [Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
-      is_alt_mobile_hidden: [companyDetailObj?.is_alt_mobile_hidden || false],
-      email: [companyDetailObj?.email || '', [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
-      is_email_hidden: [companyDetailObj?.is_email_hidden || false],
-      flat_no: [companyDetailObj?.flat_no || ''],
-      street: [companyDetailObj?.street || ''],
-      area: [companyDetailObj?.area || ''],
-      state: [companyDetailObj?.state || '', [Validators.required]],
-      city: [companyDetailObj?.city || '', [Validators.required]],
-      pincode: [companyDetailObj?.pincode || '', [Validators.required, Validators.pattern('^[1-9]{1}[0-9]{2}\\s{0,1}[0-9]{3}$')]],
-    });
-    this.pincodeValidation(this.personalDetailForm.value.pincode);
+  preparePersonalDetailObj(personalObj: any = {}): any {
+    const preparedObj: any = personalObj;
+    preparedObj.livestreamid = this.liveStreamId;
+    return preparedObj;
   }
-
 }

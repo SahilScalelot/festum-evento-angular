@@ -37,6 +37,7 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
   isDeleteLoading: boolean = false;
   isSaveLoading: boolean = false;
   isPlatformLoading: boolean = false;
+  successfully: boolean = false;
   minDateValue: any = new Date();
   minStartDateValue: any = '';
   imgChangeEvt: any;
@@ -409,10 +410,14 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
     this.isSaveLoading = true;
     this._onlineOffersService.createOnlineOffer(preparedOnlineShopOfferObj).subscribe((result: any) => {
       if (result && result.IsSuccess) {
-        this._modalService.close("tAndC");
-        this._sNotify.success('Online Service Created Successfully.', 'Success');
-        this._router.navigate(['/online-offers']);
-        this.isSaveLoading = false;
+        this.successfully = true;
+        setTimeout(() => {
+          this._modalService.close("tAndC");
+          this.successfully = false;
+          this._router.navigate(['/online-offers']);
+          this.isSaveLoading = false;
+        }, 3000);
+        // this._sNotify.success('Online Service Created Successfully.', 'Success');
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
         this.isSaveLoading = false;

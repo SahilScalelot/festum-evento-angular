@@ -1,5 +1,5 @@
-import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SnotifyService } from 'ng-snotify';
 import { CONSTANTS } from 'src/app/main/common/constants';
@@ -42,14 +42,14 @@ export class CompanyDetailsStepComponent implements OnInit {
 
   eventId: any;
   gstPdf: any;
-  
+
   allPhotosFilesArr: any = [];
   allVideosFilesArr: any = [];
 
   isInValidPDF: boolean = false;
   detailEditor = DecoupledEditor;
   editorConfig: any = {};
-  
+
   photosUploadLimit: number = 5;
   rejectedPhotosList: any;
   imagesFiles: File[] = [];
@@ -59,7 +59,7 @@ export class CompanyDetailsStepComponent implements OnInit {
   isHideDiscountitem: any = false;
 
   pincodeValidationObj: any = '';
-  
+
   textEditor: boolean = false;
   textEditorMaxLimit: any = this.constants.CKEditorCharacterLimit1;
   textEditorLimit: any = 0;
@@ -115,7 +115,7 @@ export class CompanyDetailsStepComponent implements OnInit {
     this.inputText = companyDetailObj?.company_details?.company_detail?.gst_name;
     this.pincodeValidation(this.companyForm.value.pincode);
   }
-  
+
   getCompanyDetailsEvent(): any {
     this.isLoading = true;
     this._createEventService.getCompanyDetail(this.eventId).subscribe((result: any) => {
@@ -157,18 +157,18 @@ export class CompanyDetailsStepComponent implements OnInit {
             this.companyForm?.controls['city']?.markAsDirty();
             this.companyForm?.controls['state']?.markAsDirty();
             this.companyForm?.controls['pincode']?.markAsDirty();
-            
-            this.companyForm?.controls['city']?.setErrors((this.pincodeValidationObj?.District && companyFormValueObj?.city && (this.pincodeValidationObj.District).toLowerCase() != (companyFormValueObj?.city).toLowerCase()) ? {'not_match': true} : null);
-            this.companyForm?.controls['state']?.setErrors((this.pincodeValidationObj?.State && companyFormValueObj?.state && (this.pincodeValidationObj.State).toLowerCase() != (companyFormValueObj?.state).toLowerCase()) ? {'not_match': true} : null);
-            this.companyForm?.controls['pincode']?.setErrors((this.pincodeValidationObj?.Pincode && companyFormValueObj?.pincode && this.pincodeValidationObj.Pincode != companyFormValueObj?.pincode) ? {'not_match': true} : null);
+
+            this.companyForm?.controls['city']?.setErrors((this.pincodeValidationObj?.District && companyFormValueObj?.city && (this.pincodeValidationObj.District).toLowerCase() != (companyFormValueObj?.city).toLowerCase()) ? { 'not_match': true } : null);
+            this.companyForm?.controls['state']?.setErrors((this.pincodeValidationObj?.State && companyFormValueObj?.state && (this.pincodeValidationObj.State).toLowerCase() != (companyFormValueObj?.state).toLowerCase()) ? { 'not_match': true } : null);
+            this.companyForm?.controls['pincode']?.setErrors((this.pincodeValidationObj?.Pincode && companyFormValueObj?.pincode && this.pincodeValidationObj.Pincode != companyFormValueObj?.pincode) ? { 'not_match': true } : null);
 
             this.companyForm.get('state').setValue(result[0]?.PostOffice[0]?.State);
             this.companyForm.get('city').setValue(result[0]?.PostOffice[0]?.District);
             this.isLoading = false;
           } else if (result[0].Status == 'Error') {
-            this.companyForm?.controls['pincode']?.setErrors({'pattern': true});
+            this.companyForm?.controls['pincode']?.setErrors({ 'pattern': true });
             this.isLoading = false;
-          }          
+          }
         }
       }, (error: any) => {
         this._globalFunctions.errorHanding(error, this, true);
@@ -201,7 +201,7 @@ export class CompanyDetailsStepComponent implements OnInit {
         $('#company_gst').focus();
         this.isInValidPDF = true;
         return false;
-      }      
+      }
       pdfFormData.append('file', pdfUpload);
       // this.inputText = event?.target?.files[0]?.name;
       // this.companyForm.get('gst').setValue(this.inputText);
@@ -253,25 +253,25 @@ export class CompanyDetailsStepComponent implements OnInit {
     });
 
     forkJoin(...responseObj)
-    .pipe(
-      switchMap((result: any) => {
-        return result;
-      })
-    )
-    .subscribe((result: any) => {
-      if (result && result.IsSuccess) {
-        this.photoArr.push({ url: result.Data.url });
-        this._sNotify.success('Image Uploaded Successfully.', 'Success');
-        this.imagesFiles = [];
+      .pipe(
+        switchMap((result: any) => {
+          return result;
+        })
+      )
+      .subscribe((result: any) => {
+        if (result && result.IsSuccess) {
+          this.photoArr.push({ url: result.Data.url });
+          this._sNotify.success('Image Uploaded Successfully.', 'Success');
+          this.imagesFiles = [];
+          this.isImgLoading = false;
+        } else {
+          this._globalFunctions.successErrorHandling(result, this, true);
+          this.isImgLoading = false;
+        }
+      }, (error: any) => {
+        this._globalFunctions.errorHanding(error, this, true);
         this.isImgLoading = false;
-      } else {
-        this._globalFunctions.successErrorHandling(result, this, true);
-        this.isImgLoading = false;
-      }
-    }, (error: any) => {
-      this._globalFunctions.errorHanding(error, this, true);
-      this.isImgLoading = false;
-    });
+      });
   }
   onSelectImages(event: any) {
     const totalPhotos = this.photosUploadLimit - ((this.photoArr?.length || 0) + (event?.addedFiles?.length || 0) + (this.imagesFiles?.length || 0));
@@ -288,7 +288,7 @@ export class CompanyDetailsStepComponent implements OnInit {
   removeImage(index: number) {
     // this.photoArr.splice(index, 1);
     // this.allPhotosFilesArr.splice(index, 1);
-    this.deleteItemObj = {index: index, type: 'photo'};
+    this.deleteItemObj = { index: index, type: 'photo' };
     this._modalService.open("delete-event-pop");
   }
 
@@ -353,7 +353,7 @@ export class CompanyDetailsStepComponent implements OnInit {
   removeVideo(index: number) {
     // this.videoArr.splice(index, 1);
     // this.allVideosFilesArr.splice(index, 1);
-    this.deleteItemObj = {index: index, type: 'video'};
+    this.deleteItemObj = { index: index, type: 'video' };
     this._modalService.open("delete-event-pop");
   }
 
@@ -424,7 +424,7 @@ export class CompanyDetailsStepComponent implements OnInit {
   isString(val: any): boolean {
     return typeof val === 'string';
   }
-  
+
   prepareObj(companyObj: any = {}): any {
     const preparedObj: any = companyObj;
     preparedObj.eventid = this.eventId;

@@ -33,6 +33,7 @@ export class AddEditShopDialogComponent implements OnInit {
   isPdfLoading: boolean = false;
   isPosterLoading: boolean = false;
   isCropperLoading: boolean = false;
+  successfully: boolean = false;
 
   detailEditor = DecoupledEditor;
   editorConfig: any = {};
@@ -575,8 +576,12 @@ export class AddEditShopDialogComponent implements OnInit {
     const preparedShopObj: any = this.prepareShopObj(this.addShopForm.value);
     this._offlineShopsService.addEditOfflineShop(preparedShopObj).subscribe((result: any) => {
       if (result && result.IsSuccess) {
-        this.closeAddEditShopDialog(true);
-        this._sNotify.success('Shop Created And Update Successfully.', 'Success');
+        this.successfully = true;
+        setTimeout(() => {
+          this.successfully = false;
+          this.closeAddEditShopDialog(true);
+        }, 3000);
+        // this._sNotify.success('Shop Created And Update Successfully.', 'Success');
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
       }

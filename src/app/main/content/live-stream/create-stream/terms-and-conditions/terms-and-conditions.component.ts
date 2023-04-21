@@ -8,6 +8,7 @@ import { CreateStreamService } from '../create-stream.service';
 // @ts-ignore
 import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
 import * as _ from 'lodash';
+import { SnotifyService } from 'ng-snotify';
 declare let $: any;
 
 @Component({
@@ -19,6 +20,7 @@ export class TermsAndConditionsComponent implements OnInit {
   constants: any = CONSTANTS;
   termsAndConditionsForm: any;
   isLoading: boolean = false;
+  successfully: boolean = false;
   detailEditor = DecoupledEditor;
   editorConfig: any = {};
   agreeTAndC: boolean = false;
@@ -36,6 +38,7 @@ export class TermsAndConditionsComponent implements OnInit {
     private _router: Router,
     private _globalFunctions: GlobalFunctions,
     private _createStreamService: CreateStreamService,
+    private _sNotify: SnotifyService
   ) { }
 
   ngOnInit(): void {
@@ -121,7 +124,12 @@ export class TermsAndConditionsComponent implements OnInit {
         if (result && result.IsSuccess) {
           this.isLoading = false;
           this.termsAndConditionsForm.enable();
-          this._router.navigate(['/live-stream']);
+          this.successfully = true;
+          setTimeout(() => {
+            this.successfully = false;
+            this._router.navigate(['/live-stream']);
+          }, 3000);
+          // this._sNotify.success('Event Created And Update Successfully.', 'Success');
         } else {
           this._globalFunctions.successErrorHandling(result, this, true);
           this.isLoading = false;
@@ -143,13 +151,13 @@ export class TermsAndConditionsComponent implements OnInit {
 
   private _prepareTAndCForm(eventObj: any = {}): void {
     this.termsAndConditionsForm = this._formBuilder.group({
-      t_and_c: [eventObj?.t_and_c, [Validators.required]],
-      facebook: [eventObj?.facebook],
-      youtube: [eventObj?.youtube],
-      twitter: [eventObj?.twitter],
-      pinterest: [eventObj?.pinterest],
-      instagram: [eventObj?.instagram],
-      linkedin: [eventObj?.linkedin],
+      t_and_c: [eventObj?.t_and_c || '', [Validators.required]],
+      facebook: [eventObj?.facebook || ''],
+      youtube: [eventObj?.youtube || ''],
+      twitter: [eventObj?.twitter || ''],
+      pinterest: [eventObj?.pinterest || ''],
+      instagram: [eventObj?.instagram || ''],
+      linkedin: [eventObj?.linkedin || ''],
       status: [false, [Validators.requiredTrue]],
     });
 

@@ -20,6 +20,7 @@ export class TermsAndConditionsStepComponent implements OnInit {
   constants: any = CONSTANTS;
   termsAndConditionsForm: any;
   isLoading: boolean = false;
+  successfully: boolean = false;
   detailEditor = DecoupledEditor;
   editorConfig: any = {};
   agreeTAndC: boolean = false;
@@ -123,8 +124,12 @@ export class TermsAndConditionsStepComponent implements OnInit {
         if (result && result.IsSuccess) {
           this.isLoading = false;
           this.termsAndConditionsForm.enable();
-          this._router.navigate(['/events']);
-          this._sNotify.success('Event Created And Update Successfully.', 'Success');
+          this.successfully = true;
+          setTimeout(() => {
+            this.successfully = false;
+            this._router.navigate(['/events']);
+          }, 3000);
+          // this._sNotify.success('Event Created And Update Successfully.', 'Success');
         } else {
           this._globalFunctions.successErrorHandling(result, this, true);
           this.isLoading = false;
