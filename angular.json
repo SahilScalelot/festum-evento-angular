@@ -29,6 +29,7 @@
             ],
             "styles": [
               "src/assets/css/fonts.css",
+              "./node_modules/intl-tel-input/build/css/intlTelInput.css",
               "node_modules/dropify/dist/css/dropify.min.css",
               "src/assets/css/moon-icon.css",
               "src/assets/css/swiper-bundle.min.css",

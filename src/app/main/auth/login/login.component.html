@@ -5,7 +5,7 @@
   <form #logInNgForm="ngForm" [formGroup]="logInForm" class="space-y-5">
     <div>
       <label class="input-titel">Phone number <span class="text-red-500">*</span></label>
-      <input type="text" name="mobile" [formControlName]="'mobile'" id="mobile" class="input_box" fuseValidNumber />
+      <input type="number" name="mobile" [formControlName]="'mobile'" id="mobile" class="input_box" fuseValidNumber />
     </div>
     <div>
       <label class="input-titel">Password <span class="text-red-500">*</span></label>

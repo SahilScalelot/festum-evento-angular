@@ -35,7 +35,6 @@ import { SearchComponent } from './search/search.component';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { MyPostsComponent } from './my-posts/my-posts.component';
 
-
 const routes: Routes = [
   {
     path: '',
@@ -82,7 +81,7 @@ const routes: Routes = [
     DropdownModule,
     HelpModule,
     SharedModule,
-    PickerModule
+    PickerModule,
   ]
 })
 export class ContentModule {

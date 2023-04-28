@@ -12,28 +12,76 @@
   </div>
 
   <div class="w-full flex items-end flex-wrap">
-    <div class="w-full md:w-1/2 lg:w-1/3 px-2 py-2 lg:py-0 inputHolder relative">
-      <div class="input-label-holder">
-        <label class="input-titel">Mobile Number <span>*</span></label>
-        <label class="input-checkd anim cursor-pointer"><input [formControlName]="'is_mobile_hidden'" class="mr-2 cursor-pointer" name="is_mobile_hidden" type="checkbox"/>Hidden</label>
+    <div #phoneF="ngForm" [formGroup]="phoneForm" class="w-full lg:w-2/3 flex items-end flex-wrap">
+      <div class="w-full md:w-1/2 px-2 py-2 lg:py-0 inputHolder relative">
+        <div class="input-label-holder">
+          <label class="input-titel">Mobile Number <span>*</span></label>
+          <label class="input-checkd anim cursor-pointer"><input [formControlName]="'is_mobile_hidden'" class="mr-2 cursor-pointer" name="is_mobile_hidden" type="checkbox"/>Hidden</label>
+        </div>
+        <ngx-intl-tel-input
+          [cssClass]="'w-full'"
+          [preferredCountries]="preferredCountries"
+          [enableAutoCountrySelect]="true"
+          [enablePlaceholder]="true"
+          [searchCountryFlag]="true"
+          [searchCountryField]="[
+            SearchCountryField.Iso2,
+            SearchCountryField.Name
+          ]"
+          [selectFirstCountry]="false"
+          [selectedCountryISO]="CountryISO.India"
+          [maxLength]="15"
+          [phoneValidation]="true"
+          [separateDialCode]="true"
+          [numberFormat]="PhoneNumberFormat.National"
+          name="phone"
+          formControlName="phone"
+          >
+        </ngx-intl-tel-input>
+        <span class="absolute top-full text-red-500 text-xs left-2" *ngIf="phoneF.form.controls['phone'].touched && phoneF.form.controls['phone'].invalid">
+          Please enter valid Mobile Number & Required.
+        </span>
+        <!-- <input [formControlName]="'mobile_no'" class="input" name="mobile_no" required type="text" fuseValidNumber/> -->
+        <span class="absolute top-full text-red-500 text-xs" *ngIf="personalDetailForm.get('mobile_no')?.invalid && (personalDetailForm.get('mobile_no')?.dirty && personalDetailForm.get('mobile_no')?.touched)">
+          <span *ngIf="personalDetailForm.get('mobile_no')?.errors?.['required']">Mobile Number is Required.</span>
+          <span *ngIf="personalDetailForm.get('mobile_no')?.errors?.['pattern']">Please enter valid Mobile Number.</span>
+        </span>
       </div>
-      <input [formControlName]="'mobile_no'" class="input" name="mobile_no" required type="text" fuseValidNumber/>
-      <span class="absolute top-full text-red-500 text-xs" *ngIf="personalDetailForm.get('mobile_no')?.invalid && (personalDetailForm.get('mobile_no')?.dirty && personalDetailForm.get('mobile_no')?.touched)">
-        <span *ngIf="personalDetailForm.get('mobile_no')?.errors?.['required']">Mobile Number is Required.</span>
-        <span *ngIf="personalDetailForm.get('mobile_no')?.errors?.['pattern']">Please enter valid Mobile Number.</span>
-      </span>
+      <div class="w-full md:w-1/2 px-2 py-2 lg:py-0 inputHolder relative">
+        <div class="input-label-holder">
+          <label class="input-titel">Alternative Mobile Number(optional)</label>
+          <label class="input-checkd anim cursor-pointer"><input [formControlName]="'is_alt_mobile_hidden'" class="mr-2 cursor-pointer" name="is_alt_mobile_hidden" type="checkbox"/>Hidden</label>
+        </div>
+        <ngx-intl-tel-input
+          [cssClass]="'w-full'"
+          [preferredCountries]="preferredCountries"
+          [enableAutoCountrySelect]="true"
+          [enablePlaceholder]="true"
+          [searchCountryFlag]="true"
+          [searchCountryField]="[
+            SearchCountryField.Iso2,
+            SearchCountryField.Name
+          ]"
+          [selectFirstCountry]="false"
+          [selectedCountryISO]="CountryISO.India"
+          [maxLength]="15"
+          [phoneValidation]="true"
+          [separateDialCode]="true"
+          [numberFormat]="PhoneNumberFormat.National"
+          name="alt_phone"
+          formControlName="alt_phone"
+        >
+        </ngx-intl-tel-input>
+        <span class="absolute top-full text-red-500 text-xs left-2" *ngIf="phoneF.form.controls['alt_phone'].touched && phoneF.form.controls['alt_phone'].invalid">
+          Please enter valid Contact Number.
+        </span>
+        <!-- <input [formControlName]="'alt_mobile_no'" class="input" name="alt_mobile_no" type="text" fuseValidNumber/> -->
+        <!-- <span class="absolute top-full text-red-500 text-xs" *ngIf="personalDetailForm.get('alt_mobile_no')?.invalid && (personalDetailForm.get('alt_mobile_no')?.dirty && personalDetailForm.get('alt_mobile_no')?.touched)">
+          <span *ngIf="personalDetailForm.get('alt_mobile_no')?.errors?.['pattern']">Please enter valid Alternate Mobile Number.</span>
+        </span> -->
+      </div>
     </div>
 
-    <div class="w-full md:w-1/2 lg:w-1/3 px-2 py-2 lg:py-0 inputHolder relative">
-      <div class="input-label-holder">
-        <label class="input-titel">Alternative Mobile Number(optional)</label>
-        <label class="input-checkd anim cursor-pointer"><input [formControlName]="'is_alt_mobile_hidden'" class="mr-2 cursor-pointer" name="is_alt_mobile_hidden" type="checkbox"/>Hidden</label>
-      </div>
-      <input [formControlName]="'alt_mobile_no'" class="input" name="alt_mobile_no" type="text" fuseValidNumber/>
-      <span class="absolute top-full text-red-500 text-xs" *ngIf="personalDetailForm.get('alt_mobile_no')?.invalid && (personalDetailForm.get('alt_mobile_no')?.dirty && personalDetailForm.get('alt_mobile_no')?.touched)">
-        <span *ngIf="personalDetailForm.get('alt_mobile_no')?.errors?.['pattern']">Please enter valid Alternate Mobile Number.</span>
-      </span>
-    </div>
     <div class="w-full md:w-1/2 lg:w-1/3 px-2 py-2 lg:py-0 inputHolder relative">
       <div class="input-label-holder">
         <label class="input-titel">Email Address <span>*</span></label>
@@ -58,7 +106,7 @@
       </span>
     </div>
   </div>
-  <div class="space-y-5">
+  <div class="py-5">
     <h5 class="px-2">Address</h5>
     <div class="w-full flex flex-wrap">
       <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-5 inputHolder">
@@ -74,7 +122,7 @@
         <input [formControlName]="'area'" class="input" type="text"/>
       </div>
       <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-5 inputHolder relative">
-        <label class="input-titel">City</label>
+        <label class="input-titel">City <span>*</span></label>
         <input [formControlName]="'city'" class="input" type="text" fuseValidAlphabet (keyup)="pincodeValidation(pincode.value)"/>
         <span class="absolute top-full text-red-500 text-xs" *ngIf="personalDetailForm.get('city')?.invalid && (personalDetailForm.get('city')?.dirty && personalDetailForm.get('city')?.touched)">
           <span *ngIf="personalDetailForm.get('city')?.errors?.['required']">
@@ -86,7 +134,7 @@
         </span>
       </div>
       <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-5 inputHolder relative">
-        <label class="input-titel">State</label>
+        <label class="input-titel">State <span>*</span></label>
         <input [formControlName]="'state'" class="input" type="text" fuseValidAlphabet (keyup)="pincodeValidation(pincode.value)"/>
         <span class="absolute top-full text-red-500 text-xs" *ngIf="personalDetailForm.get('state')?.invalid && (personalDetailForm.get('state')?.dirty && personalDetailForm.get('state')?.touched)">
           <span *ngIf="personalDetailForm.get('state')?.errors?.['required']">
@@ -98,7 +146,7 @@
         </span>
       </div>
       <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-5 inputHolder relative">
-        <label class="input-titel">Pincode</label>
+        <label class="input-titel">Pincode <span>*</span></label>
         <input #pincode [formControlName]="'pincode'" class="input" type="text" fuseValidNumber (keyup)="pincodeValidation(pincode.value)"/>
         <span class="absolute top-full text-red-500 text-xs" *ngIf="personalDetailForm.get('pincode')?.invalid && (personalDetailForm.get('pincode')?.dirty && personalDetailForm.get('pincode')?.touched)">
           <span *ngIf="personalDetailForm.get('pincode')?.errors?.['required']">

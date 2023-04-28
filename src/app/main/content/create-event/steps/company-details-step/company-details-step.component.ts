@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SnotifyService } from 'ng-snotify';
 import { CONSTANTS } from 'src/app/main/common/constants';
@@ -11,6 +11,7 @@ import { ModalService } from 'src/app/main/_modal';
 // @ts-ignore
 import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
 import { forkJoin, Observable, switchMap } from 'rxjs';
+import { SearchCountryField, CountryISO, PhoneNumberFormat } from "ngx-intl-tel-input";
 
 declare var $: any;
 
@@ -21,6 +22,17 @@ declare var $: any;
 })
 
 export class CompanyDetailsStepComponent implements OnInit {
+  SearchCountryField = SearchCountryField;
+  CountryISO = CountryISO;
+  preferredCountries: CountryISO[] = [CountryISO.India];
+  PhoneNumberFormat = PhoneNumberFormat;
+  // phoneForm: any;
+  phoneFormObj: any;
+  phoneForm = new FormGroup({
+    phone: new FormControl(undefined),
+  });
+  @ViewChild('phoneF') form: any;
+
   imgChangeEvt: any = '';
   constants: any = CONSTANTS;
   isLoading: boolean = false;
@@ -95,27 +107,6 @@ export class CompanyDetailsStepComponent implements OnInit {
     );
   }
 
-  private _prepareCompanyDetailsForm(companyDetailObj: any = {}): void {
-    this.companyForm = this._formBuilder.group({
-      name: [companyDetailObj?.name || '', [Validators.minLength(2)]],
-      gst: [this.gstPdf || ''],
-      contact_no: [companyDetailObj?.contact_no || '', [Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
-      email: [companyDetailObj?.email || '', [Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
-      about: [companyDetailObj?.about || ''],
-      flat_no: [companyDetailObj?.flat_no || ''],
-      street: [companyDetailObj?.street || ''],
-      area: [companyDetailObj?.area || ''],
-      city: [companyDetailObj?.city || ''],
-      state: [companyDetailObj?.state || ''],
-      pincode: [companyDetailObj?.pincode || '', [Validators.pattern('^[1-9]{1}[0-9]{2}\\s{0,1}[0-9]{3}$')]],
-      photos: [this.photoArr || []],
-      videos: [this.videoArr || []],
-    });
-
-    this.inputText = companyDetailObj?.company_details?.company_detail?.gst_name;
-    this.pincodeValidation(this.companyForm.value.pincode);
-  }
-
   getCompanyDetailsEvent(): any {
     this.isLoading = true;
     this._createEventService.getCompanyDetail(this.eventId).subscribe((result: any) => {
@@ -126,6 +117,12 @@ export class CompanyDetailsStepComponent implements OnInit {
         } else {
           this.getDataFromProfileObj();
         }
+        if (companyDetailObj && companyDetailObj.country_wise_contact && companyDetailObj.country_wise_contact != '') { 
+          this.phoneForm.patchValue({
+            phone: companyDetailObj.country_wise_contact
+          });
+        }
+        this.phoneFormObj = companyDetailObj.country_wise_contact || undefined;
         this.gstPdf = companyDetailObj.gst;
         this.inputText = _.last(_.split(companyDetailObj.gst, '/'));
         this.photoArr = companyDetailObj.photos || [];
@@ -389,12 +386,21 @@ export class CompanyDetailsStepComponent implements OnInit {
     this.textEditor = (stringOfCKEditor.length > this.textEditorMaxLimit);
   }
 
+  isString(val: any): boolean {
+    return typeof val === 'string';
+  }
+
   nextStep(): void {
     if (this.companyForm.invalid) {
       Object.keys(this.companyForm.controls).forEach((key) => {
         this.companyForm.controls[key].touched = true;
         this.companyForm.controls[key].markAsDirty();
       });
+      return;
+    }
+    if (this.phoneForm.invalid) {
+      this.form.form.controls['phone'].touched = true;
+      this.phoneForm.controls['phone'].markAsDirty();
       return;
     }
     this.editorCharacterSet();
@@ -421,8 +427,24 @@ export class CompanyDetailsStepComponent implements OnInit {
     });
   }
 
-  isString(val: any): boolean {
-    return typeof val === 'string';
+  private _prepareCompanyDetailsForm(companyDetailObj: any = {}): void {
+    this.companyForm = this._formBuilder.group({
+      name: [companyDetailObj?.name || '', [Validators.minLength(2)]],
+      gst: [this.gstPdf || ''],
+      contact_no: [companyDetailObj?.contact_no || ''],
+      email: [companyDetailObj?.email || '', [Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
+      about: [companyDetailObj?.about || ''],
+      flat_no: [companyDetailObj?.flat_no || ''],
+      street: [companyDetailObj?.street || ''],
+      area: [companyDetailObj?.area || ''],
+      city: [companyDetailObj?.city || ''],
+      state: [companyDetailObj?.state || ''],
+      pincode: [companyDetailObj?.pincode || '', [Validators.pattern('^[1-9]{1}[0-9]{2}\\s{0,1}[0-9]{3}$')]],
+      photos: [this.photoArr || []],
+      videos: [this.videoArr || []],
+    });
+    this.inputText = companyDetailObj?.company_details?.company_detail?.gst_name;
+    this.pincodeValidation(this.companyForm.value.pincode);
   }
 
   prepareObj(companyObj: any = {}): any {
@@ -431,6 +453,10 @@ export class CompanyDetailsStepComponent implements OnInit {
     preparedObj.gst = this.gstPdf;
     preparedObj.photos = this.photoArr;
     preparedObj.videos = this.videoArr;
+    preparedObj.country_wise_contact = this.phoneForm?.value?.phone;
+    preparedObj.dial_code = preparedObj.country_wise_contact?.dialCode;
+    const contactNumber = preparedObj.country_wise_contact?.e164Number;
+    preparedObj.contact_no = contactNumber.replace(preparedObj.dial_code, '');
     return preparedObj;
   }
 }

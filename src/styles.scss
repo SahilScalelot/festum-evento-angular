@@ -437,3 +437,39 @@ mat-progress-spinner.mat-progress-spinner.mat-spinner.mat-primary.mat-progress-s
   height: 15px;
   width: 15px;
 }
+
+p-dropdown.contry-code .p-dropdown {
+  border: none;
+}
+p-dropdown.contry-code .p-dropdown-panel .p-dropdown-header {
+  padding: 0;
+}
+p-dropdown.contry-code .p-dropdown-panel .p-dropdown-items .p-dropdown-item {
+  font-size: 14px;
+  padding: 10px;
+}
+p-dropdown.contry-code .p-dropdown-panel .p-dropdown-header .p-dropdown-filter {
+  padding: 5px 10px;
+  border: 0;
+  font-size: 14px;
+}
+p-dropdown.contry-code .p-dropdown-panel .p-inputtext:enabled:focus {
+  box-shadow: none;
+}
+
+ngx-intl-tel-input * {
+  box-shadow: none !important;
+}
+ngx-intl-tel-input .iti {
+  width: 100%;
+  font-size: 14px;
+}
+// ngx-intl-tel-input .iti .selected-dial-code {
+// }
+ngx-intl-tel-input .iti input {
+  padding-top: 14px;
+  padding-bottom: 14px;
+  border-radius: 5px;
+  outline: none !important;
+  box-shadow: none !important;
+}

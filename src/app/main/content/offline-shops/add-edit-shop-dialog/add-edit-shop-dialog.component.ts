@@ -1,5 +1,5 @@
 import { Component, ElementRef, EventEmitter, Input, NgZone, OnInit, Output, Renderer2, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, Validators } from "@angular/forms";
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { CompressImageService } from 'src/app/services/compress-image.service';
 import { GlobalFunctions } from '../../../common/global-functions';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
@@ -17,6 +17,7 @@ import { take } from 'rxjs';
 declare var $: any;
 // @ts-ignore
 import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
+import { SearchCountryField, CountryISO, PhoneNumberFormat } from "ngx-intl-tel-input";
 
 @Component({
   selector: 'app-add-edit-shop-dialog',
@@ -24,6 +25,17 @@ import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
   styleUrls: ['./add-edit-shop-dialog.component.scss']
 })
 export class AddEditShopDialogComponent implements OnInit {
+  SearchCountryField = SearchCountryField;
+  CountryISO = CountryISO;
+  preferredCountries: CountryISO[] = [CountryISO.India];
+  PhoneNumberFormat = PhoneNumberFormat;
+  // phoneForm: any;
+  phoneFormObj: any;
+  phoneForm = new FormGroup({
+    phone: new FormControl(undefined),
+  });
+  @ViewChild('phoneF') form: any;
+
   addShopForm: any;
   shopCategories: any = [];
   constants: any = CONSTANTS;
@@ -239,6 +251,11 @@ export class AddEditShopDialogComponent implements OnInit {
     this._offlineShopsService.getShopCategories().subscribe((result: any) => {
       if (result && result.IsSuccess) {
         this.shopCategories = result.Data;
+        if (this.shopCategories && this.shopCategories.country_wise_contact && this.shopCategories.country_wise_contact != '') { 
+          this.phoneForm.patchValue({
+            phone: this.shopCategories.country_wise_contact
+          });
+        }
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
       }

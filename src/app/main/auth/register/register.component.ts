@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {FormBuilder, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {SnotifyService} from 'ng-snotify';
 import {GlobalService} from 'src/app/services/global.service';
@@ -7,6 +7,7 @@ import {GlobalFunctions} from '../../common/global-functions';
 import { ModalService } from '../../_modal';
 import {AuthService} from '../auth.service';
 import {FuseValidators} from '../validators';
+import { SearchCountryField, CountryISO, PhoneNumberFormat } from "ngx-intl-tel-input";
 
 @Component({
   selector: 'app-register',
@@ -14,6 +15,15 @@ import {FuseValidators} from '../validators';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
+  SearchCountryField = SearchCountryField;
+  CountryISO = CountryISO;
+  preferredCountries: CountryISO[] = [CountryISO.India];
+  PhoneNumberFormat = PhoneNumberFormat;
+  phoneForm = new FormGroup({
+    phone: new FormControl(undefined),
+  });
+  @ViewChild('phoneF') form: any;
+
   @ViewChild('registerNgForm') registerNgForm: any;
   registerForm: any;
   agentId: any;
@@ -46,7 +56,7 @@ export class RegisterComponent implements OnInit {
     this.registerForm = this._formBuilder.group({
       name: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
-      mobile: ['', [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
+      mobile: ['', [Validators.required]],
       country_code: ['+91'],
       password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(16)]],
       confirm_password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(16)]],
@@ -70,9 +80,10 @@ export class RegisterComponent implements OnInit {
       return;
     }
     this.registerForm.disable();
-    this._authService.register(this.registerForm.value).subscribe((result: any) => {
+    const preparedCompanyDetailsObj: any = this.prepareObj(this.registerForm.value);
+    this._authService.register(preparedCompanyDetailsObj).subscribe((result: any) => {
       if (result && result.IsSuccess) {
-        const preparedForgotPwdObj: any = this.registerForm.value;
+        const preparedForgotPwdObj: any = preparedCompanyDetailsObj;
         preparedForgotPwdObj.smsKey = result.Data.key;
         preparedForgotPwdObj.organizerid = result.Data.organizerid;
         localStorage.setItem("register", JSON.stringify(preparedForgotPwdObj));
@@ -88,6 +99,15 @@ export class RegisterComponent implements OnInit {
       this._globalFunctions.errorHanding(error, this, true);
       // this._sNotify.error(error.Message, 'error');
     });
+  }
+
+  prepareObj(registerObj: any = {}): any {
+    const preparedObj: any = registerObj;
+    preparedObj.country_wise_contact = this.phoneForm?.value?.phone;
+    preparedObj.country_code = preparedObj.country_wise_contact?.dialCode;
+    const contactNumber = preparedObj.country_wise_contact?.e164Number;
+    preparedObj.mobile = contactNumber.replace(preparedObj.country_code, '');
+    return preparedObj;
   }
 
   tAndCPop(): void {

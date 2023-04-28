@@ -29,6 +29,8 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { DropdownModule } from 'primeng/dropdown';
+import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
 
 const routes: Routes = [
   { path: '', redirectTo: 'add-event', pathMatch: 'full' },
@@ -103,6 +105,8 @@ const routes: Routes = [
     MatProgressSpinnerModule,
     NgxDropzoneModule,
     MatExpansionModule,
+    DropdownModule,
+    NgxIntlTelInputModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyDLgr8YB5IK8dBIEWClexZGzXaB7UlVm7Q',
       libraries: ['places']

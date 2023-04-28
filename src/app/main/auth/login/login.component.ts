@@ -60,14 +60,15 @@ export class LoginComponent implements OnInit {
   }
 
   logIn(): void {
-    // if (this.logInForm.invalid) {
-    //   return;
-    // }
     if (!this.validate()) {
       return;
     }
+    const preparedCredentialObj: any = {
+      mobile: this.logInForm.value.mobile.toString(),
+      password: this.logInForm.value.password
+    };
     this.logInForm.disable();
-    this._authService.logIn(this.logInForm.value).subscribe((result: any) => {
+    this._authService.logIn(preparedCredentialObj).subscribe((result: any) => {
       if (result && result.IsSuccess) {
         localStorage.setItem('accessToken', result.Data.token);
         this._sNotify.success('Logged in Successfully!', 'Success');
