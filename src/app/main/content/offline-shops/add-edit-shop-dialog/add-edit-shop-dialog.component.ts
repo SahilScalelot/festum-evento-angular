@@ -30,7 +30,6 @@ export class AddEditShopDialogComponent implements OnInit {
   preferredCountries: CountryISO[] = [CountryISO.India];
   PhoneNumberFormat = PhoneNumberFormat;
   // phoneForm: any;
-  phoneFormObj: any;
   phoneForm = new FormGroup({
     phone: new FormControl(undefined),
   });
@@ -199,6 +198,11 @@ export class AddEditShopDialogComponent implements OnInit {
           this.addShopForm.patchValue(companyObj);
         }
       }
+    });
+
+    
+    this.phoneForm = new FormGroup({
+      phone: new FormControl(undefined),
     });
   }
 

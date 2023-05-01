@@ -1,5 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SnotifyService } from 'ng-snotify';
 import { CONSTANTS } from 'src/app/main/common/constants';
@@ -15,6 +15,7 @@ import { ImageCroppedEvent } from "ngx-image-cropper";
 import { take } from 'rxjs';
 import * as _ from 'lodash';
 import * as moment from "moment";
+import { CountryISO, PhoneNumberFormat, SearchCountryField } from 'ngx-intl-tel-input';
 declare var $: any;
 
 @Component({
@@ -23,6 +24,16 @@ declare var $: any;
   styleUrls: ['./create-offer.component.scss']
 })
 export class CreateOfferComponent implements OnInit, OnDestroy {
+  SearchCountryField = SearchCountryField;
+  CountryISO = CountryISO;
+  preferredCountries: CountryISO[] = [CountryISO.India];
+  PhoneNumberFormat = PhoneNumberFormat;
+  // phoneForm: any;
+  phoneForm = new FormGroup({
+    phone: new FormControl(undefined, [Validators.required]),
+  });
+  @ViewChild('phoneF') form: any;
+
   constants: any = CONSTANTS;
   positiveMaxNumber: any = Number.POSITIVE_INFINITY;
   inputText: any;
@@ -162,6 +173,11 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
         }
         if (offerObj.company_gst) {
           this.inputText = _.last(_.split(offerObj.company_gst, '/'));
+        }
+        if (offerObj && offerObj.country_wise_contact && offerObj.country_wise_contact != '') { 
+          this.phoneForm.patchValue({
+            phone: offerObj.country_wise_contact
+          });
         }
         this.isLoading = false;
       } else {
@@ -390,6 +406,11 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
     preparedOnlineShopOfferObj.status = true;
     preparedOnlineShopOfferObj.start_date = moment(onlineShopOfferObj.start_date).format('YYYY-MM-DD');
     preparedOnlineShopOfferObj.end_date = moment(onlineShopOfferObj.end_date).format('YYYY-MM-DD');
+    
+    preparedOnlineShopOfferObj.country_wise_contact = this.phoneForm?.value?.phone;
+    preparedOnlineShopOfferObj.dial_code = preparedOnlineShopOfferObj.country_wise_contact?.dialCode;
+    const contactNumber = preparedOnlineShopOfferObj.country_wise_contact?.e164Number;
+    preparedOnlineShopOfferObj.company_contact_no = contactNumber.replace(preparedOnlineShopOfferObj.dial_code, '');
     return preparedOnlineShopOfferObj;
   }
 
@@ -497,7 +518,6 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
     }
   }
 
-  
   tAndCPop(): void {
     if (this.tandcForm.value && this.tandcForm.value.status == false) {
       this.tandcForm.get('status').setValue(false);

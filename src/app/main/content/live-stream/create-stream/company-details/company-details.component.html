@@ -32,11 +32,36 @@
     <div class="flex items-end flex-wrap -mx-2">
       <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative">
         <span class="input-titel">Company Contact No</span>
-        <input [formControlName]="'contact_no'" class="input" type="text" fuseValidNumber />
+        <!-- <input [formControlName]="'contact_no'" class="input" type="text" fuseValidNumber />
         <span class="absolute top-full text-red-500 text-xs" *ngIf="companyForm.get('contact_no')?.invalid && (companyForm.get('contact_no')?.dirty && companyForm.get('contact_no')?.touched)">
           <span *ngIf="companyForm.get('contact_no')?.errors?.['pattern']">
             Please enter valid Contact Number.
           </span>
+        </span> -->
+        <div #phoneF="ngForm" [formGroup]="phoneForm">
+          <ngx-intl-tel-input
+            [cssClass]="'w-full'"
+            [preferredCountries]="preferredCountries"
+            [enableAutoCountrySelect]="true"
+            [enablePlaceholder]="true"
+            [searchCountryFlag]="true"
+            [searchCountryField]="[
+              SearchCountryField.Iso2,
+              SearchCountryField.Name
+            ]"
+            [selectFirstCountry]="false"
+            [selectedCountryISO]="CountryISO.India"
+            [maxLength]="15"
+            [phoneValidation]="true"
+            [separateDialCode]="true"
+            [numberFormat]="PhoneNumberFormat.National"
+            name="phone"
+            formControlName="phone"
+          >
+          </ngx-intl-tel-input>
+        </div>
+        <span class="absolute top-full text-red-500 text-xs left-2" *ngIf="phoneF.form.controls['phone'].touched && phoneF.form.controls['phone'].invalid">
+          Please enter valid Contact Number.
         </span>
       </div>
       <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative">

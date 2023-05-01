@@ -17,6 +17,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { ImageModule } from 'primeng/image';
 import { RatingModule } from "primeng/rating";
 import { TableModule } from 'primeng/table';
+import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
 
 const routes: Routes = [
   {
@@ -51,7 +52,8 @@ const routes: Routes = [
     DropdownModule,
     ImageModule,
     RatingModule,
-    TableModule
+    TableModule,
+    NgxIntlTelInputModule
   ]
 })
 export class OnlineOffersModule { }

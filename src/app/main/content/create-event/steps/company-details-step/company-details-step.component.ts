@@ -27,7 +27,6 @@ export class CompanyDetailsStepComponent implements OnInit {
   preferredCountries: CountryISO[] = [CountryISO.India];
   PhoneNumberFormat = PhoneNumberFormat;
   // phoneForm: any;
-  phoneFormObj: any;
   phoneForm = new FormGroup({
     phone: new FormControl(undefined),
   });
@@ -122,7 +121,6 @@ export class CompanyDetailsStepComponent implements OnInit {
             phone: companyDetailObj.country_wise_contact
           });
         }
-        this.phoneFormObj = companyDetailObj.country_wise_contact || undefined;
         this.gstPdf = companyDetailObj.gst;
         this.inputText = _.last(_.split(companyDetailObj.gst, '/'));
         this.photoArr = companyDetailObj.photos || [];

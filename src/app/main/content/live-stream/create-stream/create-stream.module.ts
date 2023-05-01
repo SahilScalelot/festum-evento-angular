@@ -18,6 +18,7 @@ import { SharedModule } from "../../../../shared/shared.module";
 import { ModalModule } from 'src/app/main/_modal';
 import { DropdownModule } from 'primeng/dropdown';
 import { NgxDropzoneModule } from 'ngx-dropzone';
+import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
 
 const routes: Routes = [
   {
@@ -67,6 +68,7 @@ const routes: Routes = [
     ModalModule,
     DropdownModule,
     NgxDropzoneModule,
+    NgxIntlTelInputModule
   ]
 })
 export class CreateStreamModule { }

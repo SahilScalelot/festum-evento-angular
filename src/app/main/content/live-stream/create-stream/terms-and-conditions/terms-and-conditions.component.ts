@@ -76,9 +76,9 @@ export class TermsAndConditionsComponent implements OnInit {
     this._modalService.close("tandc");
   }
 
-  backBtn(): void {
-    this._router.navigate(['/live-stream/create/personal-details']);
-  }
+  // backBtn(): void {
+  //   this._router.navigate(['/live-stream/create/personal-details']);
+  // }
 
   getTAndCEvent(): any {
     this.isLoading = true;

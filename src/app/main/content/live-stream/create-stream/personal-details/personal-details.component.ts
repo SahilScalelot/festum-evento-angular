@@ -1,5 +1,5 @@
-import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SnotifyService } from 'ng-snotify';
 import { CONSTANTS } from 'src/app/main/common/constants';
@@ -9,6 +9,7 @@ import { CreateStreamService } from '../create-stream.service';
 // @ts-ignore
 import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
 import * as _ from 'lodash';
+import { CountryISO, PhoneNumberFormat, SearchCountryField } from 'ngx-intl-tel-input';
 
 @Component({
   selector: 'app-personal-details',
@@ -16,6 +17,19 @@ import * as _ from 'lodash';
   styleUrls: ['./personal-details.component.scss'],
 })
 export class PersonalDetailsComponent implements OnInit {
+  SearchCountryField = SearchCountryField;
+  CountryISO = CountryISO;
+  preferredCountries: CountryISO[] = [CountryISO.India];
+  PhoneNumberFormat = PhoneNumberFormat;
+  phoneForm = new FormGroup({
+    phone: new FormControl(undefined, [Validators.required]),
+    alt_phone: new FormControl(undefined),
+
+    is_mobile_hidden: new FormControl(true),
+    is_alt_mobile_hidden: new FormControl(true),
+  });;
+  @ViewChild('phoneF') form: any;
+
   personalDetailForm: any;
   submit: boolean = false;
   isLoading: boolean = false;
@@ -86,6 +100,12 @@ export class PersonalDetailsComponent implements OnInit {
         } else {
           this.getDataFromProfileObj();
         }
+        this.phoneForm.patchValue({
+          phone: eventLocationObj.country_wise_contact || undefined,
+          alt_phone: eventLocationObj.alt_country_wise_contact || undefined,
+          is_mobile_hidden: eventLocationObj.is_mobile_hidden || true,
+          is_alt_mobile_hidden: eventLocationObj.is_alt_mobile_hidden || true,
+        });
         this.editorCharacterSet();
         this.isLoading = false;
       } else {
@@ -164,6 +184,15 @@ export class PersonalDetailsComponent implements OnInit {
       });
       return;
     }
+    if (this.phoneForm.invalid) {
+      this.form.form.controls['phone'].touched = true;
+      this.phoneForm.controls['phone'].markAsDirty();
+      // Object.keys(this.phoneForm.controls).forEach((key) => {
+      //   this.phoneForm.controls[key].touched = true;
+      //   this.phoneForm.controls[key].markAsDirty();
+      // });
+      return;
+    }
     this.editorCharacterSet();
     if (this.textEditorLimit && this.textEditorMaxLimit && this.textEditorLimit > this.textEditorMaxLimit) {
       return;
@@ -191,6 +220,18 @@ export class PersonalDetailsComponent implements OnInit {
   preparePersonalDetailObj(personalObj: any = {}): any {
     const preparedObj: any = personalObj;
     preparedObj.livestreamid = this.liveStreamId;
+
+    preparedObj.country_wise_contact = this.phoneForm?.value?.phone;
+    preparedObj.dial_code = preparedObj.country_wise_contact?.dialCode || '';
+    const contactNumber = preparedObj.country_wise_contact?.e164Number || '';
+    preparedObj.mobile_no = (contactNumber && contactNumber != '') ? contactNumber.replace(preparedObj.dial_code, '') : '';
+    preparedObj.is_mobile_hidden = this.phoneForm?.value?.is_mobile_hidden;
+    
+    preparedObj.alt_country_wise_contact = this.phoneForm?.value?.alt_phone;
+    preparedObj.alt_dial_code = preparedObj.alt_country_wise_contact?.dialCode || '';
+    const alt_contactNumber = preparedObj.alt_country_wise_contact?.e164Number || '';
+    preparedObj.alt_mobile_no = (alt_contactNumber && alt_contactNumber != '') ? alt_contactNumber.replace(preparedObj.alt_dial_code, '') : '';
+    preparedObj.is_alt_mobile_hidden = this.phoneForm?.value?.is_alt_mobile_hidden;
     return preparedObj;
   }
 }

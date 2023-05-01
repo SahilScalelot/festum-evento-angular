@@ -216,10 +216,35 @@
         </div>
         <div class="w-full lg:w-1/2 px-2 pt-5 inputHolder relative">
           <span class="input-titel">Company Contact No<span>*</span></span>
-          <input type="tel" name="company_contact_no" formControlName="company_contact_no" class="input" fuseValidNumber />
-          <span class="absolute top-full text-red-500 text-xs" *ngIf="addEditOfferForm.get('company_contact_no')?.invalid && addEditOfferForm.get('company_contact_no')?.dirty && addEditOfferForm.get('company_contact_no')?.touched">
+          <!-- <input type="tel" name="company_contact_no" formControlName="company_contact_no" class="input" fuseValidNumber /> -->
+          <!-- <span class="absolute top-full text-red-500 text-xs" *ngIf="addEditOfferForm.get('company_contact_no')?.invalid && addEditOfferForm.get('company_contact_no')?.dirty && addEditOfferForm.get('company_contact_no')?.touched">
             <span *ngIf="addEditOfferForm.get('company_contact_no')?.errors?.['required']">Company contact number is required.</span>
             <span *ngIf="addEditOfferForm.get('company_contact_no')?.errors?.['pattern']">Please enter valid company contact number.</span>
+          </span> -->
+          <div #phoneF="ngForm" [formGroup]="phoneForm">
+            <ngx-intl-tel-input
+              [cssClass]="'w-full'"
+              [preferredCountries]="preferredCountries"
+              [enableAutoCountrySelect]="true"
+              [enablePlaceholder]="true"
+              [searchCountryFlag]="true"
+              [searchCountryField]="[
+                SearchCountryField.Iso2,
+                SearchCountryField.Name
+              ]"
+              [selectFirstCountry]="false"
+              [selectedCountryISO]="CountryISO.India"
+              [maxLength]="15"
+              [phoneValidation]="true"
+              [separateDialCode]="true"
+              [numberFormat]="PhoneNumberFormat.National"
+              name="phone"
+              formControlName="phone"
+            >
+            </ngx-intl-tel-input>
+          </div>
+          <span class="absolute top-full text-red-500 text-xs left-2" *ngIf="phoneF.form.controls['phone'].touched && phoneF.form.controls['phone'].invalid">
+            Please enter valid Contact Number & required.
           </span>
         </div>
         <div class="w-full lg:w-1/2 px-2 pt-5 inputHolder relative">

@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SnotifyService } from 'ng-snotify';
 import { CONSTANTS } from 'src/app/main/common/constants';
@@ -11,6 +11,7 @@ import { ModalService } from 'src/app/main/_modal';
 // @ts-ignore
 import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
 import { forkJoin, Observable, switchMap } from 'rxjs';
+import { CountryISO, PhoneNumberFormat, SearchCountryField } from 'ngx-intl-tel-input';
 
 declare var $: any;
 
@@ -21,6 +22,16 @@ declare var $: any;
 })
 
 export class CompanyDetailsComponent implements OnInit {
+  SearchCountryField = SearchCountryField;
+  CountryISO = CountryISO;
+  preferredCountries: CountryISO[] = [CountryISO.India];
+  PhoneNumberFormat = PhoneNumberFormat;
+  // phoneForm: any;
+  phoneForm = new FormGroup({
+    phone: new FormControl(undefined),
+  });
+  @ViewChild('phoneF') form: any;
+
   imgChangeEvt: any = '';
   constants: any = CONSTANTS;
   isLoading: boolean = false;
@@ -104,6 +115,11 @@ export class CompanyDetailsComponent implements OnInit {
           this._prepareCompanyDetailsForm(companyDetailObj);
         } else {
           this.getDataFromProfileObj();
+        }
+        if (companyDetailObj && companyDetailObj.country_wise_contact && companyDetailObj.country_wise_contact != '') { 
+          this.phoneForm.patchValue({
+            phone: companyDetailObj.country_wise_contact
+          });
         }
         this.gstPdf = companyDetailObj.gst;
         this.inputText = _.last(_.split(companyDetailObj.gst, '/'));
@@ -213,6 +229,11 @@ export class CompanyDetailsComponent implements OnInit {
       });
       return;
     }
+    if (this.phoneForm.invalid) {
+      this.form.form.controls['phone'].touched = true;
+      this.phoneForm.controls['phone'].markAsDirty();
+      return;
+    }
     this.isLoading = true;
     this.companyForm.disable();
     const preparedCompanyDetailsObj: any = this.prepareObj(this.companyForm.value);
@@ -241,6 +262,11 @@ export class CompanyDetailsComponent implements OnInit {
     const preparedObj: any = companyObj;
     preparedObj.livestreamid = this.liveStreamId;
     preparedObj.gst = this.gstPdf;
+
+    preparedObj.country_wise_contact = this.phoneForm?.value?.phone;
+    preparedObj.dial_code = preparedObj.country_wise_contact?.dialCode;
+    const contactNumber = preparedObj.country_wise_contact?.e164Number;
+    preparedObj.contact_no = contactNumber.replace(preparedObj.dial_code, '');
     return preparedObj;
   }
 }
