@@ -236,17 +236,17 @@ export class PersonalDetailsStepComponent implements OnInit {
     const preparedObj: any = personalObj;
     preparedObj.eventid = this.eventId;
 
-    preparedObj.country_wise_contact = this.phoneForm?.value?.phone;
+    preparedObj.country_wise_contact = this.phoneForm?.value?.phone || undefined;
     preparedObj.dial_code = preparedObj.country_wise_contact?.dialCode || '';
     const contactNumber = preparedObj.country_wise_contact?.e164Number || '';
     preparedObj.mobile_no = (contactNumber && contactNumber != '') ? contactNumber.replace(preparedObj.dial_code, '') : '';
-    preparedObj.is_mobile_hidden = this.phoneForm?.value?.is_mobile_hidden;
+    preparedObj.is_mobile_hidden = this.phoneForm?.value?.is_mobile_hidden || true;
     
-    preparedObj.alt_country_wise_contact = this.phoneForm?.value?.alt_phone;
+    preparedObj.alt_country_wise_contact = this.phoneForm?.value?.alt_phone || undefined;
     preparedObj.alt_dial_code = preparedObj.alt_country_wise_contact?.dialCode || '';
     const alt_contactNumber = preparedObj.alt_country_wise_contact?.e164Number || '';
     preparedObj.alt_mobile_no = (alt_contactNumber && alt_contactNumber != '') ? alt_contactNumber.replace(preparedObj.alt_dial_code, '') : '';
-    preparedObj.is_alt_mobile_hidden = this.phoneForm?.value?.is_alt_mobile_hidden;
+    preparedObj.is_alt_mobile_hidden = this.phoneForm?.value?.is_alt_mobile_hidden || true;
     return preparedObj;
   }
 }

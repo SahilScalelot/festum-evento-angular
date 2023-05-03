@@ -103,10 +103,10 @@ export class RegisterComponent implements OnInit {
 
   prepareObj(registerObj: any = {}): any {
     const preparedObj: any = registerObj;
-    preparedObj.country_wise_contact = this.phoneForm?.value?.phone;
-    preparedObj.country_code = preparedObj.country_wise_contact?.dialCode;
-    const contactNumber = preparedObj.country_wise_contact?.e164Number;
-    preparedObj.mobile = contactNumber.replace(preparedObj.country_code, '');
+    preparedObj.country_wise_contact = this.phoneForm?.value?.phone || undefined;
+    preparedObj.country_code = preparedObj.country_wise_contact?.dialCode || '';
+    const contactNumber = preparedObj.country_wise_contact?.e164Number || '';
+    preparedObj.mobile = contactNumber.replace(preparedObj.country_code, '') || '';
     return preparedObj;
   }
 

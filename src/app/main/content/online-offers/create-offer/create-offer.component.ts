@@ -407,10 +407,10 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
     preparedOnlineShopOfferObj.start_date = moment(onlineShopOfferObj.start_date).format('YYYY-MM-DD');
     preparedOnlineShopOfferObj.end_date = moment(onlineShopOfferObj.end_date).format('YYYY-MM-DD');
     
-    preparedOnlineShopOfferObj.country_wise_contact = this.phoneForm?.value?.phone;
-    preparedOnlineShopOfferObj.dial_code = preparedOnlineShopOfferObj.country_wise_contact?.dialCode;
-    const contactNumber = preparedOnlineShopOfferObj.country_wise_contact?.e164Number;
-    preparedOnlineShopOfferObj.company_contact_no = contactNumber.replace(preparedOnlineShopOfferObj.dial_code, '');
+    preparedOnlineShopOfferObj.country_wise_contact = this.phoneForm?.value?.phone || undefined;
+    preparedOnlineShopOfferObj.dial_code = preparedOnlineShopOfferObj.country_wise_contact?.dialCode || '';
+    const contactNumber = preparedOnlineShopOfferObj.country_wise_contact?.e164Number || '';
+    preparedOnlineShopOfferObj.company_contact_no = contactNumber.replace(preparedOnlineShopOfferObj.dial_code, '') || '';
     return preparedOnlineShopOfferObj;
   }
 

@@ -263,10 +263,10 @@ export class CompanyDetailsComponent implements OnInit {
     preparedObj.livestreamid = this.liveStreamId;
     preparedObj.gst = this.gstPdf;
 
-    preparedObj.country_wise_contact = this.phoneForm?.value?.phone;
-    preparedObj.dial_code = preparedObj.country_wise_contact?.dialCode;
-    const contactNumber = preparedObj.country_wise_contact?.e164Number;
-    preparedObj.contact_no = contactNumber.replace(preparedObj.dial_code, '');
+    preparedObj.country_wise_contact = this.phoneForm?.value?.phone || undefined;
+    preparedObj.dial_code = preparedObj.country_wise_contact?.dialCode || '';
+    const contactNumber = preparedObj.country_wise_contact?.e164Number || '';
+    preparedObj.contact_no = contactNumber.replace(preparedObj.dial_code, '') || '';
     return preparedObj;
   }
 }
