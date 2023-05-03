@@ -20,7 +20,7 @@ export class RegisterComponent implements OnInit {
   preferredCountries: CountryISO[] = [CountryISO.India];
   PhoneNumberFormat = PhoneNumberFormat;
   phoneForm = new FormGroup({
-    phone: new FormControl(undefined),
+    phone: new FormControl(undefined, Validators.required),
   });
   @ViewChild('phoneF') form: any;
 
@@ -56,7 +56,7 @@ export class RegisterComponent implements OnInit {
     this.registerForm = this._formBuilder.group({
       name: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
-      mobile: ['', [Validators.required]],
+      // mobile: ['', [Validators.required]],
       country_code: ['+91'],
       password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(16)]],
       confirm_password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(16)]],
@@ -71,7 +71,7 @@ export class RegisterComponent implements OnInit {
   // confirm_password: ['', [Validators.required]],
   // role: [4],
 
-  register(): void {
+  register(): void {    
     if (this.registerForm.invalid) {
       Object.keys(this.registerForm.controls).forEach((key) => {
         this.registerForm.controls[key].touched = true;
@@ -79,8 +79,14 @@ export class RegisterComponent implements OnInit {
       });
       return;
     }
+    if (this.phoneForm.invalid) {
+      this.form.form.controls['phone'].touched = true;
+      this.phoneForm.controls['phone'].markAsDirty();
+      return;
+    }
     this.registerForm.disable();
     const preparedCompanyDetailsObj: any = this.prepareObj(this.registerForm.value);
+    console.log(preparedCompanyDetailsObj);
     this._authService.register(preparedCompanyDetailsObj).subscribe((result: any) => {
       if (result && result.IsSuccess) {
         const preparedForgotPwdObj: any = preparedCompanyDetailsObj;
@@ -102,11 +108,13 @@ export class RegisterComponent implements OnInit {
   }
 
   prepareObj(registerObj: any = {}): any {
+    console.log(this.phoneForm?.value);
+    
     const preparedObj: any = registerObj;
-    preparedObj.country_wise_contact = this.phoneForm?.value?.phone || undefined;
-    preparedObj.country_code = preparedObj.country_wise_contact?.dialCode || '';
-    const contactNumber = preparedObj.country_wise_contact?.e164Number || '';
-    preparedObj.mobile = contactNumber.replace(preparedObj.country_code, '') || '';
+    preparedObj.country_wise_contact = this.phoneForm?.value?.phone;
+    preparedObj.country_code = preparedObj.country_wise_contact?.dialCode;
+    const contactNumber = preparedObj.country_wise_contact?.e164Number;
+    preparedObj.mobile = contactNumber.replace(preparedObj.country_code, '');
     return preparedObj;
   }
 

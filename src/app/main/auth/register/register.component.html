@@ -1,7 +1,7 @@
 <h1>Create an Account</h1>
 <p class="sm:text-lg xl:text-xl text-quicksilver font-normal sm:pt-3.5">Let’s get you all set up you can verify your personal account and login setting up your profile</p>
 <div class="w-full pt-7 sm:pt-10">
-  <form #registerNgForm="ngForm" [formGroup]="registerForm" class="space-y-5">
+  <form [formGroup]="registerForm" class="space-y-5">
     <div class="relative">
       <label class="input-titel">Your Name <span class="text-red-500">*</span></label>
       <input type="text" name="Your Name" class="input_box" [formControlName]="'name'" id="name"/>
