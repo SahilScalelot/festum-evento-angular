@@ -124,16 +124,28 @@ export const CONSTANTS = {
     {value: 'public_party', label: 'Public Party', displayLabel: 'PP'}
   ],
 
+  // verticalLocationsObj: {
+  //   TOP: 0,
+  //   CENTER: 1,
+  //   BOTTOM: 2
+  // },
+
+  // verticalLocationsArr: [
+  //   {value: 'TOP', label: 'Top'},
+  //   {value: 'CENTER', label: 'Center'},
+  //   {value: 'BOTTOM', label: 'Bottom'}
+  // ],
+
   verticalLocationsObj: {
-    TOP: 0,
-    CENTER: 1,
-    BOTTOM: 2
+    FRONT: 0,
+    MIDDLE: 1,
+    BACK: 2
   },
 
   verticalLocationsArr: [
-    {value: 'TOP', label: 'Top'},
-    {value: 'CENTER', label: 'Center'},
-    {value: 'BOTTOM', label: 'Bottom'}
+    {value: 'FRONT', label: 'Front'},
+    {value: 'MIDDLE', label: 'Middle'},
+    {value: 'BACK', label: 'Back'}
   ],
 
   horizontalLocationsObj: {

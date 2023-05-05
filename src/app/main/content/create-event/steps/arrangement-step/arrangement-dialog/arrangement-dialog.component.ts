@@ -65,7 +65,7 @@ export class ArrangementDialogComponent implements OnInit {
   addArrangements(tempArrangementObj: any = {}): void {
     const arrangementsObj = this._formBuilder.group({
       number_of_seating_item: [tempArrangementObj?.number_of_seating_item || '', [Validators.required]],
-      vertical_location: [tempArrangementObj?.vertical_location || this.constants.verticalLocationsArr[this.constants.verticalLocationsObj.TOP].value, [Validators.required]],
+      vertical_location: [tempArrangementObj?.vertical_location || this.constants.verticalLocationsArr[this.constants.verticalLocationsObj.FRONT].value, [Validators.required]],
       horizontal_location: [tempArrangementObj?.horizontal_location || this.constants.horizontalLocationsArr[this.constants.horizontalLocationsObj.NONE].value, [Validators.required]],
       per_seating_person: [tempArrangementObj?.per_seating_person || ''],
       total_person: [tempArrangementObj?.total_person || '', [Validators.required]],
