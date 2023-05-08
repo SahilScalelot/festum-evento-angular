@@ -6,7 +6,7 @@ import { CreateComponent } from './create/create.component';
 import { PhotosAndVideosComponent } from './photos-and-videos/photos-and-videos.component';
 import { CompanyDetailsComponent } from './company-details/company-details.component';
 import { PersonalDetailsComponent } from './personal-details/personal-details.component';
-import { TermsAndConditionsComponent } from './terms-and-conditions/terms-and-conditions.component';
+import { TermsAndConditionsLsComponent } from './terms-and-conditions/terms-and-conditions.component';
 import { StepsModule } from 'primeng/steps';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CalendarModule } from 'primeng/calendar';
@@ -38,7 +38,7 @@ const routes: Routes = [
         path: 'personal-details', component: PersonalDetailsComponent
       },
       {
-        path: 'terms-and-condition', component: TermsAndConditionsComponent
+        path: 'terms-and-condition', component: TermsAndConditionsLsComponent
       }
     ]
   },
@@ -52,7 +52,7 @@ const routes: Routes = [
     PhotosAndVideosComponent,
     CompanyDetailsComponent,
     PersonalDetailsComponent,
-    TermsAndConditionsComponent,
+    TermsAndConditionsLsComponent,
   ],
   imports: [
     RouterModule.forChild(routes),

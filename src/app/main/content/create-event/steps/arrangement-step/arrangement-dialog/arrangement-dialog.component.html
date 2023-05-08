@@ -90,7 +90,7 @@
                                   </select>
                                 </div>
                               </li>
-                              <li class="pb-3" *ngIf="(selectedSeatingObj.itemname !== 'Chair' && selectedSeatingObj.itemname !== 'chair') && (selectedSeatingObj.itemname != 'Stand' && selectedSeatingObj.itemname != 'stand')">
+                              <li class="pb-3" *ngIf="(!selectedSeatingObj.isonlyperperson)">
                                 <div class="w-[151px]">
                                   <span class="input-titel text-xs">per {{selectedSeatingObj.itemname}} person capacity</span>
                                   <div class="w-full flex items-center space-x-5">
@@ -126,7 +126,7 @@
                                   </div>
                                 </div>
                               </li>
-                              <li class="pb-3" *ngIf="(selectedSeatingObj.itemname !== 'Chair' && selectedSeatingObj.itemname !== 'chair') && (selectedSeatingObj.itemname != 'Stand' && selectedSeatingObj.itemname != 'stand')">
+                              <li class="pb-3" *ngIf="(!selectedSeatingObj.isonlyperperson)">
                                 <div class="w-[151px]">
                                   <span class="input-titel text-xs">
                                     Per {{selectedSeatingObj.itemname}} Price
@@ -194,14 +194,14 @@
                               </li>
                               <li class="pb-3">
                                 <div class="w-full 2xl:w-1/6 2xl:pl-5">
-                                  <span *ngIf="(selectedSeatingObj.itemname !== 'Chair' && selectedSeatingObj.itemname !== 'chair') && (selectedSeatingObj.itemname != 'Stand' && selectedSeatingObj.itemname != 'stand')" class="input-titel text-xs whitespace-nowrap">booking acceptance</span>
+                                  <span *ngIf="(!selectedSeatingObj.isonlyperperson)" class="input-titel text-xs whitespace-nowrap">booking acceptance</span>
                                   <div class="flex 2xl:justify-between items-center">
-                                    <div *ngIf="(selectedSeatingObj.itemname !== 'Chair' && selectedSeatingObj.itemname !== 'chair') && (selectedSeatingObj.itemname != 'Stand' && selectedSeatingObj.itemname != 'stand')" class="flex items-center pr-5 border-r-2 mr-5 py-4">
+                                    <div *ngIf="(!selectedSeatingObj.isonlyperperson)" class="flex items-center pr-5 border-r-2 mr-5 py-4">
                                       <input [formControlName]="'booking_acceptance'" [name]="'booking_acceptance' + i" class="switch mx-3 order-2" id="on" type="checkbox">
                                       <span class="off text-xs font-bold anim whitespace-nowrap order-1 text-caribbeanGreen">per {{selectedSeatingObj.itemname}}</span>
                                       <span class="on text-xs font-bold anim whitespace-nowrap order-3">per person</span>
                                     </div>
-                                    <div class="addDeleteBtn" [ngClass]="{'pt-5' : (selectedSeatingObj.itemname === 'Chair' || selectedSeatingObj.itemname === 'chair') || (selectedSeatingObj.itemname === 'Stand' || selectedSeatingObj.itemname === 'stand')}">
+                                    <div class="addDeleteBtn" [ngClass]="{'pt-5' : (selectedSeatingObj.isonlyperperson)}">
                                       <button (click)="removeArrangement(i)" class="minus border-2 border-magicPotion w-7 h-7 rounded-full flex justify-center items-center">
                                         <span class="border border-magicPotion flex border-x-8 border-y-5 bg-magicPotion rounded"></span>
                                       </button>
@@ -238,7 +238,7 @@
                                       <span class="bgmagicpotion text-magicPotion">-</span>
                                     </div>
                                   </li>
-                                  <li *ngIf="(selectedSeatingObj.itemname !== 'Chair' && selectedSeatingObj.itemname !== 'chair') && (selectedSeatingObj.itemname != 'Stand' && selectedSeatingObj.itemname != 'stand')">
+                                  <li *ngIf="(!selectedSeatingObj.isonlyperperson)">
                                     <div class="inputHolder w-[151px]">
                                       <span class="bgmagicpotion text-magicPotion">
                                         {{totalArrangementsObj?.total_per_seating_persons || 0}}
@@ -252,7 +252,7 @@
                                       </span>
                                     </div>
                                   </li>
-                                  <li *ngIf="(selectedSeatingObj.itemname !== 'Chair' && selectedSeatingObj.itemname !== 'chair') && (selectedSeatingObj.itemname != 'Stand' && selectedSeatingObj.itemname != 'stand')">
+                                  <li *ngIf="(!selectedSeatingObj.isonlyperperson)">
                                     <div class="inputHolder w-[151px]">
                                       <span class="bgmagicpotion text-magicPotion">
                                         {{totalArrangementsObj?.per_seating_price || 0 | number:'1.2-2'}}

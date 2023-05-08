@@ -144,7 +144,7 @@ export class ArrangementDialogComponent implements OnInit {
     this.selectedSeatingObj = _.find(this.seatingItems, ['_id', this.seatingForm.get('seating_item').value]);
     this.arrangements.controls = [];
     this.addArrangements();
-    if (this.selectedSeatingObj && (this.selectedSeatingObj.itemname !== 'Chair' && this.selectedSeatingObj.itemname !== 'chair') && (this.selectedSeatingObj.itemname != 'Stand' && this.selectedSeatingObj.itemname != 'stand')) {
+    if (this.selectedSeatingObj && (!this.selectedSeatingObj.isonlyperperson)) {
      Object.keys(this.arrangements.controls).forEach((key) => {
       Object.keys(this.arrangements.controls[key].controls).forEach((subKey) => {
         if (subKey == 'per_seating_person') {

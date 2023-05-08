@@ -38,7 +38,7 @@
                     <span class="block text-base font-bold text-quicksilver">{{((arrangement.vertical_location == 'FRONT') ? 'F' : (arrangement.vertical_location == 'MIDDLE' ? 'M' : 'B'))}} - {{((arrangement.horizontal_location == 'LEFT') ? 'L' : ((arrangement.horizontal_location == 'CENTER') ? 'C' : (arrangement.horizontal_location == 'RIGHT' ? 'R' : 'N')))}}</span>
                   </div>
                   <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4"
-                    *ngIf="(seating?.seating_item?.itemname !== 'Chair' && seating?.seating_item?.itemname !== 'chair') && (seating?.seating_item?.itemname != 'Stand' && seating?.seating_item?.itemname != 'stand')">
+                    *ngIf="(!seating?.isonlyperperson)">
                     <span class="block text-xs xl:text-sm text-quicksilver">per {{seating?.seating_item?.itemname}} person capacity</span>
                     <span class="block text-base font-bold text-quicksilver">{{arrangement.per_seating_person}}</span>
                   </div>
@@ -47,7 +47,7 @@
                     <span class="block text-base font-bold text-quicksilver">{{arrangement.total_person}}</span>
                   </div>
                   <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4"
-                    *ngIf="(seating?.seating_item?.itemname !== 'Chair' && seating?.seating_item?.itemname !== 'chair') && (seating?.seating_item?.itemname != 'Stand' && seating?.seating_item?.itemname != 'stand')">
+                    *ngIf="(!seating?.isonlyperperson)">
                     <span class="block text-xs xl:text-sm text-quicksilver">Per {{seating?.seating_item?.itemname}} Price</span>
                     <span class="block text-base font-bold text-quicksilver">{{arrangement.per_seating_price || 0 | number:'1.2-2'}}</span>
                   </div>
@@ -63,7 +63,7 @@
                     <p class="block text-xs xl:text-sm text-quicksilver">Description</p>
                     <span class="text-base text-quicksilver font-bold" [innerHTML]="arrangement?.description || 'null'"></span>
                   </div>
-                  <div class="flex items-center pt-4 ml-auto" *ngIf="(seating?.seating_item?.itemname !== 'Chair' && seating?.seating_item?.itemname !== 'chair') && (seating?.seating_item?.itemname != 'Stand' && seating?.seating_item?.itemname != 'stand')">
+                  <div class="flex items-center pt-4 ml-auto" *ngIf="(!seating?.isonlyperperson)">
                     <!-- <input class="switch mx-3 order-2" id="on" type="checkbox" [(ngModel)]="arrangement.booking_acceptance"/>
                     <span class="off text-base font-bold anim order-1 text-caribbeanGreen">Per table</span>
                     <span class="on text-base font-bold anim order-3">Per person</span> -->

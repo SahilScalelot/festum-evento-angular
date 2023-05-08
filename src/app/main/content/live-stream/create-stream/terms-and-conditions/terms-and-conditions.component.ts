@@ -16,7 +16,7 @@ declare let $: any;
   templateUrl: './terms-and-conditions.component.html',
   styleUrls: ['./terms-and-conditions.component.scss']
 })
-export class TermsAndConditionsComponent implements OnInit {
+export class TermsAndConditionsLsComponent implements OnInit {
   constants: any = CONSTANTS;
   termsAndConditionsForm: any;
   isLoading: boolean = false;
