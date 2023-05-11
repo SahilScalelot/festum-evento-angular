@@ -587,7 +587,7 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
       product_links: this._formBuilder.array([]),
       company_name: [addEditOfferObj?.company_name || '', [Validators.required]],
       company_gst: [addEditOfferObj?.company_gst || ''],
-      company_contact_no: [addEditOfferObj?.company_contact_no || '', [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
+      // company_contact_no: [addEditOfferObj?.company_contact_no || '', [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
       company_email: [addEditOfferObj?.company_email || '', [Validators.required,Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
       about_company: [addEditOfferObj?.about_company || '']
     });
