@@ -24,11 +24,12 @@
           <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" (click)="editEvent($event, event._id)" *ngIf="event?.iseditable" href="javascript:void(0);"><i class="icon-edit text-sm leading-0 text-japaneseIndigo"></i></a>
           <!-- <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" href="javascript:void(0);"><i class="icon-fill_megaphone text-sm leading-0 text-japaneseIndigo"></i></a> -->
           <!-- <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" href="javascript:void(0);"><i class="icon-share text-sm leading-0 text-japaneseIndigo"></i></a> -->
+          <a class="flex items-center justify-center h-[30px] text-center rounded bg-red-500 text-white text-xs px-2 font-semibold active:bg-red-400" (click)="cancelEventPopup($event)" *ngIf="event?.iseditable" href="javascript:void(0);">Cancel Event</a>
         </div>
         <div class="flex items-center justify-end space-x-3">
           <label class="flex items-center justify-end">
-          <input type="checkbox" class="switch mr-1.5 lg:mx-3 order-2" (click)="liveEvent($event, event)" [checked]="event?.is_live" [disabled]="!event?.is_approved"/>
-          <span class="text-base font-bold anim order-3">Live</span>
+            <input type="checkbox" class="switch mr-1.5 lg:mx-3 order-2" (click)="liveEvent($event, event)" [checked]="event?.is_live" [disabled]="!event?.is_approved" />
+            <span class="text-base font-bold anim order-3">Live</span>
           </label>
           <span class="px-3 py-1 rounded-sm text-xs text-white font-bold bg-magicPotion">{{(event?.event_category?.categoryname) ? event?.event_category?.categoryname : event?.other }}</span>
           <span class="px-3 py-1 rounded-sm text-xs text-white font-bold bg-japaneseIndigo">{{constants?.eventTypeArr[constants?.eventTypeObj[event?.event_type]]?.displayLabel}}</span>
@@ -40,6 +41,7 @@
       <button [class]="overview ? 'active' : ''" (click)="onTabChange('overview')" type="button">Overview</button>
       <button [class]="attendee ? 'active' : ''" (click)="onTabChange('attendee')" type="button" *ngIf="!!(event?.accept_booking) && attendees && attendees?.length">Attendees</button>
       <button [class]="reviews ? 'active' : ''" (click)="onTabChange('reviews')" type="button" *ngIf="event?.reviews?.length">Reviews</button>
+      <button [class]="reviews ? 'active' : ''" (click)="onTabChange('deposit')" type="button" *ngIf="event?.reviews?.length">Deposit</button>
 
       <a class="secondary px-5 py-2 flex items-end rounded-sm max-w-max ml-auto" href="javascript:void(0);" (click)="exportAttendees()" *ngIf="!!(event?.accept_booking) && event?.is_live && attendee && attendees && attendees?.length">Export</a>
     </div>
@@ -520,6 +522,31 @@
           </div>
         </div>
       </div>
+      <!-- Deposit-Teb-Content   -->
+      <div class="w-full space-y-7 tab-main" [class]="deposit ? 'active' : ''">
+        <div class="w-full space-y-2">
+          <div *ngFor="let deposit of event?.deposit" class="flex justify-between p-7 bg-white rounded-md">
+            <div class="">
+              <div class="w-28 h-28 border-2 border-brightGray rounded-full overflow-hidden bg-white">
+                <img alt="cutting-board" class="w-full h-full object-cover" [src]="!!(deposit?.userid?.profilepic) ? constants?.baseImageURL + deposit?.userid?.profilepic : constants.userDefaultImage"/>
+              </div>
+            </div>
+            <div class="w-full pl-5">
+              <div class="flex justify-between">
+                <h3>{{ deposit?.userid?.name }}</h3>
+                <div class="flex items-center space-x-2">
+                  <span class="text-xs text-quicksilver">{{ deposit?.createdAt | date:'dd MMM, yyyy' }}</span>
+                  <p-rating [(ngModel)]="deposit.ratings" [readonly]="true" [cancel]="false"></p-rating>
+                </div>
+              </div>
+              <p class="text-japaneseIndigo text-sm font-normal leading-6 pt-2">{{ deposit?.review }}</p>
+            </div>
+          </div>
+          <div class="w-full py-2.5 addsBox">
+            <img src="/assets/images/banner-ads.png" alt="ring-ad" class="w-full object-cover" />
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -548,3 +575,34 @@
   </div>
 </div>
 <app-image-and-video-preview *ngIf="isOpenPopup" (openClosePopup)="closePop($event)" [isSingleVideo]="isSingleVideo" [isImageOrVideoFlag]="isImage" [isCompanyImagesAndVideo]="companyIAndV" [expectedProp]="imagesOrVideosArr"></app-image-and-video-preview>
+
+<div class="fixed bg-black bg-opacity-25 backdrop-blur-sm right-0 bottom-0 h-[calc(100vh-76px)] w-full lg:w-[calc(100vw-230px)] z-30 flex items-center justify-center text-center p-5" *ngIf="cancelEventPop">
+  <div class="p-7 bg-white shadow-lg rounded max-w-3xl max-h-[80vh] overflow-y-auto text-left space-y-5 lg:space-y-8">
+    <app-rpcp-rules></app-rpcp-rules>
+    <div class="flex items-center justify-end space-x-5">
+      <button class="secondary px-7 py-1.5 anim" accesskey="alt+tab" (click)="closePop()">CANCEL</button>
+      <button class="primary px-7 py-1.5 anim" (click)="deletePop()">Cancel Event</button>
+    </div>
+  </div>
+</div>
+
+<!-- Close -->
+<modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="delete-event-pop" title="Are you sure?" [isCloseHidden]="true" [isTitleHidden]="true">
+  <div class="flex flex-wrap relative">
+    <div class="w-full pt-5 pb-8">
+      <h3 class="w-full pb-2 normal-case">Cancel Event</h3>
+      <p class="normal-case">Are you sure you want to Cancel Event.</p>
+    </div>
+    <div class="flex items-center justify-end space-x-5 w-full">
+      <button type="button" class="primary py-2 px-14 anim" (click)="close()">Cancel</button>    
+      <div class="relative">
+        <button class="secondary py-2 px-14 anim" type="submit" (click)="cancelEvent(event._id)">
+          <span [ngClass]="{'opacity-0': isDeleteLoading}">Cancel Event</span>
+        </button>
+        <div class="absolute inset-0 text-white flex items-center" *ngIf="isDeleteLoading">
+          <mat-progress-spinner [diameter]="22" [mode]="'indeterminate'" class="mx-auto"></mat-progress-spinner>
+        </div>
+      </div>
+    </div>
+  </div>
+</modal>

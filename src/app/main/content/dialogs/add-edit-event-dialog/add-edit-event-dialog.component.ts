@@ -4,6 +4,7 @@ import { SnotifyService } from 'ng-snotify';
 import { GlobalFunctions } from 'src/app/main/common/global-functions';
 import { CONSTANTS } from "../../../common/constants";
 import { CreateEventService } from '../../create-event/create-event.service';
+import { forEach } from 'lodash';
 
 @Component({
   selector: 'app-add-edit-event-dialog',
@@ -22,6 +23,7 @@ export class AddEditEventDialogComponent implements OnInit {
   selectedEventType: string = '';
   eventCategories: any;
   isLoading: boolean = false;
+  isCotegoryesLoading: boolean = false;
   isForUpdateEvent: boolean = false;
 
   constructor(
@@ -41,20 +43,31 @@ export class AddEditEventDialogComponent implements OnInit {
       event_type: [this.selectedEventType, Validators.required],
       event_category: [this.eventObj?.event_category ? ((this.eventObj.event_category?._id) ? this.eventObj.event_category._id : '') : ''],
       other: [this.eventObj?.other ? this.eventObj.other : ''],
-    });    
+    });
   }
 
   getEventCategories(): void {
-    this.isLoading = true;
-    const eventTypeObj: any = {event_type: this.selectedEventType};
+    this.isCotegoryesLoading = true;
+    const eventTypeObj: any = { event_type: this.selectedEventType };
     this._createEventService.getEventCategories(eventTypeObj).subscribe((result: any) => {
       if (result && result.IsSuccess) {
-        this.eventCategories = result.Data;
-        this.isLoading = false;
+        this.eventCategories = [];
+        let otherObj: any = {};
+        result.Data.forEach((element: any) => {
+          if (element.categoryname == 'Other B2B' || element.categoryname == 'Other Public Party') {
+            otherObj = element;
+          } else {
+            this.eventCategories.push(element);
+          }
+        });
+        if (otherObj && otherObj._id) {
+          this.eventCategories.push(otherObj);
+        }
+        this.isCotegoryesLoading = false;
       }
     }, (error: any) => {
       // this._globalFunctions.errorHanding(error, this, true);
-      this.isLoading = false;
+      this.isCotegoryesLoading = false;
     });
   }
 

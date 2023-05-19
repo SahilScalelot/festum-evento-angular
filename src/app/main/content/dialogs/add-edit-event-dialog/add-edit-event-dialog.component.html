@@ -34,10 +34,15 @@
           </div>
           <div class="">
             <label class="input-titel">select category</label>
-            <select [formControlName]="'event_category'" (change)="newEventForm.get('other').setValue('')" class="bg-white rounded-md flex w-full space-x-3 outline-0 px-6 py-3 relative arrow">
-              <option value=""></option>
-              <option *ngFor="let eventCategoryObj of eventCategories" [value]="eventCategoryObj._id">{{eventCategoryObj.categoryname}}</option>
-            </select>
+            <div class="relative">
+              <select [formControlName]="'event_category'" (change)="newEventForm.get('other').setValue('')" class="bg-white rounded-md flex w-full space-x-3 outline-0 px-6 py-3 relative arrow">
+                <option value=""></option>
+                <option *ngFor="let eventCategoryObj of eventCategories" [value]="eventCategoryObj._id">{{eventCategoryObj.categoryname}}</option>
+              </select>
+              <div class="absolute inset-0 text-white flex items-center z-10" *ngIf="isCotegoryesLoading">
+                <mat-progress-spinner [diameter]="22" [mode]="'indeterminate'" class="mx-auto text-magicPotion"></mat-progress-spinner>
+              </div>
+            </div>
           </div>
           <div class="w-full block">
             <label class="input-titel">Other</label>

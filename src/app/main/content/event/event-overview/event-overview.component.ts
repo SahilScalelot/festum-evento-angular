@@ -4,6 +4,7 @@ import { CONSTANTS } from 'src/app/main/common/constants';
 import { GlobalFunctions } from 'src/app/main/common/global-functions';
 import { EventService } from '../event.service';
 import {MatAccordion} from '@angular/material/expansion';
+import { ModalService } from 'src/app/main/_modal';
 
 
 declare var $: any;
@@ -24,12 +25,15 @@ export class EventOverviewComponent implements OnInit {
   companyIAndV: boolean = false;
   imagesOrVideosArr: Array<any> = [];
   attendees: Array<any> = [];
-
+  cancelEventPop: boolean = false;
+  
+  isDeleteLoading: boolean = false;
   panelOpenState: boolean = false;
 
   overview: boolean = true;
   attendee: boolean = false;
   reviews: boolean = false;
+  deposit: boolean = false;
 
   zoom: number = CONSTANTS.defaultMapZoom;
   // initial center position for the map
@@ -38,10 +42,11 @@ export class EventOverviewComponent implements OnInit {
   isSingleVideo: boolean = false;
 
   constructor(
-    private _eventService: EventService,
     public _globalFunctions: GlobalFunctions,
-    private _router: Router,
     private _activatedRoute: ActivatedRoute,
+    private _eventService: EventService,
+    private _modalService: ModalService,
+    private _router: Router,
   ) {
   }
 
@@ -117,6 +122,8 @@ export class EventOverviewComponent implements OnInit {
       this.attendee = true;
     } else if (tabVarName == 'reviews') {
       this.reviews = true;
+    } else if (tabVarName == 'deposit') {
+      this.deposit = true;
     }
   }
 
@@ -183,8 +190,19 @@ export class EventOverviewComponent implements OnInit {
     this.isOpenPopup = true;
   }
 
-  closePop(flag: boolean): void {
+  closePop(flag: boolean = false): void {
     this.isOpenPopup = flag;
+    this.cancelEventPop = false;
+  }
+
+  deletePop(): void {
+    this.cancelEventPop = false;
+    this._modalService.open("delete-event-pop");
+  }
+
+  close(): void {
+    this.cancelEventPop = false;
+    this._modalService.close("delete-event-pop");
   }
 
   editEvent(event: any, eventId: any): void {
@@ -192,4 +210,17 @@ export class EventOverviewComponent implements OnInit {
     localStorage.setItem('eId', eventId);
     this._router.navigate(['/events/create/add-event']);
   }
+
+  cancelEventPopup(event: any): void {
+    event.stopPropagation();
+    this.cancelEventPop = true;
+  }
+  
+  cancelEvent(eventId: any): void {
+    console.log(eventId);
+    this.isDeleteLoading = true;
+    this.cancelEventPop = false;
+    // this.isDeleteLoading = false;
+  }
+  
 }

@@ -14,6 +14,8 @@ import { TranslateModule } from "@ngx-translate/core";
 import { ProgressBarModule } from "primeng/progressbar";
 import { MatExpansionModule } from '@angular/material/expansion';
 import { TooltipModule } from 'primeng/tooltip';
+import { ModalModule } from '../../_modal';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 const routes: Routes = [
   {
@@ -38,6 +40,8 @@ const routes: Routes = [
     CheckboxModule,
     PaginatorModule,
     ImageModule,
+    ModalModule,
+    MatProgressSpinnerModule,
     MatExpansionModule,
     TooltipModule,
     AgmCoreModule.forRoot({
