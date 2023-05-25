@@ -3,7 +3,7 @@ import { ActivatedRoute, Router, NavigationStart, Event as NavigationEvent, Navi
 import { CONSTANTS } from 'src/app/main/common/constants';
 import { GlobalFunctions } from 'src/app/main/common/global-functions';
 import { EventService } from '../event.service';
-import {MatAccordion} from '@angular/material/expansion';
+import { MatAccordion } from '@angular/material/expansion';
 import { ModalService } from 'src/app/main/_modal';
 
 
@@ -26,7 +26,7 @@ export class EventOverviewComponent implements OnInit {
   imagesOrVideosArr: Array<any> = [];
   attendees: Array<any> = [];
   cancelEventPop: boolean = false;
-  
+
   isDeleteLoading: boolean = false;
   panelOpenState: boolean = false;
 
@@ -115,7 +115,7 @@ export class EventOverviewComponent implements OnInit {
   }
 
   onTabChange(tabVarName: any): void {
-    this.overview = this.attendee = this.reviews = false;
+    this.overview = this.attendee = this.reviews = this.deposit = false;
     if (tabVarName == 'overview') {
       this.overview = true;
     } else if (tabVarName == 'attendee') {
@@ -215,12 +215,16 @@ export class EventOverviewComponent implements OnInit {
     event.stopPropagation();
     this.cancelEventPop = true;
   }
-  
+
   cancelEvent(eventId: any): void {
     console.log(eventId);
     this.isDeleteLoading = true;
     this.cancelEventPop = false;
     // this.isDeleteLoading = false;
   }
-  
+
+  addDeposit(): any {
+    console.log('Add Deposit');
+  }
+
 }

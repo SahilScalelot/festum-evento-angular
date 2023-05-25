@@ -41,14 +41,14 @@
       <button [class]="overview ? 'active' : ''" (click)="onTabChange('overview')" type="button">Overview</button>
       <button [class]="attendee ? 'active' : ''" (click)="onTabChange('attendee')" type="button" *ngIf="!!(event?.accept_booking) && attendees && attendees?.length">Attendees</button>
       <button [class]="reviews ? 'active' : ''" (click)="onTabChange('reviews')" type="button" *ngIf="event?.reviews?.length">Reviews</button>
-      <button [class]="reviews ? 'active' : ''" (click)="onTabChange('deposit')" type="button" *ngIf="event?.reviews?.length">Deposit</button>
+      <button [class]="deposit ? 'active' : ''" (click)="onTabChange('deposit')" type="button" *ngIf="event?.total_event_deposit">Deposit</button>
 
       <a class="secondary px-5 py-2 flex items-end rounded-sm max-w-max ml-auto" href="javascript:void(0);" (click)="exportAttendees()" *ngIf="!!(event?.accept_booking) && event?.is_live && attendee && attendees && attendees?.length">Export</a>
     </div>
     <!-- tab-contents-holder -->
     <div class="pt-7 lg:pt-10">
       <!--overview-tab-contents -->
-      <div class="relative tab-main" [class]="!reviews ? 'active' : ''" *ngIf="!reviews">
+      <div class="relative tab-main" [class]="(!reviews && !deposit) ? 'active' : ''" *ngIf="!reviews && !deposit">
         <div class="flex flex-wrap">
           <!-- Overview left-bar -->
           <div class="w-full lg:w-8/12 lg:pr-5 space-y-7" *ngIf="overview">
@@ -524,23 +524,33 @@
       </div>
       <!-- Deposit-Teb-Content   -->
       <div class="w-full space-y-7 tab-main" [class]="deposit ? 'active' : ''">
-        <div class="w-full space-y-2">
-          <div *ngFor="let deposit of event?.deposit" class="flex justify-between p-7 bg-white rounded-md">
-            <div class="">
-              <div class="w-28 h-28 border-2 border-brightGray rounded-full overflow-hidden bg-white">
-                <img alt="cutting-board" class="w-full h-full object-cover" [src]="!!(deposit?.userid?.profilepic) ? constants?.baseImageURL + deposit?.userid?.profilepic : constants.userDefaultImage"/>
+        <div class="w-full space-y-5 px-5">
+          <div class="w-full text-sm space-y-1">
+            <h5 class="text-red-600">*Note:</h5>
+            <p class="px-0.5">We take 10% of <strong>₹{{event?.total_event_cost?.display_value}}/-</strong> as a security deposit for the safety of our users. Nominal bank charges will be deducted from the deposited amount <strong>₹{{event?.total_event_deposit?.display_value}}/-</strong> and will be refunded within 7 working days after the completion of your event.</p>
+          </div>
+          <div class="flex flex-wrap">
+            <div class="pt-5 pr-5">
+              <div class="p-7 bg-white rounded-md space-y-1">
+                <h5>₹{{event?.total_event_cost?.display_value}}/-</h5>
+                <div>Total Event Cost</div>
               </div>
             </div>
-            <div class="w-full pl-5">
-              <div class="flex justify-between">
-                <h3>{{ deposit?.userid?.name }}</h3>
-                <div class="flex items-center space-x-2">
-                  <span class="text-xs text-quicksilver">{{ deposit?.createdAt | date:'dd MMM, yyyy' }}</span>
-                  <p-rating [(ngModel)]="deposit.ratings" [readonly]="true" [cancel]="false"></p-rating>
-                </div>
+            <div class="pt-5 pr-5">
+              <div class="p-7 bg-white rounded-md space-y-1">
+                <h5 class="text-red-500">₹{{event?.total_event_deposit?.display_value}}/-</h5>
+                <div>Due Event Deposit</div>
               </div>
-              <p class="text-japaneseIndigo text-sm font-normal leading-6 pt-2">{{ deposit?.review }}</p>
             </div>
+            <div class="pt-5 pr-5 mt-auto">
+              <button type="button" class="secondary px-5 py-2 flex items-end rounded-sm max-w-max mx-auto" (click)="addDeposit()">Add Deposit</button>
+            </div>
+            <!-- <div class="pt-5 w-full">
+              <div class="p-7 bg-white rounded-md space-y-1">
+                <h5>₹{{event?.total_event_deposit?.display_value}}/-</h5>
+                <div>Due Event Deposit</div>
+              </div>
+            </div> -->
           </div>
           <div class="w-full py-2.5 addsBox">
             <img src="/assets/images/banner-ads.png" alt="ring-ad" class="w-full object-cover" />
