@@ -99,6 +99,7 @@ export class AddEditShopDialogComponent implements OnInit {
     instagram_link: '',
     linkedin_link: ''
   };
+  isCotegoryesLoading: any;
 
   pincodeValidationObj: any = '';
 
@@ -254,7 +255,25 @@ export class AddEditShopDialogComponent implements OnInit {
     this.isLoading = true;
     this._offlineShopsService.getShopCategories().subscribe((result: any) => {
       if (result && result.IsSuccess) {
-        this.shopCategories = result.Data;
+        
+        
+        this.shopCategories = [];
+        let otherObj: any = {};
+        result.Data.forEach((element: any) => {
+          if (element.categoryname == 'Other') {
+            otherObj = element;
+          } else {
+            this.shopCategories.push(element);
+          }
+        });
+        if (otherObj && otherObj._id) {
+          this.shopCategories.push(otherObj);
+        }
+        this.isCotegoryesLoading = false;
+
+
+
+        // this.shopCategories = result.Data;
         if (this.shopCategories && this.shopCategories.country_wise_contact && this.shopCategories.country_wise_contact != '') { 
           this.phoneForm.patchValue({
             phone: this.shopCategories.country_wise_contact
