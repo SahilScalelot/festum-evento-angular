@@ -13,7 +13,7 @@
   <div class="w-full lg:w-1/2 px-2 pt-5 pb-0.5 inputHolder relative">
     <span class="input-titel">Event Category</span>
     <div>
-      <p-dropdown styleClass="w-full border-0 font-bold" panelStyleClass="p-0" [formControlName]="'event_category'" [options]="eventCategories" placeholder="All platforms" optionLabel="categoryname" optionValue="_id" [showClear]="true"></p-dropdown>
+      <p-dropdown styleClass="w-full border-0 font-bold" panelStyleClass="p-0" [formControlName]="'event_category'" [options]="eventCategories" placeholder="Select Event Category" optionLabel="categoryname" optionValue="_id" [showClear]="true"></p-dropdown>
     </div>
     <span class="absolute top-full text-red-500 text-xs" *ngIf="createStreamForm.get('event_category')?.invalid && (createStreamForm.get('event_category')?.dirty && createStreamForm.get('event_category')?.touched)">
       <span *ngIf="createStreamForm.get('event_category')?.errors?.['required']">
