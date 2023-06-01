@@ -108,16 +108,16 @@ export class PermissionStepComponent implements OnInit {
     }
   }
   submitPermissionForm(): void {
-    this.permissionForm.get('permission_letter').setErrors({'required': false});
-    if (((!this.permissionObj || !this.permissionObj.permission_letter) && (!this.permissionForm.value || !this.permissionForm.value.permission_letter)) ||
-      (this.permissionObj && (!this.permissionObj.permission_letter || this.permissionObj.permission_letter == '') && (!this.permissionForm.value || !this.permissionForm.value.permission_letter))) {
-      Object.keys(this.permissionForm.controls).forEach((key) => {
-        this.permissionForm.controls[key].touched = true;
-        this.permissionForm.controls[key].markAsDirty();
-      });
-      this.permissionForm.get('permission_letter').setErrors({'required': true});
-      return;
-    }  
+    // this.permissionForm.get('permission_letter').setErrors({'required': false});
+    // if (((!this.permissionObj || !this.permissionObj.permission_letter) && (!this.permissionForm.value || !this.permissionForm.value.permission_letter)) ||
+    //   (this.permissionObj && (!this.permissionObj.permission_letter || this.permissionObj.permission_letter == '') && (!this.permissionForm.value || !this.permissionForm.value.permission_letter))) {
+    //   Object.keys(this.permissionForm.controls).forEach((key) => {
+    //     this.permissionForm.controls[key].touched = true;
+    //     this.permissionForm.controls[key].markAsDirty();
+    //   });
+    //   this.permissionForm.get('permission_letter').setErrors({'required': true});
+    //   return;
+    // }  
     this.isLoading = true;
     this.permissionForm.disable();
     const preparedCompanyDetailsObj: any = this.preparePermissionObj(this.permissionForm.value);    
