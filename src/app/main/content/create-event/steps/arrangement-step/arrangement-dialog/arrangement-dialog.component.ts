@@ -4,7 +4,7 @@ import { FormArray, FormBuilder, Validators } from "@angular/forms";
 import * as _ from 'lodash';
 // @ts-ignore
 import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
-import {SnotifyService} from "ng-snotify";
+import { SnotifyService } from "ng-snotify";
 import { GlobalFunctions } from 'src/app/main/common/global-functions';
 
 @Component({
@@ -65,7 +65,7 @@ export class ArrangementDialogComponent implements OnInit {
   addArrangements(tempArrangementObj: any = {}): void {
     const arrangementsObj = this._formBuilder.group({
       number_of_seating_item: [tempArrangementObj?.number_of_seating_item || '', [Validators.required]],
-      vertical_location: [tempArrangementObj?.vertical_location || this.constants.verticalLocationsArr[this.constants.verticalLocationsObj.FRONT].value, [Validators.required]],
+      vertical_location: [tempArrangementObj?.vertical_location || this.constants.verticalLocationsArr[this.constants.verticalLocationsObj.NONE].value, [Validators.required]],
       horizontal_location: [tempArrangementObj?.horizontal_location || this.constants.horizontalLocationsArr[this.constants.horizontalLocationsObj.NONE].value, [Validators.required]],
       per_seating_person: [tempArrangementObj?.per_seating_person || ''],
       total_person: [tempArrangementObj?.total_person || '', [Validators.required]],
@@ -126,7 +126,7 @@ export class ArrangementDialogComponent implements OnInit {
       this.totalArrangementsObj.per_seating_price += Number(arrangement?.per_seating_price || 0);
       this.totalArrangementsObj.per_person_price += Number(arrangement?.per_person_price || 0);
       this.totalArrangementsObj.total_amount += Number(arrangement?.total_amount || 0);
-    });    
+    });
   }
 
   prepareSeatingItems(): void {
@@ -145,16 +145,16 @@ export class ArrangementDialogComponent implements OnInit {
     this.arrangements.controls = [];
     this.addArrangements();
     if (this.selectedSeatingObj && (!this.selectedSeatingObj.isonlyperperson)) {
-     Object.keys(this.arrangements.controls).forEach((key) => {
-      Object.keys(this.arrangements.controls[key].controls).forEach((subKey) => {
-        if (subKey == 'per_seating_person') {
-          this.arrangements.controls[key].get('per_seating_person').setValidators([Validators.required]);
-          this.arrangements.controls[key].get('per_seating_person').updateValueAndValidity();
-          this.arrangements.controls[key].get('per_seating_price').setValidators([Validators.required]);
-          this.arrangements.controls[key].get('per_seating_price').updateValueAndValidity();
-        }
+      Object.keys(this.arrangements.controls).forEach((key) => {
+        Object.keys(this.arrangements.controls[key].controls).forEach((subKey) => {
+          if (subKey == 'per_seating_person') {
+            this.arrangements.controls[key].get('per_seating_person').setValidators([Validators.required]);
+            this.arrangements.controls[key].get('per_seating_person').updateValueAndValidity();
+            this.arrangements.controls[key].get('per_seating_price').setValidators([Validators.required]);
+            this.arrangements.controls[key].get('per_seating_price').updateValueAndValidity();
+          }
+        });
       });
-    });
     }
   }
 
@@ -228,7 +228,7 @@ export class ArrangementDialogComponent implements OnInit {
 
   editorCharacterSetFood(): any {
     this.textEditorLimitFood = '0';
-    const textfield = this.seatingForm.value.food_description;    
+    const textfield = this.seatingForm.value.food_description;
     if (textfield && textfield != '') {
       const stringOfCKEditor = this._globalFunctions.getPlainText(textfield);
       this.textEditorLimitFood = stringOfCKEditor.length;
@@ -238,7 +238,7 @@ export class ArrangementDialogComponent implements OnInit {
 
   editorCharacterSetEquipment(): any {
     this.textEditorLimitEquipment = '0';
-    const textfield = this.seatingForm.value.equipment_description;    
+    const textfield = this.seatingForm.value.equipment_description;
     if (textfield && textfield != '') {
       const stringOfCKEditor = this._globalFunctions.getPlainText(textfield);
       this.textEditorLimitEquipment = stringOfCKEditor.length;
@@ -253,8 +253,10 @@ export class ArrangementDialogComponent implements OnInit {
 
   private _prepareArrangementForm(): void {
     this.seatingForm = this._formBuilder.group({
-      seating_item: [{ value: (this.editArrangementObj && this.editArrangementObj.seating_item) ?
-          ((this.editArrangementObj.seating_item._id) ? this.editArrangementObj.seating_item._id : this.editArrangementObj.seating_item) : null, disabled: (this.editArrangementObj && this.editArrangementObj.seating_item) }, [Validators.required]],
+      seating_item: [{
+        value: (this.editArrangementObj && this.editArrangementObj.seating_item) ?
+          ((this.editArrangementObj.seating_item._id) ? this.editArrangementObj.seating_item._id : this.editArrangementObj.seating_item) : null, disabled: (this.editArrangementObj && this.editArrangementObj.seating_item)
+      }, [Validators.required]],
       arrangements: this._formBuilder.array([]),
       food: [this.editArrangementObj?.food || 'VEG', [Validators.required]],
       food_description: [this.editArrangementObj?.food_description || ''],

@@ -137,12 +137,14 @@ export const CONSTANTS = {
   // ],
 
   verticalLocationsObj: {
-    FRONT: 0,
-    MIDDLE: 1,
-    BACK: 2
+    NONE: 0,
+    FRONT: 1,
+    MIDDLE: 2,
+    BACK: 3
   },
 
   verticalLocationsArr: [
+    {value: 'NONE', label: 'None'},
     {value: 'FRONT', label: 'Front'},
     {value: 'MIDDLE', label: 'Middle'},
     {value: 'BACK', label: 'Back'}
