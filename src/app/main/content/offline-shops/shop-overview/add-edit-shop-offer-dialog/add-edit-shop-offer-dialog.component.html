@@ -180,7 +180,10 @@
       </div>
       <!-- Btn Continue -->
       <div class="flex justify-end pt-5">
-        <button class="secondary py-3 px-12 uppercase text-lg font-bold" [disabled]="isLoading || isUploadPosterLoading || isUploadVideoLoading || isUploadImageLoading" (click)="onContinueClick()">continue</button>
+        <button class="secondary py-3 px-12 uppercase text-lg font-bold" [disabled]="isLoading || isUploadPosterLoading || isUploadVideoLoading || isUploadImageLoading" (click)="onContinueClick()">
+          {{(isLoading || isUploadPosterLoading || isUploadVideoLoading || isUploadImageLoading) ? 'Please Wait..' : 'Continue'}}
+          <!-- Continue -->
+        </button>
       </div>
     </div>
     <div *ngIf="isAddUserWiseOffers">
