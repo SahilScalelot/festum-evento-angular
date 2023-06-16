@@ -370,6 +370,18 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
         });
       });
       return false;
+    } else if (this.productLinks.value && this.productLinks.value.length) {
+      const tmpGroupByPlatformIdObj = _.groupBy(this.productLinks.value, 'platform');
+      let flag = true;
+      for (const key in tmpGroupByPlatformIdObj) {
+        if (tmpGroupByPlatformIdObj && tmpGroupByPlatformIdObj[key] && tmpGroupByPlatformIdObj[key].length && tmpGroupByPlatformIdObj[key].length > 1) {
+          flag = false;
+        }
+      }
+      if (!flag) {
+        this._sNotify.error('Platform already selected please select another platform.', 'Oops!');
+        return false;
+      }
     } else if (isTandC && this.tandcForm.invalid) {
       Object.keys(this.tandcForm.controls).forEach((key) => {
         this.tandcForm.controls[key].touched = true;
@@ -377,7 +389,7 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
       });
       return false;
     }
-    return true;
+    return false;
   }
 
   saveAndContinue(): any {
@@ -545,6 +557,13 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
       return false;
     }
     return true;
+  }
+
+  checkValidPlatform(platformId: any = ""): any {
+    const tmpGroupByPlatformIdObj = _.groupBy(this.productLinks.value, 'platform');
+    if (tmpGroupByPlatformIdObj && tmpGroupByPlatformIdObj[platformId?._id] && tmpGroupByPlatformIdObj[platformId?._id].length && tmpGroupByPlatformIdObj[platformId?._id].length > 1) {
+      this._sNotify.error('Platform already selected please select another platform.', 'Oops!');
+    }
   }
 
   addPlatform(): any {

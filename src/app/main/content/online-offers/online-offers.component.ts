@@ -83,7 +83,7 @@ export class OnlineOffersComponent implements OnInit {
     this._onlineOffersService.onOff(offerObj._id).subscribe((result: any) => {
       if (result && result.IsSuccess) {
         const tmpEvents = this._globalFunctions.copyObject(this.shopOffers);
-        tmpEvents[index].status = event.target.checked;
+        tmpEvents[index].is_live = event.target.checked;
         this.shopOffers = this._globalFunctions.copyObject(tmpEvents);
         this.isLoading = false;
       } else {

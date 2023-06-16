@@ -144,7 +144,7 @@
               <div class="w-full lg:w-1/2 px-2 inputHolder relative">
                 <span class="input-titel">Select platform<span>*</span></span>
                 <!--Using items input-->
-                <ng-select [items]="platformArr" class="selectBox" bindLabel="name" bindValue="_id" formControlName="platform">
+                <ng-select [items]="platformArr" class="selectBox" bindLabel="name" bindValue="_id" formControlName="platform" (change)="checkValidPlatform($event);">
                   <ng-template ng-header-tmp>
                     <div class="flex relative">
                       <div class="pr-2.5">
