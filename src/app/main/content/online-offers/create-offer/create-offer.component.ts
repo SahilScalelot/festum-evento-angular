@@ -49,7 +49,8 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
   isSaveLoading: boolean = false;
   isPlatformLoading: boolean = false;
   successfully: boolean = false;
-  minDateValue: any = new Date();
+  // minDateValue: any = new Date();
+  minDateValue: any = new Date(new Date().setDate(new Date().getDate() + 2));
   minStartDateValue: any = '';
   imgChangeEvt: any;
   posterObj: any = {};
