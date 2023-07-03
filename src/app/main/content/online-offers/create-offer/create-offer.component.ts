@@ -398,9 +398,11 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
       return false;
     }
     if (this.proDescTextEditorLimit && this.proDescTextEditorMaxLimit && this.proDescTextEditorLimit > this.proDescTextEditorMaxLimit) {
+      this._sNotify.error('Product Description Limit.', 'Oops!');
       return;
     }
     if (this.comDescTextEditorLimit && this.comDescTextEditorMaxLimit && this.comDescTextEditorLimit > this.comDescTextEditorMaxLimit) {
+      this._sNotify.error('Product Description Limit.', 'Oops!');
       return;
     }
     this._modalService.open("tAndC");

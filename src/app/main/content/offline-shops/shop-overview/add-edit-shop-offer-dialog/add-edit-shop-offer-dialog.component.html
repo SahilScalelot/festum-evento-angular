@@ -313,13 +313,13 @@
           </span>
         </div>
         <div class="block w-full relative">
-          <label class="inline-flex items-end cursor-pointer" (click)="tAndCPop()">
-            <div class="checkbox rounded bg-white">
+          <div class="inline-flex items-end cursor-pointer">
+            <label class="checkbox rounded bg-white">
               <input type="checkbox" [formControlName]="'status'" name="status" [checked]="false" />
               <i class="icon-right text-white"></i>
-            </div>
-            <span class="input-titel text-base ml-4">Agree with our Terms And Conditions</span>
-          </label>
+            </label>
+            <span class="input-titel text-base ml-4">Agree with our <span (click)="tAndCPop()" class="inline-block text-magicPotion">Terms And Conditions</span></span>
+          </div>
           <span class="absolute top-full left-0 text-red-500 text-xs" *ngIf="addEditOfferForm.get('status')?.invalid && (addEditOfferForm.get('status')?.dirty && addEditOfferForm.get('status')?.touched)">
             <span *ngIf="addEditOfferForm.get('status')?.errors?.['required']">
               Accepting Terms and Conditions is Required.
