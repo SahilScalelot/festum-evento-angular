@@ -1,6 +1,12 @@
 <p-progressSpinner *ngIf="isLoading" [style]="{width: '50px', height: '50px'}" animationDuration=".5s" strokeWidth="8" class="fixed bg-white bg-opacity-25 backdrop-blur-sm right-0 bottom-0 h-[calc(100vh-76px)] w-full lg:w-[calc(100vw-230px)] z-30" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
 <!-- main-content  -->
 <div class="space-y-5">
+  <div class="upload-holder w-full h-auto">
+    <span class="text-sm text-quicksilver font-semibold">Add Poster <span class="font-normal">(Max size 10MB)</span></span>
+    <label class="upload upload-popup p-0 relative group" id="posterUpload">
+      <input #poster (change)="onPosterChange($event)" accept="image/png, image/jpeg, image/gif" class="poster hidden" id="poster" type="file" />
+    </label>
+  </div>
   <div class="media-upload-holder pt-5">
     <span class="text-sm text-quicksilver font-semibold">Add Photos <span class="font-normal">({{photosUploadLimit}} Images - up to 3MB/Image)</span></span>
     <div class="w-full pt-2" *ngIf="photoArr.length < photosUploadLimit">
@@ -99,6 +105,21 @@
     </button>
   </div>
 </div>
+
+<!-- Poster crop -->
+<modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="imgCropper" title="Poster">
+  <div class="flex flex-wrap -mx-4 py-5 relative">
+    <span (click)="popClose('imgCropper');" class="absolute right-4 top-[-30px] cursor-pointer text-xl"><i class="icon-close"></i></span>
+    <div class="w-full lg:w-1/2 px-4">
+      <image-cropper (imageCropped)="cropImg($event)" (imageLoaded)="imageLoaded()" [aspectRatio]="2 / 1 " [imageChangedEvent]="imgChangeEvt" [maintainAspectRatio]="true" format="png"></image-cropper>
+    </div>
+    <div class="w-full lg:w-1/2 px-4">
+      <h6 class="text-lg pb-4">{{ 'Image Preview' }}</h6>
+      <img [src]="cropImgPreview" *ngIf="!isCropperLoading" class="responsive-img"/>
+    </div>
+  </div>
+  <button (click)="savePoster(cropImgPreview)" class="secondary w-full uppercase py-2 anim" [disabled]="isPosterLoading">{{ isPosterLoading ? 'Please wait...' : 'Save Poster' }}</button>
+</modal>
 
 <!-- Images and Video Delete conformation -->
 <modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="delete-event-pop" title="Are you sure?" [isCloseHidden]="true" [isTitleHidden]="true">

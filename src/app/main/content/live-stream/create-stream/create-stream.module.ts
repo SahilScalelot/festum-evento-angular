@@ -19,6 +19,7 @@ import { ModalModule } from 'src/app/main/_modal';
 import { DropdownModule } from 'primeng/dropdown';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
+import { ImageCropperModule } from 'ngx-image-cropper';
 
 const routes: Routes = [
   {
@@ -60,6 +61,7 @@ const routes: Routes = [
     StepsModule,
     ReactiveFormsModule,
     CalendarModule,
+    ImageCropperModule,
     CKEditorModule,
     NgSelectModule,
     MatProgressSpinnerModule,
