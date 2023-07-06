@@ -15,7 +15,7 @@
           <div class="flex flex-wrap lg:flex-nowrap lg:space-x-5">
             <div class="relative w-full lg:max-w-[335px] overflow-hidden rounded">
               <span class="absolute py-1.5 px-3 top-0 left-0 bg-magicPotion text-white uppercase rounded text-xs" [ngClass]="{'hidden': !liveStream?.status}">Live</span>
-              <img [src]="!!(liveStream?.photos[0]?.url) ? constants.baseImageURL + liveStream.photos[0].url : constants.defaultImage" [alt]="liveStream?.event_name" class="w-full h-full object-cover pb-5 lg:pb-0 lg:absolute" />
+              <img [src]="!!(liveStream?.banner) ? constants.baseImageURL + liveStream.banner : constants.defaultImage" [alt]="liveStream?.event_name" class="w-full h-full object-cover pb-5 lg:pb-0 lg:absolute" />
             </div>
             <div class="w-full pt-5 lg:pt-0">
               <div class="flex justify-between border-b-2 pb-4">

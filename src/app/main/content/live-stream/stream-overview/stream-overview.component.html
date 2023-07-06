@@ -1,7 +1,7 @@
 <p-progressSpinner *ngIf="isLoading" [style]="{width: '50px', height: '50px'}" animationDuration=".5s" strokeWidth="8" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-x-0 top-0 h-full w-full z-40" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
 <div *ngIf="liveStreamObj && !isLoading" class="">
   <div class="-mt-12 relative -z-10">
-    <img [src]="!!(liveStreamObj?.photos[0]?.url) ? constants.baseImageURL + liveStreamObj.photos[0].url : constants.defaultImage" alt="cooking-together-bg" class="w-full object-cover max-h-80"/>
+    <img [src]="!!(liveStreamObj?.banner) ? constants.baseImageURL + liveStreamObj.banner : constants.defaultImage" alt="cooking-together-bg" class="w-full object-cover max-h-80"/>
   </div>
   <div class="wrapper -mt-14 z-10">
     <div class="flex justify-between bg-white py-5 px-7 rounded-md">

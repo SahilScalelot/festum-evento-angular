@@ -29,7 +29,7 @@ export class PhotosAndVideosComponent implements OnInit {
   isCropperLoading: boolean = false;
   isPosterLoading: boolean = false;
   drEvent: any;
-  bannerUrl: any;
+  bannerUrl: any = '';
   
   photoArr: any = [];  
   videoArr: any = [];
@@ -351,7 +351,7 @@ export class PhotosAndVideosComponent implements OnInit {
   }
 
   nextStep(): any {
-    if (this.isLoading || !this.validatePhotosAndVideosObj()) {
+    if (this.isLoading || !this.validatePhotosAndVideosObj() || (this.bannerUrl == '')) {
       return false;
     }
     this.isLoading = true;

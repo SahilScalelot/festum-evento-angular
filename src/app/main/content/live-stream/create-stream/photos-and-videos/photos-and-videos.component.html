@@ -2,7 +2,7 @@
 <!-- main-content  -->
 <div class="space-y-5">
   <div class="upload-holder w-full h-auto">
-    <span class="text-sm text-quicksilver font-semibold">Add Poster <span class="font-normal">(Max size 10MB)</span></span>
+    <span class="text-sm text-quicksilver font-semibold">Add Poster <span class="font-normal">(Max size 10MB)</span><span class="text-red-500 text-base">*</span></span>
     <label class="upload upload-popup p-0 relative group" id="posterUpload">
       <input #poster (change)="onPosterChange($event)" accept="image/png, image/jpeg, image/gif" class="poster hidden" id="poster" type="file" />
     </label>
