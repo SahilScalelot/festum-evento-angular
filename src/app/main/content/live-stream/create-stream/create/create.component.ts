@@ -20,6 +20,7 @@ export class CreateComponent implements OnInit {
   constants: any = CONSTANTS;
   createStreamForm: any;
   liveStreamId: any = '';
+  liveStreamObj: any = {};
   minDateValue: any = new Date();
   minStartDateValue: any = '';
   isLoading: boolean = false;
@@ -87,8 +88,8 @@ export class CreateComponent implements OnInit {
     this.isLoading = true;
     this._createStreamService.getLiveStreamById(liveStreamId).subscribe((result: any) => {
       if (result && result.IsSuccess) {
-        const liveStreamObj: any = result?.Data || {};
-        this._prepareLiveStreamForm(liveStreamObj || {});
+        this.liveStreamObj = result?.Data || {};
+        this._prepareLiveStreamForm(this.liveStreamObj || {});
         this.isLoading = false;
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
@@ -103,7 +104,7 @@ export class CreateComponent implements OnInit {
   onEventTypeChange(eventType: any): void {
     if (eventType == 'paid') {
       this.createStreamForm.get('price_per_user').enable();
-      this.createStreamForm.get('price_per_user').setValue(99);
+      this.createStreamForm.get('price_per_user').setValue(this.liveStreamObj?.price_per_user || 99);
       this.createStreamForm.get('price_per_user').setValidators([Validators.required]);
       this.createStreamForm.get('price_per_user').updateValueAndValidity();
     } else if (eventType == 'free') {

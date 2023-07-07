@@ -20,7 +20,10 @@
             <div class="w-full pt-5 lg:pt-0">
               <div class="flex justify-between border-b-2 pb-4">
                 <div class="">
-                  <h4 class="text-japaneseIndigo">{{liveStream?.event_name}}</h4>
+                  <div class="flex items-center space-x-2 lg:space-x-4">
+                    <h4 class="text-japaneseIndigo text-ellipsis whitespace-nowrap overflow-hidden max-w-sm" [title]="liveStream?.event_name">{{liveStream?.event_name}}</h4>
+                    <span class="text-xs text-white font-bold px-3 rounded-xl py-1 whitespace-nowrap" [ngClass]="!!(liveStream?.is_approved) ? 'bg-caribbeanGreen' : 'bg-magicPotion'">{{!!(liveStream?.is_approved) ? 'Verified' : 'Unverified'}}</span>
+                  </div>
                   <div class="flex pt-3">
                     <div class="">
                       <div class="text-sm font-semibold text-quicksilver pt-3"><i class="icon-calendar-2 mr-3"></i>Date</div>
@@ -34,9 +37,9 @@
                 </div>
                 <div class="text-right">
                   <button class="bg-quicksilver rounded-md font-bold text-white text-base border anim px-5 py-2 uppercase"
-                    [ngClass]="{'secondary': liveStream?.status}"
-                  ><i class="icon-live mr-3"></i>go live</button>
-                  <p class="capitalize text-magicPotion font-semibold pt-5" [ngClass]="{'text-caribbeanGreen': liveStream?.status}">{{liveStream?.event_type}} live streaming</p>
+                    [ngClass]="{'secondary': liveStream?.is_approved}" (click)="goLive($event, liveStream)"
+                    ><i class="icon-live mr-3"></i>go live</button>
+                  <p class="capitalize text-magicPotion font-semibold pt-5" [ngClass]="{'text-caribbeanGreen': liveStream?.is_approved}">{{liveStream?.event_type}} live streaming</p>
                 </div>
               </div>
               <div class="flex justify-between pt-4">

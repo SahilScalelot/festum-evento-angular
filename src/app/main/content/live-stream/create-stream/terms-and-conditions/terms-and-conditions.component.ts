@@ -128,6 +128,10 @@ export class TermsAndConditionsLsComponent implements OnInit {
           setTimeout(() => {
             this.successfully = false;
             this._router.navigate(['/live-stream']);
+            // for first time we got some issue, tha is why we add another setTimeout
+            setTimeout(() => {
+              this._router.navigate(['/live-stream']);
+            }, 0);
           }, 3000);
           // this._sNotify.success('Event Created And Update Successfully.', 'Success');
         } else {

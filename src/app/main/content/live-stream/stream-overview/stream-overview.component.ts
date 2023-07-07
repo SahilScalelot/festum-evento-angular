@@ -3,6 +3,7 @@ import { ActivatedRoute, Router, NavigationStart, Event as NavigationEvent } fro
 import { CONSTANTS } from 'src/app/main/common/constants';
 import { GlobalFunctions } from 'src/app/main/common/global-functions';
 import { LiveStreamService } from '../live-stream.service';
+import { GlobalService } from 'src/app/services/global.service';
 
 @Component({
   selector: 'app-stream-overview',
@@ -24,6 +25,7 @@ export class StreamOverviewComponent implements OnInit {
   attendee: boolean = false;
   reviews: boolean = false;
   subscription: boolean = false;
+  userObj: any = {};
 
   zoom: number = CONSTANTS.defaultMapZoom;
   // initial center position for the map
@@ -33,6 +35,7 @@ export class StreamOverviewComponent implements OnInit {
   constructor(
     public _globalFunctions: GlobalFunctions,
     private _activatedRoute: ActivatedRoute,
+    private _globalService: GlobalService,
     private _router: Router,
     private _liveStreamService: LiveStreamService,
   ) {
@@ -49,7 +52,25 @@ export class StreamOverviewComponent implements OnInit {
     //     }, 0);
     //   }
     // });
+    this._globalService.loginUser$.subscribe((user: any) => {
+      this.isLoading = true;
+      if (user) {
+        this.userObj = user;
+        this.isLoading = false;
+      }
+    });
     this.getLiveStreamObj();
+  }
+
+  goLive(event: any, liveStreamObj: any = {}): void {
+    event.stopPropagation();
+    if (liveStreamObj && liveStreamObj.is_approved) {
+      const link = document.createElement('a');
+      link.target = '_blank';
+      link.href = liveStreamObj.media_content_link + this.userObj._id;
+      link.setAttribute('visibility', 'hidden');
+      link.click();
+    }
   }
 
   getLiveStreamObj(): void {

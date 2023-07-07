@@ -4,6 +4,7 @@ import { CONSTANTS } from '../../common/constants';
 import { GlobalFunctions } from '../../common/global-functions';
 import { ModalService } from '../../_modal';
 import { LiveStreamService } from './live-stream.service';
+import { GlobalService } from 'src/app/services/global.service';
 
 @Component({
   selector: 'app-live-stream',
@@ -18,16 +19,25 @@ export class LiveStreamComponent implements OnInit {
   platformsArr: any = [];
   platformsId: any = '';
   tmpLSObj: any = {};
+  userObj: any = {};
   isDeleteLoading: boolean = false;
 
   constructor(
     private _router: Router,
     private _modalService: ModalService,
+    private _globalService: GlobalService,
     private _globalFunctions: GlobalFunctions,
     private _liveStreamService: LiveStreamService,
   ) { }
 
   ngOnInit(): void {
+    this._globalService.loginUser$.subscribe((user: any) => {
+      this.isLoading = true;
+      if (user) {
+        this.userObj = user;
+        this.isLoading = false;
+      }
+    });
     this._globalFunctions.removeIdsFromLocalStorage();
     this.getLiveStreamObj();
   }
@@ -56,6 +66,16 @@ export class LiveStreamComponent implements OnInit {
     });
   }
 
+  goLive(event: any, liveStreamObj: any = {}): void {
+    event.stopPropagation();
+    if (liveStreamObj && liveStreamObj.is_approved) {
+      const link = document.createElement('a');
+      link.target = '_blank';
+      link.href = liveStreamObj.media_content_link + this.userObj._id;
+      link.setAttribute('visibility', 'hidden');
+      link.click();
+    }
+  }
 
   editLiveStream(event: any, liveStreamId: any): void {
     event.stopPropagation();
