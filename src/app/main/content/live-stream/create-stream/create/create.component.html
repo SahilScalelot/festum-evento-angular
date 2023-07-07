@@ -48,7 +48,7 @@
   <div class="w-1/2 lg:w-1/4 px-2 pt-5 pb-0.5 relative">
     <span class="input-titel">Start Time</span>
     <label class="bg-white rounded-md flex space-x-3 relative">
-      <i class="icon-time text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0"></i>
+      <i class="icon-time text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0 z-10"></i>
       <p-calendar class="w-4/5" [formControlName]="'event_start_time'" name="event_start_time" [showTime]="true" [hourFormat]="'12'" [timeOnly]="true" inputId="event_start_time"></p-calendar>
     </label>
     <span class="absolute top-full text-red-500 text-xs" *ngIf="createStreamForm.get('event_start_time')?.invalid && (createStreamForm.get('event_start_time')?.dirty && createStreamForm.get('event_start_time')?.touched)">
@@ -60,7 +60,7 @@
   <div class="w-1/2 lg:w-1/4 px-2 pt-5 pb-0.5 relative">
     <span class="input-titel">End Time</span>
     <label class="bg-white rounded-md flex space-x-3 relative">
-      <i class="icon-time text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0"></i>
+      <i class="icon-time text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0 z-10"></i>
       <p-calendar class="w-4/5" [formControlName]="'event_end_time'" name="event_end_time" [showTime]="true" [hourFormat]="'12'" [timeOnly]="true" inputId="event_end_time"></p-calendar>
     </label>
     <span class="absolute top-full text-red-500 text-xs" *ngIf="createStreamForm.get('event_end_time')?.invalid && (createStreamForm.get('event_end_time')?.dirty && createStreamForm.get('event_end_time')?.touched)">
