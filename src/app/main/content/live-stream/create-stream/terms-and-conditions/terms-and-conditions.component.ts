@@ -104,6 +104,14 @@ export class TermsAndConditionsLsComponent implements OnInit {
     this.textEditor = (stringOfCKEditor.length > this.textEditorMaxLimit);
   }
 
+  onBackCLick(): void {
+    this._router.navigate(['/live-stream/create/personal-details']);
+    // for first time we got some issue, tha is why we add another setTimeout
+    setTimeout(() => {
+      this._router.navigate(['/live-stream/create/personal-details']);
+    }, 0);
+  }
+
   saveFullEvent(): void {
     if (this.termsAndConditionsForm.invalid) {
       Object.keys(this.termsAndConditionsForm.controls).forEach((key) => {

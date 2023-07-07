@@ -330,6 +330,10 @@ export class PhotosAndVideosComponent implements OnInit {
   }
 
   validatePhotosAndVideosObj(): any {
+    if (!this.bannerUrl || this.bannerUrl == '') {
+      this._sNotify.error('Banner is required', 'Oops!');
+      return false;
+    }
     if (!this.photoArr || !this.photoArr.length) {
       this._sNotify.error('At least one photo required', 'Oops!');
       return false;
