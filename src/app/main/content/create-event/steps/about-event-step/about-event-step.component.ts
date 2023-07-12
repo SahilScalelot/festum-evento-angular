@@ -113,14 +113,14 @@ export class AboutEventStepComponent implements OnInit {
 
     const preparedStartTime: any = this.prepareTime(this.aboutEventForm.value.start_time);
     const preparedEndTime: any = this.prepareTime(this.aboutEventForm.value.end_time);
-    const startTime = moment(preparedStartTime, 'hh:mm a');
-    const endTime = moment(preparedEndTime, 'hh:mm a');
-    if (!startTime.isBefore(endTime) || startTime.isSame(endTime)) {
-      this.isLoading = false;
-      this.aboutEventForm.enable();
-      this._sNotify.error('Start time is must before End time Or Both time should not same', 'Oops');
-      return false;
-    }
+    const startTime = moment(preparedStartTime, 'hh:mm ');
+    const endTime = moment(preparedEndTime, 'hh:mm ');
+    // if (!startTime.isBefore(endTime)) {
+    //   this.isLoading = false;
+    //   this.aboutEventForm.enable();
+    //   this._sNotify.error('Start time is must before End time Or Both time should not same', 'Oops');
+    //   return false;
+    // }
     return true;
   }
 
