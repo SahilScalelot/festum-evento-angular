@@ -43,6 +43,7 @@ export class AddEditEventDialogComponent implements OnInit {
       event_type: [this.selectedEventType, Validators.required],
       event_category: [this.eventObj?.event_category ? ((this.eventObj.event_category?._id) ? this.eventObj.event_category._id : '') : ''],
       other: [this.eventObj?.other ? this.eventObj.other : ''],
+      event_financial_type: [this.eventObj?.event_financial_type ? this.eventObj.event_financial_type : 'free'],
     });
   }
 

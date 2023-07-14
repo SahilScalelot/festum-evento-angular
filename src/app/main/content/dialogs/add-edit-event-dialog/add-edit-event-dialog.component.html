@@ -48,6 +48,23 @@
             <label class="input-titel">Other</label>
             <input [formControlName]="'other'" class="input option rounded-lg w-full py-3 px-4 focus-visible:outline-none" type="text"/>
           </div>
+          <div class="w-full">
+            <span class="input-titel">Event Financial Type</span>
+            <div class="flex pt-2">
+              <div class="flex items-center">
+                <label for="free-financial-user" class="interested_in flex items-center text-black mb-0 cursor-pointer">
+                  <input id="free-financial-user" name="event_financial_type" [formControlName]="'event_financial_type'" [value]="'free'" type="radio" class="circle sky rounded-full" />
+                  <b class="text-japaneseIndigo cursor-pointer text-sm font-medium capitalize pl-2">Free for user</b>
+                </label>
+              </div>
+              <div class="flex items-center ml-8">
+                <label for="paid-financial-user" class="interested_in flex items-center text-black mb-0 cursor-pointer">
+                  <input id="paid-financial-user" name="event_financial_type" [formControlName]="'event_financial_type'" [value]="'paid'" type="radio" class="circle sky rounded-full" />
+                  <b class="text-japaneseIndigo cursor-pointer text-sm font-medium capitalize pl-2">Paid for user</b>
+                </label>
+              </div>
+            </div>
+          </div>
         </form>
         <div class="flex justify-end">
           <div class="relative">
