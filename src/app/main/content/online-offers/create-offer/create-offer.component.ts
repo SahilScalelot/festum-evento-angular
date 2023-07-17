@@ -390,7 +390,7 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
       });
       return false;
     }
-    return false;
+    return true;
   }
 
   saveAndContinue(): any {
