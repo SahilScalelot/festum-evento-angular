@@ -23,6 +23,12 @@
               <div class="relative w-full lg:max-w-[288px]">
                 <img [src]="!!(event?.banner) ? constants.baseImageURL + event.banner : constants.defaultImage" alt="{{event?.name}}" class="w-full h-full object-cover"/>
                 <span class="text-base text-white font-bold px-2 py-1 absolute top-2 left-0 bg-magicPotion uppercase">{{constants?.eventTypeArr[constants?.eventTypeObj[event?.event_type]]?.displayLabel}}</span>
+                <!-- Event Paid Or Free -->
+
+
+                <span class="text-base text-white font-bold px-2 py-1 absolute top-2 left-12 uppercase" [ngClass]="!!(event?.event_financial_type && event.event_financial_type == 'free') ? 'bg-caribbeanGreen' : 'bg-magicPotion'">{{!!(event?.event_financial_type && event.event_financial_type == 'free') ? 'Free' : 'Paid'}}</span>
+
+
               </div>
               <div class="w-full pt-5 xl:pt-0 xl:max-w-[calc(100%-300px)]">
                 <div class="flex flex-wrap justify-between border-b-2 pb-4">

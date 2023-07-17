@@ -14,6 +14,7 @@
       <a (click)="deletePop()" href="javascript:void(0)"><i class="icon-delete text-quicksilver"></i></a>
       <a (click)="isEditEvent = true" href="javascript:void(0)"><i class="icon-edit text-quicksilver"></i></a>
       <span class="bg-magicPotion text-xs font-bold px-2 py-1 text-white">{{constants?.eventTypeArr[constants?.eventTypeObj[addEditEvent?.event_type]]?.displayLabel}}</span>
+      <span class="text-xs font-bold px-2 py-1 text-white" [ngClass]="!!(addEditEvent?.event_financial_type && addEditEvent.event_financial_type == 'free') ? 'bg-caribbeanGreen' : 'bg-magicPotion'">{{!!(addEditEvent?.event_financial_type && addEditEvent.event_financial_type == 'free') ? 'Free' : 'Paid'}}</span>
     </div>
   </div>
 </div>
