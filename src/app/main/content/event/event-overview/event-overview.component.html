@@ -10,6 +10,7 @@
         <div class="flex items-center space-x-3">
           <span class="text-xs text-white font-bold px-3 rounded-xl py-1" [ngClass]="!!(event?.is_approved) ? 'bg-caribbeanGreen' : 'bg-magicPotion'">{{!!(event?.is_approved) ? 'Verified' : 'Unverified'}}</span>
           <span class="text-xs text-white font-bold px-3 rounded-xl py-1" [ngClass]="!!(event?.accept_booking) ? 'bg-caribbeanGreen' : 'bg-magicPotion'">{{!!(event?.accept_booking) ? 'Booking Accepting' : 'Booking Not Accepting'}}</span>
+          <span class="text-xs text-white font-bold px-3 rounded-xl py-1" [ngClass]="!!(event?.event_financial_type && event.event_financial_type == 'free') ? 'bg-caribbeanGreen' : 'bg-magicPotion'">{{!!(event?.event_financial_type && event.event_financial_type == 'free') ? 'Free' : 'Paid'}}</span>
         </div>
         <h2>{{ event.name }}</h2>
         <div class="flex items-center space-x-1">

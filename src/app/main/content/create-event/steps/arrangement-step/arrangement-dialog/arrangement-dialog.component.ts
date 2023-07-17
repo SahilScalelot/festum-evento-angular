@@ -67,10 +67,11 @@ export class ArrangementDialogComponent implements OnInit {
       number_of_seating_item: [tempArrangementObj?.number_of_seating_item || '', [Validators.required]],
       vertical_location: [tempArrangementObj?.vertical_location || this.constants.verticalLocationsArr[this.constants.verticalLocationsObj.NONE].value, [Validators.required]],
       horizontal_location: [tempArrangementObj?.horizontal_location || this.constants.horizontalLocationsArr[this.constants.horizontalLocationsObj.NONE].value, [Validators.required]],
+      seat_type: [tempArrangementObj?.seat_type || ''],
       per_seating_person: [tempArrangementObj?.per_seating_person || ''],
       total_person: [tempArrangementObj?.total_person || '', [Validators.required]],
-      per_seating_price: [tempArrangementObj?.per_seating_price || ''],
-      per_person_price: [tempArrangementObj?.per_person_price || '', [Validators.required]],
+      per_seating_price: [{value: (tempArrangementObj.event_financial_type && tempArrangementObj.event_financial_type == 'free') ? 0 : (tempArrangementObj?.per_seating_price || ''), disabled: !(!tempArrangementObj.event_financial_type || tempArrangementObj.event_financial_type == 'paid')}],
+      per_person_price: [{value: (tempArrangementObj.event_financial_type && tempArrangementObj.event_financial_type == 'free') ? 0 : (tempArrangementObj?.per_person_price || ''), disabled: !(!tempArrangementObj.event_financial_type || tempArrangementObj.event_financial_type == 'paid')}, [Validators.required]],
       total_amount: [tempArrangementObj?.total_amount || '', [Validators.required]],
       description: [tempArrangementObj?.description || ''],
       booking_acceptance: [tempArrangementObj?.booking_acceptance || false],
@@ -185,7 +186,7 @@ export class ArrangementDialogComponent implements OnInit {
       const tmpLocations: any = [];
       _.each(this.arrangements.value, (arrangement: any) => {
         tmpLocations.push(arrangement.vertical_location + arrangement.horizontal_location);
-      })
+      });
       const uniqueLocationLength: any = _.uniq(tmpLocations);
       if (uniqueLocationLength && uniqueLocationLength.length != this.arrangements.length) {
         this._sNotify.error('Please select unique combination of vertical and horizontal locations.', 'Oops!');

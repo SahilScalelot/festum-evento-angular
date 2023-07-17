@@ -39,11 +39,11 @@
                   </div>
                   <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4"
                     *ngIf="(!seating?.isonlyperperson)">
-                    <span class="block text-xs xl:text-sm text-quicksilver">per {{seating?.seating_item?.itemname}} person capacity</span>
+                    <span class="block text-xs xl:text-sm text-quicksilver">Per {{seating?.seating_item?.itemname}} Person Capacity</span>
                     <span class="block text-base font-bold text-quicksilver">{{arrangement.per_seating_person}}</span>
                   </div>
                   <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4">
-                    <span class="block text-xs xl:text-sm text-quicksilver">Total person capacity</span>
+                    <span class="block text-xs xl:text-sm text-quicksilver">Total Person Capacity</span>
                     <span class="block text-base font-bold text-quicksilver">{{arrangement.total_person}}</span>
                   </div>
                   <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4"
@@ -52,7 +52,7 @@
                     <span class="block text-base font-bold text-quicksilver">{{arrangement.per_seating_price || 0 | number:'1.2-2'}}</span>
                   </div>
                   <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4">
-                    <span class="block text-xs xl:text-sm text-quicksilver">per person price</span>
+                    <span class="block text-xs xl:text-sm text-quicksilver">Per Person Price</span>
                     <span class="block text-base font-bold text-quicksilver">{{arrangement.per_person_price || 0 | number:'1.2-2'}} INR</span>
                   </div>
                   <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4">

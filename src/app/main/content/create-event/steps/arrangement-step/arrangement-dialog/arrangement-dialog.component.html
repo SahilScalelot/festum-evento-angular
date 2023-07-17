@@ -13,7 +13,7 @@
             <ul class="flex justify-between step-progress-holder z-10 relative">
               <li class="active">
                 <div><span>01</span></div>
-                <h3>select item</h3>
+                <h3>Select item</h3>
               </li>
               <li [ngClass]="{'active': selectedTab >= 1}">
                 <div><span>02</span></div>
@@ -30,7 +30,7 @@
             <div *ngIf="!selectedTab" class="space-y-4 px-2" id="stap-one">
               <div class="space-y-7">
                 <div class="w-full relative">
-                  <label class="input-titel">select item</label>
+                  <label class="input-titel">Select item</label>
                   <select (change)="onSeatingItemChange()" [formControlName]="'seating_item'" class="bg-white rounded-md flex space-x-3 outline-0 px-4 py-3 relative arrow w-full" name="seating_item" (click)="prepareSeatingItems()">
                     <option [value]=""></option>
                     <option *ngFor="let seatingItem of seatingItems" [value]="seatingItem._id">{{seatingItem.itemname}}</option>
@@ -43,7 +43,7 @@
                 </div>
                 <div *ngIf="seatingForm?.value?.seating_item || editArrangementObj?.seating_item" class="">
                   <div class="flex items-center justify-between pb-2">
-                    <label class="input-titel">arrangement</label>
+                    <label class="input-titel">Arrangement</label>
                     <button (click)="addArrangements()" class="text-xs text-white font-bold px-3 rounded py-1 whitespace-nowrap bg-magicPotion flex items-center">
                       <i class="icon-plus_round leading-0 mr-2"></i> Add siting arrangement
                     </button>
@@ -90,9 +90,15 @@
                                   </select>
                                 </div>
                               </li>
+                              <li class="pb-3">
+                                <div class="w-[151px] inputHolder">
+                                  <span class="input-titel text-xs">Seat Type</span>
+                                  <input [formControlName]="'seat_type'" placeholder="Seat Type" [name]="'seat_type' + i" class="bgquicksilver" type="text">
+                                </div>
+                              </li>
                               <li class="pb-3" *ngIf="(!selectedSeatingObj.isonlyperperson)">
                                 <div class="w-[151px]">
-                                  <span class="input-titel text-xs">per {{selectedSeatingObj.itemname}} person capacity</span>
+                                  <span class="input-titel text-xs">Per {{selectedSeatingObj.itemname}} Person Capacity</span>
                                   <div class="w-full flex items-center space-x-5">
                                     <div class="w-full inputHolder relative">
                                       <input (input)="updateCalculatedValue()" [formControlName]="'per_seating_person'" [min]="0" placeholder="0" [name]="'per_seating_person' + i" class="bgquicksilver" fuseValidNumber type="number">
@@ -110,7 +116,7 @@
                               </li>
                               <li class="pb-3">
                                 <div class="w-[151px]">
-                                  <span class="input-titel text-xs">Total person capacity</span>
+                                  <span class="input-titel text-xs">Total Person Capacity</span>
                                   <div class="w-full flex items-center space-x-5">
                                     <div class="w-full inputHolder relative">
                                       <input (input)="updateCalculatedValue()" [formControlName]="'total_person'" [min]="0" placeholder="0" [name]="'total_person' + i" class="bgquicksilver" fuseValidNumber type="number">
@@ -148,7 +154,7 @@
                               </li>
                               <li class="pb-3">
                                 <div class="w-[151px]">
-                                  <span class="input-titel text-xs">per person price</span>
+                                  <span class="input-titel text-xs">Per Person Price</span>
                                   <div class="w-full flex items-center space-x-5">
                                     <div class="w-full inputHolder relative">
                                       <input (input)="updateCalculatedValue()" [formControlName]="'per_person_price'" [min]="0" placeholder="0" [name]="'per_person_price' + i" class="bgquicksilver" fuseValidNumber type="number">                                      
@@ -184,7 +190,7 @@
                               </li>
                               <li class="pb-3">
                                 <div class="w-[151px]">
-                                  <span class="input-titel text-xs">description</span>
+                                  <span class="input-titel text-xs">Description</span>
                                   <div class="w-full flex items-center space-x-5">
                                     <div class="w-full inputHolder">
                                       <input [formControlName]="'description'" [name]="'description' + i" class="bgquicksilver" type="text">
@@ -194,12 +200,12 @@
                               </li>
                               <li class="pb-3">
                                 <div class="w-full 2xl:w-1/6 2xl:pl-5">
-                                  <span *ngIf="(!selectedSeatingObj.isonlyperperson)" class="input-titel text-xs whitespace-nowrap">booking acceptance</span>
+                                  <span *ngIf="(!selectedSeatingObj.isonlyperperson)" class="input-titel text-xs whitespace-nowrap">Booking Acceptance</span>
                                   <div class="flex 2xl:justify-between items-center">
                                     <div *ngIf="(!selectedSeatingObj.isonlyperperson)" class="flex items-center pr-5 border-r-2 mr-5 py-4">
                                       <input [formControlName]="'booking_acceptance'" [name]="'booking_acceptance' + i" class="switch mx-3 order-2" id="on" type="checkbox">
-                                      <span class="off text-xs font-bold anim whitespace-nowrap order-1 text-caribbeanGreen">per {{selectedSeatingObj.itemname}}</span>
-                                      <span class="on text-xs font-bold anim whitespace-nowrap order-3">per person</span>
+                                      <span class="off text-xs font-bold anim whitespace-nowrap order-1 text-caribbeanGreen">Per {{selectedSeatingObj.itemname}}</span>
+                                      <span class="on text-xs font-bold anim whitespace-nowrap order-3">Per Person</span>
                                     </div>
                                     <div class="addDeleteBtn" [ngClass]="{'pt-5' : (selectedSeatingObj.isonlyperperson)}">
                                       <button (click)="removeArrangement(i)" class="minus border-2 border-magicPotion w-7 h-7 rounded-full flex justify-center items-center">
