@@ -6,6 +6,7 @@ import * as _ from 'lodash';
 import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
 import { SnotifyService } from "ng-snotify";
 import { GlobalFunctions } from 'src/app/main/common/global-functions';
+import { CreateEventService } from '../../../create-event.service';
 
 @Component({
   selector: 'app-arrangement-dialog',
@@ -20,7 +21,12 @@ export class ArrangementDialogComponent implements OnInit {
   totalArrangementsObj: any = {};
   selectedSeatingObj: any = {};
   isInitial: boolean = true;
+  isLoading: boolean = false;
+  eventId: any;
+  addEditEvent: any;
 
+
+  
   detailEditor = DecoupledEditor;
   editorConfig: any = {};
   textEditorFood: boolean = false;
@@ -37,10 +43,12 @@ export class ArrangementDialogComponent implements OnInit {
   @Output() addEditArrangement: EventEmitter<any> = new EventEmitter();
 
   constructor(
+    private _createEventService: CreateEventService,
     private _formBuilder: FormBuilder,
     private _sNotify: SnotifyService,
     private _globalFunctions: GlobalFunctions,
   ) {
+    
   }
 
   ngOnInit(): void {
@@ -62,7 +70,27 @@ export class ArrangementDialogComponent implements OnInit {
     return this.seatingForm.get('arrangements');
   }
 
+  seattyp: any = [{seat:"VVIP"},{seat:"VIP"},{seat:"Platinum"},{seat:"Gold"},{seat:"Silver"}];
+  
+  getEvent(eventId: any): any {
+    this.isLoading = true;
+    this._createEventService.getEvent(eventId).subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        this.addEditEvent = result.Data;
+        this.isLoading = false;
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+        this.isLoading = false;
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isLoading = false;
+    });
+  }
+
   addArrangements(tempArrangementObj: any = {}): void {
+    this.eventId = localStorage.getItem('eId');
+    this.getEvent(this.eventId);
     const arrangementsObj = this._formBuilder.group({
       number_of_seating_item: [tempArrangementObj?.number_of_seating_item || '', [Validators.required]],
       vertical_location: [tempArrangementObj?.vertical_location || this.constants.verticalLocationsArr[this.constants.verticalLocationsObj.NONE].value, [Validators.required]],
@@ -70,14 +98,17 @@ export class ArrangementDialogComponent implements OnInit {
       seat_type: [tempArrangementObj?.seat_type || ''],
       per_seating_person: [tempArrangementObj?.per_seating_person || ''],
       total_person: [tempArrangementObj?.total_person || '', [Validators.required]],
-      per_seating_price: [{value: (tempArrangementObj.event_financial_type && tempArrangementObj.event_financial_type == 'free') ? 0 : (tempArrangementObj?.per_seating_price || ''), disabled: !(!tempArrangementObj.event_financial_type || tempArrangementObj.event_financial_type == 'paid')}],
-      per_person_price: [{value: (tempArrangementObj.event_financial_type && tempArrangementObj.event_financial_type == 'free') ? 0 : (tempArrangementObj?.per_person_price || ''), disabled: !(!tempArrangementObj.event_financial_type || tempArrangementObj.event_financial_type == 'paid')}, [Validators.required]],
-      total_amount: [tempArrangementObj?.total_amount || '', [Validators.required]],
+
+      per_seating_price: [{value: (this.addEditEvent.event_financial_type && this.addEditEvent.event_financial_type == 'free') ? 0 : (tempArrangementObj?.per_seating_price || ''), disabled: !(!this.addEditEvent.event_financial_type || this.addEditEvent.event_financial_type == 'paid')}, [Validators.required]],
+
+      per_person_price: [{value: (this.addEditEvent.event_financial_type && this.addEditEvent.event_financial_type == 'free') ? 0 : (tempArrangementObj?.per_person_price || ''), disabled: !(!this.addEditEvent.event_financial_type || this.addEditEvent.event_financial_type == 'paid')}, [Validators.required]],
+
+      total_amount: [{value: (this.addEditEvent.event_financial_type && this.addEditEvent.event_financial_type == 'free') ? 0 : (tempArrangementObj?.total_amount || ''), disabled: !(!this.addEditEvent.event_financial_type || this.addEditEvent.event_financial_type == 'paid')}, [Validators.required]],
+
       description: [tempArrangementObj?.description || ''],
       booking_acceptance: [tempArrangementObj?.booking_acceptance || false],
     });
     this.arrangements.push(arrangementsObj);
-
     this.updateCalculatedValue();
   }
 
@@ -110,6 +141,7 @@ export class ArrangementDialogComponent implements OnInit {
       total_booked: 0
     };
     _.each(this.arrangements.value, (arrangement: any, index: number) => {
+      // console.log(arrangement);
       if (arrangement.number_of_seating_item && arrangement.per_seating_person) {
         this.arrangements.controls[index].get('total_person')?.setValue((arrangement.number_of_seating_item * arrangement.per_seating_person));
         this.arrangements.controls[index].get('per_person_price')?.setValue(Number((arrangement.per_seating_price / arrangement.per_seating_person).toFixed(2)));
@@ -117,8 +149,8 @@ export class ArrangementDialogComponent implements OnInit {
       } else if (this.selectedSeatingObj && (this.selectedSeatingObj.itemname == 'Chair' || this.selectedSeatingObj.itemname == 'chair' || this.selectedSeatingObj.itemname == 'Stand' || this.selectedSeatingObj.itemname == 'stand' || this.selectedSeatingObj.itemname == 'NoSeating' || this.selectedSeatingObj.itemname == 'noseating')) {
         this.arrangements.controls[index].get('total_person')?.setValue((arrangement.number_of_seating_item));
         this.arrangements.controls[index].get('total_amount')?.setValue((arrangement.number_of_seating_item * arrangement.per_person_price));
-        this.arrangements.controls[index].get('booking_acceptance')?.setValue(true);
-      }
+        this.arrangements.controls[index].get('booking_acceptance')?.setValue(false);
+      } 
     });
     _.each(this.arrangements.value, (arrangement: any) => {
       this.totalArrangementsObj.total_number_of_seating_items += Number(arrangement?.number_of_seating_item || 0);
