@@ -52,10 +52,15 @@ export class ArrangementDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log("nik");
     this.isInitial = true;
+    console.log("nik1");
     this._prepareArrangementForm();
+    console.log("nik2");
     this.prepareSeatingItems();
+    console.log("nik3");
     if (this.editArrangementObj && this.editArrangementObj.seating_item) {
+      console.log("nik4");
       this.selectedSeatingObj = this.editArrangementObj.seating_item;
     }
   }
@@ -72,25 +77,25 @@ export class ArrangementDialogComponent implements OnInit {
 
   seattyp: any = [{seat:"VVIP"},{seat:"VIP"},{seat:"Platinum"},{seat:"Gold"},{seat:"Silver"}];
   
-  getEvent(eventId: any): any {
-    this.isLoading = true;
-    this._createEventService.getEvent(eventId).subscribe((result: any) => {
-      if (result && result.IsSuccess) {
-        this.addEditEvent = result.Data;
-        this.isLoading = false;
-      } else {
-        this._globalFunctions.successErrorHandling(result, this, true);
-        this.isLoading = false;
-      }
-    }, (error: any) => {
-      this._globalFunctions.errorHanding(error, this, true);
-      this.isLoading = false;
-    });
-  }
+  // getEvent(eventId: any): any {
+  //   this.isLoading = true;
+  //   this._createEventService.getEvent(eventId).subscribe((result: any) => {
+  //     if (result && result.IsSuccess) {
+  //       this.addEditEvent = result.Data;
+  //       this.isLoading = false;
+  //     } else {
+  //       this._globalFunctions.successErrorHandling(result, this, true);
+  //       this.isLoading = false;
+  //     }
+  //   }, (error: any) => {
+  //     this._globalFunctions.errorHanding(error, this, true);
+  //     this.isLoading = false;
+  //   });
+  // }
 
   addArrangements(tempArrangementObj: any = {}): void {
-    this.eventId = localStorage.getItem('eId');
-    this.getEvent(this.eventId);
+    // this.eventId = localStorage.getItem('eId');
+    // this.getEvent(this.eventId);
     const arrangementsObj = this._formBuilder.group({
       number_of_seating_item: [tempArrangementObj?.number_of_seating_item || '', [Validators.required]],
       vertical_location: [tempArrangementObj?.vertical_location || this.constants.verticalLocationsArr[this.constants.verticalLocationsObj.NONE].value, [Validators.required]],
@@ -99,11 +104,11 @@ export class ArrangementDialogComponent implements OnInit {
       per_seating_person: [tempArrangementObj?.per_seating_person || ''],
       total_person: [tempArrangementObj?.total_person || '', [Validators.required]],
 
-      per_seating_price: [{value: (this.addEditEvent.event_financial_type && this.addEditEvent.event_financial_type == 'free') ? 0 : (tempArrangementObj?.per_seating_price || ''), disabled: !(!this.addEditEvent.event_financial_type || this.addEditEvent.event_financial_type == 'paid')}, [Validators.required]],
+      per_seating_price: [{value: (tempArrangementObj.event_financial_type && tempArrangementObj.event_financial_type == 'free') ? 0 : (tempArrangementObj?.per_seating_price || ''), disabled: !(!tempArrangementObj.event_financial_type || tempArrangementObj.event_financial_type == 'paid')}, [Validators.required]],
 
-      per_person_price: [{value: (this.addEditEvent.event_financial_type && this.addEditEvent.event_financial_type == 'free') ? 0 : (tempArrangementObj?.per_person_price || ''), disabled: !(!this.addEditEvent.event_financial_type || this.addEditEvent.event_financial_type == 'paid')}, [Validators.required]],
+      per_person_price: [{value: (tempArrangementObj.event_financial_type && tempArrangementObj.event_financial_type == 'free') ? 0 : (tempArrangementObj?.per_person_price || ''), disabled: !(!tempArrangementObj.event_financial_type || tempArrangementObj.event_financial_type == 'paid')}, [Validators.required]],
 
-      total_amount: [{value: (this.addEditEvent.event_financial_type && this.addEditEvent.event_financial_type == 'free') ? 0 : (tempArrangementObj?.total_amount || ''), disabled: !(!this.addEditEvent.event_financial_type || this.addEditEvent.event_financial_type == 'paid')}, [Validators.required]],
+      total_amount: [{value: (tempArrangementObj.event_financial_type && tempArrangementObj.event_financial_type == 'free') ? 0 : (tempArrangementObj?.total_amount || ''), disabled: !(!tempArrangementObj.event_financial_type || tempArrangementObj.event_financial_type == 'paid')}, [Validators.required]],
 
       description: [tempArrangementObj?.description || ''],
       booking_acceptance: [tempArrangementObj?.booking_acceptance || false],
@@ -141,7 +146,7 @@ export class ArrangementDialogComponent implements OnInit {
       total_booked: 0
     };
     _.each(this.arrangements.value, (arrangement: any, index: number) => {
-      console.log(arrangement);
+      // console.log(arrangement);
       if (arrangement.number_of_seating_item && arrangement.per_seating_person) {
         this.arrangements.controls[index].get('total_person')?.setValue((arrangement.number_of_seating_item * arrangement.per_seating_person));
         this.arrangements.controls[index].get('per_person_price')?.setValue(Number((arrangement.per_seating_price / arrangement.per_seating_person).toFixed(2)));
@@ -285,6 +290,7 @@ export class ArrangementDialogComponent implements OnInit {
   }
 
   private _prepareArrangementForm(): void {
+    // console.log("edit");
     this.seatingForm = this._formBuilder.group({
       seating_item: [{
         value: (this.editArrangementObj && this.editArrangementObj.seating_item) ?
@@ -296,8 +302,11 @@ export class ArrangementDialogComponent implements OnInit {
       equipment: [(!!(this.editArrangementObj && this.editArrangementObj.equipment)), [Validators.required]],
       equipment_description: [this.editArrangementObj?.equipment_description || null],
     });
+    // console.log("nik1");
     if (this.editArrangementObj && this.editArrangementObj.arrangements) {
+      // console.log("nik1");
       _.each(this.editArrangementObj.arrangements, (arrangement: any) => {
+        // console.log(arrangement);
         this.addArrangements(arrangement);
       });
     } else {

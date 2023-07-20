@@ -94,7 +94,7 @@
 <modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="photo" title="Upload Photo" *ngIf="photoForm">
   <form #photosNgForm="ngForm" [formGroup]="photoForm" class="py-6 space-y-5">
     <div class="upload-holder- w-full">
-      <h6 class="input-titel text-sm font-bold text-quicksilver flex items-center">Select Photo <p class="text-10 ml-2">15 Images (up to 3MB/Image)</p></h6>
+      <h6 class="input-titel text-sm font-bold text-quicksilver flex items-center">Select Photo <p class="text-10 ml-2">15 Images (up to 7MB/Image)</p></h6>
       <!--  {{(posterImageAndVideoObj?.photos?.length) ? (posterImageAndVideoObj?.photos?.length + '(Already Uploaded) - 15 =') : ''}} {{ 15 - (posterImageAndVideoObj?.photos?.length || 0)}} -->
       <div class="block">
         <ngx-dropzone #dropzonePhotos class="flex-wrap" (change)="onSelectImages($event)" [maxFileSize]="3145728" accept="image/jpeg,image/jpg,image/png,image/gif">
@@ -125,7 +125,7 @@
 <modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="video" title="Upload video" *ngIf="videoForm">
   <form #videosNgForm="ngForm" [formGroup]="videoForm" class="py-6 space-y-5">
     <div class="upload-holder- w-full">
-      <h6 class="input-titel text-sm font-bold text-quicksilver flex items-center">Select video <p class="text-10 ml-2"> ( {{ 2 - posterImageAndVideoObj.videos.length}} videos - up to 512MB/Video)</p></h6>
+      <h6 class="input-titel text-sm font-bold text-quicksilver flex items-center">Select video <p class="text-10 ml-2"> ( {{ 2 - posterImageAndVideoObj.videos.length}} videos - up to 256MB/Video)</p></h6>
       <!-- <label class="upload upload-popup py-3" for="create-video-upload">
         <input accept="video/mp4" class="appearance-none hidden" id="create-video-upload" name="images" type="file" (change)="readURL($event);"/>
         <span class="input-titel flex justify-center items-center"><i class="icon-video_upload text-lg mr-2 leading-none"></i> {{inputText ? inputText : 'Choose Video'}}</span>
