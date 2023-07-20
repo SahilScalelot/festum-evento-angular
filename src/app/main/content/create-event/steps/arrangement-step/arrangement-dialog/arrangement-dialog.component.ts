@@ -141,7 +141,7 @@ export class ArrangementDialogComponent implements OnInit {
       total_booked: 0
     };
     _.each(this.arrangements.value, (arrangement: any, index: number) => {
-      // console.log(arrangement);
+      console.log(arrangement);
       if (arrangement.number_of_seating_item && arrangement.per_seating_person) {
         this.arrangements.controls[index].get('total_person')?.setValue((arrangement.number_of_seating_item * arrangement.per_seating_person));
         this.arrangements.controls[index].get('per_person_price')?.setValue(Number((arrangement.per_seating_price / arrangement.per_seating_person).toFixed(2)));
