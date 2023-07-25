@@ -16,7 +16,7 @@
       <div class="w-full md:w-1/2 px-2 py-2 lg:py-0 inputHolder relative">
         <div class="input-label-holder">
           <label class="input-titel">Mobile Number <span>*</span></label>
-          <label class="input-checkd anim cursor-pointer"><input [formControlName]="'is_mobile_hidden'" class="mr-2 cursor-pointer" name="is_mobile_hidden" type="checkbox"/>Hidden</label>
+          <!-- <label class="input-checkd anim cursor-pointer"><input [formControlName]="'is_mobile_hidden'" class="mr-2 cursor-pointer" name="is_mobile_hidden" type="checkbox"/>Hidden</label> -->
         </div>
         <ngx-intl-tel-input
           [cssClass]="'w-full'"
@@ -50,7 +50,7 @@
       <div class="w-full md:w-1/2 px-2 py-2 lg:py-0 inputHolder relative">
         <div class="input-label-holder">
           <label class="input-titel">Alternative Mobile Number(optional)</label>
-          <label class="input-checkd anim cursor-pointer"><input [formControlName]="'is_alt_mobile_hidden'" class="mr-2 cursor-pointer" name="is_alt_mobile_hidden" type="checkbox"/>Hidden</label>
+          <!-- <label class="input-checkd anim cursor-pointer"><input [formControlName]="'is_alt_mobile_hidden'" class="mr-2 cursor-pointer" name="is_alt_mobile_hidden" type="checkbox"/>Hidden</label> -->
         </div>
         <ngx-intl-tel-input
           [cssClass]="'w-full'"
@@ -85,7 +85,7 @@
     <div class="w-full md:w-1/2 lg:w-1/3 px-2 py-2 lg:py-0 inputHolder relative">
       <div class="input-label-holder">
         <label class="input-titel">Email Address <span>*</span></label>
-        <label class="input-checkd anim"><input [formControlName]="'is_email_hidden'" class="mr-2 cursor-pointer" name="is_email_hidden" type="checkbox"/>Hidden</label>
+        <!-- <label class="input-checkd anim"><input [formControlName]="'is_email_hidden'" class="mr-2 cursor-pointer" name="is_email_hidden" type="checkbox"/>Hidden</label> -->
       </div>
       <input [formControlName]="'email'" class="input" name="email" required type="text"/>
       <span class="absolute top-full text-red-500 text-xs" *ngIf="personalDetailForm.get('email')?.invalid && (personalDetailForm.get('email')?.dirty && personalDetailForm.get('email')?.touched)">

@@ -47,7 +47,7 @@
   </div>
   <div class="w-full relative">
     <span class="input-titel">About Event <span class="text-ev-red">*</span> <i class="text-xs font-medium" [ngClass]="{'text-magicPotion' : textEditor}">( {{textEditorLimit}} characters out of {{textEditorMaxLimit}} )</i></span>
-    <div class="w-full bg-white rounded relative">
+    <div class="w-full  bg-white rounded relative">
       <ckeditor (ready)="onTextEditorReady($event)" (keyup)="editorCharacterSet()" [config]="editorConfig" [editor]="detailEditor" [formControlName]="'about_event'" class="h-44 text-editor" id="about_event" name="about_event"></ckeditor>
       <!-- <span class="absolute top-full text-red-500 text-xs" *ngIf="textEditor != ''">{{textEditor}}</span> -->
       <span class="absolute top-full text-red-500 text-xs" *ngIf="aboutEventForm.get('about_event')?.invalid && (aboutEventForm.get('about_event')?.dirty && aboutEventForm.get('about_event')?.touched)">

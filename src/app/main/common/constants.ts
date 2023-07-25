@@ -164,6 +164,24 @@ export const CONSTANTS = {
     {value: 'RIGHT', label: 'Right'},
   ],
 
+  seatObj: {
+    NONE: 0,
+    VVIP: 1,
+    VIP: 2,
+    Platinum: 3,
+    Gold:4,
+    Silver:5,
+  },
+
+  seatArr: [
+    {value: 'NONE', label: 'None'},
+    {value: 'VVIP', label: 'VVIP'},
+    {value: 'VIP', label: 'VIP'},
+    {value: 'Platinum', label: 'Platinum'},
+    {value: 'Gold', label: 'Gold'},
+    {value: 'Silver', label: 'Silver'},
+  ],
+
   discountTypeObj: {
     percentage: 0,
     rupee: 1
