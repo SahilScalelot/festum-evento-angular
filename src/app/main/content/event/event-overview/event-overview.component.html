@@ -20,7 +20,7 @@
         </div>
       </div>
       <div class="w-full md:w-1/2 space-y-3">
-        <h3 class="text-right">250 INR</h3>
+        <h3 class="text-right">{{event?.startingat}} INR</h3>
         <div class="flex space-x-2 justify-end">
           <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" (click)="editEvent($event, event._id)" *ngIf="event?.iseditable" href="javascript:void(0);"><i class="icon-edit text-sm leading-0 text-japaneseIndigo"></i></a>
           <!-- <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" href="javascript:void(0);"><i class="icon-fill_megaphone text-sm leading-0 text-japaneseIndigo"></i></a> -->
@@ -501,11 +501,11 @@
         </div>
       </div>
       <!-- Reviews-Teb-Content   -->
-      <div class="w-full space-y-7 tab-main" [class]="reviews ? 'active' : ''">
-        <div class="w-full space-y-2">
-          <div *ngFor="let reviews of event?.reviews" class="flex justify-between p-7 bg-white rounded-md">
+      <div class="flex flex-wrap -mx-4 tab-main" [class]="reviews ? 'active' : ''">
+        <div class="w-full lg:w-8/12 p-4">
+          <div *ngFor="let reviews of event?.reviews" class="flex justify-between p-5 bg-white rounded-md">
             <div class="">
-              <div class="w-28 h-28 border-2 border-brightGray rounded-full overflow-hidden bg-white">
+              <div class="w-14 h-14 border-2 border-brightGray rounded-full overflow-hidden bg-white">
                 <img alt="cutting-board" class="w-full h-full object-cover" [src]="!!(reviews?.userid?.profilepic) ? constants?.baseImageURL + reviews?.userid?.profilepic : constants.userDefaultImage"/>
               </div>
             </div>
@@ -517,13 +517,14 @@
                   <p-rating [(ngModel)]="reviews.ratings" [readonly]="true" [cancel]="false"></p-rating>
                 </div>
               </div>
-              <p class="text-japaneseIndigo text-sm font-normal leading-6 pt-2">{{ reviews?.review }}</p>
+              <p class="text-japaneseIndigo text-sm font-normal leading-6">{{ reviews?.review }}</p>
             </div>
           </div>
           <div class="w-full py-2.5 addsBox">
             <img src="/assets/images/banner-ads.png" alt="ring-ad" class="w-full object-cover" />
           </div>
         </div>
+        <div class="w-full lg:w-4/12 p-4"></div>
       </div>
       <!-- Deposit-Teb-Content   -->
       <div class="w-full space-y-7 tab-main" [class]="deposit ? 'active' : ''">

@@ -158,7 +158,21 @@ export class EventComponent implements OnInit {
 
   gotoEventOverview(event: any, eventObj: any): void {
     event.stopPropagation();
+    console.log(eventObj.id);
     this._router.navigate(['/events/' + eventObj.id]);
   }
+  gotoPromotion(){
+    this._router.navigate(['/notifications']);
+  }
+  gotoDiscount(event: any, eventId: any): void{
+    event.stopPropagation();
+    localStorage.setItem('eId', eventId);
+    this._router.navigate(['/events/create/discount']);
+  }
+  // editEvent(event: any, eventId: any): void {
+  //   event.stopPropagation();
+  //   localStorage.setItem('eId', eventId);
+  //   this._router.navigate(['/events/create/add-event']);
+  // }
 
 }

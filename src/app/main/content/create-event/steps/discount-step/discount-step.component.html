@@ -43,7 +43,7 @@
 
 <modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="discountDialog"
        [title]="(tmpDiscountObj.discounttype == 'discount_on_total_bill') ? 'Discount On Total Bill' : ((tmpDiscountObj.discounttype == 'discount_on_equipment_or_item') ? 'Discount On Equipment Or Item' : 'Advance And Discount Confirmation')" maxWidth="lg:max-w-3xl" *ngIf="discountForm">
-  <div class="pt-6 space-y-5">
+  <div class=" space-y-5">
     <form class="flex flex-wrap" [formGroup]="discountForm">
       <div class="w-full lg:w-1/2 inputHolder px-2.5" *ngIf="tmpDiscountObj.discounttype == 'discount_on_equipment_or_item'">
         <label class="input-titel">Equipment Or Item</label>
@@ -57,10 +57,10 @@
         <p-inputNumber class="input option w-full" type="text" [formControlName]="'discount'" suffix="%" [min]="0" [max]="100"></p-inputNumber>
       </div>
     </form>
-    <ul class="space-y-2.5">
+    <!-- <ul class="space-y-2.5">
       <li class="text-xs font-medium">* Terms & Conditions</li>
       <div class="text-10 leading-5 font-medium text-japaneseIndigo pl-3" [innerHTML]="tmpDiscountObj.tandc"></div>
-    </ul>
+    </ul> -->
     <div class="flex items-center space-x-5">
       <button class="secondary w-full py-2 anim" accesskey="alt+tab" (click)="closePop()">CANCEL</button>
       <button type="submit" class="primary w-full py-2 anim" (click)="updateDiscount()">APPLY</button>
