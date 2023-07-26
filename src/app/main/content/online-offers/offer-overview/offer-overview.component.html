@@ -115,14 +115,14 @@
             <div class="p-3 lg:p-7 bg-white rounded-md space-y-1" [innerHtml]="offerObj?.tandc?.t_and_c"></div>
           </div>
           <!-- Social-Media -->
-          <div class="w-full space-y-3" *ngIf="offerObj?.tandc?.facebook && offerObj?.tandc?.facebook != '' ||
+          <div class="w-full  space-y-3" *ngIf="offerObj?.tandc?.facebook && offerObj?.tandc?.facebook != '' ||
                 offerObj?.tandc?.twitter && offerObj?.tandc?.twitter != '' ||
                 offerObj?.tandc?.youtube && offerObj?.tandc?.youtube != '' ||
                 offerObj?.tandc?.pinterest && offerObj?.tandc?.pinterest != '' ||
                 offerObj?.tandc?.instagram && offerObj?.tandc?.instagram != '' ||
                 offerObj?.tandc?.linkedin && offerObj?.tandc?.linkedin != ''">
             <span class="block text-base lg:text-xl font-bold">Social Media</span>
-            <div class="flex items-center space-x-5 p-5 lg:p-7 bg-white rounded-lg">
+            <div class="flex items-center space-x-5 p-5 lg:p-7  rounded-lg">
               <a *ngIf="offerObj?.tandc?.facebook != ''" [href]="offerObj?.tandc?.facebook" target="_blank">
                 <img class="w-10 h-10 object-cover" alt="facebook" src="../assets/images/facebook.png" />
               </a>

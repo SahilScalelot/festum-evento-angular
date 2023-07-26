@@ -60,7 +60,7 @@
       <div class="relative tab-main" [class]="!reviews ? 'active' : ''" *ngIf="!reviews">
         <div class="flex flex-wrap">
           <!-- left-bar -->
-          <div class="w-full lg:w-8/12 lg:pr-3 xl:pr-5 space-y-7">
+          <div class="w-full lg:w-8/12 lg:pr-3 xl:pr-5 space-y-3">
             <!-- About Shop  -->
             <div *ngIf="shopObj?.about_shop" class="p-7 bg-white rounded-md space-y-1">
               <h3 class="text-lg">About Shop</h3>
@@ -68,7 +68,7 @@
               <!-- <p class="text-quicksilver text-sm font-normal">{{shopObj.about_shop}}</p> -->
             </div>
             <!-- Rainy season sale -->
-            <div class="space-y-2.5">
+            <div class="space-y-5">
               <div class="w-full p-2.5 bg-white rounded cursor-pointer" *ngFor="let offer of shopOffer" (click)="gotoShopOfferOverview($event, shopId, offer)">
                 <div class="flex flex-wrap items-center lg:flex-nowrap">
                   <div class="relative w-full lg:max-w-[200px] h-full xl:max-h-32 overflow-hidden">
@@ -149,7 +149,7 @@
             </div>
           </div>
           <!-- right-bar  -->
-          <div class="w-full lg:w-4/12 lg:pl-3 xl:pl-5 space-y-7 sticky top-0 mt-7 lg:mt-0">
+          <div class="w-full lg:w-4/12 lg:pl-3 xl:pl-5 space-y-3 sticky top-0 mt-7 lg:mt-0">
             <!-- map-content  -->
             <div class="w-full p-2.5 bg-white rounded-md">
               <div class="relative">

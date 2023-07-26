@@ -9,15 +9,15 @@
   </div>
 
   <div class="space-y-5 pt-10">
-    <div class="space-y-5" *ngIf="!isLoading">
+    <div class="space-y-2.5" *ngIf="!isLoading">
       <div class="w-full flex items-center cursor-pointer" *ngFor="let liveStream of liveStreamObj" (click)="liveStreamOverview($event, liveStream?._id)">
-        <div class="w-full p-4 pr-7 bg-white rounded">
+        <div class="w-full  pr-7 bg-white rounded">
           <div class="flex flex-wrap lg:flex-nowrap lg:space-x-5">
             <div class="relative w-full lg:max-w-[335px] overflow-hidden rounded">
               <span class="absolute py-1.5 px-3 top-0 left-0 bg-magicPotion text-white uppercase rounded text-xs" [ngClass]="{'hidden': !liveStream?.status}">Live</span>
               <img [src]="!!(liveStream?.banner) ? constants.baseImageURL + liveStream.banner : constants.defaultImage" [alt]="liveStream?.event_name" class="w-full h-full object-cover pb-5 lg:pb-0 lg:absolute" />
             </div>
-            <div class="w-full pt-5 lg:pt-0">
+            <div class="w-full pt-5 lg:p-4">
               <div class="flex justify-between border-b-2 pb-4">
                 <div class="">
                   <div class="flex items-center space-x-2 lg:space-x-4">
