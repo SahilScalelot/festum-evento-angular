@@ -537,6 +537,8 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
     if (this.tandcForm.value && this.tandcForm.value.status == false) {
       this.tandcForm.get('status').setValue(false);
       this._modalService.open("tandc");
+    }else{
+      this._modalService.open("tandc");
     }
   }
 

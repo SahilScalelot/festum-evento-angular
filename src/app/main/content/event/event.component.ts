@@ -158,7 +158,7 @@ export class EventComponent implements OnInit {
 
   gotoEventOverview(event: any, eventObj: any): void {
     event.stopPropagation();
-    console.log(eventObj.id);
+    // console.log(eventObj.id);
     this._router.navigate(['/events/' + eventObj.id]);
   }
   gotoPromotion(){

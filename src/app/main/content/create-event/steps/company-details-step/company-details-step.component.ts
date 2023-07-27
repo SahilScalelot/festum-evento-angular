@@ -64,7 +64,7 @@ export class CompanyDetailsStepComponent implements OnInit {
   photosUploadLimit: number = 5;
   rejectedPhotosList: any;
   imagesFiles: File[] = [];
-  videosUploadLimit: number = 1;
+  videosUploadLimit: number = 2;
   rejectedVideosList: any;
   videosFiles: File[] = [];
   isHideDiscountitem: any = false;
@@ -312,6 +312,7 @@ export class CompanyDetailsStepComponent implements OnInit {
         videoFormData.append('file', video);
         this.isVideoLoading = true;
         responseObj.push(this._createEventService.uploadVideos(videoFormData));
+        console.log(videoFormData);
       }
     });
 

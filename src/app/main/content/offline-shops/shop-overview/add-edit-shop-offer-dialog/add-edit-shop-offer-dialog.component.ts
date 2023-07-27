@@ -555,6 +555,8 @@ export class AddEditShopOfferDialogComponent implements OnInit {
     if (this.addEditOfferForm.value && this.addEditOfferForm.value.status == false) {
       this.addEditOfferForm.get('status').setValue(false);
       this._modalService.open("tandc");
+    }else{
+      this._modalService.open("tandc");
     }
   }
 
