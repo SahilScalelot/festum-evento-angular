@@ -25,7 +25,7 @@
                 <img [src]="!!(event?.banner) ? constants.baseImageURL + event.banner : constants.defaultImage" alt="{{event?.name}}" class="w-full h-full object-cover"/>
                 <div class="space-x-2 flex items-center absolute top-2 left-0">
                   
-                  <span class="text-base text-white font-bold px-2 py-1 bg-magicPotion uppercase">{{constants?.eventTypeArr[constants?.eventTypeObj[event?.event_type]]?.displayLabel}}</span>       
+                  <span class="text-base text-white font-bold px-2 py-1 bg-magicPotion uppercase">{{(event?.event_category?.categoryname) ? event?.event_category?.categoryname : event?.other }}</span>       
                 </div>
 
 

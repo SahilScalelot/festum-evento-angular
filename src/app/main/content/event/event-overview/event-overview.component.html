@@ -424,7 +424,7 @@
                 event?.tandc?.linkedin && event?.tandc?.linkedin != ''"
               >
               <span class="block text-base lg:text-xl font-bold">Social Media</span>
-              <div class="flex items-center space-x-5 p-5 lg:p-7 bg-white rounded-lg">
+              <div class="flex items-center space-x-5 p-5 lg:p-7  rounded-lg">
                 <a *ngIf="event?.tandc?.facebook != ''" [href]="event?.tandc?.facebook" target="_blank">
                 <img class="w-10 h-10 object-cover" alt="facebook" src="../assets/images/facebook.png" />
                 </a>
@@ -550,7 +550,7 @@
         </div>
       </div>
       <!-- Reviews-Teb-Content   -->
-      <div class="flex flex-wrap -mx-4 tab-main" [class]="reviews ? 'active' : ''">
+      <div *ngIf="reviews" class="flex flex-wrap -mx-4 tab-main" [class]="reviews ? 'active' : ''">
         <div class="w-full lg:w-8/12 p-4">
           <div *ngFor="let reviews of event?.reviews" class="flex justify-between p-5 bg-white rounded-md">
             <div class="">

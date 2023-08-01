@@ -294,6 +294,7 @@ export class ArrangementDialogComponent implements OnInit {
           ((this.editArrangementObj.seating_item._id) ? this.editArrangementObj.seating_item._id : this.editArrangementObj.seating_item) : null, disabled: (this.editArrangementObj && this.editArrangementObj.seating_item)
       }, [Validators.required]],
       arrangements: this._formBuilder.array([]),
+      food_included_in_ticket_price:[(!!(this.editArrangementObj && this.editArrangementObj.equipment)), [Validators.required]],
       food: [this.editArrangementObj?.food || 'VEG', [Validators.required]],
       food_details:[{
         url:"ihoiaff",
