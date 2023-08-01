@@ -129,6 +129,7 @@ export class ArrangementStepComponent implements OnInit {
   onNextStep(): void {
     this.isLoading = true;
     const preparedObj: any = this.prepareObj(this.arrangementsArr);
+    console.log(this.arrangementsArr);
     this._createEventService.arrangements(preparedObj).subscribe((result: any) => {
       if (result && result.IsSuccess) {
         this.isLoading = false;

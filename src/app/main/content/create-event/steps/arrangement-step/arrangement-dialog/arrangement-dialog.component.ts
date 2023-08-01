@@ -52,7 +52,6 @@ export class ArrangementDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log("nik");
     this.isInitial = true;
     this._prepareArrangementForm();
     this.prepareSeatingItems();
@@ -296,6 +295,10 @@ export class ArrangementDialogComponent implements OnInit {
       }, [Validators.required]],
       arrangements: this._formBuilder.array([]),
       food: [this.editArrangementObj?.food || 'VEG', [Validators.required]],
+      food_details:[{
+        url:"ihoiaff",
+        description:"kwadi khdw qwkdKD"
+      }],
       food_description: [this.editArrangementObj?.food_description || ''],
       equipment: [(!!(this.editArrangementObj && this.editArrangementObj.equipment)), [Validators.required]],
       equipment_description: [this.editArrangementObj?.equipment_description || null],
@@ -306,6 +309,7 @@ export class ArrangementDialogComponent implements OnInit {
       _.each(this.editArrangementObj.arrangements, (arrangement: any) => {
         // console.log(arrangement);
         this.addArrangements(arrangement);
+        // console.log("mohan",arrangement);
       });
     } else {
       this.addArrangements();
