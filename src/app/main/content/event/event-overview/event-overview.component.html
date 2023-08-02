@@ -104,12 +104,16 @@
         <div class="flex flex-wrap">
           <!-- Overview left-bar -->
           <div class="w-full lg:w-8/12 lg:pr-5 space-y-7" *ngIf="overview">
-            <div class="p-7 bg-white rounded-md space-y-1" *ngIf="event?.about?.about_event != ''">
+            <div  class="p-7 bg-white rounded-md space-y-1" *ngIf="event?.about?.about_event != ''">
               <h5>About Event</h5>
-              <div [innerHtml]="event?.about?.about_event"></div>
+              <div class="w-full flex flex-col">
+                <div [innerHtml]="(aboutevent) ? event?.about?.about_event : event?.about?.about_event | slice:0:180"></div>
+                <a href="javascript:;" *ngIf="!aboutevent && event?.about?.about_event.length > 180" (click)="aboutevent=true" class="text-magicPotion text-sm font-semibold ml-auto">...Read More</a>
+              </div>
             </div>
             <!-- Photo-holder -->
             <div *ngIf="event?.photos?.length" class="media-upload-holder">
+
               <!-- media title  -->
               <div class="flex justify-between items-center">
                 <h3 class="text-lg">Photo</h3>
@@ -363,8 +367,11 @@
               <h5 class="text-lg font-bold">Company Details</h5>
               <div class="p-7 bg-white rounded-md space-y-1">
                 <span class="block text-base lg:text-lg font-bold">{{ event?.companydetail?.name }}</span>
-                <div [innerHtml]="event?.companydetail?.about"></div>
-                <!-- <p class="text-quicksilver text-sm leading-6 font-normal">{{ event.companydetail.about }}</p> -->
+                <div class="w-full flex flex-col">
+                  <div [innerHtml]="(showMore) ? event?.companydetail?.about : event?.companydetail?.about | slice:0:180"></div>
+                  <a href="javascript:;" *ngIf="!showMore && event?.companydetail?.about.length > 180"(click)="showMore=true" class="text-magicPotion text-sm font-semibold ml-auto">...Read More</a>
+                  <!-- <p class="text-quicksilver text-sm leading-6 font-normal">{{ event.companydetail.about }}</p> -->
+                </div>
               </div>
             </div>
             <!-- Photo-holder -->

@@ -26,6 +26,7 @@ export class EventOverviewComponent implements OnInit {
   imagesOrVideosArr: Array<any> = [];
   attendees: Array<any> = [];
   cancelEventPop: boolean = false;
+  tempEventData:any;
 
   isDeleteLoading: boolean = false;
   panelOpenState: boolean = false;
@@ -34,6 +35,9 @@ export class EventOverviewComponent implements OnInit {
   attendee: boolean = false;
   reviews: boolean = false;
   deposit: boolean = false;
+  showMore: boolean = false;
+  aboutevent: boolean = false;
+  tandcShow: boolean = false;
 
   zoom: number = CONSTANTS.defaultMapZoom;
   // initial center position for the map

@@ -23,9 +23,9 @@
             <div class="flex flex-wrap xl:flex-nowrap xl:space-x-5">
               <div class="relative w-full lg:max-w-[288px]">
                 <img [src]="!!(event?.banner) ? constants.baseImageURL + event.banner : constants.defaultImage" alt="{{event?.name}}" class="w-full h-full object-cover"/>
-                <div class="space-x-2 flex items-center absolute top-2 left-0">
+                <div class="space-x-2 flex items-center justify-center absolute top-0 left-0  w-full lg:max-w-[200px] bg-magicPotion">
                   
-                  <span class="text-base text-white font-bold px-2 py-1 bg-magicPotion uppercase">{{(event?.event_category?.categoryname) ? event?.event_category?.categoryname : event?.other }}</span>       
+                  <span class="text-xs text-white font-bold px-2 py-1 ">{{(event?.event_category?.categoryname) ? event?.event_category?.categoryname : event?.other }}</span>       
                 </div>
 
 
