@@ -5,12 +5,13 @@
     <span class="text-sm text-quicksilver font-semibold">Add Poster <span class="font-normal">(Max size 10MB)</span></span>
     <label class="upload upload-popup p-0 relative group" id="posterUpload">
       <input #poster (change)="onPosterChange($event)" accept="image/png, image/jpeg, image/gif" class="poster hidden" id="poster" type="file" />
-<!--      <img *ngIf="posterImageAndVideoObj.banner" [src]="!!(posterImageAndVideoObj?.banner) ? constants.baseImageURL + posterImageAndVideoObj.banner : constants.defaultImage" class="absolute inset-0 w-full h-full object-cover z-10 group-hover:-z-10"/>-->
+  <!--      <img *ngIf="posterImageAndVideoObj.banner" [src]="!!(posterImageAndVideoObj?.banner) ? constants.baseImageURL + posterImageAndVideoObj.banner : constants.defaultImage" class="absolute inset-0 w-full h-full object-cover z-10 group-hover:-z-10"/>-->
     </label>
   </div>
   <div class="media-upload-holder pt-5">
     <div class="flex items-center justify-between">
       <span class="text-sm text-quicksilver font-semibold">Add Photos <span class="font-normal">(15 Images - up to 7MB/Image)</span></span>
+      <!-- view all -->
       <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(posterImageAndVideoObj.photos, true, false)">View All</a>
     </div>
     <div class="flex flex-wrap h-full pt-2">

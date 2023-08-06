@@ -239,6 +239,7 @@ export class PhotosVideosStepComponent implements OnInit {
     if (this.descriptionLimit > CONSTANTS.CKEditorCharacterLimit0) {
       return false;
     }
+    
 
     const responseObj: Observable<any>[] = [];
     this.imagesFiles.forEach((image: any) => {
@@ -435,6 +436,8 @@ export class PhotosVideosStepComponent implements OnInit {
     this.isLoading = true;
     this._createEventService.photosAndVideo(this.posterImageAndVideoObj).subscribe((result: any) => {
       if (result && result.IsSuccess) {
+        console.log(result);
+        
         this.isLoading = false;
         this._router.navigate(['/events/create/permission']);
       } else {

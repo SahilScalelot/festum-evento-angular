@@ -235,7 +235,7 @@ export class CompanyDetailsStepComponent implements OnInit {
         }
 
         if (this.photoArr && this.photoArr.length && this.photoArr.length >= this.photosUploadLimit) {
-          this._sNotify.error('Maximum 15 images can upload!', 'Oops!');
+          this._sNotify.error('Maximum 5 images can upload!', 'Oops!');
           this._modalService.close("photo");
           return;
         }

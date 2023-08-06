@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output,ViewChild } from '@angular/core';
 import { CONSTANTS } from 'src/app/main/common/constants';
 import { FormArray, FormBuilder, Validators } from "@angular/forms";
 import * as _ from 'lodash';
@@ -7,6 +7,9 @@ import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
 import { SnotifyService } from "ng-snotify";
 import { GlobalFunctions } from 'src/app/main/common/global-functions';
 import { CreateEventService } from '../../../create-event.service';
+import { ModalService } from 'src/app/main/_modal';
+
+import { forkJoin, merge, Observable, take } from 'rxjs';
 
 @Component({
   selector: 'app-arrangement-dialog',
@@ -14,6 +17,8 @@ import { CreateEventService } from '../../../create-event.service';
   styleUrls: ['./arrangement-dialog.component.scss']
 })
 export class ArrangementDialogComponent implements OnInit {
+  @ViewChild('photosNgForm') photosNgForm: any;
+
   constants: any = CONSTANTS;
   seatingForm: any;
   seatingLocationIcon: any;
@@ -24,8 +29,12 @@ export class ArrangementDialogComponent implements OnInit {
   isLoading: boolean = false;
   eventId: any;
   addEditEvent: any;
-
-
+  food_included_in_ticket_price: any ;
+  tempFoodNotIncluded:boolean=true;
+  nik:any;
+  nik1:any;
+  tempFoodSec:any;
+  tempFoodSecNum:any;
   
   detailEditor = DecoupledEditor;
   editorConfig: any = {};
@@ -34,6 +43,34 @@ export class ArrangementDialogComponent implements OnInit {
   textEditorMaxLimit: any = this.constants.CKEditorCharacterLimit0;
   textEditorLimitFood: any = this.textEditorMaxLimit;
   textEditorLimitEquipment: any = this.textEditorMaxLimit;
+
+  // Photo Upload
+  photoForm:any=[];
+  deleteItemObj: any = {};
+  isDeleteLoading: boolean = false;
+  
+  isPhotoLoading: boolean = false;
+
+  inputText: any;
+  drEvent: any;
+  rejectedPhotosList: any;
+  imagesFiles: File[] = [];
+  videosUploadLimit: number = 2;
+  rejectedVideosList: any;
+  videosFiles: File[] = [];
+  descriptionLimit: any = 0;
+
+  posterImageAndVideoObj: any = {};
+  
+  photosUploadLimit: number = 5;
+
+  isOpenPopup: boolean = false;
+  isSingleVideo: boolean = false;
+  companyIAndV: boolean = false;
+  isImage: boolean = false;
+  imagesOrVideosArr: Array<any> = [];
+  tempImgArr:any [] = [];
+  niki:any[] = [];
 
   @Input() arrangementsArr: any = {};
   @Input() popClass: any;
@@ -47,18 +84,214 @@ export class ArrangementDialogComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private _sNotify: SnotifyService,
     private _globalFunctions: GlobalFunctions,
+    private _modalService: ModalService,
   ) {
     
   }
 
   ngOnInit(): void {
+    console.log("arr",this.arrangementsArr.food_details);
+    
     this.isInitial = true;
     this._prepareArrangementForm();
     this.prepareSeatingItems();
     if (this.editArrangementObj && this.editArrangementObj.seating_item) {
       this.selectedSeatingObj = this.editArrangementObj.seating_item;
     }
+    if(this.editArrangementObj.food_included_in_ticket_price == true){
+      this.btnclick(1);
+    }else if(this.editArrangementObj.food_included_in_ticket_price == false){
+      this.btnclick(2);
+    }
+
+    if (localStorage.getItem('eId')) {
+      this.eventId = localStorage.getItem('eId');
+      this.posterImageAndVideoObj = { eventid: this.eventId, photos: []}
+      
+      this.getArrangements();
+    } else {
+      // this._router.navigate(['/events']);
+    }
+
+    this.photoForm = this._formBuilder.group({
+      image: [null],
+      imageName: [''],
+      description: [null]
+    });
   }
+
+  
+  validateTextEditor(): void {
+    if (this.textEditorLimitFood && this.textEditorMaxLimit && this.textEditorLimitFood > this.textEditorMaxLimit) {
+      return;
+    }
+
+    //  this.seatingForm.controls.food_details.value
+    
+    this.seatingForm.controls.food_details.value=this.posterImageAndVideoObj.photos;
+
+    
+    this.selectedTab = 2;
+  }
+
+  getArrangements(): void {
+    this.isLoading = true;
+    this._createEventService.getArrangements(this.eventId).subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        console.log("result",result?.Data.seating_arrangements[0].food_details);
+        _.each(result?.Data.seating_arrangements[0].food_details, (result)=>{
+          this.tempImgArr.push(result);
+        })
+        
+        // this.posterImageAndVideoObj.photos = result?.Data?.photos || [];
+        
+        this.isLoading = false;
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+        this.isLoading = false;
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isLoading = false;
+    });
+  }
+
+  btnclick(params:number){
+    this.tempFoodSecNum=params;
+    if(this.tempFoodSecNum == 1){
+      this.tempFoodSec = false;
+    } else if(this.tempFoodSecNum == 2){
+      this.tempFoodSec = true;
+    }
+  }
+
+  openImageAndVideoDialog(imagesOrVideosArr: Array<any>, isImage: boolean, companyIAndV: boolean): void {
+    this.imagesOrVideosArr = imagesOrVideosArr;
+    this.isImage = isImage;
+    this.companyIAndV = companyIAndV;
+    // this.isSingleVideo = isSingleVideo;
+    this.isOpenPopup = true;
+  }
+
+  openUploadPhotoDialog(): void {
+    this.descriptionLimit = 0;
+    this.photosNgForm.resetForm();
+    if (this.posterImageAndVideoObj.photos && this.posterImageAndVideoObj.photos.length && this.posterImageAndVideoObj.photos.length >= this.photosUploadLimit) {
+      this._sNotify.error('Maximum 15 images can upload!', 'Oops!');
+    } else {
+      this._modalService.open('photo');
+    }
+  }
+
+  // removeImage(index: number) {
+  //   this.deleteItemObj = { index: index, type: 'photo' };
+  //   this._modalService.open("delete-event-pop");
+  // }
+
+  removeImage(index: number) {
+    // this.photoArr.splice(index, 1);
+    // this.allPhotosFilesArr.splice(index, 1);
+    this.deleteItemObj = { index: index, type: 'photo' };
+    this._modalService.open("remove-image-pop");
+  }
+
+  close(): void {
+    this.deleteItemObj = {};
+    this._modalService.close("delete-event-pop");
+    console.log(179);
+    
+  }
+
+  deleteEvent(): void {
+    console.log(182);
+    this.isDeleteLoading = true;
+    this.posterImageAndVideoObj[this.deleteItemObj.type + 's'].splice(this.deleteItemObj.index, 1);
+    console.log(this.posterImageAndVideoObj);
+    
+    this.isDeleteLoading = false;
+    this.close();
+  }
+
+  onSelectImages(event: any) {
+    const totalPhotos = this.photosUploadLimit - ((this.posterImageAndVideoObj?.photos?.length || 0) + (event?.addedFiles?.length || 0) + (this.imagesFiles?.length || 0));
+    if ((totalPhotos >= 0) && (totalPhotos <= this.photosUploadLimit)) {
+      
+      this.imagesFiles.push(...event.addedFiles);
+      
+      this.rejectedPhotosList = event?.rejectedFiles;
+    } else {
+      this._sNotify.warning('You have exceeded the maximum photos limit!', 'Oops..');
+    }
+  }
+
+  // Images Upload
+  uploadImage(): any {
+    
+    if (this.descriptionLimit > CONSTANTS.CKEditorCharacterLimit0) {
+      
+      return false;
+
+      
+    }
+    
+    const responseObj: Observable<any>[] = [];
+    this.imagesFiles.forEach((image: any) => {
+      if (image != undefined) {
+        if (image.type != 'image/jpeg' && image.type != 'image/jpg' && image.type != 'image/png' && image.type != 'image/gif' && image.type != 'image/avif' && image.type != 'image/raw') {
+          this._sNotify.error('Images type should only jpeg, jpg, png, gif, avif and raw.', 'Oops!');
+          return;
+        }
+        
+        const image_size = image.size / 1024 / 1024;
+        if (image_size > CONSTANTS.maxImageSizeInMB) {
+          this._sNotify.error('Maximum Image Size is ' + CONSTANTS.maxImageSizeInMB + 'MB.', 'Oops!');
+          return;
+        }
+        
+        if (this.posterImageAndVideoObj.photos && this.posterImageAndVideoObj.photos.length && this.posterImageAndVideoObj.photos.length >= this.photosUploadLimit) {
+          this._sNotify.error('Maximum 15 images can upload!', 'Oops!');
+          this._modalService.close("photo");
+          return;
+        }
+        
+        const photoFormData = new FormData();
+        photoFormData.append('file', image);
+        this.isPhotoLoading = true;
+        responseObj.push(this._createEventService.uploadImages(photoFormData));
+        }
+    });
+
+    forkJoin(...responseObj).subscribe((resultArr: any) => {
+      
+      
+      _.each(resultArr, (result: any) => {
+        if (result && result.IsSuccess) {
+          
+          this.posterImageAndVideoObj.photos.push({ url: result.Data.url, description: this.photoForm.value?.description });
+
+          
+          this.photoForm.get('description').setValue('');
+          this._sNotify.success('Image Uploaded Successfully.', 'Success');
+          this.imagesFiles = [];
+          this.isPhotoLoading = false;
+          // this.inputText = '';
+          this.descriptionLimit = 0;
+          this._modalService.close('photo');
+        } else {
+          this._globalFunctions.successErrorHandling(result, this, true);
+          this.isPhotoLoading = false;
+        }
+      });
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isPhotoLoading = false;
+    });
+  }
+
+  onRemoveImages(event: any) {
+    this.imagesFiles.splice(this.imagesFiles.indexOf(event), 1);
+  }
+
   onTextEditorReady(editor: any, fieldForSetData: any): void {
     editor.ui.getEditableElement().parentElement.insertBefore(
       editor.ui.view.toolbar.element,
@@ -69,49 +302,37 @@ export class ArrangementDialogComponent implements OnInit {
   get arrangements() {
     return this.seatingForm.get('arrangements');
   }
-
-  seattyp: any = [{seat:"VVIP"},{seat:"VIP"},{seat:"Platinum"},{seat:"Gold"},{seat:"Silver"}];
   
-  // getEvent(eventId: any): any {
-  //   this.isLoading = true;
-  //   this._createEventService.getEvent(eventId).subscribe((result: any) => {
-  //     if (result && result.IsSuccess) {
-  //       this.addEditEvent = result.Data;
-  //       this.isLoading = false;
-  //     } else {
-  //       this._globalFunctions.successErrorHandling(result, this, true);
-  //       this.isLoading = false;
-  //     }
-  //   }, (error: any) => {
-  //     this._globalFunctions.errorHanding(error, this, true);
-  //     this.isLoading = false;
-  //   });
-  // }
-
   addArrangements(tempArrangementObj: any = {}): void {
-    // this.eventId = localStorage.getItem('eId');
-    // this.getEvent(this.eventId);
-    const arrangementsObj = this._formBuilder.group({
-      number_of_seating_item: [tempArrangementObj?.number_of_seating_item || '', [Validators.required]],
-      vertical_location: [tempArrangementObj?.vertical_location || this.constants.verticalLocationsArr[this.constants.verticalLocationsObj.NONE].value, [Validators.required]],
-      horizontal_location: [tempArrangementObj?.horizontal_location || this.constants.horizontalLocationsArr[this.constants.horizontalLocationsObj.NONE].value, [Validators.required]],
+    this.eventId = localStorage.getItem('eId');
 
-      seat_type: [tempArrangementObj?.seat_type || this.constants.seatArr[this.constants.seatObj.NONE].value, [Validators.required]],
-
-      per_seating_person: [tempArrangementObj?.per_seating_person || ''],
-      total_person: [tempArrangementObj?.total_person || '', [Validators.required]],
-
-      per_seating_price: [{value: (tempArrangementObj.event_financial_type && tempArrangementObj.event_financial_type == 'free') ? 0 : (tempArrangementObj?.per_seating_price || ''), disabled: !(!tempArrangementObj.event_financial_type || tempArrangementObj.event_financial_type == 'paid')}],
-      
-      per_person_price: [{value: (tempArrangementObj.event_financial_type && tempArrangementObj.event_financial_type == 'free') ? 0 : (tempArrangementObj?.per_person_price || ''), disabled: !(!tempArrangementObj.event_financial_type || tempArrangementObj.event_financial_type == 'paid')}, [Validators.required]],
-
-      total_amount: [tempArrangementObj?.total_amount || '', [Validators.required]],
-
-      description: [tempArrangementObj?.description || ''],
-      booking_acceptance: [tempArrangementObj?.booking_acceptance || false],
+    this._createEventService.getEvent(this.eventId).subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        this.addEditEvent = result.Data.event_financial_type;
+        this.isLoading = false;
+          const arrangementsObj = this._formBuilder.group({
+            number_of_seating_item: [tempArrangementObj?.number_of_seating_item || '', [Validators.required]],
+            vertical_location: [tempArrangementObj?.vertical_location || this.constants.verticalLocationsArr[this.constants.verticalLocationsObj.NONE].value, [Validators.required]],
+            horizontal_location: [tempArrangementObj?.horizontal_location || this.constants.horizontalLocationsArr[this.constants.horizontalLocationsObj.NONE].value, [Validators.required]],
+            seat_type: [tempArrangementObj?.seat_type || this.constants.seatArr[this.constants.seatObj.NONE].value, [Validators.required]],
+            per_seating_person: [tempArrangementObj?.per_seating_person || ''],
+            total_person: [tempArrangementObj?.total_person || '', [Validators.required]],
+            per_seating_price: [{value: (this.addEditEvent && this.addEditEvent == 'free') ? 0 : (tempArrangementObj?.per_seating_price || ''), disabled: !(!this.addEditEvent || this.addEditEvent == 'paid')}],
+            per_person_price: [{value: (this.addEditEvent && this.addEditEvent == 'free') ? 0 : (tempArrangementObj?.per_person_price || ''), disabled: !(!this.addEditEvent || this.addEditEvent == 'paid')}, [Validators.required]],
+            total_amount: [{value: (this.addEditEvent && this.addEditEvent == 'free') ? 0 : (tempArrangementObj?.total_amount || ''), disabled: !(!this.addEditEvent || this.addEditEvent == 'paid')}, [Validators.required]],
+            description: [tempArrangementObj?.description || ''],
+            booking_acceptance: [tempArrangementObj?.booking_acceptance || false],
+          });
+        this.arrangements.push(arrangementsObj);
+        this.updateCalculatedValue();
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+        this.isLoading = false;
+      }
+      }, (error: any) => {
+        this._globalFunctions.errorHanding(error, this, true);
+        this.isLoading = false;
     });
-    this.arrangements.push(arrangementsObj);
-    this.updateCalculatedValue();
   }
 
   removeArrangement(index: any): void {
@@ -125,12 +346,6 @@ export class ArrangementDialogComponent implements OnInit {
     }
   }
 
-  validateTextEditor(): void {
-    if (this.textEditorLimitFood && this.textEditorMaxLimit && this.textEditorLimitFood > this.textEditorMaxLimit) {
-      return;
-    }
-    this.selectedTab = 2;
-  }
 
   updateCalculatedValue(): void {
     this.totalArrangementsObj = {
@@ -143,7 +358,6 @@ export class ArrangementDialogComponent implements OnInit {
       total_booked: 0
     };
     _.each(this.arrangements.value, (arrangement: any, index: number) => {
-      // console.log(arrangement);
       if (arrangement.number_of_seating_item && arrangement.per_seating_person) {
         this.arrangements.controls[index].get('total_person')?.setValue((arrangement.number_of_seating_item * arrangement.per_seating_person));
         this.arrangements.controls[index].get('per_person_price')?.setValue(Number((arrangement.per_seating_price / arrangement.per_seating_person).toFixed(2)));
@@ -200,14 +414,12 @@ export class ArrangementDialogComponent implements OnInit {
         this.seatingForm.controls[key].touched = true;
         this.seatingForm.controls[key].markAsDirty();
       });
-
       // if (this.arrangements && this.arrangements.controls && this.arrangements.controls.length && this.arrangements.controls[key] && this.arrangements.controls[key].controls) {
       //   Object.keys(this.arrangements.controls[key].controls).forEach((subKey) => {
       //     this.arrangements.controls[key].controls[subKey].touched = true;
       //     this.arrangements.controls[key].controls[subKey].markAsDirty();
       //   });
       // }
-
       Object.keys(this.arrangements.controls).forEach((key) => {
         Object.keys(this.arrangements.controls[key].controls).forEach((subKey) => {
           this.arrangements.controls[key].controls[subKey].touched = true;
@@ -239,7 +451,6 @@ export class ArrangementDialogComponent implements OnInit {
     if (!this.arrangementsArr || !this.arrangementsArr.length) {
       this.arrangementsArr = [];
     }
-
     let preparedSeatingArr: any = this.arrangementsArr || [];
     if (this.editArrangementObj && this.editArrangementObj.seating_item) {
       preparedSeatingArr = [];
@@ -251,7 +462,6 @@ export class ArrangementDialogComponent implements OnInit {
     } else {
       preparedSeatingArr = this.arrangementsArr || [];
     }
-
     const seatingObj: any = this.seatingForm.value;
     seatingObj.totalCalculations = this.totalArrangementsObj;
     seatingObj.seating_item = (this.editArrangementObj && this.editArrangementObj.seating_item) ? this.editArrangementObj.seating_item : _.find(this.seatingItems, ['_id', seatingObj.seating_item]);
@@ -287,30 +497,45 @@ export class ArrangementDialogComponent implements OnInit {
   }
 
   private _prepareArrangementForm(): void {
-    // console.log("edit");
+    this.eventId = localStorage.getItem('eId');
+    this._createEventService.getEvent(this.eventId).subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        this.addEditEvent = result.Data.event_financial_type;
+        this.isLoading = false;
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+        this.isLoading = false;
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isLoading = false;
+    });
+    // const food_details = this.posterImageAndVideoOb
     this.seatingForm = this._formBuilder.group({
       seating_item: [{
         value: (this.editArrangementObj && this.editArrangementObj.seating_item) ?
           ((this.editArrangementObj.seating_item._id) ? this.editArrangementObj.seating_item._id : this.editArrangementObj.seating_item) : null, disabled: (this.editArrangementObj && this.editArrangementObj.seating_item)
       }, [Validators.required]],
       arrangements: this._formBuilder.array([]),
-      food_included_in_ticket_price:[(!!(this.editArrangementObj && this.editArrangementObj.equipment)), [Validators.required]],
+      food_included_in_ticket_price:[(!!(this.editArrangementObj && this.editArrangementObj?.food_included_in_ticket_price)), [Validators.required]],
       food: [this.editArrangementObj?.food || 'VEG', [Validators.required]],
-      food_details:[{
-        url:"ihoiaff",
-        description:"kwadi khdw qwkdKD"
-      }],
+      food_details:[this.posterImageAndVideoObj
+      ],
       food_description: [this.editArrangementObj?.food_description || ''],
-      equipment: [(!!(this.editArrangementObj && this.editArrangementObj.equipment)), [Validators.required]],
+      
+      equipment_included_in_ticket_price: [(!!(this.editArrangementObj && this.editArrangementObj.equipment_included_in_ticket_price)), [Validators.required]],
+      quipment_detail:[{
+        url:"",
+        description:""
+      }],
       equipment_description: [this.editArrangementObj?.equipment_description || null],
     });
-    // console.log("nik1");
+console.log("seat",this.seatingForm.value.food_details);
+
+ 
     if (this.editArrangementObj && this.editArrangementObj.arrangements) {
-      // console.log("nik1");
       _.each(this.editArrangementObj.arrangements, (arrangement: any) => {
-        // console.log(arrangement);
         this.addArrangements(arrangement);
-        // console.log("mohan",arrangement);
       });
     } else {
       this.addArrangements();

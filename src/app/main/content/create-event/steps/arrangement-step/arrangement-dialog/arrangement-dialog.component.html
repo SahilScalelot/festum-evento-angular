@@ -27,6 +27,7 @@
             </ul>
           </div>
 
+          
           <div class="overflow-x-auto max-w-[calc(100vw-128px)]">
             <div *ngIf="!selectedTab" class="space-y-4 px-2" id="stap-one">
               <div class="space-y-7">
@@ -319,43 +320,66 @@
             </div>
 
             <div *ngIf="selectedTab == 1" class="space-y-8 px-2" id="step-two">
-              <div>
-                <span class="input-titel">Select Food</span>
-                <div class="flex flex-wrap -mx-2">
-                  <div class="w-1/2 px-2 pt-2 xl:pt-0">
-                    <label class="bg-white py-4 px-5 h-full flex items-center rounded-md cursor-pointer"
-                           for="include-equipment">
-                      <div class="pr-3">
-                        <input checked="" class="w-6 h-6 rounded-full bg-brightGray appearance-none hidden"
-                               id="include-food" name="food_included_in_ticket_price" type="radio" [value]="false" [formControlName]="'food_included_in_ticket_price'">
-                        <div
-                            class="w-6 h-6 flex items-center justify-center rounded-full bg-brightGray overflow-hidden check-language">
-                          <i class="icon-right text-white text-[10px] scale-0 origin-center duration-300 transition-all"></i>
+              <div class="space-y-8 xl:space-y-10">
+                <div>
+                  <span class="input-titel">Select Food</span>
+                  <div class="flex flex-wrap -mx-2">
+                    <div class="w-1/2 px-2 pt-2 xl:pt-0" (click)="btnclick(1)">
+                      <label class="bg-white py-4 px-5 h-full flex items-center rounded-md cursor-pointer"
+                             for="include-food">
+                        <div class="pr-3">
+                          <input checked="" class="w-6 h-6 rounded-full bg-brightGray appearance-none hidden"
+                                 id="include-food" name="food_included_in_ticket_price" type="radio" [value]="true" [formControlName]="'food_included_in_ticket_price'">
+                          <div
+                              class="w-6 h-6 flex items-center justify-center rounded-full bg-brightGray overflow-hidden check-language">
+                            <i class="icon-right text-white text-[10px] scale-0 origin-center duration-300 transition-all"></i>
+                          </div>
                         </div>
-                      </div>
-                      <div class="w-full flex items-center justify-between">
-                        <span class="text-base font-bold text-black">Included Food in Ticket Price</span>
-                        <img alt="contruction" src="../../assets/images/contruction1.png">
-                      </div>
-                    </label>
-                  </div>
-                  <div class="w-1/2 px-2 pt-2 xl:pt-0">
-                    <label class="bg-white py-4 px-5 h-full flex items-center rounded-md cursor-pointer"
-                           for="notinclude">
-                      <div class="pr-3">
-                        <input class="w-6 h-6 rounded-full bg-brightGray appearance-none hidden" id="notinclude"
-                               name="food_included_in_ticket_price" type="radio" [value]="true" [formControlName]="'food_included_in_ticket_price'">
-                        <div
-                            class="w-6 h-6 flex items-center justify-center rounded-full bg-brightGray overflow-hidden check-language">
-                          <i class="icon-right text-white text-[10px] scale-0 origin-center duration-300 transition-all"></i>
+                        <div class="w-full flex items-center justify-between">
+                          <span class="text-base font-bold text-black">Included Food in Ticket Price</span>
+                          <img alt="contruction" src="../../assets/images/contruction1.png">
                         </div>
-                      </div>
-                      <div><span class="text-base font-bold text-black">Not Included Food in Ticket Price</span></div>
-                    </label>
+                      </label>
+                    </div>
+                    <div class="w-1/2 px-2 pt-2 xl:pt-0" (click)="btnclick(2)">
+                      <label class="bg-white py-4 px-5 h-full flex items-center rounded-md cursor-pointer"
+                             for="notinclude=food">
+                        <div class="pr-3">
+                          <input class="w-6 h-6 rounded-full bg-brightGray appearance-none hidden" id="notinclude=food"
+                                 name="food_included_in_ticket_price" type="radio" [value]="false" [formControlName]="'food_included_in_ticket_price'">
+                          <div
+                              class="w-6 h-6 flex items-center justify-center rounded-full bg-brightGray overflow-hidden check-language">
+                            <i class="icon-right text-white text-[10px] scale-0 origin-center duration-300 transition-all"></i>
+                          </div>
+                        </div>
+                        <div><span class="text-base font-bold text-black">Not Included Food in Ticket Price</span></div>
+                      </label>
+                    </div>
                   </div>
                 </div>
+              </div>  
+            </div>  
+            <div *ngIf="selectedTab == 1" class="media-upload-holder pt-5" id="stap-two">
+              <div class="flex items-center justify-between">
+                <span class="text-sm text-quicksilver font-semibold">Add Photos <span class="font-normal">(5 Images - up to 7MB/Image)</span></span>
+                <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(posterImageAndVideoObj.photos, true, false)">View All</a>
               </div>
-            </div>
+              <div class="flex flex-wrap h-full pt-2">
+                <div *ngFor="let photo of tempImgArr; let i = index" class="upload-box mr-2.5 mb-2.5">
+                  <div class="rounded relative overflow-hidden h-full w-full">
+                    <img [alt]="'add-photo-' + i" [src]="!!(photo?.url) ? constants.baseImageURL + photo.url : constants.defaultImage" *ngIf="photo.url" class="object-cover w-full h-full"/>
+                    <button (click)="removeImage(i)">Remove</button>
+                  </div>
+                </div>
+                <div (click)="openUploadPhotoDialog()" class="upload-holder" *ngIf="posterImageAndVideoObj?.food_detailsjk?.length < 5">
+                  <label class="upload-photo" for="event-upload1">
+                    <!-- <input type="file" id="photo" name="photo" (change)="onFileChange($event, 'photo')" id="event-upload1" class="appearance-none hidden" accept="image/png, image/jpeg, image/gif" /> -->
+                    <i class="icon-img_upload text-base text-quicksilver"></i>
+                    <div class="mt-1 flex items-baseline justify-center"><span class="input-titel pt-1">Add Photos</span></div>
+                  </label>
+                </div>
+              </div>
+            </div>  
 
             <div *ngIf="selectedTab == 1" class="space-y-8 px-2" id="stap-two">
               <div class="space-y-8">
@@ -408,7 +432,7 @@
                         </div>
                       </label>
                     </div>
-                    <div class="w-1/2 xl:w-1/4 px-2 pt-2 xl:pt-0">
+                    <div *ngIf="tempFoodSec" class="w-1/2 xl:w-1/4 px-2 pt-2 xl:pt-0">
                       <label class="bg-white h-full py-4 px-5 flex items-center rounded-md cursor-pointer" for="foodnotinclude">
                         <div class="pr-3">
                           <input class="w-6 h-6 rounded-full bg-brightGray appearance-none hidden" id="foodnotinclude" name="food" type="radio" [value]="'NONE'" [formControlName]="'food'">
@@ -470,7 +494,7 @@
                              for="include-equipment">
                         <div class="pr-3">
                           <input checked="" class="w-6 h-6 rounded-full bg-brightGray appearance-none hidden"
-                                 id="include-equipment" name="equipment" type="radio" [value]="false" [formControlName]="'equipment'">
+                                 id="include-equipment" name="equipment_included_in_ticket_price" type="radio" [value]="true" [formControlName]="'equipment_included_in_ticket_price'">
                           <div
                               class="w-6 h-6 flex items-center justify-center rounded-full bg-brightGray overflow-hidden check-language">
                             <i class="icon-right text-white text-[10px] scale-0 origin-center duration-300 transition-all"></i>
@@ -487,7 +511,7 @@
                              for="notinclude">
                         <div class="pr-3">
                           <input class="w-6 h-6 rounded-full bg-brightGray appearance-none hidden" id="notinclude"
-                                 name="equipment" type="radio" [value]="true" [formControlName]="'equipment'">
+                                 name="equipment_included_in_ticket_price" type="radio" [value]="false" [formControlName]="'equipment_included_in_ticket_price'">
                           <div
                               class="w-6 h-6 flex items-center justify-center rounded-full bg-brightGray overflow-hidden check-language">
                             <i class="icon-right text-white text-[10px] scale-0 origin-center duration-300 transition-all"></i>
@@ -537,7 +561,62 @@
             </div>
           </div>
         </form>
+       
       </div>
     </div>
   </div>
 </div>
+
+<!-- Photo -->
+<modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="photo" title="Upload Photo" *ngIf="photoForm">
+  <form #photosNgForm="ngForm" [formGroup]="photoForm" class="py-6 space-y-5">
+    <div class="upload-holder- w-full">
+      <h6 class="input-titel text-sm font-bold text-quicksilver flex items-center">Select Photo <p class="text-10 ml-2">15 Images (up to 7MB/Image)</p></h6>
+      <!--  {{(posterImageAndVideoObj?.photos?.length) ? (posterImageAndVideoObj?.photos?.length + '(Already Uploaded) - 15 =') : ''}} {{ 15 - (posterImageAndVideoObj?.photos?.length || 0)}} -->
+      <div class="block">
+        <ngx-dropzone #dropzonePhotos class="flex-wrap" (change)="onSelectImages($event)" [maxFileSize]="3145728" accept="image/jpeg,image/jpg,image/png,image/gif">
+          <ngx-dropzone-label>Drop images here</ngx-dropzone-label>
+          <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of imagesFiles" [file]="f" [removable]="true" (removed)="onRemoveImages(f)"></ngx-dropzone-image-preview>
+        </ngx-dropzone>
+      </div>
+
+      <div class="text-red-500 text-xs pt-1" *ngIf="rejectedPhotosList?.length">
+        Rejected Photos ( Because of Maximum Image Size is {{constants.maxImageSizeInMB}} MB. ) :-
+        <div>
+          <span *ngFor="let rpl of rejectedPhotosList">{{rpl?.name}}, </span>
+        </div>
+      </div>
+      <!-- <label class="upload upload-popup py-3" for="create-photo-upload">
+        <input accept="image/png, image/jpeg, image/gif" class="appearance-none hidden" id="create-photo-upload" name="images" type="file" (change)="readURL($event);" multiple />
+        <span class="input-titel flex justify-center items-center"><i class="icon-img_upload text-lg mr-2 leading-none"></i> {{inputText ? inputText : 'Choose Images'}}</span>
+      </label> -->
+    </div>
+    <div class="w-full">
+      <span class="input-titel">Details <i class="text-xs font-medium" [ngClass]="{'text-magicPotion' : (descriptionLimit > constants.CKEditorCharacterLimit0)}">( {{descriptionLimit}} characters out of {{constants.CKEditorCharacterLimit0}} )</i></span>
+      <textarea #imageDescription class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md" cols="30" rows="5" formControlName="description" (keyup)="descriptionLimit = imageDescription.value.length"></textarea>
+    </div>
+  </form>
+  <button (click)="uploadImage()" class="secondary w-full uppercase py-2 anim" [disabled]="isPhotoLoading">{{ isPhotoLoading ? 'Please wait...' : 'Submit' }}</button>
+</modal>
+
+
+<!-- Images and Video Delete conformation -->
+<modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="remove-image-pop" title="Are you sure?" [isCloseHidden]="true" [isTitleHidden]="true">
+  <div class="flex flex-wrap relative">
+    <div class="w-full pb-8">
+      <h3 class="w-full pb-2 normal-case">Delete {{deleteItemObj.type}}</h3>
+      <p class="normal-case">Are you sure you want to delete {{deleteItemObj.type}}</p>
+    </div>
+    <div class="flex items-center justify-end space-x-5 w-full">
+      <button type="button" class="primary py-2 px-14 anim uppercase" (click)="close()">Cancel</button>    
+      <div class="relative">
+        <button class="secondary py-2 px-14 anim uppercase" type="submit" (click)="deleteEvent()">
+          <span [ngClass]="{'opacity-0': isDeleteLoading}">Delete</span>
+        </button>
+        <div class="absolute inset-0 text-white flex items-center" *ngIf="isDeleteLoading">
+          <mat-progress-spinner [diameter]="22" [mode]="'indeterminate'" class="mx-auto"></mat-progress-spinner>
+        </div>
+      </div>
+    </div>
+  </div>
+</modal>
