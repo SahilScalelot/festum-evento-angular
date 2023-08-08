@@ -128,7 +128,7 @@ export class ArrangementDialogComponent implements OnInit {
 
     //  this.seatingForm.controls.food_details.value
     
-    this.seatingForm.controls.food_details.value=this.posterImageAndVideoObj.photos;
+    this.seatingForm.get('food_details').setValue(this.tempImgArr);
 
     
     this.selectedTab = 2;
@@ -141,6 +141,7 @@ export class ArrangementDialogComponent implements OnInit {
         console.log("result",result?.Data.seating_arrangements[0].food_details);
         _.each(result?.Data.seating_arrangements[0].food_details, (result)=>{
           this.tempImgArr.push(result);
+          // this.posterImageAndVideoObj.photos.push(result);
         })
         
         // this.posterImageAndVideoObj.photos = result?.Data?.photos || [];
@@ -176,7 +177,7 @@ export class ArrangementDialogComponent implements OnInit {
   openUploadPhotoDialog(): void {
     this.descriptionLimit = 0;
     this.photosNgForm.resetForm();
-    if (this.posterImageAndVideoObj.photos && this.posterImageAndVideoObj.photos.length && this.posterImageAndVideoObj.photos.length >= this.photosUploadLimit) {
+    if (this.tempImgArr && this.tempImgArr.length && this.tempImgArr.length >= this.photosUploadLimit) {
       this._sNotify.error('Maximum 15 images can upload!', 'Oops!');
     } else {
       this._modalService.open('photo');
@@ -197,7 +198,7 @@ export class ArrangementDialogComponent implements OnInit {
 
   close(): void {
     this.deleteItemObj = {};
-    this._modalService.close("delete-event-pop");
+    this._modalService.close("remove-image-pop");
     console.log(179);
     
   }
@@ -205,15 +206,18 @@ export class ArrangementDialogComponent implements OnInit {
   deleteEvent(): void {
     console.log(182);
     this.isDeleteLoading = true;
-    this.posterImageAndVideoObj[this.deleteItemObj.type + 's'].splice(this.deleteItemObj.index, 1);
+    console.log(this.deleteItemObj.index);
     console.log(this.posterImageAndVideoObj);
+    // this.posterImageAndVideoObj[this.deleteItemObj.type + 's'].splice(this.deleteItemObj.index, 1);
+    this.tempImgArr.splice(this.deleteItemObj.index, 1);
+    // console.log(this.posterImageAndVideoObj);
     
     this.isDeleteLoading = false;
     this.close();
   }
 
   onSelectImages(event: any) {
-    const totalPhotos = this.photosUploadLimit - ((this.posterImageAndVideoObj?.photos?.length || 0) + (event?.addedFiles?.length || 0) + (this.imagesFiles?.length || 0));
+    const totalPhotos = this.photosUploadLimit - ((this.tempImgArr?.length || 0) + (event?.addedFiles?.length || 0) + (this.imagesFiles?.length || 0));
     if ((totalPhotos >= 0) && (totalPhotos <= this.photosUploadLimit)) {
       
       this.imagesFiles.push(...event.addedFiles);
@@ -248,7 +252,7 @@ export class ArrangementDialogComponent implements OnInit {
           return;
         }
         
-        if (this.posterImageAndVideoObj.photos && this.posterImageAndVideoObj.photos.length && this.posterImageAndVideoObj.photos.length >= this.photosUploadLimit) {
+        if (this.tempImgArr && this.tempImgArr.length && this.tempImgArr.length >= this.photosUploadLimit) {
           this._sNotify.error('Maximum 15 images can upload!', 'Oops!');
           this._modalService.close("photo");
           return;
@@ -267,7 +271,8 @@ export class ArrangementDialogComponent implements OnInit {
       _.each(resultArr, (result: any) => {
         if (result && result.IsSuccess) {
           
-          this.posterImageAndVideoObj.photos.push({ url: result.Data.url, description: this.photoForm.value?.description });
+          this.tempImgArr.push({ url: result.Data.url, description: this.photoForm.value?.description });
+          // this.posterImageAndVideoObj.photos.push({ url: result.Data.url, description: this.photoForm.value?.description });
 
           
           this.photoForm.get('description').setValue('');
@@ -351,6 +356,7 @@ export class ArrangementDialogComponent implements OnInit {
     this.totalArrangementsObj = {
       total_number_of_seating_items: 0,
       total_per_seating_persons: 0,
+      per_seating_person: 1,
       total_persons: 0,
       per_seating_price: 0,
       per_person_price: 0,
@@ -362,15 +368,19 @@ export class ArrangementDialogComponent implements OnInit {
         this.arrangements.controls[index].get('total_person')?.setValue((arrangement.number_of_seating_item * arrangement.per_seating_person));
         this.arrangements.controls[index].get('per_person_price')?.setValue(Number((arrangement.per_seating_price / arrangement.per_seating_person).toFixed(2)));
         this.arrangements.controls[index].get('total_amount')?.setValue((arrangement.per_seating_price * arrangement.number_of_seating_item));
-      } else if (this.selectedSeatingObj && (this.selectedSeatingObj.itemname == 'Chair' || this.selectedSeatingObj.itemname == 'chair' || this.selectedSeatingObj.itemname == 'Stand' || this.selectedSeatingObj.itemname == 'stand' || this.selectedSeatingObj.itemname == 'NoSeating' || this.selectedSeatingObj.itemname == 'noseating')) {
+        
+      } else if (this.selectedSeatingObj && (this.selectedSeatingObj.itemname == 'Chair' || this.selectedSeatingObj.itemname == 'chair' || this.selectedSeatingObj.itemname == 'Standing' || this.selectedSeatingObj.itemname == 'standing' || this.selectedSeatingObj.itemname == 'stand' || this.selectedSeatingObj.itemname == 'Stand')) {
         this.arrangements.controls[index].get('total_person')?.setValue((arrangement.number_of_seating_item));
         this.arrangements.controls[index].get('total_amount')?.setValue((arrangement.number_of_seating_item * arrangement.per_person_price));
         this.arrangements.controls[index].get('booking_acceptance')?.setValue(false);
+        this.arrangements.controls[index].get('per_seating_person')?.setValue((arrangement.total_persons / arrangement.number_of_seating_item));
+        console.log("hy",this.arrangements.per_seating_person);
+        
       } 
     });
     _.each(this.arrangements.value, (arrangement: any) => {
       this.totalArrangementsObj.total_number_of_seating_items += Number(arrangement?.number_of_seating_item || 0);
-      this.totalArrangementsObj.total_per_seating_persons += Number(arrangement?.per_seating_person || 0);
+      this.totalArrangementsObj.total_per_seating_persons += Number(arrangement?.per_seating_person || 1);
       this.totalArrangementsObj.total_persons += Number(arrangement?.total_person || 0);
       this.totalArrangementsObj.per_seating_price += Number(arrangement?.per_seating_price || 0);
       this.totalArrangementsObj.per_person_price += Number(arrangement?.per_person_price || 0);
@@ -524,10 +534,9 @@ export class ArrangementDialogComponent implements OnInit {
       food_description: [this.editArrangementObj?.food_description || ''],
       
       equipment_included_in_ticket_price: [(!!(this.editArrangementObj && this.editArrangementObj.equipment_included_in_ticket_price)), [Validators.required]],
-      quipment_detail:[{
-        url:"",
-        description:""
-      }],
+      quipment_detail:[
+        this.posterImageAndVideoObj
+      ],
       equipment_description: [this.editArrangementObj?.equipment_description || null],
     });
 console.log("seat",this.seatingForm.value.food_details);

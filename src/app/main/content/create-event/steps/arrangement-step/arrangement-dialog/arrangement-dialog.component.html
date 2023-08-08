@@ -522,6 +522,29 @@
                     </div>
                   </div>
                 </div>
+<!-- equpment photos -->
+                <div *ngIf="selectedTab == 2" class="media-upload-holder pt-5" id="stap-two">
+                  <div class="flex items-center justify-between">
+                    <span class="text-sm text-quicksilver font-semibold">Add Photos <span class="font-normal">(5 Images - up to 7MB/Image)</span></span>
+                    <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(posterImageAndVideoObj.photos, true, false)">View All</a>
+                  </div>
+                  <div class="flex flex-wrap h-full pt-2">
+                    <div *ngFor="let photo of tempImgArr; let i = index" class="upload-box mr-2.5 mb-2.5">
+                      <div class="rounded relative overflow-hidden h-full w-full">
+                        <img [alt]="'add-photo-' + i" [src]="!!(photo?.url) ? constants.baseImageURL + photo.url : constants.defaultImage" *ngIf="photo.url" class="object-cover w-full h-full"/>
+                        <button (click)="removeImage(i)">Remove</button>
+                      </div>
+                    </div>
+                    <div (click)="openUploadPhotoDialog()" class="upload-holder" *ngIf="posterImageAndVideoObj?.food_detailsjk?.length < 5">
+                      <label class="upload-photo" for="event-upload1">
+                        <!-- <input type="file" id="photo" name="photo" (change)="onFileChange($event, 'photo')" id="event-upload1" class="appearance-none hidden" accept="image/png, image/jpeg, image/gif" /> -->
+                        <i class="icon-img_upload text-base text-quicksilver"></i>
+                        <div class="mt-1 flex items-baseline justify-center"><span class="input-titel pt-1">Add Photos</span></div>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
                 <div class="w-full">
                   <span class="input-titel">Equipment description?  <i class="text-xs font-medium" [ngClass]="{'text-magicPotion' : textEditorEquipment}">( {{textEditorLimitEquipment}} characters out of {{textEditorMaxLimit}} )</i></span>
                   <div class="w-full bg-white rounded">
