@@ -38,9 +38,14 @@
                     <span class="block text-base font-bold text-quicksilver">{{((arrangement.vertical_location == 'FRONT') ? 'F' : (arrangement.vertical_location == 'MIDDLE' ? 'M' : 'B'))}} - {{((arrangement.horizontal_location == 'LEFT') ? 'L' : ((arrangement.horizontal_location == 'CENTER') ? 'C' : (arrangement.horizontal_location == 'RIGHT' ? 'R' : 'N')))}}</span>
                   </div>
                   <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4"
-                    *ngIf="(!seating?.isonlyperperson)">
+                    *ngIf="(seating?.seating_item?.itemname == 'Table' || seating?.seating_item?.itemname == 'table'  || seating?.seating_item?.itemname == 'Sofa' || seating?.seating_item?.itemname == 'sofa' || seating?.seating_item?.itemname == 'Booth' || seating?.seating_item?.itemname == 'booth')">
                     <span class="block text-xs xl:text-sm text-quicksilver">Per {{seating?.seating_item?.itemname}} Person Capacity</span>
                     <span class="block text-base font-bold text-quicksilver">{{arrangement.per_seating_person}}</span>
+                  </div>
+                  <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4"
+                  *ngIf="(seating?.seating_item?.itemname == 'Chair' || seating?.seating_item?.itemname == 'chair'  || seating?.seating_item?.itemname == 'Stand' || seating?.seating_item?.itemname == 'stand' || seating?.seating_item?.itemname == 'Standing' || seating?.seating_item?.itemname == 'standing')">
+                    <span class="block text-xs xl:text-sm text-quicksilver">Per {{seating?.seating_item?.itemname}} Person Capacity</span>
+                    <span class="block text-base font-bold text-quicksilver">1</span>
                   </div>
                   <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4">
                     <span class="block text-xs xl:text-sm text-quicksilver">Total Person Capacity</span>
@@ -49,7 +54,8 @@
                   <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4"
                     *ngIf="(!seating?.isonlyperperson)">
                     <span class="block text-xs xl:text-sm text-quicksilver">Per {{seating?.seating_item?.itemname}} Price</span>
-                    <span class="block text-base font-bold text-quicksilver">{{arrangement.per_seating_price || 0 | number:'1.2-2'}}</span>
+                    <span class="block text-base font-bold text-quicksilver" *ngIf="(seating?.seating_item?.itemname == 'Table' || seating?.seating_item?.itemname == 'table'  || seating?.seating_item?.itemname == 'Sofa' || seating?.seating_item?.itemname == 'sofa' || seating?.seating_item?.itemname == 'Booth' || seating?.seating_item?.itemname == 'booth')">{{arrangement.per_seating_price || 0 | number:'1.2-2'}}</span>
+                    <span class="block text-base font-bold text-quicksilver" *ngIf="(seating?.seating_item?.itemname == 'Chair' || seating?.seating_item?.itemname == 'chair'  || seating?.seating_item?.itemname == 'Stand' || seating?.seating_item?.itemname == 'stand' || seating?.seating_item?.itemname == 'Standing' || seating?.seating_item?.itemname == 'standing')">{{arrangement.per_person_price || 0 | number:'1.2-2'}}</span>
                   </div>
                   <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4">
                     <span class="block text-xs xl:text-sm text-quicksilver">Seat</span>
