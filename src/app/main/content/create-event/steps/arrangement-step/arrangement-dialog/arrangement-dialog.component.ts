@@ -90,7 +90,6 @@ export class ArrangementDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {    
-    // console.log(this.editArrangementObj);
       _.each(this.editArrangementObj.food_details, (result)=>{
           this.tempImgArr.push(result);
         }) 
@@ -236,14 +235,12 @@ export class ArrangementDialogComponent implements OnInit {
           return;
         }
         if (this.selectedTab == 1) {
-          console.log(this.selectedTab);
           if (this.tempImgArr && this.tempImgArr.length && this.tempImgArr.length >= this.photosUploadLimit) {
             this._sNotify.error('Maximum 5 images can upload!', 'Oops!');
             this._modalService.close("photo");
             return;
           } 
         }else{
-          console.log(this.selectedTab);
           if (this.etempImgArr && this.etempImgArr.length && this.etempImgArr.length >= this.photosUploadLimit) {
             this._sNotify.error('Maximum 5 images can upload!', 'Oops!');
             this._modalService.close("photo");
@@ -363,7 +360,6 @@ export class ArrangementDialogComponent implements OnInit {
         this.arrangements.controls[index].get('total_amount')?.setValue((arrangement.number_of_seating_item * arrangement.per_person_price));
         this.arrangements.controls[index].get('booking_acceptance')?.setValue(false);
         this.arrangements.controls[index].get('per_seating_person')?.setValue((arrangement.total_persons / arrangement.number_of_seating_item));
-        console.log("hy",this.arrangements.per_seating_person);
         
       } 
     });
@@ -375,6 +371,10 @@ export class ArrangementDialogComponent implements OnInit {
       this.totalArrangementsObj.per_person_price += Number(arrangement?.per_person_price || 0);
       this.totalArrangementsObj.total_amount += Number(arrangement?.total_amount || 0);
     });
+  }
+
+  closePop(flag: boolean): void {
+    this.isOpenPopup = flag;
   }
 
   prepareSeatingItems(): void {

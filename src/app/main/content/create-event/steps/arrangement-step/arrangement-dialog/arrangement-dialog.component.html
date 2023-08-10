@@ -430,12 +430,15 @@
                   </div>
                   <div class="flex flex-wrap h-full pt-2">
                     <div *ngFor="let photo of tempImgArr; let i = index" class="upload-box mr-2.5 mb-2.5">
-                      <div class="rounded relative overflow-hidden h-full w-full">
+                      <div class="rounded relative overflow-hidden h-full w-full group">
                         <img [alt]="'add-photo-' + i" [src]="!!(photo?.url) ? constants.baseImageURL + photo.url : constants.defaultImage" *ngIf="photo.url" class="object-cover w-full h-full"/>
-                        <button (click)="removeImage(i)">Remove</button>
+                        <div class="opacity-0 bg-black bg-opacity-50 flex items-center justify-center group-hover:opacity-100 absolute inset-0 transition-all duration-300">
+                          <button (click)="removeImage(i)">Remove</button>
+                          <i class="pi pi-eye text-2xl text-white cursor-pointer"></i>
+                        </div>
                       </div>
                     </div>
-                    <div (click)="openUploadPhotoDialog()" class="upload-holder" *ngIf="posterImageAndVideoObj?.food_detailsjk?.length < 5">
+                    <div (click)="openUploadPhotoDialog()" class="upload-holder" *ngIf="tempImgArr.length < 5">
                       <label class="upload-photo" for="event-upload1">
                         <!-- <input type="file" id="photo" name="photo" (change)="onFileChange($event, 'photo')" id="event-upload1" class="appearance-none hidden" accept="image/png, image/jpeg, image/gif" /> -->
                         <i class="icon-img_upload text-base text-quicksilver"></i>
@@ -534,7 +537,7 @@
                         <button (click)="removeImage(i)">Remove</button>
                       </div>
                     </div>
-                    <div (click)="openUploadPhotoDialog()" class="upload-holder" *ngIf="posterImageAndVideoObj?.food_detailsjk?.length < 5">
+                    <div *ngIf="etempImgArr.length < 5" (click)="openUploadPhotoDialog()" class="upload-holder" >
                       <label class="upload-photo" for="event-upload1">
                         <!-- <input type="file" id="photo" name="photo" (change)="onFileChange($event, 'photo')" id="event-upload1" class="appearance-none hidden" accept="image/png, image/jpeg, image/gif" /> -->
                         <i class="icon-img_upload text-base text-quicksilver"></i>
@@ -592,7 +595,7 @@
 <modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="photo" title="Upload Photo" *ngIf="photoForm">
   <form #photosNgForm="ngForm" [formGroup]="photoForm" class="py-6 space-y-5">
     <div class="upload-holder- w-full">
-      <h6 class="input-titel text-sm font-bold text-quicksilver flex items-center">Select Photo <p class="text-10 ml-2">15 Images (up to 7MB/Image)</p></h6>
+      <h6 class="input-titel text-sm font-bold text-quicksilver flex items-center">Select Photo <p class="text-10 ml-2">5 Images (up to 7MB/Image)</p></h6>
       <!--  {{(posterImageAndVideoObj?.photos?.length) ? (posterImageAndVideoObj?.photos?.length + '(Already Uploaded) - 15 =') : ''}} {{ 15 - (posterImageAndVideoObj?.photos?.length || 0)}} -->
       <div class="block">
         <ngx-dropzone #dropzonePhotos class="flex-wrap" (change)="onSelectImages($event)" [maxFileSize]="3145728" accept="image/jpeg,image/jpg,image/png,image/gif">
@@ -637,3 +640,6 @@
     </div>
   </div>
 </modal>
+
+<!-- popup images videos -->
+<app-image-and-video-preview *ngIf="isOpenPopup" (openClosePopup)="closePop($event)"  [isImageOrVideoFlag]="isImage" [isCompanyImagesAndVideo]="companyIAndV" [expectedProp]="imagesOrVideosArr"></app-image-and-video-preview>
