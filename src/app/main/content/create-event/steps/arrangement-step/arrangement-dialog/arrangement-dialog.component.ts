@@ -31,8 +31,7 @@ export class ArrangementDialogComponent implements OnInit {
   addEditEvent: any;
   food_included_in_ticket_price: any ;
   tempFoodNotIncluded:boolean=true;
-  nik:any;
-  nik1:any;
+
   tempFoodSec:any;
   tempFoodSecNum:any;
   
@@ -71,7 +70,7 @@ export class ArrangementDialogComponent implements OnInit {
   isImage: boolean = false;
   imagesOrVideosArr: Array<any> = [];
   tempImgArr:any [] = [];
-  niki:any[] = [];
+  etempImgArr:any [] = [];
 
   @Input() arrangementsArr: any = {};
   @Input() popClass: any;
@@ -91,10 +90,15 @@ export class ArrangementDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {    
-    console.log(this.editArrangementObj);
-    _.each(this.editArrangementObj.food_details, (result)=>{
-        this.tempImgArr.push(result);
-      }) 
+    // console.log(this.editArrangementObj);
+      _.each(this.editArrangementObj.food_details, (result)=>{
+          this.tempImgArr.push(result);
+        }) 
+     
+      _.each(this.editArrangementObj.equipment_details, (result)=>{
+          this.etempImgArr.push(result);
+        }) 
+    
 
     this.isInitial = true;
     this._prepareArrangementForm();
@@ -121,36 +125,16 @@ export class ArrangementDialogComponent implements OnInit {
     });
   }
 
-  
   validateTextEditor(): void {
     if (this.textEditorLimitFood && this.textEditorMaxLimit && this.textEditorLimitFood > this.textEditorMaxLimit) {
       return;
     }    
+      this.seatingForm.get('food_details').setValue(this.tempImgArr);
+   
+      this.seatingForm.get('equipment_details').setValue(this.etempImgArr);
     
-
-    this.seatingForm.get('food_details').setValue(this.tempImgArr);
-
     this.selectedTab = 2;
   }
-
-  // getArrangements(): void {
-  //   this.isLoading = true;
-  //   this._createEventService.getArrangements(this.eventId).subscribe((result: any) => {
-      
-  //     if (this.editArrangementObj && this.editArrangementObj.seating_item)  {
-        // _.each(result?.Data.seating_arrangements[0].food_details, (result)=>{
-        //   this.tempImgArr.push(result);
-        // })        
-  //       this.isLoading = false;
-  //     }else {
-  //       this._globalFunctions.successErrorHandling(result, this, true);
-  //       this.isLoading = false;
-  //     }
-  //   }, (error: any) => {
-  //     this._globalFunctions.errorHanding(error, this, true);
-  //     this.isLoading = false;
-  //   });
-  // }
 
   btnclick(params:number){
     this.tempFoodSecNum=params;
@@ -171,10 +155,19 @@ export class ArrangementDialogComponent implements OnInit {
   openUploadPhotoDialog(): void {
     this.descriptionLimit = 0;
     this.photosNgForm.resetForm();
-    if (this.tempImgArr && this.tempImgArr.length && this.tempImgArr.length >= this.photosUploadLimit) {
-      this._sNotify.error('Maximum 5 images can upload!', 'Oops!');
-    } else {
-      this._modalService.open('photo');
+    if (this.selectedTab == 1) {
+      if (this.tempImgArr && this.tempImgArr.length && this.tempImgArr.length >= this.photosUploadLimit) {
+        this._sNotify.error('Maximum 5 images can upload!', 'Oops!');
+      } else {
+        this._modalService.open('photo');
+      }
+    }
+    if (this.selectedTab == 2) {
+      if (this.etempImgArr && this.etempImgArr.length && this.etempImgArr.length >= this.photosUploadLimit) {
+        this._sNotify.error('Maximum 5 images can upload!', 'Oops!');
+      } else {
+        this._modalService.open('photo');
+      }
     }
   }
 
@@ -192,19 +185,36 @@ export class ArrangementDialogComponent implements OnInit {
 
   deleteEvent(): void {
     this.isDeleteLoading = true;
-    this.tempImgArr.splice(this.deleteItemObj.index, 1);    
+    if (this.selectedTab == 1) {
+      this.tempImgArr.splice(this.deleteItemObj.index, 1);    
+    }
+    if (this.selectedTab == 2) {
+      this.etempImgArr.splice(this.deleteItemObj.index, 1);    
+    }
     this.isDeleteLoading = false;
     this.close();
   }
 
   onSelectImages(event: any) {
-    const totalPhotos = this.photosUploadLimit - ((this.tempImgArr?.length || 0) + (event?.addedFiles?.length || 0) + (this.imagesFiles?.length || 0));
-    if ((totalPhotos >= 0) && (totalPhotos <= this.photosUploadLimit)) {
-      this.imagesFiles.push(...event.addedFiles);
-      this.rejectedPhotosList = event?.rejectedFiles;
-    } else {
-      this._sNotify.warning('You have exceeded the maximum photos limit!', 'Oops..');
+    if (this.selectedTab == 1) {
+      const totalPhotos = this.photosUploadLimit - ((this.tempImgArr?.length || 0) + (event?.addedFiles?.length || 0) + (this.imagesFiles?.length || 0));
+      if ((totalPhotos >= 0) && (totalPhotos <= this.photosUploadLimit)) {
+        this.imagesFiles.push(...event.addedFiles);
+        this.rejectedPhotosList = event?.rejectedFiles;
+      } else {
+        this._sNotify.warning('You have exceeded the maximum photos limit!', 'Oops..');
+      }
     }
+    if(this.selectedTab == 2){
+      const totalPhotos = this.photosUploadLimit - ((this.etempImgArr?.length || 0) + (event?.addedFiles?.length || 0) + (this.imagesFiles?.length || 0));
+      if ((totalPhotos >= 0) && (totalPhotos <= this.photosUploadLimit)) {
+        this.imagesFiles.push(...event.addedFiles);
+        this.rejectedPhotosList = event?.rejectedFiles;
+      } else {
+        this._sNotify.warning('You have exceeded the maximum photos limit!', 'Oops..');
+      }
+    }
+   
   }
 
   // Images Upload
@@ -225,11 +235,22 @@ export class ArrangementDialogComponent implements OnInit {
           this._sNotify.error('Maximum Image Size is ' + CONSTANTS.maxImageSizeInMB + 'MB.', 'Oops!');
           return;
         }
-        if (this.tempImgArr && this.tempImgArr.length && this.tempImgArr.length >= this.photosUploadLimit) {
-          this._sNotify.error('Maximum 15 images can upload!', 'Oops!');
-          this._modalService.close("photo");
-          return;
+        if (this.selectedTab == 1) {
+          console.log(this.selectedTab);
+          if (this.tempImgArr && this.tempImgArr.length && this.tempImgArr.length >= this.photosUploadLimit) {
+            this._sNotify.error('Maximum 5 images can upload!', 'Oops!');
+            this._modalService.close("photo");
+            return;
+          } 
+        }else{
+          console.log(this.selectedTab);
+          if (this.etempImgArr && this.etempImgArr.length && this.etempImgArr.length >= this.photosUploadLimit) {
+            this._sNotify.error('Maximum 5 images can upload!', 'Oops!');
+            this._modalService.close("photo");
+            return;
+          }
         }
+       
         const photoFormData = new FormData();
         photoFormData.append('file', image);
         this.isPhotoLoading = true;
@@ -239,8 +260,13 @@ export class ArrangementDialogComponent implements OnInit {
 
     forkJoin(...responseObj).subscribe((resultArr: any) => {
       _.each(resultArr, (result: any) => {
-        if (result && result.IsSuccess) {
-          this.tempImgArr.push({ url: result.Data.url, description: this.photoForm.value?.description });
+        if (result && result.IsSuccess) {         
+          if(this.selectedTab == 1){
+            this.tempImgArr.push({ url: result.Data.url, description: this.photoForm.value?.description });
+          }
+          if (this.selectedTab == 2) {
+            this.etempImgArr.push({ url: result.Data.url, description: this.photoForm.value?.description });
+          } 
           this.photoForm.get('description').setValue('');
           this._sNotify.success('Image Uploaded Successfully.', 'Success');
           this.imagesFiles = [];
@@ -488,10 +514,8 @@ export class ArrangementDialogComponent implements OnInit {
       food_details:[
       ],
       food_description: [this.editArrangementObj?.food_description || ''],
-      
       equipment_included_in_ticket_price: [(!!(this.editArrangementObj && this.editArrangementObj.equipment_included_in_ticket_price)), [Validators.required]],
-      quipment_detail:[(!!(this.editArrangementObj && this.editArrangementObj.posterImageAndVideoObj)),
-        // this.posterImageAndVideoObj || ''
+      equipment_details:[
       ],
       equipment_description: [this.editArrangementObj?.equipment_description || null],
     });
