@@ -171,6 +171,10 @@ export const CONSTANTS = {
     Platinum: 3,
     Gold:4,
     Silver:5,
+    Season_Single_Pass:6,
+    Season_Couple_Pass:7,
+    Khelaiya_Single_Pass:8,
+    Khelaiya_Couple_Pass:9
   },
 
   seatArr: [
@@ -180,6 +184,11 @@ export const CONSTANTS = {
     {value: 'Platinum', label: 'Platinum'},
     {value: 'Gold', label: 'Gold'},
     {value: 'Silver', label: 'Silver'},
+    {value: 'Season Single Pass', label: 'Season Single Pass'},
+    {value: 'Season Couple Pass', label: 'Season Couple Pass'},
+    {value: 'Khelaiya Single Pass', label: 'Khelaiya Single Pass'},
+    {value: 'Khelaiya Single Pass', label: 'Khelaiya Single Pass'},
+
   ],
 
   discountTypeObj: {

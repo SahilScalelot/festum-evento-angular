@@ -421,7 +421,7 @@ export class ArrangementDialogComponent implements OnInit {
       });
       return;
     }
-    if (this.arrangements.value && this.arrangements.value.length) {
+    if (this.arrangements.value && this.arrangements.value.length ) {
       const tmpLocations: any = [];
       _.each(this.arrangements.value, (arrangement: any) => {
         tmpLocations.push(arrangement.vertical_location + arrangement.horizontal_location);
