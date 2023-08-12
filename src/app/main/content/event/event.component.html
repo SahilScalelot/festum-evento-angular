@@ -142,7 +142,7 @@
                   <div class="flex space-x-2 pt-4">
                     <a href="javascript:void(0)" (click)="editEvent($event, event?._id)" *ngIf="event?.iseditable" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-edit text-sm leading-0 text-japaneseIndigo"></i></a>
                     <a href="javascript:void(0)" (click)="gotoEventOverview($event, event)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-show text-xs leading-0 text-japaneseIndigo"></i></a>
-                    <a href="javascript:void(0)" (click)="gotoPromotion()" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-fill_megaphone text-sm leading-0 text-japaneseIndigo"></i></a>
+                    <a href="javascript:void(0)" (click)="gotoPromotion($event,event?._id)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-fill_megaphone text-sm leading-0 text-japaneseIndigo"></i></a>
 
                     <a href="javascript:void(0)" (click)="gotoDiscount($event,event?._id)" *ngIf="event.event_financial_type == 'paid' && event.accept_booking == true" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-online_offer text-xl leading-0 text-japaneseIndigo"></i></a>
 

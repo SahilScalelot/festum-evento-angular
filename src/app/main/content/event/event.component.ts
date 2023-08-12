@@ -161,7 +161,9 @@ export class EventComponent implements OnInit {
     // console.log(eventObj.id);
     this._router.navigate(['/events/' + eventObj.id]);
   }
-  gotoPromotion(){
+  gotoPromotion(event: any, eventId: any){
+    event.stopPropagation();
+    localStorage.setItem('eId', eventId);
     this._router.navigate(['/notifications']);
   }
   gotoDiscount(event: any, eventId: any): void{
@@ -169,6 +171,11 @@ export class EventComponent implements OnInit {
     localStorage.setItem('eId', eventId);
     this._router.navigate(['/events/create/discount']);
   }
+
+  // share(){
+  //   console.log('share');
+    
+  // }
   // editEvent(event: any, eventId: any): void {
   //   event.stopPropagation();
   //   localStorage.setItem('eId', eventId);

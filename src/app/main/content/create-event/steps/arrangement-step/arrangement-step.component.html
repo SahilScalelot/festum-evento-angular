@@ -101,6 +101,27 @@
             </div>
           </div>
         </div>
+        <!-- photo section food  -->
+        <div *ngIf="seating?.food_details?.length" class="media-upload-holder">
+
+          <!-- media title  -->
+            <div class="flex justify-between items-center">
+              <h3 class="text-lg">Food Photos</h3>
+              <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" >View All</a>
+            </div>
+          <!-- photo-holder -->
+            <div class="w-full">
+              <div class="flex overflow-hidden -mx-2">
+                <div *ngFor="let img of seating?.food_details" class="w-auto p-2">
+                  <div class="rounded relative overflow-hidden bg-white h-28 w-[7.3rem]">
+                    <img [src]="!!(img?.url) ? constants?.baseImageURL + img?.url : constants?.defaultImage" imageClass="w-full h-full object-cover rounded" styleClass="w-full h-full" >
+                    <!-- [preview]="true" -->
+                    <!-- (click)="openImageAndVideoDialog(event?.photos, true, false) -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         <div class="flex">
           <div class="pr-5">
             <img alt="not-include" src="../assets/images/not-include.png"/>
@@ -108,11 +129,32 @@
           <div class="flex w-full space-y-2">
             <div class="min-w-[148px] pr-5">
               <p>Equipment</p>
-              <span class="text-lg font-bold text-japaneseIndigo capitalize">{{seating.equipment ? 'Not Include' : 'Include'}}</span>
+              <span class="text-lg font-bold text-japaneseIndigo capitalize">{{seating.equipment ? 'Not Included Equipment in Ticket Price' : 'Included Equipment in Ticket Price'}}</span>
             </div>
             <div class="border-l border-slate-500 px-4" *ngIf="seating?.equipment_description">
               <p class="pb-1 text-slate-400">Description</p>
               <div class="text-sm" [innerHTML]="seating.equipment_description || ''"></div>
+            </div>
+          </div>
+        </div>
+        <!-- photo section equipment  -->
+        <div *ngIf="seating?.equipment_details.length" class="media-upload-holder">
+
+        <!-- media title  -->
+          <div class="flex justify-between items-center">
+            <h3 class="text-lg">Equipment Photos</h3>
+            <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" >View All</a>
+          </div>
+        <!-- photo-holder -->
+          <div class="w-full">
+            <div class="flex overflow-hidden -mx-2">
+              <div *ngFor="let img of seating?.equipment_details" class="w-auto p-2">
+                <div class="rounded relative overflow-hidden bg-white h-28 w-[7.3rem]">
+                  <img [src]="!!(img?.url) ? constants?.baseImageURL + img?.url : constants?.defaultImage" imageClass="w-full h-full object-cover rounded" styleClass="w-full h-full" >
+                  <!-- [preview]="true" -->
+                  <!-- (click)="openImageAndVideoDialog(event?.photos, true, false) -->
+                </div>
+              </div>
             </div>
           </div>
         </div>
