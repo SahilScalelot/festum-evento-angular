@@ -78,19 +78,19 @@
 </div>
 
 <!-- Poster crop -->
-<modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="imgCropper" title="Poster">
-  <div class="flex flex-wrap -mx-4 py-5 relative">
-    <span (click)="popClose('imgCropper');" class="absolute right-4 top-[-30px] cursor-pointer text-xl"><i class="icon-close"></i></span>
-    <div class="w-full lg:w-1/2 px-4">
+<!-- <modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="imgCropper" title="Poster"> -->
+  <!-- <div class="flex flex-wrap -mx-4 py-5 relative"> -->
+    <!-- <span (click)="popClose('imgCropper');" class="absolute right-4 top-[-30px] cursor-pointer text-xl"><i class="icon-close"></i></span> -->
+    <!-- <div class="w-full lg:w-1/2 px-4">
       <image-cropper (imageCropped)="cropImg($event)" (imageLoaded)="imageLoaded()" [aspectRatio]="2 / 1 " [imageChangedEvent]="imgChangeEvt" [maintainAspectRatio]="true" format="png"></image-cropper>
-    </div>
-    <div class="w-full lg:w-1/2 px-4">
-      <h6 class="text-lg pb-4">{{ 'Image Preview' }}</h6>
+    </div> -->
+    <!-- <div class="w-full lg:w-1/2 px-4"> -->
+      <!-- <h6 class="text-lg pb-4">{{ 'Image Preview' }}</h6>
       <img [src]="cropImgPreview" *ngIf="!isCropperLoading" class="responsive-img"/>
-    </div>
-  </div>
-  <button (click)="savePoster(cropImgPreview)" class="secondary w-full uppercase py-2 anim" [disabled]="isPosterLoading">{{ isPosterLoading ? 'Please wait...' : 'Save Poster' }}</button>
-</modal>
+    </div> -->
+  <!-- </div> -->
+  <!-- <button (click)="savePoster(cropImgPreview)" class="secondary w-full uppercase py-2 anim" [disabled]="isPosterLoading">{{ isPosterLoading ? 'Please wait...' : 'Save Poster' }}</button>
+</modal> -->
 <!-- Photo -->
 <modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="photo" title="Upload Photo" *ngIf="photoForm">
   <form #photosNgForm="ngForm" [formGroup]="photoForm" class="py-6 space-y-5">

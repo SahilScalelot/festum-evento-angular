@@ -146,11 +146,45 @@ export class PhotosVideosStepComponent implements OnInit {
         }
         this.posterObj.image = poster;
         this.posterObj.name = poster.name;
-        this._modalService.open("imgCropper");
-        this.isCropperLoading = true;
+        this.savePoster(poster);
+        // poster
+        // this._modalService.open("imgCropper");
+        // this.isCropperLoading = true;
+        
       }
     }
   }
+  savePoster(compressedImage: any) {
+    if (compressedImage && compressedImage != '' && !this.isPosterLoading) {
+      // const preparedPoserFromBaseType: any = this._globalFunctions.base64ToImage(img, this.posterObj.name);
+      // this._compressImage.compress(preparedPoserFromBaseType).pipe(take(1)).subscribe((compressedImage: any) => {
+        if (compressedImage) {
+          const posterFormData = new FormData();
+          posterFormData.append('file', compressedImage);
+          this.isPosterLoading = true;
+          this._createEventService.uploadBanner(posterFormData).subscribe((result: any) => {
+            if (result && result.IsSuccess) {
+              this.posterObj.image = compressedImage;
+              this.setPosterInDropify(result.Data.url);
+              // this.inputText = _.last(_.split(result.Data.url, '/'));
+              this._sNotify.success('File Uploaded Successfully.', 'Success');
+              this.isPosterLoading = false;
+              this._modalService.close("imgCropper");
+            } else {
+              this._globalFunctions.successErrorHandling(result, this, true);
+              this.isPosterLoading = false;
+            }
+          }, (error: any) => {
+            this._globalFunctions.errorHanding(error, this, true);
+            this.isPosterLoading = false;
+          });
+        } else {
+          this._sNotify.success('Something went wrong!', 'Oops');
+        }
+      // });
+    }
+  }
+
 
   openUploadPhotoDialog(): void {
     this.descriptionLimit = 0;
@@ -172,36 +206,6 @@ export class PhotosVideosStepComponent implements OnInit {
     }
   }
 
-  savePoster(img: any) {
-    if (img && img != '' && !this.isPosterLoading) {
-      const preparedPoserFromBaseType: any = this._globalFunctions.base64ToImage(img, this.posterObj.name);
-      this._compressImage.compress(preparedPoserFromBaseType).pipe(take(1)).subscribe((compressedImage: any) => {
-        if (compressedImage) {
-          const posterFormData = new FormData();
-          posterFormData.append('file', compressedImage);
-          this.isPosterLoading = true;
-          this._createEventService.uploadBanner(posterFormData).subscribe((result: any) => {
-            if (result && result.IsSuccess) {
-              this.posterObj.image = img;
-              this.setPosterInDropify(result.Data.url);
-              // this.inputText = _.last(_.split(result.Data.url, '/'));
-              this._sNotify.success('File Uploaded Successfully.', 'Success');
-              this.isPosterLoading = false;
-              this._modalService.close("imgCropper");
-            } else {
-              this._globalFunctions.successErrorHandling(result, this, true);
-              this.isPosterLoading = false;
-            }
-          }, (error: any) => {
-            this._globalFunctions.errorHanding(error, this, true);
-            this.isPosterLoading = false;
-          });
-        } else {
-          this._sNotify.success('Something went wrong!', 'Oops');
-        }
-      });
-    }
-  }
 
   setPosterInDropify(image: any = ''): void {
     const imageUrl = CONSTANTS.baseImageURL + image;
