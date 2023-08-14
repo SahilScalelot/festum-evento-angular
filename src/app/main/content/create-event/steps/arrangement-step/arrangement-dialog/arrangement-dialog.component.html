@@ -94,7 +94,7 @@
                               </li>
 
                               <li class="pb-3">
-                                <div class="w-[151px] inputHolder">
+                                <div class="w-[220px] inputHolder">
                                   <span class="input-titel text-xs">Seat Type</span>
                                   <select (input)="updateCalculatedValue()" [formControlName]="'seat_type'" [name]="'seat_type' + i" class="arrow bgquicksilver py-3 text-japaneseIndigo font-bold rounded-md tracking-wider appearance-none focus-visible:outline-none">
                                     <option *ngFor="let seat of constants.seatArr" [value]="seat.value">{{seat.label}}</option>
@@ -252,7 +252,7 @@
                                     </div>
                                   </li>
                                   <li>
-                                    <div class="inputHolder w-[151px]">
+                                    <div class="inputHolder w-[220px]">
                                       <span class="bgmagicpotion text-magicPotion">-</span>
                                     </div>
                                   </li>
