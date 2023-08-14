@@ -44,6 +44,7 @@ export class EventOverviewComponent implements OnInit {
   lat: number = 0;
   lng: number = 0;
   isSingleVideo: boolean = false;
+  visible: boolean = false;
 
   constructor(
     public _globalFunctions: GlobalFunctions,
@@ -70,10 +71,16 @@ export class EventOverviewComponent implements OnInit {
     this.getEvent();
   }
 
+  toggleCollapse(): void {
+    this.visible = !this.visible;
+  }
+
   getEvent(): void {
     this.isLoading = true;
     this._eventService.getSingleEvents(this.eventId).subscribe((result: any) => {
       this.event = result.Data;
+      console.log("result.Data", result.Data);
+      
       setTimeout(() => {
         if (this.event.accept_booking && !this.event.iseditable) {
           this.getAttendees();

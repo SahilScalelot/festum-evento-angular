@@ -114,7 +114,7 @@
               <div class="flex overflow-hidden -mx-2">
                 <div *ngFor="let img of seating?.food_details" class="w-auto p-2">
                   <div class="rounded relative overflow-hidden bg-white h-28 w-[7.3rem]">
-                    <img [src]="!!(img?.url) ? constants?.baseImageURL + img?.url : constants?.defaultImage" imageClass="w-full h-full object-cover rounded" styleClass="w-full h-full" >
+                    <p-image [src]="!!(img?.url) ? constants?.baseImageURL + img?.url : constants?.defaultImage" imageClass="w-full h-full object-cover rounded" styleClass="w-full h-full" [preview]="true"></p-image>
                     <!-- [preview]="true" -->
                     <!-- (click)="openImageAndVideoDialog(event?.photos, true, false) -->
                   </div>
@@ -150,7 +150,7 @@
             <div class="flex overflow-hidden -mx-2">
               <div *ngFor="let img of seating?.equipment_details" class="w-auto p-2">
                 <div class="rounded relative overflow-hidden bg-white h-28 w-[7.3rem]">
-                  <img [src]="!!(img?.url) ? constants?.baseImageURL + img?.url : constants?.defaultImage" imageClass="w-full h-full object-cover rounded" styleClass="w-full h-full" >
+                  <p-image [src]="!!(img?.url) ? constants?.baseImageURL + img?.url : constants?.defaultImage" imageClass="w-full h-full object-cover rounded" styleClass="w-full h-full"  [preview]="true"></p-image>
                   <!-- [preview]="true" -->
                   <!-- (click)="openImageAndVideoDialog(event?.photos, true, false) -->
                 </div>

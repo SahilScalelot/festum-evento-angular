@@ -87,7 +87,6 @@
       </div>
     </div>
     <!-- tab-holder deposit -->
-
     <div class="teb-holder">
       <button [class]="overview ? 'active' : ''" (click)="onTabChange('overview')" type="button">Overview</button>
       <button [class]="attendee ? 'active' : ''" (click)="onTabChange('attendee')" type="button" *ngIf="!!(event?.accept_booking) && attendees && attendees?.length">Attendees</button>
@@ -96,7 +95,6 @@
 
       <a class="secondary px-5 py-2 flex items-end rounded-sm max-w-max ml-auto" href="javascript:void(0);" (click)="exportAttendees()" *ngIf="!!(event?.accept_booking) && event?.is_live && attendee && attendees && attendees?.length">Export</a>
     </div>
-
     <!-- tab-contents-holder -->
     <div class="pt-7 lg:pt-10">
       <!--overview-tab-contents -->
@@ -319,8 +317,16 @@
                                 <!-- <input class="switch mx-3 order-2" id="on" type="checkbox" [(ngModel)]="arrangement.booking_acceptance"/>
                                 <span class="off text-base font-bold anim order-1 text-caribbeanGreen">Per table</span>
                                 <span class="on text-base font-bold anim order-3">Per person</span> -->
-                                <span class="off text-base font-bold anim order-1 text-caribbeanGreen capitalize" *ngIf="!arrangement?.booking_acceptance">Per table</span>
-                                <span class="on text-base font-bold anim order-3 text-caribbeanGreen capitalize" *ngIf="arrangement?.booking_acceptance">Per person</span>
+                                <span class="off text-base font-bold anim order-1 text-caribbeanGreen capitalize" *ngIf="seating?.seating_item">Per {{seating?.seating_item?.itemname}}</span>
+                                
+                              </div>
+                              <div class="flex items-center pt-4 ml-auto" *ngIf="(seating?.seating_item?.isonlyperperson)">
+                                <!-- <input class="switch mx-3 order-2" id="on" type="checkbox" [(ngModel)]="arrangement.booking_acceptance"/>
+                                <span class="off text-base font-bold anim order-1 text-caribbeanGreen">Per table</span>
+                                <span class="on text-base font-bold anim order-3">Per person</span> -->
+                                <span class="off text-base font-bold anim order-1 text-caribbeanGreen capitalize" *ngIf="seating?.seating_item?.itemname == 'Chair'">Per {{seating?.seating_item?.itemname}}</span>
+                                <span class="off text-base font-bold anim order-1 text-caribbeanGreen capitalize" *ngIf="seating?.seating_item?.itemname == 'Standing'">Per Person</span>
+                                
                               </div>
                             </div>
                           </div>
@@ -554,7 +560,7 @@
               </div>
               <div class="p-3.5 xl:p-5">
                 <span class="input-titel"><i class="icon-location-1 mr-1"></i> Location</span>
-                <h3 class="text-sm xl:text-base">{{ event.event_location.city + ', ' + event.event_location.state }}</h3>
+                <h3 class="text-sm xl:text-base">{{event.event_location.flat_no  + ' - ' + event.event_location.street_name  + ', ' + event.event_location.area_name + ', ' + event.event_location.city + ', ' + event.event_location.state }}</h3>
               </div>
             </div>
             <!-- date-content  -->
@@ -582,16 +588,19 @@
               </div>
             </div>
           </div>
+
+
+
             <!-- Book_ticket_detils -->
-            <div class="bg-white rounded-md max-h-[220px] overflow-hidden" *ngIf="attendees?.length && overview">
+            <div class="bg-white rounded-md max-h-[206px] overflow-y-auto" *ngIf="attendees?.length && overview">
               <div class="flex justify-between px-5 py-2 bg-japaneseIndigo sticky top-0">
                 <span class="text-sm font-bold text-white">Book Ticket</span>
                 <span class="text-sm font-bold text-white">Total Amount</span>
-                <span class="icon-drop_arrow text-[10px] text-white flex items-center pt-0.5" ></span>
+                <span class="icon-drop_arrow text-[10px] text-white flex items-center pt-0.5"  ></span>
               </div>
-              <div class="" *ngFor="let attendee of attendees;let i = index;">
+              <div *ngFor="let attendee of attendees;let i = index;" >
                 <div class="bg-white" *ngFor="let seat of attendee?.seats || []">
-                  <div class="flex justify-between border-t border-brightGray px-5 py-2" *ngFor="let arrangement of seat?.arrangements || []">
+                  <div  class="flex justify-between border-t border-brightGray px-5 py-2" *ngFor="let arrangement of seat?.arrangements || []">
                     <span class="text-sm font-bold text-japaneseIndigo w-1/3">{{arrangement?.ItemCount || 0}} {{((arrangement.vertical_location == 'FRONT') ? 'F' : (arrangement.vertical_location == 'MIDDLE' ? 'M' : 'B'))}} - {{((arrangement.horizontal_location == 'LEFT') ? 'L' : ((arrangement.horizontal_location == 'CENTER') ? 'C' : (arrangement.horizontal_location == 'RIGHT' ? 'R' : 'N')))}}</span>
                     <span class="text-sm font-bold text-japaneseIndigo w-1/3 text-center">{{seat?.seating_item?.itemname}}</span>
                     <span class="text-sm font-bold text-japaneseIndigo w-1/3 text-right">₹{{arrangement?.totalAmountItemCount | number: '1.2-2'}}</span>
@@ -599,6 +608,9 @@
                 </div>
               </div>
             </div>
+
+
+
           </div>
         </div>
       </div>

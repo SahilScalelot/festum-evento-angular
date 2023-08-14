@@ -428,7 +428,7 @@ export class ArrangementDialogComponent implements OnInit {
       });
       const uniqueLocationLength: any = _.uniq(tmpLocations);
       if (uniqueLocationLength && uniqueLocationLength.length != this.arrangements.length) {
-        this._sNotify.error('Please select unique combination of vertical and horizontal locations.', 'Oops!');
+        this._sNotify.error('Please select unique combination of vertical and horizontal locations and Seat Type.', 'Oops!');
         return;
       }
     }

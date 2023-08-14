@@ -31,6 +31,7 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { DropdownModule } from 'primeng/dropdown';
 import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
+import { ImageModule } from 'primeng/image';
 
 const routes: Routes = [
   { path: '', redirectTo: 'add-event', pathMatch: 'full' },
@@ -106,6 +107,7 @@ const routes: Routes = [
     NgxDropzoneModule,
     MatExpansionModule,
     DropdownModule,
+    ImageModule,
     NgxIntlTelInputModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyDLgr8YB5IK8dBIEWClexZGzXaB7UlVm7Q',
