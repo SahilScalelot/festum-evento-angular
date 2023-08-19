@@ -475,19 +475,20 @@ export class AddEditShopDialogComponent implements OnInit {
         }
         this.posterObj.image = poster;
         this.posterObj.name = poster.name;
-        this._modalService.open("imgCropper");
-        this.isCropperLoading = true;
+        this.savePoster(poster);
+        // this._modalService.open("imgCropper");
+        // this.isCropperLoading = true;
       }
     }
   }
 
   savePoster(img: any): void {
     if (img && img != '' && !this.isPosterLoading) {
-      const preparedPoserFromBaseType: any = this._globalFunctions.base64ToImage(img, this.posterObj.name);
-      this._compressImage.compress(preparedPoserFromBaseType).pipe(take(1)).subscribe((compressedImage: any) => {
-        if (compressedImage) {
+      // const preparedPoserFromBaseType: any = this._globalFunctions.base64ToImage(img, this.posterObj.name);
+      // this._compressImage.compress(preparedPoserFromBaseType).pipe(take(1)).subscribe((compressedImage: any) => {
+        if (img) {
           const posterFormData = new FormData();
-          posterFormData.append('file', compressedImage);
+          posterFormData.append('file', img);
           this.isPosterLoading = true;
           this._offlineShopsService.uploadBanner(posterFormData).subscribe((result: any) => {
             if (result && result.IsSuccess) {
@@ -507,7 +508,7 @@ export class AddEditShopDialogComponent implements OnInit {
         } else {
           this._sNotify.success('Something went wrong!', 'Oops');
         }
-      });
+      // });
     }
   }
 

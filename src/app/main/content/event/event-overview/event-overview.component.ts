@@ -79,8 +79,7 @@ export class EventOverviewComponent implements OnInit {
     this.isLoading = true;
     this._eventService.getSingleEvents(this.eventId).subscribe((result: any) => {
       this.event = result.Data;
-      console.log("result.Data", result.Data);
-      
+
       setTimeout(() => {
         if (this.event.accept_booking && !this.event.iseditable) {
           this.getAttendees();
@@ -228,14 +227,21 @@ export class EventOverviewComponent implements OnInit {
   }
 
   cancelEvent(eventId: any): void {
-    console.log(eventId);
     this.isDeleteLoading = true;
     this.cancelEventPop = false;
     // this.isDeleteLoading = false;
   }
 
-  addDeposit(): any {
-    console.log('Add Deposit');
+  gotoPromotion(event: any, eventId: any){
+    event.stopPropagation();
+    localStorage.setItem('eId', eventId);
+    console.log("click");
+    
+    this._router.navigate(['/notifications']);
+    console.log("click");
+    
   }
+
+
 
 }

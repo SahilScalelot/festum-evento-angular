@@ -77,7 +77,7 @@
           </label>
           <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" (click)="editEvent($event, event._id)" *ngIf="event?.iseditable" href="javascript:void(0);"><i class="icon-edit text-sm leading-0 text-japaneseIndigo"></i></a>
           <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" href="javascript:void(0);"><i class="icon-fill_megaphone text-sm leading-0 text-japaneseIndigo"></i></a>
-          <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" href="javascript:void(0);"><i class="icon-share text-sm leading-0 text-japaneseIndigo"></i></a>
+          <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" (click)="gotoPromotion($event,event?._id)"><i class="icon-share text-sm leading-0 text-japaneseIndigo"></i></a>
          
         </div>
         <div class="flex items-center justify-end space-x-3">
@@ -318,14 +318,16 @@
                                 <span class="off text-base font-bold anim order-1 text-caribbeanGreen">Per table</span>
                                 <span class="on text-base font-bold anim order-3">Per person</span> -->
                                 <span class="off text-base font-bold anim order-1 text-caribbeanGreen capitalize" *ngIf="seating?.seating_item">Per {{seating?.seating_item?.itemname}}</span>
+                                <span class="off text-base font-bold anim order-1 text-caribbeanGreen capitalize" *ngIf="seating?.seating_item == 'Standing'">Per Person</span>
+                              
                                 
                               </div>
                               <div class="flex items-center pt-4 ml-auto" *ngIf="(seating?.seating_item?.isonlyperperson)">
                                 <!-- <input class="switch mx-3 order-2" id="on" type="checkbox" [(ngModel)]="arrangement.booking_acceptance"/>
                                 <span class="off text-base font-bold anim order-1 text-caribbeanGreen">Per table</span>
                                 <span class="on text-base font-bold anim order-3">Per person</span> -->
-                                <span class="off text-base font-bold anim order-1 text-caribbeanGreen capitalize" *ngIf="seating?.seating_item?.itemname == 'Chair'">Per {{seating?.seating_item?.itemname}}</span>
-                                <span class="off text-base font-bold anim order-1 text-caribbeanGreen capitalize" *ngIf="seating?.seating_item?.itemname == 'Standing'">Per Person</span>
+                                <!-- <span class="off text-base font-bold anim order-1 text-caribbeanGreen capitalize" *ngIf="seating?.seating_item?.itemname == 'Chair'">Per {{seating?.seating_item?.itemname}}</span> -->
+                                <span class="off text-base font-bold anim order-1 text-caribbeanGreen capitalize" *ngIf="seating?.seating_item?.itemname">Per Person</span>
                                 
                               </div>
                             </div>
@@ -661,7 +663,7 @@
               </div>
             </div>
             <div class="pt-5 pr-5 mt-auto">
-              <button type="button" class="secondary px-5 py-2 flex items-end rounded-sm max-w-max mx-auto" (click)="addDeposit()">Add Deposit</button>
+              <button type="button" class="secondary px-5 py-2 flex items-end rounded-sm max-w-max mx-auto">Add Deposit</button>
             </div>
             <!-- <div class="pt-5 w-full">
               <div class="p-7 bg-white rounded-md space-y-1">

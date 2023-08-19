@@ -123,5 +123,10 @@ export class OfflineShopsComponent implements OnInit {
       this.isDeleteLoading = false;
     });
   }
+  gotoPromotion(event: any, eventId: any){
+    event.stopPropagation();
+    localStorage.setItem('eId', eventId);
+    this._router.navigate(['/notifications']);
+  }
   
 }

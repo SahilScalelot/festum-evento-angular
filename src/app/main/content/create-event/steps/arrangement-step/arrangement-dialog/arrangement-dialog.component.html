@@ -433,9 +433,16 @@
                       <div class="rounded relative overflow-hidden h-full w-full group">
                         <img [alt]="'add-photo-' + i" [src]="!!(photo?.url) ? constants.baseImageURL + photo.url : constants.defaultImage" *ngIf="photo.url" class="object-cover w-full h-full"/>
                         <div class="opacity-0 bg-black bg-opacity-50 flex items-center justify-center group-hover:opacity-100 absolute inset-0 transition-all duration-300">
-                          <button (click)="removeImage(i)">Remove</button>
-                          <i class="pi pi-eye text-2xl text-white cursor-pointer"></i>
+                          <button class="edit">Edit</button>
+                          <span class="block" (click)="viewImage(i)"><i class="pi pi-eye text-2xl text-white cursor-pointer" ></i></span>
+                          <button (click)="removeImage(i)" class="remove">Remove</button>
                         </div>
+                      </div>
+                      <div class="absolute inset-0 flex items-center justify-center bg-black/70 cursor-pointer z-10" *ngIf="openImages" (click)="openImages = !openImages">
+                        <div class="max-w-xs">
+                          <img [alt]="'add-photo-' + i" [src]="!!(viewImagesDailog) ? constants.baseImageURL + viewImagesDailog  : constants.defaultImage" *ngIf="photo.url" class="object-cover w-full h-full"/>                        
+                        </div>
+                        <i class="pi pi-times ng-tns-c140-7 absolute top-10 right-10 text-white font-semibold text-xl"></i>
                       </div>
                     </div>
                     <div (click)="openUploadPhotoDialog()" class="upload-holder" *ngIf="tempImgArr.length < 5">
@@ -532,9 +539,18 @@
                   </div>
                   <div class="flex flex-wrap h-full pt-2">
                     <div *ngFor="let photo of etempImgArr; let i = index" class="upload-box mr-2.5 mb-2.5">
-                      <div class="rounded relative overflow-hidden h-full w-full">
+                      <div class="rounded relative overflow-hidden h-full w-full group">
                         <img [alt]="'add-photo-' + i" [src]="!!(photo?.url) ? constants.baseImageURL + photo.url : constants.defaultImage" *ngIf="photo.url" class="object-cover w-full h-full"/>
-                        <button (click)="removeImage(i)">Remove</button>
+                        <div class="opacity-0 bg-black bg-opacity-50 flex items-center justify-center group-hover:opacity-100 absolute inset-0 transition-all duration-300">
+                          <button class="edit z-50" (click)="editImageUpload(i)">Edit</button>
+                          <span class="block" (click)="viewImage(i)"><i class="pi pi-eye text-2xl text-white cursor-pointer" ></i></span>
+                          <button (click)="removeImage(i)" class="remove">Remove</button>
+                        </div>
+                      </div>
+                      <div class="absolute inset-0 flex items-center justify-center bg-black/70 cursor-pointer z-10" *ngIf="openImages" (click)="openImages = !openImages">
+                        <div class="max-w-xs">
+                          <img [alt]="'add-photo-' + i" [src]="!!(viewEqpImagesDailog) ? constants.baseImageURL + viewEqpImagesDailog  : constants.defaultImage" *ngIf="photo.url" class="object-cover w-full h-full"/>                        
+                        </div>
                       </div>
                     </div>
                     <div *ngIf="etempImgArr.length < 5" (click)="openUploadPhotoDialog()" class="upload-holder" >

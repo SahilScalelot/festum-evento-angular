@@ -72,6 +72,10 @@ export class ArrangementDialogComponent implements OnInit {
   tempImgArr:any [] = [];
   etempImgArr:any [] = [];
 
+  openImages:boolean=false;
+  viewImagesDailog:any;
+  viewEqpImagesDailog:any;
+
   @Input() arrangementsArr: any = {};
   @Input() popClass: any;
   @Input() seatingItems: any;
@@ -149,6 +153,12 @@ export class ArrangementDialogComponent implements OnInit {
     this.isImage = isImage;
     this.companyIAndV = companyIAndV;
     this.isOpenPopup = true;
+  }
+  viewImage(index:number){
+    console.log(127);    
+    this.openImages = !this.openImages;
+    this.viewImagesDailog = this.tempImgArr[index].url;
+    this.viewEqpImagesDailog = this.etempImgArr[index].url;
   }
 
   openUploadPhotoDialog(): void {
@@ -482,6 +492,11 @@ export class ArrangementDialogComponent implements OnInit {
       this.textEditorLimitEquipment = stringOfCKEditor.length;
       this.textEditorEquipment = (stringOfCKEditor.length > this.textEditorMaxLimit);
     }
+  }
+
+  editImageUpload(index:number){
+    console.log(index);
+    console.log("click");
   }
 
   closePopup(arrangementsArr: any = []): void {
