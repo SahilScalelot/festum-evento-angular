@@ -202,12 +202,14 @@ export class AddEditShopDialogComponent implements OnInit {
     });
 
     
-    this.phoneForm = new FormGroup({
-      phone: new FormControl(undefined),
-    });
+    // this.phoneForm = new FormGroup({
+    //   phone: new FormControl(undefined),
+    // });
   }
 
   onTextEditorReady(editor: any, fieldForSetData: any): void {
+    console.log("haha");
+    
     editor.ui.getEditableElement().parentElement.insertBefore(
       editor.ui.view.toolbar.element,
       editor.ui.getEditableElement()

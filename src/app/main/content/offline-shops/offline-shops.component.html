@@ -11,7 +11,7 @@
     <div class="space-y-2.5" *ngIf="!isLoading">
       <div class="bg-white flex flex-wrap items-start justify-between cursor-pointer" *ngFor="let shop of shops" (click)="gotoShopOverview($event, shop)">
         <div class="w-full xl:w-10/12 lg:flex items-center lg:items-stretch">
-          <div class="relative w-full lg:max-w-[200px]">
+          <div class="relative w-full lg:max-w-[200px] lg:max-h-[142.5px]">
             <img [src]="!!(shop?.banner) ? constants.baseImageURL + shop.banner : constants.defaultImage" [alt]="shop.shop_name" class="w-full h-full object-cover pb-5 lg:pb-0" />
           </div>
           <div class="w-full p-4">

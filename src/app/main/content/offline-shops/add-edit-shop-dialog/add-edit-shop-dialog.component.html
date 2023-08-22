@@ -228,8 +228,8 @@
         <div class="flex items-end flex-wrap -mx-2">
           <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative">
             <span class="input-titel">Company Contact No</span>
-            <input type="text" [formControlName]="'contact_number'" name="contact_number" class="input">
-            <!-- <div #phoneF="ngForm" [formGroup]="phoneForm">
+            <!-- <input type="text" [formControlName]="'contact_number'" name="contact_number" class="input"> -->
+            <div #phoneF="ngForm" [formGroup]="phoneForm">
               <ngx-intl-tel-input
                 [cssClass]="'w-full'"
                 [preferredCountries]="preferredCountries"
@@ -253,7 +253,7 @@
             </div>
             <span class="absolute top-full text-red-500 text-xs left-2" *ngIf="phoneF.form.controls['phone'].touched && phoneF.form.controls['phone'].invalid">
               Please enter valid Contact Number.
-            </span> -->
+            </span>
           </div>
           <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative">
             <span class="input-titel">Company Email</span>

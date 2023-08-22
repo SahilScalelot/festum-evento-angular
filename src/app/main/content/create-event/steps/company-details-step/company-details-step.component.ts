@@ -104,6 +104,7 @@ export class CompanyDetailsStepComponent implements OnInit {
       editor.ui.view.toolbar.element,
       editor.ui.getEditableElement()
     );
+    
   }
 
   getCompanyDetailsEvent(): any {
