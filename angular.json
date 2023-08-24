@@ -45,7 +45,8 @@
               "src/assets/js/swiper-bundle.min.js",
               "node_modules/dropify/dist/js/dropify.min.js",
               "node_modules/rateyo/min/jquery.rateyo.min.js",
-              "src/assets/js/dropify.js"
+              "src/assets/js/dropify.js",
+              "node_modules/amazon-ivs-web-broadcast/dist/amazon-ivs-web-broadcast.js"
             ],
             "allowedCommonJsDependencies": [
               "lodash",

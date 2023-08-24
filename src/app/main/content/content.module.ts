@@ -55,7 +55,7 @@ const routes: Routes = [
     OurProductComponent,
     BookingComponent,
     SearchComponent,
-    MyPostsComponent
+    MyPostsComponent,
   ],
   imports: [
     RouterModule.forChild(routes),
