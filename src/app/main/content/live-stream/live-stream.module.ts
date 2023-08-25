@@ -14,6 +14,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { RatingModule } from 'primeng/rating';
 import { Time24to12Format } from 'src/app/pipe/time24to12.pipe';
 import { MatIconModule } from "@angular/material/icon";
+import { BroadcastStreamComponent } from './broadcast-stream/broadcast-stream.component';
 
 const routes: Routes = [
   {
@@ -21,6 +22,9 @@ const routes: Routes = [
   },
   {
     path: ':id', component: StreamOverviewComponent
+  },
+  {
+    path: 'broadcast/:id', component: BroadcastStreamComponent
   },
   {
     path: 'create',
@@ -32,7 +36,8 @@ const routes: Routes = [
   declarations: [
     LiveStreamComponent,
     StreamOverviewComponent,
-    Time24to12Format
+    Time24to12Format,
+    BroadcastStreamComponent
   ],
   imports: [
     RouterModule.forChild(routes),

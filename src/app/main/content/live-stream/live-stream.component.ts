@@ -21,6 +21,7 @@ export class LiveStreamComponent implements OnInit {
   tmpLSObj: any = {};
   userObj: any = {};
   isDeleteLoading: boolean = false;
+  isBroadCastEvent: boolean = false;
 
   constructor(
     private _router: Router,
@@ -118,5 +119,15 @@ export class LiveStreamComponent implements OnInit {
     this._router.navigate(['/live-stream/' + offerId]);
   }
   
+  openBroadCastStream(event: any, liveEventId: any): void {
+    event.stopPropagation();
+    this._router.navigate(['/live-stream/broadcast/'+ liveEventId])
+    // this.isBroadCastEvent = true;
+    // console.log(liveEvent);
+  }
 
+  closePop(flag: boolean): void {
+    this.isBroadCastEvent = false;
+  
+  }
 }

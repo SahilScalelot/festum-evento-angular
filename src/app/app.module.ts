@@ -50,6 +50,7 @@ export function HttpLoaderFactory(http:  HttpClient) {
     GlobalFunctions,
     GlobalService,
     { provide: 'SnotifyToastConfig', useValue: ToastDefaults },
+    { provide: Window, useValue: window },
     SnotifyService,
     TranslateService
   ],
