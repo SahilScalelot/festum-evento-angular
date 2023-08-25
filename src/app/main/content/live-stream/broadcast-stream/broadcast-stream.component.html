@@ -5,7 +5,7 @@
       <div class="space-y-3 lg:space-y-6 py-8 border-b border-gray-200">
         <canvas id="preview"></canvas>
         <span class="icon-mic"></span>
-        <div class="flex justify-center space-x-2">
+        <!-- <div class="flex justify-center space-x-2">
           <button type="button" class="p-3 px-4 bg-brightGray rounded-md text-lg font-bold uppercase" (click)="setMicrophone()">
             <mat-icon aria-hidden="false" aria-label="Mic icon" fontIcon="mic" *ngIf="isMicroPhone"></mat-icon>
             <mat-icon aria-hidden="false" aria-label="Mic icon" fontIcon="mic_off" *ngIf="!isMicroPhone"></mat-icon>
@@ -23,7 +23,7 @@
           <button class="secondary py-2 px-5 anim uppercase" *ngIf="isStreamStarted" (click)="stopBroadcast()">
             <span>Stop Streaming</span>
           </button>
-        </div>
+        </div> -->
         <form class="w-full flex items-end flex-wrap p-ngCss" [formGroup]="newBroadCastForm" novalidate>
           <div class="w-full lg:w-1/2 px-2 pt-5 pb-0.5 inputHolder relative">
             <span class="input-titel">Select Webcam<span>*</span></span>
