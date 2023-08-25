@@ -5,10 +5,24 @@
       <div class="space-y-3 lg:space-y-6 py-8 border-b border-gray-200">
         <canvas id="preview"></canvas>
         <span class="icon-mic"></span>
-        <div class="flex items-center space-x-2">
-          <button type="button" class="p-3 px-4 bg-brightGray rounded-md text-lg font-bold uppercase">
-
-            <i class="icon-mic mr-2"></i>  </button>
+        <div class="flex justify-center space-x-2">
+          <button type="button" class="p-3 px-4 bg-brightGray rounded-md text-lg font-bold uppercase" (click)="setMicrophone()">
+            <mat-icon aria-hidden="false" aria-label="Mic icon" fontIcon="mic" *ngIf="isMicroPhone"></mat-icon>
+            <mat-icon aria-hidden="false" aria-label="Mic icon" fontIcon="mic_off" *ngIf="!isMicroPhone"></mat-icon>
+          </button>
+          <button type="button" class="p-3 px-4 bg-brightGray rounded-md text-lg font-bold uppercase" (click)="setWebCam()">
+            <mat-icon aria-hidden="false" aria-label="video icon" fontIcon="videocam" *ngIf="isVideo"></mat-icon>
+            <mat-icon aria-hidden="false" aria-label="video icon" fontIcon="videocam_off" *ngIf="!isVideo"></mat-icon>
+          </button>
+          <button type="button" class="p-3 px-4 bg-brightGray rounded-md text-lg font-bold uppercase" (click)="openSetting()">
+            <mat-icon aria-hidden="false" aria-label="setting icon" fontIcon="settings"></mat-icon>
+          </button>
+          <button class="secondary py-2 px-5 mr-2 anim uppercase"  *ngIf="!isStreamStarted" (click)="startBroadcast()">
+            <span>Start Streaming</span>
+          </button>
+          <button class="secondary py-2 px-5 anim uppercase" *ngIf="isStreamStarted" (click)="stopBroadcast()">
+            <span>Stop Streaming</span>
+          </button>
         </div>
         <form class="w-full flex items-end flex-wrap p-ngCss" [formGroup]="newBroadCastForm" novalidate>
           <div class="w-full lg:w-1/2 px-2 pt-5 pb-0.5 inputHolder relative">
@@ -54,15 +68,12 @@
       </div>
       <div class="flex justify-end">
         <div class="relative">
-          <button class="secondary py-2 px-10 mr-2 anim uppercase" type="submit" (click)="startBroadcast()">
-            <span [ngClass]="{'opacity-0': newBroadCastForm.disabled}">Start Broadcast</span>
+          <button class="secondary py-2 px-10 mr-2 anim uppercase" type="submit" [disabled]="isStreamStarted" (click)="startBroadcast()">
+            <span>Start Broadcast</span>
           </button>
           <button class="secondary py-2 px-10 anim uppercase" type="submit" (click)="stopBroadcast()">
             <span>Stop Broadcast</span>
           </button>
-          <div class="absolute inset-0 text-white flex items-center" *ngIf="newBroadCastForm.disabled">
-            <mat-progress-spinner [diameter]="22" [mode]="'indeterminate'" class="mx-auto"></mat-progress-spinner>
-          </div>
         </div>
       </div>
     </div>
