@@ -439,9 +439,7 @@ export class PhotosVideosStepComponent implements OnInit {
   nextStep() {
     this.isLoading = true;
     this._createEventService.photosAndVideo(this.posterImageAndVideoObj).subscribe((result: any) => {
-      if (result && result.IsSuccess) {
-        console.log(result);
-        
+      if (result && result.IsSuccess) {        
         this.isLoading = false;
         this._router.navigate(['/events/create/permission']);
       } else {

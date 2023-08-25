@@ -76,7 +76,7 @@
             <span class="text-base font-bold anim order-3">Live</span>
           </label>
           <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" (click)="editEvent($event, event._id)" *ngIf="event?.iseditable" href="javascript:void(0);"><i class="icon-edit text-sm leading-0 text-japaneseIndigo"></i></a>
-          <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" href="javascript:void(0);"><i class="icon-fill_megaphone text-sm leading-0 text-japaneseIndigo"></i></a>
+          <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" (click)="gotoPromotion($event,event?._id)"><i class="icon-fill_megaphone text-sm leading-0 text-japaneseIndigo"></i></a>
           <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" (click)="gotoPromotion($event,event?._id)"><i class="icon-share text-sm leading-0 text-japaneseIndigo"></i></a>
          
         </div>
@@ -466,7 +466,7 @@
             </div>
             <!-- Company Details -->
             <div *ngIf="event?.tandc?.t_and_c && event?.tandc?.t_and_c != ''" class="space-y-1.5">
-              <h3 class="text-lg">Terms & Conditions</h3>
+              <h3 class="text-lg">Event Terms & Conditions</h3>
               <div class="p-3.5 xl:p-5 bg-white rounded-md">
                 <div [innerHtml]="(tandcShow) ? event?.tandc?.t_and_c : event?.tandc?.t_and_c | slice:0:180"></div>
                 <a href="javascript:;" *ngIf="!tandcShow && event?.tandc?.t_and_c.length > 180"(click)="tandcShow=true" class="text-magicPotion text-sm font-semibold ml-auto">...Read More</a>

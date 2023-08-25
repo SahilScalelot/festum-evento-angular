@@ -412,6 +412,8 @@ export class CompanyDetailsStepComponent implements OnInit {
     const preparedCompanyDetailsObj: any = this.prepareObj(this.companyForm.value);
     this._createEventService.companyDetail(preparedCompanyDetailsObj).subscribe((result: any) => {
       if (result && result.IsSuccess) {
+        console.log("Company Details",result);
+        
         this.isLoading = false;
         this.companyForm.enable();
         this._router.navigate(['/events/create/personal-details']);

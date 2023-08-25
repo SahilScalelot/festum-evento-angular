@@ -132,6 +132,14 @@ export class ShopOverviewComponent implements OnInit {
     });
   }
 
+  gotoPromotion(event: any, shopId: any){
+    event.stopPropagation();
+    // localStorage.setItem('eId', shopId);
+    this._router.navigate(['/notifications']);
+   
+    
+  }
+
   openAddEditShopDialog(event: any): void {
     event.stopPropagation();
     this.isOpenAddEditShop = true;
@@ -244,4 +252,6 @@ export class ShopOverviewComponent implements OnInit {
       this.isDeleteLoading = false;
     });
   }
+
+
 }

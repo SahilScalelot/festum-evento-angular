@@ -19,6 +19,8 @@ import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { SharedModule } from "../../../shared/shared.module";
 import { AddEditShopDialogComponent } from "./add-edit-shop-dialog/add-edit-shop-dialog.component";
 import { AddEditShopOfferDialogComponent } from "./shop-overview/add-edit-shop-offer-dialog/add-edit-shop-offer-dialog.component";
+import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
+
 
 const routes: Routes = [
   {
@@ -53,6 +55,8 @@ const routes: Routes = [
       apiKey: 'AIzaSyDLgr8YB5IK8dBIEWClexZGzXaB7UlVm7Q',
       libraries: ['places']
     }),
+    NgxIntlTelInputModule
+
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

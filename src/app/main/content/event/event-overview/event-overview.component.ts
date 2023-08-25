@@ -235,10 +235,8 @@ export class EventOverviewComponent implements OnInit {
   gotoPromotion(event: any, eventId: any){
     event.stopPropagation();
     localStorage.setItem('eId', eventId);
-    console.log("click");
-    
     this._router.navigate(['/notifications']);
-    console.log("click");
+   
     
   }
 

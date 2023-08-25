@@ -30,6 +30,7 @@
         <div class="flex justify-end space-x-2">
           <!-- <a href="javascript:void(0);" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-fill_megaphone text-base text-black"></i></a> -->
           <a href="javascript:void(0);" (click)="openAddEditShopDialog($event)" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-edit text-base text-black"></i></a>
+          <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" (click)="gotoPromotion($event,shopId)"><i class="icon-fill_megaphone text-sm leading-0 text-japaneseIndigo"></i></a>
           <a href="javascript:void(0);" (click)="openDeleteDialog($event, shopId)" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-delete_fill text-base text-black"></i></a>
         </div>
       </div>
@@ -124,7 +125,7 @@
             <div class="space-y-4" *ngIf="shopObj?.companydetails?.about || shopObj?.companydetails?.company_name || shopObj?.companydetails?.contact_number || shopObj?.companydetails?.emailid || shopObj?.companydetails?.gst_file">
               <h5>Company Details</h5>
               <div class="p-7 bg-white rounded-md space-y-1" *ngIf="shopObj?.companydetails?.about">
-                <h3 class="text-lg">About Company</h3>
+                <h3 class="text-lg">{{shopObj.companydetails.company_name}} About Company</h3>
                 <div [innerHtml]="shopObj?.companydetails?.about"></div>
                 <!-- <p class="text-quicksilver text-sm font-normal">{{shopObj?.companydetails?.about}}</p> -->
               </div>
