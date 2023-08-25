@@ -14,6 +14,7 @@ import { TermsAndConditionsComponent } from '../main/common/terms-and-conditions
 import { PrivacyPolicyComponent } from '../main/common/privacy-policy/privacy-policy.component';
 import { TermsAndConditionsUserComponent } from '../main/common/terms-and-conditions-user/terms-and-conditions.component';
 import { PrivacyPolicyUserComponent } from '../main/common/privacy-policy-user/privacy-policy.component';
+import { RPCPRulesComponent } from '../main/common/rpcp-rules/rpcp-rules.component';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { PrivacyPolicyUserComponent } from '../main/common/privacy-policy-user/p
     TermsAndConditionsComponent,
     PrivacyPolicyComponent,
     TermsAndConditionsUserComponent,
-    PrivacyPolicyUserComponent
+    PrivacyPolicyUserComponent,
+    RPCPRulesComponent
   ],
   imports: [
     CommonModule,
@@ -48,7 +50,8 @@ import { PrivacyPolicyUserComponent } from '../main/common/privacy-policy-user/p
     ValidAlphabetDirective,
     ValidNumberWithDecimalDirective,
     TermsAndConditionsComponent,
-    PrivacyPolicyComponent
+    PrivacyPolicyComponent,
+    RPCPRulesComponent
   ]
 })
 export class SharedModule {

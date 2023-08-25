@@ -137,12 +137,14 @@ export const CONSTANTS = {
   // ],
 
   verticalLocationsObj: {
-    FRONT: 0,
-    MIDDLE: 1,
-    BACK: 2
+    NONE: 0,
+    FRONT: 1,
+    MIDDLE: 2,
+    BACK: 3
   },
 
   verticalLocationsArr: [
+    {value: 'NONE', label: 'None'},
     {value: 'FRONT', label: 'Front'},
     {value: 'MIDDLE', label: 'Middle'},
     {value: 'BACK', label: 'Back'}
@@ -160,6 +162,33 @@ export const CONSTANTS = {
     {value: 'LEFT', label: 'Left'},
     {value: 'CENTER', label: 'Center'},
     {value: 'RIGHT', label: 'Right'},
+  ],
+
+  seatObj: {
+    NONE: 0,
+    VVIP: 1,
+    VIP: 2,
+    Platinum: 3,
+    Gold:4,
+    Silver:5,
+    Season_Single_Pass:6,
+    Season_Couple_Pass:7,
+    Khelaiya_Single_Pass:8,
+    Khelaiya_Couple_Pass:9
+  },
+
+  seatArr: [
+    {value: 'NONE', label: 'None'},
+    {value: 'VVIP', label: 'VVIP'},
+    {value: 'VIP', label: 'VIP'},
+    {value: 'Platinum', label: 'Platinum'},
+    {value: 'Gold', label: 'Gold'},
+    {value: 'Silver', label: 'Silver'},
+    {value: 'Season Single Pass', label: 'Season Single Pass'},
+    {value: 'Season Couple Pass', label: 'Season Couple Pass'},
+    {value: 'Khelaiya Single Pass', label: 'Khelaiya Single Pass'},
+    {value: 'Khelaiya Single Pass', label: 'Khelaiya Single Pass'},
+
   ],
 
   discountTypeObj: {
@@ -260,9 +289,9 @@ export const CONSTANTS = {
   ],
 
   maxPosterSizeInMB: 10,
-  maxImageSizeInMB: 3,
+  maxImageSizeInMB: 7,
   maxIconSizeInKB: 500,
-  maxVideoSizeInMB: 512,
+  maxVideoSizeInMB: 256,
   maxCompanyVideoSizeInMB: 2,
   defaultMapZoom: 12,
   latitude: 21.228125,

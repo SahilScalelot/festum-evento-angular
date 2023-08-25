@@ -3,13 +3,13 @@
     <!-- title-holder  -->
     <div class="flex justify-start items-center">
       <a href="javascript:void(0);" class="flex items-center" [routerLink]="'/notifications'"><i class="icon-left_arrow mr-4 text-2xl"></i></a>
-      <h2>Create New Notification</h2>
+      <h2>Create New Promotion</h2>
     </div>
     <!-- main-content  -->
     <form class="space-y-5" [formGroup]="notificationForm">
       <div class="flex items-end flex-wrap -mx-2">
         <div class="w-full md:w-1/2 px-2 inputHolder relative pb-0.5 mb-7">
-          <span class="input-titel text-xl text-japaneseIndigo font-bold">Notification Title<span>*</span></span>
+          <span class="input-titel text-xl text-japaneseIndigo font-bold">Promotion Title<span>*</span></span>
           <input type="text" id="notification-title" formControlName="notification_title" class="input" />
           <span class="absolute top-full text-red-500 text-xs" *ngIf="notificationForm.get('notification_title')?.invalid && (notificationForm.get('notification_title')?.dirty && notificationForm.get('notification_title')?.touched)">
             <span *ngIf="notificationForm.get('notification_title')?.errors?.['required']">
@@ -78,7 +78,7 @@
 </div>
 
 <!-- Preview Notification -->
-<modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="notification-pop" title="Notification" maxWidth="lg:max-w-7xl xl:px-0">
+<modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="notification-pop" title="Promotion" maxWidth="lg:max-w-7xl xl:px-0">
   <div class="relative pt-5">
     <div class="bg-white p-7 rounded-md w-full">
       <div class="flex justify-between items-start">

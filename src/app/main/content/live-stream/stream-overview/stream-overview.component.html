@@ -1,7 +1,7 @@
 <p-progressSpinner *ngIf="isLoading" [style]="{width: '50px', height: '50px'}" animationDuration=".5s" strokeWidth="8" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-x-0 top-0 h-full w-full z-40" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
 <div *ngIf="liveStreamObj && !isLoading" class="">
   <div class="-mt-12 relative -z-10">
-    <img [src]="!!(liveStreamObj?.photos[0]?.url) ? constants.baseImageURL + liveStreamObj.photos[0].url : constants.defaultImage" alt="cooking-together-bg" class="w-full object-cover max-h-80"/>
+    <img [src]="!!(liveStreamObj?.banner) ? constants.baseImageURL + liveStreamObj.banner : constants.defaultImage" alt="cooking-together-bg" class="w-full object-cover max-h-80"/>
   </div>
   <div class="wrapper -mt-14 z-10">
     <div class="flex justify-between bg-white py-5 px-7 rounded-md">
@@ -15,7 +15,9 @@
         <span class="bg-caribbeanGreen bg-opacity-20 font-bold px-2 text-caribbeanGreen text-sm capitalize p-1 inline-block mt-5">{{liveStreamObj?.event_type}} live streaming</span>
       </div>
       <div class="space-y-10 flex flex-col justify-between items-end">
-        <button class="bg-quicksilver text-white font-bold rounded-lg capitalize px-3 py-2"><i class="icon-live"></i><span class="pl-2.5 whitespace-nowrap">go live </span></button>
+        <button class="bg-quicksilver text-white font-bold rounded-lg capitalize px-3 py-2"
+          [ngClass]="{'secondary': liveStreamObj?.is_approved}" (click)="goLive($event, liveStreamObj)">
+          <i class="icon-live"></i><span class="pl-2.5 whitespace-nowrap">go live </span></button>
         <div class="flex justify-end space-x-2">
           <a href="javascript:void(0);" (click)="editEvent($event, liveStreamObj._id)" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-edit text-base text-black"></i></a>
           <!-- <a href="javascript:void(0);" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-fill_megaphone text-base text-black"></i></a> -->
@@ -195,7 +197,7 @@
               </div>
             </div>
             <!-- copy links  -->
-            <div class="rounded-md bg-white p-8 space-y-6">
+            <!-- <div class="rounded-md bg-white p-8 space-y-6">
               <div class="flex w-full justify-between">
                 <div class="flex flex-col">
                   <span class="text-quicksilver text-xs font-bold">Join User Link</span>
@@ -214,7 +216,7 @@
                   <a href="javascript:void(0);" class="icon-copy text-quicksilver text-xl"></a>
                 </div>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>

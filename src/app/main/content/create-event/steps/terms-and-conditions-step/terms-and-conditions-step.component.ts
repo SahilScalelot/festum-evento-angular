@@ -63,6 +63,8 @@ export class TermsAndConditionsStepComponent implements OnInit {
     if (this.termsAndConditionsForm.value && this.termsAndConditionsForm.value.status == false) {
       this.termsAndConditionsForm.get('status').setValue(false);
       this._modalService.open("tandc");
+    }else{
+      this._modalService.open("tandc");
     }
   }
 

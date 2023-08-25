@@ -63,6 +63,8 @@ export class TermsAndConditionsLsComponent implements OnInit {
     if (this.termsAndConditionsForm.value && this.termsAndConditionsForm.value.status == false) {
       this.termsAndConditionsForm.get('status').setValue(false);
       this._modalService.open("tandc");
+    }else{
+      this._modalService.open("tandc");
     }
   }
 
@@ -104,6 +106,14 @@ export class TermsAndConditionsLsComponent implements OnInit {
     this.textEditor = (stringOfCKEditor.length > this.textEditorMaxLimit);
   }
 
+  onBackCLick(): void {
+    this._router.navigate(['/live-stream/create/personal-details']);
+    // for first time we got some issue, tha is why we add another setTimeout
+    setTimeout(() => {
+      this._router.navigate(['/live-stream/create/personal-details']);
+    }, 0);
+  }
+
   saveFullEvent(): void {
     if (this.termsAndConditionsForm.invalid) {
       Object.keys(this.termsAndConditionsForm.controls).forEach((key) => {
@@ -128,6 +138,10 @@ export class TermsAndConditionsLsComponent implements OnInit {
           setTimeout(() => {
             this.successfully = false;
             this._router.navigate(['/live-stream']);
+            // for first time we got some issue, tha is why we add another setTimeout
+            setTimeout(() => {
+              this._router.navigate(['/live-stream']);
+            }, 0);
           }, 3000);
           // this._sNotify.success('Event Created And Update Successfully.', 'Success');
         } else {

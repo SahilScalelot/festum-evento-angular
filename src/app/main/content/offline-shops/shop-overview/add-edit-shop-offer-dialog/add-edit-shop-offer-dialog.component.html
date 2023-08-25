@@ -54,6 +54,7 @@
 
       <div class="flex flex-wrap items-end -mx-2">
         <div class="upload-holder w-full md:w-1/2 h-full px-2 pt-5 relative">
+          <p-progressSpinner *ngIf="isUploadPosterLoading" [style]="{width: '50px', height: '50px'}" animationDuration=".5s" strokeWidth="8" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-x-0 top-0 h-full w-full z-40" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
           <label class="upload upload-popup p-0 relative group" id="shop-img-obj-upload">
             <input (change)="onPosterChange($event)" accept="image/png, image/jpeg, image/gif" class="poster-upload hidden" name="poster" id="poster-upload" type="file" />
           </label>
@@ -64,7 +65,8 @@
           </span>
         </div>
 
-        <div class="upload-holder w-full md:w-1/2 h-full px-2 pt-5">
+        <div class="upload-holder w-full md:w-1/2 h-full px-2 pt-5 relative">
+          <p-progressSpinner *ngIf="isUploadVideoLoading" [style]="{width: '50px', height: '50px'}" animationDuration=".5s" strokeWidth="8" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-x-0 top-0 h-full w-full z-40" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
           <label class="upload upload-popup p-0 relative group" id="video-upload-obj">
             <input (change)="onVideoChange($event)" accept="video/mp4" class="video-upload hidden" name="videos" id="video-upload" type="file" />
           </label>
@@ -84,8 +86,7 @@
         </span>
       </div>
       <div class="flex items-start pt-9">
-        <p-checkbox name="offer_on_all_products" [value]="'true'" formControlName="offer_on_all_products"
-                    (onChange)="onSelectOfferOnAllProduct($event)"></p-checkbox>
+        <p-checkbox name="offer_on_all_products" [value]="'true'" formControlName="offer_on_all_products" (onChange)="onSelectOfferOnAllProduct($event)"></p-checkbox>
         <div class="ml-4">
           <span class="block text-base text-black font-bold">Select if you have offer on all products</span>
           <span class=" text-sm text-quicksilver">Don't select if you have offer on specific products</span>
@@ -116,11 +117,15 @@
           </span>
         </div>
         <div class="w-full pt-5" formArrayName="all_product_conditions">
-          <span class="text-sm text-quicksilver">Note: For unlimited person fill zero</span>
-
+          <div class="flex items-center justify-between pb-2">
+            <span class="text-sm text-quicksilver">Note: For unlimited person fill zero</span>
+            <button (click)="addProductLimitation()" class="text-xs text-white font-bold px-3 rounded py-1 whitespace-nowrap bg-magicPotion flex items-center">
+              <i class="icon-plus_round leading-0 mr-2"></i> Add Item
+            </button>
+          </div>
           <div *ngFor="let productOfferObj of allProductConditions.controls; let i = index" [formGroupName]="i">
             <div class="flex flex-wrap items-center -mx-2">
-              <div class="inputHolder w-full lg:w-1/3 px-2 pt-2.5 relative">                
+              <div class="inputHolder w-full lg:w-1/3 px-2 pt-2.5 relative">
                 <input type="number" class="input" [formControlName]="'person_limitation'"
                 [placeholder]="'Person Limitation ( e.g. 100 )'" [min]="0" fuseValidNumber/>
                 <span class="absolute top-full left-0 text-red-500 text-xs ml-2" *ngIf="allProductConditions.controls[i].get('person_limitation')?.invalid && (allProductConditions.controls[i].get('person_limitation')?.dirty && allProductConditions.controls[i].get('person_limitation')?.touched)">
@@ -156,8 +161,9 @@
                   </div>
                 </label>
                 <div class="pl-2">
-                  <button (click)="addProductLimitation()" *ngIf="i == (allProductConditions.controls.length - 1) && (allProductConditions.controls.length < constants.maxOfferOnAllProductsLimit)" class="border-2 border-japaneseIndigo w-7 h-7 rounded-full flex justify-center items-center"><i class="icon-plus_round leading-0"></i></button>
-                  <button (click)="removeProductLimitation(i)" *ngIf="i != (allProductConditions.controls.length - 1) || (allProductConditions.controls.length == constants.maxOfferOnAllProductsLimit)" class="border-2 border-magicPotion w-7 h-7 rounded-full flex justify-center items-center"><span class="border border-magicPotion flex border-x-8 border-y-5 bg-magicPotion rounded"></span></button>
+                  <!-- <button (click)="addProductLimitation()" *ngIf="i == (allProductConditions.controls.length - 1) && (allProductConditions.controls.length < constants.maxOfferOnAllProductsLimit)" class="border-2 border-japaneseIndigo w-7 h-7 rounded-full flex justify-center items-center"><i class="icon-plus_round leading-0"></i></button> -->
+                  <!-- *ngIf="i != (allProductConditions.controls.length - 1) || (allProductConditions.controls.length == constants.maxOfferOnAllProductsLimit)" -->
+                  <button (click)="removeProductLimitation(i)" class="border-2 border-magicPotion w-7 h-7 rounded-full flex justify-center items-center"><span class="border border-magicPotion flex border-x-8 border-y-5 bg-magicPotion rounded"></span></button>
                 </div>
                 <span class="absolute top-full text-red-500 text-xs"
                       *ngIf="allProductConditions.controls[i].get('discount')?.invalid && (allProductConditions.controls[i].get('discount')?.dirty && allProductConditions.controls[i].get('discount')?.touched)">
@@ -178,7 +184,10 @@
       </div>
       <!-- Btn Continue -->
       <div class="flex justify-end pt-5">
-        <button class="secondary py-3 px-12 uppercase text-lg font-bold" [disabled]="isLoading || isUploadPosterLoading || isUploadVideoLoading || isUploadImageLoading" (click)="onContinueClick()">continue</button>
+        <button class="secondary py-3 px-12 uppercase text-lg font-bold" [disabled]="isLoading || isUploadPosterLoading || isUploadVideoLoading || isUploadImageLoading" (click)="onContinueClick()">
+          {{(isLoading || isUploadPosterLoading || isUploadVideoLoading || isUploadImageLoading) ? 'Please Wait..' : 'Continue'}}
+          <!-- Continue -->
+        </button>
       </div>
     </div>
     <div *ngIf="isAddUserWiseOffers">
@@ -190,7 +199,12 @@
         </select>
       </div>
       <div class="w-full pt-5">
-        <span class="input-titel">Offer Products</span>
+        <div class="flex items-center justify-between pb-2">
+          <span class="input-titel">Offer Products</span>
+          <button (click)="addProductOffer({}, offerType.value)" class="text-xs text-white font-bold px-3 rounded py-1 whitespace-nowrap bg-magicPotion flex items-center">
+            <i class="icon-plus_round leading-0 mr-2"></i> Add Item
+          </button>
+        </div>
         <div class="bg-white p-5 lg:p-7 offerProducts rounded-md space-y-5" formArrayName="offer_type_conditions">
           <div class="flex items-center -mx-2" *ngFor="let productOfferObj of offerTypeConditions.controls; let i = index" [formGroupName]="i">
             <div class="upload-holder w-28 h-28 mr-2.5 relative">
@@ -252,10 +266,11 @@
                   </div>
                 </label>
                 <div class="pl-5">
-                  <button (click)="addProductOffer({}, offerType.value)" *ngIf="i == (offerTypeConditions.controls.length - 1)" class="border-2 border-japaneseIndigo w-7 h-7 rounded-full flex justify-center items-center">
+                  <!-- <button (click)="addProductOffer({}, offerType.value)" *ngIf="i == (offerTypeConditions.controls.length - 1)" class="border-2 border-japaneseIndigo w-7 h-7 rounded-full flex justify-center items-center">
                     <i class="icon-plus_round leading-0"></i>
-                  </button>
-                  <button (click)="removeProductOffer(i)" *ngIf="i != (offerTypeConditions.controls.length - 1)" class="border-2 border-magicPotion w-7 h-7 rounded-full flex justify-center items-center">
+                  </button> -->
+                  <!-- *ngIf="i != (offerTypeConditions.controls.length - 1)" -->
+                  <button (click)="removeProductOffer(i)" class="border-2 border-magicPotion w-7 h-7 rounded-full flex justify-center items-center">
                     <span class="border border-magicPotion flex border-x-8 border-y-5 bg-magicPotion rounded"></span>
                   </button>
                 </div>
@@ -298,13 +313,13 @@
           </span>
         </div>
         <div class="block w-full relative">
-          <label class="inline-flex items-end cursor-pointer" (click)="tAndCPop()">
-            <div class="checkbox rounded bg-white">
+          <div class="inline-flex items-end cursor-pointer">
+            <label class="checkbox rounded bg-white">
               <input type="checkbox" [formControlName]="'status'" name="status" [checked]="false" />
               <i class="icon-right text-white"></i>
-            </div>
-            <span class="input-titel text-base ml-4">Agree with our Terms And Conditions</span>
-          </label>
+            </label>
+            <span class="input-titel text-base ml-4">Agree with our <span (click)="tAndCPop()" class="inline-block text-magicPotion">Terms And Conditions</span></span>
+          </div>
           <span class="absolute top-full left-0 text-red-500 text-xs" *ngIf="addEditOfferForm.get('status')?.invalid && (addEditOfferForm.get('status')?.dirty && addEditOfferForm.get('status')?.touched)">
             <span *ngIf="addEditOfferForm.get('status')?.errors?.['required']">
               Accepting Terms and Conditions is Required.

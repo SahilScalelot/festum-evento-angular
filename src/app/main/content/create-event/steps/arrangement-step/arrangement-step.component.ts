@@ -22,7 +22,8 @@ export class ArrangementStepComponent implements OnInit {
   isLoading: boolean = false;
   isDeleteLoading: boolean = false;
   arrangementsArr: any = [];
-
+  event_typ: any;
+  arrangementsArr1:any;
   @Input() arrangementObj: any = {};
 
   constructor(
@@ -49,9 +50,10 @@ export class ArrangementStepComponent implements OnInit {
 
   getArrangements(): void {
     this.isLoading = true;
-    this._createEventService.getArrangements(this.eventId).subscribe((result: any) => {
+    this._createEventService.getArrangements(this.eventId).subscribe((result: any) => {      
       if (result && result.IsSuccess) {
-        this.arrangementsArr = result.Data.seating_arrangements || [];
+        this.arrangementsArr = result.Data.seating_arrangements || []; 
+        this.event_typ = result.Data;
         this.isLoading = false;
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);

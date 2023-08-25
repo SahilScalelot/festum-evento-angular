@@ -135,6 +135,7 @@ export class LandingPageComponent implements OnInit {
       }
       this.isLoading = false;
     }, (error: any) => {
+      console.log("event e");
       this._globalFunctions.errorHanding(error, this, true);
       this.isLoading = false;
     });
@@ -152,10 +153,12 @@ export class LandingPageComponent implements OnInit {
           this.upcomingOfferList.push(offer);
         });
       } else {
+        console.log("eroor");
         this._globalFunctions.successErrorHandling(result, this, true);
       }
       this.isLoading = false;
     }, (error: any) => {
+      console.log("error1",error);
       this._globalFunctions.errorHanding(error, this, true);
       this.isLoading = false;
     });

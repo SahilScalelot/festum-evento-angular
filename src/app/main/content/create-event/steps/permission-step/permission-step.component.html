@@ -1,14 +1,14 @@
 <p-progressSpinner *ngIf="isLoading" [style]="{width: '50px', height: '50px'}" animationDuration=".5s" strokeWidth="8" class="fixed bg-white bg-opacity-25 backdrop-blur-sm right-0 bottom-0 h-[calc(100vh-76px)] w-full lg:w-[calc(100vw-230px)] z-30" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
 <form [formGroup]="permissionForm" class="space-y-5">
   <div class="upload-holder w-full h-full relative">
-    <span class="text-sm text-quicksilver font-semibold">Add Permission Letter<span class="text-magicPotion">*</span> <i class="text-xs font-normal">( Adding a permission letter is a must. )</i></span>
+    <span class="text-sm text-quicksilver font-semibold">Add Permission Letter</span>
     <p-progressSpinner *ngIf="isPdfLoading" [style]="{width: '20px', height: '20px'}" animationDuration=".5s" strokeWidth="4" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-x-0 bottom-0 top-6 z-20" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
     <label class="upload upload-popup py-9">
-      <input (change)="onChangePDF($event)" [formControlName]="'permission_letter'" accept="application/pdf" class="appearance-none hidden" id="permission_letter" name="permission_letter" type="file"/>
+      <input (change)="onChangePDF($event)" [formControlName]="'permission_letter'" accept="application/pdf,image/jpeg,image/png,image/jpg" class="appearance-none hidden" id="permission_letter" name="permission_letter" type="file"/>
       <div class="flex justify-center text-left items-start">
         <i class="icon-pdf_upload mr-2 pt-2 text-quicksilver"></i>
         <span *ngIf="inputText" class="input-titel mt-1 font-bold text-sm">{{inputText}}</span>
-        <span *ngIf="!inputText" class="input-titel mt-1 font-bold text-sm">Permission Letter for verification <br/>Attached pdf only</span>
+        <span *ngIf="!inputText" class="input-titel mt-1 font-bold text-sm">Permission Letter for verification <br/>Attached pdf,image only</span>
       </div>
     </label>
     <a *ngIf="inputText" class="absolute right-4 bottom-3 py-0.5 px-2 normal-case text-gray-400 anim hover:text-magicPotion text-sm font-semibold hidden border border-current group-hover:inline-block" [href]="constants.baseImageURL + permissionPdf" target="_blank" title="View File">View</a>
@@ -21,9 +21,9 @@
       <input [formControlName]="'accept_booking'" name="accept_booking" type="checkbox" />
       <i class="icon-right text-white"></i>
     </label>
-    <span class="input-titel text-lg text-japaneseIndigo ml-4">Accept Booking <span class="textLow-red ml-5">Deselect it if you want to only show event and not allow user to book it</span></span>
+    <span class="input-titel text-lg text-japaneseIndigo ml-4">Accept Booking <span class="textLow-red ml-5"> <strong>Permission Letter:</strong> You need to upload a permission letter in case of big events. For small events, submit a pdf that mentions you have the authority to conduct this event</span></span>
   </div>
-  <div class="ml-12 flex">
+  <!-- <div class="ml-12 flex">
     <i class="icon-info text-quicksilver pr-3"></i>
     <span class="text-xs font-bold text-quicksilver max-w-[288px] inline-block">For each ticket sold 6% Commission + GST will be Charged</span>
   </div>
@@ -34,9 +34,9 @@
   
   <div class="w-full text-sm space-y-1 pt-6">
     <h5 class="text-red-600">*Note:</h5>
-    <p><strong>Permission Letter :-</strong> Adding a permission letter is a must. If you do not require a permission letter for your event, kindly upload a pdf file containing proper description of your event, mentioning you have the authority to conduct it.</p>
+    <p><strong>Permission Letter :-</strong> If you do not require a permission letter for your event, kindly upload a pdf file containing proper description of your event, mentioning you have the authority to conduct it.</p>
     <p><strong>Accept Booking :-</strong> Select to allow ticket booking. Deselect if you don’t want to sell tickets.</p>
-  </div>
+  </div> -->
 </form>
 
 <div class="mt-auto">

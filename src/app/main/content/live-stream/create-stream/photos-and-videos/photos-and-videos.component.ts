@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
+import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { Router } from '@angular/router';
 import { SnotifyService } from 'ng-snotify';
 import { CONSTANTS } from 'src/app/main/common/constants';
 import { GlobalFunctions } from 'src/app/main/common/global-functions';
 import { CreateStreamService } from '../create-stream.service';
 import { ModalService } from 'src/app/main/_modal';
-import { forkJoin, Observable, switchMap } from 'rxjs';
+import { CompressImageService } from 'src/app/services/compress-image.service';
+import { forkJoin, Observable, switchMap, take } from 'rxjs';
 import * as _ from 'lodash';
 declare var $: any;
 
@@ -19,6 +21,15 @@ export class PhotosAndVideosComponent implements OnInit {
   constants: any = CONSTANTS;
   liveStreamId: any = '';
   deleteItemObj: any = {};
+  
+  imgChangeEvt: any = '';
+  cropImgPreview: any = '';
+  posterObj: any = {};
+  dropifyOption: any = {};
+  isCropperLoading: boolean = false;
+  isPosterLoading: boolean = false;
+  drEvent: any;
+  bannerUrl: any = '';
   
   photoArr: any = [];  
   videoArr: any = [];
@@ -35,16 +46,19 @@ export class PhotosAndVideosComponent implements OnInit {
   rejectedVideosList: any;
   videosFiles: File[] = [];
 
-  constructor(    
+  constructor(
     private _formBuilder: FormBuilder,
     private _router: Router,
     private _sNotify: SnotifyService,
     private _createStreamService: CreateStreamService,
     private _globalFunctions: GlobalFunctions,
     private _modalService: ModalService,
+    private _compressImage: CompressImageService
   ) { }
 
   ngOnInit(): void {
+    this.drEvent = $('#poster').dropify(this.dropifyOption);
+    
     this.liveStreamId = localStorage.getItem('lsId');
     if (this.liveStreamId && this.liveStreamId != '') {
       this.getLiveStreamMediaById(this.liveStreamId);
@@ -56,6 +70,9 @@ export class PhotosAndVideosComponent implements OnInit {
     this._createStreamService.getLiveStreamMediaById(liveStreamId).subscribe((result: any) => {
       if (result && result.IsSuccess) {
         const liveStreamMediaObj: any = result?.Data || {};
+        if (result?.Data?.banner) {
+          this.setPosterInDropify(result?.Data?.banner);
+        }
         if (liveStreamMediaObj.photos && liveStreamMediaObj.photos.length) {
           this.photoArr = this._globalFunctions.copyObject(liveStreamMediaObj.photos);
         }
@@ -71,6 +88,98 @@ export class PhotosAndVideosComponent implements OnInit {
       this._globalFunctions.errorHanding(error, this, true);
       this.isLoading = false;
     });
+  }
+
+  // Poster
+  isString(val: any): boolean {
+    return typeof val === 'string';
+  }
+
+  onPosterChange(event: any): any {
+    this.imgChangeEvt = event;
+    if (event.target.files.length > 0) {
+      const poster = event.target.files[0];
+      if (poster != undefined) {
+        if (poster.type != 'image/jpeg' && poster.type != 'image/jpg' && poster.type != 'image/png' && poster.type != 'image/gif' && poster.type != 'image/avif' && poster.type != 'image/raw') {
+          this._sNotify.error('Images type should only jpeg, jpg, png, gif, avif and raw.', 'Oops!');
+          return false;
+        }
+
+        const image_size = poster.size / 1024 / 1024;
+        if (image_size > CONSTANTS.maxPosterSizeInMB) {
+          this._sNotify.error('Maximum Poster Size is ' + CONSTANTS.maxPosterSizeInMB + 'MB.', 'Oops!');
+          return false;
+        }
+        this.posterObj.image = poster;
+        this.posterObj.name = poster.name;
+        this.savePoster(poster);
+
+        // this._modalService.open("imgCropper");
+        // this.isCropperLoading = true;
+      }
+    }
+  }
+
+  savePoster(img: any) {
+    if (img && img != '' && !this.isPosterLoading) {
+      // const preparedPoserFromBaseType: any = this._globalFunctions.base64ToImage(img, this.posterObj.name);
+      // this._compressImage.compress(preparedPoserFromBaseType).pipe(take(1)).subscribe((compressedImage: any) => {
+        if (img) {
+          const posterFormData = new FormData();
+          posterFormData.append('file', img);
+          this.isPosterLoading = true;
+          this._createStreamService.uploadBanner(posterFormData).subscribe((result: any) => {
+            if (result && result.IsSuccess) {
+              this.posterObj.image = img;
+              this.setPosterInDropify(result.Data.url);
+              // this.inputText = _.last(_.split(result.Data.url, '/'));
+              this._sNotify.success('File Uploaded Successfully.', 'Success');
+              this.isPosterLoading = false;
+              this._modalService.close("imgCropper");
+            } else {
+              this._globalFunctions.successErrorHandling(result, this, true);
+              this.isPosterLoading = false;
+            }
+          }, (error: any) => {
+            this._globalFunctions.errorHanding(error, this, true);
+            this.isPosterLoading = false;
+          });
+        } else {
+          this._sNotify.success('Something went wrong!', 'Oops');
+        }
+      // });
+    }
+  }
+
+  setPosterInDropify(image: any = ''): void {
+    const imageUrl = CONSTANTS.baseImageURL + image;
+    this.drEvent = this.drEvent.data('dropify');
+    this.drEvent.resetPreview();
+    this.drEvent.clearElement();
+    this.drEvent.settings.defaultFile = imageUrl;
+    this.drEvent.destroy();
+    this.drEvent.init();
+
+    this.dropifyOption.defaultFile = imageUrl;
+    this.drEvent = $('.poster').dropify(this.dropifyOption);
+    this.bannerUrl = image;
+  }
+
+  cropImg(e: ImageCroppedEvent) {
+    this.cropImgPreview = e.base64;
+  }
+
+  imageLoaded(): void {
+    this.isCropperLoading = false;
+  }
+
+  popClose(popId: any): any {
+    // let drEvent: any = $('.poster').dropify();
+    // drEvent = drEvent.data('dropify');
+    // drEvent.resetPreview();
+    // drEvent.clearElement();
+    $('.dropify-clear').click();
+    this._modalService.close(popId);
   }
 
   // Upload Images  
@@ -223,6 +332,10 @@ export class PhotosAndVideosComponent implements OnInit {
   }
 
   validatePhotosAndVideosObj(): any {
+    if (!this.bannerUrl || this.bannerUrl == '') {
+      this._sNotify.error('Banner is required', 'Oops!');
+      return false;
+    }
     if (!this.photoArr || !this.photoArr.length) {
       this._sNotify.error('At least one photo required', 'Oops!');
       return false;
@@ -237,13 +350,14 @@ export class PhotosAndVideosComponent implements OnInit {
   preparePhotosAndVideosObj(): any {
     const preparedPhotosAndVideosObj: any = {};
     preparedPhotosAndVideosObj.livestreamid = this.liveStreamId;
+    preparedPhotosAndVideosObj.banner = this._globalFunctions.copyObject(this.bannerUrl);
     preparedPhotosAndVideosObj.photos = this._globalFunctions.copyObject(this.photoArr);
     preparedPhotosAndVideosObj.videos = this._globalFunctions.copyObject(this.videoArr);
     return preparedPhotosAndVideosObj;
   }
 
   nextStep(): any {
-    if (this.isLoading || !this.validatePhotosAndVideosObj()) {
+    if (this.isLoading || !this.validatePhotosAndVideosObj() || (this.bannerUrl == '')) {
       return false;
     }
     this.isLoading = true;

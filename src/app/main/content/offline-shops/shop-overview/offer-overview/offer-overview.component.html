@@ -37,13 +37,21 @@
     <div class="relative tab-main" [class]="!reviews ? 'active' : ''" *ngIf="!reviews">
       <div class="flex flex-wrap">
         <!-- left-bar -->
-        <div class="w-full lg:w-8/12 lg:pr-3 xl:pr-5 space-y-7" *ngIf="overview">
+        <div class="w-full lg:w-8/12 lg:pr-3 xl:pr-5 space-y-3" *ngIf="overview">
+
+          <!-- offer description  -->
+          <div class="p-7 bg-white rounded-md space-y-1" *ngIf="offerObj?.description">
+            <h3 class="text-lg">Offer Description</h3>
+            <div [innerHtml]="offerObj?.description"></div>
+            <!-- <p class="text-quicksilver text-sm font-normal">{{offerObj?.description}}</p> -->
+          </div>
+
           <!-- Photos and Videos-->
-          <div class="bg-white p-7 space-y-2.5 rounded-md">
+          <div class="bg-white p-3 space-y-2.5 rounded-md">
             <h3 class="text-lg">Photos and Videos</h3>
             <div class="flex space-x-5">
-              <div class="w-1/2 rounded overflow-hidden h-52" *ngIf="offerObj?.poster">
-                <p-image [src]="!!(offerObj?.poster) ? constants.baseImageURL + offerObj.poster : constants.defaultImage" [alt]="offerObj?.offer_title" imageClass="w-full h-full object-cover" styleClass="w-full h-full" [preview]="true"></p-image>
+              <div class="w-1/2 rounded overflow-hidden h-auto" *ngIf="offerObj?.poster">
+                <p-image [src]="!!(offerObj?.poster) ? constants.baseImageURL + offerObj.poster : constants.defaultImage" [alt]="offerObj?.offer_title" imageClass="w-full h-full object-cover" class="w-full h-full object-cover" [preview]="true"></p-image>
               </div>
               <div class="w-1/2 rounded overflow-hidden relative h-52" *ngIf="offerObj?.video">
                 <div class="brick w-full max-w-full h-full relative cursor-pointer group hover:bg-slate-100" (click)="openUploadVideoDialog()">
@@ -68,12 +76,7 @@
               </div>
             </div>
           </div>
-          <!-- offer description  -->
-          <div class="p-7 bg-white rounded-md space-y-1" *ngIf="offerObj?.description">
-            <h3 class="text-lg">Offer Description</h3>
-            <div [innerHtml]="offerObj?.description"></div>
-            <!-- <p class="text-quicksilver text-sm font-normal">{{offerObj?.description}}</p> -->
-          </div>
+
           <!-- Colorful T-shirt -->
           <div class="space-y-2.5" *ngIf="offerObj?.offer_on_all_products">
             <h3 class="text-lg mb-3">offer description</h3>
@@ -96,12 +99,12 @@
           <div class="space-y-2.5" *ngIf="!offerObj?.offer_on_all_products">
             <div class="bg-white flex items-center justify-between p-2.5 rounded-md" *ngFor="let offer of offerObj?.offer_type_conditions">
               <div class="flex items-center space-x-3">
-                <img [src]="!!(offer?.url) ? constants.baseImageURL + offer.url : constants.defaultImage" [alt]="offer?.product_name" class="w-12 h-12 rounded" />
+                <p-image [src]="!!(offer?.url) ? constants.baseImageURL + offer.url : constants.defaultImage" [alt]="offer?.product_name" imageClass="w-12 h-12 rounded" class="w-12 h-12 rounded" [preview]="true"></p-image>
                 <p class="text-sm font-bold text-japaneseIndigo">{{offer?.product_name}}</p>
               </div>
               <div class="text-sm">
                 <p class="font-bold text-magicPotion text-right">{{offer?.discount}}{{(offer?.discount_type == constants.discountTypeArr[constants.discountTypeObj.percentage].value) ? "%" : "₹" }} Off</p>
-                <span class="text-quicksilver font-light">for unlimited pearson</span>
+                <span class="text-quicksilver font-light">{{offer?.person_limitation}} {{offerObj?.offer_type}}</span>
               </div>
             </div>  
           </div>
@@ -119,7 +122,7 @@
           </div>
         </div>
         <!-- left-bar -->
-        <div class="w-full lg:w-8/12 lg:pr-3 xl:pr-5 space-y-7" *ngIf="attendee && attendees && attendees.length">
+        <div class="w-full lg:w-8/12 lg:pr-3 xl:pr-5 space-y-3" *ngIf="attendee && attendees && attendees.length">
           <!-- Reynaldo Franklin -->
           <div class="space-y-2.5">
             <div *ngFor="let attendee of attendees;let i = index;">
@@ -148,7 +151,7 @@
           <h3>No attendees Found</h3>
         </div> -->
         <!-- right-bar  -->
-        <div class="w-full lg:w-4/12 lg:pl-3 xl:pl-5 space-y-7 sticky top-0 mt-7 lg:mt-0">
+        <div class="w-full lg:w-4/12 lg:pl-3 xl:pl-5 space-y-3 sticky top-0 mt-7 lg:mt-0">
           <!-- map-content  -->
           <div class="w-full p-2.5 bg-white rounded-md">
             <div class="relative">
@@ -163,7 +166,7 @@
             </div>
           </div>
           <!-- Calender  -->
-          <div class="rounded-md bg-white p-4 xl:p-8 space-y-6">
+          <div class="rounded-md bg-white p-4 xl:p-8 space-y-3">
             <div>
               <span class="text-quicksilver text-xs font-bold flex items-center pb-2">
                 <svg class="mr-2" width="11" height="13" viewBox="0 0 11 13" fill="none" xmlns="http://www.w3.org/2000/svg">

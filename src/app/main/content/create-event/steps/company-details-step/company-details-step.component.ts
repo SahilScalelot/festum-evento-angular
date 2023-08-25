@@ -64,7 +64,7 @@ export class CompanyDetailsStepComponent implements OnInit {
   photosUploadLimit: number = 5;
   rejectedPhotosList: any;
   imagesFiles: File[] = [];
-  videosUploadLimit: number = 1;
+  videosUploadLimit: number = 2;
   rejectedVideosList: any;
   videosFiles: File[] = [];
   isHideDiscountitem: any = false;
@@ -104,6 +104,7 @@ export class CompanyDetailsStepComponent implements OnInit {
       editor.ui.view.toolbar.element,
       editor.ui.getEditableElement()
     );
+    
   }
 
   getCompanyDetailsEvent(): any {
@@ -235,7 +236,7 @@ export class CompanyDetailsStepComponent implements OnInit {
         }
 
         if (this.photoArr && this.photoArr.length && this.photoArr.length >= this.photosUploadLimit) {
-          this._sNotify.error('Maximum 15 images can upload!', 'Oops!');
+          this._sNotify.error('Maximum 5 images can upload!', 'Oops!');
           this._modalService.close("photo");
           return;
         }
@@ -312,6 +313,7 @@ export class CompanyDetailsStepComponent implements OnInit {
         videoFormData.append('file', video);
         this.isVideoLoading = true;
         responseObj.push(this._createEventService.uploadVideos(videoFormData));
+        console.log(videoFormData);
       }
     });
 
@@ -410,6 +412,8 @@ export class CompanyDetailsStepComponent implements OnInit {
     const preparedCompanyDetailsObj: any = this.prepareObj(this.companyForm.value);
     this._createEventService.companyDetail(preparedCompanyDetailsObj).subscribe((result: any) => {
       if (result && result.IsSuccess) {
+        console.log("Company Details",result);
+        
         this.isLoading = false;
         this.companyForm.enable();
         this._router.navigate(['/events/create/personal-details']);

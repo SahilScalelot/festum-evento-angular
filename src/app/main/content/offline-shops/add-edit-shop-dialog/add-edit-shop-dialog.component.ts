@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, NgZone, OnInit, Output, Renderer2, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, NgZone, OnDestroy, OnInit, Output, Renderer2, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { CompressImageService } from 'src/app/services/compress-image.service';
 import { GlobalFunctions } from '../../../common/global-functions';
@@ -13,18 +13,16 @@ import { MapsAPILoader } from "@agm/core";
 import { Router } from "@angular/router";
 import * as moment from 'moment';
 import * as _ from 'lodash';
-import { take } from 'rxjs';
-declare var $: any;
 // @ts-ignore
 import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
 import { SearchCountryField, CountryISO, PhoneNumberFormat } from "ngx-intl-tel-input";
-
+declare var $: any;
 @Component({
   selector: 'app-add-edit-shop-dialog',
   templateUrl: './add-edit-shop-dialog.component.html',
   styleUrls: ['./add-edit-shop-dialog.component.scss']
 })
-export class AddEditShopDialogComponent implements OnInit {
+export class AddEditShopDialogComponent implements OnInit, OnDestroy {
   SearchCountryField = SearchCountryField;
   CountryISO = CountryISO;
   preferredCountries: CountryISO[] = [CountryISO.India];
@@ -99,6 +97,7 @@ export class AddEditShopDialogComponent implements OnInit {
     instagram_link: '',
     linkedin_link: ''
   };
+  isCotegoryesLoading: any;
 
   pincodeValidationObj: any = '';
 
@@ -173,7 +172,6 @@ export class AddEditShopDialogComponent implements OnInit {
           if (!place.geometry) {
             return;
           }
-          //set latitude, longitude and zoom
           this.lat = place.geometry.location.lat();
           this.lng = place.geometry.location.lng();
 
@@ -200,10 +198,6 @@ export class AddEditShopDialogComponent implements OnInit {
       }
     });
 
-    
-    this.phoneForm = new FormGroup({
-      phone: new FormControl(undefined),
-    });
   }
 
   onTextEditorReady(editor: any, fieldForSetData: any): void {
@@ -254,7 +248,25 @@ export class AddEditShopDialogComponent implements OnInit {
     this.isLoading = true;
     this._offlineShopsService.getShopCategories().subscribe((result: any) => {
       if (result && result.IsSuccess) {
-        this.shopCategories = result.Data;
+        
+        
+        this.shopCategories = [];
+        let otherObj: any = {};
+        result.Data.forEach((element: any) => {
+          if (element.categoryname == 'Other') {
+            otherObj = element;
+          } else {
+            this.shopCategories.push(element);
+          }
+        });
+        if (otherObj && otherObj._id) {
+          this.shopCategories.push(otherObj);
+        }
+        this.isCotegoryesLoading = false;
+
+
+
+        // this.shopCategories = result.Data;
         if (this.shopCategories && this.shopCategories.country_wise_contact && this.shopCategories.country_wise_contact != '') { 
           this.phoneForm.patchValue({
             phone: this.shopCategories.country_wise_contact
@@ -363,6 +375,10 @@ export class AddEditShopDialogComponent implements OnInit {
     // console.log(`clicked the marker: ${label}`)
   }
 
+  ngOnDestroy(): void {
+    this._globalFunctions.removeIdsFromLocalStorage();
+  }
+
   mapClicked(markers: marker,event: any) {
     this.markerDragEnd(markers, event);
     // this.markers.push({
@@ -385,6 +401,11 @@ export class AddEditShopDialogComponent implements OnInit {
         }
         this.shopObj.company_name = result?.Data?.companydetails?.company_name;
         this.shopObj.contact_number = result?.Data?.companydetails?.contact_number;
+
+        this.phoneForm.patchValue({
+          phone: this.shopObj.contact_number
+        });
+        
         this.shopObj.emailid = result?.Data?.companydetails?.emailid;
         this.shopObj.about = result?.Data?.companydetails?.about;
         this.socialLinks = result?.Data?.companydetails?.social_media_links;
@@ -429,7 +450,6 @@ export class AddEditShopDialogComponent implements OnInit {
       // if (this.shopId && this.shopId != '') {
       //   this.getOfflineShopByShopId(this.shopId);
       // }
-
       this._offlineShopsService.getOfflineShopByShopId(this.shopId).subscribe((result: any) => {
         if (result?.Data?.banner) {
           this.setPosterInDropify(result?.Data?.banner);
@@ -456,19 +476,20 @@ export class AddEditShopDialogComponent implements OnInit {
         }
         this.posterObj.image = poster;
         this.posterObj.name = poster.name;
-        this._modalService.open("imgCropper");
-        this.isCropperLoading = true;
+        this.savePoster(poster);
+        // this._modalService.open("imgCropper");
+        // this.isCropperLoading = true;
       }
     }
   }
 
   savePoster(img: any): void {
     if (img && img != '' && !this.isPosterLoading) {
-      const preparedPoserFromBaseType: any = this._globalFunctions.base64ToImage(img, this.posterObj.name);
-      this._compressImage.compress(preparedPoserFromBaseType).pipe(take(1)).subscribe((compressedImage: any) => {
-        if (compressedImage) {
+      // const preparedPoserFromBaseType: any = this._globalFunctions.base64ToImage(img, this.posterObj.name);
+      // this._compressImage.compress(preparedPoserFromBaseType).pipe(take(1)).subscribe((compressedImage: any) => {
+        if (img) {
           const posterFormData = new FormData();
-          posterFormData.append('file', compressedImage);
+          posterFormData.append('file', img);
           this.isPosterLoading = true;
           this._offlineShopsService.uploadBanner(posterFormData).subscribe((result: any) => {
             if (result && result.IsSuccess) {
@@ -488,7 +509,7 @@ export class AddEditShopDialogComponent implements OnInit {
         } else {
           this._sNotify.success('Something went wrong!', 'Oops');
         }
-      });
+      // });
     }
   }
 
@@ -518,6 +539,11 @@ export class AddEditShopDialogComponent implements OnInit {
       });
       return;
     }
+    // if (this.phoneForm.invalid) {
+    //   this.form.form.controls['phone'].touched = true;
+    //   this.phoneForm.controls['phone'].markAsDirty();
+    //   return;
+    // }
     this.editorCharacterSet();
     if (this.textEditorLimit && this.textEditorMaxLimit && this.textEditorLimit > this.textEditorMaxLimit) {
       return;
@@ -575,6 +601,10 @@ export class AddEditShopDialogComponent implements OnInit {
     preparedShopObj.latitude = this.lat;
     preparedShopObj.gst_file = this.gstPdf;
     preparedShopObj.social_media_links = this.socialLinks;
+    preparedShopObj.country_wise_contact = this.phoneForm?.value?.phone || undefined;
+    preparedShopObj.dial_code = preparedShopObj.country_wise_contact?.dialCode || '';
+    const contactNumber = preparedShopObj.country_wise_contact?.e164Number || '';
+    preparedShopObj.contact_number = contactNumber.replace(preparedShopObj.dial_code, '') || '';
     return preparedShopObj;
   }
 
@@ -593,8 +623,20 @@ export class AddEditShopDialogComponent implements OnInit {
     if (this.textEditorLimitTac && this.textEditorMaxLimitTac && this.textEditorLimitTac > this.textEditorMaxLimitTac) {
       return;
     }
+    if (this.phoneForm.invalid) {
+      this.form.form.controls['phone'].touched = true;
+      this.phoneForm.controls['phone'].markAsDirty();
+      return;
+    }
     this.isLoading = true;
-    const preparedShopObj: any = this.prepareShopObj(this.addShopForm.value);
+    
+    const preparedShopObj: any = this.prepareShopObj(this.addShopForm.value);    
+    console.log("preparshop",preparedShopObj);
+    // console.log("shopobj",this.shopObj);
+    
+    
+    // console.log("phon",this.phoneForm.value.phone);
+
     this._offlineShopsService.addEditOfflineShop(preparedShopObj).subscribe((result: any) => {
       if (result && result.IsSuccess) {
         this.successfully = true;
@@ -632,7 +674,7 @@ export class AddEditShopDialogComponent implements OnInit {
   private _prepareShopForm(addShopObj: any = {}): void {
     this.addShopForm = this._formBuilder.group({
       shopid: [(this.shopId && this.shopId != '') ? this.shopId : ''],
-      banner: ['', [Validators.required]],
+      banner: [addShopObj?.banner || '', [Validators.required]],
       shop_name: [addShopObj?.shop_name || '', [Validators.required]],
       shop_category: [(addShopObj.shop_category && addShopObj.shop_category._id) ? addShopObj.shop_category._id : '', [Validators.required]],
       shop_days: this._formBuilder.array((addShopObj.shop_days && addShopObj.shop_days.length) ? addShopObj.shop_days : [], [Validators.required]),
@@ -654,7 +696,7 @@ export class AddEditShopDialogComponent implements OnInit {
       company_name: [addShopObj?.companydetails?.company_name || ''],
       gst_file: [this.gstPdf || ''],
       contact_number: [addShopObj?.companydetails?.contact_number || ''],
-      emailid: [addShopObj?.companydetails?.emailid || ''],
+      emailid: [addShopObj?.companydetails?.emailid || '',[Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
       about: [addShopObj?.companydetails?.about || '']
     });
 
@@ -672,6 +714,14 @@ export class AddEditShopDialogComponent implements OnInit {
       });
     }
     this.pincodeValidation(this.addShopForm.value.pincode);
+  }
+  prepareObj(companyObj: any = {}): any {
+    const preparedObj: any = companyObj;
+    preparedObj.country_wise_contact = this.phoneForm?.value?.phone || undefined;
+    preparedObj.dial_code = preparedObj.country_wise_contact?.dialCode || '';
+    const contactNumber = preparedObj.country_wise_contact?.e164Number || '';
+    preparedObj.contact_no = contactNumber.replace(preparedObj.dial_code, '') || '';
+    return preparedObj;
   }
 
   prepareTime(dateWithTime: any): any {

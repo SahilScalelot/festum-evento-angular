@@ -9,7 +9,7 @@
           <label class="upload upload-popup p-0 relative group" id="shop-img-obj-upload">
             <input (change)="onPosterChange($event)" accept="image/png, image/jpeg, image/gif" class="poster hidden" name="banner" id="poster" type="file" />
           </label>
-          <span class="absolute top-full text-red-500 text-xs" *ngIf="addShopForm.get('banneIf the main screen of the app is not properly visible, please email the following things to us on info@festumevento.com sssr')?.invalid && (addShopForm.get('banner')?.dirty && addShopForm.get('banner')?.touched)">
+          <span class="absolute top-full text-red-500 text-xs" *ngIf="addShopForm.get('banner')?.invalid && (addShopForm.get('banner')?.dirty && addShopForm.get('banner')?.touched)">
             <span *ngIf="addShopForm.get('banner')?.errors?.['required']">
               Shop Image is required.
             </span>
@@ -228,36 +228,39 @@
         <div class="flex items-end flex-wrap -mx-2">
           <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative">
             <span class="input-titel">Company Contact No</span>
-            <input type="text" [formControlName]="'contact_number'" name="contact_number" class="input">
-            <!-- <div #phoneF="ngForm" [formGroup]="phoneForm">
+            <!-- <input type="text" [formControlName]="'contact_number'" name="contact_number" class="input"> -->
+            <div #phoneF="ngForm"  [formGroup]="phoneForm">
               <ngx-intl-tel-input
-                [cssClass]="'w-full'"
-                [preferredCountries]="preferredCountries"
-                [enableAutoCountrySelect]="true"
-                [enablePlaceholder]="true"
-                [searchCountryFlag]="true"
-                [searchCountryField]="[
-                  SearchCountryField.Iso2,
-                  SearchCountryField.Name
-                ]"
-                [selectFirstCountry]="false"
-                [selectedCountryISO]="CountryISO.India"
-                [maxLength]="15"
-                [phoneValidation]="true"
-                [separateDialCode]="true"
-                [numberFormat]="PhoneNumberFormat.National"
-                name="phone"
-                formControlName="phone"
-              >
-              </ngx-intl-tel-input>
+              [cssClass]="'w-full'"
+              [preferredCountries]="preferredCountries"
+              [enableAutoCountrySelect]="true"
+              [enablePlaceholder]="true"
+              [searchCountryFlag]="true"
+              [searchCountryField]="[
+                SearchCountryField.Iso2,
+                SearchCountryField.Name
+              ]"
+              [selectFirstCountry]="false"
+              [selectedCountryISO]="CountryISO.India"
+              [maxLength]="15"
+              [phoneValidation]="true"
+              [separateDialCode]="true"
+              [numberFormat]="PhoneNumberFormat.National"
+              name="phone"
+              formControlName="phone"
+            >
+            </ngx-intl-tel-input>
             </div>
             <span class="absolute top-full text-red-500 text-xs left-2" *ngIf="phoneF.form.controls['phone'].touched && phoneF.form.controls['phone'].invalid">
               Please enter valid Contact Number.
-            </span> -->
+            </span>
           </div>
           <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative">
             <span class="input-titel">Company Email</span>
-            <input type="text" [formControlName]="'emailid'" name="emailid" class="input">
+            <input type="email" [formControlName]="'emailid'" name="emailid" class="input">
+            <span class="absolute top-full text-red-500 text-xs" *ngIf="addShopForm.get('emailid')?.invalid && addShopForm.get('emailid')?.dirty && addShopForm.get('emailid')?.touched">
+              <span *ngIf="addShopForm.get('emailid')?.errors?.['pattern']">Please enter valid email.</span>
+            </span>
           </div>
         </div>
         <div class="w-full pt-5 inputHolder relative">
@@ -384,7 +387,7 @@
   </div>
 </div>
 
-<!-- Poster crop -->
+<!-- Poster crop
 <modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="imgCropper" title="Poster">
   <div class="flex flex-wrap -mx-4 py-5">
     <div class="w-full lg:w-1/2 px-4">
@@ -396,7 +399,7 @@
     </div>
   </div>
   <button (click)="savePoster(cropImgPreview)" class="secondary w-full uppercase py-2 anim">{{ 'Save Poster' }}</button>
-</modal>
+</modal> -->
 
 <div class="fixed bg-white bg-opacity-25 backdrop-blur-sm right-0 bottom-0 h-screen w-full z-30 flex items-center justify-center text-center" *ngIf="successfully">
   <div class="p-7 bg-white shadow-lg rounded">

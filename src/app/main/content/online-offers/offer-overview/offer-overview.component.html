@@ -34,7 +34,7 @@
           </div>
           <div class="flex items-center">
             <input type="checkbox" id="on" class="switch mx-3 order-2" (click)="offerLive($event, offerObj)"
-              [checked]="offerObj?.status" />
+              [checked]="offerObj?.is_live" />
             <span class="off text-base font-bold anim order-1 text-caribbeanGreen">On</span>
             <span class="on text-base font-bold anim order-3">Off</span>
           </div>
@@ -115,14 +115,14 @@
             <div class="p-3 lg:p-7 bg-white rounded-md space-y-1" [innerHtml]="offerObj?.tandc?.t_and_c"></div>
           </div>
           <!-- Social-Media -->
-          <div class="w-full space-y-3" *ngIf="offerObj?.tandc?.facebook && offerObj?.tandc?.facebook != '' ||
+          <div class="w-full  space-y-3" *ngIf="offerObj?.tandc?.facebook && offerObj?.tandc?.facebook != '' ||
                 offerObj?.tandc?.twitter && offerObj?.tandc?.twitter != '' ||
                 offerObj?.tandc?.youtube && offerObj?.tandc?.youtube != '' ||
                 offerObj?.tandc?.pinterest && offerObj?.tandc?.pinterest != '' ||
                 offerObj?.tandc?.instagram && offerObj?.tandc?.instagram != '' ||
                 offerObj?.tandc?.linkedin && offerObj?.tandc?.linkedin != ''">
             <span class="block text-base lg:text-xl font-bold">Social Media</span>
-            <div class="flex items-center space-x-5 p-5 lg:p-7 bg-white rounded-lg">
+            <div class="flex items-center space-x-5 p-5 lg:p-7  rounded-lg">
               <a *ngIf="offerObj?.tandc?.facebook != ''" [href]="offerObj?.tandc?.facebook" target="_blank">
                 <img class="w-10 h-10 object-cover" alt="facebook" src="../assets/images/facebook.png" />
               </a>
@@ -144,14 +144,14 @@
             </div>
           </div>
         </div>
-        <div class="w-full lg:w-4/12 lg:pl-3 xl:pl-5 space-y-7 sticky top-0 mt-7 lg:mt-0">
+        <div class="w-full lg:w-4/12 lg:pl-3 xl:pl-5 space-y-3 sticky top-0 mt-7 lg:mt-0">
           <div class="bg-gradient-to-r from-[#13e1b094] to-[#13E1B0] space-y-3.5 rounded-md p-5 relative">
             <h3 class="text-white font-normal">Discount On Products</h3>
             <h1>{{offerObj?.offer_amount}}{{(offerObj?.offer_type == 'percentage') ? '%' : '₹'}} Discount </h1>
             <span class="text-white flex" title="Scroll Down Terms & Conditions">T&C Apply*</span>
             <img src="../assets/images/event-subscription.png" alt="event" class="absolute bottom-7 -right-1" />
           </div>
-          <div class="bg-white p-7 rounded-md space-y-7">
+          <div class="bg-white p-7 rounded-md space-y-3">
             <p class="text-lg text-japaneseIndigo font-bold">user click on platform</p>
             <div class="flex items-center space-x-2.5 cursor-pointer"
               *ngFor="let click of offerObj?.product_links;let i = index;"

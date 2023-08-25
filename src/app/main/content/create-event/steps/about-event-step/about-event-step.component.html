@@ -20,7 +20,7 @@
     </div>
     <div class="w-full xl:w-1/2 px-2 pt-5 flex space-x-4">
       <div class="w-full lg:w-1/2 relative">
-        <span class="input-titel">Start Time <span class="text-ev-red">*</span></span>
+        <span class="input-titel"> Time <span class="text-ev-red">*</span></span>
         <label class="bg-white rounded-md flex space-x-3 relative">
           <i class="icon-time text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0"></i>
           <p-calendar class="w-4/5" [formControlName]="'start_time'" name="start_time" [showTime]="true" [hourFormat]="'12'" [timeOnly]="true" inputId="start_time" [showButtonBar]="true"></p-calendar>
@@ -47,7 +47,7 @@
   </div>
   <div class="w-full relative">
     <span class="input-titel">About Event <span class="text-ev-red">*</span> <i class="text-xs font-medium" [ngClass]="{'text-magicPotion' : textEditor}">( {{textEditorLimit}} characters out of {{textEditorMaxLimit}} )</i></span>
-    <div class="w-full bg-white rounded relative">
+    <div class="w-full  bg-white rounded relative">
       <ckeditor (ready)="onTextEditorReady($event)" (keyup)="editorCharacterSet()" [config]="editorConfig" [editor]="detailEditor" [formControlName]="'about_event'" class="h-44 text-editor" id="about_event" name="about_event"></ckeditor>
       <!-- <span class="absolute top-full text-red-500 text-xs" *ngIf="textEditor != ''">{{textEditor}}</span> -->
       <span class="absolute top-full text-red-500 text-xs" *ngIf="aboutEventForm.get('about_event')?.invalid && (aboutEventForm.get('about_event')?.dirty && aboutEventForm.get('about_event')?.touched)">
@@ -60,11 +60,11 @@
   </div>
   <div class="w-full text-sm space-y-1 pt-6">
     <h5 class="text-red-600">*Note:</h5>
-    <p><strong>Date :-</strong> Booking are not allowed before June 2023</p>
-    <p><strong>Date</strong> ( You need to enter the starting and ending date of your event. )</p>
-    <p><strong>Time :-</strong> Starting and ending times should not be the same.</p>
-    <p><strong>Start Time</strong> ( Starting time cannot be later than the ending time. )</p>
-    <p><strong>End Time</strong> ( Ending time cannot be earlier than the starting time. )</p>
+    <!-- <p><strong>Date :-</strong> Booking are not allowed before June 2023</p> -->
+    <p><strong>Date</strong>  You need to enter the starting and ending date of your event. </p>
+    <p><strong>Time </strong> Starting and ending times should not be the same.</p>
+    <p><strong>Start Time</strong>  Starting time cannot be later than the ending time. </p>
+    <p><strong>End Time</strong>  Ending time cannot be earlier than the starting time. </p>
   </div>
 </form>
 

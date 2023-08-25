@@ -49,7 +49,8 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
   isSaveLoading: boolean = false;
   isPlatformLoading: boolean = false;
   successfully: boolean = false;
-  minDateValue: any = new Date();
+  // minDateValue: any = new Date();
+  minDateValue: any = new Date(new Date().setDate(new Date().getDate() + 2));
   minStartDateValue: any = '';
   imgChangeEvt: any;
   posterObj: any = {};
@@ -206,8 +207,9 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
         }
         this.posterObj.image = poster;
         this.posterObj.name = poster.name;
-        this._modalService.open("imgCropper");
-        this.isCropperLoading = true;
+        this.savePoster(poster);
+        // this._modalService.open("imgCropper");
+        // this.isCropperLoading = true;
       }
     }
   }
@@ -222,11 +224,11 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
 
   savePoster(img: any) {
     if (img && img != '' && !this.isPosterLoading) {
-      const preparedPoserFromBaseType: any = this._globalFunctions.base64ToImage(img, this.posterObj.name);
-      this._compressImageService.compress(preparedPoserFromBaseType).pipe(take(1)).subscribe((compressedImage: any) => {
-        if (compressedImage) {
+    //   const preparedPoserFromBaseType: any = this._globalFunctions.base64ToImage(img, this.posterObj.name);
+    //   this._compressImageService.compress(preparedPoserFromBaseType).pipe(take(1)).subscribe((compressedImage: any) => {
+        if (img) {
           const posterFormData = new FormData();
-          posterFormData.append('file', compressedImage);
+          posterFormData.append('file', img);
           this.isPosterLoading = true;
           this._onlineOffersService.uploadBanner(posterFormData).subscribe((result: any) => {
             if (result && result.IsSuccess) {
@@ -246,7 +248,7 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
         } else {
           this._sNotify.success('Something went wrong!', 'Oops');
         }
-      });
+      // });
     }
   }
 
@@ -370,6 +372,18 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
         });
       });
       return false;
+    } else if (this.productLinks.value && this.productLinks.value.length) {
+      const tmpGroupByPlatformIdObj = _.groupBy(this.productLinks.value, 'platform');
+      let flag = true;
+      for (const key in tmpGroupByPlatformIdObj) {
+        if (tmpGroupByPlatformIdObj && tmpGroupByPlatformIdObj[key] && tmpGroupByPlatformIdObj[key].length && tmpGroupByPlatformIdObj[key].length > 1) {
+          flag = false;
+        }
+      }
+      if (!flag) {
+        this._sNotify.error('Platform already selected please select another platform.', 'Oops!');
+        return false;
+      }
     } else if (isTandC && this.tandcForm.invalid) {
       Object.keys(this.tandcForm.controls).forEach((key) => {
         this.tandcForm.controls[key].touched = true;
@@ -385,9 +399,11 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
       return false;
     }
     if (this.proDescTextEditorLimit && this.proDescTextEditorMaxLimit && this.proDescTextEditorLimit > this.proDescTextEditorMaxLimit) {
+      this._sNotify.error('Product Description Limit.', 'Oops!');
       return;
     }
     if (this.comDescTextEditorLimit && this.comDescTextEditorMaxLimit && this.comDescTextEditorLimit > this.comDescTextEditorMaxLimit) {
+      this._sNotify.error('Product Description Limit.', 'Oops!');
       return;
     }
     this._modalService.open("tAndC");
@@ -522,6 +538,8 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
     if (this.tandcForm.value && this.tandcForm.value.status == false) {
       this.tandcForm.get('status').setValue(false);
       this._modalService.open("tandc");
+    }else{
+      this._modalService.open("tandc");
     }
   }
 
@@ -545,6 +563,13 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
       return false;
     }
     return true;
+  }
+
+  checkValidPlatform(platformId: any = ""): any {
+    const tmpGroupByPlatformIdObj = _.groupBy(this.productLinks.value, 'platform');
+    if (tmpGroupByPlatformIdObj && tmpGroupByPlatformIdObj[platformId?._id] && tmpGroupByPlatformIdObj[platformId?._id].length && tmpGroupByPlatformIdObj[platformId?._id].length > 1) {
+      this._sNotify.error('Platform already selected please select another platform.', 'Oops!');
+    }
   }
 
   addPlatform(): any {

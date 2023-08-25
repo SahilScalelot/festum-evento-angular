@@ -80,16 +80,20 @@ export class PermissionStepComponent implements OnInit {
 
   onChangePDF(event: any): any {
     const pdfUpload = $('#permission_letter')[0].files[0];
+    console.log(pdfUpload);
+    
     const pdfFormData = new FormData();
     this.isInValidPDF = false;
     if (pdfUpload != undefined) {
-      if (pdfUpload != undefined && pdfUpload.type != 'application/pdf') {
+      if (pdfUpload == undefined && (pdfUpload.type != 'application/pdf'|| pdfUpload.type != 'imag/jprg' || pdfUpload.type != 'application/png' || pdfUpload.type != 'application/jpg'
+        )) {
         // this._sNotify.error('File type is Invalid.', 'Oops!');
         $('#permission_letter').focus();
         this.isInValidPDF = true;
         return false;
       }      
-      pdfFormData.append('file', pdfUpload);
+      if (pdfUpload.type == 'application/pdf') {
+        pdfFormData.append('file', pdfUpload);
       this.isPdfLoading = true;
       this._createEventService.documentUpload(pdfFormData).subscribe((result: any) => {
         if (result && result.IsSuccess) {
@@ -105,19 +109,40 @@ export class PermissionStepComponent implements OnInit {
         this._globalFunctions.errorHanding(error, this, true);
         this.isPdfLoading = false;
       });
+        
+      }else{
+        pdfFormData.append('file', pdfUpload);
+        this.isPdfLoading = true;
+        this._createEventService.uploadImages(pdfFormData).subscribe((result: any) => {
+          if (result && result.IsSuccess) {
+            this.permissionPdf = result.Data.url;
+            this.inputText = _.last(_.split(result.Data.url, '/'));
+            this._sNotify.success('File Uploaded Successfully.', 'Success');
+            this.isPdfLoading = false;
+          } else {
+            this._globalFunctions.successErrorHandling(result, this, true);
+            this.isPdfLoading = false;
+          }
+        }, (error: any) => {
+          this._globalFunctions.errorHanding(error, this, true);
+          this.isPdfLoading = false;
+        });
+
+      }
+      
     }
   }
   submitPermissionForm(): void {
-    this.permissionForm.get('permission_letter').setErrors({'required': false});
-    if (((!this.permissionObj || !this.permissionObj.permission_letter) && (!this.permissionForm.value || !this.permissionForm.value.permission_letter)) ||
-      (this.permissionObj && (!this.permissionObj.permission_letter || this.permissionObj.permission_letter == '') && (!this.permissionForm.value || !this.permissionForm.value.permission_letter))) {
-      Object.keys(this.permissionForm.controls).forEach((key) => {
-        this.permissionForm.controls[key].touched = true;
-        this.permissionForm.controls[key].markAsDirty();
-      });
-      this.permissionForm.get('permission_letter').setErrors({'required': true});
-      return;
-    }  
+    // this.permissionForm.get('permission_letter').setErrors({'required': false});
+    // if (((!this.permissionObj || !this.permissionObj.permission_letter) && (!this.permissionForm.value || !this.permissionForm.value.permission_letter)) ||
+    //   (this.permissionObj && (!this.permissionObj.permission_letter || this.permissionObj.permission_letter == '') && (!this.permissionForm.value || !this.permissionForm.value.permission_letter))) {
+    //   Object.keys(this.permissionForm.controls).forEach((key) => {
+    //     this.permissionForm.controls[key].touched = true;
+    //     this.permissionForm.controls[key].markAsDirty();
+    //   });
+    //   this.permissionForm.get('permission_letter').setErrors({'required': true});
+    //   return;
+    // }  
     this.isLoading = true;
     this.permissionForm.disable();
     const preparedCompanyDetailsObj: any = this.preparePermissionObj(this.permissionForm.value);    

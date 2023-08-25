@@ -10,10 +10,13 @@
       <h4>{{addEditEvent.name}}</h4>
       <span class="text-sm text-magicPotion font-bold">{{addEditEvent.event_category ? addEditEvent.event_category?.categoryname : addEditEvent.other}}</span>
     </div>
-    <div class="flex items-start space-x-5">
+    <div class="flex items-center space-x-5">
       <a (click)="deletePop()" href="javascript:void(0)"><i class="icon-delete text-quicksilver"></i></a>
       <a (click)="isEditEvent = true" href="javascript:void(0)"><i class="icon-edit text-quicksilver"></i></a>
-      <span class="bg-magicPotion text-xs font-bold px-2 py-1 text-white">{{constants?.eventTypeArr[constants?.eventTypeObj[addEditEvent?.event_type]]?.displayLabel}}</span>
+      <div class="space-y-1">
+        <span class="block bg-magicPotion text-xs font-bold px-2 py-1 text-white">{{constants?.eventTypeArr[constants?.eventTypeObj[addEditEvent?.event_type]]?.displayLabel}}</span>
+        <span class="block text-xs font-bold px-2 py-1 text-white" [ngClass]="!!(addEditEvent?.event_financial_type && addEditEvent.event_financial_type == 'free') ? 'bg-caribbeanGreen' : 'bg-magicPotion'">{{!!(addEditEvent?.event_financial_type && addEditEvent.event_financial_type == 'free') ? 'Free' : 'Paid'}}</span>
+      </div>
     </div>
   </div>
 </div>

@@ -80,7 +80,7 @@ export class OfferOverviewComponent implements OnInit {
     this._onlineOffersService.onOff(offerObj._id).subscribe((result: any) => {
       if (result && result.IsSuccess) {
         const tmpEvents = this._globalFunctions.copyObject(this.offerObj);
-        tmpEvents.status = event.target.checked;
+        tmpEvents.is_live = event.target.checked;
         this.offerObj = this._globalFunctions.copyObject(tmpEvents);
         this.isLoading = false;
       } else {

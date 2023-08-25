@@ -49,8 +49,8 @@
         </div>
       </div>
     </div>
-    <div class="space-y-5">
-      <div class="w-full bg-white flex flex-wrap lg:flex-nowrap p-2.5 rounded-md" *ngFor="let booking of bookings">
+    <div class="space-y-2.5">
+      <div class="w-full bg-white flex flex-wrap lg:flex-nowrap rounded-md space-x-2.5" *ngFor="let booking of bookings">
         <div class="max-w-[170px] w-full h-[170px]">
           <img [src]="!!(booking?.event_id?.banner) ? constants.baseImageURL + booking?.event_id?.banner : constants.defaultImage" [alt]="booking?.event_id?.name" class="w-full h-full object-cover" />
         </div>
