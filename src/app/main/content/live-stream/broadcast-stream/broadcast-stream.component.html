@@ -4,11 +4,17 @@
     <div class="p-0 rounded-md">
       <div class="space-y-3 lg:space-y-6 py-8 border-b border-gray-200">
         <canvas id="preview"></canvas>
+        <span class="icon-mic"></span>
+        <div class="flex items-center space-x-2">
+          <button type="button" class="p-3 px-4 bg-brightGray rounded-md text-lg font-bold uppercase">
+
+            <i class="icon-mic mr-2"></i>  </button>
+        </div>
         <form class="w-full flex items-end flex-wrap p-ngCss" [formGroup]="newBroadCastForm" novalidate>
           <div class="w-full lg:w-1/2 px-2 pt-5 pb-0.5 inputHolder relative">
             <span class="input-titel">Select Webcam<span>*</span></span>
-            <select formControlName="webcam" class="bg-white rounded-md flex w-full space-x-3 outline-0 px-6 py-3 relative arrow">
-              <option value=""></option>
+            <select formControlName="webcam" class="bg-white rounded-md flex w-full space-x-3 outline-0 px-6 py-3 relative arrow" (change)="handleVideoDeviceSelect($event)">
+              <option value="">Please Select Webcam</option>
               <option *ngFor="let vod of videoDevices" [value]="vod.deviceId">{{vod.label}}</option>
             </select>
             <span class="absolute top-full text-red-500 text-xs" *ngIf="newBroadCastForm.controls['webcam'].invalid && (newBroadCastForm.controls['webcam'].dirty || newBroadCastForm.controls['webcam'].touched)">
@@ -19,8 +25,8 @@
           </div>
           <div class="w-full lg:w-1/2 px-2 pt-5 pb-0.5 inputHolder relative">
             <span class="input-titel">Select Microphone<span>*</span></span>
-            <select formControlName="microphone" class="bg-white rounded-md flex w-full space-x-3 outline-0 px-6 py-3 relative arrow">
-              <option value=""></option>
+            <select formControlName="microphone" class="bg-white rounded-md flex w-full space-x-3 outline-0 px-6 py-3 relative arrow" (change)="handleAudioDeviceSelect($event)">
+              <option value="">Please Select Microphone</option>
               <option *ngFor="let aud of audioDevices" [value]="aud.deviceId">{{aud.label}}</option>
             </select>
             <span class="absolute top-full text-red-500 text-xs" *ngIf="newBroadCastForm.controls['microphone'].invalid && (newBroadCastForm.controls['microphone'].dirty || newBroadCastForm.controls['microphone'].touched)">
@@ -32,7 +38,7 @@
           <div class="w-full lg:w-1/2 px-2 pt-5 pb-0.5 inputHolder relative">
             <span class="input-titel">Select Channel Config<span>*</span></span>
             <select formControlName="channel_config"  class="bg-white rounded-md flex w-full space-x-3 outline-0 px-6 py-3 relative arrow">
-              <option value=""></option>
+              <option value="">Please Select Channel Config</option>
               <option value="BASIC_LANDSCAPE">Basic: Landscape</option>
               <option value="BASIC_PORTRAIT">Basic: Portrait</option>
               <option value="STANDARD_LANDSCAPE">Standard: Landscape</option>
