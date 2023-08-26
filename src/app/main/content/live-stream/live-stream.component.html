@@ -25,13 +25,17 @@
                     <span class="text-xs text-white font-bold px-3 rounded-xl py-1 whitespace-nowrap" [ngClass]="!!(liveStream?.is_approved) ? 'bg-caribbeanGreen' : 'bg-magicPotion'">{{!!(liveStream?.is_approved) ? 'Verified' : 'Unverified'}}</span>
                   </div>
                   <div class="flex pt-3">
-                    <div class="">
+                    <div class="text-center">
                       <div class="text-sm font-semibold text-quicksilver pt-3"><i class="icon-calendar-2 mr-3"></i>Date</div>
                       <span class="text-japaneseIndigo text-sm font-bold">{{liveStream?.event_date | date:'dd MMM, yyyy'}}</span>
                     </div>
-                    <div class="border-l-2 border-brightGray pl-3 lg:pl-7 ml-3 lg:ml-7">
+                    <div class="border-l-2 text-center border-brightGray pl-3 lg:pl-7 ml-3 lg:ml-7">
                       <div class="text-sm font-semibold text-quicksilver pt-3"><i class="icon-time mr-3"></i>Time</div>
                       <span class="text-japaneseIndigo text-sm font-bold uppercase">{{liveStream?.event_start_time | convertFrom24To12Format}} - {{liveStream?.event_end_time | convertFrom24To12Format}}</span>
+                    </div>
+                    <div class="border-l-2 text-center border-brightGray pl-3 lg:pl-7 ml-3 lg:ml-7">
+                      <div class="text-sm font-semibold text-quicksilver pt-3"><i class="icon-user mr-3"></i>LiveStream Type</div>
+                      <span class="text-japaneseIndigo text-sm font-bold uppercase">{{liveStream?.livestream_type}}</span>
                     </div>
                   </div>
                 </div>

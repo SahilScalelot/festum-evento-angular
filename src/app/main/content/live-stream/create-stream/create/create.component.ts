@@ -114,6 +114,9 @@ export class CreateComponent implements OnInit {
       this.createStreamForm.get('price_per_user').updateValueAndValidity();
     }
   }
+  onLiveStreamTypeChange(streamType: any): void {
+       this.createStreamForm.get('livestream_type').setValue(streamType);
+  }
 
   prepareLiveStreamObj(liveStreamObj: any = {}): any {
     const preparedOnlineShopOfferObj: any = this._globalFunctions.copyObject(liveStreamObj);
@@ -199,6 +202,7 @@ export class CreateComponent implements OnInit {
       // event_start_time  : [liveStreamObj?.event_start_time || '', [Validators.required]],
       // event_end_time    : [liveStreamObj?.event_end_time || '', [Validators.required]],
       event_type           : [liveStreamObj?.event_type || 'free', [Validators.required]],
+      livestream_type           : [liveStreamObj?.livestream_type || 'public', [Validators.required]],
       price_per_user       : [liveStreamObj?.price_per_user || '', [Validators.required]],
     });
     setTimeout(() => {
