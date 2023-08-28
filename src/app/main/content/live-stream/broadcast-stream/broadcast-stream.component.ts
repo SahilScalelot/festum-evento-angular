@@ -92,9 +92,6 @@ export class BroadcastStreamComponent implements OnInit {
     }
 
     async startBroadcast() {
-        console.log(this.client);
-        console.log(this.config.ingestEndpoint);
-        console.log(this.config.streamKey);
 
             if (this.client) {
                 this.handleVideoDeviceSelect();
@@ -141,6 +138,7 @@ export class BroadcastStreamComponent implements OnInit {
     }
 
     async handleVideoDeviceSelect(videoDeviceId?: any) {
+        let cameraStream;
         const id = "camera";
         const devices = await this.getVideoDevices();
         if (this.client.getVideoInputDevice(id)) {
@@ -153,29 +151,39 @@ export class BroadcastStreamComponent implements OnInit {
 
         const deviceId = selectedDevice ? selectedDevice.deviceId : null;
         const {width, height} = this.config.streamConfig.maxResolution;
-        const cameraStream = await this.getCamera(deviceId, width, height);
-
+        if (deviceId !== null) {
+            cameraStream = await this.getCamera(deviceId, width, height);
+        } else {
+            cameraStream = await this.getCamera(deviceId, width, height);
+        }
         await this.client.addVideoInputDevice(cameraStream, id, {
             index: 0
         });
     }
 
     async handleAudioDeviceSelect(audioDeviceId?: any) {
+        let microphoneStream;
         const id = "microphone";
         const devices = await this.getAudioDevices();
         if (this.client.getAudioInputDevice(id)) {
             this.client.removeAudioInputDevice(id);
         }
-        if (audioDeviceId === "none") return;
-        const selectedDevice = devices.find(
+
+        //if (audioDeviceId === "none") return;
+        let selectedDevice = devices.find(
             (device: any) => device.deviceId === audioDeviceId
         );
 
-        if (selectedDevice) {
-            const microphoneStream = await navigator.mediaDevices.getUserMedia({
+        if (selectedDevice !== undefined) {
+            microphoneStream = await navigator.mediaDevices.getUserMedia({
                 audio: {
                     deviceId: selectedDevice.deviceId
                 }
+            });
+            await this.client.addAudioInputDevice(microphoneStream, id);
+        } else {
+            microphoneStream = await navigator.mediaDevices.getUserMedia({
+                audio: true
             });
             await this.client.addAudioInputDevice(microphoneStream, id);
         }
