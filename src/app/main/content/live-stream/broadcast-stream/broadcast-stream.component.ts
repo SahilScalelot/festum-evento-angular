@@ -17,7 +17,8 @@ declare const window: any;
     styleUrls: ['./broadcast-stream.component.scss']
 })
 export class BroadcastStreamComponent implements OnInit {
-
+    @ViewChild('canvasElement', { static: true }) canvasElement: any;
+    private videoStream: any;
     liveStreamObj: any = [];
     broadcastCategories: any;
     constants: any = CONSTANTS;
@@ -27,6 +28,7 @@ export class BroadcastStreamComponent implements OnInit {
     client: any;
     config: any;
     isLoading: boolean = false;
+    isOpenSettings: boolean = false;
     isStreamStarted: boolean = false;
     isMicroPhone: boolean = true;
     isVideo: boolean = true;
@@ -57,7 +59,7 @@ export class BroadcastStreamComponent implements OnInit {
         this.newBroadCastForm = this._formBuilder.group({
             webcam: ['', Validators.required],
             microphone: ['', Validators.required],
-            channel_config: ['', Validators.required],
+            channel_config: ['', Validators.required]
         });
     }
 
@@ -75,13 +77,13 @@ export class BroadcastStreamComponent implements OnInit {
 
             this.client = this.broadcastClient.create({
                 ingestEndpoint: this.config.ingestEndpoint,
-                streamConfig: (window as any).IVSBroadcastClient.BASIC_LANDSCAPE
+                streamConfig: (window as any).IVSBroadcastClient.STANDARD_LANDSCAPE
             });
             const previewEl = this.document.getElementById("preview");
             this.client.attachPreview(previewEl);
             this.handlePermissions();
-            this.handleVideoDeviceSelect(event);
-            this.handleAudioDeviceSelect(event);
+            this.handleVideoDeviceSelect();
+            this.handleAudioDeviceSelect();
             this.isLoading = false;
         }, (error: any) => {
             this._globalFunctions.errorHanding(error, this, true);
@@ -91,28 +93,26 @@ export class BroadcastStreamComponent implements OnInit {
 
     async startBroadcast() {
         console.log(this.client);
-        if (this.newBroadCastForm.invalid) {
-            Object.keys(this.newBroadCastForm.controls).forEach((key) => {
-                this.newBroadCastForm.controls[key].touched = true;
-                this.newBroadCastForm.controls[key].markAsDirty();
-            });
-            return;
-        } else {
+        console.log(this.config.ingestEndpoint);
+        console.log(this.config.streamKey);
+
             if (this.client) {
-                let resolution = this.getStreamConfig(this.newBroadCastForm.value.channel_config);
+                this.handleVideoDeviceSelect();
+                this.handleAudioDeviceSelect();
+                let resolution = this.getStreamConfig('STANDARD_LANDSCAPE');
                 this.client = this.broadcastClient.create({
                     ingestEndpoint: this.config.ingestEndpoint,
                     streamConfig: resolution
                 });
                 this.isStreamStarted = true;
                 this.client.startBroadcast(this.config.streamKey, this.config.ingestEndpoint).then((result: any) => {
-                    console.log('I am successfully broadcasting!');
+                    this._sNotify.success('Streaming Started Successfully', 'Success');
                 }).catch((error: any) => {
                     this.isStreamStarted = false;
-                    console.error('Something drastically failed while broadcasting!', error);
+                    this._sNotify.error(error, 'error');
                 });
             }
-        }
+
     }
     getStreamConfig(channelConfig: any) {
         switch (channelConfig) {
@@ -137,9 +137,10 @@ export class BroadcastStreamComponent implements OnInit {
     stopBroadcast() {
         this.client.stopBroadcast();
         this.isStreamStarted = false;
+        this._sNotify.success('Streaming Stopped Successfully', 'Success');
     }
 
-    async handleVideoDeviceSelect(event: any) {
+    async handleVideoDeviceSelect(videoDeviceId?: any) {
         const id = "camera";
         const devices = await this.getVideoDevices();
         if (this.client.getVideoInputDevice(id)) {
@@ -147,7 +148,7 @@ export class BroadcastStreamComponent implements OnInit {
         }
 
         const selectedDevice = devices.find(
-            (device: any) => device.deviceId === event.target.value
+            (device: any) => device.deviceId === videoDeviceId
         );
 
         const deviceId = selectedDevice ? selectedDevice.deviceId : null;
@@ -159,15 +160,15 @@ export class BroadcastStreamComponent implements OnInit {
         });
     }
 
-    async handleAudioDeviceSelect(event: any) {
+    async handleAudioDeviceSelect(audioDeviceId?: any) {
         const id = "microphone";
         const devices = await this.getAudioDevices();
         if (this.client.getAudioInputDevice(id)) {
             this.client.removeAudioInputDevice(id);
         }
-        if (event.target.value === "none") return;
+        if (audioDeviceId === "none") return;
         const selectedDevice = devices.find(
-            (device: any) => device.deviceId === event.target.value
+            (device: any) => device.deviceId === audioDeviceId
         );
 
         if (selectedDevice) {
@@ -181,7 +182,7 @@ export class BroadcastStreamComponent implements OnInit {
     }
 
     async getCamera(deviceId: any, maxWidth: any, maxHeight: any) {
-        let media;
+       // let media;
         let videoConstraints: any = {
             deviceId: deviceId ? {exact: deviceId} : null,
             width: {
@@ -192,19 +193,19 @@ export class BroadcastStreamComponent implements OnInit {
             }
         };
         try {
-            media = await navigator.mediaDevices.getUserMedia({
+            this.videoStream = await navigator.mediaDevices.getUserMedia({
                 video: videoConstraints,
                 audio: true
             });
         } catch (e) {
-            console.log('error' + e);
+            this._sNotify.error('Permission denied.');
             delete videoConstraints.width;
             delete videoConstraints.height;
-            media = await navigator.mediaDevices.getUserMedia({
+            this.videoStream = await navigator.mediaDevices.getUserMedia({
                 video: videoConstraints
             });
         }
-        return media;
+        return this.videoStream;
     }
 
     async getVideoDevices() {
@@ -225,49 +226,62 @@ export class BroadcastStreamComponent implements OnInit {
         return audioDevices;
     }
 
-    setMicrophone() {
-       this.isMicroPhone = !this.isMicroPhone;
+    async setMicrophone() {
+        if (this.isMicroPhone) {
+            this.stopMicrophone();
+        } else {
+            this.handleAudioDeviceSelect(event);
+        }
+        this.isMicroPhone = !this.isMicroPhone;
     }
 
     setWebCam() {
-       this.isVideo = !this.isVideo;
-       //this.client.mediaStreamManager.mediaTracks = this.isVideo;
-       //  console.log(this.client);
-       //  console.log(typeof this.client.mediaStreamManager);
-       //  console.log(Object.entries(this.client.mediaStreamManager.mediaTracks));
-       //  Object.keys(this.client.mediaStreamManager.mediaTracks).forEach(function(key, index) {
-       //     console.log(key)
-       //  });
-       //  Object.entries(this.client.mediaStreamManager).forEach(([key, value]) => {
-       //      console.log(`${key} ${value}`); // "a 5", "b 7", "c 9"
-       //      console.log(value); // "a 5", "b 7", "c 9"
-       //  });
-        // const previewEl = this.document.getElementById("preview");
-        // this.client.detachPreview(previewEl);
-        //const videoTrack = this.client.mediaStreamManager.mediaTracks.getVideoTracks()[0];
-        //videoTrack.enabled = !videoTrack.enabled
+        if (this.isVideo) {
+            this.stopCamera();
+        } else {
+            this.handleVideoDeviceSelect(event);
+        }
+        this.isVideo = !this.isVideo;
+    }
+    stopCamera() {
+         if (this.videoStream) {
+             const tracks = this.videoStream.getTracks();
+             tracks.forEach((track: any)  => track.stop());
+         }
+    }
+    stopMicrophone() {
+        if (this.videoStream) {
+            this.videoStream.getAudioTracks().forEach((track: any) => track.stop());
+        }
     }
 
-    openSetting() {
-
+    openSetting(event: any): void {
+        event.stopPropagation();
+        this.isOpenSettings = true;
     }
 
     async handlePermissions() {
         try {
             navigator.permissions.query({ name: 'camera' }, { name: 'microphone' }
             ).then(function(permissionStatus: any){
-                console.log(permissionStatus.state); // granted, denied, prompt
-
                 permissionStatus.onchange = function(){
-                    permissionStatus.state = 'granted';
                     console.log("Permission changed to " + this.state);
                 }
-
             })
         } catch (error) {
             console.error('Error requesting camera permission:', error);
         }
 
+    }
+
+    saveSettings(settingObj: any): void {
+        let resolution = this.getStreamConfig(settingObj.channel_config);
+        this.handleVideoDeviceSelect(settingObj.webcam);
+        this.handleAudioDeviceSelect(settingObj.microphone);
+        this.config.streamConfig = resolution;
+    }
+    closeSettingModal(flag: boolean): void {
+        this.isOpenSettings = false;
     }
 
 }

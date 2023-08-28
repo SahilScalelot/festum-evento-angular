@@ -15,12 +15,14 @@ import { PrivacyPolicyComponent } from '../main/common/privacy-policy/privacy-po
 import { TermsAndConditionsUserComponent } from '../main/common/terms-and-conditions-user/terms-and-conditions.component';
 import { PrivacyPolicyUserComponent } from '../main/common/privacy-policy-user/privacy-policy.component';
 import { RPCPRulesComponent } from '../main/common/rpcp-rules/rpcp-rules.component';
+import { BroadcastStreamSettingsComponent } from '../main/content/dialogs/broadcast-stream-settings/broadcast-stream-settings.component';
 
 
 @NgModule({
   declarations: [
     AddEditEventDialogComponent,
     ImageAndVideoPreviewComponent,
+    BroadcastStreamSettingsComponent,
     ValidNumberDirective,
     ValidAlphabetDirective,
     ValidNumberWithDecimalDirective,
@@ -45,6 +47,7 @@ import { RPCPRulesComponent } from '../main/common/rpcp-rules/rpcp-rules.compone
     ReactiveFormsModule,
     AddEditEventDialogComponent,
     ImageAndVideoPreviewComponent,
+    BroadcastStreamSettingsComponent,
     ProgressSpinnerModule,
     ValidNumberDirective,
     ValidAlphabetDirective,
