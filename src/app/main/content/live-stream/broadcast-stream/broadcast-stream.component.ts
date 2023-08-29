@@ -1,4 +1,4 @@
-import {Component, Inject, EventEmitter, Input, OnInit, Output, ViewChild, ElementRef} from '@angular/core';
+import {Component, Inject, EventEmitter, Input, OnInit, OnDestroy, Output, ViewChild, ElementRef} from '@angular/core';
 import {ActivatedRoute, Router, NavigationStart, Event as NavigationEvent} from '@angular/router';
 import {FormGroup, FormBuilder, Validators} from '@angular/forms';
 import {DOCUMENT} from '@angular/common';
@@ -9,6 +9,7 @@ import {LiveStreamService} from '../live-stream.service';
 
 declare const navigator: any;
 declare const window: any;
+declare const browser: any;
 
 
 @Component({
@@ -16,7 +17,7 @@ declare const window: any;
     templateUrl: './broadcast-stream.component.html',
     styleUrls: ['./broadcast-stream.component.scss']
 })
-export class BroadcastStreamComponent implements OnInit {
+export class BroadcastStreamComponent implements OnInit, OnDestroy {
     @ViewChild('canvasElement', { static: true }) canvasElement: any;
     private videoStream: any;
     liveStreamObj: any = [];
@@ -237,8 +238,9 @@ export class BroadcastStreamComponent implements OnInit {
     async setMicrophone() {
         if (this.isMicroPhone) {
             this.stopMicrophone();
+            this.client.removeAudioInputDevice("microphone");
         } else {
-            this.handleAudioDeviceSelect(event);
+            this.handleAudioDeviceSelect();
         }
         this.isMicroPhone = !this.isMicroPhone;
     }
@@ -247,7 +249,7 @@ export class BroadcastStreamComponent implements OnInit {
         if (this.isVideo) {
             this.stopCamera();
         } else {
-            this.handleVideoDeviceSelect(event);
+            this.handleVideoDeviceSelect();
         }
         this.isVideo = !this.isVideo;
     }
@@ -289,7 +291,12 @@ export class BroadcastStreamComponent implements OnInit {
         this.config.streamConfig = resolution;
     }
     closeSettingModal(flag: boolean): void {
-        this.isOpenSettings = false;
+        this.isOpenSettings = flag;
+    }
+    async ngOnDestroy(){
+        if (this.isStreamStarted) {
+            this.stopBroadcast();
+        }
     }
 
 }
