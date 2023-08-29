@@ -56,9 +56,9 @@ const routes: Routes = [
     TermsAndConditionsLsComponent,
   ],
   imports: [
+    StepsModule,
     RouterModule.forChild(routes),
     CommonModule,
-    StepsModule,
     ReactiveFormsModule,
     CalendarModule,
     ImageCropperModule,

@@ -83,7 +83,16 @@ export class LiveStreamComponent implements OnInit {
     localStorage.setItem('lsId', liveStreamId);
     this._router.navigate(['/live-stream/create/stream']);
   }
-
+  gotoPromotion(event: any, eventId: any){
+    event.stopPropagation();
+    localStorage.setItem('eId', eventId);
+    this._router.navigate(['/notifications']);
+  }
+  gotoDiscount(event: any, eventId: any): void{
+    event.stopPropagation();
+    localStorage.setItem('eId', eventId);
+    this._router.navigate(['/events/create/discount']);
+  }
   
   // Delete Live Stream
   openDeleteDialog(event: any, LiveStreamId: any): void {

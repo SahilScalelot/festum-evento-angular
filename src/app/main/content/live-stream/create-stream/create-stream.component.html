@@ -8,11 +8,11 @@
       </div>
     </div>
     <div class="w-full overflow-hidden overflow-x-auto capitalize">
-      <p-steps [model]="items" [readonly]="false"></p-steps>
+      <p-steps [model]="items" [readonly]="false" [activeIndex]="activeIndex" (activeIndexChange)="onActiveIndexChange($event)"></p-steps>
     </div>
   </div>
   <!-- main-content  -->
   <div class="outletPortal pt-8 max-h-full overflow-y-auto">
-    <router-outlet></router-outlet>
+    <router-outlet (activate)="onActivate($event)"></router-outlet>
   </div>
 </div>
