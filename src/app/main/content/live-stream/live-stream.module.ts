@@ -25,10 +25,6 @@ const routes: Routes = [
   },
   {
     path: 'broadcast/:id', component: BroadcastStreamComponent
-  },
-  {
-    path: 'create',
-    loadChildren: () => import('./create-stream/create-stream.module').then(m => m.CreateStreamModule)
   }
 ];
 

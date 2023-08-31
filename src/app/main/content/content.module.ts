@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ContentComponent } from './content.component';
 import { EventModule } from "./event/event.module";
 import { CreateEventModule } from "./create-event/create-event.module";
+import { CreateStreamModule } from "./create-stream/create-stream.module";
 import { BuySpacePlansComponent } from './buy-space-plans/buy-space-plans.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ModalModule } from '../_modal';
@@ -65,6 +66,7 @@ const routes: Routes = [
     EventModule,
     OfflineShopsModule,
     CreateEventModule,
+    CreateStreamModule,
     ModalModule,
     FormsModule,
     ReactiveFormsModule,

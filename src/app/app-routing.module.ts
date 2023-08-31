@@ -98,6 +98,10 @@ const routes: Routes = [
         loadChildren: () => import('./main/content/live-stream/live-stream.module').then(m => m.LiveStreamModule)
       },
       {
+        path: 'live-stream/create',
+        loadChildren: () => import('./main/content/create-stream/create-stream.module').then(m => m.CreateStreamModule)
+      },
+      {
         path: 'notifications',
         loadChildren: () => import('./main/content/notifications/notifications.module').then(m => m.NotificationsModule)
       },
