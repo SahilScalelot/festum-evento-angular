@@ -77,8 +77,8 @@ button.primary,.primary{@apply bg-caribbeanGreen rounded-md font-bold text-white
 .upload{@apply py-5 px-5 text-center bg-white block w-full rounded-md border-2 border-dashed border-quicksilver cursor-pointer;}
 .upload-photo{@apply h-full flex justify-center items-center text-center bg-white flex-col w-full rounded-md border-2 border-dashed border-quicksilver cursor-pointer;}
 .upload-box{@apply p-1.5 bg-white rounded-md w-28 h-28;}
-.upload-box button.edit{@apply h-5 w-full text-center bg-green-500 text-xs font-bold text-white absolute top-0 inset-x-0 -translate-x-8 transition-all duration-300 cursor-pointer;}
-.upload-box button.remove{@apply h-5 w-full text-center bg-magicPotion text-xs font-bold text-white absolute bottom-0 inset-x-0 translate-x-8 transition-all duration-300 cursor-pointer;}
+.upload-box button.edit{@apply h-5 w-full text-center bg-green-500 text-xs font-bold text-white absolute top-0 inset-x-0 -translate-x-full hover:translate-x-0 transition-all duration-300 cursor-pointer;}
+.upload-box button.remove{@apply h-5 w-full text-center bg-magicPotion text-xs font-bold text-white absolute bottom-0 inset-x-0 translate-x-full hover:translate-x-0 transition-all duration-300 cursor-pointer;}
 .upload-box:hover button{@apply translate-x-0;}
 
 /* stap-prosses-bar */

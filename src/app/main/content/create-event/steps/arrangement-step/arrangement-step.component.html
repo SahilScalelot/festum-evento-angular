@@ -118,7 +118,7 @@
           <!-- media title  -->
             <div class="flex justify-between items-center">
               <h3 class="text-lg">Food Photos</h3>
-              <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" >View All</a>
+              <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(seating?.food_details, true, false)" >View All</a>
             </div>
           <!-- photo-holder -->
             <div class="w-full">
@@ -154,7 +154,7 @@
         <!-- media title  -->
           <div class="flex justify-between items-center">
             <h3 class="text-lg">Equipment Photos</h3>
-            <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" >View All</a>
+            <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(seating?.equipment_details, true, false)">View All</a>
           </div>
         <!-- photo-holder -->
           <div class="w-full">
@@ -198,6 +198,8 @@
   </div>
 </div>
 
+<app-image-and-video-preview *ngIf="isOpenPopup" (openClosePopup)="closePop($event)" [isSingleVideo]="isSingleVideo" [isImageOrVideoFlag]="isImage" [isCompanyImagesAndVideo]="companyIAndV" [expectedProp]="imagesOrVideosArr"></app-image-and-video-preview>
+
 <!-- Close -->
 <modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="delete-event-pop" title="Are you sure?" [isCloseHidden]="true" [isTitleHidden]="true">
   <div class="flex flex-wrap relative">
@@ -221,3 +223,5 @@
 
 <app-arrangement-dialog (isAddEventChange)="closePop($event)" (addEditArrangement)="addEditArrangement($event)" *ngIf="isArrangement"
  [popClass]="'active'" [seatingItems]="seatingItems" [editArrangementObj]="editArrangementObj" [arrangementsArr]="arrangementsArr"></app-arrangement-dialog>
+
+

@@ -433,7 +433,7 @@
                       <div class="rounded relative overflow-hidden h-full w-full group">
                         <img [alt]="'add-photo-' + i" [src]="!!(photo?.url) ? constants.baseImageURL + photo.url : constants.defaultImage" *ngIf="photo.url" class="object-cover w-full h-full"/>
                         <div class="opacity-0 bg-black bg-opacity-50 flex items-center justify-center group-hover:opacity-100 absolute inset-0 transition-all duration-300">
-                          <button class="edit">Edit</button>
+                          <button class="edit" (click)="editImageUpload(i)">Edit</button>
                           <span class="block" (click)="viewImage(i)"><i class="pi pi-eye text-2xl text-white cursor-pointer" ></i></span>
                           <button (click)="removeImage(i)" class="remove">Remove</button>
                         </div>
@@ -542,11 +542,14 @@
                       <div class="rounded relative overflow-hidden h-full w-full group">
                         <img [alt]="'add-photo-' + i" [src]="!!(photo?.url) ? constants.baseImageURL + photo.url : constants.defaultImage" *ngIf="photo.url" class="object-cover w-full h-full"/>
                         <div class="opacity-0 bg-black bg-opacity-50 flex items-center justify-center group-hover:opacity-100 absolute inset-0 transition-all duration-300">
-                          <button class="edit z-50" (click)="editImageUpload(i)">Edit</button>
+                          <button class="edit" (click)="editImageUpload(i)">Edit</button>
                           <span class="block" (click)="viewImage(i)"><i class="pi pi-eye text-2xl text-white cursor-pointer" ></i></span>
                           <button (click)="removeImage(i)" class="remove">Remove</button>
                         </div>
                       </div>
+
+                      
+
                       <div class="absolute inset-0 flex items-center justify-center bg-black/70 cursor-pointer z-10" *ngIf="openImages" (click)="openImages = !openImages">
                         <div class="max-w-xs">
                           <img [alt]="'add-photo-' + i" [src]="!!(viewEqpImagesDailog) ? constants.baseImageURL + viewEqpImagesDailog  : constants.defaultImage" *ngIf="photo.url" class="object-cover w-full h-full"/>                        

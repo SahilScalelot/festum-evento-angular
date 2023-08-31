@@ -30,6 +30,7 @@ export class EventOverviewComponent implements OnInit {
 
   isDeleteLoading: boolean = false;
   panelOpenState: boolean = false;
+  
 
   overview: boolean = true;
   attendee: boolean = false;

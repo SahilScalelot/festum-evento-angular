@@ -47,7 +47,7 @@
           </div>
 
           <!-- Photos and Videos-->
-          <div class="bg-white p-3 space-y-2.5 rounded-md">
+          <!-- <div class="bg-white p-3 space-y-2.5 rounded-md">
             <h3 class="text-lg">Photos and Videos</h3>
             <div class="flex space-x-5">
               <div class="w-1/2 rounded overflow-hidden h-auto" *ngIf="offerObj?.poster">
@@ -75,7 +75,49 @@
                 </div>
               </div>
             </div>
+          </div> -->
+            <!-- Photo-holder -->
+          <div *ngIf="offerObj?.poster" class="media-upload-holder">
+              <!-- media title  -->
+              <div class="flex justify-between items-center">
+                <h3 class="text-lg">Photo</h3>
+                <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" >View All</a>
+              </div>
+              <!-- photo-holder -->
+              <div class="w-full">
+                <div class="flex overflow-hidden -mx-2">
+                  <!-- <div *ngFor="let img of offerObj?.poster" class="w-auto p-2"> -->
+                    <div class="rounded relative overflow-hidden bg-white h-28 w-[7.3rem]">
+                      <p-image [src]="!!(offerObj?.poster) ? constants.baseImageURL + offerObj.poster : constants.defaultImage" [alt]="offerObj?.offer_title" imageClass="w-full h-full object-cover" styleclass="w-full h-full" [preview]="true"></p-image>
+                      <!-- <p-image [src]="!!(img?.url) ? constants?.baseImageURL + img?.url : constants?.defaultImage" imageClass="w-full h-full object-cover rounded" styleClass="w-full h-full" [preview]="true"></p-image> -->
+                      <!-- <img [src]="!!(img?.url) ? constants?.baseImageURL + img?.url : constants?.defaultImage" alt="upload-1" class="w-full h-full object-cover"/> -->
+                    <!-- </div> -->
+                  </div>
+                </div>
+              </div>
           </div>
+          <div *ngIf="offerObj?.video" class="media-upload-holder">
+            <!-- media title  -->
+            <div class="flex justify-between items-center">
+              <h3 class="text-lg">Videos</h3>
+              <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(offerObj?.video, false, false)">View All</a>
+            </div>
+            <!-- media-holder -->
+            <div class="w-full">
+              <div class="flex overflow-hidden -mx-2">
+                <div  class="p-2 group hover:bg-slate-100">
+                  <div class="rounded relative overflow-hidden h-32 w-36 cursor-pointer" (click)="openImageAndVideoDialog([offerObj?.video], false, false, true)">
+                    <!-- <video [src]="!!(offerObj?.videos) ? constants?.baseImageURL + offerObj?.videos : constants?.defaultImage" class="w-full h-full object-cover bg-white"></video> -->
+                    <video [src]="!!(offerObj?.video) ? constants.baseImageURL + offerObj.video : constants.defaultImage" class="w-full h-full object-cover"></video>
+                    <div class="opacity-0 bg-black bg-opacity-50 flex items-center justify-center group-hover:opacity-100 absolute inset-0 transition-all duration-300">
+                      <i class="pi pi-eye text-2xl text-white"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
 
           <!-- Colorful T-shirt -->
           <div class="space-y-2.5" *ngIf="offerObj?.offer_on_all_products">
@@ -104,7 +146,7 @@
               </div>
               <div class="text-sm">
                 <p class="font-bold text-magicPotion text-right">{{offer?.discount}}{{(offer?.discount_type == constants.discountTypeArr[constants.discountTypeObj.percentage].value) ? "%" : "₹" }} Off</p>
-                <span class="text-quicksilver font-light">{{offer?.person_limitation}} {{offerObj?.offer_type}}</span>
+                <span class="text-quicksilver font-light"> {{offerObj?.offer_type == "unlimited_person" ? "This Offer Is For Unlimmited Person" : "This Offer Is Limmited To First " + offer?.person_limitation + " Persons Only"}}</span>
               </div>
             </div>  
           </div>
@@ -182,16 +224,6 @@
                   <input type="checkbox" id="weekday-su" class="weekday appearance-none w-1 h-1 rounded-full bg-transparent" [checked]="day.isSelected" disabled/>
                   <span class="block text-base font-bold text-quicksilver">{{day.label}}</span>
                 </label>
-              </div>
-            </div>
-            <div *ngIf="shopObj?.shop_open_time">
-              <span class="text-quicksilver text-xs font-bold"><i class="icon-time mr-2"></i> Shop Open Time</span>
-              <p class="text-sm font-bold text-japaneseIndigo">{{"0" + " " + shopObj?.shop_open_time | date:'shortTime'}} - {{"0" + " " + shopObj?.shop_close_time | date:'shortTime'}}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
     <!-- Reviews-Teb-Content -->
     <div class="tab-main" id="reviews" [class]="reviews ? 'active' : ''">
       <div class="w-full space-y-2.5">

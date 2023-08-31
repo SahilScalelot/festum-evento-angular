@@ -29,6 +29,13 @@ export class OfferOverviewComponent implements OnInit {
   isAddUserWiseOffers: boolean = false;
   isLoading: boolean = false;
   isDeleteLoading: boolean = false;
+  isOpenPopup: boolean = false;
+  isImage: boolean = false;
+  companyIAndV: boolean = false;
+  imagesOrVideosArr: Array<any> = [];
+  cancelEventPop: boolean = false;
+  isSingleVideo: boolean = false;
+  tempEventData:any;
   weekDays: any = [
     { value: 'su', label: 'Sun' },
     { value: 'mo', label: 'Mon' },
@@ -67,6 +74,19 @@ export class OfferOverviewComponent implements OnInit {
     // });
     this.getShopOfferById();
     this.getShopById();
+  }
+
+  openImageAndVideoDialog(imagesOrVideosArr: Array<any>, isImage: boolean, companyIAndV: boolean, isSingleVideo: boolean = false): void {
+    this.imagesOrVideosArr = imagesOrVideosArr;
+    this.isImage = isImage;
+    this.companyIAndV = companyIAndV;
+    this.isSingleVideo = isSingleVideo;
+    this.isOpenPopup = true;
+  }
+
+  closePop(flag: boolean = false): void {
+    this.isOpenPopup = flag;
+    this.cancelEventPop = false;
   }
 
   getShopOfferById(): void {

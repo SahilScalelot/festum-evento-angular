@@ -24,6 +24,13 @@ export class ArrangementStepComponent implements OnInit {
   arrangementsArr: any = [];
   event_typ: any;
   arrangementsArr1:any;
+  isOpenPopup: boolean = false;
+  isImage: boolean = false;
+  companyIAndV: boolean = false;
+  imagesOrVideosArr: Array<any> = [];
+  attendees: Array<any> = [];
+  cancelEventPop: boolean = false;
+  isSingleVideo: boolean = false;
   @Input() arrangementObj: any = {};
 
   constructor(
@@ -78,6 +85,16 @@ export class ArrangementStepComponent implements OnInit {
     });
   }
 
+  openImageAndVideoDialog(imagesOrVideosArr: Array<any>, isImage: boolean, companyIAndV: boolean, isSingleVideo: boolean = false): void {
+    this.imagesOrVideosArr = imagesOrVideosArr;
+    this.isImage = isImage;
+    this.companyIAndV = companyIAndV;
+    this.isSingleVideo = isSingleVideo;
+    this.isOpenPopup = true;
+  }
+
+
+
   toggleAccordion(event: any, index: any): void {
     const element: any = event.target;
     const panel: any = element.nextElementSibling;
@@ -117,6 +134,8 @@ export class ArrangementStepComponent implements OnInit {
   }
 
   closePop(flag: boolean): void {
+    this.isOpenPopup = flag;
+    this.cancelEventPop = false;
     this.seatingItems = this._globalFunctions.copyObject(this.tmpSeatingItems);
     this.editArrangementObj = {};
     this.isArrangement = flag;

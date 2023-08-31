@@ -319,8 +319,6 @@
                                 <span class="on text-base font-bold anim order-3">Per person</span> -->
                                 <span class="off text-base font-bold anim order-1 text-caribbeanGreen capitalize" *ngIf="seating?.seating_item">Per {{seating?.seating_item?.itemname}}</span>
                                 <span class="off text-base font-bold anim order-1 text-caribbeanGreen capitalize" *ngIf="seating?.seating_item == 'Standing'">Per Person</span>
-                              
-                                
                               </div>
                               <div class="flex items-center pt-4 ml-auto" *ngIf="(seating?.seating_item?.isonlyperperson)">
                                 <!-- <input class="switch mx-3 order-2" id="on" type="checkbox" [(ngModel)]="arrangement.booking_acceptance"/>
@@ -356,7 +354,7 @@
                       <!-- media title  -->
                       <div class="flex justify-between items-center">
                         <h3 class="text-lg">Food Photos</h3>
-                        <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(event?.photos, true, false)">View All</a>
+                        <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(seating?.food_details, true, false)">View All</a>
                       </div>
                       <!-- photo-holder -->
                       <div class="w-full">
@@ -392,7 +390,7 @@
                       <!-- media title  -->
                       <div class="flex justify-between items-center">
                         <h3 class="text-lg">Equipment Photos</h3>
-                        <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(event?.photos, true, false)">View All</a>
+                        <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(seating?.equipment_details, true, false)">View All</a>
                       </div>
                       <!-- photo-holder -->
                       <div class="w-full">
@@ -706,6 +704,7 @@
     </div>
   </div>
 </div>
+
 <app-image-and-video-preview *ngIf="isOpenPopup" (openClosePopup)="closePop($event)" [isSingleVideo]="isSingleVideo" [isImageOrVideoFlag]="isImage" [isCompanyImagesAndVideo]="companyIAndV" [expectedProp]="imagesOrVideosArr"></app-image-and-video-preview>
 
 <div class="fixed bg-black bg-opacity-25 backdrop-blur-sm right-0 bottom-0 h-[calc(100vh-76px)] w-full lg:w-[calc(100vw-230px)] z-30 flex items-center justify-center text-center p-5" *ngIf="cancelEventPop">

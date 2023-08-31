@@ -35,6 +35,7 @@ export class PhotosVideosStepComponent implements OnInit {
   isVideoLoading: boolean = false;
   isCropperLoading: boolean = false;
   isDeleteLoading: boolean = false;
+  isOpenEditImageModal: boolean = false;
   deleteItemObj: any = {};
 
   posterObj: any = {};
@@ -56,6 +57,11 @@ export class PhotosVideosStepComponent implements OnInit {
   companyIAndV: boolean = false;
   isImage: boolean = false;
   imagesOrVideosArr: Array<any> = [];
+ 
+
+  openImages:boolean=false;
+  viewImagesDailog:any;
+  viewEqpImagesDailog:any;
 
   constructor(
     private _modalService: ModalService,
@@ -215,7 +221,6 @@ export class PhotosVideosStepComponent implements OnInit {
     this.drEvent.settings.defaultFile = imageUrl;
     this.drEvent.destroy();
     this.drEvent.init();
-
     this.dropifyOption.defaultFile = imageUrl;
     this.drEvent = $('.poster').dropify(this.dropifyOption);
     this.posterImageAndVideoObj.banner = image;
@@ -230,10 +235,6 @@ export class PhotosVideosStepComponent implements OnInit {
   }
 
   popClose(popId: any): any {
-    // let drEvent: any = $('.poster').dropify();
-    // drEvent = drEvent.data('dropify');
-    // drEvent.resetPreview();
-    // drEvent.clearElement();
     $('.dropify-clear').click();
     this._modalService.close(popId);
   }
@@ -243,9 +244,10 @@ export class PhotosVideosStepComponent implements OnInit {
     if (this.descriptionLimit > CONSTANTS.CKEditorCharacterLimit0) {
       return false;
     }
-    
 
     const responseObj: Observable<any>[] = [];
+      console.log(responseObj);
+      
     this.imagesFiles.forEach((image: any) => {
       if (image != undefined) {
         if (image.type != 'image/jpeg' && image.type != 'image/jpg' && image.type != 'image/png' && image.type != 'image/gif' && image.type != 'image/avif' && image.type != 'image/raw') {
@@ -314,53 +316,6 @@ export class PhotosVideosStepComponent implements OnInit {
     // this.posterImageAndVideoObj.photos.splice(index: index, 1);
     // this.allPhotosFilesArr.splice(index, 1);
   }
-
-  // Videos Upload
-  // uploadVideo(): any {
-  //   const video = $('#create-video-upload')[0].files[0];
-  //   if (video != undefined) {
-  //     if (video.type != 'video/mp4') {
-  //       this._sNotify.error('Video type should only mp4.', 'Oops!');
-  //       $('#create-video-upload').focus();
-  //       return false;
-  //     }
-
-  //     const video_size = video.size / 1024 / 1024;
-  //     if (video_size > CONSTANTS.maxVideoSizeInMB) {
-  //       this._sNotify.error('Maximum Video Size is ' + CONSTANTS.maxVideoSizeInMB + 'MB.', 'Oops!');
-  //       $('#create-video-upload').focus();
-  //       return false;
-  //     }
-
-  //     if (this.posterImageAndVideoObj.videos && this.posterImageAndVideoObj.videos.length && this.posterImageAndVideoObj.videos.length >= 2) {
-  //       this._sNotify.error('Maximum 2 videos can upload!', 'Oops!');
-  //       this._modalService.close('video');
-  //       return false;
-  //     }
-
-  //     if (!this.isVideoLoading) {
-  //       const videoFormData = new FormData();
-  //       videoFormData.append('file', video);
-  //       this.isVideoLoading = true;
-  //       this._createEventService.uploadVideos(videoFormData).subscribe((result: any) => {
-  //         if (result && result.IsSuccess) {
-  //           this.posterImageAndVideoObj.videos.push({url: result.Data.url, description: this.videoForm.value?.description});
-  //           this._sNotify.success('Video Uploaded Successfully.', 'Success');
-  //           this.isVideoLoading = false;
-  //           $('#create-video-upload').val(null);
-  //           this.inputText = '';
-  //           this._modalService.close('video');
-  //         } else {
-  //           this._globalFunctions.successErrorHandling(result, this, true);
-  //           this.isVideoLoading = false;
-  //         }
-  //       }, (error: any) => {
-  //         this._globalFunctions.errorHanding(error, this, true);
-  //         this.isVideoLoading = false;
-  //       });
-  //     }
-  //   }
-  // }
 
   uploadVideo(): any {
     if (this.descriptionLimit > CONSTANTS.CKEditorCharacterLimit0) {
@@ -432,8 +387,12 @@ export class PhotosVideosStepComponent implements OnInit {
   removeVideo(index: number) {
     this.deleteItemObj = { index: index, type: 'video' };
     this._modalService.open("delete-event-pop");
-    // this.posterImageAndVideoObj.videos.splice(index, 1);
-    // this.allVideosFilesArr.splice(index, 1);
+  }
+
+  viewImage(index:number){
+    this.openImages = !this.openImages;
+    this.viewImagesDailog = this.posterImageAndVideoObj.photos[index].url;    
+    console.log(this.viewImagesDailog,index);
   }
 
   nextStep() {
@@ -463,17 +422,40 @@ export class PhotosVideosStepComponent implements OnInit {
     this.isDeleteLoading = false;
     this.close();
   }
-
-  openImageAndVideoDialog(imagesOrVideosArr: Array<any>, isImage: boolean, companyIAndV: boolean): void {
+  openImageAndVideoDialog(imagesOrVideosArr: Array<any>, isImage: boolean, companyIAndV: boolean,  isSingleVideo: boolean = false): void {
     this.imagesOrVideosArr = imagesOrVideosArr;
     this.isImage = isImage;
     this.companyIAndV = companyIAndV;
-    // this.isSingleVideo = isSingleVideo;
+    this.isSingleVideo = isSingleVideo;
     this.isOpenPopup = true;
   }
-  
   closePop(flag: boolean): void {
     this.isOpenPopup = flag;
+  }
+
+  editImage1 : any;
+  editMsg1 : any ;
+  editImageObj :any ;
+
+  editImage(event: any, index:number) {
+    // this.openUploadPhotoDialog();
+    this.editImageObj = { index: index, type: 'photo' };
+    console.log(this.editImageObj);
+    this.posterImageAndVideoObj[this.editImageObj.type + 's'].splice(this.editImageObj.index, 1);
+    this._modalService.open("photo");
+
+
+
+
+    // this.editImage1 = this.constants.baseImageURL + this.posterImageAndVideoObj.photos[index].url ;   
+    // this.editMsg1 = this.posterImageAndVideoObj.photos[index].description;    
+    // this.finalImageObj = {
+    //   url : this.editImage1,
+    //   description : this.editMsg1
+    // }
+ 
+
+
   }
 
 }

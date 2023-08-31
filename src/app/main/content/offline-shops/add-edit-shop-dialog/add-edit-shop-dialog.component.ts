@@ -497,7 +497,7 @@ export class AddEditShopDialogComponent implements OnInit, OnDestroy {
               this.setPosterInDropify(result.Data.url);
               this._sNotify.success('File Uploaded Successfully.', 'Success');
               this.isPosterLoading = false;
-              this._modalService.close("imgCropper");
+              // this._modalService.close("imgCropper");
             } else {
               this._globalFunctions.successErrorHandling(result, this, true);
               this.isPosterLoading = false;
@@ -532,13 +532,20 @@ export class AddEditShopDialogComponent implements OnInit, OnDestroy {
   }
 
   isContinueClick(): void {
+    console.log("nikey");
+    
     if (this.addShopForm.invalid) {
+      console.log("addshop", this.addShopForm);
+      
       Object.keys(this.addShopForm.controls).forEach((key) => {
         this.addShopForm.controls[key].touched = true;
         this.addShopForm.controls[key].markAsDirty();
       });
       return;
+      
     }
+    console.log("nikey1");
+    
     // if (this.phoneForm.invalid) {
     //   this.form.form.controls['phone'].touched = true;
     //   this.phoneForm.controls['phone'].markAsDirty();

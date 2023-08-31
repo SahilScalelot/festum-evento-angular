@@ -155,7 +155,6 @@ export class ArrangementDialogComponent implements OnInit {
     this.isOpenPopup = true;
   }
   viewImage(index:number){
-    console.log(127);    
     this.openImages = !this.openImages;
     this.viewImagesDailog = this.tempImgArr[index].url;
     this.viewEqpImagesDailog = this.etempImgArr[index].url;
@@ -183,9 +182,17 @@ export class ArrangementDialogComponent implements OnInit {
   removeImage(index: number) {
     // this.photoArr.splice(index, 1);
     // this.allPhotosFilesArr.splice(index, 1);
+    console.log("click");
+    
     this.deleteItemObj = { index: index, type: 'photo' };
     this._modalService.open("remove-image-pop");
   }
+
+  editImageUpload(index: number){
+    // console.log(index);
+    console.log("click");
+  }
+
 
   close(): void {
     this.deleteItemObj = {};
@@ -494,10 +501,6 @@ export class ArrangementDialogComponent implements OnInit {
     }
   }
 
-  editImageUpload(index:number){
-    console.log(index);
-    console.log("click");
-  }
 
   closePopup(arrangementsArr: any = []): void {
     this.addEditArrangement.emit(arrangementsArr);

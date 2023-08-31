@@ -16,9 +16,19 @@
     </div>
     <div class="flex flex-wrap h-full pt-2">
       <div *ngFor="let photo of posterImageAndVideoObj.photos; let i = index" class="upload-box mr-2.5 mb-2.5">
-        <div class="rounded relative overflow-hidden h-full w-full">
-          <img [alt]="'add-photo-' + i" [src]="!!(photo?.url) ? constants.baseImageURL + photo.url : constants.defaultImage" *ngIf="photo.url" class="object-cover w-full h-full"/>
-          <button (click)="removeImage(i)">Remove</button>
+        <div class="rounded relative overflow-hidden h-full w-full group">
+          <!-- <img [alt]="'add-photo-' + i" [src]="!!(photo?.url) ? constants.baseImageURL + photo.url : constants.defaultImage" *ngIf="photo.url" class="object-cover w-full h-full"/> -->
+          <p-image [alt]="'add-photo-' + i" [src]="!!(photo?.url) ? constants.baseImageURL + photo.url : constants.defaultImage" *ngIf="photo.url" imageClass="w-full h-full object-cover rounded" styleClass="w-full h-full" [preview]="true"></p-image>
+          <button class="edit"  (click)="editImage($event,i)">Edit</button>
+          <button (click)="removeImage(i)" class="remove">Remove</button>
+          <!-- <div class="opacity-0 bg-black bg-opacity-50 flex items-center justify-center group-hover:opacity-100 absolute inset-0 transition-all duration-300">
+          </div> -->
+        </div>
+        <div class="absolute inset-0 flex items-center justify-center bg-black/70 cursor-pointer z-10" *ngIf="openImages" (click)="openImages = !openImages">
+          <div class="max-w-xs">
+            <img [alt]="'add-photo-' + i" [src]="!!(viewImagesDailog) ? constants.baseImageURL + viewImagesDailog  : constants.defaultImage" *ngIf="photo.url" class="object-cover w-full h-full"/>                        
+          </div>
+          <i class="pi pi-times ng-tns-c140-7 absolute top-10 right-10 text-white font-semibold text-xl"></i>
         </div>
       </div>
       <div (click)="openUploadPhotoDialog()" class="upload-holder" *ngIf="posterImageAndVideoObj?.photos?.length < 15">
@@ -37,14 +47,16 @@
     </div>
     <div class="flex space-x-2.5 h-full pt-2">
       <div *ngFor="let video of posterImageAndVideoObj.videos; let i = index" class="upload-box">
-        <div class="rounded relative overflow-hidden h-full w-full">
-          <!-- <iframe [src]="video.video" frameborder="0" class="w-full h-full"></iframe> -->
-          <video width="100%" height="100%" class="w-full h-full object-cover">
-            <source [src]="!!(video?.url) ? constants.baseImageURL + video.url : constants.defaultImage" *ngIf="video.url" type="video/mp4">
-          </video>
-          <button (click)="removeVideo(i)">Remove</button>
+        <div class="rounded relative overflow-hidden h-full w-full group">
+          <video [src]="!!(video?.url) ? constants.baseImageURL + video.url : constants.defaultImage" *ngIf="video.url" class="object-cover w-full h-full"></video>
+          <div class="opacity-0 bg-black bg-opacity-50 flex items-center justify-center group-hover:opacity-100 absolute inset-0 transition-all duration-300">
+            <button class="edit" >Edit</button>
+            <span class="block" (click)="openImageAndVideoDialog([video], false, false, true)"><i class="pi pi-eye text-2xl text-white cursor-pointer" ></i></span>
+            <button (click)="removeVideo(i)" class="remove">Remove</button>
+          </div>
         </div>
       </div>
+      <app-image-and-video-preview *ngIf="isOpenPopup" (openClosePopup)="closePop($event)" [isSingleVideo]="isSingleVideo" [isImageOrVideoFlag]="isImage" [isCompanyImagesAndVideo]="companyIAndV" [expectedProp]="imagesOrVideosArr"></app-image-and-video-preview>
       <!-- *ngIf="videoArr.i <= 2" -->
       <div (click)="openUploadVideoDialog()" class="upload-holder" *ngIf="posterImageAndVideoObj.videos.length < 2">
         <label class="upload-photo" for="event-upload1">
@@ -93,10 +105,11 @@
 </modal> -->
 <!-- Photo -->
 <modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="photo" title="Upload Photo" *ngIf="photoForm">
+  <!-- <h2>test</h2> -->
   <form #photosNgForm="ngForm" [formGroup]="photoForm" class="py-6 space-y-5">
     <div class="upload-holder- w-full">
       <h6 class="input-titel text-sm font-bold text-quicksilver flex items-center">Select Photo <p class="text-10 ml-2">15 Images (up to 7MB/Image)</p></h6>
-      <!--  {{(posterImageAndVideoObj?.photos?.length) ? (posterImageAndVideoObj?.photos?.length + '(Already Uploaded) - 15 =') : ''}} {{ 15 - (posterImageAndVideoObj?.photos?.length || 0)}} -->
+    
       <div class="block">
         <ngx-dropzone #dropzonePhotos class="flex-wrap" (change)="onSelectImages($event)" [maxFileSize]="3145728" accept="image/jpeg,image/jpg,image/png,image/gif">
           <ngx-dropzone-label>Drop images here</ngx-dropzone-label>
@@ -110,10 +123,7 @@
           <span *ngFor="let rpl of rejectedPhotosList">{{rpl?.name}}, </span>
         </div>
       </div>
-      <!-- <label class="upload upload-popup py-3" for="create-photo-upload">
-        <input accept="image/png, image/jpeg, image/gif" class="appearance-none hidden" id="create-photo-upload" name="images" type="file" (change)="readURL($event);" multiple />
-        <span class="input-titel flex justify-center items-center"><i class="icon-img_upload text-lg mr-2 leading-none"></i> {{inputText ? inputText : 'Choose Images'}}</span>
-      </label> -->
+
     </div>
     <div class="w-full">
       <span class="input-titel">Details <i class="text-xs font-medium" [ngClass]="{'text-magicPotion' : (descriptionLimit > constants.CKEditorCharacterLimit0)}">( {{descriptionLimit}} characters out of {{constants.CKEditorCharacterLimit0}} )</i></span>
