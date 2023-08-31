@@ -138,7 +138,7 @@
                 <div class="flex flex-wrap justify-between">
                   <div class="flex items-center space-x-1 pt-4">
                     <p-rating [(ngModel)]="liveStream.ratings" [readonly]="true" [cancel]="false"></p-rating>
-                    <span class="text-quicksilver text-xs font-bold pl-2" *ngIf="liveStream?.totalreview"> {{liveStream?.totalreview}} ratings</span>
+                    <span class="text-quicksilver text-xs font-bold pl-2" > {{liveStream?.totalreview}} ratings</span>
                   </div>
 <!--                  <div class="flex items-center space-x-2.5 pt-4">-->
 <!--                    <span class="text-xs font-bold text-quicksilver">{{event?.total_booked_seats || 0}} Sold</span>-->
@@ -155,7 +155,7 @@
                     <a href="javascript:void(0)" (click)="gotoDiscount($event,liveStream?._id)" *ngIf="liveStream.event_type == 'paid'" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-online_offer text-xl leading-0 text-japaneseIndigo"></i></a>
 
                     <a href="javascript:void(0)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-share text-sm leading-0 text-japaneseIndigo"></i></a>
-                    <a href="javascript:void(0);" (click)="openDeleteDialog($event, liveStream)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-delete_fill text-base text-japaneseIndigo"></i></a>
+<!--                    <a href="javascript:void(0);" (click)="openDeleteDialog($event, liveStream)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-delete_fill text-base text-japaneseIndigo"></i></a>-->
                   </div>
                 </div>
               </div>
