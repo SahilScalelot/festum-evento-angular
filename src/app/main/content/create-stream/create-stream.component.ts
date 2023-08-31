@@ -17,7 +17,7 @@ export class CreateStreamComponent implements OnInit {
 
   ngOnInit(): void {
     if (!localStorage.getItem('lsId') || localStorage.getItem('lsId') == '') {
-      this._router.navigate(['/live-stream']);
+      //this._router.navigate(['/live-stream']);
     } else {
       this.streamId = localStorage.getItem('lsId') || '';
     }

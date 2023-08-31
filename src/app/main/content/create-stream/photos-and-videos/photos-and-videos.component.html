@@ -2,17 +2,17 @@
 <!-- main-content  -->
 <div class="space-y-5">
   <div class="upload-holder w-full h-auto">
-    <span class="text-sm text-quicksilver font-semibold">Add Poster <span class="font-normal">(Max size 10MB & 1080X780)</span><span class="text-red-500 text-base">*</span></span>
+    <span class="text-sm text-quicksilver font-semibold">Add Poster <span class="font-normal">(Max File size 10MB & Resolution Must be 1080PX x 780PX)</span><span class="text-red-500 text-base">*</span></span>
     <label class="upload upload-popup p-0 relative group" id="posterUpload">
       <input #poster (change)="onPosterChange($event)" accept="image/png, image/jpeg, image/gif" class="poster hidden" id="poster" type="file" />
     </label>
   </div>
   <div class="media-upload-holder pt-5">
-    <span class="text-sm text-quicksilver font-semibold">Add Photos <span class="font-normal">({{photosUploadLimit}} Images - up to 7MB/Image & Dimension up to 1080x1080)</span></span>
+    <span class="text-sm text-quicksilver font-semibold">Add Photos <span class="font-normal">({{photosUploadLimit}} Images - up to 7MB/Image & Resolution up to 1080PX x 1080PX)</span></span>
     <div class="w-full pt-2" *ngIf="photoArr.length < photosUploadLimit">
       <div class="block relative">
         <ngx-dropzone #dropzonePhotos class="flex-wrap" (change)="onSelectImages($event)" [maxFileSize]="3145728" accept="image/jpeg,image/jpg,image/png,image/gif">
-          <ngx-dropzone-label>Max {{photosUploadLimit - photoArr.length}} images (up to 7MB/image & Dimension up to 1080x1080)</ngx-dropzone-label>
+          <ngx-dropzone-label>Max {{photosUploadLimit - photoArr.length}} images (up to 7MB/image & Resolution up to 1080PX x 1080PX)</ngx-dropzone-label>
           <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of imagesFiles" [file]="f" [removable]="true" (removed)="onRemoveImages(f)"></ngx-dropzone-image-preview>
         </ngx-dropzone>
         <button (click)="uploadImage()" *ngIf="imagesFiles?.length" class="absolute bottom-2 right-2 text-xs font-semibold text-magicPotion uppercase">Upload</button>

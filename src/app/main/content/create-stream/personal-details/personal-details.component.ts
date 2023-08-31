@@ -57,7 +57,7 @@ export class PersonalDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     if (!localStorage.getItem('lsId') || localStorage.getItem('lsId') == '') {
-      this._router.navigate(['/live-stream']);
+      //this._router.navigate(['/live-stream']);
     }
     this.liveStreamId = localStorage.getItem('lsId');
     this.getPersonalDetailsEvent();
