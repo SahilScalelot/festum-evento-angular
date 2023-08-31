@@ -28,6 +28,7 @@ export class PhotosAndVideosComponent implements OnInit {
   dropifyOption: any = {};
   isCropperLoading: boolean = false;
   isPosterLoading: boolean = false;
+  isEditMode: boolean = false;
   drEvent: any;
   bannerUrl: any = '';
   
@@ -61,6 +62,7 @@ export class PhotosAndVideosComponent implements OnInit {
     
     this.liveStreamId = localStorage.getItem('lsId');
     if (this.liveStreamId && this.liveStreamId != '') {
+      this.isEditMode = true;
       this.getLiveStreamMediaById(this.liveStreamId);
     }
   }
