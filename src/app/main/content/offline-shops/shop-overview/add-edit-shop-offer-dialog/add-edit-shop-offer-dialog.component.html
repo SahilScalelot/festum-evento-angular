@@ -54,6 +54,7 @@
 
       <div class="flex flex-wrap items-end -mx-2">
         <div class="upload-holder w-full md:w-1/2 h-full px-2 pt-5 relative">
+          <span class="text-sm text-quicksilver font-semibold">Add Poster <span class="font-normal input-titel inline-block">(Max File size 10MB & Resolution Must be (1080PX x 780PX)<span>*</span></span></span>
           <p-progressSpinner *ngIf="isUploadPosterLoading" [style]="{width: '50px', height: '50px'}" animationDuration=".5s" strokeWidth="8" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-x-0 top-0 h-full w-full z-40" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
           <label class="upload upload-popup p-0 relative group" id="shop-img-obj-upload">
             <input (change)="onPosterChange($event)" accept="image/png, image/jpeg, image/gif" class="poster-upload hidden" name="poster" id="poster-upload" type="file" />
@@ -66,6 +67,7 @@
         </div>
 
         <div class="upload-holder w-full md:w-1/2 h-full px-2 pt-5 relative">
+          <span class="text-sm text-quicksilver font-semibold">Add Video <span class="font-normal input-titel inline-block">(Max File size 256MB)<span>*</span></span></span>
           <p-progressSpinner *ngIf="isUploadVideoLoading" [style]="{width: '50px', height: '50px'}" animationDuration=".5s" strokeWidth="8" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-x-0 top-0 h-full w-full z-40" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
           <label class="upload upload-popup p-0 relative group" id="video-upload-obj">
             <input (change)="onVideoChange($event)" accept="video/mp4" class="video-upload hidden" name="videos" id="video-upload" type="file" />
@@ -200,7 +202,7 @@
       </div>
       <div class="w-full pt-5">
         <div class="flex items-center justify-between pb-2">
-          <span class="input-titel">Offer Products</span>
+          <span class="input-titel">Offer Products (Max File size 10MB & Resolution Must be 1080PX x 1080PX)</span>
           <button (click)="addProductOffer({}, offerType.value)" class="text-xs text-white font-bold px-3 rounded py-1 whitespace-nowrap bg-magicPotion flex items-center">
             <i class="icon-plus_round leading-0 mr-2"></i> Add Item
           </button>

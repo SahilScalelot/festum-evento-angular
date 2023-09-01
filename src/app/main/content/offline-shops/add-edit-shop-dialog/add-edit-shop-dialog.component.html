@@ -5,7 +5,7 @@
     <form [formGroup]="addShopForm" class="p-ngCss pt-8">
       <div *ngIf="!isContinue">
         <div class="upload-holder w-full h-auto relative">
-          <span class="text-sm text-quicksilver font-semibold">Add Image <span class="font-normal input-titel inline-block">(Max size 10MB) <span>*</span></span></span>
+          <span class="text-sm text-quicksilver font-semibold">Add Image <span class="font-normal input-titel inline-block">(Max File size 10MB & Resolution Must be (1080PX x 780PX)<span>*</span></span></span>
           <label class="upload upload-popup p-0 relative group" id="shop-img-obj-upload">
             <input (change)="onPosterChange($event)" accept="image/png, image/jpeg, image/gif" class="poster hidden" name="banner" id="poster" type="file" />
           </label>

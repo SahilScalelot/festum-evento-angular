@@ -4,6 +4,7 @@ import { OfflineShopsService } from './offline-shops.service';
 import { CONSTANTS } from '../../common/constants';
 import { ModalService } from '../../_modal';
 import { Router } from "@angular/router";
+import { SnotifyService } from 'ng-snotify';
 
 @Component({
   selector: 'app-offline-shops',
@@ -29,7 +30,8 @@ export class OfflineShopsComponent implements OnInit {
     private _offlineShopsService: OfflineShopsService,
     private _globalFunctions: GlobalFunctions,
     private _modalService: ModalService,
-    private _router: Router
+    private _router: Router,
+    private _sNotify:SnotifyService
   ) { }
 
   ngOnInit(): void {
@@ -128,5 +130,4 @@ export class OfflineShopsComponent implements OnInit {
     localStorage.setItem('eId', eventId);
     this._router.navigate(['/notifications']);
   }
-  
 }
