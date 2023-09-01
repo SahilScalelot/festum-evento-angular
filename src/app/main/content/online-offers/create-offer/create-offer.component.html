@@ -96,7 +96,7 @@
         </div>
         <div class="w-full lg:w-1/2 px-2 pt-5">
           <div class="upload-holder w-full h-auto relative">
-            <span class="text-sm text-quicksilver font-semibold">Add Poster <span class="font-normal">(Max size 10MB)</span><span class="text-magicPotion">*</span></span>
+            <span class="text-sm text-quicksilver font-semibold">Add Poster <span class="font-normal">(Max File size 10MB & Resolution Must be 1080PX x 780PX)</span><span class="text-magicPotion">*</span></span>
             <label class="upload upload-popup p-0 relative group" id="posterUpload">
               <input (change)="onPosterChange($event)" accept="image/png, image/jpeg, image/gif" class="poster hidden" id="poster" type="file" />
             </label>
@@ -108,7 +108,7 @@
           </div>
         </div>
         <div class="w-full lg:w-1/2 px-2 pt-5">
-          <span class="input-titel">Offer Product Image<span>*</span></span>
+          <span class="input-titel">Offer Product Image (Max File size 7MB & Resolution Must be 1080PX x 1080PX)<span>*</span></span>
           <div class="flex flex-wrap h-full relative">
             <div *ngFor="let photo of images.value; let i = index" class="upload-box mr-2.5 mb-2.5">
               <div class="rounded relative overflow-hidden h-full w-full">

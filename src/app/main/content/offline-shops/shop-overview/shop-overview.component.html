@@ -65,7 +65,9 @@
             <!-- About Shop  -->
             <div *ngIf="shopObj?.about_shop" class="p-7 bg-white rounded-md space-y-1">
               <h3 class="text-lg">About Shop</h3>
-              <div [innerHtml]="shopObj?.about_shop"></div>
+              <div [innerHtml]="(tandcShowA) ? shopObj?.about_shop : shopObj?.about_shop | slice:0:180"></div>
+              <a href="javascript:;" (click)="tandcShowA=true" *ngIf="!tandcShowA && shopObj?.about_shop.length > 180" class="text-magicPotion text-sm font-semibold ml-auto">...Read More</a>
+              <a href="javascript:;" (click)="tandcShowA=false" *ngIf="tandcShowA && shopObj?.about_shop.length > 180" class="text-magicPotion text-sm font-semibold ml-auto">...Read Less</a>
               <!-- <p class="text-quicksilver text-sm font-normal">{{shopObj.about_shop}}</p> -->
             </div>
             <!-- Rainy season sale -->
@@ -104,7 +106,7 @@
                           <a href="javascript:void(0);" (click)="gotoShopOfferOverview($event, shopId, offer)" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-show text-base text-black"></i></a>
                           <!-- <a href="javascript:void(0);" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-share text-base text-black"></i></a> -->
                           <!-- <a href="javascript:void(0);" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-fill_megaphone text-base text-black"></i></a> -->
-                          <a href="javascript:void(0);" (click)="openOfflineShopsOffer($event, offer)" *ngIf="offer?.iseditable" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-delete_fill text-base text-black"></i></a>
+                          <!-- <a href="javascript:void(0);" (click)="openOfflineShopsOffer($event, offer)" *ngIf="offer?.iseditable" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-delete_fill text-base text-black"></i></a> -->
                         </div>
                       </div>
                     </div>
@@ -126,7 +128,9 @@
               <h5>Company Details</h5>
               <div class="p-7 bg-white rounded-md space-y-1" *ngIf="shopObj?.companydetails?.about">
                 <h3 class="text-lg">{{shopObj.companydetails.company_name}} About Company</h3>
-                <div [innerHtml]="shopObj?.companydetails?.about"></div>
+                <div [innerHtml]="(tandcShow) ? shopObj?.companydetails?.about : shopObj?.companydetails?.about | slice:0:180"></div>
+                <a href="javascript:;" *ngIf="!tandcShow && shopObj?.companydetails?.about.length > 180" (click)="tandcShow=true"class="text-magicPotion text-sm font-semibold ml-auto">...Read More</a>
+                <a href="javascript:;" *ngIf="tandcShow && shopObj?.companydetails?.about.length > 180" (click)="tandcShow=false"class="text-magicPotion text-sm font-semibold ml-auto">...Read Less</a>
                 <!-- <p class="text-quicksilver text-sm font-normal">{{shopObj?.companydetails?.about}}</p> -->
               </div>
             </div>

@@ -443,7 +443,10 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
     if (this.tcDescTextEditorLimit && this.tcDescTextEditorMaxLimit && this.tcDescTextEditorLimit > this.tcDescTextEditorMaxLimit) {
       return;
     }
+
     const preparedOnlineShopOfferObj: any = this.prepareOfferObj(this.addEditOfferForm.value);
+    console.log(preparedOnlineShopOfferObj);
+    
     this.isSaveLoading = true;
     this._onlineOffersService.createOnlineOffer(preparedOnlineShopOfferObj).subscribe((result: any) => {
       if (result && result.IsSuccess) {
@@ -544,7 +547,7 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
   }
 
   closePop(): any {
-    this.tandcForm.get('status').setValue(false);
+    this.tandcForm.get('status').setValue(true);
     this._modalService.close("tandc");
   }
 

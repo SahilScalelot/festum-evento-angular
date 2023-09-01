@@ -531,12 +531,8 @@ export class AddEditShopDialogComponent implements OnInit, OnDestroy {
     this.cropImgPreview = e.base64;
   }
 
-  isContinueClick(): void {
-    console.log("nikey");
-    
+  isContinueClick(): void {    
     if (this.addShopForm.invalid) {
-      console.log("addshop", this.addShopForm);
-      
       Object.keys(this.addShopForm.controls).forEach((key) => {
         this.addShopForm.controls[key].touched = true;
         this.addShopForm.controls[key].markAsDirty();
@@ -544,13 +540,7 @@ export class AddEditShopDialogComponent implements OnInit, OnDestroy {
       return;
       
     }
-    console.log("nikey1");
-    
-    // if (this.phoneForm.invalid) {
-    //   this.form.form.controls['phone'].touched = true;
-    //   this.phoneForm.controls['phone'].markAsDirty();
-    //   return;
-    // }
+
     this.editorCharacterSet();
     if (this.textEditorLimit && this.textEditorMaxLimit && this.textEditorLimit > this.textEditorMaxLimit) {
       return;
@@ -638,12 +628,6 @@ export class AddEditShopDialogComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     
     const preparedShopObj: any = this.prepareShopObj(this.addShopForm.value);    
-    console.log("preparshop",preparedShopObj);
-    // console.log("shopobj",this.shopObj);
-    
-    
-    // console.log("phon",this.phoneForm.value.phone);
-
     this._offlineShopsService.addEditOfflineShop(preparedShopObj).subscribe((result: any) => {
       if (result && result.IsSuccess) {
         this.successfully = true;

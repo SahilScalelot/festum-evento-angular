@@ -17,6 +17,8 @@ export class OfferOverviewComponent implements OnInit {
   shopObj: any;
   offerObj: any;
   shopId: any;
+  offerdesc: boolean = false;
+  tackt:boolean = false;
   offerId: any;
   attendees: any;
   isExportLoading: boolean = false;
@@ -33,9 +35,11 @@ export class OfferOverviewComponent implements OnInit {
   isImage: boolean = false;
   companyIAndV: boolean = false;
   imagesOrVideosArr: Array<any> = [];
+  obj:any =[];
   cancelEventPop: boolean = false;
   isSingleVideo: boolean = false;
   tempEventData:any;
+  video:any;
   weekDays: any = [
     { value: 'su', label: 'Sun' },
     { value: 'mo', label: 'Mon' },
@@ -98,6 +102,10 @@ export class OfferOverviewComponent implements OnInit {
     this._offlineShopsService.getOfflineOffer(offerObj).subscribe((result: any) => {
       if (result && result.IsSuccess) {
         this.offerObj = result.Data;
+        this.obj = {url : this.offerObj.video}
+        // this.video = JSON.parse(obj);
+        console.log(this.obj);
+        
         setTimeout(() => {
           this.getAttendees();
         }, 0);

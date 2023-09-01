@@ -42,7 +42,9 @@
           <!-- offer description  -->
           <div class="p-7 bg-white rounded-md space-y-1" *ngIf="offerObj?.description">
             <h3 class="text-lg">Offer Description</h3>
-            <div [innerHtml]="offerObj?.description"></div>
+            <div [innerHtml]="(offerdesc) ? offerObj?.description : offerObj?.description| slice:0:180"></div>
+            <a href="javascript:;" *ngIf="!offerdesc && shopObj?.companydetails?.about.length > 180" (click)="offerdesc=true"class="text-magicPotion text-sm font-semibold ml-auto">...Read More</a>
+            <a href="javascript:;" *ngIf="offerdesc && shopObj?.companydetails?.about.length > 180" (click)="offerdesc=false"class="text-magicPotion text-sm font-semibold ml-auto">...Read Less</a>
             <!-- <p class="text-quicksilver text-sm font-normal">{{offerObj?.description}}</p> -->
           </div>
 
@@ -81,7 +83,7 @@
               <!-- media title  -->
               <div class="flex justify-between items-center">
                 <h3 class="text-lg">Photo</h3>
-                <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" >View All</a>
+                <!-- <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" >View All</a> -->
               </div>
               <!-- photo-holder -->
               <div class="w-full">
@@ -99,14 +101,14 @@
           <div *ngIf="offerObj?.video" class="media-upload-holder">
             <!-- media title  -->
             <div class="flex justify-between items-center">
-              <h3 class="text-lg">Videos</h3>
-              <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(offerObj?.video, false, false)">View All</a>
+              <h3 class="text-lg">Video</h3>
+              <!-- <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog([obj.url],false,true)">View All</a> -->
             </div>
             <!-- media-holder -->
             <div class="w-full">
               <div class="flex overflow-hidden -mx-2">
-                <div  class="p-2 group hover:bg-slate-100">
-                  <div class="rounded relative overflow-hidden h-32 w-36 cursor-pointer" (click)="openImageAndVideoDialog(offerObj?.video, false, false, true)">
+                <div class="p-2 group hover:bg-slate-100">
+                  <div class="rounded relative overflow-hidden h-32 w-36 cursor-pointer" (click)="openImageAndVideoDialog([obj], false, false, true)">
                     <!-- <video [src]="!!(offerObj?.videos) ? constants?.baseImageURL + offerObj?.videos : constants?.defaultImage" class="w-full h-full object-cover bg-white"></video> -->
                     <video [src]="!!(offerObj?.video) ? constants.baseImageURL + offerObj.video : constants.defaultImage" class="w-full h-full object-cover"></video>
                     <div class="opacity-0 bg-black bg-opacity-50 flex items-center justify-center group-hover:opacity-100 absolute inset-0 transition-all duration-300">
@@ -159,7 +161,10 @@
           <div class="space-y-4" *ngIf="offerObj?.tandc">
             <h5>Terms & Conditions</h5>
             <div class="p-5 bg-white rounded-md space-y-1">
-              <div [innerHtml]="offerObj?.tandc"></div>
+              <!-- (tandcShow) ? shopObj?.companydetails?.about : shopObj?.companydetails?.about | slice:0:180 -->
+              <div [innerHtml]="(tackt) ? offerObj?.tandc : offerObj?.tandc | slice:0:170"></div>
+              <a href="javascript:;" *ngIf="!tackt && offerObj?.tandc.length > 180" (click)="tackt=true"class="text-magicPotion text-sm font-semibold ml-auto">...Read More</a>
+              <a href="javascript:;" *ngIf="tackt && offerObj?.tandc.length > 180" (click)="tackt=false"class="text-magicPotion text-sm font-semibold ml-auto">...Read Less</a>
             </div>
           </div>
         </div>

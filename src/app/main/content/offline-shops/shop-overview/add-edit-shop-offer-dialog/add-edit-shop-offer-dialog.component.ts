@@ -198,7 +198,7 @@ export class AddEditShopOfferDialogComponent implements OnInit {
 
   checkValidation(isForTAndC: boolean = false, isProductFormValidation: boolean = false): any {
     if (this.addEditOfferForm.invalid) {
-      Object.keys(this.addEditOfferForm.controls).forEach((key) => {
+      Object.keys(this.addEditOfferForm.controls).forEach((key) => {        
         this.addEditOfferForm.controls[key].touched = true;
         this.addEditOfferForm.controls[key].markAsDirty();
       });
