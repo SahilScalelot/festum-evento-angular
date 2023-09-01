@@ -19,6 +19,7 @@ declare var $: any;
   styleUrls: ['./photos-videos-step.component.scss']
 })
 export class PhotosVideosStepComponent implements OnInit {
+  @ViewChild('photosNgForm') photosNgForm: any;
   @ViewChild('videosNgForm') videosNgForm: any;
 
   constants: any = CONSTANTS;
@@ -46,7 +47,6 @@ export class PhotosVideosStepComponent implements OnInit {
   photosUploadLimit: number = 15;
   rejectedPhotosList: any;
   imagesFiles: File[] = [];
-  files: File[] = [];
   videosUploadLimit: number = 2;
   rejectedVideosList: any;
   videosFiles: File[] = [];
@@ -153,11 +153,17 @@ export class PhotosVideosStepComponent implements OnInit {
         this.posterObj.image = poster;
         this.posterObj.name = poster.name;
         this.savePoster(poster);
+        // poster
+        // this._modalService.open("imgCropper");
+        // this.isCropperLoading = true;
+        
       }
     }
   }
   savePoster(compressedImage: any) {
     if (compressedImage && compressedImage != '' && !this.isPosterLoading) {
+      // const preparedPoserFromBaseType: any = this._globalFunctions.base64ToImage(img, this.posterObj.name);
+      // this._compressImage.compress(preparedPoserFromBaseType).pipe(take(1)).subscribe((compressedImage: any) => {
         if (compressedImage) {
           const posterFormData = new FormData();
           posterFormData.append('file', compressedImage);
@@ -181,12 +187,14 @@ export class PhotosVideosStepComponent implements OnInit {
         } else {
           this._sNotify.success('Something went wrong!', 'Oops');
         }
+      // });
     }
   }
 
 
   openUploadPhotoDialog(): void {
     this.descriptionLimit = 0;
+    this.photosNgForm.resetForm();
     if (this.posterImageAndVideoObj.photos && this.posterImageAndVideoObj.photos.length && this.posterImageAndVideoObj.photos.length >= this.photosUploadLimit) {
       this._sNotify.error('Maximum 15 images can upload!', 'Oops!');
     } else {
@@ -203,6 +211,7 @@ export class PhotosVideosStepComponent implements OnInit {
       this._modalService.open('video');
     }
   }
+
 
   setPosterInDropify(image: any = ''): void {
     const imageUrl = CONSTANTS.baseImageURL + image;
@@ -273,6 +282,7 @@ export class PhotosVideosStepComponent implements OnInit {
           this._sNotify.success('Image Uploaded Successfully.', 'Success');
           this.imagesFiles = [];
           this.isPhotoLoading = false;
+          // this.inputText = '';
           this.descriptionLimit = 0;
           this._modalService.close('photo');
         } else {
@@ -296,22 +306,15 @@ export class PhotosVideosStepComponent implements OnInit {
     }
   }
 
-  onEditSelectImages(event: any) {
-    this.files = [];
-    this.files.push(...event.addedFiles);
-  }
-
   onRemoveImages(event: any) {
     this.imagesFiles.splice(this.imagesFiles.indexOf(event), 1);
-  }
-
-  onRemoveEditImages(event: any) {
-    this.files.splice(this.files.indexOf(event), 1);
   }
 
   removeImage(index: number) {
     this.deleteItemObj = { index: index, type: 'photo' };
     this._modalService.open("delete-event-pop");
+    // this.posterImageAndVideoObj.photos.splice(index: index, 1);
+    // this.allPhotosFilesArr.splice(index, 1);
   }
 
   uploadVideo(): any {
@@ -354,6 +357,7 @@ export class PhotosVideosStepComponent implements OnInit {
           this.videosFiles = [];
           this.isVideoLoading = false;
           $('#create-video-upload').val(null);
+          // this.inputText = '';
           this._modalService.close('video');
         } else {
           this._globalFunctions.successErrorHandling(result, this, true);
@@ -428,64 +432,30 @@ export class PhotosVideosStepComponent implements OnInit {
   closePop(flag: boolean): void {
     this.isOpenPopup = flag;
   }
-  editImage(photo: any) {
-    this.files = [];
-    let url = this.constants.baseImageURL + photo.url;
-    this.toBlob(url)
-        .then((res: any) => {
-          this.photoForm = true;
-          this.files.push(res)
-        });
+
+  editImage1 : any;
+  editMsg1 : any ;
+  editImageObj :any ;
+
+  editImage(event: any, index:number) {
+    // this.openUploadPhotoDialog();
+    this.editImageObj = { index: index, type: 'photo' };
+    console.log(this.editImageObj);
+    this.posterImageAndVideoObj[this.editImageObj.type + 's'].splice(this.editImageObj.index, 1);
     this._modalService.open("photo");
-  }
-  toBlob (url: any) {
-    return new Promise((resolve, reject) => {
-      this.base64Encode(url)
-          .then((res: any) => {
-            let byteString = atob(res.dataUrl);
-            let ab = new ArrayBuffer(byteString.length);
-            let ia = new Uint8Array(ab);
 
-            for (let i = 0; i < byteString.length; i++) {
-              ia[i] = byteString.charCodeAt(i)
-            }
 
-            let blob = new Blob([ab], {type: 'image/' + res.type});
 
-            let formData = new FormData();
-            formData.append('file', blob, res.name);
-            resolve(formData.get('file'))
-          })
-    })
-  }
-  base64Encode (url: any) {
-    const re = new RegExp('.(gif|jpg|jpeg|tiff|png|ico)$', 'i');
-    let name = (/[^(/|\\)]*$/).exec(url)[0];
-    let type = re.test(name) ? re.exec(name)[0].replace('.', '') : 'jpg';
 
-    return new Promise((resolve, reject) => {
-      let image = new Image();
+    // this.editImage1 = this.constants.baseImageURL + this.posterImageAndVideoObj.photos[index].url ;   
+    // this.editMsg1 = this.posterImageAndVideoObj.photos[index].description;    
+    // this.finalImageObj = {
+    //   url : this.editImage1,
+    //   description : this.editMsg1
+    // }
+ 
 
-      image.onload = function (event) {
-        let canvas = document.createElement('canvas');
-        // draw canvas
-        canvas.width = image.naturalWidth;
-        canvas.height = image.naturalHeight;
-        canvas.getContext('2d').drawImage(image, 0, 0);
 
-        let dataUrl = canvas.toDataURL('image/' + type);
-        resolve({
-          name: name,
-          type: type,
-          dataUrl: dataUrl.split(',')[1]
-        })
-      }
-      image.onerror = function (error) {
-        console.error(error)
-      }
-      image.crossOrigin = 'anonymous';
-      image.src = url
-    })
   }
 
 }
