@@ -246,6 +246,9 @@ export class PhotosAndVideosComponent implements OnInit {
   onRemoveImages(event: any) {
     this.imagesFiles.splice(this.imagesFiles.indexOf(event), 1);
   }
+  editImage(event: any, index:number) {
+
+  }
   removeImage(index: number) {
     this.deleteItemObj = {index: index, type: 'photo'};
     this._modalService.open("delete-event-pop");

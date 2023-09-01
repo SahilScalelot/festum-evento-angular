@@ -19,7 +19,7 @@
         <div class="rounded relative overflow-hidden h-full w-full group">
           <!-- <img [alt]="'add-photo-' + i" [src]="!!(photo?.url) ? constants.baseImageURL + photo.url : constants.defaultImage" *ngIf="photo.url" class="object-cover w-full h-full"/> -->
           <p-image [alt]="'add-photo-' + i" [src]="!!(photo?.url) ? constants.baseImageURL + photo.url : constants.defaultImage" *ngIf="photo.url" imageClass="w-full h-full object-cover rounded" styleClass="w-full h-full" [preview]="true"></p-image>
-          <button class="edit"  (click)="editImage($event,i)">Edit</button>
+          <button class="edit"  (click)="editImage(photo)">Edit</button>
           <button (click)="removeImage(i)" class="remove">Remove</button>
           <!-- <div class="opacity-0 bg-black bg-opacity-50 flex items-center justify-center group-hover:opacity-100 absolute inset-0 transition-all duration-300">
           </div> -->
@@ -105,15 +105,14 @@
 </modal> -->
 <!-- Photo -->
 <modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="photo" title="Upload Photo" *ngIf="photoForm">
-  <!-- <h2>test</h2> -->
-  <form #photosNgForm="ngForm" [formGroup]="photoForm" class="py-6 space-y-5">
+
     <div class="upload-holder- w-full">
       <h6 class="input-titel text-sm font-bold text-quicksilver flex items-center">Select Photo <p class="text-10 ml-2">15 Images (up to 7MB/Image)</p></h6>
     
       <div class="block">
-        <ngx-dropzone #dropzonePhotos class="flex-wrap" (change)="onSelectImages($event)" [maxFileSize]="3145728" accept="image/jpeg,image/jpg,image/png,image/gif">
+        <ngx-dropzone #dropzonePhotos class="flex-wrap" (change)="onEditSelectImages($event)" [multiple]="false" [maxFileSize]="3145728" accept="image/jpeg,image/jpg,image/png,image/gif">
           <ngx-dropzone-label>Drop images here</ngx-dropzone-label>
-          <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of imagesFiles" [file]="f" [removable]="true" (removed)="onRemoveImages(f)"></ngx-dropzone-image-preview>
+          <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files" [file]="f" [removable]="true" (removed)="onRemoveEditImages(f)"></ngx-dropzone-image-preview>
         </ngx-dropzone>
       </div>
 
@@ -127,9 +126,8 @@
     </div>
     <div class="w-full">
       <span class="input-titel">Details <i class="text-xs font-medium" [ngClass]="{'text-magicPotion' : (descriptionLimit > constants.CKEditorCharacterLimit0)}">( {{descriptionLimit}} characters out of {{constants.CKEditorCharacterLimit0}} )</i></span>
-      <textarea #imageDescription class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md" cols="30" rows="5" formControlName="description" (keyup)="descriptionLimit = imageDescription.value.length"></textarea>
+      <textarea #imageDescription class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md" cols="30" rows="5" (keyup)="descriptionLimit = imageDescription.value.length"></textarea>
     </div>
-  </form>
   <button (click)="uploadImage()" class="secondary w-full uppercase py-2 anim" [disabled]="isPhotoLoading">{{ isPhotoLoading ? 'Please wait...' : 'Submit' }}</button>
 </modal>
 <!-- Video -->

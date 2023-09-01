@@ -64,13 +64,14 @@ export class StreamOverviewComponent implements OnInit {
 
   goLive(event: any, liveStreamObj: any = {}): void {
     event.stopPropagation();
-    if (liveStreamObj && liveStreamObj.is_approved) {
-      const link = document.createElement('a');
-      link.target = '_blank';
-      link.href = liveStreamObj.media_content_link + this.userObj._id;
-      link.setAttribute('visibility', 'hidden');
-      link.click();
-    }
+    this._router.navigate(['/live-stream/broadcast/'+ liveStreamObj._id])
+    // if (liveStreamObj && liveStreamObj.is_approved) {
+    //   const link = document.createElement('a');
+    //   link.target = '_blank';
+    //   link.href = liveStreamObj.media_content_link + this.userObj._id;
+    //   link.setAttribute('visibility', 'hidden');
+    //   link.click();
+    // }
   }
 
   getLiveStreamObj(): void {

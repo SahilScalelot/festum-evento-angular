@@ -16,7 +16,7 @@
       </div>
       <div class="space-y-10 flex flex-col justify-between items-end">
         <button class="bg-quicksilver text-white font-bold rounded-lg capitalize px-3 py-2"
-          [ngClass]="{'secondary': liveStreamObj?.is_approved}" (click)="goLive($event, liveStreamObj)">
+          [ngClass]="{'secondary': liveStreamObj?.is_approved}" *ngIf="liveStreamObj?.iseligibletogolive" (click)="goLive($event, liveStreamObj)">
           <i class="icon-live"></i><span class="pl-2.5 whitespace-nowrap">go live </span></button>
         <div class="flex justify-end space-x-2">
           <a href="javascript:void(0);" (click)="editEvent($event, liveStreamObj._id)" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-edit text-base text-black"></i></a>

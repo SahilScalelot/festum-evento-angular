@@ -28,8 +28,10 @@
     <div class="flex flex-wrap h-full pt-2">
       <div *ngFor="let photo of photoArr; let i = index" class="upload-box mr-2.5 mb-2.5">
         <div class="rounded relative overflow-hidden h-full w-full">
-          <img [alt]="'add-photo-' + i" [src]="!!(photo?.url) ? constants.baseImageURL + photo.url : constants.defaultImage" class="object-cover w-full h-full"/>
-          <button (click)="removeImage(i)">Remove</button>
+<!--          <img [alt]="'add-photo-' + i" [src]="!!(photo?.url) ? constants.baseImageURL + photo.url : constants.defaultImage" class="object-cover w-full h-full"/>-->
+          <p-image [alt]="'add-photo-' + i" [src]="!!(photo?.url) ? constants.baseImageURL + photo.url : constants.defaultImage" *ngIf="photo.url" imageClass="w-full h-full object-cover rounded" styleClass="w-full h-full" [preview]="true"></p-image>
+          <button class="edit"  (click)="editImage($event,i)">Edit</button>
+          <button (click)="removeImage(i)" class="remove">Remove</button>
         </div>
       </div>
       <div class="upload-holder relative" *ngIf="isEditMode">

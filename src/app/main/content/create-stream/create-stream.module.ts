@@ -20,6 +20,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { ImageModule } from 'primeng/image';
 
 const routes: Routes = [
   { path: '', redirectTo: 'stream', pathMatch: 'full' },
@@ -71,7 +72,8 @@ const routes: Routes = [
     ModalModule,
     DropdownModule,
     NgxDropzoneModule,
-    NgxIntlTelInputModule
+    NgxIntlTelInputModule,
+    ImageModule
   ]
 })
 export class CreateStreamModule { }
