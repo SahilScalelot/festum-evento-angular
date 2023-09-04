@@ -2,7 +2,7 @@
 
 <form class="space-y-5">
   <div class="upload-holder w-full h-auto">
-    <span class="text-sm text-quicksilver font-semibold">Add Poster <span class="font-normal">(Max size 10MB)</span></span>
+    <span class="text-sm text-quicksilver font-semibold">Add Poster <span class="font-normal">(Max size 10MB & Resolution Must be 1080PX x 780PX)</span></span>
     <label class="upload upload-popup p-0 relative group" id="posterUpload">
       <input #poster (change)="onPosterChange($event)" accept="image/png, image/jpeg, image/gif" class="poster hidden" id="poster" type="file" />
   <!--      <img *ngIf="posterImageAndVideoObj.banner" [src]="!!(posterImageAndVideoObj?.banner) ? constants.baseImageURL + posterImageAndVideoObj.banner : constants.defaultImage" class="absolute inset-0 w-full h-full object-cover z-10 group-hover:-z-10"/>-->
@@ -10,7 +10,7 @@
   </div>
   <div class="media-upload-holder pt-5">
     <div class="flex items-center justify-between">
-      <span class="text-sm text-quicksilver font-semibold">Add Photos <span class="font-normal">(15 Images - up to 7MB/Image)</span></span>
+      <span class="text-sm text-quicksilver font-semibold">Add Photos <span class="font-normal">(15 Images - up to 7MB/Image & Resolution up to 1080PX x 1080PX)</span></span>
       <!-- view all -->
       <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(posterImageAndVideoObj.photos, true, false)">View All</a>
     </div>
@@ -19,7 +19,7 @@
         <div class="rounded relative overflow-hidden h-full w-full group">
           <!-- <img [alt]="'add-photo-' + i" [src]="!!(photo?.url) ? constants.baseImageURL + photo.url : constants.defaultImage" *ngIf="photo.url" class="object-cover w-full h-full"/> -->
           <p-image [alt]="'add-photo-' + i" [src]="!!(photo?.url) ? constants.baseImageURL + photo.url : constants.defaultImage" *ngIf="photo.url" imageClass="w-full h-full object-cover rounded" styleClass="w-full h-full" [preview]="true"></p-image>
-          <button class="edit"  (click)="editImage($event,i)">Edit</button>
+          <button class="edit"  (click)="editImage(photo,i)">Edit</button>
           <button (click)="removeImage(i)" class="remove">Remove</button>
           <!-- <div class="opacity-0 bg-black bg-opacity-50 flex items-center justify-center group-hover:opacity-100 absolute inset-0 transition-all duration-300">
           </div> -->
@@ -103,6 +103,7 @@
   <!-- </div> -->
   <!-- <button (click)="savePoster(cropImgPreview)" class="secondary w-full uppercase py-2 anim" [disabled]="isPosterLoading">{{ isPosterLoading ? 'Please wait...' : 'Save Poster' }}</button>
 </modal> -->
+
 <!-- Photo -->
 <modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="photo" title="Upload Photo" *ngIf="photoForm">
   <!-- <h2>test</h2> -->
@@ -132,6 +133,26 @@
   </form>
   <button (click)="uploadImage()" class="secondary w-full uppercase py-2 anim" [disabled]="isPhotoLoading">{{ isPhotoLoading ? 'Please wait...' : 'Submit' }}</button>
 </modal>
+
+<!-- Start Edit Photo Modal -->
+<modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="photoEdit" title="Edit Photo">
+  <form #photoEditForm="ngForm" [formGroup]="photoUpdateForm" class="py-6 space-y-5">
+    <div class="upload-holder- w-full">
+      <h6 class="input-titel text-sm font-bold text-quicksilver flex items-center">Select Photo <p class="text-10 ml-2">(up to 7MB)</p></h6>
+
+      <label class="upload upload-popup p-0 relative group" id="editPosterUpload">
+        <input #editPoster (change)="onEditPosterChange($event)" accept="image/png, image/jpeg, image/gif" data-max-file-size="7M" class="editPoster hidden" id="editPoster" type="file" />
+      </label>
+
+    </div>
+    <div class="w-full">
+      <span class="input-titel">Details <i class="text-xs font-medium" [ngClass]="{'text-magicPotion' : (descriptionLimit > constants.CKEditorCharacterLimit0)}">( {{descriptionLimit}} characters out of {{constants.CKEditorCharacterLimit0}} )</i></span>
+      <textarea #imageDescription class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md" cols="30" rows="5" formControlName="description" (keyup)="descriptionLimit = imageDescription.value.length"></textarea>
+    </div>
+  </form>
+    <button (click)="editUploadImage()" class="secondary w-full uppercase py-2 anim" [disabled]="isPhotoLoading">{{ isPhotoLoading ? 'Please wait...' : 'Submit' }}</button>
+</modal>
+<!-- End Edit Photo Modal -->
 <!-- Video -->
 <modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="video" title="Upload video" *ngIf="videoForm">
   <form #videosNgForm="ngForm" [formGroup]="videoForm" class="py-6 space-y-5">

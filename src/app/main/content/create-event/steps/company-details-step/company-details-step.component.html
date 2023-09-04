@@ -13,7 +13,7 @@
         </span>
       </div>
       <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative group">
-        <span class="input-titel">Company GST (Optional)</span>
+        <span class="input-titel">Company GST (Optional Max File size up to 7MB)</span>
         <p-progressSpinner *ngIf="isPdfLoading" [style]="{width: '20px', height: '20px'}" animationDuration=".5s" strokeWidth="4" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-x-1 bottom-0 top-10 z-20" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
         <label class="upload upload-popup py-3">
           <input (change)="onChangePDF($event)" accept="application/pdf" class="appearance-none hidden" id="company_gst" name="images" type="file"/>
