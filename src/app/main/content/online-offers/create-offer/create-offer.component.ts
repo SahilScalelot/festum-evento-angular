@@ -384,7 +384,7 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
         this._sNotify.error('Platform already selected please select another platform.', 'Oops!');
         return false;
       }
-    } else if (isTandC && this.tandcForm.invalid) {
+    } else if (isTandC && this.tandcForm.false) {
       Object.keys(this.tandcForm.controls).forEach((key) => {
         this.tandcForm.controls[key].touched = true;
         this.tandcForm.controls[key].markAsDirty();
@@ -444,6 +444,8 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
       return;
     }
 
+    if (this.tandcForm?.value?.status != '') {
+
     const preparedOnlineShopOfferObj: any = this.prepareOfferObj(this.addEditOfferForm.value);
     console.log(preparedOnlineShopOfferObj);
     
@@ -467,6 +469,7 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
       this.isSaveLoading = false;
     });
   }
+}
 
   addProductLink(tempPlatformObj: any = {}): void {
     const platformObj = this._formBuilder.group({
@@ -547,7 +550,7 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
   }
 
   closePop(): any {
-    this.tandcForm.get('status').setValue(true);
+    this.tandcForm.get('status').setValue(false);
     this._modalService.close("tandc");
   }
 

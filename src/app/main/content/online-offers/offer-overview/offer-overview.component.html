@@ -46,8 +46,8 @@
         (click)="editOffer($event, offerObj?._id)"><i class="icon-edit text-base text-black"></i></a>
       <!-- <a href="javascript:void(0);" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-fill_megaphone text-base text-black"></i></a> -->
       <!-- <a href="javascript:void(0);" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-share text-base text-black"></i></a> -->
-      <a href="javascript:void(0);" class="bg-brightGray px-2 py-1 text-center rounded" (click)="deletePop()"><i
-          class="icon-delete_fill text-base text-black"></i></a>
+      <!-- <a href="javascript:void(0);" class="bg-brightGray px-2 py-1 text-center rounded" (click)="deletePop()"><i
+          class="icon-delete_fill text-base text-black"></i></a> -->
     </div>
   </div>
   <div class="pt-3.5 lg:pt-7">
@@ -71,7 +71,9 @@
             </div>
             <div class="space-y-2.5">
               <p class="text-lg text-japaneseIndigo font-bold">Product Description</p>
-              <div [innerHtml]="offerObj?.description"></div>
+              <div [innerHtml]="(tAndc2) ? offerObj?.description : offerObj?.description |slice:0:180"></div>
+              <a href="javascript:;" *ngIf="!tAndc2 && offerObj?.description.length > 180" (click)="tAndc2=true"class="text-magicPotion text-sm font-semibold ml-auto">...Read More</a>
+              <a href="javascript:;" *ngIf="tAndc2 && offerObj?.description.length > 180" (click)="tAndc2=false"class="text-magicPotion text-sm font-semibold ml-auto">...Read Less</a>
               <!-- <span class="text-sm text-quicksilver">{{offerObj?.description}}</span> -->
             </div>
           </div>
@@ -106,13 +108,19 @@
             <h5>Company Name</h5>
             <div class="p-7 bg-white rounded-md space-y-1">
               <h3 class="text-lg">{{offerObj?.company_name}}</h3>
-              <div [innerHtml]="offerObj?.about_company"></div>
+              <div [innerHtml]="(tAndc1) ? offerObj?.about_company : offerObj?.about_company |slice:0:180"></div>
+              <a href="javascript:;" *ngIf="!tAndc1 && offerObj?.about_company.length > 180" (click)="tAndc1=true"class="text-magicPotion text-sm font-semibold ml-auto">...Read More</a>
+              <a href="javascript:;" *ngIf="tAndc1 && offerObj?.about_company.length > 180" (click)="tAndc1=false"class="text-magicPotion text-sm font-semibold ml-auto">...Read Less</a>
               <!-- <p class="text-quicksilver text-sm font-normal">{{offerObj?.about_company}}</p> -->
             </div>
           </div>
           <div class="space-y-4" *ngIf="offerObj?.tandc" id="tAndC">
             <h5>Terms & Conditions</h5>
-            <div class="p-3 lg:p-7 bg-white rounded-md space-y-1" [innerHtml]="offerObj?.tandc?.t_and_c"></div>
+            <div class="p-7 bg-white rounded-md space-y-1" *ngIf="offerObj?.tandc">
+            <div class="bg-white rounded-md space-y-1" [innerHtml]="(tAndc) ? offerObj?.tandc?.t_and_c : offerObj?.tandc?.t_and_c | slice:0:150"></div>
+            <a href="javascript:;" *ngIf="!tAndc && offerObj?.tandc?.t_and_c.length > 180" (click)="tAndc=true"class="text-magicPotion text-sm font-semibold ml-auto">...Read More</a>
+            <a href="javascript:;" *ngIf="tAndc && offerObj?.tandc?.t_and_c.length > 180" (click)="tAndc=false"class="text-magicPotion text-sm font-semibold ml-auto">...Read Less</a>
+            </div>
           </div>
           <!-- Social-Media -->
           <div class="w-full  space-y-3" *ngIf="offerObj?.tandc?.facebook && offerObj?.tandc?.facebook != '' ||
@@ -226,3 +234,6 @@
     </div>
   </div>
 </modal>
+
+
+

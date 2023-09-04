@@ -19,6 +19,10 @@ export class OfferOverviewComponent implements OnInit {
   constants: any = CONSTANTS;
   isLoading: boolean = false;
   isDeleteLoading: boolean = false;
+  tAndc: boolean = false;
+  tAndc1: boolean = false;
+  tAndc2: boolean = false;
+
 
   constructor(
     private _router: Router,
