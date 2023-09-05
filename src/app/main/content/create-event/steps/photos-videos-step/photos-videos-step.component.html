@@ -2,7 +2,7 @@
 
 <form class="space-y-5">
   <div class="upload-holder w-full h-auto">
-    <span class="text-sm text-quicksilver font-semibold">Add Poster <span class="font-normal">(Max size 10MB & Resolution Must be 1080PX x 780PX)</span></span>
+    <span class="text-sm text-quicksilver font-semibold">Add Poster <span class="font-normal">(Max File size 10MB & Resolution Must be 1080PX x 780PX)</span></span>
     <label class="upload upload-popup p-0 relative group" id="posterUpload">
       <input #poster (change)="onPosterChange($event)" accept="image/png, image/jpeg, image/gif" class="poster hidden" id="poster" type="file" />
   <!--      <img *ngIf="posterImageAndVideoObj.banner" [src]="!!(posterImageAndVideoObj?.banner) ? constants.baseImageURL + posterImageAndVideoObj.banner : constants.defaultImage" class="absolute inset-0 w-full h-full object-cover z-10 group-hover:-z-10"/>-->
