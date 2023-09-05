@@ -479,6 +479,8 @@ export class PhotosVideosStepComponent implements OnInit {
     this.isDeleteLoading = true;
     this.posterImageAndVideoObj[this.deleteItemObj.type + 's'].splice(this.deleteItemObj.index, 1);
     this.isDeleteLoading = false;
+    this.deleteItemObj = {};
+    this.savePhotosVideo();
     this.close();
   }
   openImageAndVideoDialog(imagesOrVideosArr: Array<any>, isImage: boolean, companyIAndV: boolean,  isSingleVideo: boolean = false): void {
