@@ -9,7 +9,7 @@
   </div>
   <div class="media-upload-holder pt-5">
     <span class="text-sm text-quicksilver font-semibold">Add Photos <span class="font-normal">({{photosUploadLimit}} Images - up to 7MB/Image & Resolution up to 1080PX x 1080PX)</span></span>
-    <div class="w-full pt-2" *ngIf="photoArr.length < photosUploadLimit && !isEditMode">
+    <div class="w-full pt-2" *ngIf="photoArr.length < photosUploadLimit">
       <div class="block relative">
         <ngx-dropzone #dropzonePhotos class="flex-wrap" (change)="onSelectImages($event)" [maxFileSize]="3145728" accept="image/jpeg,image/jpg,image/png,image/gif">
           <ngx-dropzone-label>Max {{photosUploadLimit - photoArr.length}} images (up to 7MB/image & Resolution up to 1080PX x 1080PX)</ngx-dropzone-label>
@@ -34,15 +34,14 @@
           <button (click)="removeImage(i)" class="remove">Remove</button>
         </div>
       </div>
-      <div class="upload-holder relative" *ngIf="isEditMode">
-      <!-- <div class="upload-holder relative" *ngIf="photoArr.length < 15"> -->
-        <p-progressSpinner *ngIf="isImgLoading" [style]="{width: '20px', height: '20px'}" animationDuration=".5s" strokeWidth="4" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-0 z-20" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
-        <label class="upload-photo">
-          <input (change)="uploadImage()" accept="image/png, image/jpeg, image/gif" class="appearance-none hidden" id="create-photo-upload" multiple name="images" type="file"/>
-          <i class="icon-img_upload text-base text-quicksilver"></i>
-          <div class="mt-1 flex items-baseline justify-center"><span class="input-titel pt-1">Add Photos</span></div>
-        </label>
-      </div>
+<!--      <div class="upload-holder relative" *ngIf="isEditMode">-->
+<!--        <p-progressSpinner *ngIf="isImgLoading" [style]="{width: '20px', height: '20px'}" animationDuration=".5s" strokeWidth="4" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-0 z-20" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>-->
+<!--        <label class="upload-photo">-->
+<!--          <input (change)="uploadImage()" accept="image/png, image/jpeg, image/gif" class="appearance-none hidden" id="create-photo-upload" multiple name="images" type="file"/>-->
+<!--          <i class="icon-img_upload text-base text-quicksilver"></i>-->
+<!--          <div class="mt-1 flex items-baseline justify-center"><span class="input-titel pt-1">Add Photos</span></div>-->
+<!--        </label>-->
+<!--      </div>-->
     </div>
   </div>  
   <div class="media-upload-holder">
