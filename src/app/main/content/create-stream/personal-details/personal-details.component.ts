@@ -27,7 +27,7 @@ export class PersonalDetailsComponent implements OnInit {
 
     is_mobile_hidden: new FormControl(true),
     is_alt_mobile_hidden: new FormControl(true),
-  });;
+  });
   @ViewChild('phoneF') form: any;
 
   personalDetailForm: any;
