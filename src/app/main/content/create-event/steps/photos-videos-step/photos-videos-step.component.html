@@ -48,7 +48,7 @@
     <div class="flex space-x-2.5 h-full pt-2">
       <div *ngFor="let video of posterImageAndVideoObj.videos; let i = index" class="upload-box">
         <div class="rounded relative overflow-hidden h-full w-full group">
-          <video [src]="!!(video?.url) ? constants.baseImageURL + video.url : constants.defaultImage" *ngIf="video.url" class="object-cover w-full h-full"></video>
+          <video [src]="!!(video?.url) ? constants.baseImageURL + video.url + '#t=0.5' : constants.defaultImage" *ngIf="video.url" class="object-cover w-full h-full"></video>
           <div class="opacity-0 bg-black bg-opacity-50 flex items-center justify-center group-hover:opacity-100 absolute inset-0 transition-all duration-300">
             <button class="edit" >Edit</button>
             <span class="block" (click)="openImageAndVideoDialog([video], false, false, true)"><i class="pi pi-eye text-2xl text-white cursor-pointer" ></i></span>

@@ -8,27 +8,13 @@
     </label>
   </div>
   <div class="media-upload-holder pt-5">
+    <div class="flex items-center justify-between">
     <span class="text-sm text-quicksilver font-semibold">Add Photos <span class="font-normal">({{photosUploadLimit}} Images - up to 7MB/Image & Resolution up to 1080PX x 1080PX)</span></span>
-<!--    <div class="w-full pt-2" *ngIf="photoArr.length < photosUploadLimit">-->
-<!--      <div class="block relative">-->
-<!--        <ngx-dropzone #dropzonePhotos class="flex-wrap" (change)="onSelectImages($event)" [maxFileSize]="3145728" accept="image/jpeg,image/jpg,image/png,image/gif">-->
-<!--          <ngx-dropzone-label>Max {{photosUploadLimit - photoArr.length}} images (up to 7MB/image & Resolution up to 1080PX x 1080PX)</ngx-dropzone-label>-->
-<!--          <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of imagesFiles" [file]="f" [removable]="true" (removed)="onRemoveImages(f)"></ngx-dropzone-image-preview>-->
-<!--        </ngx-dropzone>-->
-<!--        <button (click)="uploadImage()" *ngIf="imagesFiles?.length" class="absolute bottom-2 right-2 text-xs font-semibold text-magicPotion uppercase">Upload</button>-->
-<!--        <p-progressSpinner *ngIf="isImgLoading" [style]="{width: '20px', height: '20px'}" animationDuration=".5s" strokeWidth="4" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-0 z-20" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>-->
-<!--      </div>-->
-<!--      <div class="text-red-500 text-xs pt-1" *ngIf="rejectedPhotosList?.length">-->
-<!--        Rejected Photos ( Because of Maximum Image Size is {{constants.maxImageSizeInMB}} MB. ) :- -->
-<!--        <div>-->
-<!--          <span *ngFor="let rpl of rejectedPhotosList">{{rpl?.name}}, </span>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
+    <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(photoArr, true, false)">View All</a>
+    </div>
     <div class="flex flex-wrap h-full pt-2">
       <div *ngFor="let photo of photoArr; let i = index" class="upload-box mr-2.5 mb-2.5">
         <div class="rounded relative overflow-hidden h-full w-full">
-<!--          <img [alt]="'add-photo-' + i" [src]="!!(photo?.url) ? constants.baseImageURL + photo.url : constants.defaultImage" class="object-cover w-full h-full"/>-->
           <p-image [alt]="'add-photo-' + i" [src]="!!(photo?.url) ? constants.baseImageURL + photo.url : constants.defaultImage" *ngIf="photo.url" imageClass="w-full h-full object-cover rounded" styleClass="w-full h-full" [preview]="true"></p-image>
           <button class="edit"  (click)="editImage(photo,i)">Edit</button>
           <button (click)="removeImage(i)" class="remove">Remove</button>
@@ -43,30 +29,21 @@
     </div>
   </div>  
   <div class="media-upload-holder">
-    <span class="text-sm text-quicksilver font-semibold">Add Video <span class="font-normal">({{videosUploadLimit}} Videos - up to 256MB/Video)</span></span>
-<!--    <div class="w-full pt-2" *ngIf="videoArr.length < videosUploadLimit">-->
-<!--      <div class="block relative">-->
-<!--        <ngx-dropzone #dropzoneVideos class="flex-wrap" (change)="onSelectVideos($event)" [maxFileSize]="4294967296" accept="video/mp4,video/x-m4v,video/*">-->
-<!--          <ngx-dropzone-label>Max {{videosUploadLimit - videoArr.length}} videos (up to 256MB/video)</ngx-dropzone-label>-->
-<!--          <ngx-dropzone-video-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of videosFiles" [file]="f" [removable]="true" (removed)="onRemoveVideos(f)"></ngx-dropzone-video-preview>-->
-<!--        </ngx-dropzone>-->
-<!--        <button (click)="uploadVideo()" *ngIf="videosFiles?.length" class="absolute bottom-2 right-2 text-xs font-semibold text-magicPotion uppercase">Upload</button>-->
-<!--        <p-progressSpinner *ngIf="isVideoLoading" [style]="{width: '20px', height: '20px'}" animationDuration=".5s" strokeWidth="4" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-0 z-20" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>-->
-<!--      </div>-->
-<!--      <div class="text-red-500 text-xs pt-1" *ngIf="rejectedVideosList?.length">-->
-<!--        Rejected Videos ( Because of Maximum Image Size is {{constants.maxVideoSizeInMB}} MB. ) :- -->
-<!--        <div>-->
-<!--          <span *ngFor="let rpl of rejectedVideosList">{{rpl?.name}}, </span>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
-    <div class="flex flex-wrap h-full pt-2">
-      <div *ngFor="let video of videoArr; let i = index" class="upload-box mr-2.5 mb-2.5">
-        <div class="rounded relative overflow-hidden h-full w-full">
-          <video class="w-full h-full object-cover" height="100%" width="100%">
-            <source [src]="!!(video?.url) ? constants.baseImageURL + video.url : constants.defaultImage" type="video/mp4">
+    <div class="flex items-center justify-between">
+         <span class="text-sm text-quicksilver font-semibold">Add Video <span class="font-normal">({{videosUploadLimit}} Videos - up to 256MB/Video)</span></span>
+         <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(videoArr, false, false)">View All</a>
+    </div>
+    <div class="flex space-x-2.5 h-full pt-2">
+      <div *ngFor="let video of videoArr; let i = index" class="upload-box">
+        <div class="rounded relative overflow-hidden h-full w-full group">
+          <video class="object-cover w-full h-full" height="100%" width="100%"  preload="metadata">
+            <source [src]="!!(video?.url) ? constants.baseImageURL + video.url + '#t=0.5' : constants.defaultImage" type="video/mp4">
           </video>
-          <button (click)="removeVideo(i)">Remove</button>
+            <div class="opacity-0 bg-black bg-opacity-50 flex items-center justify-center group-hover:opacity-100 absolute inset-0 transition-all duration-300">
+                <button class="edit" (click)="editVideoModal(video, i)" >Edit</button>
+                <span class="block" (click)="openImageAndVideoDialog([video], false, false, true)"><i class="pi pi-eye text-2xl text-white cursor-pointer" ></i></span>
+                <button (click)="removeVideo(i)" class="remove">Remove</button>
+            </div>
         </div>
       </div>
       <div (click)="openUploadVideoDialog()" class="upload-holder" *ngIf="videoArr.length < 2">
@@ -186,6 +163,26 @@
 </modal>
 
 
+<!-- Start Edit Video Modal -->
+<modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="videoEdit" title="Edit Video">
+  <form #videoEditForm="ngForm" [formGroup]="videoUpdateForm" class="py-6 space-y-5">
+    <div class="upload-holder- w-full">
+      <h6 class="input-titel text-sm font-bold text-quicksilver flex items-center">Select Video <p class="text-10 ml-2">(up to 256MB)</p></h6>
+
+      <label class="upload upload-popup p-0 relative group" id="editVideoUpload">
+        <input #editVideo (change)="onEditVideoChange($event)" accept="video/mp4,video/x-m4v,video/*" data-max-file-size="256M" class="editVideo hidden" id="editVideo" type="file" />
+      </label>
+
+    </div>
+    <div class="w-full">
+      <span class="input-titel">Details <i class="text-xs font-medium" [ngClass]="{'text-magicPotion' : (descriptionLimit > constants.CKEditorCharacterLimit0)}">( {{descriptionLimit}} characters out of {{constants.CKEditorCharacterLimit0}} )</i></span>
+      <textarea #videoDescription class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md" cols="30" rows="5" formControlName="description" (keyup)="descriptionLimit = videoDescription.value.length"></textarea>
+    </div>
+  </form>
+  <button (click)="editUploadVideo()" class="secondary w-full uppercase py-2 anim" [disabled]="isVideoLoading">{{ isVideoLoading ? 'Please wait...' : 'Submit' }}</button>
+</modal>
+<!-- End Edit Video Modal -->
+
 <!-- Poster crop -->
 <modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="imgCropper" title="Poster">
   <div class="flex flex-wrap -mx-4 py-5 relative">
@@ -221,3 +218,5 @@
     </div>
   </div>
 </modal>
+
+<app-image-and-video-preview *ngIf="isOpenPopup" (openClosePopup)="closePop($event)" [isSingleVideo]="isSingleVideo" [isImageOrVideoFlag]="isImage" [isCompanyImagesAndVideo]="companyIAndV" [expectedProp]="imagesOrVideosArr"></app-image-and-video-preview>
