@@ -50,9 +50,9 @@
         <div class="rounded relative overflow-hidden h-full w-full group">
           <video [src]="!!(video?.url) ? constants.baseImageURL + video.url + '#t=0.5' : constants.defaultImage" *ngIf="video.url" class="object-cover w-full h-full"></video>
           <div class="opacity-0 bg-black bg-opacity-50 flex items-center justify-center group-hover:opacity-100 absolute inset-0 transition-all duration-300">
-            <button class="edit" >Edit</button>
+            <button class="edit" (click)="editVideoModal(video, i)">Edit</button>
             <span class="block" (click)="openImageAndVideoDialog([video], false, false, true)"><i class="pi pi-eye text-2xl text-white cursor-pointer" ></i></span>
-            <button (click)="removeVideo(i)" class="remove">Remove</button>
+            <button class="remove" (click)="removeVideo(i)" >Remove</button>
           </div>
         </div>
       </div>
@@ -183,6 +183,26 @@
   </form>
   <button (click)="uploadVideo()" class="secondary w-full uppercase py-2 anim" [disabled]="isVideoLoading">{{ isVideoLoading ? 'Please wait...' : 'Submit' }}</button>
 </modal>
+
+<!-- Start Edit Video Modal -->
+<modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="videoEdit" title="Edit Video">
+    <form #videoEditForm="ngForm" [formGroup]="videoUpdateForm" class="py-6 space-y-5">
+        <div class="upload-holder- w-full">
+            <h6 class="input-titel text-sm font-bold text-quicksilver flex items-center">Select Video <p class="text-10 ml-2">(up to 256MB)</p></h6>
+
+            <label class="upload upload-popup p-0 relative group" id="editVideoUpload">
+                <input #editVideo (change)="onEditVideoChange($event)" accept="video/mp4,video/x-m4v,video/*" data-max-file-size="256M" class="editVideo hidden" id="editVideo" type="file" />
+            </label>
+
+        </div>
+        <div class="w-full">
+            <span class="input-titel">Details <i class="text-xs font-medium" [ngClass]="{'text-magicPotion' : (descriptionLimit > constants.CKEditorCharacterLimit0)}">( {{descriptionLimit}} characters out of {{constants.CKEditorCharacterLimit0}} )</i></span>
+            <textarea #videoDescription class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md" cols="30" rows="5" formControlName="description" (keyup)="descriptionLimit = videoDescription.value.length"></textarea>
+        </div>
+    </form>
+    <button (click)="editUploadVideo()" class="secondary w-full uppercase py-2 anim" [disabled]="isVideoLoading">{{ isVideoLoading ? 'Please wait...' : 'Submit' }}</button>
+</modal>
+<!-- End Edit Video Modal -->
 
 <!-- Images and Video Delete conformation -->
 <modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="delete-event-pop" title="Are you sure?" [isCloseHidden]="true" [isTitleHidden]="true">

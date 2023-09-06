@@ -546,7 +546,7 @@ export class PhotosAndVideosComponent implements OnInit {
   editUploadVideo(): any {
     if (this.videoUpdateForm.value.video === null) {
       this.videoArr[this.editVideoObj.index].description = this.videoUpdateForm.value.description;
-      this._modalService.close('photoEdit');
+      this._modalService.close('videoEdit');
       this.savePhotosVideo();
     } else {
       if (this.videoUpdateForm.value.video !== null) {
