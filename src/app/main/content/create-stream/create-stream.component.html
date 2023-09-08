@@ -4,7 +4,8 @@
     <div class="flex justify-between items-center">
       <div class="flex items-center">
         <i routerLink=".." class="icon-left_arrow cursor-pointer mr-4 text-2xl"></i>
-        <h2>Create Stream</h2>
+        <h2 *ngIf="(liveStreamObj | json) != ({} | json)">{{liveStreamObj?.event_name}}</h2>
+        <h2 *ngIf="(liveStreamObj | json) == ({} | json)">Create Stream</h2>
       </div>
     </div>
     <div class="w-full overflow-hidden overflow-x-auto capitalize">

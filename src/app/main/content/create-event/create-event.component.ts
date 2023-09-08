@@ -66,6 +66,7 @@ export class CreateEventComponent implements OnInit {
   getEvent(): void {
     this._eventService.getSingleEvents(this.eventId).subscribe((result: any) => {
       const condata = result?.Data;
+      this.eventObj = result?.Data;
       this.isReadonly = 
       !(
         (condata?.about?._id != "") &&

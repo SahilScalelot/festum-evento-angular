@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router} from '@angular/router';
+import { GlobalFunctions } from 'src/app/main/common/global-functions';
 import { MenuItem } from 'primeng/api';
+import { CreateStreamService } from "./create-stream.service";
 
 @Component({
   selector: 'app-create-stream',
@@ -10,9 +12,12 @@ import { MenuItem } from 'primeng/api';
 export class CreateStreamComponent implements OnInit {
   items: MenuItem[] | any;
   streamId: any = '';
+  liveStreamObj: any = {};
   activeIndex: number = 0;
 
-  constructor(private _router: Router) {
+  constructor(private _router: Router,
+              private _globalFunctions: GlobalFunctions,
+              private _createStreamService: CreateStreamService) {
   }
 
   ngOnInit(): void {
@@ -20,6 +25,9 @@ export class CreateStreamComponent implements OnInit {
       //this._router.navigate(['/live-stream']);
     } else {
       this.streamId = localStorage.getItem('lsId') || '';
+      if (this.streamId && this.streamId != '') {
+        this.getLiveStreamById(this.streamId);
+      }
     }
     this.reloadMenuData();
   }
@@ -56,6 +64,18 @@ export class CreateStreamComponent implements OnInit {
   onActiveIndexChange(event: number) {
     this.activeIndex = event;
     this.reloadMenuData();
+  }
+
+  getLiveStreamById(liveStreamId: any = ''): void {
+    this._createStreamService.getLiveStreamById(liveStreamId).subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        this.liveStreamObj = result?.Data || {};
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+    });
   }
 
 }
