@@ -111,7 +111,7 @@ export class CompanyDetailsComponent implements OnInit {
     this._createStreamService.getCompanyDetailsById(this.liveStreamId).subscribe((result: any) => {
       if (result && result.IsSuccess) {
         const companyDetailObj: any = result?.Data?.companydetail || {};
-        if (companyDetailObj && companyDetailObj.pincode && companyDetailObj.pincode != '') {
+        if (companyDetailObj) {
           this._prepareCompanyDetailsForm(companyDetailObj);
         } else {
           this.getDataFromProfileObj();
