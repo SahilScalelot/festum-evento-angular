@@ -81,14 +81,17 @@
       <input type="text" name="Refer Code" class="input_box" [formControlName]="'refer_code'" id="refer_code"/>
       <span class="text-quicksilver text-xs font-light absolute right-0 top-0">(Optional)</span>
     </div>
-    <div class="block w-full relative">
-      <label class="inline-flex items-center cursor-pointer" (click)="tAndCPop()">
-        <div class="checkbox rounded bg-white">
+    <div class="block w-full relative flex-wrap">
+      <label class="inline-flex items-center " >
+        <div class="checkbox rounded bg-white cursor-pointer">
           <input type="checkbox" [formControlName]="'tandc'" name="tandc" [checked]="false" style="width: 26px !important;height: 26px !important;" />
           <i class="icon-right text-white text-13"></i>
         </div>
-        <span class="input-titel text-sm pl-3 pt-1">By continuing, I agree to the <strong class="text-magicPotion">Terms And Conditions</strong>.</span>
+        <div class="checkbox rounded bg-white cursor-pointer">
+        <span class="input-titel text-sm pl-3 pt-1" >By continuing, I agree to the <strong (click)="tAndCPop()" class="text-magicPotion">Terms And Conditions</strong>.</span>
+        </div>
       </label>
+      
       <span class="absolute top-full left-0 text-red-500 text-xs" *ngIf="registerForm.get('tandc')?.invalid && (registerForm.get('tandc')?.dirty && registerForm.get('tandc')?.touched)">
         <span *ngIf="registerForm.get('tandc')?.errors?.['required']">
           Terms And Conditions is required.

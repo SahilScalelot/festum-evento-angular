@@ -14,17 +14,17 @@
     <div class="space-y-2.5" *ngIf="!isLoading">
       <div class="w-full  bg-white rounded cursor-pointer" *ngFor="let shopOffer of shopOffers; let i = index" (click)="offerOverview($event, shopOffer?._id)">
         <div class="flex flex-wrap xl:flex-nowrap xl:space-x-5">
-          <div class="relative w-full lg:max-w-[200px]">
+          <div class="relative w-full lg:max-w-[250px]">
             <img [src]="constants?.baseImageURL + shopOffer?.poster" [alt]="shopOffer?.shop_name" class="w-full h-full object-cover pb-5 lg:pb-0" />
           </div>
-          <div class="w-full pt-5 xl:p-4">
+          <div class="w-[calc(100%-300px)] pt-5 xl:p-4">
             <div class="flex justify-between border-b-2 pb-4">
-              <div class="">
-                <h4 class="text-japaneseIndigo">{{shopOffer?.shop_name}}</h4>
+              <div class="w-[calc(100%-70px)]">
+                <h4 class="text-japaneseIndigo whitespace-nowrap overflow-hidden text-ellipsis w-full">{{shopOffer?.shop_name}}</h4>
                 <div class="flex flex-wrap pt-3">
                   <div class="pt-3 pr-2 lg:pr-4">
                     <div class="text-sm font-semibold text-quicksilver"><i class="icon-product mr-1.5"></i>Product Name</div>
-                    <span class="text-japaneseIndigo text-sm font-bold">{{shopOffer?.product_name}}</span>
+                    <span class="text-japaneseIndigo text-sm font-bold max-w-[240px] block whitespace-nowrap overflow-hidden text-ellipsis">{{shopOffer?.product_name}}</span>
                   </div>
                   <div class="border-l-2 border-brightGray px-2 lg:px-4">
                     <div class="text-sm font-semibold text-quicksilver pt-3"><i class="icon-calendar mr-1.5"></i>Offer Date</div>

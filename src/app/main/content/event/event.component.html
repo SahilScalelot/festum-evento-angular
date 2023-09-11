@@ -21,7 +21,7 @@
         <div class="w-full flex items-center" (click)="gotoEventOverview($event, event)">
           <div class="w-full  bg-white rounded">
             <div class="flex flex-wrap xl:flex-nowrap xl:space-x-5">
-              <div class="relative w-full lg:max-w-[288px]">
+              <div class="relative w-full lg:max-w-[288px] min-h-[182px] max-h-[182px]">
                 <img [src]="!!(event?.banner) ? constants.baseImageURL + event.banner : constants.defaultImage" alt="{{event?.name}}" class="w-full h-full object-cover"/>
                 <div class="space-x-2 flex items-center justify-center absolute top-0 left-0  w-full lg:max-w-[200px] bg-magicPotion">
                   

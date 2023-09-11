@@ -122,12 +122,21 @@ export class RegisterComponent implements OnInit {
     if (this.registerForm.value && this.registerForm.value.tandc == false) {
       this.registerForm.get('tandc').setValue(false);
       this._modalService.open("tandc");
+      // this.registerForm.get('tandc').setValue(false);
+    }else{
+      this._modalService.open("tandc");
     }
   }
 
   closePop(): any {
     this.registerForm.get('tandc').setValue(false);
-    this._modalService.close("tandc");
+    if (this.registerForm.value && this.registerForm.value.tandc == false) {
+      this.registerForm.get('tandc').setValue(false);
+      // this._modalService.open("tandc");
+      // this.registerForm.get('tandc').setValue(false);
+      this._modalService.close("tandc");
+    }
+
   }
 
   applyTAndC(): void {

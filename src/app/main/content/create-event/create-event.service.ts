@@ -93,7 +93,7 @@ export class CreateEventService {
   }
   getPersonalDetail(eventId: any): any {
     return this.http.get(environment.appURL + 'organizer/events/personaldetail?eventid=' + eventId, this._globalFunctions.getAuthorizationHeader());
-  }
+  } 
 
   // Terms And Conditions Event Step
   tAndC(eventObj: any): any {

@@ -12,6 +12,9 @@ function removeActive(Id, db) {
   element.classList.remove(db);
 }
 
+
+    
+
 // 
 $(document).ready(function () {
   $('.teb-holder button').click(function () {
