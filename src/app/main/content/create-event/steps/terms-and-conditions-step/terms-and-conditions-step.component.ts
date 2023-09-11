@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject, Renderer2 } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { FormBuilder, Validators } from "@angular/forms";
 import { Router } from '@angular/router';
 import { GlobalFunctions } from 'src/app/main/common/global-functions';
@@ -38,7 +39,9 @@ export class TermsAndConditionsStepComponent implements OnInit {
     private _router: Router,
     private _globalFunctions: GlobalFunctions,
     private _createEventService: CreateEventService,
-    private _sNotify: SnotifyService
+    private _sNotify: SnotifyService,
+    private renderer: Renderer2,
+    @Inject(DOCUMENT) private document: Document
   ) { }
 
   ngOnInit(): void {
@@ -106,6 +109,14 @@ export class TermsAndConditionsStepComponent implements OnInit {
     this.textEditor = (stringOfCKEditor.length > this.textEditorMaxLimit);
   }
 
+  public loadJsScript(): HTMLScriptElement {
+    const script = this.renderer.createElement('script');
+    script.type = 'text/javascript';
+    script.src = '/assets/js/message-script.js';
+    this.renderer.appendChild(this.document.body, script);
+    return script;
+  }
+
   saveFullEvent(): void {
     if (this.termsAndConditionsForm.invalid) {
       Object.keys(this.termsAndConditionsForm.controls).forEach((key) => {
@@ -127,9 +138,10 @@ export class TermsAndConditionsStepComponent implements OnInit {
           this.isLoading = false;
           this.termsAndConditionsForm.enable();
           this.successfully = true;
+          this.loadJsScript()
           setTimeout(() => {
-            this.successfully = false;
-            this._router.navigate(['/events']);
+            //this.successfully = false;
+            //this._router.navigate(['/events']);
           }, 3000);
           // this._sNotify.success('Event Created And Update Successfully.', 'Success');
         } else {

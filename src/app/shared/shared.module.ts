@@ -6,6 +6,7 @@ import { ProgressSpinnerModule } from "primeng/progressspinner";
 import { ValidNumberDirective } from "../directives/valid-number.directive";
 import { ValidNumberWithDecimalDirective } from "../directives/valid-number-with-decimal.directive";
 import { ImageAndVideoPreviewComponent } from '../main/content/dialogs/image-and-video-preview/image-and-video-preview.component';
+import { MessagePreviewComponent } from '../main/content/dialogs/message-preview/message-preview.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ValidAlphabetDirective } from '../directives/valid-alphabet.directive';
 import { TooltipModule } from 'primeng/tooltip';
@@ -22,6 +23,7 @@ import { BroadcastStreamSettingsComponent } from '../main/content/dialogs/broadc
   declarations: [
     AddEditEventDialogComponent,
     ImageAndVideoPreviewComponent,
+    MessagePreviewComponent,
     BroadcastStreamSettingsComponent,
     ValidNumberDirective,
     ValidAlphabetDirective,
@@ -47,6 +49,7 @@ import { BroadcastStreamSettingsComponent } from '../main/content/dialogs/broadc
     ReactiveFormsModule,
     AddEditEventDialogComponent,
     ImageAndVideoPreviewComponent,
+    MessagePreviewComponent,
     BroadcastStreamSettingsComponent,
     ProgressSpinnerModule,
     ValidNumberDirective,
