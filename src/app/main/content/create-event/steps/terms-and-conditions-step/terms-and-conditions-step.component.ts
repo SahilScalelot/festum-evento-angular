@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, Renderer2 } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject, Renderer2 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { FormBuilder, Validators } from "@angular/forms";
 import { Router } from '@angular/router';
@@ -17,7 +17,7 @@ declare let $: any;
   templateUrl: './terms-and-conditions-step.component.html',
   styleUrls: ['./terms-and-conditions-step.component.scss']
 })
-export class TermsAndConditionsStepComponent implements OnInit {
+export class TermsAndConditionsStepComponent implements OnInit, OnDestroy {
   constants: any = CONSTANTS;
   termsAndConditionsForm: any;
   isLoading: boolean = false;
@@ -113,6 +113,7 @@ export class TermsAndConditionsStepComponent implements OnInit {
     const script = this.renderer.createElement('script');
     script.type = 'text/javascript';
     script.src = '/assets/js/message-script.js';
+    script.id = "messageScript";
     this.renderer.appendChild(this.document.body, script);
     return script;
   }
@@ -178,5 +179,10 @@ export class TermsAndConditionsStepComponent implements OnInit {
     if (eventObj?.t_and_c) {
       this.editorCharacterSet();
     }
+  }
+
+  ngOnDestroy() {
+    let elem = document.querySelector("#messageScript");
+    document.querySelector("#messageScript").parentNode.removeChild(elem)
   }
 }

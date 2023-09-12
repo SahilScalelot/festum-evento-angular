@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject, Renderer2 } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { FormBuilder, Validators } from "@angular/forms";
 import { Router } from '@angular/router';
 import { GlobalFunctions } from 'src/app/main/common/global-functions';
@@ -16,7 +17,7 @@ declare let $: any;
   templateUrl: './terms.component.html',
   styleUrls: ['./terms.component.scss']
 })
-export class TermsAndConditionsLsComponent implements OnInit {
+export class TermsAndConditionsLsComponent implements OnInit, OnDestroy {
   constants: any = CONSTANTS;
   termsAndConditionsForm: any;
   isLoading: boolean = false;
@@ -38,7 +39,9 @@ export class TermsAndConditionsLsComponent implements OnInit {
     private _router: Router,
     private _globalFunctions: GlobalFunctions,
     private _createStreamService: CreateStreamService,
-    private _sNotify: SnotifyService
+    private _sNotify: SnotifyService,
+    private renderer: Renderer2,
+    @Inject(DOCUMENT) private document: Document
   ) { }
 
   ngOnInit(): void {
@@ -114,6 +117,15 @@ export class TermsAndConditionsLsComponent implements OnInit {
     }, 0);
   }
 
+  public loadJsScript(): HTMLScriptElement {
+    const script = this.renderer.createElement('script');
+    script.type = 'text/javascript';
+    script.src = '/assets/js/message-script.js';
+    script.id = "messageScript";
+    this.renderer.appendChild(this.document.body, script);
+    return script;
+  }
+
   saveFullEvent(): void {
     if (this.termsAndConditionsForm.invalid) {
       Object.keys(this.termsAndConditionsForm.controls).forEach((key) => {
@@ -135,6 +147,7 @@ export class TermsAndConditionsLsComponent implements OnInit {
           this.isLoading = false;
           this.termsAndConditionsForm.enable();
           this.successfully = true;
+          this.loadJsScript();
           setTimeout(() => {
             this.successfully = false;
             this._router.navigate(['/live-stream']);
@@ -178,5 +191,10 @@ export class TermsAndConditionsLsComponent implements OnInit {
     if (eventObj?.t_and_c) {
       this.editorCharacterSet();
     }
+  }
+
+  ngOnDestroy() {
+    let elem = document.querySelector("#messageScript");
+    document.querySelector("#messageScript").parentNode.removeChild(elem)
   }
 }

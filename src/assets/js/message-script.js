@@ -1,13 +1,13 @@
 
 
-let W = window.innerWidth;
-let H = window.innerHeight;
-const canvas = document.getElementById("canvas");
-const context = canvas.getContext("2d");
-const maxConfettis = 40;
-const particles = [];
+var W = window.innerWidth;
+var H = window.innerHeight;
+var canvas = document.getElementById("canvas");
+var context = canvas.getContext("2d");
+var maxConfettis = 40;
+var particles = [];
 
-const possibleColors = [
+var possibleColors = [
     "DodgerBlue",
     "OliveDrab",
     "Gold",
