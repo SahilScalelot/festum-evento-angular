@@ -433,9 +433,9 @@
                       <div class="rounded relative overflow-hidden h-full w-full group">
                         <img [alt]="'add-photo-' + i" [src]="!!(photo?.url) ? constants.baseImageURL + photo.url : constants.defaultImage" *ngIf="photo.url" class="object-cover w-full h-full"/>
                         <div class="opacity-0 bg-black bg-opacity-50 flex items-center justify-center group-hover:opacity-100 absolute inset-0 transition-all duration-300">
-                          <button class="edit" (click)="editImageUpload(i)">Edit</button>
+                          <button class="edit" (click)="editImageUpload( 'food', photo, i)">Edit</button>
                           <span class="block" (click)="viewImage(i)"><i class="pi pi-eye text-2xl text-white cursor-pointer" ></i></span>
-                          <button (click)="removeImage(i)" class="remove">Remove</button>
+                          <button (click)="removeImage('food', i)" class="remove">Remove</button>
                         </div>
                       </div>
                       <div class="absolute inset-0 flex items-center justify-center bg-black/70 cursor-pointer z-10" *ngIf="openImages" (click)="openImages = !openImages">
@@ -542,9 +542,9 @@
                       <div class="rounded relative overflow-hidden h-full w-full group">
                         <img [alt]="'add-photo-' + i" [src]="!!(photo?.url) ? constants.baseImageURL + photo.url : constants.defaultImage" *ngIf="photo.url" class="object-cover w-full h-full"/>
                         <div class="opacity-0 bg-black bg-opacity-50 flex items-center justify-center group-hover:opacity-100 absolute inset-0 transition-all duration-300">
-                          <button class="edit" (click)="editImageUpload(i)">Edit</button>
+                          <button class="edit" (click)="editImageUpload('equipment', photo, i)">Edit</button>
                           <span class="block" (click)="viewImage(i)"><i class="pi pi-eye text-2xl text-white cursor-pointer" ></i></span>
-                          <button (click)="removeImage(i)" class="remove">Remove</button>
+                          <button (click)="removeImage('equipment', i)" class="remove">Remove</button>
                         </div>
                       </div>
 
@@ -638,6 +638,25 @@
   <button (click)="uploadImage()" class="secondary w-full uppercase py-2 anim" [disabled]="isPhotoLoading">{{ isPhotoLoading ? 'Please wait...' : 'Submit' }}</button>
 </modal>
 
+<!-- Start Edit Photo Modal -->
+<modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="photoEdit" title="Edit Photo">
+  <form #photoEditForm="ngForm" [formGroup]="photoUpdateForm" class="py-6 space-y-5">
+    <div class="upload-holder- w-full">
+      <h6 class="input-titel text-sm font-bold text-quicksilver flex items-center">Select Photo <p class="text-10 ml-2">(up to 7MB)</p></h6>
+
+      <label class="upload upload-popup p-0 relative group" id="editPosterUpload">
+        <input #editPoster (change)="onEditPosterChange($event)" accept="image/png, image/jpeg, image/gif" data-max-file-size="7M" class="editPoster hidden" id="editPoster" type="file" />
+      </label>
+
+    </div>
+    <div class="w-full">
+      <span class="input-titel">Details <i class="text-xs font-medium" [ngClass]="{'text-magicPotion' : (descriptionLimit > constants.CKEditorCharacterLimit0)}">( {{descriptionLimit}} characters out of {{constants.CKEditorCharacterLimit0}} )</i></span>
+      <textarea #imageDescription class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md" cols="30" rows="5" formControlName="description" (keyup)="descriptionLimit = imageDescription.value.length"></textarea>
+    </div>
+  </form>
+  <button (click)="editUploadImage()" class="secondary w-full uppercase py-2 anim" [disabled]="isPhotoLoading">{{ isPhotoLoading ? 'Please wait...' : 'Submit' }}</button>
+</modal>
+<!-- End Edit Photo Modal -->
 
 <!-- Images and Video Delete conformation -->
 <modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="remove-image-pop" title="Are you sure?" [isCloseHidden]="true" [isTitleHidden]="true">
