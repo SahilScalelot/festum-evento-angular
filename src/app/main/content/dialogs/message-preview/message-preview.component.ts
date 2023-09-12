@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 
 declare const window: any;
 
@@ -10,6 +10,10 @@ declare const window: any;
     styleUrls: ['./message-preview.component.scss']
 })
 export class MessagePreviewComponent implements OnInit {
+
+    @Input() assetPath: string = '';
+    @Input() messageString: string = '';
+    @Output() openClosePopup = new EventEmitter<boolean>();
     canvas: any;
     context: any;
     W: any;

@@ -1,12 +1,12 @@
-<div class="w-full h-screen flex items-center justify-center p-5">
-    <div class="w-full bg-gray-50 relative max-w-5xl rounded-3xl shadow-xl h-[calc(100%-100px)] flex items-center justify-center overflow-hidden p-6 lg:p-8">
+<!--<div class="w-full h-screen flex items-center justify-center p-5">-->
+    <div class="fixed bg-white bg-opacity-25 backdrop-blur-sm right-0 bottom-0 h-[calc(100vh-76px)] w-full lg:w-[calc(100vw-230px)] z-30 flex items-center justify-center text-center">
         <div class=" w-full">
             <canvas id="canvas" class="absolute inset-0 w-full h-full"></canvas>
             <div class="max-w-[220px] md:max-w-[300px] lg:max-w-[380px] xl:max-w-[450px] relative mx-auto">
                 <img src="../assets/images/FE.gif" alt="Festum Evento" class="h-full object-cover mx-auto">
             </div>
             <div class="max-w-[80px] md:max-w-[120px] lg:max-w-[150px] xl:max-w-[180px] relative mx-auto mb-7 mt-5">
-                <img src="../assets/images/event.svg" alt="" class="w-full">
+                <img [src]="assetPath" alt="" class="w-full">
             </div>
             <!-- <p class="text-5xl font-bold text-[#88B04B] text-center animate-pulse">Success</p> -->
             <div class="waviy text-center relative">
@@ -24,9 +24,9 @@
                 <span style="--i:11" class="text-5xl md:text-6xl lg:text-7xl font-bold inline-block relative uppercase text-[#CD4254]">L</span>
                 <span style="--i:12" class="text-5xl md:text-6xl lg:text-7xl font-bold inline-block relative uppercase text-[#CD4254]">L</span>
             </div>
-            <p class="max-w-4xl relative md:text-lg lg:text-xl font-medium text-center mx-auto mt-3">Hooray, Congratulations xyz Event created successfully... Now relax, Once your event get approved you can make it live and start booking.</p>
-            <!-- <p class="text-xl font-medium text-center">This event is created on <span>Festum Evento</span> plateform </p> -->
+            <p class="max-w-4xl relative md:text-lg lg:text-xl font-medium text-center mx-auto mt-3">{{messageString}}</p>
+
         </div>
     </div>
 
-</div>
+<!--</div>-->

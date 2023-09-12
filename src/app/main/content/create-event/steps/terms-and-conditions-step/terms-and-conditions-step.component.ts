@@ -138,10 +138,10 @@ export class TermsAndConditionsStepComponent implements OnInit {
           this.isLoading = false;
           this.termsAndConditionsForm.enable();
           this.successfully = true;
-          this.loadJsScript()
+          this.loadJsScript();
           setTimeout(() => {
-            //this.successfully = false;
-            //this._router.navigate(['/events']);
+            this.successfully = false;
+            this._router.navigate(['/events']);
           }, 3000);
           // this._sNotify.success('Event Created And Update Successfully.', 'Success');
         } else {
