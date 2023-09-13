@@ -425,8 +425,8 @@
                 </div>
                 <div *ngIf="selectedTab == 1" class="media-upload-holder pt-5" id="stap-two">
                   <div class="flex items-center justify-between">
-                    <span class="text-sm text-quicksilver font-semibold">Add Photos <span class="font-normal">(5 Images - up to 7MB/Image & Resolution up to 1080PX x 1080PX)</span></span>
-                    <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(posterImageAndVideoObj.photos, true, false)">View All</a>
+                    <span class="text-sm text-quicksilver font-semibold">Add Photos <span class="font-normal">(15 Images - up to 5MB/Image & Resolution up to 1080PX x 1080PX)</span></span>
+                    <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(tempImgArr, true, false)">View All</a>
                   </div>
                   <div class="flex flex-wrap h-full pt-2">
                     <div *ngFor="let photo of tempImgArr; let i = index" class="upload-box mr-2.5 mb-2.5">
@@ -445,7 +445,7 @@
                         <i class="pi pi-times ng-tns-c140-7 absolute top-10 right-10 text-white font-semibold text-xl"></i>
                       </div>
                     </div>
-                    <div (click)="openUploadPhotoDialog()" class="upload-holder" *ngIf="tempImgArr.length < 5">
+                    <div (click)="openUploadPhotoDialog()" class="upload-holder" *ngIf="tempImgArr.length < 15">
                       <label class="upload-photo" for="event-upload1">
                         <!-- <input type="file" id="photo" name="photo" (change)="onFileChange($event, 'photo')" id="event-upload1" class="appearance-none hidden" accept="image/png, image/jpeg, image/gif" /> -->
                         <i class="icon-img_upload text-base text-quicksilver"></i>
@@ -534,8 +534,8 @@
 <!-- equpment photos -->
                 <div *ngIf="selectedTab == 2" class="media-upload-holder pt-5" id="stap-two">
                   <div class="flex items-center justify-between">
-                    <span class="text-sm text-quicksilver font-semibold">Add Photos <span class="font-normal">(5 Images - up to 7MB/Image & Resolution up to 1080PX x 1080PX)</span></span>
-                    <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(posterImageAndVideoObj.photos, true, false)">View All</a>
+                    <span class="text-sm text-quicksilver font-semibold">Add Photos <span class="font-normal">(15 Images - up to 5MB/Image & Resolution up to 1080PX x 1080PX)</span></span>
+                    <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(etempImgArr, true, false)">View All</a>
                   </div>
                   <div class="flex flex-wrap h-full pt-2">
                     <div *ngFor="let photo of etempImgArr; let i = index" class="upload-box mr-2.5 mb-2.5">
@@ -556,7 +556,7 @@
                         </div>
                       </div>
                     </div>
-                    <div *ngIf="etempImgArr.length < 5" (click)="openUploadPhotoDialog()" class="upload-holder" >
+                    <div *ngIf="etempImgArr.length < 15" (click)="openUploadPhotoDialog()" class="upload-holder" >
                       <label class="upload-photo" for="event-upload1">
                         <!-- <input type="file" id="photo" name="photo" (change)="onFileChange($event, 'photo')" id="event-upload1" class="appearance-none hidden" accept="image/png, image/jpeg, image/gif" /> -->
                         <i class="icon-img_upload text-base text-quicksilver"></i>
@@ -614,17 +614,17 @@
 <modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="photo" title="Upload Photo" *ngIf="photoForm">
   <form #photosNgForm="ngForm" [formGroup]="photoForm" class="py-6 space-y-5">
     <div class="upload-holder- w-full">
-      <h6 class="input-titel text-sm font-bold text-quicksilver flex items-center">Select Photo <p class="text-10 ml-2">5 Images (up to 7MB/Image)</p></h6>
+      <h6 class="input-titel text-sm font-bold text-quicksilver flex items-center">Select Photo <p class="text-10 ml-2">15 Images (up to 5MB/Image)</p></h6>
       <!--  {{(posterImageAndVideoObj?.photos?.length) ? (posterImageAndVideoObj?.photos?.length + '(Already Uploaded) - 15 =') : ''}} {{ 15 - (posterImageAndVideoObj?.photos?.length || 0)}} -->
       <div class="block">
-        <ngx-dropzone #dropzonePhotos class="flex-wrap" (change)="onSelectImages($event)" [maxFileSize]="3145728" accept="image/jpeg,image/jpg,image/png,image/gif">
+        <ngx-dropzone #dropzonePhotos class="flex-wrap" (change)="onSelectImages($event)" [maxFileSize]="5000000" accept="image/jpeg,image/jpg,image/png,image/gif">
           <ngx-dropzone-label>Drop images here</ngx-dropzone-label>
           <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of imagesFiles" [file]="f" [removable]="true" (removed)="onRemoveImages(f)"></ngx-dropzone-image-preview>
         </ngx-dropzone>
       </div>
 
       <div class="text-red-500 text-xs pt-1" *ngIf="rejectedPhotosList?.length">
-        Rejected Photos ( Because of Maximum Image Size is {{constants.maxImageSizeInMB}} MB. ) :-
+        Rejected Photos ( Because of Maximum Image Size is 5 MB. ) :-
         <div>
           <span *ngFor="let rpl of rejectedPhotosList">{{rpl?.name}}, </span>
         </div>
@@ -642,10 +642,10 @@
 <modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="photoEdit" title="Edit Photo">
   <form #photoEditForm="ngForm" [formGroup]="photoUpdateForm" class="py-6 space-y-5">
     <div class="upload-holder- w-full">
-      <h6 class="input-titel text-sm font-bold text-quicksilver flex items-center">Select Photo <p class="text-10 ml-2">(up to 7MB)</p></h6>
+      <h6 class="input-titel text-sm font-bold text-quicksilver flex items-center">Select Photo <p class="text-10 ml-2">(up to 5MB)</p></h6>
 
       <label class="upload upload-popup p-0 relative group" id="editPosterUpload">
-        <input #editPoster (change)="onEditPosterChange($event)" accept="image/png, image/jpeg, image/gif" data-max-file-size="7M" class="editPoster hidden" id="editPoster" type="file" />
+        <input #editPoster (change)="onEditPosterChange($event)" accept="image/png, image/jpeg, image/gif" data-max-file-size="5M" class="editPoster hidden" id="editPoster" type="file" />
       </label>
 
     </div>
