@@ -71,7 +71,7 @@
               <!-- <p class="text-quicksilver text-sm font-normal">{{shopObj.about_shop}}</p> -->
             </div>
             <!-- Rainy season sale -->
-            <div class="space-y-5">
+            <div class="space-y-3">
               <div class="w-full p-2.5 bg-white rounded cursor-pointer" *ngFor="let offer of shopOffer" (click)="gotoShopOfferOverview($event, shopId, offer)">
                 <div class="flex flex-wrap items-center lg:flex-nowrap">
                   <div class="relative w-full lg:max-w-[200px] h-full xl:max-h-32 overflow-hidden">
@@ -127,7 +127,7 @@
             <div class="space-y-4" *ngIf="shopObj?.companydetails?.about || shopObj?.companydetails?.company_name || shopObj?.companydetails?.contact_number || shopObj?.companydetails?.emailid || shopObj?.companydetails?.gst_file">
               <h5>Company Details</h5>
               <div class="p-7 bg-white rounded-md space-y-1" *ngIf="shopObj?.companydetails?.about">
-                <h3 class="text-lg">{{shopObj.companydetails.company_name}} About Company</h3>
+                <h3 class="text-lg">{{shopObj.companydetails.company_name}}</h3>
                 <div [innerHtml]="(tandcShow) ? shopObj?.companydetails?.about : shopObj?.companydetails?.about | slice:0:180"></div>
                 <a href="javascript:;" *ngIf="!tandcShow && shopObj?.companydetails?.about.length > 180" (click)="tandcShow=true"class="text-magicPotion text-sm font-semibold ml-auto">...Read More</a>
                 <a href="javascript:;" *ngIf="tandcShow && shopObj?.companydetails?.about.length > 180" (click)="tandcShow=false"class="text-magicPotion text-sm font-semibold ml-auto">...Read Less</a>
@@ -135,7 +135,7 @@
               </div>
             </div>
             <!-- Social Media -->
-            <div class="space-y-4" *ngIf="shopObj?.companydetails?.social_media_links &&
+            <div class="space-y-2.5" *ngIf="shopObj?.companydetails?.social_media_links &&
               shopObj?.companydetails?.social_media_links?.facebook_link && shopObj?.companydetails?.social_media_links?.facebook_link != '' ||
               shopObj?.companydetails?.social_media_links?.twitter_link && shopObj?.companydetails?.social_media_links?.twitter_link != '' ||
               shopObj?.companydetails?.social_media_links?.youtube_link && shopObj?.companydetails?.social_media_links?.youtube_link != '' ||
@@ -143,7 +143,7 @@
               shopObj?.companydetails?.social_media_links?.instagram_link && shopObj?.companydetails?.social_media_links?.instagram_link != '' ||
               shopObj?.companydetails?.social_media_links?.linkedin_link && shopObj?.companydetails?.social_media_links?.linkedin_link != ''">
               <h5>Social Media</h5> 
-              <div class="p-7 bg-white rounded-md space-y-1 flex items-center space-x-7">
+              <div class="p-5 rounded-md flex items-center space-x-7">
                 <a *ngIf="shopObj?.companydetails?.social_media_links?.facebook_link != ''" [href]="shopObj?.companydetails?.social_media_links?.facebook_link" target="_blank"><img class="w-10 h-10 object-cover" alt="facebook" src="../assets/images/facebook.png" /></a>
                 <a *ngIf="shopObj?.companydetails?.social_media_links?.twitter_link != ''" [href]="shopObj?.companydetails?.social_media_links?.twitter_link" target="_blank"><img class="w-10 h-10 object-cover" alt="twiiter" src="../assets/images/twiiter.png" /></a>
                 <a *ngIf="shopObj?.companydetails?.social_media_links?.youtube_link != ''" [href]="shopObj?.companydetails?.social_media_links?.youtube_link" target="_blank"><img class="w-10 h-10 object-cover" alt="youtube" src="../assets/images/youtube.png" /></a>

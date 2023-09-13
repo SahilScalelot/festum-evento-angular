@@ -477,16 +477,12 @@ export class AddEditShopDialogComponent implements OnInit, OnDestroy {
         this.posterObj.image = poster;
         this.posterObj.name = poster.name;
         this.savePoster(poster);
-        // this._modalService.open("imgCropper");
-        // this.isCropperLoading = true;
       }
     }
   }
 
   savePoster(img: any): void {
     if (img && img != '' && !this.isPosterLoading) {
-      // const preparedPoserFromBaseType: any = this._globalFunctions.base64ToImage(img, this.posterObj.name);
-      // this._compressImage.compress(preparedPoserFromBaseType).pipe(take(1)).subscribe((compressedImage: any) => {
         if (img) {
           const posterFormData = new FormData();
           posterFormData.append('file', img);
@@ -497,7 +493,6 @@ export class AddEditShopDialogComponent implements OnInit, OnDestroy {
               this.setPosterInDropify(result.Data.url);
               this._sNotify.success('File Uploaded Successfully.', 'Success');
               this.isPosterLoading = false;
-              // this._modalService.close("imgCropper");
             } else {
               this._globalFunctions.successErrorHandling(result, this, true);
               this.isPosterLoading = false;
@@ -509,7 +504,6 @@ export class AddEditShopDialogComponent implements OnInit, OnDestroy {
         } else {
           this._sNotify.success('Something went wrong!', 'Oops');
         }
-      // });
     }
   }
 
@@ -521,14 +515,9 @@ export class AddEditShopDialogComponent implements OnInit, OnDestroy {
     this.drEvent.settings.defaultFile = imageUrl;
     this.drEvent.destroy();
     this.drEvent.init();
-
     this.dropifyOption.defaultFile = imageUrl;
     this.drEvent = $('.poster').dropify(this.dropifyOption);
     this.banner?.setValue(image);
-  }
-
-  cropImg(e: ImageCroppedEvent) {
-    this.cropImgPreview = e.base64;
   }
 
   isContinueClick(): void {    
@@ -538,7 +527,6 @@ export class AddEditShopDialogComponent implements OnInit, OnDestroy {
         this.addShopForm.controls[key].markAsDirty();
       });
       return;
-      
     }
 
     this.editorCharacterSet();

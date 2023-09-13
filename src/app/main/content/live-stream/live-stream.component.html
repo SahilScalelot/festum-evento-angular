@@ -17,8 +17,8 @@
 
         <div class="w-full flex items-center" (click)="liveStreamOverview($event, liveStream?._id)">
           <div class="w-full  bg-white rounded">
-            <div class="flex flex-wrap xl:flex-nowrap xl:space-x-5">
-              <div class="relative w-full lg:max-w-[288px] min-h-[182px] max-h-[182px]">
+            <div class="flex flex-wrap xl:flex-nowrap xl:space-x-5 xl:min-h-[182px] xl:max-h-[182px]">
+              <div class="relative w-full lg:max-w-[288px]">
                 <img [src]="!!(liveStream?.banner) ? constants.baseImageURL + liveStream.banner : constants.defaultImage" alt="{{liveStream?.name}}" class="w-full h-full object-cover"/>
                 <div class="space-x-2 flex items-center justify-center absolute top-0 left-0  w-full lg:max-w-[200px] bg-magicPotion">
 
@@ -108,6 +108,10 @@
                       <div class="border-l-2 text-center border-brightGray px-2 lg:px-4">
                         <div class="text-xs font-semibold text-quicksilver pt-3"><i class="icon-events mr-1.5"></i>LiveStream Type</div>
                         <span class="text-japaneseIndigo text-xs font-bold">{{liveStream?.livestream_type}}</span>
+                      </div>
+                      <div class="border-l-2 text-center border-brightGray px-2 lg:px-4">
+                        <div class="text-xs font-semibold text-quicksilver pt-3"><i class="icon-events mr-1.5"></i>viewers</div>
+                        <span class="text-japaneseIndigo text-xs font-bold">{{liveStream?.totalviewers}}</span>
                       </div>
 <!--                      <div class="ml-auto">-->
 <!--                        <p class="capitalize text-magicPotion font-semibold pt-5 text-right" [ngClass]="{'text-caribbeanGreen': liveStream?.status}">{{liveStream?.event_type}} live streaming</p>-->
