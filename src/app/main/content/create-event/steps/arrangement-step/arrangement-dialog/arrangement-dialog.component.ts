@@ -469,8 +469,8 @@ export class ArrangementDialogComponent implements OnInit {
         this.arrangements.controls[index].get('total_person')?.setValue((arrangement.number_of_seating_item));
         this.arrangements.controls[index].get('total_amount')?.setValue((arrangement.number_of_seating_item * arrangement.per_person_price));
         this.arrangements.controls[index].get('per_seating_person')?.setValue((1));
+        this.arrangements.controls[index].get('per_seating_price')?.setValue((arrangement.per_person_price));
         this.arrangements.controls[index].get('booking_acceptance')?.setValue(false);
-        
       } 
     });
     _.each(this.arrangements.value, (arrangement: any) => {
