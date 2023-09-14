@@ -19,6 +19,7 @@ export class ShopOverviewComponent implements OnInit {
   tmpOfferObj: any;
   lat: number = 0;
   lng: number = 0;
+  percentage: any;
   tandcShow: boolean = false;
   tandcShowA: boolean = false;
   zoom: number = CONSTANTS.defaultMapZoom;
