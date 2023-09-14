@@ -30,5 +30,8 @@ export class LiveStreamService {
     return this.http.post(environment.appURL + 'organizer/livestreamattendees/export', liveStreamIdObj, this._globalFunctions.getAuthorizationHeader());
   }
 
-
+  // Get Live Stream Status & Viewer Count
+  getLiveStreamStatus(liveStreamId: any): any {
+    return this.http.post(environment.appURL + 'organizer/livestream/viewercount', {livestreamid: liveStreamId}, this._globalFunctions.getAuthorizationHeader());
+  }
 }

@@ -93,23 +93,33 @@ export class BroadcastStreamComponent implements OnInit, OnDestroy {
     }
 
     async startBroadcast() {
-
-            if (this.client) {
-                this.handleVideoDeviceSelect();
-                this.handleAudioDeviceSelect();
-                let resolution = this.getStreamConfig('STANDARD_LANDSCAPE');
-                this.client = this.broadcastClient.create({
-                    ingestEndpoint: this.config.ingestEndpoint,
-                    streamConfig: resolution
-                });
-                this.isStreamStarted = true;
-                this.client.startBroadcast(this.config.streamKey, this.config.ingestEndpoint).then((result: any) => {
-                    this._sNotify.success('Streaming Started Successfully', 'Success');
-                }).catch((error: any) => {
-                    this.isStreamStarted = false;
-                    this._sNotify.error(error, 'error');
-                });
+        const liveStreamId = this._activatedRoute.snapshot.paramMap.get('id');
+        this._liveStreamService.getLiveStreamStatus(liveStreamId).subscribe((result: any) => {
+            if (result.IsSuccess) {
+                this._sNotify.error(this.liveStreamObj.event_name + 'Live stream is allready live', 'Oops!');
             }
+        }, (error: any) => {
+            if(!error.error.IsSuccess) {
+                if (this.client) {
+                    this.handleVideoDeviceSelect();
+                    this.handleAudioDeviceSelect();
+                    let resolution = this.getStreamConfig('STANDARD_LANDSCAPE');
+                    this.client = this.broadcastClient.create({
+                        ingestEndpoint: this.config.ingestEndpoint,
+                        streamConfig: resolution
+                    });
+                    this.isStreamStarted = true;
+                    this.client.startBroadcast(this.config.streamKey, this.config.ingestEndpoint).then((result: any) => {
+                        this._sNotify.success('Streaming Started Successfully', 'Success');
+                    }).catch((error: any) => {
+                        this.isStreamStarted = false;
+                        this._sNotify.error(error, 'error');
+                    });
+                }
+            }
+
+        });
+
 
     }
     getStreamConfig(channelConfig: any) {
