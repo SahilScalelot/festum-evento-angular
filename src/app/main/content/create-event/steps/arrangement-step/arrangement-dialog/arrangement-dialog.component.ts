@@ -70,7 +70,7 @@ export class ArrangementDialogComponent implements OnInit {
 
   posterImageAndVideoObj: any = {};
   
-  photosUploadLimit: number = 15;
+  photosUploadLimit: number = 5;
 
   isOpenPopup: boolean = false;
 
@@ -189,14 +189,14 @@ export class ArrangementDialogComponent implements OnInit {
     this.photosNgForm.resetForm();
     if (this.selectedTab == 1) {
       if (this.tempImgArr && this.tempImgArr.length && this.tempImgArr.length >= this.photosUploadLimit) {
-        this._sNotify.error('Maximum 15 images can upload!', 'Oops!');
+        this._sNotify.error('Maximum 5 images can upload!', 'Oops!');
       } else {
         this._modalService.open('photo');
       }
     }
     if (this.selectedTab == 2) {
       if (this.etempImgArr && this.etempImgArr.length && this.etempImgArr.length >= this.photosUploadLimit) {
-        this._sNotify.error('Maximum 15 images can upload!', 'Oops!');
+        this._sNotify.error('Maximum 5 images can upload!', 'Oops!');
       } else {
         this._modalService.open('photo');
       }
@@ -235,8 +235,8 @@ export class ArrangementDialogComponent implements OnInit {
         }
 
         const image_size = poster.size / 1024 / 1024;
-        if (image_size > 5) {
-          this._sNotify.error('Maximum Image Size is 5MB.', 'Oops!');
+        if (image_size > CONSTANTS.maxPosterSizeInMB) {
+          this._sNotify.error('Maximum Poster Size is ' + CONSTANTS.maxPosterSizeInMB + 'MB.', 'Oops!');
           return false;
         }
         this.photoUpdateForm.controls['image'].setValue(poster);
@@ -340,19 +340,19 @@ export class ArrangementDialogComponent implements OnInit {
           return;
         }
         const image_size = image.size / 1024 / 1024;
-        if (image_size > 5) {
-          this._sNotify.error('Maximum Image Size is 5 MB.', 'Oops!');
+        if (image_size > CONSTANTS.maxImageSizeInMB) {
+          this._sNotify.error('Maximum Image Size is ' + CONSTANTS.maxImageSizeInMB + 'MB.', 'Oops!');
           return;
         }
         if (this.selectedTab == 1) {
           if (this.tempImgArr && this.tempImgArr.length && this.tempImgArr.length >= this.photosUploadLimit) {
-            this._sNotify.error('Maximum 15 images can upload!', 'Oops!');
+            this._sNotify.error('Maximum 5 images can upload!', 'Oops!');
             this._modalService.close("photo");
             return;
           } 
         }else{
           if (this.etempImgArr && this.etempImgArr.length && this.etempImgArr.length >= this.photosUploadLimit) {
-            this._sNotify.error('Maximum 15 images can upload!', 'Oops!');
+            this._sNotify.error('Maximum 5 images can upload!', 'Oops!');
             this._modalService.close("photo");
             return;
           }
@@ -460,7 +460,7 @@ export class ArrangementDialogComponent implements OnInit {
       total_booked: 0
     };
     _.each(this.arrangements.value, (arrangement: any, index: number) => {
-      if (arrangement.number_of_seating_item && arrangement.per_seating_person) {
+      if (arrangement.number_of_seating_item && arrangement.per_seating_person && !(this.selectedSeatingObj && (this.selectedSeatingObj.itemname == 'Chair' || this.selectedSeatingObj.itemname == 'chair' || this.selectedSeatingObj.itemname == 'Standing' || this.selectedSeatingObj.itemname == 'standing' || this.selectedSeatingObj.itemname == 'stand' || this.selectedSeatingObj.itemname == 'Stand'))) {
         this.arrangements.controls[index].get('total_person')?.setValue((arrangement.number_of_seating_item * arrangement.per_seating_person));
         this.arrangements.controls[index].get('per_person_price')?.setValue(Number((arrangement.per_seating_price / arrangement.per_seating_person).toFixed(2)));
         this.arrangements.controls[index].get('total_amount')?.setValue((arrangement.per_seating_price * arrangement.number_of_seating_item));
@@ -468,17 +468,21 @@ export class ArrangementDialogComponent implements OnInit {
       } else if (this.selectedSeatingObj && (this.selectedSeatingObj.itemname == 'Chair' || this.selectedSeatingObj.itemname == 'chair' || this.selectedSeatingObj.itemname == 'Standing' || this.selectedSeatingObj.itemname == 'standing' || this.selectedSeatingObj.itemname == 'stand' || this.selectedSeatingObj.itemname == 'Stand')) {
         this.arrangements.controls[index].get('total_person')?.setValue((arrangement.number_of_seating_item));
         this.arrangements.controls[index].get('total_amount')?.setValue((arrangement.number_of_seating_item * arrangement.per_person_price));
+        this.arrangements.controls[index].get('per_seating_person')?.setValue((1));
         this.arrangements.controls[index].get('booking_acceptance')?.setValue(false);
-        // this.arrangements.controls[index].get('per_seating_person')?.setValue((arrangement.total_person / arrangement.number_of_seating_item));
-        // this.arrangements.controls[index].get('per_seating_price')?.setValue((arrangement.per_person_price));
-
+        
       } 
     });
     _.each(this.arrangements.value, (arrangement: any) => {
       this.totalArrangementsObj.total_number_of_seating_items += Number(arrangement?.number_of_seating_item || 0);
       this.totalArrangementsObj.total_per_seating_persons += Number(arrangement?.per_seating_person || 1);
       this.totalArrangementsObj.total_persons += Number(arrangement?.total_person || 0);
-      this.totalArrangementsObj.per_seating_price += Number(arrangement?.per_seating_price || 0);
+      // this.totalArrangementsObj.per_seating_price += Number(arrangement?.per_seating_price || 0);
+      if(this.selectedSeatingObj && (this.selectedSeatingObj.itemname == 'Chair' || this.selectedSeatingObj.itemname == 'chair' || this.selectedSeatingObj.itemname == 'Standing' || this.selectedSeatingObj.itemname == 'standing' || this.selectedSeatingObj.itemname == 'stand' || this.selectedSeatingObj.itemname == 'Stand')){
+        this.totalArrangementsObj.per_seating_price += Number(arrangement?.per_person_price || 0);
+      }else{
+        this.totalArrangementsObj.per_seating_price += Number(arrangement?.per_seating_price || 0);
+      }
       this.totalArrangementsObj.per_person_price += Number(arrangement?.per_person_price || 0);
       this.totalArrangementsObj.total_amount += Number(arrangement?.total_amount || 0);
     });
