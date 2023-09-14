@@ -70,7 +70,7 @@ export class ArrangementDialogComponent implements OnInit {
 
   posterImageAndVideoObj: any = {};
   
-  photosUploadLimit: number = 5;
+  photosUploadLimit: number = 15;
 
   isOpenPopup: boolean = false;
 
@@ -189,14 +189,14 @@ export class ArrangementDialogComponent implements OnInit {
     this.photosNgForm.resetForm();
     if (this.selectedTab == 1) {
       if (this.tempImgArr && this.tempImgArr.length && this.tempImgArr.length >= this.photosUploadLimit) {
-        this._sNotify.error('Maximum 5 images can upload!', 'Oops!');
+        this._sNotify.error('Maximum 15 images can upload!', 'Oops!');
       } else {
         this._modalService.open('photo');
       }
     }
     if (this.selectedTab == 2) {
       if (this.etempImgArr && this.etempImgArr.length && this.etempImgArr.length >= this.photosUploadLimit) {
-        this._sNotify.error('Maximum 5 images can upload!', 'Oops!');
+        this._sNotify.error('Maximum 15 images can upload!', 'Oops!');
       } else {
         this._modalService.open('photo');
       }
@@ -235,8 +235,8 @@ export class ArrangementDialogComponent implements OnInit {
         }
 
         const image_size = poster.size / 1024 / 1024;
-        if (image_size > CONSTANTS.maxPosterSizeInMB) {
-          this._sNotify.error('Maximum Poster Size is ' + CONSTANTS.maxPosterSizeInMB + 'MB.', 'Oops!');
+        if (image_size > 5) {
+          this._sNotify.error('Maximum Image Size is 5MB.', 'Oops!');
           return false;
         }
         this.photoUpdateForm.controls['image'].setValue(poster);
@@ -340,19 +340,19 @@ export class ArrangementDialogComponent implements OnInit {
           return;
         }
         const image_size = image.size / 1024 / 1024;
-        if (image_size > CONSTANTS.maxImageSizeInMB) {
-          this._sNotify.error('Maximum Image Size is ' + CONSTANTS.maxImageSizeInMB + 'MB.', 'Oops!');
+        if (image_size > 5) {
+          this._sNotify.error('Maximum Image Size is 5MB.', 'Oops!');
           return;
         }
         if (this.selectedTab == 1) {
           if (this.tempImgArr && this.tempImgArr.length && this.tempImgArr.length >= this.photosUploadLimit) {
-            this._sNotify.error('Maximum 5 images can upload!', 'Oops!');
+            this._sNotify.error('Maximum 15 images can upload!', 'Oops!');
             this._modalService.close("photo");
             return;
           } 
         }else{
           if (this.etempImgArr && this.etempImgArr.length && this.etempImgArr.length >= this.photosUploadLimit) {
-            this._sNotify.error('Maximum 5 images can upload!', 'Oops!');
+            this._sNotify.error('Maximum 15 images can upload!', 'Oops!');
             this._modalService.close("photo");
             return;
           }
