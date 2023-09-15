@@ -108,6 +108,57 @@
             </div>
           </div>
         </div>
+        
+        <div class="flex -mx-2">       
+          <div class="w-full xl:w-2/12 px-2 pt-5 inputHolder relative">
+            <span class="input-titel">Shop Days <span>*</span></span>
+            <div class="weekDays-selector w-full flex flex-col space-y-2">
+              <div class="w-full" *ngFor="let weekday of weekDays" [formArrayName]="'shop_days'">
+                <input type="checkbox" name="weekday" [value]="weekday.value" [id]="weekday.value" class="weekday" [checked]="weekday.isSelected" (change)="onCheckboxChange($event)" />
+                <label class="w-full cursor-pointer uppercase" [for]="weekday.value">{{weekday.label}}</label>
+              </div>
+            </div>
+            <span class="absolute top-full text-red-500 text-xs" *ngIf="addShopForm.get('shop_days')?.invalid && (addShopForm.get('shop_days')?.dirty && addShopForm.get('shop_days')?.touched)">
+              <span *ngIf="addShopForm.get('shop_days')?.errors?.['required']">
+                Shop Days is required.
+              </span>
+            </span>
+          </div>
+          <div class="w-full xl:w-10/12 px-2 pt-5 flex space-x-4">
+            <div class="w-full xl:w-11/12 flex space-x-4">
+              <div class="w-full lg:w-1/2 relative">
+                <span class="input-titel">Shop Open Time <span>*</span></span>
+                <label class="bg-white rounded-md flex space-x-3 relative">
+                  <i class="icon-time text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0"></i>
+                  <p-calendar class="w-full" [formControlName]="'shop_open_time'" [touchUI]="true" [hourFormat]="'12'" [showTime]="true" [timeOnly]="true" name="shop_open_time" inputId="shop_open_time" [showButtonBar]="true"></p-calendar>
+                </label>
+                <span class="absolute top-full text-red-500 text-xs" *ngIf="addShopForm.get('shop_open_time')?.invalid && (addShopForm.get('shop_open_time')?.dirty && addShopForm.get('shop_open_time')?.touched)">
+                  <span *ngIf="addShopForm.get('shop_open_time')?.errors?.['required']">
+                    Shop Open Time is required.
+                  </span>
+                </span>
+              </div>
+              <div class="w-full lg:w-1/2 relative">
+                <span class="input-titel">Shop Close Time <span>*</span></span>
+                <label class="bg-white rounded-md flex space-x-3 relative">
+                  <i class="icon-time text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0"></i>
+                  <p-calendar class="w-full" [formControlName]="'shop_close_time'" [touchUI]="true" [hourFormat]="'12'" [showTime]="true" [timeOnly]="true" name="shop_close_time" inputId="shop_close_time" [showButtonBar]="true"></p-calendar>
+                </label>
+                <span class="absolute top-full text-red-500 text-xs" *ngIf="addShopForm.get('shop_close_time')?.invalid && (addShopForm.get('shop_close_time')?.dirty && addShopForm.get('shop_close_time')?.touched)">
+                  <span *ngIf="addShopForm.get('shop_close_time')?.errors?.['required']">
+                    Shop Close Time is required.
+                  </span>
+                </span>
+              </div>
+            </div>
+            <div class="w-full xl:w-1/12 flex flex-col space-x-1">
+              <span class="input-titel">Off / On <span>*</span></span>
+              <div class="w-full py-3">
+                <input type="checkbox" class="switch mr-1.5 lg:mx-3 order-2"/>
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="w-full pt-5 relative">
           <span class="input-titel">About us <i class="text-xs font-medium" [ngClass]="{'text-magicPotion' : textEditor}">( {{textEditorLimit}} characters out of {{textEditorMaxLimit}} )</i></span>
           <div class="w-full bg-white rounded">
