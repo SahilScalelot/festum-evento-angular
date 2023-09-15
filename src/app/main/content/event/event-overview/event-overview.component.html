@@ -119,7 +119,7 @@
               </div>
               <!-- photo-holder -->
               <div class="w-full">
-                <div class="flex overflow-hidden -mx-2">
+                <div class="flex flex-wrap overflow-hidden -mx-2">
                   <div *ngFor="let img of event?.photos" class="w-full lg:w-2/12 p-2 ov-p">
                     <div class="rounded relative overflow-hidden bg-white h-24">
                       <p-image [src]="!!(img?.url) ? constants?.baseImageURL + img?.url : constants?.defaultImage" imageClass="w-full h-full object-cover rounded" styleClass="w-full h-full" [preview]="true"></p-image>
@@ -137,7 +137,7 @@
               </div>
               <!-- media-holder -->
               <div class="w-full">
-                <div class="flex overflow-hidden -mx-2">
+                <div class="flex flex-wrap overflow-hidden -mx-2">
                   <div *ngFor="let video of event?.videos" class="w-full lg:w-2/12 p-2 group hover">
                     <div class="rounded relative overflow-hidden bg-white h-24" (click)="openImageAndVideoDialog([video], false, false, true)">
                       <video [src]="!!(video?.url) ? constants?.baseImageURL + video?.url + '#t=0.5' : constants?.defaultImage" class="w-full h-full object-cover bg-white"></video>
@@ -357,9 +357,9 @@
                       </div>
                       <!-- photo-holder -->
                       <div class="w-full">
-                        <div class="flex overflow-hidden -mx-2">
-                          <div *ngFor="let img of seating?.food_details" class="w-auto p-2">
-                            <div class="rounded relative overflow-hidden bg-white h-28 w-[7.3rem]">
+                        <div class="flex flex-wrap overflow-hidden -mx-2">
+                          <div *ngFor="let img of seating?.food_details" class="w-full lg:w-2/12 p-2">
+                            <div class="rounded relative overflow-hidden bg-white h-24">
                               <p-image [src]="!!(img?.url) ? constants?.baseImageURL + img?.url : constants?.defaultImage" imageClass="w-full h-full object-cover rounded" styleClass="w-full h-full" [preview]="true"></p-image>
                               <!-- <img [src]="!!(img?.url) ? constants?.baseImageURL + img?.url : constants?.defaultImage" alt="upload-1" class="w-full h-full object-cover"/> -->
                             </div>
@@ -393,9 +393,9 @@
                       </div>
                       <!-- photo-holder -->
                       <div class="w-full">
-                        <div class="flex overflow-hidden -mx-2">
-                          <div *ngFor="let img of seating?.equipment_details" class="w-auto p-2">
-                            <div class="rounded relative overflow-hidden bg-white h-28 w-[7.3rem]">
+                        <div class="flex flex-wrap overflow-hidden -mx-2">
+                          <div *ngFor="let img of seating?.equipment_details" class="w-full lg:w-2/12 p-2">
+                            <div class="rounded relative overflow-hidden bg-white h-24">
                               <p-image [src]="!!(img?.url) ? constants?.baseImageURL + img?.url : constants?.defaultImage" imageClass="w-full h-full object-cover rounded" styleClass="w-full h-full" [preview]="true"></p-image>
                               <!-- <img [src]="!!(img?.url) ? constants?.baseImageURL + img?.url : constants?.defaultImage" alt="upload-1" class="w-full h-full object-cover"/> -->
                             </div>
@@ -429,7 +429,7 @@
               </div>
               <!-- photo-holder -->
               <div class="w-full">
-                <div class="flex -mx-2">
+                <div class="flex flex-wrap -mx-2">
                   <div *ngFor="let img of event?.companydetail?.photos" class="w-full lg:w-2/12 p-2 ov-p">
                     <div class="rounded relative overflow-hidden bg-white h-24">
                       <p-image [src]="!!(img?.url) ? constants?.baseImageURL + img?.url : constants?.defaultImage" imageClass="w-full h-full object-cover rounded" styleClass="w-full h-full" [preview]="true"></p-image>
@@ -448,10 +448,10 @@
               </div>
               <!-- media-holder -->
               <div class="w-full">
-                <div class="flex -mx-2">
+                <div class="flex flex-wrap -mx-2">
                   <div *ngFor="let video of event?.companydetail?.videos" class="w-full lg:w-2/12 p-2 group hover">
                     <div class="rounded relative overflow-hidden h-24 cursor-pointer" (click)="openImageAndVideoDialog([video], false, false, true)">
-                      <video [src]="!!(video?.url) ? constants?.baseImageURL + video.url : constants?.defaultImage" class="w-full h-full object-cover bg-white"></video>
+                      <video [src]="!!(video?.url) ? constants?.baseImageURL + video.url + '#t=0.5' : constants?.defaultImage" class="w-full h-full object-cover bg-white"></video>
                       <div class="opacity-0 bg-black bg-opacity-50 flex items-center justify-center group-hover:opacity-100 absolute inset-0 transition-all duration-300">
                         <i class="pi pi-eye text-2xl text-white"></i>
                       </div>
