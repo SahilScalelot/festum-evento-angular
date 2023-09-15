@@ -43,7 +43,7 @@
           <div class="w-full lg:w-8/12 lg:pr-5 space-y-7" *ngIf="overview">
             <!-- About Shop  -->
             <div class="p-7 bg-white rounded-md space-y-2" *ngIf="liveStreamObj?.event_description">
-              <h3 class="text-lg">About Shop</h3>
+              <h3 class="text-lg">About LiveStream</h3>
               <div [innerHtml]="liveStreamObj?.event_description"></div>
               <!-- <p class="text-quicksilver text-sm font-normal">{{liveStreamObj?.event_description}}</p> -->
             </div>
@@ -53,7 +53,7 @@
               <div *ngIf="liveStreamObj.photos != ''" class="media-upload-holder">
                 <!-- media title  -->
                 <div class="flex justify-between items-center">
-                  <h3 class="text-lg">Photo</h3>
+                  <h3 class="text-lg">Photos</h3>
                   <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(liveStreamObj.photos, true, false)">View All</a>
                 </div>
                 <!-- photo-holder -->
@@ -77,9 +77,9 @@
                 <!-- media-holder -->
                 <div class="w-full">
                   <div class="flex flex-wrap -mx-2">
-                    <div *ngFor="let video of liveStreamObj.videos" class="w-full lg:w-1/5 p-2 ov-p group hover:bg-slate-100">
-                      <div class="rounded relative overflow-hidden h-28 cursor-pointer" (click)="openImageAndVideoDialog([video], false, false, true)">
-                        <video [src]="!!(video?.url) ? constants.baseImageURL + video.url : constants.defaultImage" class="w-full h-full object-cover bg-white"></video>
+                    <div *ngFor="let video of liveStreamObj.videos" class="w-full lg:w-2/12 p-2 group hover">
+                      <div class="rounded relative overflow-hidden h-24 cursor-pointer" (click)="openImageAndVideoDialog([video], false, false, true)">
+                        <video [src]="!!(video?.url) ? constants.baseImageURL + video.url + '#t=0.5' : constants.defaultImage" class="w-full h-full object-cover bg-white"></video>
                         <div class="opacity-0 bg-black bg-opacity-50 flex items-center justify-center group-hover:opacity-100 absolute inset-0 transition-all duration-300">
                           <i class="pi pi-eye text-2xl text-white"></i>
                         </div>
