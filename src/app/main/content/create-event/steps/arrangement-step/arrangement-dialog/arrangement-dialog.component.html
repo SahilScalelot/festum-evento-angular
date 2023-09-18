@@ -634,7 +634,7 @@
       <span class="input-titel">Details <i class="text-xs font-medium" [ngClass]="{'text-magicPotion' : (descriptionLimit > constants.CKEditorCharacterLimit0)}">( {{descriptionLimit}} characters out of {{constants.CKEditorCharacterLimit0}} )</i></span>
       <textarea #imageDescription class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md" cols="30" rows="5" formControlName="description" (keyup)="descriptionLimit = imageDescription.value.length"></textarea>
     </div>
-    <div class="w-full" *ngIf="!seatingForm.get('food_included_in_ticket_price').value">
+    <div class="w-full" *ngIf="isShowPrice">
       <span class="input-titel">Price</span>
       <input class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md" maxlength="4" placeholder="0" formControlName="price" type="number" fuseValidNumber pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==4) return false;"/>
     </div>
@@ -658,7 +658,7 @@
       <textarea #imageDescription class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md" cols="30" rows="5" formControlName="description" (keyup)="descriptionLimit = imageDescription.value.length"></textarea>
     </div>
 
-    <div class="w-full" *ngIf="!seatingForm.get('food_included_in_ticket_price').value">
+    <div class="w-full" *ngIf="isShowPrice">
       <span class="input-titel">Price</span>
       <input class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md" maxlength="4" placeholder="0" formControlName="price" type="number" fuseValidNumber pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==4) return false;"/>
     </div>

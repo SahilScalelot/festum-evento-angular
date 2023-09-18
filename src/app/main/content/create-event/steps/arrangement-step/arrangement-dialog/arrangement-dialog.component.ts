@@ -30,6 +30,7 @@ export class ArrangementDialogComponent implements OnInit {
   selectedSeatingObj: any = {};
   isInitial: boolean = true;
   isLoading: boolean = false;
+  isShowPrice: boolean = false;
   isAddPhotos: boolean = false;
   eventId: any;
   addEditEvent: any;
@@ -160,8 +161,25 @@ export class ArrangementDialogComponent implements OnInit {
       } else {
         this.isAddPhotos = false;
       }
-    })
+    });
 
+    this.seatingForm.get("food_included_in_ticket_price").valueChanges.subscribe( (foodValue: any) => {
+      if (!foodValue) {
+        this.isShowPrice = true;
+        this.isAddPhotos = true;
+      } else {
+        this.isShowPrice = false;
+        this.isAddPhotos = false;
+      }
+    });
+
+    this.seatingForm.get("equipment_included_in_ticket_price").valueChanges.subscribe( (equipmentValue: any) => {
+      if (!equipmentValue) {
+        this.isShowPrice = true;
+      } else {
+        this.isShowPrice = false;
+      }
+    });
   }
 
   validateTextEditor(): void {
@@ -173,6 +191,9 @@ export class ArrangementDialogComponent implements OnInit {
       this.seatingForm.get('equipment_details').setValue(this.etempImgArr);
     
     this.selectedTab = 2;
+    if(!this.editArrangementObj.equipment_included_in_ticket_price) {
+      this.isShowPrice = true;
+    }
   }
 
   btnclick(params:number){
@@ -568,6 +589,9 @@ export class ArrangementDialogComponent implements OnInit {
     this.editorCharacterSetFood();
     this.editorCharacterSetEquipment();
     this.selectedTab = 1;
+    if(!this.editArrangementObj.food_included_in_ticket_price) {
+      this.isShowPrice = true;
+    }
   }
 
   addFormData(): void {
