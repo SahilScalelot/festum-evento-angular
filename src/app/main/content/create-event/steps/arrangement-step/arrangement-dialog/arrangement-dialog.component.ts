@@ -30,6 +30,7 @@ export class ArrangementDialogComponent implements OnInit {
   selectedSeatingObj: any = {};
   isInitial: boolean = true;
   isLoading: boolean = false;
+  isAddPhotos: boolean = false;
   eventId: any;
   addEditEvent: any;
   food_included_in_ticket_price: any ;
@@ -133,7 +134,8 @@ export class ArrangementDialogComponent implements OnInit {
     this.photoForm = this._formBuilder.group({
       image: [null],
       imageName: [''],
-      description: [null]
+      description: [null],
+      price: [null]
     });
 
     this.dropifyEditOption = {
@@ -148,8 +150,18 @@ export class ArrangementDialogComponent implements OnInit {
       image: [null],
       type: [null],
       imageName: [null],
-      description: [null]
+      description: [null],
+      price: [null]
     });
+
+    this.seatingForm.get("food").valueChanges.subscribe( (selectedValue: any) => {
+      if (selectedValue === 'NONE') {
+        this.isAddPhotos = true;
+      } else {
+        this.isAddPhotos = false;
+      }
+    })
+
   }
 
   validateTextEditor(): void {
@@ -213,6 +225,7 @@ export class ArrangementDialogComponent implements OnInit {
     this.photoUpdateForm.controls['type'].setValue(type);
     this.photoUpdateForm.controls['imageName'].setValue(this.constants.baseImageURL + photo.url);
     this.photoUpdateForm.controls['description'].setValue(photo.description);
+    this.photoUpdateForm.controls['price'].setValue(photo?.price);
     this.editDrEvent = this.editDrEvent.data('dropify');
     this.editDrEvent.resetPreview();
     this.editDrEvent.clearElement();
@@ -250,8 +263,10 @@ export class ArrangementDialogComponent implements OnInit {
     if (this.photoUpdateForm.value.image === null) {
       if (this.photoUpdateForm.value.type === 'food') {
         this.tempImgArr[this.editPhotoObj.index].description = this.photoUpdateForm.value.description;
+        this.tempImgArr[this.editPhotoObj.index].price = this.photoUpdateForm.value?.price;
       } else {
         this.etempImgArr[this.editPhotoObj.index].description = this.photoUpdateForm.value.description;
+        this.etempImgArr[this.editPhotoObj.index].price = this.photoUpdateForm.value?.price;
       }
       this.photoEditForm.resetForm();
       this._modalService.close('photoEdit');
@@ -265,9 +280,11 @@ export class ArrangementDialogComponent implements OnInit {
             if (this.photoUpdateForm.value.type === 'food') {
               this.tempImgArr[this.editPhotoObj.index].url = result.Data.url;
               this.tempImgArr[this.editPhotoObj.index].description = this.photoUpdateForm.value.description;
+              this.tempImgArr[this.editPhotoObj.index].price = this.photoUpdateForm.value?.price;
             } else {
               this.etempImgArr[this.editPhotoObj.index].url = result.Data.url;
               this.etempImgArr[this.editPhotoObj.index].description = this.photoUpdateForm.value.description;
+              this.etempImgArr[this.editPhotoObj.index].price = this.photoUpdateForm.value?.price;
             }
             this._sNotify.success('File Uploaded Successfully.', 'Success');
             this.isPhotoLoading = false;
@@ -369,12 +386,13 @@ export class ArrangementDialogComponent implements OnInit {
       _.each(resultArr, (result: any) => {
         if (result && result.IsSuccess) {         
           if(this.selectedTab == 1){
-            this.tempImgArr.push({ url: result.Data.url, description: this.photoForm.value?.description });
+            this.tempImgArr.push({ url: result.Data.url, description: this.photoForm.value?.description, price: this.photoForm.value?.price });
           }
           if (this.selectedTab == 2) {
-            this.etempImgArr.push({ url: result.Data.url, description: this.photoForm.value?.description });
+            this.etempImgArr.push({ url: result.Data.url, description: this.photoForm.value?.description, price: this.photoForm.value?.price });
           } 
           this.photoForm.get('description').setValue('');
+          this.photoForm.get('price').setValue('');
           this._sNotify.success('Image Uploaded Successfully.', 'Success');
           this.imagesFiles = [];
           this.isPhotoLoading = false;
@@ -619,6 +637,7 @@ export class ArrangementDialogComponent implements OnInit {
       this._globalFunctions.errorHanding(error, this, true);
       this.isLoading = false;
     });
+
     this.seatingForm = this._formBuilder.group({
       seating_item: [{
         value: (this.editArrangementObj && this.editArrangementObj.seating_item) ?
@@ -635,7 +654,10 @@ export class ArrangementDialogComponent implements OnInit {
       ],
       equipment_description: [this.editArrangementObj?.equipment_description || null],
     });
- 
+
+    if (this.editArrangementObj.food === 'NONE') {
+      this.isAddPhotos = true;
+    }
     if (this.editArrangementObj && this.editArrangementObj.arrangements) {
       _.each(this.editArrangementObj.arrangements, (arrangement: any) => {
         this.addArrangements(arrangement);

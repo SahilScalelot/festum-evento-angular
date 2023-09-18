@@ -13,6 +13,7 @@
             </div>
             <div class="w-full md:w-1/2 pl-10 space-y-4 max-h-full overflow-y-auto" *ngIf="!isCompanyImagesAndVideo">
               <p>{{exData.description}}</p>
+              <p *ngIf="exData?.price">{{exData?.price}} INR</p>
               <!-- <h4 class="font-medium"></h4> -->
             </div>
           </div>
