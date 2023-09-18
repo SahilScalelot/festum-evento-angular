@@ -106,7 +106,8 @@
               <h5>About Event</h5>
               <div class="w-full flex flex-col">
                 <div [innerHtml]="(aboutevent) ? event?.about?.about_event : event?.about?.about_event | slice:0:180"></div>
-                <a href="javascript:;" *ngIf="!aboutevent && event?.about?.about_event.length > 180" (click)="aboutevent=true" class="text-magicPotion text-sm font-semibold ml-auto">...Read More</a>
+                <a href="javascript:;" (click)="aboutevent=true" *ngIf="!aboutevent && event?.about?.about_event.length > 180" class="text-magicPotion text-sm font-semibold">...Read More</a>
+                <a href="javascript:;" (click)="aboutevent=false" *ngIf="aboutevent && event?.about?.about_event.length > 180" class="text-magicPotion text-sm font-semibold">...Read Less</a>
               </div>
             </div>
             <!-- Photo-holder -->
@@ -415,7 +416,8 @@
                 <span class="block text-base lg:text-lg font-bold">{{ event?.companydetail?.name }}</span>
                 <div class="w-full flex flex-col">
                   <div [innerHtml]="(showMore) ? event?.companydetail?.about : event?.companydetail?.about | slice:0:180"></div>
-                  <a href="javascript:;" *ngIf="!showMore && event?.companydetail?.about.length > 180"(click)="showMore=true" class="text-magicPotion text-sm font-semibold ml-auto">...Read More</a>
+                  <a href="javascript:;" (click)="showMore=true" *ngIf="!showMore && event?.companydetail?.about.length > 180" class="text-magicPotion text-sm font-semibold">...Read More</a>
+                  <a href="javascript:;" (click)="showMore=false" *ngIf="showMore && event?.companydetail?.about.length > 180" class="text-magicPotion text-sm font-semibold">...Read Less</a>
                   <!-- <p class="text-quicksilver text-sm leading-6 font-normal">{{ event.companydetail.about }}</p> -->
                 </div>
               </div>
