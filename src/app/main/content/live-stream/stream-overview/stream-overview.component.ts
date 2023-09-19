@@ -24,6 +24,9 @@ export class StreamOverviewComponent implements OnInit {
   overview: boolean = true;
   attendee: boolean = false;
   reviews: boolean = false;
+  aboutLivestream: boolean = false;
+  showMore: boolean = false;
+  termsShow: boolean = false;
   subscription: boolean = false;
   userObj: any = {};
 
