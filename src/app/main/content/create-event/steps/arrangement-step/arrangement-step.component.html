@@ -123,11 +123,12 @@
           <!-- photo-holder -->
             <div class="w-full">
               <div class="flex overflow-hidden -mx-2">
-                <div *ngFor="let img of seating?.food_details" class="w-auto p-2">
-                  <div class="rounded relative overflow-hidden bg-white h-28 w-[7.3rem]">
-                    <p-image [src]="!!(img?.url) ? constants?.baseImageURL + img?.url : constants?.defaultImage" imageClass="w-full h-full object-cover rounded" styleClass="w-full h-full" [preview]="true"></p-image>
-                    <!-- [preview]="true" -->
-                    <!-- (click)="openImageAndVideoDialog(event?.photos, true, false) -->
+                <div *ngFor="let img of seating?.food_details" class="w-auto p-2 group hover">
+                  <div class="rounded relative overflow-hidden bg-white h-28 w-[7.3rem]" (click)="openImageAndVideoDialog([img], true, false, false)">
+                    <p-image [src]="!!(img?.url) ? constants?.baseImageURL + img?.url : constants?.defaultImage" imageClass="w-full h-full object-cover rounded" styleClass="w-full h-full" [preview]="false"></p-image>
+                    <div class="opacity-0 bg-black bg-opacity-50 flex items-center justify-center group-hover:opacity-100 absolute inset-0 transition-all duration-300">
+                      <i class="pi pi-eye text-2xl text-white"></i>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -159,11 +160,12 @@
         <!-- photo-holder -->
           <div class="w-full">
             <div class="flex overflow-hidden -mx-2">
-              <div *ngFor="let img of seating?.equipment_details" class="w-auto p-2">
-                <div class="rounded relative overflow-hidden bg-white h-28 w-[7.3rem]">
-                  <p-image [src]="!!(img?.url) ? constants?.baseImageURL + img?.url : constants?.defaultImage" imageClass="w-full h-full object-cover rounded" styleClass="w-full h-full"  [preview]="true"></p-image>
-                  <!-- [preview]="true" -->
-                  <!-- (click)="openImageAndVideoDialog(event?.photos, true, false) -->
+              <div *ngFor="let img of seating?.equipment_details" class="w-auto p-2 group hover">
+                <div class="rounded relative overflow-hidden bg-white h-28 w-[7.3rem]" (click)="openImageAndVideoDialog([img], true, false, false)">
+                  <p-image [src]="!!(img?.url) ? constants?.baseImageURL + img?.url : constants?.defaultImage" imageClass="w-full h-full object-cover rounded" styleClass="w-full h-full"  [preview]="false"></p-image>
+                  <div class="opacity-0 bg-black bg-opacity-50 flex items-center justify-center group-hover:opacity-100 absolute inset-0 transition-all duration-300">
+                    <i class="pi pi-eye text-2xl text-white"></i>
+                  </div>
                 </div>
               </div>
             </div>

@@ -434,7 +434,7 @@
                         <img [alt]="'add-photo-' + i" [src]="!!(photo?.url) ? constants.baseImageURL + photo.url : constants.defaultImage" *ngIf="photo.url" class="object-cover w-full h-full"/>
                         <div class="opacity-0 bg-black bg-opacity-50 flex items-center justify-center group-hover:opacity-100 absolute inset-0 transition-all duration-300">
                           <button class="edit" (click)="editImageUpload( 'food', photo, i)">Edit</button>
-                          <span class="block" (click)="viewImage(i)"><i class="pi pi-eye text-2xl text-white cursor-pointer" ></i></span>
+                          <span class="block" (click)="openImageAndVideoDialog([photo], true, false)"><i class="pi pi-eye text-2xl text-white cursor-pointer" ></i></span>
                           <button (click)="removeImage('food', i)" class="remove">Remove</button>
                         </div>
                       </div>
@@ -543,7 +543,7 @@
                         <img [alt]="'add-photo-' + i" [src]="!!(photo?.url) ? constants.baseImageURL + photo.url : constants.defaultImage" *ngIf="photo.url" class="object-cover w-full h-full"/>
                         <div class="opacity-0 bg-black bg-opacity-50 flex items-center justify-center group-hover:opacity-100 absolute inset-0 transition-all duration-300">
                           <button class="edit" (click)="editImageUpload('equipment', photo, i)">Edit</button>
-                          <span class="block" (click)="viewImage(i)"><i class="pi pi-eye text-2xl text-white cursor-pointer" ></i></span>
+                          <span class="block" (click)="openImageAndVideoDialog([photo], true, false)"><i class="pi pi-eye text-2xl text-white cursor-pointer" ></i></span>
                           <button (click)="removeImage('equipment', i)" class="remove">Remove</button>
                         </div>
                       </div>

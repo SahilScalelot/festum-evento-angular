@@ -362,10 +362,12 @@
                       <!-- photo-holder -->
                       <div class="w-full">
                         <div class="flex flex-wrap overflow-hidden -mx-2">
-                          <div *ngFor="let img of seating?.food_details" class="w-full lg:w-2/12 p-2">
-                            <div class="rounded relative overflow-hidden bg-white h-24">
-                              <p-image [src]="!!(img?.url) ? constants?.baseImageURL + img?.url : constants?.defaultImage" imageClass="w-full h-full object-cover rounded" styleClass="w-full h-full" [preview]="true"></p-image>
-                              <!-- <img [src]="!!(img?.url) ? constants?.baseImageURL + img?.url : constants?.defaultImage" alt="upload-1" class="w-full h-full object-cover"/> -->
+                          <div *ngFor="let img of seating?.food_details" class="w-full lg:w-2/12 p-2 group hover">
+                            <div class="rounded relative overflow-hidden bg-white h-24" (click)="openImageAndVideoDialog([img], true, false, false)">
+                              <p-image [src]="!!(img?.url) ? constants?.baseImageURL + img?.url : constants?.defaultImage" imageClass="w-full h-full object-cover rounded" styleClass="w-full h-full" [preview]="false"></p-image>
+                              <div class="opacity-0 bg-black bg-opacity-50 flex items-center justify-center group-hover:opacity-100 absolute inset-0 transition-all duration-300">
+                                <i class="pi pi-eye text-2xl text-white"></i>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -398,10 +400,12 @@
                       <!-- photo-holder -->
                       <div class="w-full">
                         <div class="flex flex-wrap overflow-hidden -mx-2">
-                          <div *ngFor="let img of seating?.equipment_details" class="w-full lg:w-2/12 p-2">
-                            <div class="rounded relative overflow-hidden bg-white h-24">
-                              <p-image [src]="!!(img?.url) ? constants?.baseImageURL + img?.url : constants?.defaultImage" imageClass="w-full h-full object-cover rounded" styleClass="w-full h-full" [preview]="true"></p-image>
-                              <!-- <img [src]="!!(img?.url) ? constants?.baseImageURL + img?.url : constants?.defaultImage" alt="upload-1" class="w-full h-full object-cover"/> -->
+                          <div *ngFor="let img of seating?.equipment_details" class="w-full lg:w-2/12 p-2 group hover">
+                            <div class="rounded relative overflow-hidden bg-white h-24" (click)="openImageAndVideoDialog([img], true, false, false)">
+                              <p-image [src]="!!(img?.url) ? constants?.baseImageURL + img?.url : constants?.defaultImage" imageClass="w-full h-full object-cover rounded" styleClass="w-full h-full" [preview]="false"></p-image>
+                              <div class="opacity-0 bg-black bg-opacity-50 flex items-center justify-center group-hover:opacity-100 absolute inset-0 transition-all duration-300">
+                                <i class="pi pi-eye text-2xl text-white"></i>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -430,15 +434,17 @@
               <!-- media title  -->
               <div class="flex justify-between items-center">
                 <h3 class="text-lg">Company Photos</h3>
-                <a class="text-spiroDiscoBall text-sm font-bold opacity-60" href="javascript:void(0);" (click)="openImageAndVideoDialog(event?.companydetail?.photos, true, true)">View All</a>
+                <a class="text-spiroDiscoBall text-sm font-bold opacity-60" href="javascript:void(0);" (click)="openImageAndVideoDialog(event?.companydetail?.photos, true, false, false)">View All</a>
               </div>
               <!-- photo-holder -->
               <div class="w-full">
                 <div class="flex flex-wrap -mx-2">
-                  <div *ngFor="let img of event?.companydetail?.photos" class="w-full lg:w-2/12 p-2 ov-p">
-                    <div class="rounded relative overflow-hidden bg-white h-24">
-                      <p-image [src]="!!(img?.url) ? constants?.baseImageURL + img?.url : constants?.defaultImage" imageClass="w-full h-full object-cover rounded" styleClass="w-full h-full" [preview]="true"></p-image>
-                      <img [src]="!!(img?.url) ? constants?.baseImageURL + img?.url : constants?.defaultImage" alt="upload-1" class="w-full h-full object-cover"/>
+                  <div *ngFor="let img of event?.companydetail?.photos" class="w-full lg:w-2/12 p-2 group hover">
+                    <div class="rounded relative overflow-hidden bg-white h-24" (click)="openImageAndVideoDialog([img], true, false, false)">
+                      <p-image [src]="!!(img?.url) ? constants?.baseImageURL + img?.url : constants?.defaultImage" imageClass="w-full h-full object-cover rounded" styleClass="w-full h-full" [preview]="false"></p-image>
+                      <div class="opacity-0 bg-black bg-opacity-50 flex items-center justify-center group-hover:opacity-100 absolute inset-0 transition-all duration-300">
+                        <i class="pi pi-eye text-2xl text-white"></i>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -449,7 +455,7 @@
               <!-- media title  -->
               <div class="flex justify-between items-center">
                 <h3 class="text-lg">Company Videos</h3>
-                <a class="text-spiroDiscoBall text-sm font-bold opacity-60" href="javascript:void(0);" (click)="openImageAndVideoDialog(event?.companydetail?.videos, false, true)">View All</a>
+                <a class="text-spiroDiscoBall text-sm font-bold opacity-60" href="javascript:void(0);" (click)="openImageAndVideoDialog(event?.companydetail?.videos, false, false)">View All</a>
               </div>
               <!-- media-holder -->
               <div class="w-full">
