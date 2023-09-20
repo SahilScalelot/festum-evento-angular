@@ -87,6 +87,13 @@ export class OfferOverviewComponent implements OnInit {
     this.isSingleVideo = isSingleVideo;
     this.isOpenPopup = true;
   }
+  gotoPromotion(event: any){
+    event.stopPropagation();
+    // localStorage.setItem('eId', shopId);
+    this._router.navigate(['/notifications']);
+   
+    
+  }
 
   closePop(flag: boolean = false): void {
     this.isOpenPopup = flag;

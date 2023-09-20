@@ -76,6 +76,11 @@ export class OfferOverviewComponent implements OnInit {
       this.isLoading = false;
     });
   }
+  gotoPromotion(event: any){
+    event.stopPropagation();
+    // localStorage.setItem('eId', eventId);
+    this._router.navigate(['/notifications']);
+  }
 
   offerLive(event: any, offerObj: any): void {
     event.stopPropagation();

@@ -31,6 +31,7 @@
           <!-- <a href="javascript:void(0);" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-fill_megaphone text-base text-black"></i></a> -->
           <a href="javascript:void(0);" (click)="openAddEditShopDialog($event)" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-edit text-base text-black"></i></a>
           <a class="bg-brightGray flex items-center justify-center w-[32px] h-[32px] text-center rounded" (click)="gotoPromotion($event,shopId)"><i class="icon-fill_megaphone text-base text-black"></i></a>
+          <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-share text-sm leading-0 text-japaneseIndigo"></i></a>
           <!-- <a href="javascript:void(0);" (click)="openDeleteDialog($event, shopId)" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-delete_fill text-base text-black"></i></a> -->
         </div>
       </div>
@@ -118,6 +119,8 @@
                           </div>
                           <a href="javascript:void(0);" (click)="openAddEditOfferDialog($event, offer._id)" *ngIf="offer?.iseditable" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-edit text-base text-black"></i></a>
                           <a href="javascript:void(0);" (click)="gotoShopOfferOverview($event, shopId, offer)" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-show text-base text-black"></i></a>
+                          <a class="bg-brightGray px-2 py-1 text-center rounded" (click)="gotoPromotion($event,shopId)"><i class="icon-fill_megaphone text-base text-black"></i></a>
+                          <a href="javascript:void(0)" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-share text-sm leading-0 text-japaneseIndigo"></i></a>
                           <!-- <a href="javascript:void(0);" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-share text-base text-black"></i></a> -->
                           <!-- <a href="javascript:void(0);" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-fill_megaphone text-base text-black"></i></a> -->
                           <!-- <a href="javascript:void(0);" (click)="openOfflineShopsOffer($event, offer)" *ngIf="offer?.iseditable" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-delete_fill text-base text-black"></i></a> -->

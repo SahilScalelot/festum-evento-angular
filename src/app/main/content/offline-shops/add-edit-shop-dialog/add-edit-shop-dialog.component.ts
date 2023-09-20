@@ -56,6 +56,8 @@ export class AddEditShopDialogComponent implements OnInit, OnDestroy {
     { value: 'fr', label: 'Fri' },
     { value: 'st', label: 'Sat' }
   ];
+
+
   imgChangeEvt: any = '';
   cropImgPreview: any = '';
   shopImgObj: any = {};
@@ -578,6 +580,10 @@ export class AddEditShopDialogComponent implements OnInit, OnDestroy {
     this.textEditorTac = (stringOfCKEditor.length > this.textEditorMaxLimitTac);
   }
 
+  //  shopDays = [
+    
+  // ];
+
   prepareShopObj(shopObj: any): any {
     const preparedShopObj: any = this._globalFunctions.copyObject(shopObj);
     preparedShopObj.shop_open_time = this.prepareTime(moment(shopObj.shop_open_time, 'hh:mm a'));
@@ -615,7 +621,9 @@ export class AddEditShopDialogComponent implements OnInit, OnDestroy {
     }
     this.isLoading = true;
     
-    const preparedShopObj: any = this.prepareShopObj(this.addShopForm.value);    
+    const preparedShopObj: any = this.prepareShopObj(this.addShopForm.value);   
+    console.log(preparedShopObj);
+     
     this._offlineShopsService.addEditOfflineShop(preparedShopObj).subscribe((result: any) => {
       if (result && result.IsSuccess) {
         this.successfully = true;
@@ -636,6 +644,8 @@ export class AddEditShopDialogComponent implements OnInit, OnDestroy {
 
   onCheckboxChange(e: any): void {
     const weekDays: FormArray = this.addShopForm.get('shop_days') as FormArray;
+    // console.log("weekdays",weekDays);
+    
     if (e.target.checked) {
       weekDays.push(new FormControl(e.target.value));
     } else {

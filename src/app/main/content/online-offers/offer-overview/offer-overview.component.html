@@ -44,6 +44,8 @@
     <div class="flex justify-end space-x-2 mt-2.5">
       <a href="javascript:void(0);" class="bg-brightGray px-2 py-1 text-center rounded"
         (click)="editOffer($event, offerObj?._id)"><i class="icon-edit text-base text-black"></i></a>
+        <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" ><i class="icon-share text-sm leading-0 text-japaneseIndigo"></i></a>
+        <a href="javascript:void(0)" (click)="gotoPromotion($event)" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-fill_megaphone text-sm lg:text-base text-black"></i></a>
       <!-- <a href="javascript:void(0);" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-fill_megaphone text-base text-black"></i></a> -->
       <!-- <a href="javascript:void(0);" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-share text-base text-black"></i></a> -->
       <!-- <a href="javascript:void(0);" class="bg-brightGray px-2 py-1 text-center rounded" (click)="deletePop()"><i
@@ -77,7 +79,7 @@
               <!-- <span class="text-sm text-quicksilver">{{offerObj?.description}}</span> -->
             </div>
           </div>
-          <div class="space-y-3">
+          <!-- <div class="space-y-3">
             <h5>Platform & Product Link</h5>
             <div class="bg-white p-7 space-y-2.5 rounded-md">
               <div class="flex items-center justify-between bg-brightGray py-3 px-4 rounded-md"
@@ -87,25 +89,25 @@
                     [src]="!!(platform?.platform?.platformimage) ? constants.baseImageURL + platform.platform.platformimage : constants.defaultImage"
                     [alt]="platform.platform.name" class="w-7 h-7 object-contain" />
                   <!-- <input type="text" class="w-full outline-none bg-transparent" [value]="platform.product_link" readonly /> -->
-                  <div class="w-full block">
+                  <!-- <div class="w-full block">
                     <a [href]="platform.product_link" target="_blank" class="w-full block text-sm normal-case whitespace-nowrap overflow-hidden overflow-ellipsis">{{platform?.product_link}}</a>
                   </div>
                 </div>
                 <div class="text-xl leading-0">
-                  <a href="javascript:void(0);" class="px-3" title="Copy" (click)="copyLink(platform.product_link)"><i class="icon-copy"></i></a>
+                  <a href="javascript:void(0);" class="px-3" title="Copy" (click)="copyLink(platform.product_link)"><i class="icon-copy"></i></a> -->
                   <!-- <a [href]="platform.product_link" class="px-3 border-l border-quicksilver" target="_blank" title="View This Link"><i class="icon-big_screen"></i></a> -->
                   <!-- <a href="javascript:void(0);" class="px-3 border-l border-quicksilver" title="Share">
                     <i class="icon-share_border"></i>
                   </a> -->
-                </div>
+                <!-- </div>
               </div>
             </div>
-          </div>
+          </div> -->
           <div class="w-full mt-5 addsBox">
             <img src="/assets/images/banner-ads.png" alt="ring-ad" class="w-full object-cover" />
           </div>
           <div class="space-y-4" *ngIf="offerObj?.company_name || offerObj?.about_company">
-            <h5>Company Name</h5>
+            <h5>Company Detail</h5>
             <div class="p-7 bg-white rounded-md space-y-1">
               <h3 class="text-lg">{{offerObj?.company_name}}</h3>
               <div [innerHtml]="(tAndc1) ? offerObj?.about_company : offerObj?.about_company |slice:0:180"></div>
@@ -159,7 +161,7 @@
             <span class="text-white flex" title="Scroll Down Terms & Conditions">T&C Apply*</span>
             <img src="../assets/images/event-subscription.png" alt="event" class="absolute bottom-7 -right-1" />
           </div>
-          <div class="bg-white p-7 rounded-md space-y-3">
+          <!-- <div class="bg-white p-7 rounded-md space-y-3">
             <p class="text-lg text-japaneseIndigo font-bold">user click on platform</p>
             <div class="flex items-center space-x-2.5 cursor-pointer"
               *ngFor="let click of offerObj?.product_links;let i = index;"
@@ -172,10 +174,10 @@
                 <span class="text-xs text-quicksilver">{{click?.short_link_id?.clicks}} User Click</span>
               </div>
             </div>
-          </div>
-          <div class="w-full mt-5 addsBox">
+          </div> -->
+          <!-- <div class="w-full mt-5 addsBox">
             <img src="/assets/images/ad.png" alt="ring-ad" class="w-full object-cover" />
-          </div>
+          </div> -->
         </div>
       </div>
     </div>

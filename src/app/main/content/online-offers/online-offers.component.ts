@@ -76,6 +76,12 @@ export class OnlineOffersComponent implements OnInit {
     });
   }
 
+  gotoPromotion(event: any){
+    event.stopPropagation();
+    // localStorage.setItem('eId', eventId);
+    this._router.navigate(['/notifications']);
+  }
+
   offerLive(event: any, offerObj: any, index: number): void {
     event.stopPropagation();
     this._sNotify.clear();
