@@ -10,6 +10,7 @@ import { AppComponent } from './app.component';
 import { GlobalFunctions } from './main/common/global-functions';
 import { MainModule } from './main/main.module';
 import { GlobalService } from './services/global.service';
+import { SocketioService } from './services/socketio.service';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
 // Localization module import
@@ -52,7 +53,8 @@ export function HttpLoaderFactory(http:  HttpClient) {
     { provide: 'SnotifyToastConfig', useValue: ToastDefaults },
     { provide: Window, useValue: window },
     SnotifyService,
-    TranslateService
+    TranslateService,
+    SocketioService
   ],
   exports: [
     AppComponent,
