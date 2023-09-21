@@ -87,12 +87,35 @@
           </span>
         </span>
       </div>
-      <div class="flex items-start pt-9">
+      <!-------------------------------->
+
+
+
+      <!-- Btn Continue -->
+      <div class="flex justify-end pt-5">
+        <button class="secondary py-3 px-12 uppercase text-lg font-bold" [disabled]="isLoading || isUploadPosterLoading || isUploadVideoLoading || isUploadImageLoading" (click)="onContinueClick()">
+          {{(isLoading || isUploadPosterLoading || isUploadVideoLoading || isUploadImageLoading) ? 'Please Wait..' : 'Continue'}}
+          <!-- Continue -->
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="isAddUserWiseOffers">
+      <!-- Chack Box -->
+      <!-- <div class="flex items-start pt-9">
         <p-checkbox name="offer_on_all_products" [value]="'true'" formControlName="offer_on_all_products" (onChange)="onSelectOfferOnAllProduct($event)"></p-checkbox>
         <div class="ml-4">
           <span class="block text-base text-black font-bold">Select if you have offer on all products</span>
           <span class=" text-sm text-quicksilver">Don't select if you have offer on specific products</span>
         </div>
+      </div> -->
+      <div class="w-full pt-5 inputHolder">
+        <span class="input-titel">Select Offer</span>
+        <select name="All Category" [formControlName]="'offer_on_all_products'" (change)="onOfferTypeChange()"
+                class="arrow bg-white py-3 text-japaneseIndigo font-bold rounded-md tracking-wider appearance-none focus-visible:outline-none">
+          <option  *ngFor="let offerType of constants.offerTypeArr" [value]="offerType.value">offer 0n all product</option>
+          <option  *ngFor="let offerType of constants.offerTypeArr" [value]="offerType.value">offer 0n all product</option>
+        </select>
       </div>
       <!-- Offer On Shop All Products -->
       <div class="" *ngIf="offerOnAllProducts && offerOnAllProducts.value && (offerOnAllProducts.value[0] == 'true' || offerOnAllProducts?.value[0] == true)">
@@ -184,15 +207,7 @@
           </div>
         </div>
       </div>
-      <!-- Btn Continue -->
-      <div class="flex justify-end pt-5">
-        <button class="secondary py-3 px-12 uppercase text-lg font-bold" [disabled]="isLoading || isUploadPosterLoading || isUploadVideoLoading || isUploadImageLoading" (click)="onContinueClick()">
-          {{(isLoading || isUploadPosterLoading || isUploadVideoLoading || isUploadImageLoading) ? 'Please Wait..' : 'Continue'}}
-          <!-- Continue -->
-        </button>
-      </div>
-    </div>
-    <div *ngIf="isAddUserWiseOffers">
+      
       <div class="w-full pt-5 inputHolder">
         <span class="input-titel">Select Offer Type</span>
         <select name="All Category" [formControlName]="'offer_type'" (change)="onOfferTypeChange()"
@@ -200,6 +215,7 @@
           <option  *ngFor="let offerType of constants.offerTypeArr" [value]="offerType.value">{{offerType.label}}</option>
         </select>
       </div>
+
       <div class="w-full pt-5">
         <div class="flex items-center justify-between pb-2">
           <span class="input-titel">Offer Products (Max File size 10MB & Resolution Must be 1080PX x 1080PX)</span>
