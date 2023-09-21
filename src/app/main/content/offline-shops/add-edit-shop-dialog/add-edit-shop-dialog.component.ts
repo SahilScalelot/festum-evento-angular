@@ -622,15 +622,15 @@ export class AddEditShopDialogComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     
     const preparedShopObj: any = this.prepareShopObj(this.addShopForm.value);   
-    console.log(preparedShopObj);
+    //console.log(preparedShopObj);
      
     this._offlineShopsService.addEditOfflineShop(preparedShopObj).subscribe((result: any) => {
       if (result && result.IsSuccess) {
-        this.successfully = true;
-        setTimeout(() => {
-          this.successfully = false;
+        //this.successfully = true;
+        //setTimeout(() => {
+          //this.successfully = false;
           this.closeAddEditShopDialog(true);
-        }, 3000);
+        //}, 3000);
         // this._sNotify.success('Shop Created And Update Successfully.', 'Success');
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);

@@ -3,5 +3,5 @@ export const environment = {
   
   appURL: "https://devapi.festumevento.com/",
   baseImageURL: "https://festumeventos3.s3.ap-south-1.amazonaws.com/",
-  SOCKET_ENDPOINT: 'http://localhost:3000'
+  SOCKET_ENDPOINT: 'https://devapi.festumevento.com'
 };

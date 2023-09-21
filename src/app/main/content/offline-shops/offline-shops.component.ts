@@ -19,6 +19,7 @@ export class OfflineShopsComponent implements OnInit {
   constants: any = CONSTANTS;
   isLoading: boolean = false;
   isDeleteLoading: boolean = false;
+  successfully: boolean = false;
   weekDays: any = [];
   shopId: any = '';
   minDateValue: any = new Date();
@@ -40,11 +41,15 @@ export class OfflineShopsComponent implements OnInit {
   }
 
   closeAddEditFormEvent(isReload: any): any {
-    if (isReload) {
-      this.getOfflineShops();
-    }
     this.isOpenAddEditShop = false;
     this._modalService.close('shopDialog');
+    if (isReload) {
+      this.getOfflineShops();
+      this.successfully = true;
+      setTimeout(() => {
+        this.successfully = false;
+      }, 3000);
+    }
   }
 
   getOfflineShops(shop: any = ''): void {
