@@ -113,7 +113,7 @@
         <span class="input-titel">Select Offer</span>
         <select name="All Category" [formControlName]="'offer_on_all_products'" (change)="onOfferTypeChange()"
                 class="arrow bg-white py-3 text-japaneseIndigo font-bold rounded-md tracking-wider appearance-none focus-visible:outline-none">
-          <option  *ngFor="let offerType of constants.offerTypeArr" [value]="offerType.value">offer 0n all product</option>
+          <option   [value]="offerType.value">offer 0n all product</option>
           <option  *ngFor="let offerType of constants.offerTypeArr" [value]="offerType.value">offer 0n all product</option>
         </select>
       </div>

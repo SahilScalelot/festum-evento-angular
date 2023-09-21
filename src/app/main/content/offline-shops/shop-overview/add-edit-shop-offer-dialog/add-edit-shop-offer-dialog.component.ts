@@ -228,31 +228,24 @@ export class AddEditShopOfferDialogComponent implements OnInit {
   }
 
   onContinueClick(): any {
-       if (!this.offerObj || !this.offerObj.offer_type_conditions || !this.offerObj.offer_type_conditions.length) { 
-         this.addProductOffer({}, this.offerType.value);
-       }
-       this.isTAndC = false;
-       this.isAddUserWiseOffers = true;
+    const isForTAndC: boolean = !!(this.offerOnAllProducts && this.offerOnAllProducts.value && this.offerOnAllProducts.value.length && this.offerOnAllProducts.value[0] == 'true');
+    if (!this.checkValidation(isForTAndC)) {
+      return false;
+    }
+    if (isForTAndC) {
+      this.addEditOfferForm.get('tandc').setValidators([Validators.required]);
+      this.addEditOfferForm.get('tandc').updateValueAndValidity();
+      this.isTAndC = true;
+      this.isAddUserWiseOffers = false;
+    } else {
+      if (!this.offerObj || !this.offerObj.offer_type_conditions || !this.offerObj.offer_type_conditions.length) { 
+        this.addProductOffer({}, this.offerType.value);
+      }
+      this.isTAndC = false;
+      this.isAddUserWiseOffers = true;
+    }
+    this.flagsEvent.emit({isTAndC: this.isTAndC, isAddUserWiseOffers: this.isAddUserWiseOffers});
   }
-  // onContinueClick(): any {
-  //   const isForTAndC: boolean = !!(this.offerOnAllProducts && this.offerOnAllProducts.value && this.offerOnAllProducts.value.length && this.offerOnAllProducts.value[0] == 'true');
-  //   if (!this.checkValidation(isForTAndC)) {
-  //     return false;
-  //   }
-  //   if (isForTAndC) {
-  //     this.addEditOfferForm.get('tandc').setValidators([Validators.required]);
-  //     this.addEditOfferForm.get('tandc').updateValueAndValidity();
-  //     this.isTAndC = true;
-  //     this.isAddUserWiseOffers = false;
-  //   } else {
-  //     if (!this.offerObj || !this.offerObj.offer_type_conditions || !this.offerObj.offer_type_conditions.length) { 
-  //       this.addProductOffer({}, this.offerType.value);
-  //     }
-  //     this.isTAndC = false;
-  //     this.isAddUserWiseOffers = true;
-  //   }
-  //   this.flagsEvent.emit({isTAndC: this.isTAndC, isAddUserWiseOffers: this.isAddUserWiseOffers});
-  // }
 
   onSaveAndContinueClick(): any {
     const isForTAndC: boolean = !!(this.offerOnAllProducts && this.offerOnAllProducts.value && this.offerOnAllProducts.value.length && this.offerOnAllProducts.value[0] == 'true');
