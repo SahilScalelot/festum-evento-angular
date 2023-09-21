@@ -45,6 +45,7 @@ export class ShopOverviewComponent implements OnInit {
   isOpenAddEditShop: boolean = false;
   isOpenAddEditOffer: boolean = false;
   isDeleteOffer: boolean = false;
+  successfully: boolean = false;
 
   constructor(
     private _modalService: ModalService,
@@ -155,12 +156,16 @@ export class ShopOverviewComponent implements OnInit {
   }
 
   closeAddEditFormEvent(isReload: any): any {
+    this.isOpenAddEditShop = false;
+    this._modalService.close('shopDialog');
     if (isReload) {
       this.getShop();
       this.offlineShopOfferList();
+      this.successfully = true;
+      setTimeout(() => {
+        this.successfully = false;
+      }, 3000);
     }
-    this.isOpenAddEditShop = false;
-    this._modalService.close('shopDialog');
   }
 
   openAddEditOfferDialog(event: any, offerId: any = ''): any {
