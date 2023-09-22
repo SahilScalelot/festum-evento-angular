@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject, Renderer2 } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { CONSTANTS } from 'src/app/main/common/constants';
 import { GlobalFunctions } from 'src/app/main/common/global-functions';
 import { ModalService } from 'src/app/main/_modal';
@@ -12,7 +13,7 @@ import * as _ from 'lodash';
   templateUrl: './shop-overview.component.html',
   styleUrls: ['./shop-overview.component.scss']
 })
-export class ShopOverviewComponent implements OnInit {
+export class ShopOverviewComponent implements OnInit, OnDestroy {
   constants: any = CONSTANTS;
   shopId: any;
   shopObj: any;
@@ -54,6 +55,8 @@ export class ShopOverviewComponent implements OnInit {
     private _offlineShopsService: OfflineShopsService,
     private _activatedRoute: ActivatedRoute,
     private _sNotify: SnotifyService,
+    private renderer: Renderer2,
+    @Inject(DOCUMENT) private document: Document
   ) { }
 
 
@@ -155,6 +158,15 @@ export class ShopOverviewComponent implements OnInit {
     this.isOpenAddEditShop = false;
   }
 
+  public loadJsScript(): HTMLScriptElement {
+    const script = this.renderer.createElement('script');
+    script.type = 'text/javascript';
+    script.src = '/assets/js/message-script.js';
+    script.id = "messageScript";
+    this.renderer.appendChild(this.document.body, script);
+    return script;
+  }
+
   closeAddEditFormEvent(isReload: any): any {
     this.isOpenAddEditShop = false;
     this._modalService.close('shopDialog');
@@ -162,6 +174,7 @@ export class ShopOverviewComponent implements OnInit {
       this.getShop();
       this.offlineShopOfferList();
       this.successfully = true;
+      this.loadJsScript();
       setTimeout(() => {
         this.successfully = false;
       }, 3000);
@@ -261,5 +274,8 @@ export class ShopOverviewComponent implements OnInit {
     });
   }
 
-
+  ngOnDestroy() {
+    let elem = document.querySelector("#messageScript");
+    document.querySelector("#messageScript").parentNode.removeChild(elem)
+  }
 }

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject, Renderer2 } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { GlobalFunctions } from '../../common/global-functions';
 import { OfflineShopsService } from './offline-shops.service';
 import { CONSTANTS } from '../../common/constants';
@@ -11,7 +12,7 @@ import { SnotifyService } from 'ng-snotify';
   templateUrl: './offline-shops.component.html',
   styleUrls: ['./offline-shops.component.scss']
 })
-export class OfflineShopsComponent implements OnInit {
+export class OfflineShopsComponent implements OnInit, OnDestroy {
   shops: any = [];
   addShopObj: any = {};
   tmpShopObj: any = {};
@@ -32,12 +33,23 @@ export class OfflineShopsComponent implements OnInit {
     private _globalFunctions: GlobalFunctions,
     private _modalService: ModalService,
     private _router: Router,
-    private _sNotify:SnotifyService
+    private _sNotify:SnotifyService,
+    private renderer: Renderer2,
+    @Inject(DOCUMENT) private document: Document
   ) { }
 
   ngOnInit(): void {
     this._globalFunctions.removeIdsFromLocalStorage();
     this.getOfflineShops();
+  }
+
+  public loadJsScript(): HTMLScriptElement {
+    const script = this.renderer.createElement('script');
+    script.type = 'text/javascript';
+    script.src = '/assets/js/message-script.js';
+    script.id = "messageScript";
+    this.renderer.appendChild(this.document.body, script);
+    return script;
   }
 
   closeAddEditFormEvent(isReload: any): any {
@@ -46,6 +58,7 @@ export class OfflineShopsComponent implements OnInit {
     if (isReload) {
       this.getOfflineShops();
       this.successfully = true;
+      this.loadJsScript();
       setTimeout(() => {
         this.successfully = false;
       }, 3000);
@@ -134,5 +147,9 @@ export class OfflineShopsComponent implements OnInit {
     event.stopPropagation();
     localStorage.setItem('eId', eventId);
     this._router.navigate(['/notifications']);
+  }
+  ngOnDestroy() {
+    let elem = document.querySelector("#messageScript");
+    document.querySelector("#messageScript").parentNode.removeChild(elem)
   }
 }
