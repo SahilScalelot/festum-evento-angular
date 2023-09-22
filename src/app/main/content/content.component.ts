@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { SafeUrl } from "@angular/platform-browser";
 import { GlobalService } from 'src/app/services/global.service';
 import { LanguageTranslateService } from "../../services/language-translate.service";
 import { CONSTANTS } from '../common/constants';
@@ -28,6 +29,9 @@ export class ContentComponent implements OnInit, OnDestroy {
   @ViewChild('canvas') canvas: any;
   @ViewChild('downloadLink') downloadLink: any;
 
+  public qrCodeData: string = "";
+  public qrCodeDownloadLink: SafeUrl = "";
+
   constructor(
     private _sNotify: SnotifyService,
     private _router: Router,
@@ -48,6 +52,7 @@ export class ContentComponent implements OnInit, OnDestroy {
     this._globalService.loginUser$.subscribe((user: any) => {
       if (user) {
         this.loginUser = user;
+        this.qrCodeData = this.loginUser._id;
       }
     });
   }
@@ -72,6 +77,10 @@ export class ContentComponent implements OnInit, OnDestroy {
   }
   openBarcode() {
     this._modalService.open('Barcode');
+  }
+
+  onQrCodeChangeURL(url: SafeUrl) {
+    this.qrCodeDownloadLink = url;
   }
 
   openLanguageModel() {

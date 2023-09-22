@@ -12,6 +12,7 @@ import { MainModule } from './main/main.module';
 import { GlobalService } from './services/global.service';
 import { SocketioService } from './services/socketio.service';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { QRCodeModule } from 'angularx-qrcode';
 
 // Localization module import
 import { TranslateModule, TranslateLoader, TranslateService } from  '@ngx-translate/core';
@@ -39,6 +40,7 @@ export function HttpLoaderFactory(http:  HttpClient) {
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
+    QRCodeModule,
     TranslateModule.forRoot({
       loader: {
         provide:  TranslateLoader,
