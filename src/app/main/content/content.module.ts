@@ -36,6 +36,8 @@ import { SearchComponent } from './search/search.component';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { MatIconModule } from "@angular/material/icon";
 import { MyPostsComponent } from './my-posts/my-posts.component';
+import { QRCodeModule } from 'angularx-qrcode';
+
 
 const routes: Routes = [
   {
@@ -85,7 +87,8 @@ const routes: Routes = [
     HelpModule,
     SharedModule,
     PickerModule,
-    MatIconModule
+    MatIconModule,
+    QRCodeModule
   ]
 })
 export class ContentModule {
