@@ -207,6 +207,7 @@ export const CONSTANTS = {
   },
 
   offerTypeArr: [
+    // {value: 'offer', label: 'Unlimited Person'},
     {value: 'unlimited_person', label: 'Unlimited Person'},
     {value: 'limited_person', label: 'Limited Person'}
   ],

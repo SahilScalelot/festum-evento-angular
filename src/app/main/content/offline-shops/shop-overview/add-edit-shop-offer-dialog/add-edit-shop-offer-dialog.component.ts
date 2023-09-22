@@ -138,14 +138,20 @@ export class AddEditShopOfferDialogComponent implements OnInit {
       editor.ui.getEditableElement()
     );
   }
-
+// tryif: boolean = false;
   onSelectOfferOnAllProduct(event: any = {}): void {
     if (event.checked && event.checked.length && event.checked[0] && event.checked[0] == 'true') {
+      // this.tryif = false;
       this.addProductLimitation();
     } else {
       this.allProductConditions.clear();
+      // this.tryif = true;
     }
   }
+  onnOfferTypeChange()
+{
+  
+}
 
   onFileChange(event: any, isProductFormValidation: boolean = false, index: any = -1): any {
     const file = event.target.files[0];
@@ -228,23 +234,25 @@ export class AddEditShopOfferDialogComponent implements OnInit {
   }
 
   onContinueClick(): any {
-    const isForTAndC: boolean = !!(this.offerOnAllProducts && this.offerOnAllProducts.value && this.offerOnAllProducts.value.length && this.offerOnAllProducts.value[0] == 'true');
-    if (!this.checkValidation(isForTAndC)) {
-      return false;
-    }
-    if (isForTAndC) {
-      this.addEditOfferForm.get('tandc').setValidators([Validators.required]);
-      this.addEditOfferForm.get('tandc').updateValueAndValidity();
-      this.isTAndC = true;
-      this.isAddUserWiseOffers = false;
-    } else {
-      if (!this.offerObj || !this.offerObj.offer_type_conditions || !this.offerObj.offer_type_conditions.length) { 
-        this.addProductOffer({}, this.offerType.value);
-      }
-      this.isTAndC = false;
-      this.isAddUserWiseOffers = true;
-    }
-    this.flagsEvent.emit({isTAndC: this.isTAndC, isAddUserWiseOffers: this.isAddUserWiseOffers});
+    console.log("Continue");
+    this.isAddUserWiseOffers = true;
+    // const isForTAndC: boolean = !!(this.offerOnAllProducts && this.offerOnAllProducts.value && this.offerOnAllProducts.value.length && this.offerOnAllProducts.value[0] == 'true');
+    // if (!this.checkValidation(isForTAndC)) {
+    //   return false;
+    // }
+    // if (isForTAndC) {
+    //   this.addEditOfferForm.get('tandc').setValidators([Validators.required]);
+    //   this.addEditOfferForm.get('tandc').updateValueAndValidity();
+    //   this.isTAndC = true;
+    //   this.isAddUserWiseOffers = false;
+    // } else {
+    //   if (!this.offerObj || !this.offerObj.offer_type_conditions || !this.offerObj.offer_type_conditions.length) { 
+    //     this.addProductOffer({}, this.offerType.value);
+    //   }
+    //   this.isTAndC = false;
+    //   this.isAddUserWiseOffers = true;
+    // }
+    // this.flagsEvent.emit({isTAndC: this.isTAndC, isAddUserWiseOffers: this.isAddUserWiseOffers});
   }
 
   onSaveAndContinueClick(): any {
@@ -304,6 +312,7 @@ export class AddEditShopOfferDialogComponent implements OnInit {
 
     // this.addEditOfferForm.get('tandc').clearValidators();
     // this.addEditOfferForm.get('tandc').updateValueAndValidity();
+    // this.offerType.setValue(CONSTANTS.offerTypeArr[CONSTANTS.offerTypeObj.unlimited].value);
     this.offerType.setValue(CONSTANTS.offerTypeArr[CONSTANTS.offerTypeObj.unlimited].value);
     this.flagsEvent.emit({isTAndC: this.isTAndC, isAddUserWiseOffers: this.isAddUserWiseOffers});
     this.closeAddEditOfferFormEvent.emit(isReload);

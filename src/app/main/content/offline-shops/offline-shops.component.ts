@@ -150,6 +150,8 @@ export class OfflineShopsComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy() {
     let elem = document.querySelector("#messageScript");
-    document.querySelector("#messageScript").parentNode.removeChild(elem)
+    if (elem) {
+      document.querySelector("#messageScript").parentNode.removeChild(elem);
+    }
   }
 }
