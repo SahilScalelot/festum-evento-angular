@@ -43,7 +43,7 @@
         <span class="absolute top-full text-red-500 text-xs left-0" *ngIf="phoneF.form.controls['phone'].touched && phoneF.form.controls['phone'].invalid">
           Please enter valid Contact Number.
         </span>
-        <span class="absolute top-full text-red-500 text-xs left-0" *ngIf="phoneF.form.controls['phone'].touched && phoneF.form.controls['phone'].invalid">
+        <span class="absolute top-full text-red-500 text-xs left-0" *ngIf="phoneForm?.errors?.['required']">
           Please enter valid Contact Number.
         </span>
       </div>

@@ -138,14 +138,14 @@
           </div>
           <!-- <textarea name="description" formControlName="description" cols="30" rows="4" class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md placeholder:text-sm placeholder:text-[#a6a6a6] placeholder:font-bold"></textarea> -->
         </div>
-        <!-- <div class="w-full px-2 pt-5">
+        <div class="w-full px-2 pt-5">
           <div class="bg-white p-3.5 lg:p-5 offerProducts rounded-md w-full" formArrayName="product_links">
             <div class="flex items-center mb-4 -mx-2" *ngFor="let child of productLinks.controls; let i = index" [formGroupName]="i">
               <div class="w-full lg:w-1/2 px-2 inputHolder relative">
-                <span class="input-titel">Select platform<span>*</span></span> -->
+                <span class="input-titel">Select platform<span>*</span></span>
                 <!--Using items input-->
-                <!-- <ng-select [items]="platformArr" class="selectBox" bindLabel="name" bindValue="_id" formControlName="platform" (change)="checkValidPlatform($event);">
-                  <ng-template ng-header-tmp>
+             <ng-select [items]="platformArr" class="selectBox" bindLabel="name" bindValue="_id" formControlName="platform" (change)="checkValidPlatform($event);"> 
+                 <!-- <ng-template ng-header-tmp>
                     <div class="flex relative">
                       <div class="pr-2.5">
                         <span (click)="platformImage.click()" class="w-10 h-10 flex items-center justify-center border border-gray-300 rounded cursor-pointer">
@@ -158,7 +158,7 @@
                       <input type="text" [(ngModel)]="platformObj.name" [ngModelOptions]="{standalone: true}" class="small-input border border-gray-300 rounded" placeholder="Add Manually Platform" />
                       <button type="button" class="text-xs font-bold text-green-400 absolute right-3 top-3" (click)="addPlatform()" [disabled]="isPlatformLoading">+ Add</button>
                     </div>
-                  </ng-template>
+                  </ng-template> -->
                 </ng-select>
                 <span class="absolute top-full text-red-500 text-xs" *ngIf="child?.get('platform')?.invalid && (child?.get('platform')?.dirty && child?.get('platform')?.touched)">
                   <span *ngIf="child?.get('platform')?.errors?.['required']">
@@ -189,7 +189,7 @@
               </div>
             </div>
           </div>
-        </div> -->
+        </div> 
         <div class="w-full lg:w-1/2 px-2 pt-5 inputHolder relative">
           <span class="input-titel">Company name<span>*</span></span>
           <input type="text" name="company_name" formControlName="company_name" class="input" />
