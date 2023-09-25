@@ -166,10 +166,10 @@ export class ArrangementDialogComponent implements OnInit {
     this.seatingForm.get("food_included_in_ticket_price").valueChanges.subscribe( (foodValue: any) => {
       if (!foodValue) {
         this.isShowPrice = true;
-        this.isAddPhotos = true;
+        //this.isAddPhotos = true;
       } else {
         this.isShowPrice = false;
-        this.isAddPhotos = false;
+        //this.isAddPhotos = false;
       }
     });
 
@@ -589,6 +589,7 @@ export class ArrangementDialogComponent implements OnInit {
     this.editorCharacterSetFood();
     this.editorCharacterSetEquipment();
     this.selectedTab = 1;
+    this.tempFoodSec = true;
     if(!this.editArrangementObj.food_included_in_ticket_price) {
       this.isShowPrice = true;
     }
