@@ -13,13 +13,13 @@ export class ReferAndEarnComponent implements OnInit {
   isLoading: boolean = false;
   userObj: any = {};
   referralCode: string = '';
-  referralLink: string = `https://festumevento.com/?ref=${this.referralCode}`;
+  referralLink: string = `${window.location.origin}/?ref=${this.referralCode}`;
 
   constructor(
     private _globalService: GlobalService,
     private _globalFunctions: GlobalFunctions,
     private _sNotify: SnotifyService,
-    private _clipboard: Clipboard,
+    private _clipboard: Clipboard
   ) { }
 
   ngOnInit(): void {
