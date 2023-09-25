@@ -10,7 +10,7 @@
           </a>
         </div>
         <form [formGroup]="seatingForm" class="">
-          <div class="w-full overflow-auto capitalize pb-8 xl:pb-10">
+          <div class="w-3/5 overflow-auto capitalize pb-8 xl:pb-10 mx-auto">
             <ul class="flex justify-between step-progress-holder z-10 relative">
               <li class="active">
                 <div><span>01</span></div>
@@ -57,7 +57,7 @@
                           <div *ngFor="let child of arrangements.controls; let i = index" class="pluseBox">
                             <ul [formGroupName]="i" class="flex items-center space-x-2 py-2">
                               <li class="pb-3">
-                                <div class="w-[151px]">
+                                <div class="w-[140px]">
                                   <span class="input-titel text-xs">
                                     No of {{selectedSeatingObj.itemname}}
                                   </span>
@@ -77,7 +77,7 @@
                                 </div>
                               </li>
                               <li class="pb-3">
-                                <div class="w-[151px] inputHolder">
+                                <div class="w-[130px] inputHolder">
                                   <span class="input-titel text-xs">Vertical Location</span>
                                   <select (input)="updateCalculatedValue()" [formControlName]="'vertical_location'" [name]="'vertical_location' + i" class="arrow bgquicksilver py-3 text-japaneseIndigo font-bold rounded-md tracking-wider appearance-none focus-visible:outline-none">
                                     <option *ngFor="let location of constants.verticalLocationsArr" [value]="location.value">{{location.label}}</option>
@@ -85,7 +85,7 @@
                                 </div>
                               </li>
                               <li class="pb-3">
-                                <div class="w-[151px] inputHolder">
+                                <div class="w-[120px] inputHolder">
                                   <span class="input-titel text-xs">Horizontal Location</span>
                                   <select (input)="updateCalculatedValue()" [formControlName]="'horizontal_location'" [name]="'horizontal_location' + i" class="arrow bgquicksilver py-3 text-japaneseIndigo font-bold rounded-md tracking-wider appearance-none focus-visible:outline-none">
                                     <option *ngFor="let location of constants.horizontalLocationsArr" [value]="location.value">{{location.label}}</option>
@@ -94,7 +94,7 @@
                               </li>
 
                               <li class="pb-3">
-                                <div class="w-[220px] inputHolder">
+                                <div class="w-[165px] inputHolder">
                                   <span class="input-titel text-xs">Seat Type</span>
                                   <select (input)="updateCalculatedValue()" [formControlName]="'seat_type'" [name]="'seat_type' + i" class="arrow bgquicksilver py-3 text-japaneseIndigo font-bold rounded-md tracking-wider appearance-none focus-visible:outline-none">
                                     <option *ngFor="let seat of constants.seatArr" [value]="seat.value">{{seat.label}}</option>
@@ -122,7 +122,7 @@
                                 </div>
                               </li>
                               <li class="pb-3">
-                                <div class="w-[151px]">
+                                <div class="w-[145px]">
                                   <span class="input-titel text-xs">Total Person Capacity</span>
                                   <div class="w-full flex items-center space-x-5">
                                     <div class="w-full inputHolder relative">
@@ -160,7 +160,7 @@
                                 </div>
                               </li>
                               <li class="pb-3">
-                                <div class="w-[151px]">
+                                <div class="w-[145px]">
                                   <span class="input-titel text-xs">Per Person Price</span>
                                   <div class="w-full flex items-center space-x-5">
                                     <div class="w-full inputHolder relative">
@@ -235,24 +235,24 @@
                               <li>
                                 <ul class="flex items-center space-x-2">
                                   <li>
-                                    <div class="inputHolder w-[151px]">
+                                    <div class="inputHolder w-[140px]">
                                       <span class="bgmagicpotion text-magicPotion">
                                         {{totalArrangementsObj?.total_number_of_seating_items || 0}}
                                       </span>
                                     </div>
                                   </li>
                                   <li>
-                                    <div class="inputHolder w-[151px]">
+                                    <div class="inputHolder w-[130px]">
                                       <span class="bgmagicpotion text-magicPotion">-</span>
                                     </div>
                                   </li>
                                   <li>
-                                    <div class="inputHolder w-[151px]">
+                                    <div class="inputHolder w-[120px]">
                                       <span class="bgmagicpotion text-magicPotion">-</span>
                                     </div>
                                   </li>
                                   <li>
-                                    <div class="inputHolder w-[220px]">
+                                    <div class="inputHolder w-[165px]">
                                       <span class="bgmagicpotion text-magicPotion">-</span>
                                     </div>
                                   </li>
@@ -264,7 +264,7 @@
                                     </div>
                                   </li>
                                   <li>
-                                    <div class="inputHolder w-[151px]">
+                                    <div class="inputHolder w-[140px]">
                                       <span class="bgmagicpotion text-magicPotion">
                                         {{totalArrangementsObj?.total_persons || 0}}
                                       </span>
