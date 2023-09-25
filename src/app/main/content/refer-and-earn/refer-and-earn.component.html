@@ -21,23 +21,23 @@
          <div class="flex flex-wrap items-center justify-between">
            <div class="w-full lg:w-auto flex items-center justify-between space-x-5">
              <div class="flex items-center space-x-2">
-               <a href="javascript:void(0);">
+               <a (click)="shareOnWhatsApp()">
                  <img src="../assets/images/whatapp.png" alt="Whatsapp" class="w-10 xl:w-14 h-10 xl:h-14" />
                </a>
-               <a href="javascript:void(0);">
+               <a (click)="shareOnFacebook()">
                  <img src="../assets/images/facebook.png" alt="Facebook" class="w-10 xl:w-14 h-10 xl:h-14" />
                </a>
-               <a href="javascript:void(0);">
+               <a (click)="shareOnTelegram()">
                  <img src="../assets/images/telegram.png" alt="Telegram" class="w-10 xl:w-14 h-10 xl:h-14" />
                </a>
-               <a href="javascript:void(0);">
+               <a (click)="shareOnTwitter()">
                  <img src="../assets/images/twiiter.png" alt="Twitter" class="w-10 xl:w-14 h-10 xl:h-14" />
                </a>
-               <a href="javascript:void(0);">
+               <a (click)="shareViaSMS()">
                  <img src="../assets/images/massage.png" alt="Massage" class="w-10 xl:w-14 h-10 xl:h-14" />
                </a>
              </div>
-             <button type="button" class="p-3 px-4 bg-brightGray rounded-md text-lg font-bold uppercase">
+             <button type="button" class="p-3 px-4 bg-brightGray rounded-md text-lg font-bold uppercase" (click)="shareByEmail()">
                <i class="icon-share mr-2"></i> Other </button>
            </div>
            <div class="mt-3 lg:mt-0">
