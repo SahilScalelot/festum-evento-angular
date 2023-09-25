@@ -86,8 +86,8 @@ export class CreateNotificationsComponent implements OnInit {
         return false;
       }
       const image_size = image.size / 1024 / 1024;
-      if (image_size > CONSTANTS.maxImageSizeInMB) {
-        this._sNotify.error('Maximum Photo Size is ' + CONSTANTS.maxImageSizeInMB + 'MB.', 'Oops!');
+      if (image_size > CONSTANTS.maxPosterSizeInMB) {
+        this._sNotify.error('Maximum Photo Size is ' + CONSTANTS.maxPosterSizeInMB + 'MB.', 'Oops!');
         return false;
       }
 
