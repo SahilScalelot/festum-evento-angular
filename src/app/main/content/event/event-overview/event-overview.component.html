@@ -599,25 +599,49 @@
             </div>
           </div>
 
-
-
-            <!-- Book_ticket_detils -->
-            <div class="bg-white rounded-md max-h-[206px] overflow-y-auto" *ngIf="attendees?.length && overview">
-              <div class="flex justify-between px-5 py-2 bg-japaneseIndigo sticky top-0">
-                <span class="text-sm font-bold text-white">Book Ticket</span>
-                <span class="text-sm font-bold text-white">Total Amount</span>
-                <span class="icon-drop_arrow text-[10px] text-white flex items-center pt-0.5"  ></span>
-              </div>
-              <div *ngFor="let attendee of attendees;let i = index;" >
-                <div class="bg-white" *ngFor="let seat of attendee?.seats || []">
-                  <div  class="flex justify-between border-t border-brightGray px-5 py-2" *ngFor="let arrangement of seat?.arrangements || []">
-                    <span class="text-sm font-bold text-japaneseIndigo w-1/3">{{arrangement?.ItemCount || 0}} {{((arrangement.vertical_location == 'FRONT') ? 'F' : (arrangement.vertical_location == 'MIDDLE' ? 'M' : 'B'))}} - {{((arrangement.horizontal_location == 'LEFT') ? 'L' : ((arrangement.horizontal_location == 'CENTER') ? 'C' : (arrangement.horizontal_location == 'RIGHT' ? 'R' : 'N')))}}</span>
-                    <span class="text-sm font-bold text-japaneseIndigo w-1/3 text-center">{{seat?.seating_item?.itemname}}</span>
-                    <span class="text-sm font-bold text-japaneseIndigo w-1/3 text-right">₹{{arrangement?.totalAmountItemCount | number: '1.2-2'}}</span>
+            <div class="attendees-panel" *ngIf="attendees?.length && overview">
+            <mat-accordion>
+              <mat-expansion-panel (opened)="attendeesOpenState = true" (closed)="attendeesOpenState = false">
+                <mat-expansion-panel-header class="flex justify-between px-5 bg-japaneseIndigo">
+                  <mat-panel-title class="text-sm">
+                    <span class="text-sm font-bold text-white">Book Ticket</span>
+                  </mat-panel-title>
+                  <mat-panel-description>
+                    <span class="text-sm font-bold text-white">Total&nbsp;Amount</span>
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <div class="container" (scroll)="onScroll($event)">
+                  <div *ngFor="let attendee of attendees;let i = index;" >
+                    <div class="bg-white" *ngFor="let seat of attendee?.seats || []">
+                      <div class="flex justify-between  border-brightGray pr-5 py-2" *ngFor="let arrangement of seat?.arrangements || []" [ngClass]="{'border-t': i !== 0}">
+                        <span class="text-sm font-bold text-japaneseIndigo w-1/3">{{arrangement?.ItemCount || 0}} {{((arrangement.vertical_location == 'FRONT') ? 'F' : (arrangement.vertical_location == 'MIDDLE' ? 'M' : 'B'))}} - {{((arrangement.horizontal_location == 'LEFT') ? 'L' : ((arrangement.horizontal_location == 'CENTER') ? 'C' : (arrangement.horizontal_location == 'RIGHT' ? 'R' : 'N')))}}</span>
+                        <span class="text-sm font-bold text-japaneseIndigo w-1/3 text-center">{{seat?.seating_item?.itemname}}</span>
+                        <span class="text-sm font-bold text-japaneseIndigo w-1/3 text-right">₹{{arrangement?.totalAmountItemCount | number: '1.2-2'}}</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </mat-expansion-panel>
+            </mat-accordion>
             </div>
+
+            <!-- Old Book_ticket_detils without infinite -->
+            <!--<div class="bg-white rounded-md max-h-[206px] overflow-y-auto" *ngIf="attendees?.length && overview">-->
+              <!--<div class="flex justify-between px-5 py-2 bg-japaneseIndigo sticky top-0">-->
+                <!--<span class="text-sm font-bold text-white">Book Ticket</span>-->
+                <!--<span class="text-sm font-bold text-white">Total Amount</span>-->
+                <!--<span class="icon-drop_arrow text-[10px] text-white flex items-center pt-0.5"  ></span>-->
+              <!--</div>-->
+              <!--<div *ngFor="let attendee of attendees;let i = index;" >-->
+                <!--<div class="bg-white" *ngFor="let seat of attendee?.seats || []">-->
+                  <!--<div  class="flex justify-between border-t border-brightGray px-5 py-2" *ngFor="let arrangement of seat?.arrangements || []">-->
+                    <!--<span class="text-sm font-bold text-japaneseIndigo w-1/3">{{arrangement?.ItemCount || 0}} {{((arrangement.vertical_location == 'FRONT') ? 'F' : (arrangement.vertical_location == 'MIDDLE' ? 'M' : 'B'))}} - {{((arrangement.horizontal_location == 'LEFT') ? 'L' : ((arrangement.horizontal_location == 'CENTER') ? 'C' : (arrangement.horizontal_location == 'RIGHT' ? 'R' : 'N')))}}</span>-->
+                    <!--<span class="text-sm font-bold text-japaneseIndigo w-1/3 text-center">{{seat?.seating_item?.itemname}}</span>-->
+                    <!--<span class="text-sm font-bold text-japaneseIndigo w-1/3 text-right">₹{{arrangement?.totalAmountItemCount | number: '1.2-2'}}</span>-->
+                  <!--</div>-->
+                <!--</div>-->
+              <!--</div>-->
+            <!--</div>-->
 
 
 

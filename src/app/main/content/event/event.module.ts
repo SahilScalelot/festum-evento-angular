@@ -8,6 +8,7 @@ import { EventOverviewComponent } from './event-overview/event-overview.componen
 import { RatingModule } from 'primeng/rating';
 import { CheckboxModule } from 'primeng/checkbox';
 import { PaginatorModule } from 'primeng/paginator';
+import { VirtualScrollerModule } from 'primeng/virtualscroller';
 import { AgmCoreModule } from '@agm/core';
 import { ImageModule } from 'primeng/image';
 import { TranslateModule } from "@ngx-translate/core";
@@ -39,6 +40,7 @@ const routes: Routes = [
     RatingModule,
     CheckboxModule,
     PaginatorModule,
+    VirtualScrollerModule,
     ImageModule,
     ModalModule,
     MatProgressSpinnerModule,

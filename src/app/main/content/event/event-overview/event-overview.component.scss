@@ -37,7 +37,77 @@
     @apply block;
   }
 
-  .borders>div:not(:first-child) {
+  .borders > div:not(:first-child) {
     @apply border-t pt-3 mt-3;
   }
+  .container {
+    width: 100%;
+    margin: 0 auto;
+    overflow-y: scroll; /* Add a scrollbar to the container */
+    height: 120px; /* Set a fixed height for scrolling */
+    max-height: 120px; /* Set a fixed height for scrolling */
+  }
+  .attendees-panel {
+    .mat-expansion-panel-header {
+      padding: 0.7rem 1.25rem !important;
+      height: 36px !important;
+    }
+    .mat-expansion-panel-header.mat-expanded:focus, .mat-expansion-panel-header.mat-expanded:hover {
+      background: rgb(37 54 79 / var(--tw-bg-opacity)) !important;
+    }
+    .mat-expansion-panel-header-description {
+      position: absolute;
+      //top: calc(50% - 8px);
+      //left: calc(50% - 14px);
+      color: rgb(0 0 0 / 5%) !important;
+      border-color: currentColor;
+      padding: 0 !important;
+      border-width: 0 3px 3px 0 !important;
+      height: 21px;
+      width: 21px;
+    }
+    .mat-expansion-indicator::after {
+    }
+    .mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:hover:not([aria-disabled=true]) {
+      background-color: rgb(37 54 79 / var(--tw-bg-opacity)) !important;
+    }
+    .mat-expansion-panel .mat-expansion-indicator:after {
+      color: white !important;
+    }
+    .mat-expansion-panel .mat-expansion-indicator {
+      width: 7px;
+      height: 7px;
+    }
+    .mat-expansion-panel-body {
+      padding: 3px 3px 10px 20px !important
+    }
+  }
+  //.attendees-panel .mat-expansion-panel-header {
+  //  padding: 0.7rem 1.25rem !important;
+  //  height: 36px !important;
+  //}
+  //.attendees-panel .mat-expansion-panel-header.mat-expanded:focus, .mat-expansion-panel-header.mat-expanded:hover {
+  //  background: rgb(37 54 79 / var(--tw-bg-opacity)) !important;
+  //}
+  //.attendees-panel .mat-expansion-panel-header-description, .mat-expansion-indicator::after {
+  //  position: absolute;
+  //  top: calc(50% - 4px);
+  //  //left: calc(50% - 14px);
+  //  color: rgb(0 0 0 / 5%) !important;
+  //  border-color: currentColor;
+  //  padding: 0 !important;
+  //  border-width: 0 3px 3px 0 !important;
+  //  height: 12px;
+  //  width: 12px;
+  //}
+  //.attendees-panel .mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:hover:not([aria-disabled=true]) {
+  //  background-color: rgb(37 54 79 / var(--tw-bg-opacity)) !important;
+  //}
+  //.attendees-panel .mat-expansion-panel .mat-expansion-indicator:after {
+  //  color: white!important;
+  //}
+  //.attendees-panel .mat-expansion-panel .mat-expansion-indicator {
+  //  width: 7px;
+  //  height: 7px;
+  //}
 }

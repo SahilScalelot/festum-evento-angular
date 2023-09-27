@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, HostListener } from '@angular/core';
 import { ActivatedRoute, Router, NavigationStart, Event as NavigationEvent, NavigationEnd } from '@angular/router';
 import { CONSTANTS } from 'src/app/main/common/constants';
 import { GlobalFunctions } from 'src/app/main/common/global-functions';
 import { EventService } from '../event.service';
-import { MatAccordion } from '@angular/material/expansion';
 import { ModalService } from 'src/app/main/_modal';
 
 
@@ -27,6 +26,12 @@ export class EventOverviewComponent implements OnInit {
   attendees: Array<any> = [];
   cancelEventPop: boolean = false;
   tempEventData:any;
+  items: any[] = [];
+  page: number = 1;
+  pageSize: number = 5;
+  attendeesOpenState: boolean = false;
+  loadingAttendees: boolean = false;
+  hasMoreAttendeesRecords: boolean = true;
 
   isDeleteLoading: boolean = false;
   panelOpenState: boolean = false;
@@ -53,22 +58,23 @@ export class EventOverviewComponent implements OnInit {
     private _eventService: EventService,
     private _modalService: ModalService,
     private _router: Router,
+    private elementRef: ElementRef
   ) {
   }
 
   ngOnInit(): void {
     this.eventId = this._activatedRoute.snapshot.paramMap.get('id');
-    this._router.events.subscribe((event: NavigationEvent) => {
-      if (event instanceof NavigationEnd) {
-        setTimeout(() => {
-          const accessToken: any = localStorage.getItem('accessToken');
-          if (accessToken && accessToken != '') {
-            this.eventId = this._activatedRoute.snapshot.paramMap.get('id');
-            this.getEvent();
-          }
-        }, 0);
-      }
-    });
+    // this._router.events.subscribe((event: NavigationEvent) => {
+    //   if (event instanceof NavigationEnd) {
+    //     setTimeout(() => {
+    //       const accessToken: any = localStorage.getItem('accessToken');
+    //       if (accessToken && accessToken != '') {
+    //         this.eventId = this._activatedRoute.snapshot.paramMap.get('id');
+    //         this.getEvent();
+    //       }
+    //     }, 0);
+    //   }
+    // });
     this.getEvent();
   }
 
@@ -125,6 +131,27 @@ export class EventOverviewComponent implements OnInit {
     }
   }
 
+  @HostListener('scroll', ['$event'])
+  onScroll(event: Event) {
+    const container = this.elementRef.nativeElement;
+    const scrollPosition = container.scrollTop;
+    const maxScroll = container.scrollHeight - container.clientHeight;
+
+    // Check if the user has scrolled to the bottom
+    if (scrollPosition === maxScroll && !this.loadingAttendees && this.hasMoreAttendeesRecords) {
+      this.loadMoreData();
+    }
+  }
+
+  loadMoreData() {
+    this.loadingAttendees = true;
+    this.page++; // Increment the page number
+    this.getAttendees();
+
+  }
+
+
+
   onTabChange(tabVarName: any): void {
     this.overview = this.attendee = this.reviews = this.deposit = false;
     if (tabVarName == 'overview') {
@@ -142,12 +169,19 @@ export class EventOverviewComponent implements OnInit {
     // this.isLoading = true;
     const filterObj: any = {
       eventid: this.event._id,
-      page: 1,
-      limit: 10
-    }
+      page: this.page,
+      limit: this.pageSize
+    };
     this._eventService.getAttendeesByEventId(filterObj).subscribe((result: any) => {
       if (result && result.IsSuccess) {
-        this.attendees = result.Data.docs;
+        //this.attendees = result.Data.docs;
+        if (result.Data.docs.length === 0) {
+          // No more records, set the flag to stop further API requests
+          this.hasMoreAttendeesRecords = false;
+        } else {
+          this.attendees = [...this.attendees, ...result.Data.docs];
+        }
+        this.loadingAttendees = false;
         // this.isLoading = false;
       } else {
         // this._globalFunctions.successErrorHandling(result, this, true);

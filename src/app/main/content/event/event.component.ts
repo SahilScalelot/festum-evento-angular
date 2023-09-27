@@ -18,6 +18,10 @@ export class EventComponent implements OnInit {
   constants: any = CONSTANTS;  
   isLoading: boolean = false;  
   selectedEventIds: any = [];
+  openPopUp:boolean=false;
+  shareLink: string = `${window.location.origin}`;
+  selectedEventId: string = '';
+
 
   pTotal: any;
   paging: any;
@@ -171,15 +175,10 @@ export class EventComponent implements OnInit {
     localStorage.setItem('eId', eventId);
     this._router.navigate(['/events/create/discount']);
   }
-
-  // share(){
-  //   console.log('share');
-    
-  // }
-  // editEvent(event: any, eventId: any): void {
-  //   event.stopPropagation();
-  //   localStorage.setItem('eId', eventId);
-  //   this._router.navigate(['/events/create/add-event']);
-  // }
+  openPoPUp(event:any, data?: any){
+    event.stopPropagation();
+    this.openPopUp = !this.openPopUp;
+    this.selectedEventId = data?._id;
+  }
 
 }
