@@ -217,25 +217,27 @@
         </div>
       </div>
       <!-- Reviews-Teb-Content -->
-      <div class="w-full space-y-2.5 tab-main" [class]="reviews ? 'active' : ''">
-        <div *ngFor="let reviews of shopObj?.reviews" class="w-full space-y-2">
-          <div class="bg-white rounded-lg p-7 lg:flex">
+      <div class="w-full tab-main space-y-2.5" [class]="reviews ? 'active' : ''">
+        <div *ngFor="let reviews of shopObj?.reviews" class="w-full lg:w-8/12">
+          <div class="bg-white rounded-lg p-5 lg:flex">
             <div>
-              <div class="w-20 h-20 rounded-full overflow-hidden">
+              <div class="w-14 h-14 border-2 border-brightGray rounded-full overflow-hidden bg-white">
                 <img alt="cutting-board" class="w-full h-full object-cover" [src]="!!(reviews?.userid?.profilepic) ? constants.baseImageURL + reviews?.userid?.profilepic : constants.userDefaultImage"/>
               </div>
             </div>
             <div class="w-full lg:px-5 py-5 lg:py-0">
-              <h5>{{ reviews?.userid?.name }}</h5>
-              <div class="flex items-center space-x-1 pt-1.5 pb-2.5">
-                <p-rating [(ngModel)]="reviews.ratings" [readonly]="true" [cancel]="false"></p-rating>
-                <span class="text-xs font-bold text-quicksilver">{{ reviews?.createdAt | date:'dd MMM, yyyy' }}</span>
+              <div class="flex justify-between">
+                <h3>{{ reviews?.userid?.name }}</h3>
+                <div class="flex items-center space-x-1">
+                  <p-rating [(ngModel)]="reviews.ratings" [readonly]="true" [cancel]="false"></p-rating>
+                  <span class="text-xs font-bold text-quicksilver">{{ reviews?.createdAt | date:'dd MMM, yyyy' }}</span>
+                </div>
               </div>
               <span class="text-base text-[#9BA0A8] pb-2.5">{{ reviews?.offer?.offer_title }}</span>
               <p class="text-sm text-japaneseIndigo">{{ reviews?.review }}</p>
             </div>
             <div>
-              <div class="w-36">
+              <div class="w-14 h-14 border-2 border-brightGray rounded-md overflow-hidden bg-white">
                 <img [src]="!!(reviews?.offerid?.poster) ? constants.baseImageURL + reviews?.offerid.poster : constants.defaultImage" [alt]="reviews?.offer?.offer_title" />
               </div>
             </div>

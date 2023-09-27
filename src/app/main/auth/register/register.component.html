@@ -43,9 +43,11 @@
         <span class="absolute top-full text-red-500 text-xs left-0" *ngIf="phoneF.form.controls['phone'].touched && phoneF.form.controls['phone'].invalid">
           Please enter valid Contact Number.
         </span>
-        <span class="absolute top-full text-red-500 text-xs left-0" *ngIf="phoneForm?.errors?.['required']">
-          Please enter valid Contact Number.
+        <span class="absolute top-full text-red-500 text-xs left-0" *ngIf="registerForm.get('mobile')?.invalid && registerForm.get('mobile')?.dirty && registerForm.get('mobile')?.touched">
+          Phone number is required.
         </span>
+        
+        
       </div>
       <!-- <span class="text-caribbeanGreen text-sm font-semibold absolute right-4 bottom-4">Verify</span> -->
       <!-- <input type="text" name="Phone Number" class="input_box" [formControlName]="'mobile'" id="mobile" fuseValidNumber/>

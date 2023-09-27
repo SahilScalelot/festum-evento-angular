@@ -212,6 +212,11 @@ export const CONSTANTS = {
     {value: 'limited_person', label: 'Limited Person'}
   ],
 
+  offerrTypeArr: [
+    {value: 'offer_on_all_products', label: 'Offer On All Product'},
+    {value: 'offer_on_specific_profuct', label: 'Offer On Specific Product'}
+  ],
+
   userType: {
     EVENT_USERS: 0,
     SHOP_USERS: 1,

@@ -73,6 +73,7 @@ export class RegisterComponent implements OnInit {
 
   register(): void {    
     if (this.registerForm.invalid) {
+      this.form.form.controls['phone'].touched = true;
       Object.keys(this.registerForm.controls).forEach((key) => {
         this.registerForm.controls[key].touched = true;
         this.registerForm.controls[key].markAsDirty();
