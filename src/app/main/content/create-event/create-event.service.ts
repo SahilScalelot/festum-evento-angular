@@ -112,6 +112,11 @@ export class CreateEventService {
   uploadImages(photoFormData: any): any {
     return this.http.post(environment.appURL + 'organizer/events/image', photoFormData, this._globalFunctions.getFileAuthorizationHeader());
   }
+
+  // Food & Equipment Images Api
+  uploadFoodEquipImages(photoFormData: any): any {
+    return this.http.post(environment.appURL + 'organizer/events/imagefoodeqp', photoFormData, this._globalFunctions.getFileAuthorizationHeader());
+  }
   
   // Video Api
   uploadVideos(videoFormData: any): any {

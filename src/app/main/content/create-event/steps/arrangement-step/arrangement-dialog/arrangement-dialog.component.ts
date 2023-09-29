@@ -296,7 +296,7 @@ export class ArrangementDialogComponent implements OnInit {
         const photoFormData = new FormData();
         photoFormData.append('file', this.photoUpdateForm.value.image);
         this.isPhotoLoading = true;
-        this._createEventService.uploadImages(photoFormData).subscribe((result: any) => {
+        this._createEventService.uploadFoodEquipImages(photoFormData).subscribe((result: any) => {
           if (result && result.IsSuccess) {
             if (this.photoUpdateForm.value.type === 'food') {
               this.tempImgArr[this.editPhotoObj.index].url = result.Data.url;
@@ -399,7 +399,7 @@ export class ArrangementDialogComponent implements OnInit {
         const photoFormData = new FormData();
         photoFormData.append('file', image);
         this.isPhotoLoading = true;
-        responseObj.push(this._createEventService.uploadImages(photoFormData));
+        responseObj.push(this._createEventService.uploadFoodEquipImages(photoFormData));
         }
     });
 
