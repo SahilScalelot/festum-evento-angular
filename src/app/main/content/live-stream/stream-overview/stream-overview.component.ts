@@ -4,6 +4,7 @@ import { CONSTANTS } from 'src/app/main/common/constants';
 import { GlobalFunctions } from 'src/app/main/common/global-functions';
 import { LiveStreamService } from '../live-stream.service';
 import { GlobalService } from 'src/app/services/global.service';
+import { ModalService } from 'src/app/main/_modal';
 
 @Component({
   selector: 'app-stream-overview',
@@ -16,6 +17,7 @@ export class StreamOverviewComponent implements OnInit {
   isLoading: boolean = false;
   isExportLoading: boolean = false;
   isOpenPopup: boolean = false;
+  cancelLiveStreamPop: boolean = false;
   isImage: boolean = false;
   isSingleVideo: boolean = false;
   companyIAndV: boolean = false;
@@ -28,6 +30,7 @@ export class StreamOverviewComponent implements OnInit {
   showMore: boolean = false;
   termsShow: boolean = false;
   subscription: boolean = false;
+  isDeleteLoading: boolean = false;
   userObj: any = {};
 
   zoom: number = CONSTANTS.defaultMapZoom;
@@ -39,6 +42,7 @@ export class StreamOverviewComponent implements OnInit {
     public _globalFunctions: GlobalFunctions,
     private _activatedRoute: ActivatedRoute,
     private _globalService: GlobalService,
+    private _modalService: ModalService,
     private _router: Router,
     private _liveStreamService: LiveStreamService,
   ) {
@@ -141,5 +145,33 @@ export class StreamOverviewComponent implements OnInit {
     event.stopPropagation();
     localStorage.setItem('lsId', liveStreamId);
     this._router.navigate(['/live-stream/create/stream']);
+  }
+  gotoPromotion(event: any, liveStreamId: any){
+    event.stopPropagation();
+    localStorage.setItem('eId', liveStreamId);
+    this._router.navigate(['/notifications']);
+
+
+  }
+
+  cancelLiveStreamPopup(event: any): void {
+    event.stopPropagation();
+    this.cancelLiveStreamPop = true;
+  }
+  closeLiveStreamCancelPopup() {
+    this.cancelLiveStreamPop = false;
+  }
+  deletePop(): void {
+    this.cancelLiveStreamPop = false;
+    this._modalService.open("delete-livestream-pop");
+  }
+  closeCancelLiveStream(): void {
+    this.cancelLiveStreamPop = false;
+    this._modalService.close("delete-livestream-pop");
+  }
+  cancelLiveStream(liveStreamId: any): void {
+    this.isDeleteLoading = true;
+    this.cancelLiveStreamPop = false;
+    // this.isDeleteLoading = false;
   }
 }
