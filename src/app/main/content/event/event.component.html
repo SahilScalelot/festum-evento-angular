@@ -146,7 +146,7 @@
 
                     <a href="javascript:void(0)" (click)="gotoDiscount($event,event?._id)" *ngIf="event.event_financial_type == 'paid' && event.accept_booking == true" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-online_offer text-xl leading-0 text-japaneseIndigo"></i></a>
 
-                    <a href="javascript:void(0)" (click)="openPoPUp($event, event)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-share text-sm leading-0 text-japaneseIndigo"></i></a>
+                    <a href="javascript:void(0)" (click)="openSocailMediaPopUp($event, event)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-share text-sm leading-0 text-japaneseIndigo"></i></a>
                   </div>
                 </div>
               </div>
@@ -159,37 +159,35 @@
               <h2>
                 Social Media
               </h2>
-              <span (click)="openPoPUp($event)" class="cursor-pointer hover:opacity-60">
+              <span (click)="openSocailMediaPopUp($event)" class="cursor-pointer hover:opacity-60">
                     <svg fill="none" height="21" viewBox="0 0 21 21" width="21" xmlns="http://www.w3.org/2000/svg"> <path d="M20.2902 4.13628L13.9273 10.4999L20.2902 16.8631C21.2366 17.8099 21.2366 19.3437 20.2902 20.2905C19.8173 20.7634 19.1973 21 18.5776 21C17.9569 21 17.3368 20.7637 16.8643 20.2905L10.5 13.9265L4.13625 20.2904C3.66342 20.7633 3.04337 20.9999 2.42313 20.9999C1.80308 20.9999 1.18345 20.7637 0.710197 20.2904C-0.23625 19.344 -0.23625 17.8103 0.710197 16.8631L7.07289 10.4998L0.709835 4.13628C-0.236612 3.18982 -0.236612 1.65575 0.709835 0.709297C1.6561 -0.236432 3.18926 -0.236432 4.13589 0.709297L10.5 7.07288L16.8636 0.709297C17.8104 -0.236432 19.3437 -0.236432 20.2898 0.709297C21.2366 1.65575 21.2366 3.18982 20.2902 4.13628Z" fill="#2E363F"></path> </svg>
                </span>
             </div>
             <div class="flex items-center space-x-5 pt-5 md:pt-7 lg:pt-10 rounded-lg">
-              <a *ngIf="event?.tandc?.facebook != ''" href="whatsapp://send?text=https://festumevento.com/#/events/64d0afbedab719ed0527e360" target="_blank">
+              <a href="https://www.facebook.com/sharer/sharer.php?u={{fullShareLink}}" target="_blank">
                 <img class="w-10 h-10 object-cover" alt="facebook" src="../assets/images/facebook.png" />
               </a>
-              <a *ngIf="event?.tandc?.twitter != ''" [href]="event?.tandc?.twitter" target="_blank">
+              <a href="https://twitter.com/intent/tweet?url={{fullShareLink}}" target="_blank">
                 <img class="w-10 h-10 object-cover" alt="twiiter" src="../assets/images/twiiter.png" />
               </a>
-              <!-- <button *ngIf="event?.tandc?.facebook != ''"  (click)="shareOnWhatsApp()">
-                <img class="w-10 h-10 object-cover" alt="facebook" src="../assets/images/facebook.png" />
-              </button> -->
-              <!-- <a *ngIf="event?.tandc?.twitter != ''" (click)="shareOnSkype(i)" target="_blank">
-                <img class="w-10 h-10 object-cover" alt="twiiter" src="../assets/images/twiiter.png" />
-              </a> -->
-              <a *ngIf="event?.tandc?.youtube != ''" target="_blank">
-                <img class="w-10 h-10 object-cover" alt="youtube" src="../assets/images/youtube.png" />
+              <a  href="https://api.whatsapp.com/send?text={{fullShareLink}}">
+                <img class="w-10 h-10 object-cover" alt="facebook" src="../assets/images/whatapp.png" />
               </a>
-              <a *ngIf="event?.tandc?.pinterest != ''" [href]="event?.tandc?.pinterest" target="_blank">
-                <img class="w-10 h-10 object-cover" alt="pinterest" src="../assets/images/pinterest.png" />
-              </a>
-              <a *ngIf="event?.tandc?.instagram != ''" [href]="event?.tandc?.instagram" target="_blank">
+              <a  href="https://www.instagram.com" target="_blank">
                 <img class="w-10 h-10 object-cover" alt="instagram" src="../assets/images/instagram.png" />
               </a>
-              <a *ngIf="event?.tandc?.linkedin != ''" [href]="event?.tandc?.linkedin" target="_blank">
+              <a  href="https://www.linkedin.com/" target="_blank">
                 <img class="w-10 h-10 object-cover" alt="linkdin" src="../assets/images/linked.png" />
               </a>
+              <a href="https://www.youtube.com/" target="_blank">
+                <img class="w-10 h-10 object-cover" alt="youtube" src="../assets/images/youtube.png" />
+              </a>
+              <a  href="https://www.pinterest.com/" target="_blank">
+                <img class="w-10 h-10 object-cover" alt="pinterest" src="../assets/images/pinterest.png" />
+              </a>
+
             </div>
-            <p class="text-sm">Or copy link {{shareLink}}/#/events/{{selectedEventId}}</p>
+            <p class="text-sm pt-3">Or copy link</p>
             <!--BOX LINK-->
             <div class="border-2 border-gray-200 flex justify-between items-center mt-4 py-2">
               <svg
@@ -209,7 +207,7 @@
 
               <input class="w-full outline-none bg-transparent" type="text" placeholder="link" value="{{shareLink}}/#/events/{{selectedEventId}}">
 
-              <button class="bg-indigo-500 text-white rounded text-sm py-2 px-5 mr-2 hover:bg-indigo-600">
+              <button class="bg-indigo-500 text-white rounded text-sm py-2 px-5 mr-2 hover:bg-indigo-600" (click)="copyShareLink()">
                 Copy
               </button>
             </div>

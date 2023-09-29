@@ -4,6 +4,8 @@ import { CONSTANTS } from 'src/app/main/common/constants';
 import { GlobalFunctions } from 'src/app/main/common/global-functions';
 import { EventService } from '../event.service';
 import { ModalService } from 'src/app/main/_modal';
+import { SnotifyService } from 'ng-snotify';
+import { Clipboard } from '@angular/cdk/clipboard';
 
 
 declare var $: any;
@@ -33,6 +35,11 @@ export class EventOverviewComponent implements OnInit {
   loadingAttendees: boolean = false;
   hasMoreAttendeesRecords: boolean = true;
 
+  openPopUp: boolean = false;
+  shareLink: string = `${window.location.origin}`;
+  selectedEventId: string = '';
+  fullShareLink: string = `${this.shareLink}/#/events/${this.selectedEventId}`;
+
   isDeleteLoading: boolean = false;
   panelOpenState: boolean = false;
   
@@ -58,7 +65,9 @@ export class EventOverviewComponent implements OnInit {
     private _eventService: EventService,
     private _modalService: ModalService,
     private _router: Router,
-    private elementRef: ElementRef
+    private elementRef: ElementRef,
+    private _sNotify: SnotifyService,
+    private _clipboard: Clipboard
   ) {
   }
 
@@ -271,10 +280,16 @@ export class EventOverviewComponent implements OnInit {
     event.stopPropagation();
     localStorage.setItem('eId', eventId);
     this._router.navigate(['/notifications']);
-   
-    
   }
-
-
+  openSocialMediaDailog(event:any, data?: any) {
+    event.stopPropagation();
+    this.openPopUp = !this.openPopUp;
+    this.selectedEventId = data?._id;
+  }
+  copyShareLink() {
+    let copyText = `${this.shareLink}/#/events/${this.selectedEventId}`;
+    this._clipboard.copy(copyText);
+    this._sNotify.success('Link Copied.');
+  }
 
 }

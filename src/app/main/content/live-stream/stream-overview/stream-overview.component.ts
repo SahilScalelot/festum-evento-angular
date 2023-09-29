@@ -5,6 +5,8 @@ import { GlobalFunctions } from 'src/app/main/common/global-functions';
 import { LiveStreamService } from '../live-stream.service';
 import { GlobalService } from 'src/app/services/global.service';
 import { ModalService } from 'src/app/main/_modal';
+import { SnotifyService } from 'ng-snotify';
+import { Clipboard } from '@angular/cdk/clipboard';
 
 @Component({
   selector: 'app-stream-overview',
@@ -33,6 +35,11 @@ export class StreamOverviewComponent implements OnInit {
   isDeleteLoading: boolean = false;
   userObj: any = {};
 
+  openPopUp: boolean = false;
+  shareLink: string = `${window.location.origin}`;
+  selectedLiveStreamId: string = '';
+  fullShareLink: string = `${this.shareLink}/#/live-stream/${this.selectedLiveStreamId}`;
+
   zoom: number = CONSTANTS.defaultMapZoom;
   // initial center position for the map
   lat: number = 0;
@@ -45,6 +52,8 @@ export class StreamOverviewComponent implements OnInit {
     private _modalService: ModalService,
     private _router: Router,
     private _liveStreamService: LiveStreamService,
+    private _sNotify: SnotifyService,
+    private _clipboard: Clipboard
   ) {
   }
 
@@ -173,5 +182,15 @@ export class StreamOverviewComponent implements OnInit {
     this.isDeleteLoading = true;
     this.cancelLiveStreamPop = false;
     // this.isDeleteLoading = false;
+  }
+  openSocailMediaDailog(event:any, data?: any){
+    event.stopPropagation();
+    this.openPopUp = !this.openPopUp;
+    this.selectedLiveStreamId = data?._id;
+  }
+  copyShareLink() {
+    let copyText = `${this.shareLink}/#/events/${this.selectedLiveStreamId}`;
+    this._clipboard.copy(copyText);
+    this._sNotify.success('Link Copied.');
   }
 }

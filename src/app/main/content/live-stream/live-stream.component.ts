@@ -5,6 +5,8 @@ import { GlobalFunctions } from '../../common/global-functions';
 import { ModalService } from '../../_modal';
 import { LiveStreamService } from './live-stream.service';
 import { GlobalService } from 'src/app/services/global.service';
+import { SnotifyService } from 'ng-snotify';
+import { Clipboard } from '@angular/cdk/clipboard';
 
 @Component({
   selector: 'app-live-stream',
@@ -22,6 +24,10 @@ export class LiveStreamComponent implements OnInit {
   userObj: any = {};
   isDeleteLoading: boolean = false;
   isBroadCastEvent: boolean = false;
+  openPopUp: boolean = false;
+  shareLink: string = `${window.location.origin}`;
+  selectedLiveStreamId: string = '';
+  fullShareLink: string = `${this.shareLink}/#/live-stream/${this.selectedLiveStreamId}`;
 
   constructor(
     private _router: Router,
@@ -29,6 +35,8 @@ export class LiveStreamComponent implements OnInit {
     private _globalService: GlobalService,
     private _globalFunctions: GlobalFunctions,
     private _liveStreamService: LiveStreamService,
+    private _sNotify: SnotifyService,
+    private _clipboard: Clipboard
   ) { }
 
   ngOnInit(): void {
@@ -138,5 +146,15 @@ export class LiveStreamComponent implements OnInit {
   closePop(flag: boolean): void {
     this.isBroadCastEvent = false;
   
+  }
+  openSocailMediaPopUp(event:any, data?: any){
+    event.stopPropagation();
+    this.openPopUp = !this.openPopUp;
+    this.selectedLiveStreamId = data?._id;
+  }
+  copyShareLink() {
+    let copyText = `${this.shareLink}/#/events/${this.selectedLiveStreamId}`;
+    this._clipboard.copy(copyText);
+    this._sNotify.success('Link Copied.');
   }
 }

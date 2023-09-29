@@ -6,6 +6,7 @@ import {Router} from "@angular/router";
 import * as _ from "lodash";
 import { PrimeNGConfig } from 'primeng/api';
 import { SnotifyService } from 'ng-snotify';
+import { Clipboard } from '@angular/cdk/clipboard';
 
 @Component({
   selector: 'app-event',
@@ -18,10 +19,10 @@ export class EventComponent implements OnInit {
   constants: any = CONSTANTS;  
   isLoading: boolean = false;  
   selectedEventIds: any = [];
-  openPopUp:boolean=false;
+  openPopUp: boolean = false;
   shareLink: string = `${window.location.origin}`;
   selectedEventId: string = '';
-
+  fullShareLink: string = `${this.shareLink}/#/events/${this.selectedEventId}`;
 
   pTotal: any;
   paging: any;
@@ -35,6 +36,7 @@ export class EventComponent implements OnInit {
     private _sNotify: SnotifyService,
     private _globalFunctions: GlobalFunctions,
     private _primengConfig: PrimeNGConfig,
+    private _clipboard: Clipboard
   ) {
   }
 
@@ -175,10 +177,14 @@ export class EventComponent implements OnInit {
     localStorage.setItem('eId', eventId);
     this._router.navigate(['/events/create/discount']);
   }
-  openPoPUp(event:any, data?: any){
+  openSocailMediaPopUp(event:any, data?: any){
     event.stopPropagation();
     this.openPopUp = !this.openPopUp;
     this.selectedEventId = data?._id;
   }
-
+  copyShareLink() {
+    let copyText = `${this.shareLink}/#/events/${this.selectedEventId}`;
+    this._clipboard.copy(copyText);
+    this._sNotify.success('Link Copied.');
+  }
 }
