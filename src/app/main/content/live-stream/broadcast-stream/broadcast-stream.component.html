@@ -4,18 +4,22 @@
     <div class="p-0 rounded-md">
       <div class="space-y-3 lg:space-y-6 py-8 border-b border-gray-200">
         <canvas id="preview" #canvasElement></canvas>
-        <span class="icon-mic"></span>
         <div class="flex justify-center space-x-2">
           <button type="button" class="p-3 px-4 bg-brightGray rounded-md text-lg font-bold uppercase" (click)="setMicrophone()">
-            <mat-icon aria-hidden="false" aria-label="Mic icon" fontIcon="mic" *ngIf="isMicroPhone"></mat-icon>
-            <mat-icon aria-hidden="false" aria-label="Mic icon" fontIcon="mic_off" *ngIf="!isMicroPhone"></mat-icon>
+            <i class="icon-mic text-3xl" *ngIf="isMicroPhone"></i>
+            <i class="icon-mic_dis text-3xl" *ngIf="!isMicroPhone"></i>
+            <!--<mat-icon aria-hidden="false" aria-label="Mic icon" fontIcon="mic" *ngIf="isMicroPhone"></mat-icon>-->
+            <!--<mat-icon aria-hidden="false" aria-label="Mic icon" fontIcon="mic_off" *ngIf="!isMicroPhone"></mat-icon>-->
           </button>
           <button type="button" class="p-3 px-4 bg-brightGray rounded-md text-lg font-bold uppercase" (click)="setWebCam()">
-            <mat-icon aria-hidden="false" aria-label="video icon" fontIcon="videocam" *ngIf="isVideo"></mat-icon>
-            <mat-icon aria-hidden="false" aria-label="video icon" fontIcon="videocam_off" *ngIf="!isVideo"></mat-icon>
+            <i class="icon-video text-3xl" *ngIf="isVideo"></i>
+            <i class="icon-video_off text-3xl" *ngIf="!isVideo"></i>
+            <!--<mat-icon aria-hidden="false" aria-label="video icon" fontIcon="videocam" *ngIf="isVideo"></mat-icon>-->
+            <!--<mat-icon aria-hidden="false" aria-label="video icon" fontIcon="videocam_off" *ngIf="!isVideo"></mat-icon>-->
           </button>
           <button type="button" class="p-3 px-4 bg-brightGray rounded-md text-lg font-bold uppercase" (click)="openSetting($event)">
-            <mat-icon aria-hidden="false" aria-label="setting icon" fontIcon="settings"></mat-icon>
+            <i class="icon-setting text-3xl"></i>
+            <!--<mat-icon aria-hidden="false" aria-label="setting icon" fontIcon="settings"></mat-icon>-->
           </button>
           <button class="secondary py-2 px-5 mr-2 anim uppercase"  *ngIf="!isStreamStarted" (click)="startBroadcast()">
             <span>Start Streaming</span>

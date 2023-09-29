@@ -25,6 +25,21 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-video_off:before {
+  content: "\e953";
+}
+.icon-video:before {
+  content: "\e954";
+}
+.icon-setting:before {
+  content: "\e955";
+}
+.icon-mic_dis:before {
+  content: "\e956";
+}
+.icon-mic:before {
+  content: "\e957";
+}
 .icon-send:before {
   content: "\e900";
 }
