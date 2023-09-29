@@ -11,8 +11,8 @@ export class EntertainmentService {
   constructor(private http: HttpClient, private _globalFunctions: GlobalFunctions) { }
 
   // Get Live Stream By Id Api
-  getEntertainmentApi(): any {
-    return this.http.get(environment.appURL + 'organizer/entertainment', this._globalFunctions.getAuthorizationHeader());
+  getEntertainmentApi(data: any = {}): any {
+    return this.http.post(environment.appURL + 'organizer/entertainment', data, this._globalFunctions.getAuthorizationHeader());
   }
   getMyPostsApi(): any {
     return this.http.get(environment.appURL + 'organizer/entertainment/myposts', this._globalFunctions.getAuthorizationHeader());

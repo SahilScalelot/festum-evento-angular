@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { CONSTANTS } from '../../common/constants';
 import { GlobalFunctions } from '../../common/global-functions';
@@ -19,6 +19,10 @@ export class EntertainmentComponent implements OnInit {
   entertainmentArrObj: any = {};
   myPostsObj: any = [];
   isLoading: boolean = false;
+
+  currentPage: number = 1;
+  pageSize: number = 20;
+  hasMoreRecords: boolean = true;
 
   all: boolean = true;
   images: boolean = false;
@@ -62,41 +66,61 @@ export class EntertainmentComponent implements OnInit {
     private _entertainment: EntertainmentService,
     private _modalService: ModalService,
     private _router: Router,
+    private elementRef: ElementRef,
   ) { }
 
   ngOnInit(): void {
-    this.getEntertainment();
+    //this.getEntertainment();
+    this.loadMoreEntertainmentItems();
   }
 
-  getEntertainment(): void {
-    this.isLoading = true;
-    this._entertainment.getEntertainmentApi().subscribe((result: any) => {
-      if (result && result.IsSuccess) {
-        this.allEntertainmentPhotosAndVideosList = this._globalFunctions.copyObject(result?.Data || []);
-        this.entertainmentArrObj = _.mapValues(_.groupBy(this.allEntertainmentPhotosAndVideosList, 'media'));
+  // getEntertainment(): void {
+  //   this.isLoading = true;
+  //   this._entertainment.getEntertainmentApi().subscribe((result: any) => {
+  //     if (result && result.IsSuccess) {
+  //       this.allEntertainmentPhotosAndVideosList = this._globalFunctions.copyObject(result?.Data || []);
+  //       this.entertainmentArrObj = _.mapValues(_.groupBy(this.allEntertainmentPhotosAndVideosList, 'media'));
+  //       this.isLoading = false;
+  //     } else {
+  //       this._globalFunctions.successErrorHandling(result, this, true);
+  //       this.isLoading = false;
+  //     }
+  //   }, (error: any) => {
+  //     this._globalFunctions.errorHanding(error, this, true);
+  //     this.isLoading = false;
+  //   });
+  // }
+  loadMoreEntertainmentItems() {
+    if (!this.isLoading) {
+      this.isLoading = true;
+      let data = {page: this.currentPage, limit: this.pageSize};
+      this._entertainment.getEntertainmentApi(data).subscribe((result: any) => {
+        if (result && result.IsSuccess) {
+          //this.allEntertainmentPhotosAndVideosList = this._globalFunctions.copyObject(result?.Data || []);
+          //this.entertainmentArrObj = _.mapValues(_.groupBy(this.allEntertainmentPhotosAndVideosList, 'media'));
+          if (result.Data.length === 0) {
+            // No more records, set the flag to stop further API requests
+            this.hasMoreRecords = false;
+          } else {
+            const newItems = this._globalFunctions.copyObject(result?.Data || []); // Adjust this based on your API response structure
+            this.allEntertainmentPhotosAndVideosList = [...this.allEntertainmentPhotosAndVideosList, ...newItems];
+            this.isLoading = false;
+            this.currentPage++;
+          }
+        } else {
+          this._globalFunctions.successErrorHandling(result, this, true);
+          this.isLoading = false;
+        }
+      }, (error: any) => {
+        this._globalFunctions.errorHanding(error, this, true);
         this.isLoading = false;
-      } else {
-        this._globalFunctions.successErrorHandling(result, this, true);
-        this.isLoading = false;
-      }
-    }, (error: any) => {
-      this._globalFunctions.errorHanding(error, this, true);
-      this.isLoading = false;
-    });
-    // this._entertainment.getMyPostsApi().subscribe((result: any) => {
-    //   if (result && result.IsSuccess) {
-    //     this.myPostsObj = this._globalFunctions.copyObject(result?.Data || []);
-    //     this.isLoading = false;
-    //   } else {
-    //     this._globalFunctions.successErrorHandling(result, this, true);
-    //     this.isLoading = false;
-    //   }
-    // }, (error: any) => {
-    //   this._globalFunctions.errorHanding(error, this, true);
-    //   this.isLoading = false;
-    // });
+      });
+    }
   }
-
+  onScroll() {
+    console.log("scrolled!!");
+    this.loadMoreEntertainmentItems();
+  }
   commentBox(event: any): void {
     const itemEV: any = {
       entertainment_id: event?._id || event?.entertainment_id,

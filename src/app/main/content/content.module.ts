@@ -37,7 +37,7 @@ import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { MatIconModule } from "@angular/material/icon";
 import { MyPostsComponent } from './my-posts/my-posts.component';
 import { QRCodeModule } from 'angularx-qrcode';
-
+import { InfiniteScrollModule } from "ngx-infinite-scroll";
 
 const routes: Routes = [
   {
@@ -88,7 +88,8 @@ const routes: Routes = [
     SharedModule,
     PickerModule,
     MatIconModule,
-    QRCodeModule
+    QRCodeModule,
+    InfiniteScrollModule
   ]
 })
 export class ContentModule {
