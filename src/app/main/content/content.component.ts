@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { SafeUrl } from "@angular/platform-browser";
 import { GlobalService } from 'src/app/services/global.service';
+import { SocketioService } from 'src/app/services/socketio.service';
 import { LanguageTranslateService } from "../../services/language-translate.service";
 import { CONSTANTS } from '../common/constants';
 import { SnotifyService } from 'ng-snotify';
@@ -31,12 +32,15 @@ export class ContentComponent implements OnInit, OnDestroy {
 
   public qrCodeData: string = "";
   public qrCodeDownloadLink: SafeUrl = "";
+  public isNotification: boolean = false;
+  public messages: string[] = [];
 
   constructor(
     private _sNotify: SnotifyService,
     private _router: Router,
     private _contentService: ContentService,
     private _globalService: GlobalService,
+    private SocketioService: SocketioService,
     private _globalFunctions: GlobalFunctions,
     private _modalService: ModalService,
     private _translateLanguage: LanguageTranslateService
@@ -54,6 +58,15 @@ export class ContentComponent implements OnInit, OnDestroy {
         this.loginUser = user;
         this.qrCodeData = this.loginUser._id;
       }
+    });
+    //this.SocketioService.receiveMessage();
+    this.SocketioService.listenToAnyEvent((eventName: string, data: any) => {
+      // Handle the event here
+      console.log(`Received event: ${eventName}`);
+      console.log('Data:', data);
+
+      // You can push the received data to the messages array for display
+      this.messages.push(`Received event: ${eventName}, Data: ${JSON.stringify(data)}`);
     });
   }
 
@@ -126,5 +139,9 @@ export class ContentComponent implements OnInit, OnDestroy {
         break;
     }
     this.searchInput.nativeElement.value = '';
+  }
+
+  toggleNotification() {
+    this.isNotification = !this.isNotification;
   }
 }

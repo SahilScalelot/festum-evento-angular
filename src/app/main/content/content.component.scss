@@ -1,0 +1,7 @@
+.notification {
+  width: 100%;
+  margin: 0 auto;
+  overflow-x: hidden; /* Add a scrollbar to the container */
+  overflow-y: scroll; /* Add a scrollbar to the container */
+  max-height: 200px; /* Set a fixed height for scrolling */
+}

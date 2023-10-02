@@ -13,7 +13,7 @@ export class ReferAndEarnComponent implements OnInit {
   isLoading: boolean = false;
   userObj: any = {};
   referralCode: string = '';
-  referralLink: string = `${window.location.origin}/?ref=${this.referralCode}`;
+  referralLink: string = '';
 
   constructor(
     private _globalService: GlobalService,
@@ -28,13 +28,14 @@ export class ReferAndEarnComponent implements OnInit {
       if (user) {
         this.userObj = this._globalFunctions.copyObject(user);
         this.referralCode = this.userObj.my_refer_code;
+        this.referralLink = `${window.location.origin}/?ref=${this.referralCode}`;
         this.isLoading = false;
       }
     });
   }
 
   shareOnWhatsApp() {
-    const text = `Check out this amazing offer! Use my referral code: ${this.referralCode}`;
+    const text = `Refer a friend and get an additional 10 coins and your friend gets additional 10 point. Use my referral code: ${this.referralCode}`;
     const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
     window.open(url, '_blank');
   }
@@ -45,25 +46,25 @@ export class ReferAndEarnComponent implements OnInit {
   }
 
   shareOnTelegram() {
-    const text = `Check out this amazing offer! Use my referral code: ${this.referralCode}`;
+    const text = `Refer a friend and get an additional 10 coins and your friend gets additional 10 point. Use my referral code: ${this.referralCode}`;
     const url = `https://t.me/share/url?url=${encodeURIComponent(this.referralLink)}&text=${encodeURIComponent(text)}`;
     window.open(url, '_blank');
   }
 
   shareOnTwitter() {
-    const text = `Check out this amazing offer! Use my referral code: ${this.referralCode}`;
+    const text = `Refer a friend and get an additional 10 coins and your friend gets additional 10 point. Use my referral code: ${this.referralCode}`;
     const shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(this.referralLink)}&text=${encodeURIComponent(text)}`;
     window.open(shareUrl, '_blank');
   }
 
   shareViaSMS() {
-    const message = `Check out this amazing offer! Use my referral code: ${this.referralCode}`;
+    const message = `Refer a friend and get an additional 10 coins and your friend gets additional 10 point. Use my referral code: ${this.referralCode}`;
     const url = `sms:?&body=${encodeURIComponent(message)}`;
     window.location.href = url;
   }
 
   shareByEmail() {
-    const subject = 'Check out this amazing offer!';
+    const subject = 'Refer a friend and get an additional 10 coins and your friend gets additional 10 point.';
     const body = `Use my referral code: ${this.referralCode}\n\n${this.referralLink}`;
     const url = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     window.location.href = url;
