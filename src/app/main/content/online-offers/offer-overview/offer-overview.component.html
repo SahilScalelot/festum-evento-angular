@@ -97,7 +97,7 @@
                   <img
                     [src]="!!(platform?.platform?.platformimage) ? constants.baseImageURL + platform.platform.platformimage : constants.defaultImage"
                     [alt]="platform.platform.name" class="w-7 h-7 object-contain" />
-                  <input type="text" class="w-full outline-none bg-transparent" [value]="platform.product_link" readonly />
+                  <!-- <input type="text" class="w-full outline-none bg-transparent" [value]="platform.product_link" readonly /> -->
                   <div class="w-full block">
                     <a [href]="platform.product_link" target="_blank" class="w-full block text-sm normal-case whitespace-nowrap overflow-hidden overflow-ellipsis">{{platform?.clicks}}</a>
                     <span class="text-xs text-quicksilver">{{platform?.short_link_id?.clicks}} User Click</span>
@@ -105,7 +105,7 @@
                 </div>
                 <div class="text-xl leading-0">
                   <a href="javascript:void(0);" class="px-3" title="Copy" (click)="copyLink(platform.product_link)"><i class="icon-copy"></i></a>
-                  <a [href]="platform.product_link" class="px-3 border-l border-quicksilver" target="_blank" title="View This Link"><i class="icon-big_screen"></i></a>
+                  <a [href]="'//'+platform.product_link" class="px-3 border-l border-quicksilver" target="_blank" title="View This Link"><i class="icon-big_screen"></i></a>
                   <a href="javascript:void(0);" class="px-3 border-l border-quicksilver" title="Share">
                     <i class="icon-share_border"></i>
                   </a>

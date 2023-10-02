@@ -5,7 +5,7 @@ import { SocketioService } from 'src/app/services/socketio.service';
 import { LanguageTranslateService } from "../../services/language-translate.service";
 import { CONSTANTS } from '../common/constants';
 import { SnotifyService } from 'ng-snotify';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { ModalService } from '../_modal';
 import html2canvas from 'html2canvas';
 import { ContentService } from './content.service';
@@ -87,6 +87,13 @@ export class ContentComponent implements OnInit, OnDestroy {
     localStorage.removeItem('accessToken');
     this._router.navigate(['login']);
     this._sNotify.success('Logged Out Successfully!', 'Success');
+    this._router.events.subscribe((event: any) => {
+      if (event instanceof NavigationEnd) {
+        console.log(event);
+        this._router.navigate([event.url]);
+        location.reload();
+      }
+    })
   }
   openBarcode() {
     this._modalService.open('Barcode');

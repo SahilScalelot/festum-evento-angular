@@ -5,7 +5,7 @@
     <!-- title-holder  -->
     <form [formGroup]="profileForm">
       <div class="flex justify-between items-center pt-4 pb-8">
-        <h1>Personal profile</h1>
+        <h1>Personal Profile</h1>
         <button *ngIf="!isEditProfile" class="secondary px-5 py-2" (click)="enableFields()">Edit Profile</button>
         <button type="submit" *ngIf="isEditProfile" class="secondary px-5 py-2" (click)="updatePersonalProfile()">Submit</button>
       </div>
@@ -149,7 +149,7 @@
     <!-- title-holder  -->
     <form [formGroup]="businessForm" *ngIf="true">
       <div class="flex justify-between items-center pt-4 pb-8">
-        <h1>Business profile </h1>
+        <h1>Business Profile </h1>
         <button *ngIf="!isEditBusinessProfile" class="secondary px-5 py-2" (click)="enableFields(true)">Edit Business Profile</button>
         <button type="submit" *ngIf="isEditBusinessProfile" class="secondary px-5 py-2" (click)="updateBusinessProfile()">Submit</button>
       </div>

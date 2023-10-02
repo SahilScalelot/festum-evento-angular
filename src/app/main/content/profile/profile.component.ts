@@ -93,9 +93,12 @@ export class ProfileComponent implements OnInit {
         this.profileObj = user;
         this._prepareProfileForm(this.profileObj);
         this.profile_pic = CONSTANTS.baseImageURL + this.profileObj?.profile_pic;
-        this.business_profile_pic = CONSTANTS.baseImageURL + this.profileObj?.businessProfile?.profile_pic;
-        this.businessObj = this.profileObj?.businessProfile;
-        this._prepareBusinessForm(this.businessObj);
+        if (this.profileObj?.businessProfile?.profile_pic) {
+          
+          this.business_profile_pic = CONSTANTS.baseImageURL + this.profileObj?.businessProfile?.profile_pic;
+          this.businessObj = this.profileObj?.businessProfile;
+          this._prepareBusinessForm(this.businessObj);
+        }
         this.isLoading = false;
       }
     });
@@ -104,7 +107,7 @@ export class ProfileComponent implements OnInit {
     this._prepareProfileForm(this.profileObj);
     this._prepareBusinessForm(this.profileObj?.businessProfile);
     // this._getUserDetail();
-    this.pincodeValidation(this.profileObj.value.pincode);
+    this.pincodeValidation(this.profileObj.pincode);
   }
 
   onTextEditorReady(editor: any): void {
