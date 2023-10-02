@@ -24,6 +24,7 @@ export class ContentComponent implements OnInit, OnDestroy {
   languageModel: boolean = false;
   constants: any = CONSTANTS;
   searchObj: any;
+  channelId: string = '7778009509_64ace2b44a72668d4a558e1f';
   
   @ViewChild('searchInput') searchInput: any;
   @ViewChild('screenShort') screenShort: any;
@@ -57,17 +58,27 @@ export class ContentComponent implements OnInit, OnDestroy {
       if (user) {
         this.loginUser = user;
         this.qrCodeData = this.loginUser._id;
+        //this.channelId = this.loginUser.channelID;
+        //console.log(this.loginUser);
+        //this.messageToSend = ''; // Clear the input field
       }
     });
-    //this.SocketioService.receiveMessage();
-    this.SocketioService.listenToAnyEvent((eventName: string, data: any) => {
-      // Handle the event here
-      console.log(`Received event: ${eventName}`);
-      console.log('Data:', data);
+    //this.SocketioService.connect();
+    this.SocketioService.joinChannel(this.channelId);
 
-      // You can push the received data to the messages array for display
-      this.messages.push(`Received event: ${eventName}, Data: ${JSON.stringify(data)}`);
+    this.SocketioService.listenToChannel(this.channelId, (message: string) => {
+      console.log(message);
+      this.messages.push(message);
     });
+    this.SocketioService.sendMessage(this.channelId, 'test');
+    // this.SocketioService.listenToAnyEvent((eventName: string, data: any) => {
+    //   // Handle the event here
+    //   console.log(`Received event: ${eventName}`);
+    //   console.log('Data:', data);
+    //
+    //   // You can push the received data to the messages array for display
+    //   this.messages.push(`Received event: ${eventName}, Data: ${JSON.stringify(data)}`);
+    // });
   }
 
   ngOnDestroy(): void {

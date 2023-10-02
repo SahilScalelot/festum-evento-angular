@@ -8,30 +8,50 @@ import { Observable } from 'rxjs';
 })
 
 export class SocketioService {
-    private socket: Socket;
+    private socket: any;
 
     constructor() {
-        this.socket = io(environment.SOCKET_ENDPOINT);
-        console.log(this.socket);
-        console.log(this.socket.connected);
-        this.socket.on('notification', (data: any) => {
-            console.log(data)
-            //observer.next(data);
+        this.socket = io(environment.SOCKET_ENDPOINT, {
+            reconnectionAttempts: 5, // Maximum number of reconnection attempts
+        });
+        this.socket.on('connect', () => {
+            console.log('successfull')
         });
     }
-    connect() {
-        this.socket.connect();
+    joinChannel(channelId: string) {
+        console.log(channelId);
+        this.socket.emit('join', channelId);
+        console.log(this.socket);
+        console.log(this.socket.connected);
     }
+
+    listenToChannel(channelId: string, callback: (message: string) => void) {
+        console.log(channelId);
+        this.socket.on(`message:${channelId}`, callback);
+        // this.socket.on(`message:${channelId}`, (data: any) => {
+        //     console.log(data);
+        //     //observer.next(data);
+        // });
+        // this.socket.on(channelId, (message: any) => {
+        //    console.log(message);
+        // });
+    }
+
+    sendMessage(channelId: string, message: string) {
+        console.log(channelId);
+        this.socket.emit('message', { channelId, text: message });
+    }
+
     // Emit an event
-    public sendMessage(message: string): void {
-        this.socket.emit('notification', { message });
-    }
+    // public sendMessage(message: string): void {
+    //     this.socket.emit('notification', { message });
+    // }
 
     // Receive notifications
     public receiveMessage(): Observable<any> {
         return new Observable<any>((observer) => {
             this.socket.on('notification', (data: any) => {
-                console.log(data)
+                console.log(data);
                 observer.next(data);
             });
         });
@@ -41,20 +61,9 @@ export class SocketioService {
             callback(eventName, data);
         });
     }
-    // setupSocketConnection() {
-    //     this.socket = io(environment.SOCKET_ENDPOINT, {
-    //         auth: {
-    //             token: "abc"
-    //         }
-    //     });
-    //
-    //     this.socket.emit('my message', 'Hello there from Angular.');
-    //
-    //     this.socket.on('my broadcast', (data: string) => {
-    //         console.log(data);
-    //     });
-    // }
-
+    connect() {
+        this.socket.connect();
+    }
     disconnect() {
         if (this.socket) {
             this.socket.disconnect();
