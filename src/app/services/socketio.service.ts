@@ -15,20 +15,28 @@ export class SocketioService {
             reconnectionAttempts: 5, // Maximum number of reconnection attempts
         });
         this.socket.on('connect', () => {
-            console.log('successfull')
+            console.log('successfull');
+            console.log(this.socket);
+            //console.log(this.socket.connected);
+            let channelId = '7778009509_64ace2b44a72668d4a558e1f';
+            this.joinChannel(channelId);
+            this.socket.emit(channelId, { message: 'Hello from client' });
+            this.socket.on(channelId, (data: any) => {
+                console.log(`Received data from channel ${channelId}:`, data);
+                //observer.next(data);
+            });
         });
     }
     joinChannel(channelId: string) {
-        console.log(channelId);
-        this.socket.emit('join', channelId);
-        console.log(this.socket);
-        console.log(this.socket.connected);
+        //console.log(channelId);
+        this.socket.emit('joinChannel', channelId);
+
     }
 
     listenToChannel(channelId: string, callback: (message: string) => void) {
         console.log(channelId);
         this.socket.on(`message:${channelId}`, callback);
-        // this.socket.on(`message:${channelId}`, (data: any) => {
+        // this.socket.on(channelId, (data: any) => {
         //     console.log(data);
         //     //observer.next(data);
         // });
@@ -39,7 +47,7 @@ export class SocketioService {
 
     sendMessage(channelId: string, message: string) {
         console.log(channelId);
-        this.socket.emit('message', { channelId, text: message });
+        this.socket.emit(channelId, { message: 'Hello from client' });
     }
 
     // Emit an event

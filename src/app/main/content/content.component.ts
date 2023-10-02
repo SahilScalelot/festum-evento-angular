@@ -64,13 +64,13 @@ export class ContentComponent implements OnInit, OnDestroy {
       }
     });
     //this.SocketioService.connect();
-    this.SocketioService.joinChannel(this.channelId);
+    //this.SocketioService.joinChannel(this.channelId);
 
-    this.SocketioService.listenToChannel(this.channelId, (message: string) => {
-      console.log(message);
-      this.messages.push(message);
-    });
-    this.SocketioService.sendMessage(this.channelId, 'test');
+    // this.SocketioService.listenToChannel(this.channelId, (message: string) => {
+    //   console.log(message);
+    //   this.messages.push(message);
+    // });
+    // this.SocketioService.sendMessage(this.channelId, 'test');
     // this.SocketioService.listenToAnyEvent((eventName: string, data: any) => {
     //   // Handle the event here
     //   console.log(`Received event: ${eventName}`);
@@ -161,5 +161,6 @@ export class ContentComponent implements OnInit, OnDestroy {
 
   toggleNotification() {
     this.isNotification = !this.isNotification;
+    this.SocketioService.sendMessage(this.channelId, 'test');
   }
 }
