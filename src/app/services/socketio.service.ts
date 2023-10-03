@@ -12,30 +12,15 @@ export class SocketioService {
 
     constructor() {
         this.socket = io(environment.SOCKET_ENDPOINT);
-        // this.socket.on('connect', () => {
-        //     console.log('successfull');
-        //     console.log(this.socket);
-        //     //console.log(this.socket.connected);
-        //     let channelId = '7778009509_64ace2b44a72668d4a558e1f';
-        //     this.joinChannel(channelId);
-        //     this.socket.emit(channelId, { message: 'Hello from client' });
-        //     this.socket.on(channelId, (data: any) => {
-        //         console.log(`Received data from channel ${channelId}:`, data);
-        //         //observer.next(data);
-        //     });
-        //     const listeners = this.socket.listenersAny();
-        //     console.log(listeners);
-        // });
     }
     joinChannel(channelId: string) {
         this.socket.emit('join', channelId);
     }
 
     listenToChannel(channelId: string, callback: (message: string) => void) {
-        console.log(channelId);
         this.socket.on(`message:${channelId}`, callback);
     }
-// Listen for a specific event
+    // Listen for a specific event
     public listen(event: string): Observable<any> {
         return new Observable<any>((observer) => {
             this.socket.on(event, (data: any) => {
@@ -71,6 +56,10 @@ export class SocketioService {
 
             this.socket.on('my broadcast', (data: string) => {
                 console.log(data);
+            });
+            this.socket.on('onEditEvent', (data: any) => {
+                console.log(data)
+                //observer.next(data);
             });
         });
     }

@@ -34,7 +34,7 @@ export class ContentComponent implements OnInit, OnDestroy {
   public qrCodeData: string = "";
   public qrCodeDownloadLink: SafeUrl = "";
   public isNotification: boolean = false;
-  public messages: string[] = [];
+  public messages: any[] = [];
 
   constructor(
     private _sNotify: SnotifyService,
@@ -63,27 +63,13 @@ export class ContentComponent implements OnInit, OnDestroy {
         //this.messageToSend = ''; // Clear the input field
       }
     });
-    //this.SocketioService.connect();
-    //this.SocketioService.joinChannel(this.channelId);
 
-    // this.SocketioService.listenToChannel(this.channelId, (message: string) => {
-    //   console.log(message);
-    //   this.messages.push(message);
-    // });
-    // this.SocketioService.sendMessage(this.channelId, 'test');
-
-    this.SocketioService.setupSocketConnection();
     this.SocketioService.listenToAnyEvent((eventName: string, data: any) => {
       // Handle the event here
-      console.log(`Received event: ${eventName}`);
-      console.log('Data:', data);
+      // console.log(`Received event: ${eventName}`);
+      // console.log('Data:', data.data);
 
-      // You can push the received data to the messages array for display
-      this.messages.push(`Received event: ${eventName}, Data: ${JSON.stringify(data)}`);
-    });
-    this.SocketioService.listen(this.channelId).subscribe((data: any) => {
-      console.log(data);
-      //this.messages.push(data.message);
+      this.messages.push(data.data);
     });
   }
 
@@ -106,7 +92,6 @@ export class ContentComponent implements OnInit, OnDestroy {
     this._sNotify.success('Logged Out Successfully!', 'Success');
     this._router.events.subscribe((event: any) => {
       if (event instanceof NavigationEnd) {
-        console.log(event);
         this._router.navigate([event.url]);
         location.reload();
       }
@@ -167,6 +152,5 @@ export class ContentComponent implements OnInit, OnDestroy {
 
   toggleNotification() {
     this.isNotification = !this.isNotification;
-    //this.SocketioService.sendMessage(this.channelId, 'test');
   }
 }
