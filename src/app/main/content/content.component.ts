@@ -71,14 +71,20 @@ export class ContentComponent implements OnInit, OnDestroy {
     //   this.messages.push(message);
     // });
     // this.SocketioService.sendMessage(this.channelId, 'test');
-    // this.SocketioService.listenToAnyEvent((eventName: string, data: any) => {
-    //   // Handle the event here
-    //   console.log(`Received event: ${eventName}`);
-    //   console.log('Data:', data);
-    //
-    //   // You can push the received data to the messages array for display
-    //   this.messages.push(`Received event: ${eventName}, Data: ${JSON.stringify(data)}`);
-    // });
+
+    this.SocketioService.setupSocketConnection();
+    this.SocketioService.listenToAnyEvent((eventName: string, data: any) => {
+      // Handle the event here
+      console.log(`Received event: ${eventName}`);
+      console.log('Data:', data);
+
+      // You can push the received data to the messages array for display
+      this.messages.push(`Received event: ${eventName}, Data: ${JSON.stringify(data)}`);
+    });
+    this.SocketioService.listen(this.channelId).subscribe((data: any) => {
+      console.log(data);
+      //this.messages.push(data.message);
+    });
   }
 
   ngOnDestroy(): void {
@@ -161,6 +167,6 @@ export class ContentComponent implements OnInit, OnDestroy {
 
   toggleNotification() {
     this.isNotification = !this.isNotification;
-    this.SocketioService.sendMessage(this.channelId, 'test');
+    //this.SocketioService.sendMessage(this.channelId, 'test');
   }
 }
