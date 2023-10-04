@@ -15,4 +15,9 @@ export class ContentService {
     return this.http.post(environment.appURL + 'organizer/search', {'search': search}, this._globalFunctions.getAuthorizationHeader());
   }
 
+  // Notification List
+  getNotificationList(data: any = {}): any {
+    return this.http.post(environment.appURL + 'organizer/alertnotification', data, this._globalFunctions.getAuthorizationHeader());
+  }
+
 }

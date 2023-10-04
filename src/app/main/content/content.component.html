@@ -335,7 +335,7 @@
           <!-- Start Notification -->
           <a href="javascript:void(0);" class="relative inline-flex items-center px-3 py-1.5 text-sm font-medium text-center" (click)="toggleNotification()">
             <span class="icon-bell text-2xl block"></span>
-            <div class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full top-0 right-[2px] dark:border-gray-900">{{messages.length}}</div>
+            <div class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full top-0 right-[2px] dark:border-gray-900">{{notificationLength.length}}</div>
           </a>
           <!--<a href="javascript:void(0);" class="" (click)="toggleNotification()">-->
             <!--<span class="icon-bell text-2xl block"></span>-->
@@ -346,24 +346,41 @@
 
             <div *ngIf="isNotification" class="absolute top-full right-0 pt-3  shadow-md rounded-md bg-white border p-2.5">
               <div class="py-2 notification">
-                <ng-container *ngIf="messages.length > 0" >
-                  <ng-template *ngFor="let ms of messages">
 
+                <div *ngIf="messages.length > 0" >
+                  <div *ngFor="let ms of messages">
 
-                  <a href="#" class="flex items-center px-4 py-3 border-b hover:bg-gray-100 -mx-2">
+                  <a *ngIf="ms.type === 'event'" [routerLink]="['/events', ms.entityid]" class="flex items-center px-4 py-3 border-b hover:bg-gray-100 -mx-2">
                     <img [src]="!!(ms?.banner) ? constants.baseImageURL + ms.banner : constants.defaultImage" alt="{{ms?.banner}}" class="h-8 w-8 rounded-full object-cover mx-1"/>
-                    <!--<img class="h-8 w-8 rounded-full object-cover mx-1" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80" alt="avatar">-->
                     <p class="text-gray-600 text-sm mx-2">
                       {{ms?.message}}
                     </p>
                   </a>
-                  </ng-template>
-                </ng-container>
-                <ng-container *ngIf="messages.length === 0">
+                    <a *ngIf="ms.type === 'livetsream'" [routerLink]="['/live-stream', ms.entityid]" class="flex items-center px-4 py-3 border-b hover:bg-gray-100 -mx-2">
+                      <img [src]="!!(ms?.banner) ? constants.baseImageURL + ms.banner : constants.defaultImage" alt="{{ms?.banner}}" class="h-8 w-8 rounded-full object-cover mx-1"/>
+                      <p class="text-gray-600 text-sm mx-2">
+                        {{ms?.message}}
+                      </p>
+                    </a>
+                    <a *ngIf="ms.type === 'shop'" [routerLink]="['/offline-shops', ms.entityid]" class="flex items-center px-4 py-3 border-b hover:bg-gray-100 -mx-2">
+                      <img [src]="!!(ms?.banner) ? constants.baseImageURL + ms.banner : constants.defaultImage" alt="{{ms?.banner}}" class="h-8 w-8 rounded-full object-cover mx-1"/>
+                      <p class="text-gray-600 text-sm mx-2">
+                        {{ms?.message}}
+                      </p>
+                    </a>
+                    <a *ngIf="ms.type === 'onlineoffer'" [routerLink]="['/online-offers', ms.entityid]" class="flex items-center px-4 py-3 border-b hover:bg-gray-100 -mx-2">
+                      <img [src]="!!(ms?.banner) ? constants.baseImageURL + ms.banner : constants.defaultImage" alt="{{ms?.banner}}" class="h-8 w-8 rounded-full object-cover mx-1"/>
+                      <p class="text-gray-600 text-sm mx-2">
+                        {{ms?.message}}
+                      </p>
+                    </a>
+                  </div>
+                </div>
+                <div *ngIf="messages.length === 0">
                   <div class="flex items-center justify-center empty">
                     <p class="block text-black py-2">No Notifications</p>
                   </div>
-                </ng-container>
+                </div>
               </div>
               <div class="flex items-center justify-center">
                 <a href="#" class="block text-black font-bold py-2">See All Notifications</a>

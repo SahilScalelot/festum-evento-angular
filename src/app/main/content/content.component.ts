@@ -34,7 +34,9 @@ export class ContentComponent implements OnInit, OnDestroy {
   public qrCodeData: string = "";
   public qrCodeDownloadLink: SafeUrl = "";
   public isNotification: boolean = false;
-  public messages: any[] = [];
+  public messages: any = [];
+  public organiser: any;
+  public notificationLength: any = [];
 
   constructor(
     private _sNotify: SnotifyService,
@@ -58,28 +60,47 @@ export class ContentComponent implements OnInit, OnDestroy {
       if (user) {
         this.loginUser = user;
         this.qrCodeData = this.loginUser._id;
+        this.SocketioService.onMessage(user.channelID).subscribe((data) => {
+            //console.log(data);
+            if (Notification.permission === 'granted') {
+              const notification = new Notification(data.data.title, {
+                body: data.data.message,
+                icon: this.constants.baseImageURL + data.data.banner
+              });
+              notification.onclick = (event) => {
+                //console.log(event);
+                event.preventDefault();
+                window.open("https://festumevento.com/#/events", "_blank");
+              };
+            }
+            this.getNotificationListData();
+            this.notificationLength.push(data.data);
+        });
         //this.channelId = this.loginUser.channelID;
         //console.log(this.loginUser);
         //this.messageToSend = ''; // Clear the input field
       }
     });
 
-    this.SocketioService.listenToAnyEvent((eventName: string, data: any) => {
-      // Handle the event here
-      // console.log(`Received event: ${eventName}`);
-      // console.log('Data:', data.data);
-      if (Notification.permission === 'granted') {
-        const notification = new Notification('Event Update', {
-          body: data.data.message,
-          icon: this.constants.baseImageURL + data.data.banner
-        });
-        notification.onclick = (event) => {
-          event.preventDefault();
-          window.open("https://festumevento.com/#/events", "_blank");
-        };
-      }
-      this.messages.push(data.data);
-    });
+    this.getNotificationListData();
+    //this.SocketioService.joinChannel(this.channelId);
+
+    // this.SocketioService.listenToAnyEvent((eventName: string, data: any) => {
+    //   console.log('Data:', data.data);
+    //   if (Notification.permission === 'granted') {
+    //     const notification = new Notification(data.data.title, {
+    //       body: data.data.message,
+    //       icon: this.constants.baseImageURL + data.data.banner
+    //     });
+    //     notification.onclick = (event) => {
+    //       console.log(event);
+    //       event.preventDefault();
+    //       window.open("https://festumevento.com/#/events", "_blank");
+    //     };
+    //   }
+    //   this.getNotificationListData();
+    //   this.notificationLength.push(data.data);
+    // });
   }
 
   ngOnDestroy(): void {
@@ -135,6 +156,20 @@ export class ContentComponent implements OnInit, OnDestroy {
       this._router.navigate(['/search']);
       this._globalService.searchValue$.next(searchWord);
     }
+  }
+
+  getNotificationListData() {
+    let data = {page: 1, limit: 5};
+    this.messages = [];
+    this._contentService.getNotificationList(data).subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        this.messages = this._globalFunctions.copyObject(result.Data.docs);
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+    });
   }
 
   openUrl(event: any, type: any = ''): void {
