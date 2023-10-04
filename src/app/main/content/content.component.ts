@@ -68,7 +68,16 @@ export class ContentComponent implements OnInit, OnDestroy {
       // Handle the event here
       // console.log(`Received event: ${eventName}`);
       // console.log('Data:', data.data);
-
+      if (Notification.permission === 'granted') {
+        const notification = new Notification('Event Update', {
+          body: data.data.message,
+          icon: this.constants.baseImageURL + data.data.banner
+        });
+        notification.onclick = (event) => {
+          event.preventDefault();
+          window.open("https://festumevento.com/#/events", "_blank");
+        };
+      }
       this.messages.push(data.data);
     });
   }

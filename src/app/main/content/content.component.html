@@ -333,7 +333,7 @@
             </span>
           </a>
           <!-- Start Notification -->
-          <a href="javascript:void(0);" class="relative inline-flex items-center px-3 py-1.5  text-sm font-medium text-center" (click)="toggleNotification()">
+          <a href="javascript:void(0);" class="relative inline-flex items-center px-3 py-1.5 text-sm font-medium text-center" (click)="toggleNotification()">
             <span class="icon-bell text-2xl block"></span>
             <div class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full top-0 right-[2px] dark:border-gray-900">{{messages.length}}</div>
           </a>
@@ -342,11 +342,14 @@
             <!--<div class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full right-25 xl:top-3 dark:border-gray-900">20</div>-->
           <!--</a>-->
 
-          <!-- Dropdown menu -->
+          <!-- dropDown menu -->
 
             <div *ngIf="isNotification" class="absolute top-full right-0 pt-3  shadow-md rounded-md bg-white border p-2.5">
               <div class="py-2 notification">
-                <ng-container *ngFor="let ms of messages">
+                <ng-container *ngIf="messages.length > 0" >
+                  <ng-template *ngFor="let ms of messages">
+
+
                   <a href="#" class="flex items-center px-4 py-3 border-b hover:bg-gray-100 -mx-2">
                     <img [src]="!!(ms?.banner) ? constants.baseImageURL + ms.banner : constants.defaultImage" alt="{{ms?.banner}}" class="h-8 w-8 rounded-full object-cover mx-1"/>
                     <!--<img class="h-8 w-8 rounded-full object-cover mx-1" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80" alt="avatar">-->
@@ -354,6 +357,12 @@
                       {{ms?.message}}
                     </p>
                   </a>
+                  </ng-template>
+                </ng-container>
+                <ng-container *ngIf="messages.length === 0">
+                  <div class="flex items-center justify-center empty">
+                    <p class="block text-black py-2">No Notifications</p>
+                  </div>
                 </ng-container>
               </div>
               <div class="flex items-center justify-center">
