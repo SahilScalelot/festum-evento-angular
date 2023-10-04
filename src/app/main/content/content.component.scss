@@ -5,11 +5,14 @@
   overflow-y: scroll; /* Add a scrollbar to the container */
   max-height: 200px; /* Set a fixed height for scrolling */
 }
-.notification p {
+.notification .list p {
   width: 289px;
   /* white-space: nowrap; */
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.notification .no-list p{
+  text-align: center;
 }
 .notification .empty {
   width: 300px;

@@ -347,7 +347,7 @@
             <div *ngIf="isNotification" class="absolute top-full right-0 pt-3  shadow-md rounded-md bg-white border p-2.5">
               <div class="py-2 notification">
 
-                <div *ngIf="messages.length > 0" >
+                <div class="list" *ngIf="messages.length > 0" >
                   <div *ngFor="let ms of messages">
 
                   <a *ngIf="ms.type === 'event'" [routerLink]="['/events', ms.entityid]" class="flex items-center px-4 py-3 border-b hover:bg-gray-100 -mx-2">
@@ -376,14 +376,14 @@
                     </a>
                   </div>
                 </div>
-                <div *ngIf="messages.length === 0">
+                <div class="no-list" *ngIf="messages.length === 0">
                   <div class="flex items-center justify-center empty">
                     <p class="block text-black py-2">No Notifications</p>
                   </div>
                 </div>
               </div>
               <div class="flex items-center justify-center">
-                <a href="#" class="block text-black font-bold py-2">See All Notifications</a>
+                <a href="javascript:void(0);" class="block text-black font-bold py-2">See All Notifications</a>
               </div>
             </div>
 
