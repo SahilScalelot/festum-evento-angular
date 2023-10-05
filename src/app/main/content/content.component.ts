@@ -65,12 +65,31 @@ export class ContentComponent implements OnInit, OnDestroy {
             if (Notification.permission === 'granted') {
               const notification = new Notification(data.data.title, {
                 body: data.data.message,
-                icon: this.constants.baseImageURL + data.data.banner
+                icon: this.constants.baseImageURL + data.data.banner,
+                data: data.data
               });
-              notification.onclick = (event) => {
-                //console.log(event);
+              notification.onclick = (event: any) => {
                 event.preventDefault();
-                window.open("https://festumevento.com/#/events", "_blank");
+                let type = event.target.data.type;
+                let entityId = event.target.data.entityid;
+                
+                if (type === "event") {
+                  window.open(`https://festumevento.com/#/events/${entityId}`, "_blank");
+                } else if (type === "livestrem") {
+                  window.open(`https://festumevento.com/#/live-stream/${entityId}`, "_blank");
+                } else if (type === "shop") {
+                  window.open(`https://festumevento.com/#/offline-shops/${entityId}`, "_blank");
+                } else if (type === "onlineoffer") {
+                  window.open(`https://festumevento.com/#/online-offers/${entityId}`, "_blank");
+                } else if (type === "offlineoffer") {
+                  let shopId = event.target.data.shopid;
+                  window.open(`https://festumevento.com/#/offline-shops/${shopId}/offer-overview/${entityId}`, "_blank");
+                } else if (type === "fcoin") {
+                  window.open("https://festumevento.com", "_blank");
+                } else {
+                  window.open("https://festumevento.com", "_blank");
+                }
+
               };
             }
             this.getNotificationListData();
