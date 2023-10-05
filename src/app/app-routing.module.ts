@@ -21,6 +21,7 @@ import { TermsAndConditionsUserComponent } from './main/common/terms-and-conditi
 import { PrivacyPolicyUserComponent } from './main/common/privacy-policy-user/privacy-policy.component';
 import { SearchComponent } from './main/content/search/search.component';
 import { MyPostsComponent } from './main/content/my-posts/my-posts.component';
+import { NotificationsComponent } from './main/content/notifications/notifications.component';
 
 const routes: Routes = [
 
@@ -148,6 +149,10 @@ const routes: Routes = [
       {
         path: 'profile',
         component: ProfileComponent
+      },
+      {
+        path: 'notifications',
+        component: NotificationsComponent
       }
     ]
   },

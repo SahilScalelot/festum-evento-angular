@@ -1,0 +1,37 @@
+<div class="wrapper min-h-full">
+    <div class="space-y-8 h-full">
+        <!-- title-holder  -->
+        <div class="flex justify-between items-center">
+            <a href="javascript:void(0);" class="flex items-center">
+                <h2>Notifications</h2>
+            </a>
+
+        </div>
+        <!-- main-content  -->
+        <div class="space-y-2.5">
+
+            <div class="bg-white p-5 rounded-md" *ngFor="let notification of notificationObj">
+                <div class="flex justify-between items-start">
+                    <div class="relative w-full md:max-w-[68px]">
+                        <img [src]="!!(notification?.banner) ? constants.baseImageURL + notification.banner : constants.defaultImage" alt="{{notification?.banner}}" class="h-16 w-16 rounded-full object-cover mx-1"/>
+                        <!--<img [src]="constants?.baseImageURL + notification?.banner" [alt]="notification?.notification_title" class="w-32 h-32 object-cover pb-5 lg:pb-0" />-->
+                    </div>
+                    <div class="pl-5 w-full md:max-w-[clac(100%-128px)]">
+                        <div class="flex justify-between">
+                            <h5>{{notification?.title}}</h5>
+                            <a href="javascript:void(0);"><i class="icon-more font-bold text-base"></i></a>
+                        </div>
+                        <p class="text-gray-400 text-base pt-3 font-medium" [innerHTML]="notification?.message"></p>
+                    </div>
+                </div>
+            </div>
+
+            <p *ngIf="!notificationObj || !notificationObj?.length">No Notification Records Found, Create new Notification.</p>
+            <div class="flex flex-wrap items-center justify-center" *ngIf="notificationObj && notificationObj?.length">
+                <p-paginator [rows]="paging?.limit" [totalRecords]="paging?.totalDocs" [rowsPerPageOptions]="[10, 20, 30, 40, 50]" (onPageChange)="getNotificationList($event)"></p-paginator>
+            </div>
+
+
+        </div>
+    </div>
+</div>
