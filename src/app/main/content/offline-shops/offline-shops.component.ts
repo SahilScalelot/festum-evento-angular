@@ -146,7 +146,7 @@ export class OfflineShopsComponent implements OnInit, OnDestroy {
   gotoPromotion(event: any, eventId: any){
     event.stopPropagation();
     localStorage.setItem('eId', eventId);
-    this._router.navigate(['/notifications']);
+    this._router.navigate(['/promotions']);
   }
   ngOnDestroy() {
     let elem = document.querySelector("#messageScript");

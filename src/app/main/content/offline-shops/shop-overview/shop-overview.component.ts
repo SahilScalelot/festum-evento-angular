@@ -142,7 +142,7 @@ export class ShopOverviewComponent implements OnInit, OnDestroy {
   gotoPromotion(event: any, shopId: any){
     event.stopPropagation();
     // localStorage.setItem('eId', shopId);
-    this._router.navigate(['/notifications']);
+    this._router.navigate(['/promotions']);
    
     
   }

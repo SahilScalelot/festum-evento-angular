@@ -102,8 +102,8 @@ const routes: Routes = [
         loadChildren: () => import('./main/content/create-stream/create-stream.module').then(m => m.CreateStreamModule)
       },
       {
-        path: 'notifications',
-        loadChildren: () => import('./main/content/notifications/notifications.module').then(m => m.NotificationsModule)
+        path: 'promotions',
+        loadChildren: () => import('./main/content/promotions/promotions.module').then(m => m.PromotionsModule)
       },
       {
         path: 'refer-and-earn',

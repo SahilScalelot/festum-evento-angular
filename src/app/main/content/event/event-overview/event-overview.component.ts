@@ -279,7 +279,7 @@ export class EventOverviewComponent implements OnInit {
   gotoPromotion(event: any, eventId: any){
     event.stopPropagation();
     localStorage.setItem('eId', eventId);
-    this._router.navigate(['/notifications']);
+    this._router.navigate(['/promotions']);
   }
   openSocialMediaDailog(event:any, data?: any) {
     event.stopPropagation();
