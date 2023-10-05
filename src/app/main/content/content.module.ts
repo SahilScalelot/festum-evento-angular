@@ -39,6 +39,7 @@ import { MyPostsComponent } from './my-posts/my-posts.component';
 import { QRCodeModule } from 'angularx-qrcode';
 import { InfiniteScrollModule } from "ngx-infinite-scroll";
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
+import { DateAgoPipe } from 'src/app/pipe/date-ago.pipe';
 
 const routes: Routes = [
   {
@@ -60,7 +61,8 @@ const routes: Routes = [
     OurProductComponent,
     BookingComponent,
     SearchComponent,
-    MyPostsComponent
+    MyPostsComponent,
+    DateAgoPipe
   ],
   imports: [
     RouterModule.forChild(routes),
