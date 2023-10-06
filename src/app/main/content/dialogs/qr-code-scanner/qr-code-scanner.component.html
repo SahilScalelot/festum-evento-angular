@@ -1,7 +1,7 @@
 <div class="popup table fixed w-full inset-0 z-40 h-screen">
     <div class="table-cell align-middle">
         <span (click)="closePopup()" class="absolute inset-0 bg-black bg-opacity-75"></span>
-        <div [ngClass]="popClass" class="popin max-w-[100%] w-full mx-auto max-h-[calc(100vh-55px)] overflow-y-auto lg:px-9 relative">
+        <div [ngClass]="popClass" class="popin max-w-[70%] w-full mx-auto max-h-[calc(100vh-55px)] lg:px-9 relative">
             <div class="bg-brightGray p-7 space-y-7">
                 <div class="flex justify-between items-center">
                     <h2>QR Code Scanner</h2>
@@ -19,19 +19,19 @@
                     </div>
                     <div class="w-full block">
                         <ng-container *ngIf="hasPermission === undefined">
-                            <h2>Waiting for permissions.</h2>
-                            <blockquote>If your device does not has cameras, no permissions will be asked.</blockquote>
+                            <h4>Waiting for permissions & devices loading.</h4>
+                            <p>If your device does not has cameras, no permissions will be asked.</p>
                         </ng-container>
                         <ng-container *ngIf="hasPermission === false">
-                            <h2>You denied the camera permission, we can't scan anything without it.</h2>
+                            <h4>You denied the camera permission, we can't scan anything without it.</h4>
                         </ng-container>
-                        <ng-container *ngIf="hasDevices === undefined">
-                            <h2>Couldn't check for devices.</h2>
-                            <blockquote>This may be caused by some security error.</blockquote>
-                        </ng-container>
+                        <!--<ng-container *ngIf="hasDevices === undefined">-->
+                            <!--<h4>Couldn't check for devices.</h4>-->
+                            <!--<p>This may be caused by some security error.</p>-->
+                        <!--</ng-container>-->
                         <ng-container *ngIf="hasDevices === false">
-                            <h2>No devices were found.</h2>
-                            <blockquote>I believe your device has no media devices attached to.</blockquote>
+                            <h4>No devices were found.</h4>
+                            <p class="text-magicPotion text-sm">I believe your device has no media devices attached to.</p>
                         </ng-container>
                     </div>
 

@@ -37,6 +37,9 @@ export class QrCodeScannerComponent implements OnInit {
   closePopup(): void {
     this.close.emit(true);
   }
+  clearResult(): void {
+    this.qrResultString = null;
+  }
   onCamerasFound(devices: MediaDeviceInfo[]): void {
     this.availableDevices = devices;
     this.hasDevices = Boolean(devices && devices.length);

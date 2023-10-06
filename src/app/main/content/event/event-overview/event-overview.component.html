@@ -551,6 +551,9 @@
                 </div>
               </div>
             </div>
+            <div class="flex flex-wrap items-center justify-center" *ngIf="scanAttendees && scanAttendees?.length">
+              <p-paginator [rows]="paging?.limit" [totalRecords]="paging?.totalDocs" [rowsPerPageOptions]="[10, 20, 30, 40, 50]" (onPageChange)="getAttendeesWithScan($event)"></p-paginator>
+            </div>
             <div class="w-full addsBox">
               <img src="/assets/images/banner-ads.png" alt="ring-ad" class="w-full object-cover" />
             </div>

@@ -1,3 +1,6 @@
-video[_ngcontent-lia-c84]{
-  max-height: 300px !important;
+::ng-deep {
+  video{
+    max-height: 400px !important;
+    height: 400px !important;
+  }
 }

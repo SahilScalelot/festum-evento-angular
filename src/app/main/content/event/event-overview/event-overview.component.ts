@@ -38,6 +38,7 @@ export class EventOverviewComponent implements OnInit {
   loadingScanAttendees: boolean = false;
   hasMoreBookedAttendeesRecords: boolean = true;
   hasMoreScanAttendeesRecords: boolean = true;
+  paging: any;
 
   openPopUp: boolean = false;
   shareLink: string = `${window.location.origin}`;
@@ -228,29 +229,27 @@ export class EventOverviewComponent implements OnInit {
 
 
 
-  getAttendeesWithScan() {
+  getAttendeesWithScan(event: any = {}) {
+    this.loadingScanAttendees = true;
+    const page = event ? (event.page + 1) : 1;
     const filterObj: any = {
-      eventid: this.event._id,
-      page: this.page,
-      limit: this.pageSize
+          eventid: this.event._id,
+          page: page || 1,
+          limit: event?.rows || 10
     };
     this._eventService.getAttendeesByEventId(filterObj).subscribe((result: any) => {
       if (result && result.IsSuccess) {
-        if (result.Data.docs.length === 0) {
-          this.hasMoreScanAttendeesRecords = false;
-        } else {
-          this.scanAttendees = [...this.scanAttendees, ...result.Data.docs];
-        }
-        this.loadingScanAttendees = false;
-        // this.isLoading = false;
+        this.scanAttendees = this._globalFunctions.copyObject(result.Data.docs);
+        this.paging = result.Data;
       } else {
-        // this._globalFunctions.successErrorHandling(result, this, true);
-        // this.isLoading = false;
+        this._globalFunctions.successErrorHandling(result, this, true);
       }
+      this.loadingScanAttendees = false;
     }, (error: any) => {
-      // this._globalFunctions.errorHanding(error, this, true);
-      // this.isLoading = false;
+      this._globalFunctions.errorHanding(error, this, true);
+      this.loadingScanAttendees = false;
     });
+
   }
   toggleAccordion(event: any, index: any): void {
     const element: any = event.target;
@@ -339,8 +338,7 @@ export class EventOverviewComponent implements OnInit {
       };
       this._eventService.saveAttendees(data).subscribe((result: any) => {
         if (result && result.IsSuccess) {
-          this._sNotify.success('You attend is successfull.');
-          this.getAttendeesWithScan();
+          this._sNotify.success('You attend is successfully.');
         } else {
           this._globalFunctions.successErrorHandling(result, this, true);
           //this.isLoading = false;
