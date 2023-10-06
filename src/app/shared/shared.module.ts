@@ -10,6 +10,7 @@ import { MessagePreviewComponent } from '../main/content/dialogs/message-preview
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ValidAlphabetDirective } from '../directives/valid-alphabet.directive';
 import { TooltipModule } from 'primeng/tooltip';
+import { ZXingScannerModule } from '@zxing/ngx-scanner';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TermsAndConditionsComponent } from '../main/common/terms-and-conditions/terms-and-conditions.component';
 import { PrivacyPolicyComponent } from '../main/common/privacy-policy/privacy-policy.component';
@@ -17,6 +18,7 @@ import { TermsAndConditionsUserComponent } from '../main/common/terms-and-condit
 import { PrivacyPolicyUserComponent } from '../main/common/privacy-policy-user/privacy-policy.component';
 import { RPCPRulesComponent } from '../main/common/rpcp-rules/rpcp-rules.component';
 import { BroadcastStreamSettingsComponent } from '../main/content/dialogs/broadcast-stream-settings/broadcast-stream-settings.component';
+import { QrCodeScannerComponent } from '../main/content/dialogs/qr-code-scanner/qr-code-scanner.component';
 
 
 @NgModule({
@@ -25,6 +27,7 @@ import { BroadcastStreamSettingsComponent } from '../main/content/dialogs/broadc
     ImageAndVideoPreviewComponent,
     MessagePreviewComponent,
     BroadcastStreamSettingsComponent,
+    QrCodeScannerComponent,
     ValidNumberDirective,
     ValidAlphabetDirective,
     ValidNumberWithDecimalDirective,
@@ -41,6 +44,7 @@ import { BroadcastStreamSettingsComponent } from '../main/content/dialogs/broadc
     ProgressSpinnerModule,
     MatProgressSpinnerModule,
     TooltipModule,
+    ZXingScannerModule,
     MatTooltipModule
   ],
   exports: [
@@ -51,6 +55,7 @@ import { BroadcastStreamSettingsComponent } from '../main/content/dialogs/broadc
     ImageAndVideoPreviewComponent,
     MessagePreviewComponent,
     BroadcastStreamSettingsComponent,
+    QrCodeScannerComponent,
     ProgressSpinnerModule,
     ValidNumberDirective,
     ValidAlphabetDirective,

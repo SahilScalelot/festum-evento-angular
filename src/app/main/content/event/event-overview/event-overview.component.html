@@ -89,11 +89,11 @@
     <!-- tab-holder deposit -->
     <div class="teb-holder">
       <button [class]="overview ? 'active' : ''" (click)="onTabChange('overview')" type="button">Overview</button>
-      <button [class]="attendee ? 'active' : ''" (click)="onTabChange('attendee')" type="button" *ngIf="!!(event?.accept_booking) && attendees && attendees?.length">Attendees</button>
+      <button [class]="attendee ? 'active' : ''" (click)="onTabChange('attendee')" type="button" *ngIf="event?.accept_booking && !event?.iseditable">Attendees</button>
       <button [class]="reviews ? 'active' : ''" (click)="onTabChange('reviews')" type="button" *ngIf="event?.reviews?.length">Reviews</button>
       <!-- <button [class]="deposit ? 'active' : ''" (click)="onTabChange('deposit')" type="button" *ngIf="event?.total_event_deposit">Deposit</button> -->
 
-      <a class="secondary px-5 py-2 flex items-end rounded-sm max-w-max ml-auto" href="javascript:void(0);" (click)="exportAttendees()" *ngIf="!!(event?.accept_booking) && event?.is_live && attendee && attendees && attendees?.length">Export</a>
+      <a class="secondary px-5 py-2 flex items-end rounded-sm max-w-max ml-auto" href="javascript:void(0);" (click)="exportAttendees()" *ngIf="!!(event?.accept_booking) && event?.is_live && attendee && scanAttendees?.length">Export</a>
     </div>
     <!-- tab-contents-holder -->
     <div class="pt-7 lg:pt-10">
@@ -517,9 +517,9 @@
             </div>
           </div>
           <!-- Attendee left-bar -->
-          <div class="w-full lg:w-8/12 space-y-2.5" *ngIf="attendee && attendees && attendees?.length">
+          <div class="w-full lg:w-8/12 space-y-2.5" *ngIf="attendee && scanAttendees && scanAttendees?.length">
             <div class="accordions">
-              <div *ngFor="let attendee of attendees;let i = index;" class="accordion_item p-0 cursor-pointer relative mb-5">
+              <div *ngFor="let attendee of scanAttendees;let i = index;" class="accordion_item p-0 cursor-pointer relative mb-5">
                 <div #accordionClick (click)="toggleAccordion($event, i)" class="title_tab bg-white px-5 py-2.5 flex justify-between items-center rounded-md accordion">
                   <div class="space-y-2">
                     <div class="flex items-center space-x-3">
@@ -554,9 +554,9 @@
             <div class="w-full addsBox">
               <img src="/assets/images/banner-ads.png" alt="ring-ad" class="w-full object-cover" />
             </div>
-            <div *ngIf="attendee && (!attendees || !attendees?.length)">
-              <h3>No attendees Found</h3>
-            </div>
+          </div>
+          <div class="w-full lg:w-8/12 space-y-2.5" *ngIf="attendee && (!scanAttendees || !scanAttendees?.length)">
+            <h3>No attendees Found</h3>
           </div>
           <!-- right-bar  -->
           <div class="w-full lg:w-4/12 lg:pl-5 space-y-3 sticky top-0 ml-auto" *ngIf="overview">
@@ -599,7 +599,7 @@
             </div>
           </div>
 
-            <div class="attendees-panel" *ngIf="attendees?.length && overview">
+            <div class="attendees-panel" *ngIf="bookedAttendees?.length && overview">
             <mat-accordion>
               <mat-expansion-panel (opened)="attendeesOpenState = true" (closed)="attendeesOpenState = false">
                 <mat-expansion-panel-header class="flex justify-between px-5 bg-japaneseIndigo">
@@ -611,7 +611,7 @@
                   </mat-panel-description>
                 </mat-expansion-panel-header>
                 <div class="container" (scroll)="onScroll($event)">
-                  <div *ngFor="let attendee of attendees;let i = index;" >
+                  <div *ngFor="let attendee of bookedAttendees;let i = index;" >
                     <div class="bg-white" *ngFor="let seat of attendee?.seats || []">
                       <div class="flex justify-between  border-brightGray pr-5 py-2" *ngFor="let arrangement of seat?.arrangements || []" [ngClass]="{'border-t': i !== 0}">
                         <span class="text-sm font-bold text-japaneseIndigo w-1/3">{{arrangement?.ItemCount || 0}} {{((arrangement.vertical_location == 'FRONT') ? 'F' : (arrangement.vertical_location == 'MIDDLE' ? 'M' : 'B'))}} - {{((arrangement.horizontal_location == 'LEFT') ? 'L' : ((arrangement.horizontal_location == 'CENTER') ? 'C' : (arrangement.horizontal_location == 'RIGHT' ? 'R' : 'N')))}}</span>
@@ -734,7 +734,7 @@
       <span class="text-xs font-bold text-quicksilver whitespace-nowrap">{{event?.total_available_seats || 0}} UnSold</span>
     </div>
     <div class="pt-4">
-      <a class="secondary px-5 py-2 flex items-end rounded-sm max-w-max mx-auto" href="javascript:void(0);"><i class="icon-scanner mr-3 text-lg"></i>SCAN QR</a>
+      <a class="secondary px-5 py-2 flex items-end rounded-sm max-w-max mx-auto" href="javascript:void(0);" (click)="openScannerModel()"><i class="icon-scanner mr-3 text-lg"></i>SCAN QR</a>
     </div>
   </div>
 </div>
@@ -832,3 +832,5 @@
     </div>
   </div>
 </div>
+
+<app-qr-code-scanner *ngIf="isOpenQrScanner" [popClass]="'active'" (close)="closeScannerModel($event)" (onScanSuccess)="qrCodeResult($event)"></app-qr-code-scanner>

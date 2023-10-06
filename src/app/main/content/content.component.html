@@ -320,7 +320,7 @@
       <!-- Right Bar -->
       <div class="ml-auto">
         <div class="right-top-menu flex items-center space-x-1">
-           <a href="javascript:void(0);" class="block hover:text-spiroDiscoBall anim" title="scanner"><span class="icon-scanner text-2xl block"></span></a>
+           <a href="javascript:void(0);" class="block hover:text-spiroDiscoBall anim" title="scanner" (click)="openScannerModel()"><span class="icon-scanner text-2xl block"></span></a>
           <a href="javascript:void(0);" class="block hover:text-spiroDiscoBall anim" title="language" (click)="openLanguageModel()"><span class="icon-language text-2xl block"></span></a>
 
            <!--<a href="javascript:void(0);" class="block hover:text-spiroDiscoBall anim" title="message"><span class="icon-massage text-2xl block"></span></a>-->
@@ -606,3 +606,4 @@
   </div>
 
 </div>
+<app-qr-code-scanner *ngIf="isOpenQrScanner" [popClass]="'active'" (close)="closeScannerModel($event)" (onScanSuccess)="qrCodeResult($event)"></app-qr-code-scanner>

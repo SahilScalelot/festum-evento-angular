@@ -22,9 +22,10 @@ export class ContentComponent implements OnInit, OnDestroy {
   selectedLanguage: any = '';
   isLoading: boolean = false;
   languageModel: boolean = false;
+  isOpenQrScanner: boolean = false;
   constants: any = CONSTANTS;
   searchObj: any;
-  channelId: string = '7778009509_64ace2b44a72668d4a558e1f';
+  //channelId: string = '7778009509_64ace2b44a72668d4a558e1f';
   
   @ViewChild('searchInput') searchInput: any;
   @ViewChild('screenShort') screenShort: any;
@@ -154,6 +155,16 @@ export class ContentComponent implements OnInit, OnDestroy {
     this.qrCodeDownloadLink = url;
   }
 
+  openScannerModel() {
+    this.isOpenQrScanner = true;
+  }
+  closeScannerModel(event: any) {
+    this.isOpenQrScanner = false;
+  }
+  qrCodeResult(event: any) {
+    console.log(event);
+    this._sNotify.success('Scan successfull. Result is \n'+ event);
+  }
   openLanguageModel() {
     this.languageModel = true;
   }
