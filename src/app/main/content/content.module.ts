@@ -39,7 +39,13 @@ import { MyPostsComponent } from './my-posts/my-posts.component';
 import { QRCodeModule } from 'angularx-qrcode';
 import { InfiniteScrollModule } from "ngx-infinite-scroll";
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
+
 import { AgmCoreModule } from '@agm/core';
+
+import { PaginatorModule } from "primeng/paginator";
+import { DateAgoPipe } from 'src/app/pipe/date-ago.pipe';
+import { NotificationsComponent } from './notifications/notifications.component';
+
 
 const routes: Routes = [
   {
@@ -61,7 +67,9 @@ const routes: Routes = [
     OurProductComponent,
     BookingComponent,
     SearchComponent,
-    MyPostsComponent
+    MyPostsComponent,
+    DateAgoPipe,
+    NotificationsComponent
   ],
   imports: [
     RouterModule.forChild(routes),
@@ -93,7 +101,11 @@ const routes: Routes = [
     QRCodeModule,
     InfiniteScrollModule,
     ZXingScannerModule,
+
     AgmCoreModule,
+
+    PaginatorModule
+
   ]
 })
 export class ContentModule {

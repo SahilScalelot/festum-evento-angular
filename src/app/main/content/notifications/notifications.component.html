@@ -1,71 +1,37 @@
 <div class="wrapper min-h-full">
-  <div class="space-y-8 h-full">
-    <!-- title-holder  -->
-    <div class="flex justify-between items-center">
-      <a href="javascript:void(0);" class="flex items-center">
-        <h2>Promotions</h2>
-      </a>
-      <div class="flex items-center space-x-5">
-        <button class="secondary px-5 py-2 capitalize anim"><i class="icon-history mr-3"></i><span>history</span></button>
-        <button class="secondary px-5 py-2 capitalize anim" routerLink="create"><i class="icon-plus mr-3"></i><span>Create new</span></button>
-      </div>
-    </div>
-    <!-- main-content  -->
-    <div class="space-y-2.5">
-      <div class="bg-white p-5 rounded-md">
+    <div class="space-y-8 h-full">
+        <!-- title-holder  -->
         <div class="flex justify-between items-center">
-          <div class="relative w-full md:max-w-[128px]">
-            <img src="../assets/images/creat-notification.png" alt="Notification" class="w-32 h-32 object-cover" />
-          </div>
-          <div class="pl-5">
-            <div class="flex justify-between">
-              <h4>Create an notification as you want!</h4>
-            </div>
-            <p class="text-gray-400 text-base pt-3 font-medium">Simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, Simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the </p>
-          </div>
-        </div>
-      </div>
-      <div class="bg-white p-5 rounded-md" *ngFor="let notification of notificationObj">
-        <div class="flex justify-between items-start">
-          <div class="relative w-full md:max-w-[128px]">
-            <img [src]="constants?.baseImageURL + notification?.banner" [alt]="notification?.notification_title" class="w-32 h-32 object-cover pb-5 lg:pb-0" />
-          </div>
-          <div class="pl-5 w-full md:max-w-[clac(100%-128px)]">
-            <div class="flex justify-between">
-              <h4>{{notification?.notification_title}}</h4>
-              <a href="javascript:void(0);"><i class="icon-more font-bold text-base"></i></a>
-            </div>
-            <p class="text-gray-400 text-base pt-3 font-medium" [innerHTML]="notification?.description"></p>
-            <div class="flex justify-end">
-              <button class="secondary flex items-center px-3 py-1.5 anim" (click)="promoteNotification(notification?._id)"><i class="icon-fill_megaphone mr-2"></i><span>Promote</span></button>
-            </div>
-          </div>
-        </div>
-      </div>
+            <a href="javascript:void(0);" class="flex items-center">
+                <h2>Notifications</h2>
+            </a>
 
-      <p *ngIf="!notificationObj || !notificationObj?.length">No Notification Records Found, Create new Notification.</p>
-      <div class="flex flex-wrap items-center justify-center" *ngIf="notificationObj && notificationObj?.length">
-        <!-- <div class="pagination-festum py-2"><p class="show-text">Showing {{offset}} to {{(((offset - 1) + perPageLimit) < pTotal) ? (offset - 1) + perPageLimit : pTotal}} Of {{ pTotal }} Events.</p></div> -->
-        <p-paginator [rows]="paging?.limit" [totalRecords]="paging?.totalDocs" [rowsPerPageOptions]="[10, 20, 30, 40, 50]" (onPageChange)="getOnlineShopOffers($event)"></p-paginator>
-      </div>
+        </div>
+        <!-- main-content  -->
+        <div class="space-y-2.5">
 
-      <!-- advisement -->
-      <div class="w-full mt-5 addsBox">
-        <img src="/assets/images/banner-ads.png" alt="ring-ad" class="w-full object-cover" />
-      </div>
-      <!-- advisement end-->
-      
-      <!-- next preview button  -->
-      <div class="prw-next-btn hidden">
-        <button type="button" class="flex items-center">
-          <i class="icon-left_arrow mr-3"></i>
-          <h5>Back</h5>
-        </button>
-        <button type="button" class="flex items-center active">
-          <h5>Next</h5>
-          <i class="icon-right_arrow ml-3"></i>
-        </button>
-      </div>
+            <div class="bg-white p-5 rounded-md" *ngFor="let notification of notificationObj">
+                <div class="flex justify-between items-start">
+                    <div class="relative w-full md:max-w-[68px]">
+                        <img [src]="!!(notification?.banner) ? constants.baseImageURL + notification.banner : constants.defaultImage" alt="{{notification?.banner}}" class="h-16 w-16 rounded-full object-cover mx-1"/>
+                        <!--<img [src]="constants?.baseImageURL + notification?.banner" [alt]="notification?.notification_title" class="w-32 h-32 object-cover pb-5 lg:pb-0" />-->
+                    </div>
+                    <div class="pl-5 w-full md:max-w-[clac(100%-128px)]">
+                        <div class="flex justify-between">
+                            <h5>{{notification?.title}}</h5>
+                            <a href="javascript:void(0);"><i class="icon-more font-bold text-base"></i></a>
+                        </div>
+                        <p class="text-gray-400 text-base pt-3 font-medium" [innerHTML]="notification?.message"></p>
+                    </div>
+                </div>
+            </div>
+
+            <p *ngIf="!notificationObj || !notificationObj?.length">No Notification Records Found, Create new Notification.</p>
+            <div class="flex flex-wrap items-center justify-center" *ngIf="notificationObj && notificationObj?.length">
+                <p-paginator [rows]="paging?.limit" [totalRecords]="paging?.totalDocs" [rowsPerPageOptions]="[10, 20, 30, 40, 50]" (onPageChange)="getNotificationList($event)"></p-paginator>
+            </div>
+
+
+        </div>
     </div>
-  </div>
 </div>

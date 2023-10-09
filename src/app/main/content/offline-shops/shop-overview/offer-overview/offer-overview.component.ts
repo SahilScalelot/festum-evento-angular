@@ -90,7 +90,7 @@ export class OfferOverviewComponent implements OnInit {
   gotoPromotion(event: any){
     event.stopPropagation();
     // localStorage.setItem('eId', shopId);
-    this._router.navigate(['/notifications']);
+    this._router.navigate(['/promotions']);
    
     
   }

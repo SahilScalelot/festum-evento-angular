@@ -5,3 +5,51 @@
   overflow-y: scroll; /* Add a scrollbar to the container */
   max-height: 200px; /* Set a fixed height for scrolling */
 }
+.notification .list p {
+  width: 289px;
+  /* white-space: nowrap; */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.notification .no-list p{
+  text-align: center;
+}
+.notification .empty {
+  width: 300px;
+}
+
+:host ::ng-deep .custom-spinner .p-progress-spinner-circle {
+  animation: custom-progress-spinner-dash 1.5s ease-in-out infinite, custom-progress-spinner-color 6s ease-in-out infinite;
+}
+
+@keyframes custom-progress-spinner-color {
+  100%,
+  0% {
+    stroke: #FFFFFF;
+  }
+  40% {
+    stroke: #FFFFFF;
+  }
+  66% {
+    stroke: #FFFFFF;
+  }
+  80%,
+  90% {
+    stroke: #FFFFFF;
+  }
+}
+
+@keyframes custom-progress-spinner-dash {
+  0% {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -35px;
+  }
+  100% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -124px;
+  }
+}

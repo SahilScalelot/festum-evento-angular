@@ -34,6 +34,14 @@ export class EventService {
     return this.http.post(environment.appURL + 'organizer/eventattendees', eventIdObj, this._globalFunctions.getAuthorizationHeader());
   }
 
+  getAttendeesByWithoutScanEventId(eventIdObj: any = {}): any {
+    return this.http.post(environment.appURL + 'organizer/eventattendees/booked', eventIdObj, this._globalFunctions.getAuthorizationHeader());
+  }
+
+  saveAttendees(eventIdObj: any = {}): any {
+    return this.http.post(environment.appURL + 'organizer/events/scanQR', eventIdObj, this._globalFunctions.getAuthorizationHeader());
+  }
+
   exportAttendees(eventIdObj: any = {}): any {
     return this.http.post(environment.appURL + 'organizer/eventattendees/export', eventIdObj, this._globalFunctions.getAuthorizationHeader());
   }

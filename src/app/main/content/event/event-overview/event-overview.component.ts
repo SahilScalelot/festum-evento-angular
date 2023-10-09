@@ -25,15 +25,20 @@ export class EventOverviewComponent implements OnInit {
   isImage: boolean = false;
   companyIAndV: boolean = false;
   imagesOrVideosArr: Array<any> = [];
-  attendees: Array<any> = [];
+  bookedAttendees: Array<any> = [];
+  scanAttendees: Array<any> = [];
+
   cancelEventPop: boolean = false;
   tempEventData:any;
   items: any[] = [];
   page: number = 1;
   pageSize: number = 5;
   attendeesOpenState: boolean = false;
-  loadingAttendees: boolean = false;
-  hasMoreAttendeesRecords: boolean = true;
+  loadingBookedAttendees: boolean = false;
+  loadingScanAttendees: boolean = false;
+  hasMoreBookedAttendeesRecords: boolean = true;
+  hasMoreScanAttendeesRecords: boolean = true;
+  paging: any;
 
   openPopUp: boolean = false;
   shareLink: string = `${window.location.origin}`;
@@ -58,6 +63,7 @@ export class EventOverviewComponent implements OnInit {
   lng: number = 0;
   isSingleVideo: boolean = false;
   visible: boolean = false;
+  isOpenQrScanner: boolean = false;
 
   constructor(
     public _globalFunctions: GlobalFunctions,
@@ -98,7 +104,7 @@ export class EventOverviewComponent implements OnInit {
 
       setTimeout(() => {
         if (this.event.accept_booking && !this.event.iseditable) {
-          this.getAttendees();
+          this.getBookedAttendees();
         }
         this._globalFunctions.loadAccordion();
         // this._globalFunctions.loadTabsJs();
@@ -147,16 +153,15 @@ export class EventOverviewComponent implements OnInit {
     const maxScroll = container.scrollHeight - container.clientHeight;
 
     // Check if the user has scrolled to the bottom
-    if (scrollPosition === maxScroll && !this.loadingAttendees && this.hasMoreAttendeesRecords) {
+    if (scrollPosition === maxScroll && !this.loadingBookedAttendees && this.hasMoreBookedAttendeesRecords) {
       this.loadMoreData();
     }
   }
 
   loadMoreData() {
-    this.loadingAttendees = true;
+    this.loadingBookedAttendees = true;
     this.page++; // Increment the page number
-    this.getAttendees();
-
+    this.getBookedAttendees();
   }
 
 
@@ -167,6 +172,7 @@ export class EventOverviewComponent implements OnInit {
       this.overview = true;
     } else if (tabVarName == 'attendee') {
       this.attendee = true;
+      this.getAttendeesWithScan();
     } else if (tabVarName == 'reviews') {
       this.reviews = true;
     } else if (tabVarName == 'deposit') {
@@ -174,23 +180,23 @@ export class EventOverviewComponent implements OnInit {
     }
   }
 
-  getAttendees(): void {
+  getBookedAttendees(): void {
     // this.isLoading = true;
     const filterObj: any = {
       eventid: this.event._id,
       page: this.page,
       limit: this.pageSize
     };
-    this._eventService.getAttendeesByEventId(filterObj).subscribe((result: any) => {
+    this._eventService.getAttendeesByWithoutScanEventId(filterObj).subscribe((result: any) => {
       if (result && result.IsSuccess) {
         //this.attendees = result.Data.docs;
         if (result.Data.docs.length === 0) {
           // No more records, set the flag to stop further API requests
-          this.hasMoreAttendeesRecords = false;
+          this.hasMoreBookedAttendeesRecords = false;
         } else {
-          this.attendees = [...this.attendees, ...result.Data.docs];
+          this.bookedAttendees = [...this.bookedAttendees, ...result.Data.docs];
         }
-        this.loadingAttendees = false;
+        this.loadingBookedAttendees = false;
         // this.isLoading = false;
       } else {
         // this._globalFunctions.successErrorHandling(result, this, true);
@@ -221,13 +227,37 @@ export class EventOverviewComponent implements OnInit {
     });
   }
 
+
+
+  getAttendeesWithScan(event: any = {}) {
+    this.loadingScanAttendees = true;
+    const page = event ? (event.page + 1) : 1;
+    const filterObj: any = {
+          eventid: this.event._id,
+          page: page || 1,
+          limit: event?.rows || 10
+    };
+    this._eventService.getAttendeesByEventId(filterObj).subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        this.scanAttendees = this._globalFunctions.copyObject(result.Data.docs);
+        this.paging = result.Data;
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+      }
+      this.loadingScanAttendees = false;
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.loadingScanAttendees = false;
+    });
+
+  }
   toggleAccordion(event: any, index: any): void {
     const element: any = event.target;
     const panel: any = element.nextElementSibling;
 
     if (panel && panel.style) {
       element.classList.toggle("active");
-      this.attendees[index].isActive = !this.attendees[index].isActive;
+      this.bookedAttendees[index].isActive = !this.bookedAttendees[index].isActive;
       if (panel.style.maxHeight) {
         panel.style.maxHeight = null;
       } else {
@@ -279,7 +309,7 @@ export class EventOverviewComponent implements OnInit {
   gotoPromotion(event: any, eventId: any){
     event.stopPropagation();
     localStorage.setItem('eId', eventId);
-    this._router.navigate(['/notifications']);
+    this._router.navigate(['/promotions']);
   }
   openSocialMediaDailog(event:any, data?: any) {
     event.stopPropagation();
@@ -290,6 +320,36 @@ export class EventOverviewComponent implements OnInit {
     let copyText = `${this.shareLink}/#/events/${this.selectedEventId}`;
     this._clipboard.copy(copyText);
     this._sNotify.success('Link Copied.');
+  }
+
+  openScannerModel() {
+    this.isOpenQrScanner = true;
+  }
+  closeScannerModel(event: any) {
+    this.isOpenQrScanner = false;
+  }
+  qrCodeResult(event: string) {
+    let str = event.replace(/ /g, "");
+
+    if (str.length !== 0) {
+      const data: any = {
+        eventid: this.event._id,
+        bookingid: event
+      };
+      this._eventService.saveAttendees(data).subscribe((result: any) => {
+        if (result && result.IsSuccess) {
+          this._sNotify.success('You attend is successfully.');
+        } else {
+          this._globalFunctions.successErrorHandling(result, this, true);
+          //this.isLoading = false;
+        }
+      }, (error: any) => {
+        this._globalFunctions.errorHanding(error, this, true);
+      });
+    } else {
+      this._sNotify.error('QR Code is Wrong.', 'Oops');
+    }
+
   }
 
 }

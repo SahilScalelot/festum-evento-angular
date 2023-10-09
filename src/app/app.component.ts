@@ -28,5 +28,23 @@ export class AppComponent {
       selectedLanguage = CONSTANTS.languagesJSONFileName.US_ENGLISH;
     }
     this._translateLanguage.setLanguageCode(selectedLanguage || CONSTANTS.languagesJSONFileName.US_ENGLISH);
+    this.requestNotificationPermission();
+  }
+  requestNotificationPermission() {
+    if (!('Notification' in window)) {
+      alert("This browser does not support notifications.");
+    } else  {
+      Notification.requestPermission().then((permission) => {
+        if (permission === 'granted') {
+          console.log("Permission Granted.");
+          // Permission granted, you can now display notifications
+        } else if (permission === 'denied') {
+          // Permission denied
+          console.log("Permission Denied.");
+        } else {
+          // Permission dismissed by the user
+        }
+      });
+    }
   }
 }
