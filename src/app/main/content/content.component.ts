@@ -71,7 +71,7 @@ export class ContentComponent implements OnInit, OnDestroy {
       if (user) {
         this.loginUser = user;
         this.qrCodeData = this.loginUser._id;
-        this.maxTransferCoinValue = user.f_coin;
+        this.maxTransferCoinValue = user.f_coins;
         this.transferCoinForm.get('amount').setValidators([
           Validators.required,
           Validators.pattern(/^[0-9]+$/),
@@ -210,10 +210,12 @@ export class ContentComponent implements OnInit, OnDestroy {
       this.isTransferLoading = true;
       //console.log('Form submitted with value:', this.transferCoinForm.value);
       this._contentService.transferFCoin(this.transferCoinForm.value).subscribe((result: any) => {
+        console.log(result);
         if (result && result.IsSuccess) {
-          this._sNotify.success('FCoin transfer successfully.');
+          this._sNotify.success('FCoin transfered successfully.');
           this._modalService.close('FCoinTransfer');
           this.isTransferLoading = false;
+          this.transferCoinForm.reset();
         } else {
           this._globalFunctions.successErrorHandling(result, this, true);
           this._modalService.close('FCoinTransfer');
