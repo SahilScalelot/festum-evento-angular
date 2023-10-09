@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { SafeUrl } from "@angular/platform-browser";
 import { GlobalService } from 'src/app/services/global.service';
 import { SocketioService } from 'src/app/services/socketio.service';
@@ -19,14 +20,17 @@ import * as _ from 'lodash';
 })
 export class ContentComponent implements OnInit, OnDestroy {
   loginUser: any = {};
+  scanUser: any = {};
   selectedLanguage: any = '';
   isLoading: boolean = false;
   languageModel: boolean = false;
   isOpenQrScanner: boolean = false;
   constants: any = CONSTANTS;
   searchObj: any;
+  transferCoinForm: any;
+  maxTransferCoinValue: any;
   //channelId: string = '7778009509_64ace2b44a72668d4a558e1f';
-  
+
   @ViewChild('searchInput') searchInput: any;
   @ViewChild('screenShort') screenShort: any;
   @ViewChild('canvas') canvas: any;
@@ -42,6 +46,7 @@ export class ContentComponent implements OnInit, OnDestroy {
   constructor(
     private _sNotify: SnotifyService,
     private _router: Router,
+    private _formBuilder: FormBuilder,
     private _contentService: ContentService,
     private _globalService: GlobalService,
     private SocketioService: SocketioService,
@@ -50,6 +55,10 @@ export class ContentComponent implements OnInit, OnDestroy {
     private _translateLanguage: LanguageTranslateService
   ) { 
     // this.getSearch = _.debounce(this.getSearch, 1000)
+    this.transferCoinForm = this._formBuilder.group({
+      to: ['', [Validators.required]],
+      amount: [null, [Validators.required, Validators.pattern(/^[0-9]+$/), Validators.max(this.maxTransferCoinValue)]],
+    });
   }
     
   ngOnInit(): void {
@@ -61,6 +70,15 @@ export class ContentComponent implements OnInit, OnDestroy {
       if (user) {
         this.loginUser = user;
         this.qrCodeData = this.loginUser._id;
+        this.maxTransferCoinValue = user.f_coin;
+        this.transferCoinForm.get('amount').setValidators([
+          Validators.required,
+          Validators.pattern(/^[0-9]+$/),
+          Validators.max(this.maxTransferCoinValue)
+        ]);
+
+        // Trigger a revalidation of the form control
+        this.transferCoinForm.get('amount').updateValueAndValidity();
         this.SocketioService.onMessage(user.channelID).subscribe((data) => {
             //console.log(data);
             if (Notification.permission === 'granted') {
@@ -162,9 +180,49 @@ export class ContentComponent implements OnInit, OnDestroy {
     this.isOpenQrScanner = false;
   }
   qrCodeResult(event: any) {
-    console.log(event);
-    this._sNotify.success('Scan successfull. Result is \n'+ event);
+    let str = event.replace(/ /g, "");
+    if (str.length !== 0) {
+      const data: any = {
+        userid: str
+      };
+      this._contentService.getScannedFCoinUser(data).subscribe((result: any) => {
+        if (result && result.IsSuccess) {
+          this.scanUser = result.Data;
+          this.transferCoinForm.get('to').setValue(result.Data._id);
+          this._sNotify.success('User get successfully.');
+          this._modalService.open('FCoinTransfer');
+        } else {
+          this._globalFunctions.successErrorHandling(result, this, true);
+          //this.isLoading = false;
+        }
+      }, (error: any) => {
+        this._globalFunctions.errorHanding(error, this, true);
+      });
+    } else {
+      this._sNotify.error('QR Code is Wrong.', 'Oops');
+    }
   }
+
+  transferCoin(): void {
+    if (this.transferCoinForm.valid) {
+      this.transferCoinForm.value.amount = Number(this.transferCoinForm.value.amount);
+      //console.log('Form submitted with value:', this.transferCoinForm.value);
+      this._contentService.transferFCoin(this.transferCoinForm.value).subscribe((result: any) => {
+        if (result && result.IsSuccess) {
+          this._sNotify.success('FCoin transfer successfully.');
+          this._modalService.close('FCoinTransfer');
+        } else {
+          this._globalFunctions.successErrorHandling(result, this, true);
+          this._modalService.close('FCoinTransfer');
+        }
+      }, (error: any) => {
+        this._globalFunctions.errorHanding(error, this, true);
+      });
+    } else {
+      return;
+    }
+  }
+
   openLanguageModel() {
     this.languageModel = true;
   }

@@ -20,4 +20,11 @@ export class ContentService {
     return this.http.post(environment.appURL + 'organizer/alertnotification', data, this._globalFunctions.getAuthorizationHeader());
   }
 
+  getScannedFCoinUser(data: any = {}): any {
+    return this.http.post(environment.appURL + 'organizer/fcoin/getuser', data, this._globalFunctions.getAuthorizationHeader());
+  }
+
+  transferFCoin(data: any = {}): any {
+    return this.http.post(environment.appURL + 'organizer/fcoin/transfer', data, this._globalFunctions.getAuthorizationHeader());
+  }
 }

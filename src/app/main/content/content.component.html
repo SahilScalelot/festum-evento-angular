@@ -509,12 +509,45 @@
     </div>
     <div class="pt-7 text-center">
       <a class="secondary py-2 px-5 mx-auto" [href]="qrCodeDownloadLink" download="qrcode">{{'Download QR'}}</a>
-      <!--<button class="secondary py-2 px-5 mx-auto" (click)="screenCapture()">{{'Download QR'}}</button>-->
     </div>
     <div id="download" class="hidden">
       <img #canvas>
       <a #downloadLink></a>
     </div>
+  </modal>
+
+  <modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="FCoinTransfer" title="Transfer Coin" maxWidth="lg:max-w-3xl">
+    <div class="bg-brightGray text-center space-y-7 mt-2 lg:mt-4 py-4" #screenShort>
+      <h4 class="text-center">{{scanUser?.name}}</h4>
+      <span class="block text-sm md:text-base font-bold">Your Coin Balance : <span class="font-light lowercase">{{loginUser?.f_coin}}</span></span>
+      <div class="space-y-3 w-full max-w-xs xl:max-w-[400px] mx-auto">
+        <form [formGroup]="transferCoinForm">
+          <div class="w-full px-2 py-3 relative">
+
+            <label class="w-full bg-white rounded-md flex space-x-3 relative">
+              <input type="text" class="disabled:bg-slate-50 disabled:text-black w-full rounded-md outline-none px-3 py-4" name="amount" placeholder="Enter FCoin" formControlName="amount" />
+            </label>
+            <span class=" top-full text-red-500 text-xs" *ngIf="transferCoinForm.get('amount')?.invalid && (transferCoinForm.get('amount')?.dirty && transferCoinForm.get('amount')?.touched)">
+      <span *ngIf="transferCoinForm.get('amount')?.errors?.['required']">
+        Coin is required.
+      </span>
+              <span *ngIf="transferCoinForm.get('amount')?.errors?.['pattern']">
+        Please enter numeric value.
+      </span>
+              <span *ngIf="transferCoinForm.get('amount')?.errors?.['max']">
+     Value cannot be more than {{ loginUser?.f_coin }}.
+</span>
+    </span>
+          </div>
+          <div class="pt-7 text-center">
+            <button type="submit" class="secondary py-2 px-5 mx-auto" [ngClass]="{'cursor-not-allowed opacity-50': !transferCoinForm.valid}" [disabled]="!transferCoinForm.valid"  (click)="transferCoin()">
+               <span >Transfer</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
   </modal>
   
   <div class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen" *ngIf="languageModel">
