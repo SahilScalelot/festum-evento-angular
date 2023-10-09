@@ -61,8 +61,28 @@
         <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" (click)="gotoPromotion($event)"><i class="icon-share text-sm leading-0 text-japaneseIndigo"></i></a>
     </div>
   </div>
+      <!-- tab-holder  -->
+  <div class="">
+    <div class="teb-holder teb-box flex justify-between w-full">
+      <div class="teb-holder">
+        <button [class]="overview ? 'active' : ''" (click)="onTabChange('overview')" type="button">Overview</button>
+        <button [class]="reviews ? 'active' : ''" (click)="onTabChange('reviews')" type="button" *ngIf="offerObj && offerObj.offerreviews && offerObj.offerreviews.length">Reviews</button>
+      </div>
+      <form id="review-form" action="" class="review-form hidden">
+        <div class="w-full inputHolder">
+          <span class="text-sm font-bold text-[#A6A6A6] pb-2">Select Offer</span>
+          <select name="All Category" class="arrow bg-white text-japaneseIndigo font-bold rounded-md tracking-wider appearance-none focus-visible:outline-none">
+            <option value="">All</option>
+            <option value="">Select Category</option>
+            <option value="">Select Category</option>
+            <option value="">Select Category</option>
+          </select>
+        </div>
+      </form>
+    </div>
+  </div>
   <div class="pt-3.5 lg:pt-7">
-    <div class="relative tab-main active" id="overview">
+    <div class="relative tab-main active" id="overview" [class]="!reviews ? 'active' : ''" *ngIf="!reviews">
       <div class="flex flex-wrap">
         <div class="w-full lg:w-8/12 lg:pr-3 xl:pr-5 space-y-7">
           <div class="bg-white p-7 space-y-5 rounded-md">
@@ -191,6 +211,39 @@
         </div>
       </div>
     </div>
+    <div class="w-full tab-main space-y-2.5" [class]="reviews ? 'active' : ''">
+      <div *ngFor="let reviews of offerObj.offerreviews" class="w-full lg:w-8/12">
+        <div class="bg-white rounded-lg p-5 lg:flex">
+          <div>
+            <div class="w-14 h-14 border-2 border-brightGray rounded-full overflow-hidden bg-white">
+              <img alt="cutting-board" class="w-full h-full object-cover" [src]="!!(reviews?.userid?.profilepic) ? constants.baseImageURL + reviews?.userid?.profilepic : constants.userDefaultImage"/>
+            </div>
+          </div>
+          <div class="w-full lg:px-5 py-5 lg:py-0">
+            <div class="flex justify-between">
+              <h3>{{ reviews?.userid?.name }}</h3>
+              <div class="flex items-center space-x-1">
+                <p-rating [(ngModel)]="reviews.ratings" [readonly]="true" [cancel]="false"></p-rating>
+                <span class="text-xs font-bold text-quicksilver">{{ reviews?.createdAt | date:'dd MMM, yyyy' }}</span>
+              </div>
+            </div>
+            <span class="text-base text-[#9BA0A8] pb-2.5">{{ reviews?.offer_title }}</span>
+            <p class="text-sm text-japaneseIndigo">{{ reviews?.review }}</p>
+          </div>
+          <!-- <div>
+            <div class="w-14 h-14 border-2 border-brightGray rounded-md overflow-hidden bg-white">
+              <img [src]="!!(reviews?.offerid?.poster) ? constants.baseImageURL + reviews?.offerid.poster : constants.defaultImage" [alt]="reviews?.offer?.offer_title" />
+            </div>
+          </div> -->
+        </div>
+      </div>
+      <!-- ad banner -->
+      <div class="w-full mt-5 addsBox">
+        <img src="/assets/images/banner-ads.png" alt="ring-ad" class="w-full object-cover" />
+      </div>
+      <!-- ad banner end -->
+    </div>     
+
   </div>
 </div>
 

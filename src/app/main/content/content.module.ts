@@ -39,6 +39,7 @@ import { MyPostsComponent } from './my-posts/my-posts.component';
 import { QRCodeModule } from 'angularx-qrcode';
 import { InfiniteScrollModule } from "ngx-infinite-scroll";
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
+import { AgmCoreModule } from '@agm/core';
 
 const routes: Routes = [
   {
@@ -91,7 +92,8 @@ const routes: Routes = [
     MatIconModule,
     QRCodeModule,
     InfiniteScrollModule,
-    ZXingScannerModule
+    ZXingScannerModule,
+    AgmCoreModule,
   ]
 })
 export class ContentModule {

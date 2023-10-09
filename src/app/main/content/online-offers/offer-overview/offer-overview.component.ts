@@ -49,6 +49,17 @@ export class OfferOverviewComponent implements OnInit {
     // });
     this.getOnlineShopOfferByOfferId(this.offerId);
   }
+  overview: boolean = true;
+  reviews: boolean = false;
+  onTabChange(tabVarName: any): void {
+    this.overview = this.reviews = false;
+    if (tabVarName == 'overview') {
+      this.overview = true;
+    } else if (tabVarName == 'reviews') {
+      this.reviews = true;
+    }
+  }
+
 
   copyLink(copyText: any) {
     this._clipboard.copy(copyText);

@@ -14,6 +14,8 @@ import * as _ from 'lodash';
   styleUrls: ['./shop-overview.component.scss']
 })
 export class ShopOverviewComponent implements OnInit, OnDestroy {
+
+
   constants: any = CONSTANTS;
   shopId: any;
   shopObj: any;
@@ -273,7 +275,14 @@ export class ShopOverviewComponent implements OnInit, OnDestroy {
       this.isDeleteLoading = false;
     });
   }
-
+  percentageSold(offer:any): number {
+    if (typeof offer.noofunbooked === 'string') {
+      return 50;
+    } else {
+      return (offer.noofbooked / (offer.noofbooked + offer?.noofunbooked)) * 100;
+    }
+  
+  }
     ngOnDestroy() {
       let elem = document.querySelector("#messageScript");
       if (elem) {

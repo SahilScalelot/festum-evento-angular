@@ -16,6 +16,7 @@ import * as _ from 'lodash';
 // @ts-ignore
 import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
 import { SearchCountryField, CountryISO, PhoneNumberFormat } from "ngx-intl-tel-input";
+import { Time } from '@angular/common';
 declare var $: any;
 @Component({
   selector: 'app-add-edit-shop-dialog',
@@ -34,6 +35,7 @@ export class AddEditShopDialogComponent implements OnInit, OnDestroy {
   @ViewChild('phoneF') form: any;
 
   addShopForm: any;
+  shopDays: FormArray;
   shopCategories: any = [];
   constants: any = CONSTANTS;
   isLoading: boolean = false;
@@ -47,6 +49,7 @@ export class AddEditShopDialogComponent implements OnInit, OnDestroy {
   detailEditor = DecoupledEditor;
   editorConfig: any = {};
 
+  weekDayList = ['su','mo','tu','we','th','fr','st'];
   weekDays: any = [
     { value: 'su', label: 'Sun' },
     { value: 'mo', label: 'Mon' },
@@ -57,14 +60,12 @@ export class AddEditShopDialogComponent implements OnInit, OnDestroy {
     { value: 'st', label: 'Sat' }
   ];
 
-
   imgChangeEvt: any = '';
   cropImgPreview: any = '';
   shopImgObj: any = {};
   posterObj: any = {};
   dropifyOption: any = {};
   drEvent: any;
-
   minDateValue: any = new Date();
   zoom: number = CONSTANTS.defaultMapZoom;
   // initial center position for the map
@@ -389,7 +390,7 @@ export class AddEditShopDialogComponent implements OnInit, OnDestroy {
     //   draggable: true
     // });
   }
-
+//Get Data From Api Show
   getOfflineShopByShopId(shopId: any = ''): void {
     this.isLoading = true;
     this._offlineShopsService.getOfflineShopByShopId(shopId).subscribe((result: any) => {
@@ -580,14 +581,11 @@ export class AddEditShopDialogComponent implements OnInit, OnDestroy {
     this.textEditorTac = (stringOfCKEditor.length > this.textEditorMaxLimitTac);
   }
 
-  //  shopDays = [
-    
-  // ];
 
   prepareShopObj(shopObj: any): any {
     const preparedShopObj: any = this._globalFunctions.copyObject(shopObj);
-    preparedShopObj.shop_open_time = this.prepareTime(moment(shopObj.shop_open_time, 'hh:mm a'));
-    preparedShopObj.shop_close_time = this.prepareTime(moment(shopObj.shop_close_time, 'hh:mm a'));
+    // preparedShopObj.shop_open_time = this.prepareTime(moment(shopObj.shop_open_time, 'hh:mm a'));
+    // preparedShopObj.shop_close_time = this.prepareTime(moment(shopObj.shop_close_time, 'hh:mm a'));
     preparedShopObj.longitude = this.lng;
     preparedShopObj.latitude = this.lat;
     preparedShopObj.gst_file = this.gstPdf;
@@ -622,7 +620,7 @@ export class AddEditShopDialogComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     
     const preparedShopObj: any = this.prepareShopObj(this.addShopForm.value);   
-    //console.log(preparedShopObj);
+    console.log("621",preparedShopObj);
      
     this._offlineShopsService.addEditOfflineShop(preparedShopObj).subscribe((result: any) => {
       if (result && result.IsSuccess) {
@@ -644,7 +642,8 @@ export class AddEditShopDialogComponent implements OnInit, OnDestroy {
 
   onCheckboxChange(e: any): void {
     const weekDays: FormArray = this.addShopForm.get('shop_days') as FormArray;
-    // console.log("weekdays",weekDays);
+    
+    console.log("weekdays",weekDays);
     
     if (e.target.checked) {
       weekDays.push(new FormControl(e.target.value));
@@ -660,17 +659,32 @@ export class AddEditShopDialogComponent implements OnInit, OnDestroy {
     }
   }
 
+  // editshopday:any = this._formBuilder.array([
+
+  // ]);
+
   private _prepareShopForm(addShopObj: any = {}): void {
+    console.log("665",addShopObj);
+    this.shopDays = this._formBuilder.array(this.weekDayList.map(x => this._formBuilder.group({
+      day: this._formBuilder.control(x),
+      shop_close: false,
+      starttime: '',
+      endtime: ''
+    })));
     this.addShopForm = this._formBuilder.group({
       shopid: [(this.shopId && this.shopId != '') ? this.shopId : ''],
       banner: [addShopObj?.banner || '', [Validators.required]],
       shop_name: [addShopObj?.shop_name || '', [Validators.required]],
       shop_category: [(addShopObj.shop_category && addShopObj.shop_category._id) ? addShopObj.shop_category._id : '', [Validators.required]],
-      shop_days: this._formBuilder.array((addShopObj.shop_days && addShopObj.shop_days.length) ? addShopObj.shop_days : [], [Validators.required]),
+      shop_days: this.shopDays,
+      //shop_days: this._formBuilder.array((addShopObj.shop_days && addShopObj.shop_days.length) ? addShopObj.shop_days : [], [Validators.required]),
+      // shop_days: this._formBuilder.array((this.editshopday && this.editshopday.day && this.editshopday.opentime && this.editshopday.closetime) ? this.editshopday : [],[Validators.required]),
       // start_date: [(addShopObj.start_date) ? new Date(addShopObj.start_date) : ''],
       // end_date: [(addShopObj.end_date) ? new Date(addShopObj.end_date) : ''],
       shop_open_time: [(addShopObj?.shop_open_time) ? moment(addShopObj?.shop_open_time, 'hh:mm').format('hh:mm a') : '', [Validators.required]],
       shop_close_time: [(addShopObj?.shop_close_time) ? moment(addShopObj?.shop_close_time, 'hh:mm').format('hh:mm a') : '', [Validators.required]],
+      // shop_open_time: ['10:00', [Validators.required]],
+      // shop_close_time: ['12:00', [Validators.required]],
       about_shop: [addShopObj?.about_shop || ''],
       flat_no: [addShopObj?.flat_no || ''],
       street_name: [addShopObj?.street_name || ''],
@@ -696,14 +710,33 @@ export class AddEditShopDialogComponent implements OnInit, OnDestroy {
       this.editorCharacterSetTac();
     }
 
-    if (addShopObj && addShopObj.shop_days && addShopObj.shop_days.length) {
-      this.weekDays = this.weekDays.map((dayObj: any) => {
-        dayObj.isSelected = (addShopObj.shop_days.indexOf(dayObj.value) != -1);
-        return dayObj;
-      });
-    }
+    // if (addShopObj && addShopObj.shop_days && addShopObj.shop_days.length) {
+    //   this.weekDays = this.weekDays.map((dayObj: any) => {
+    //     dayObj.isSelected = (addShopObj.shop_days.indexOf(dayObj.value) != -1);
+    //     return dayObj;
+    //   });
+    // }
     this.pincodeValidation(this.addShopForm.value.pincode);
   }
+  createDays(): void {
+  
+    let weekDays = ['su','mo','tu','we','th','fr','st'];
+    weekDays.forEach((element, index) => {
+      console.log(element, index);
+      return this._formBuilder.group(
+        {day: element, open_close: false,starttime: '',endtime: ''}
+      );
+    });
+   
+  }
+  // prepareTime(dateWithTime: any): any {
+  //   const date: any = new Date(dateWithTime);
+  //   if (date != 'Invalid Date') {
+  //     return date.getHours() + ':' + date.getMinutes();
+  //   }
+  //   return dateWithTime;
+  // }
+  
   prepareObj(companyObj: any = {}): any {
     const preparedObj: any = companyObj;
     preparedObj.country_wise_contact = this.phoneForm?.value?.phone || undefined;
@@ -712,15 +745,7 @@ export class AddEditShopDialogComponent implements OnInit, OnDestroy {
     preparedObj.contact_no = contactNumber.replace(preparedObj.dial_code, '') || '';
     return preparedObj;
   }
-
-  prepareTime(dateWithTime: any): any {
-    const date: any = new Date(dateWithTime);
-    if (date != 'Invalid Date') {
-      return date.getHours() + ':' + date.getMinutes();
-    }
-    return dateWithTime;
-  }
-
+  
   markers: marker = {
     lat: CONSTANTS.latitude,
     lng: CONSTANTS.longitude,

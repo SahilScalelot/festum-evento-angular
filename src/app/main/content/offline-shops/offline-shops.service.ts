@@ -32,6 +32,11 @@ export class OfflineShopsService {
   addEditOfflineShop(shopObj: any = {}): any {
     return this.http.post(environment.appURL + 'organizer/shops/save', shopObj, this._globalFunctions.getAuthorizationHeader());
   }
+  // Upload Offline Offer's Poster, Image, Video
+//   /shop/banner
+// /shop/document
+// /shop/image
+// /shop/video
 
   // Banner Upload Api
   uploadBanner(photoFormData: any): any {
@@ -42,6 +47,17 @@ export class OfflineShopsService {
   documentUpload(photoFormData: any): any {
     return this.http.post(environment.appURL + 'organizer/shops/document', photoFormData, this._globalFunctions.getFileAuthorizationHeader());
   }
+
+  //Image Upload Api
+  uploadshopImage(photoFormData: any): any {
+    return this.http.post(environment.appURL + 'organizer/shops/image', photoFormData, this._globalFunctions.getFileAuthorizationHeader());
+  }
+
+  //Video Upload Api
+  uploadshopVideo(photoFormData: any): any {
+    return this.http.post(environment.appURL + 'organizer/shops/video', photoFormData, this._globalFunctions.getFileAuthorizationHeader());
+  }
+
 
   // Offline Shop Offer List
   offlineShopOfferList(filter: any): any {

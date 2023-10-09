@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { Validators, FormBuilder } from '@angular/forms';
 import { GlobalService } from 'src/app/services/global.service';
 import { CONSTANTS } from '../../common/constants';
@@ -10,6 +10,7 @@ import * as _ from 'lodash';
 declare let $: any;
 // @ts-ignore
 import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
+import { MapsAPILoader } from '@agm/core';
 
 @Component({
   selector: 'app-profile',
@@ -32,6 +33,7 @@ export class ProfileComponent implements OnInit {
 
   detailEditor = DecoupledEditor;
   editorConfig: any = {};
+  @ViewChild('search') public searchElementRef: ElementRef | any;
 
   get profileFirstName() {
     return this.profileForm.get('name')
@@ -77,6 +79,9 @@ export class ProfileComponent implements OnInit {
 
   constructor(
     private _formBuilder: FormBuilder,
+    private _renderer: Renderer2,
+    private _mapsAPILoader: MapsAPILoader,
+    private _ngZone: NgZone,
     private _globalService: GlobalService,
     private _globalFunctions: GlobalFunctions,
     private _sNotify: SnotifyService,

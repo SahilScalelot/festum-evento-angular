@@ -90,7 +90,7 @@
               <div class="w-full">
                 <div class="flex overflow-hidden ">
                   <!-- <div *ngFor="let img of offerObj?.poster" class="w-auto p-2"> -->
-                    <div class="rounded relative overflow-hidden bg-white h-28 w-[7.3rem]">
+                    <div class="rounded relative overflow-hidden bg-white h-28 w-[7.3rem] text-center">
                       <p-image [src]="!!(offerObj?.poster) ? constants.baseImageURL + offerObj.poster : constants.defaultImage" [alt]="offerObj?.offer_title" imageClass="w-full h-full object-cover" styleclass="w-full h-full" [preview]="true"></p-image>
                       <!-- <p-image [src]="!!(img?.url) ? constants?.baseImageURL + img?.url : constants?.defaultImage" imageClass="w-full h-full object-cover rounded" styleClass="w-full h-full" [preview]="true"></p-image> -->
                       <!-- <img [src]="!!(img?.url) ? constants?.baseImageURL + img?.url : constants?.defaultImage" alt="upload-1" class="w-full h-full object-cover"/> -->

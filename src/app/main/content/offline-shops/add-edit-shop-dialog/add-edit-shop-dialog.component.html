@@ -16,6 +16,65 @@
             </span>
           </span>
         </div>
+        <!-- upload photo And Video  -->
+        <!-- <div class="mt-7">
+          <div class="w-full py-2">
+            <div class="media-upload-holder pt-5">
+              <div class="flex items-center justify-between">
+                <span class="text-quicksilver font-semibold">Company Photos <span class="font-normal"> Max ({{photosUploadLimit}} Images - up to 7MB/Image & Resolution up to 1080PX x 1080PX)</span></span>
+                <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(photoArr, true, false)">View All</a>
+              </div>
+              <div class="flex flex-wrap h-full pt-2">
+                <div *ngFor="let photo of photoArr; let i = index" class="upload-box mr-2.5 mb-2.5">
+                  <div class="rounded relative overflow-hidden h-full w-full group">
+                    <p-image [alt]="'add-photo-' + i" [src]="!!(photo?.url) ? constants.baseImageURL + photo.url : constants.defaultImage" *ngIf="photo.url" imageClass="w-full h-full object-cover rounded" styleClass="w-full h-full" [preview]="false"></p-image>
+                    <div class="opacity-0 bg-black bg-opacity-50 flex items-center justify-center group-hover:opacity-100 absolute inset-0 transition-all duration-300">
+                      <button class="edit"  (click)="editImage(photo,i)">Edit</button>
+                      <span class="block" (click)="openImageAndVideoDialog([photo], true, false, false)"><i class="pi pi-eye text-2xl text-white cursor-pointer" ></i></span>
+                      <button (click)="removeImage(i)" class="remove">Remove</button>
+                    </div>
+                  </div>
+                </div>
+                <div (click)="openUploadPhotoDialog()" class="upload-holder" *ngIf="photoArr?.length < photosUploadLimit">
+                  <label class="upload-photo" for="event-upload1">
+                    <i class="icon-img_upload text-base text-quicksilver"></i>
+                    <div class="mt-1 flex items-baseline justify-center"><span class="input-titel pt-1">Add Photos</span></div>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="w-full py-2">
+            <div class="media-upload-holder">
+              <div class="flex items-center justify-between">
+                <span class="text-quicksilver font-semibold">Company Video <span class="font-normal">Max ({{videosUploadLimit}} Videos - up to 256MB/Video)</span></span>
+                <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(videoArr, false, false)">View All</a>
+              </div>
+              <div class="flex space-x-2.5 h-full pt-2">
+                <div *ngFor="let video of videoArr; let i = index" class="upload-box">
+                  <div class="rounded relative overflow-hidden h-full w-full group">
+                    <video class="object-cover w-full h-full" height="100%" width="100%"  preload="metadata">
+                      <source [src]="!!(video?.url) ? constants.baseImageURL + video.url + '#t=0.5' : constants.defaultImage" type="video/mp4">
+                    </video>
+                    <div class="opacity-0 bg-black bg-opacity-50 flex items-center justify-center group-hover:opacity-100 absolute inset-0 transition-all duration-300">
+                      <button class="edit" (click)="editVideoModal(video, i)" >Edit</button>
+                      <span class="block" (click)="openImageAndVideoDialog([video], false, false, true)"><i class="pi pi-eye text-2xl text-white cursor-pointer" ></i></span>
+                      <button (click)="removeVideo(i)" class="remove">Remove</button>
+                    </div>
+                  </div>
+                </div>
+                <div (click)="openUploadVideoDialog()" class="upload-holder" *ngIf="videoArr.length < 2">
+                  <p-progressSpinner *ngIf="isVideoLoading" [style]="{width: '20px', height: '20px'}" animationDuration=".5s" strokeWidth="4" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-0 z-20" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
+                  <label class="upload-photo">
+                    <i class="icon-video_upload text-base text-quicksilver"></i>
+                    <div class="mt-1 flex items-baseline justify-center"><span class="input-titel pt-1">Add video</span></div>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> -->
+        
         <!-- //Shop name and shop category section -->
         <div class="flex flex-wrap justify-between -mx-2">
           <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative">
@@ -111,9 +170,79 @@
             </div>
           </div> -->
         <!-- </div> -->
+
         <!-- //Shop Day Wise Time inserted And Second look -->
-        <div class="flex -mx-2">       
-          <div class="w-full xl:w-2/12 px-2 pt-5 inputHolder relative">
+        <div class="w-full">
+          <div class="w-full flex">
+            <div class="w-full lg:w-[20%] px-2 pt-5 inputHolder relative">
+              <span class="input-titel">Shop Days <span>*</span></span>
+            </div>
+            <div class="w-full lg:w-[20%] px-2 pt-5 relative">
+              <span class="input-titel">Off / On <span>*</span></span>
+            </div>
+            <div class="w-full lg:w-[30&] px-2 pt-5 relative">
+              <span class="input-titel">Shop Open Time <span>*</span></span>
+            </div>
+            <div class="w-full lg:w-[30&] px-2 pt-5 relative">
+              <span class="input-titel">Shop Close Time <span>*</span></span>
+            </div>
+          </div>
+          <div formArrayName="shop_days">
+            <div class="row" *ngFor="let item of weekDayList; let i = index" [formGroupName]="i">
+               <input formControlName="day" />
+               <input formControlName="shop_close" />
+               <input formControlName="starttime" />
+               <input formControlName="endtime" />
+           </div>
+           </div>
+          <div class="w-full flex" [formArrayName]="'shop_days'" *ngFor="let item of weekDayList; let i = index" [formGroupName]="i">
+            <div class="w-full lg:w-[20%] px-2 pt-5 inputHolder relative">
+              <div class="weekDays-selector w-full flex flex-col space-y-2">
+                <div class="w-full" >
+                  <label class="w-full cursor-pointer uppercase">{{item}}</label>
+                </div>
+              </div>
+            </div>
+            <div class="w-full lg:w-[20%] px-2 pt-5 relative">
+                <div class="w-full py-3">
+                  <input type="checkbox" name="weekday" [value]="addShopForm.get('shop_close')"  class="weekday" [checked]="addShopForm.get('shop_close')"  class="switch mr-1.5 lg:mx-3 order-2"/>
+                </div>
+            </div>
+            <div class="w-full lg:w-[30&] px-2 pt-5 relative">
+              <div class="w-full space-y-2">
+                <label class="bg-white border border-white rounded-md flex space-x-3 relative">
+                  <i class="icon-time text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0"></i>
+                  <p-calendar class="w-full"  formControlName="shop_open_time" [touchUI]="true" [hourFormat]="'12'" [showTime]="true" [timeOnly]="true" name="shop_open_time" inputId="shop_open_time" [showButtonBar]="true"></p-calendar>
+                </label>
+              </div>
+            </div>
+            <div class="w-full lg:w-[30&] px-2 pt-5 relative">
+              <div class="w-full space-y-2">
+                <label class="bg-white border border-white rounded-md flex space-x-3 relative">
+                  <i class="icon-time text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0"></i>
+                  <p-calendar class="w-full" formControlName="shop_close_time"  [touchUI]="true" [hourFormat]="'12'" [showTime]="true" [timeOnly]="true" name="shop_close_time" inputId="shop_close_time" [showButtonBar]="true"></p-calendar>
+                </label>
+              </div>
+            </div>
+          </div>
+          <span class="top-full text-red-500 text-xs" *ngIf="addShopForm.get('shop_days')?.invalid && (addShopForm.get('shop_days')?.dirty && addShopForm.get('shop_days')?.touched)">
+            <span *ngIf="addShopForm.get('shop_days')?.errors?.['required']">
+              Shop Days is required.
+            </span>
+          </span>
+          <span class="top-full text-red-500 text-xs" *ngIf="addShopForm.get('shop_open_time')?.invalid && (addShopForm.get('shop_open_time')?.dirty && addShopForm.get('shop_open_time')?.touched)">
+            <span *ngIf="addShopForm.get('shop_open_time')?.errors?.['required']">
+              Shop Open Time is required.
+            </span>
+          </span>
+          <span class="top-full text-red-500 text-xs" *ngIf="addShopForm.get('shop_close_time')?.invalid && (addShopForm.get('shop_close_time')?.dirty && addShopForm.get('shop_close_time')?.touched)">
+            <span *ngIf="addShopForm.get('shop_close_time')?.errors?.['required']">
+              Shop Close Time is required.
+            </span>
+          </span>
+        </div>
+        <!-- <div class="flex -mx-2">       
+          <div class="w-full xl:w-1/12 px-2 pt-5 inputHolder relative">
             <span class="input-titel">Shop Days <span>*</span></span>
             <div class="weekDays-selector w-full flex flex-col space-y-2">
               <div class="w-full" *ngFor="let weekday of weekDays" [formArrayName]="'shop_days'">
@@ -127,11 +256,17 @@
               </span>
             </span>
           </div>
-          <!-- // Shop Open Time And Close Time -->
-          <div class="w-full xl:w-10/12 px-2 pt-5 flex space-x-4">
-            <div class="w-full lg:w-1/2 relative">
+          <div class="w-full xl:w-11/12 px-2 pt-5 flex space-x-4">
+            <div class="w-full xl:w-[7%] relative">
+              <div class="w-full relative">
+                <span class="input-titel">Off / On <span>*</span></span>
+                <div class="w-full py-3" *ngFor="let weekday of weekDays">
+                  <input type="checkbox" class="switch mr-1.5 lg:mx-3 order-2"/>
+                </div>
+              </div>
+            </div>
+            <div class="w-full lg:w-[46.5&] relative">
               <span class="input-titel">Shop Open Time <span>*</span></span>
-              <!-- <div class="weekDays-selector w-full flex flex-col space-y-2"> -->
               <div class="w-full space-y-2">
                 <label class="bg-white border border-white rounded-md flex space-x-3 relative" *ngFor="let weekday of weekDays">
                   <i class="icon-time text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0"></i>
@@ -143,9 +278,8 @@
                   </span>
                 </span>
               </div>
-              <!-- </div> -->
             </div>
-            <div class="w-full lg:w-1/2 relative">
+            <div class="w-full lg:w-[46.5&] relative">
               <span class="input-titel">Shop Close Time <span>*</span></span>
               <div class="w-full space-y-2">
                 <label class="bg-white border border-white rounded-md flex space-x-3 relative" *ngFor="let weekday of weekDays">
@@ -159,16 +293,11 @@
                 </span>
               </div>
             </div>
-            <!-- <div class="w-full xl:w-11/12 flex space-x-4" >
-            </div> -->
-            <!-- <div class="w-full xl:w-1/12 flex flex-col space-x-1">
-              <span class="input-titel">Off / On <span>*</span></span>
-              <div class="w-full py-3" *ngFor="let weekday of weekDays">
-                <input type="checkbox" class="switch mr-1.5 lg:mx-3 order-2"/>
-              </div>
-            </div> -->
           </div>
-        </div>
+        </div> -->
+
+
+        
         <!-- //About Us Paragraph -->
         <div class="w-full pt-5 relative">
           <span class="input-titel">About us <i class="text-xs font-medium" [ngClass]="{'text-magicPotion' : textEditor}">( {{textEditorLimit}} characters out of {{textEditorMaxLimit}} )</i></span>
