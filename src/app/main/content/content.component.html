@@ -434,6 +434,12 @@
                           {{ms?.message}} {{ms?.timestamp | dateAgo}}
                         </p>
                       </a>
+                      <a *ngIf="ms.type === 'fcoin'" [routerLink]="['/redeem']" class="flex items-center px-4 py-3 border-b hover:bg-gray-100 -mx-2">
+                        <img [src]="!!(ms?.banner) ? constants.baseImageURL + ms.banner : constants.defaultImage" alt="{{ms?.banner}}" class="h-8 w-8 rounded-full object-cover mx-1"/>
+                        <p class="text-gray-600 text-sm mx-2">
+                          {{ms?.message}} {{ms?.timestamp | dateAgo}}
+                        </p>
+                      </a>
                     </div>
                   </div>
                   <div class="no-list" *ngIf="messages.length === 0">
