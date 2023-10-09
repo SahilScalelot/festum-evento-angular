@@ -541,7 +541,8 @@
           </div>
           <div class="pt-7 text-center">
             <button type="submit" class="secondary py-2 px-5 mx-auto" [ngClass]="{'cursor-not-allowed opacity-50': !transferCoinForm.valid}" [disabled]="!transferCoinForm.valid"  (click)="transferCoin()">
-               <span >Transfer</span>
+              <p-progressSpinner *ngIf="isTransferLoading" [style]="{width: '25px', height: '25px'}" styleClass="custom-spinner" strokeWidth="2" fill="transparent" animationDuration=".5s"></p-progressSpinner>
+               <span *ngIf="!isTransferLoading">Transfer</span>
             </button>
           </div>
         </form>

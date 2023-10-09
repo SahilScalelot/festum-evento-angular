@@ -29,6 +29,7 @@ export class ContentComponent implements OnInit, OnDestroy {
   searchObj: any;
   transferCoinForm: any;
   maxTransferCoinValue: any;
+  isTransferLoading: boolean = false;
   //channelId: string = '7778009509_64ace2b44a72668d4a558e1f';
 
   @ViewChild('searchInput') searchInput: any;
@@ -206,17 +207,22 @@ export class ContentComponent implements OnInit, OnDestroy {
   transferCoin(): void {
     if (this.transferCoinForm.valid) {
       this.transferCoinForm.value.amount = Number(this.transferCoinForm.value.amount);
+      this.isTransferLoading = true;
       //console.log('Form submitted with value:', this.transferCoinForm.value);
       this._contentService.transferFCoin(this.transferCoinForm.value).subscribe((result: any) => {
         if (result && result.IsSuccess) {
           this._sNotify.success('FCoin transfer successfully.');
           this._modalService.close('FCoinTransfer');
+          this.isTransferLoading = false;
         } else {
           this._globalFunctions.successErrorHandling(result, this, true);
           this._modalService.close('FCoinTransfer');
+          this.isTransferLoading = false;
         }
       }, (error: any) => {
         this._globalFunctions.errorHanding(error, this, true);
+        this._modalService.close('FCoinTransfer');
+        this.isTransferLoading = false;
       });
     } else {
       return;
