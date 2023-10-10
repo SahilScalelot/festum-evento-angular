@@ -10,6 +10,7 @@ import { Router, NavigationEnd } from '@angular/router';
 import { ModalService } from '../_modal';
 import html2canvas from 'html2canvas';
 import { ContentService } from './content.service';
+import { AuthService } from 'src/app/main/auth/auth.service';
 import { GlobalFunctions } from '../common/global-functions';
 import * as _ from 'lodash';
 
@@ -49,6 +50,7 @@ export class ContentComponent implements OnInit, OnDestroy {
     private _router: Router,
     private _formBuilder: FormBuilder,
     private _contentService: ContentService,
+    private _authService: AuthService,
     private _globalService: GlobalService,
     private SocketioService: SocketioService,
     private _globalFunctions: GlobalFunctions,
@@ -216,6 +218,7 @@ export class ContentComponent implements OnInit, OnDestroy {
           this._modalService.close('FCoinTransfer');
           this.isTransferLoading = false;
           this.transferCoinForm.reset();
+          this.refreshProfile();
         } else {
           this._globalFunctions.successErrorHandling(result, this, true);
           this._modalService.close('FCoinTransfer');
@@ -229,6 +232,20 @@ export class ContentComponent implements OnInit, OnDestroy {
     } else {
       return;
     }
+  }
+
+  refreshProfile() {
+      this._authService.getLoginUser().subscribe((result: any) => {
+          if (result.IsSuccess) {
+              const user = _.clone(result.Data);
+              this._globalService.loginUser$.next(user);
+          } else {
+              this._globalFunctions.successErrorHandling(result, this, true);
+              //this.isLoading = false;
+          }
+      }, (error: any) => {
+          this._globalFunctions.errorHanding(error, this, true);
+      });
   }
 
   openLanguageModel() {
