@@ -86,7 +86,10 @@
       <img src="/assets/images/banner-ads.png" alt="ring-ad" class="w-full object-cover" />
     </div>
   </div>
-
+  <div class="flex flex-wrap items-center justify-center" *ngIf="redeemCoinHistory && redeemCoinHistory?.length">
+    <!-- <div class="pagination-festum py-2"><p class="show-text">Showing {{offset}} to {{(((offset - 1) + perPageLimit) < pTotal) ? (offset - 1) + perPageLimit : pTotal}} Of {{ pTotal }} Events.</p></div> -->
+    <p-paginator [rows]="paging?.limit" [totalRecords]="paging?.totalDocs" [rowsPerPageOptions]="[10, 20, 30, 40, 50]" (onPageChange)="getRedeemHistory($event)"></p-paginator>
+  </div>
   <div class="bg-white rounded-md text-center p-9 space-y-2" *ngIf="!redeemCoinHistory || !redeemCoinHistory?.length">
     <h4 class="w-full">You have no Redeem Coin History yet</h4>
   </div>

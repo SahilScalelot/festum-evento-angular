@@ -10,8 +10,8 @@ export class RedeemCoinService {
 
   constructor(private http: HttpClient,private _globalFunctions: GlobalFunctions) { }
   
-  getRedeemHistory(): any {
-    return this.http.get(environment.appURL + 'organizer/redeem/history', this._globalFunctions.getAuthorizationHeader());
+  getRedeemHistory(data: any): any {
+    return this.http.post(environment.appURL + 'organizer/redeem/history', data, this._globalFunctions.getAuthorizationHeader());
   }
 
 }

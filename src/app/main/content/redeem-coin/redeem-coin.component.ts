@@ -11,6 +11,7 @@ import { RedeemCoinService } from './redeem-coin.service';
 })
 export class RedeemCoinComponent implements OnInit {
   isLoading: boolean = false;
+  paging: any;
   redeemCoinHistory: any = [];
   userObj: any = {};
   constants: any = CONSTANTS;
@@ -32,11 +33,17 @@ export class RedeemCoinComponent implements OnInit {
     this.getRedeemHistory();
   }
 
-  getRedeemHistory(): void {
+  getRedeemHistory(event: any = {}): void {
     this.isLoading = true;
-    this._redeemCoinService.getRedeemHistory().subscribe((result: any) => {
+    const page = event ? (event.page + 1) : 1;
+    const filter: any = {
+              page : page || '1',
+              limit : event?.rows || '10'
+    };
+    this._redeemCoinService.getRedeemHistory(filter).subscribe((result: any) => {
       if (result && result.IsSuccess) {
-        this.redeemCoinHistory = result.Data;
+        this.redeemCoinHistory = this._globalFunctions.copyObject(result.Data.docs);
+        this.paging = result.Data;
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
       }
