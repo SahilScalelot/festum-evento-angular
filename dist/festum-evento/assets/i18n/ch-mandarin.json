@@ -15,6 +15,8 @@
 
       "Search": "搜索",
       "Profile": "轮廓",
+      "View Profile": "查看资料",
+      "My Posts": "我的帖子",
       "Help": "帮助",
       "Logout": "登出",
       "NotificationTitle": "通知",
@@ -128,7 +130,7 @@
       "totalReward" : "获得的总奖励",
       "referFriend" : "推荐给您的朋友并赚取",
       "referGet" : "推荐并获得10枚硬币",
-      "referStatment" : "推荐朋友并获得额外的 10 个硬币，您的朋友获得额外的 10 分。所以请参考",
+      "referStatement" : "推荐朋友并获得额外的 10 个硬币，您的朋友获得额外的 10 分。所以请参考",
       "shareCode" : "通过分享您的推荐代码",
       "Referral Code" : "推荐代码",
       "Copy Code" : "复制代码",
