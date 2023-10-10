@@ -37,8 +37,8 @@ export class RedeemCoinComponent implements OnInit {
     this.isLoading = true;
     const page = event ? (event.page + 1) : 1;
     const filter: any = {
-              page : page || '1',
-              limit : event?.rows || '10'
+         page : page || '1',
+         limit : event?.rows || '10'
     };
     this._redeemCoinService.getRedeemHistory(filter).subscribe((result: any) => {
       if (result && result.IsSuccess) {

@@ -12,7 +12,7 @@
       </h2>
       <img src="../assets/images/coin.png" alt="Coin" />
     </div>
-    <div class="space-y-2.5">
+    <div class="space-y-5">
       <div class="flex items-center justify-between p-2.5 bg-white rounded-md" *ngFor="let history of redeemCoinHistory">
         <div class="flex items-center space-x-4">
           <div class="rounded text-4xl w-14 h-14 flex items-center justify-center" [ngClass]="{'bg-[#D5DBFF]': (history?.transaction_type == 'redeem'), 'bg-[#FFF0C8]': (history?.transaction_type == 'refer'), 'bg-[#C8FFF2]': (history?.transaction_type == 'transaction')}">
@@ -81,15 +81,16 @@
           <h5 class="pl-5 pr-3 text-red-500">-14</h5>
         </div>
       </div> -->
+      <div class="flex flex-wrap items-center justify-center " *ngIf="redeemCoinHistory && redeemCoinHistory?.length">
+        <!-- <div class="pagination-festum py-2"><p class="show-text">Showing {{offset}} to {{(((offset - 1) + perPageLimit) < pTotal) ? (offset - 1) + perPageLimit : pTotal}} Of {{ pTotal }} Events.</p></div> -->
+        <p-paginator [rows]="paging?.limit" [totalRecords]="paging?.totalDocs" [rowsPerPageOptions]="[10, 20, 30, 40, 50]" (onPageChange)="getRedeemHistory($event)"></p-paginator>
+      </div>
     </div>    
     <div class="w-full mt-5 addsBox">
       <img src="/assets/images/banner-ads.png" alt="ring-ad" class="w-full object-cover" />
     </div>
   </div>
-  <div class="flex flex-wrap items-center justify-center" *ngIf="redeemCoinHistory && redeemCoinHistory?.length">
-    <!-- <div class="pagination-festum py-2"><p class="show-text">Showing {{offset}} to {{(((offset - 1) + perPageLimit) < pTotal) ? (offset - 1) + perPageLimit : pTotal}} Of {{ pTotal }} Events.</p></div> -->
-    <p-paginator [rows]="paging?.limit" [totalRecords]="paging?.totalDocs" [rowsPerPageOptions]="[10, 20, 30, 40, 50]" (onPageChange)="getRedeemHistory($event)"></p-paginator>
-  </div>
+
   <div class="bg-white rounded-md text-center p-9 space-y-2" *ngIf="!redeemCoinHistory || !redeemCoinHistory?.length">
     <h4 class="w-full">You have no Redeem Coin History yet</h4>
   </div>
