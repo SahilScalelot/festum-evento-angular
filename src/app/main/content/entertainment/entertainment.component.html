@@ -38,7 +38,7 @@
         </div>
       </div>
       <div class="text-center mt-8" *ngIf="!hasMoreRecords">
-        <p>No More Records.</p>
+        <p>{{ 'No More Records' | translate }}.</p>
       </div>
 
     </div>
@@ -106,7 +106,7 @@
               </div>
 
               <div class="bg-black bg-opacity-10 text-white text-center p-9 space-y-2" *ngIf="!commentsArr || !commentsArr?.length">
-                <h4 class="w-full">You have no comments yet.</h4>
+                <h4 class="w-full">{{'You have no comments yet' | translate }}.</h4>
               </div>
             </div>
             <!-- chat-input -->

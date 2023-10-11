@@ -8,6 +8,11 @@
       "Refer To Earn": "参考赚取",
       "Notification": "通知",
       "Redeem": "赎回",
+      "Entertainment": "娱乐",
+      "Our Product": "我们的产品",
+      "Booking": "预订",
+      "Promotions": "促销活动",
+      "FAQs": "अक्सर पूछे जाने वाले प्रश्न",
       "Help & FAQ": "帮助和常见问题",
       "Gallery": "画廊",
       "Festum Evento": "活动套餐",
@@ -142,6 +147,7 @@
       "Redeem Coin" : "兑换硬币",
       "You have" : "你有",
       "faq": "常问问题",
+      "Type here": "Type here",
       "Need Help" : "需要帮忙",
       "OR" : "或者",
       "Phone": "电话",
@@ -152,5 +158,8 @@
 
       "All" : "全部",
       "Images": "图片",
-      "Video": "视频o"
+      "Video": "视频o",
+
+      "No More Records": "没有更多记录",
+      "You have no comments yet": "您还没有评论"
 }     

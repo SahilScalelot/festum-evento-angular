@@ -9,6 +9,9 @@
       "Refer To Earn": "Refer To Earn",
       "Notification": "Notification",
       "Redeem": "Redeem",
+      "Our Product": "Our Product",
+      "Booking": "Booking",
+      "FAQs": "FAQs",
       "Help & FAQ": "Help & FAQ",
       "Gallery": "Gallery",
       "Festum Evento": "Festum Evento",
@@ -146,6 +149,7 @@
       "Redeem Coin" : "Redeem Coin",
       "You have" : "You have",
       "faq": "FAQ",
+      "Type here": "Type here",
       "Need Help" : "Need Help",
       "OR" : "OR",
       "Phone": "Phone",
@@ -156,5 +160,8 @@
 
       "All" : "All",
       "Images": "Images",
-      "Video": "Video"
+      "Video": "Video",
+
+      "No More Records": "No More Records",
+      "You have no comments yet": "You have no comments yet"
 }     

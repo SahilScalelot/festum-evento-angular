@@ -2,12 +2,19 @@
       "main": "principal",
       "Events": "Événements",
       "Offers": "Des offres",
+      "Offline Shop Offers": "Offres de boutique hors ligne",
+      "Online Shop Offers": "Offres de la boutique en ligne",
       "Live Stream": "Direct",
       "Other": "Autre",
       "Subscription": "Abonnement",
       "Refer To Earn": "Référez-vous pour gagner",
       "Notification": "Notification",
       "Redeem": "Racheter",
+      "Entertainment": "Divertissement",
+      "Our Product": "Unser Produkt",
+      "Booking": "Buchung",
+      "Promotions": "Promotions",
+      "FAQs": "FAQ",
       "Help & FAQ": "Aide et FAQ",
       "Gallery": "Galerie",
       "Festum Evento": "Festum Evento",
@@ -135,6 +142,7 @@
       "Redeem Coin": "Échanger des pièces",
       "You have": "Vous avez",
       "faq": "FAQ",
+      "Type here": "Écrivez ici",
       "Need Help": "Besoin d'aide",
       "OR": "OU",
       "Phone": "Téléphoner",
@@ -144,5 +152,8 @@
       "Select": "Sélectionner",
       "All": "Tout",
       "Images": "Images",
-      "Video": "Vidéo"
+      "Video": "Vidéo",
+
+      "No More Records": "Plus de dossiers",
+      "You have no comments yet": "Vous n'avez pas encore de commentaires"
 }

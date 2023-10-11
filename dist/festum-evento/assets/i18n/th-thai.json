@@ -3,11 +3,18 @@
       "Events": "กิจกรรม",
       "Offers": "ข้อเสนอ",
       "Live Stream" : "สตรีมสด",
+      "Offline Shop Offers": "ข้อเสนอร้านค้าออฟไลน์",
+      "Online Shop Offers": "ข้อเสนอร้านค้าออนไลน์",
       "Other" : "อื่นๆ",
       "Subscription": "สมัครสมาชิก",
       "Refer To Earn": "อ้างอิงเพื่อรับ",
       "Notification": "ประกาศ",
       "Redeem": "แลก",
+      "Entertainment": "ความบันเทิง",
+      "Our Product": "ผลิตภัณฑ์ของเรา",
+      "Booking": "การจอง",
+      "Promotions": "โปรโมชั่น",
+      "FAQs": "คำถามที่พบบ่อย",
       "Help & FAQ": "ช่วยเหลือ & คำถามที่พบบ่อย",
       "Gallery": "แกลลอรี่",
       "Festum Evento": "Festum Evento",
@@ -135,6 +142,7 @@
       "Redeem Coin" : "แลกเหรียญ",
       "You have" : "คุณมี",
       "faq": "คำถามที่พบบ่อย",
+      "Type here": "พิมพ์ที่นี่",
       "Need Help" : "ต้องการความช่วยเหลือ",
       "OR" : "หรือ",
       "Phone": "โทรศัพท์",
@@ -144,5 +152,8 @@
       "Select" : "เลือก",
       "All" : "ทั้งหมด",
       "Images": "รูปภาพ",
-      "Video": "วิดีโอ"   
+      "Video": "วิดีโอ",
+
+      "No More Records": "ไม่มีบันทึกอีกต่อไป",
+      "You have no comments yet": "คุณยังไม่มีความคิดเห็น"
 }
