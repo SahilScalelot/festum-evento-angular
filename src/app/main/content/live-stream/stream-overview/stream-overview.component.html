@@ -318,7 +318,7 @@
         </div>
       </div>
       <!-- Reviews-Teb-Content   -->
-      <div class="flex flex-wrap -mx-4 tab-main" id="Comment" [class]="reviews ? 'active' : ''">
+      <div class="flex flex-wrap -mx-4 tab-main" id="Comment" [class]="reviews ? 'active' : ''" *ngIf="reviews">
         <div class="w-full lg:w-8/12 p-4 space-y-2.5 p-4">
 
             <div *ngFor="let reviews of liveStreamObj?.reviews" class="flex justify-between p-5 bg-white rounded-md">

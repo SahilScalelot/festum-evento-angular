@@ -146,6 +146,9 @@
       "Referral Code" : "रेफरल कोड",
       "Copy Code" : "कॉपी कोड",
 
+      "Start And End Date": "आरंभ और समाप्ति तिथि",
+      "Categories": "श्रेणियाँ",
+
       "Create Notification": "अधिसूचना बनाएं",
       "New Notification": "नई अधिसूचना",
       "Notification name" : "अधिसूचना का नाम",
@@ -166,6 +169,7 @@
       "Images": "इमेजिस",
       "Video": "वीडियो",
 
+      "No Records Found": "कोई रिकॉर्ड नहीं मिला",
       "No More Records": "कोई और रिकॉर्ड नहीं",
       "You have no comments yet": "आपके पास अभी तक कोई टिप्पणी नहीं है"
 }     

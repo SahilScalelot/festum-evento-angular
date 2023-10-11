@@ -135,6 +135,8 @@
       "shareCode": "Teilen Sie Ihren Empfehlungscode über",
       "Referral Code": "Referenzcode",
       "Copy Code": "Code kopieren",
+      "Start And End Date": "Start- und Enddatum",
+      "Categories": "Kategorien",
       "Create Notification": "Benachrichtigung erstellen",
       "New Notification": "Neue Benachrichtigung",
       "Notification name": "Benachrichtigungsname",
@@ -154,6 +156,7 @@
       "Images": "Bilder",
       "Video": "Video",
 
+      "No Records Found": "Keine Aufzeichnungen gefunden",
       "No More Records": "Keine Aufzeichnungen mehr",
       "You have no comments yet": "Sie haben noch keine Kommentare"
 }

@@ -135,6 +135,8 @@
       "shareCode": "Partagez votre code de parrainage via",
       "Referral Code": "Code de Parrainage",
       "Copy Code": "Copier le code",
+      "Start And End Date": "Date de début et de fin",
+      "Categories": "Catégories",
       "Create Notification": "Créer une notification",
       "New Notification": "Nouvelle notification",
       "Notification name": "Nom de la notification",
@@ -154,6 +156,7 @@
       "Images": "Images",
       "Video": "Vidéo",
 
+      "No Records Found": "Aucun enregistrement trouvé",
       "No More Records": "Plus de dossiers",
       "You have no comments yet": "Vous n'avez pas encore de commentaires"
 }

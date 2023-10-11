@@ -140,6 +140,9 @@
       "Referral Code" : "推荐代码",
       "Copy Code" : "复制代码",
 
+      "Start And End Date": "开始和结束日期",
+      "Categories": "类别",
+
       "Create Notification": "创建通知",
       "New Notification": "新通知",
       "Notification name" : "通知名称",
@@ -160,6 +163,7 @@
       "Images": "图片",
       "Video": "视频o",
 
+      "No Records Found": "没有找到记录",
       "No More Records": "没有更多记录",
       "You have no comments yet": "您还没有评论"
 }     

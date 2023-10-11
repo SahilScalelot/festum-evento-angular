@@ -135,6 +135,8 @@
       "shareCode" : "แบ่งปันรหัสอ้างอิงของคุณผ่าน",
       "Referral Code" : "รหัสอ้างอิง",
       "Copy Code" : "คัดลอกรหัส",
+      "Start And End Date": "วันที่เริ่มต้นและสิ้นสุด",
+      "Categories": "หมวดหมู่",
       "Create Notification": "สร้างการแจ้งเตือน",
       "New Notification": "ประกาศใหม่",
       "Notification name" : "ชื่อการแจ้งเตือน",
@@ -154,6 +156,7 @@
       "Images": "รูปภาพ",
       "Video": "วิดีโอ",
 
+      "No Records Found": "ไม่พบบันทึก",
       "No More Records": "ไม่มีบันทึกอีกต่อไป",
       "You have no comments yet": "คุณยังไม่มีความคิดเห็น"
 }

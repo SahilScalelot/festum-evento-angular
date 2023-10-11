@@ -4,17 +4,17 @@
   <div class="space-y-8 h-full">
     <div class="flex flex-wrap justify-between items-center">
       <div class="w-full lg:w-auto py-3">
-        <h2>Booking</h2>
+        <h2>{{ 'Booking' | translate }}</h2>
       </div>
       <div class="w-full lg:w-auto pt-5 lg:pt-0">
         <div class="flex flex-wrap justify-start items-center -mx-3">
           <div class="w-auto px-2 xl:px-3 inputHolder relative">
-            <span class="input-titel">Search</span>
+            <span class="input-titel">{{'Search' | translate }}</span>
             <input id="search" (keyup)="search($event)" autocapitalize="off" autocorrect="off" class="input" spellcheck="off" type="text" />
           </div>
 
           <div class="min-w-[250px] w-[250px] px-2 xl:px-3 relative">
-            <span class="input-titel">Start And End Date</span>
+            <span class="input-titel">{{'Start And End Date' | translate }}</span>
             <label for="date" class="bg-white rounded-md flex w-full relative">
               <i class="icon-calendar text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0 z-10"></i>
               <p-calendar class="w-full" styleClass="w-full rounded-md outline-none" [(ngModel)]="date" name="date" [showButtonBar]="true" selectionMode="range" [readonlyInput]="true" inputId="range" (onClose)="filterChange(true)"></p-calendar>
@@ -23,14 +23,14 @@
           <div class="w-auto px-2 xl:px-3">
             <div class="flex flex-wrap justify-between items-center">
               <div class="min-w-[125px] w-[125px] pr-3 relative">
-                <span class="input-titel">Start Time</span>
+                <span class="input-titel">{{'Start Time' | translate }}</span>
                 <label for="start-time" class="bg-white rounded-md flex relative">
                   <i class="icon-time text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0 z-10"></i>
                   <p-calendar class="w-4/5" [(ngModel)]="startTime" name="start_time" [showTime]="true" [timeOnly]="true" inputId="start_time" (onBlur)="filterChange(false, true)"></p-calendar>
                 </label>
               </div>
               <div class="min-w-[125px] w-[125px] pl-3 relative">
-                <span class="input-titel">End Time</span>
+                <span class="input-titel">{{'End Time' | translate }}</span>
                 <label for="end-time" class="bg-white rounded-md flex relative">
                   <i class="icon-time text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0 z-10"></i>
                   <p-calendar class="w-4/5" [(ngModel)]="endTime" name="end_time" [showTime]="true" [timeOnly]="true" inputId="end_time" (onBlur)="filterChange(false, true)"></p-calendar>
@@ -39,11 +39,11 @@
             </div>
           </div>
           <div class="min-w-[225px] w-[225px] px-2 xl:px-3 relative">
-            <span class="input-titel">Categories</span>
+            <span class="input-titel">{{'Categories' | translate }}</span>
             <p-dropdown styleClass="w-full border-0 font-bold" panelStyleClass="p-0" [(ngModel)]="filterObj.category" [options]="categories" placeholder="All categories" optionLabel="categoryname" optionValue="_id" [showClear]="true" (onChange)="filterChange()"></p-dropdown>
           </div>
           <div class="min-w-[225px] w-[225px] px-2 xl:px-3 relative">
-            <span class="input-titel">Entity</span>
+            <span class="input-titel">{{'Entity' | translate }}</span>
             <p-dropdown styleClass="w-full border-0 font-bold" panelStyleClass="p-0" [(ngModel)]="filterObj.entity" [options]="constants.entities" placeholder="All Entities" optionLabel="entityname" optionValue="value" [showClear]="true" (onChange)="filterChange()"></p-dropdown>
           </div>
         </div>
@@ -97,5 +97,5 @@
     </div>
   </div>
 
-  <p class="text-center text-xl" *ngIf="!bookings || !bookings?.length">No Booking Records Found.</p>
+  <p class="text-center text-xl" *ngIf="!bookings || !bookings?.length">{{'No Records Found' | translate }}.</p>
 </div>
