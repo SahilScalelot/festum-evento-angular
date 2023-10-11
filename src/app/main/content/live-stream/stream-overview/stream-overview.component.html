@@ -318,63 +318,33 @@
         </div>
       </div>
       <!-- Reviews-Teb-Content   -->
-      <div class="w-full space-y-7 tab-main" id="Comment" [class]="reviews ? 'active' : ''">
-        <div class="w-full space-y-2">
-          <div class="w-full space-y-3">
-            <div class="bg-white rounded-lg p-7 lg:flex">
-              <div>
-                <div class="w-20 h-20">
-                  <img src="../assets/images/profile-2.png" alt="Profile" />
+      <div class="flex flex-wrap -mx-4 tab-main" id="Comment" [class]="reviews ? 'active' : ''">
+        <div class="w-full lg:w-8/12 p-4 space-y-2.5 p-4">
+
+            <div *ngFor="let reviews of liveStreamObj?.reviews" class="flex justify-between p-5 bg-white rounded-md">
+              <div class="">
+                <div class="w-14 h-14 border-2 border-brightGray rounded-full overflow-hidden bg-white">
+                  <img alt="cutting-board" class="w-full h-full object-cover" [src]="!!(reviews?.userid?.profilepic) ? constants?.baseImageURL + reviews?.userid?.profilepic : constants.userDefaultImage"/>
                 </div>
               </div>
-              <div class="lg:px-5 py-5 lg:py-0">
-                <div class="flex justify-between items-center">
-                  <h5>Charlotte</h5>
-                  <div class="flex items-center space-x-1 pt-1.5 pb-2.5">
-                    <span class="text-xs font-bold text-quicksilver mr-4">19 Jan, 2022</span>
-                    <i class="icon-rating text-[#F8DA48]"></i>
-                    <i class="icon-rating text-[#F8DA48]"></i>
-                    <i class="icon-rating text-[#F8DA48]"></i>
-                    <i class="icon-rating text-[#F8DA48]"></i>
-                    <i class="icon-rating text-quicksilver"></i>
+              <div class="w-full pl-5">
+                <div class="flex justify-between">
+                  <h3>{{ reviews?.userid?.name }}</h3>
+                  <div class="flex items-center space-x-2">
+                    <span class="text-xs text-quicksilver">{{ reviews?.createdAt | date:'dd MMM, yyyy' }}</span>
+                    <p-rating [(ngModel)]="reviews.ratings" [readonly]="true" [cancel]="false"></p-rating>
                   </div>
                 </div>
-                <p class="text-sm text-japaneseIndigo pt-4">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-                  Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient
-                  montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis,
-                  sem.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodoligula eget dolor.</p>
+                <p class="text-japaneseIndigo text-sm font-normal leading-6">{{ reviews?.review }}</p>
               </div>
             </div>
-            <div class="bg-white rounded-lg p-7 lg:flex">
-              <div>
-                <div class="w-20 h-20">
-                  <img src="../assets/images/profile-2.png" alt="Profile" />
-                </div>
-              </div>
-              <div class="lg:px-5 py-5 lg:py-0">
-                <div class="flex justify-between items-center">
-                  <h5>Charlotte</h5>
-                  <div class="flex items-center space-x-1 pt-1.5 pb-2.5">
-                    <span class="text-xs font-bold text-quicksilver mr-4">19 Jan, 2022</span>
-                    <i class="icon-rating text-[#F8DA48]"></i>
-                    <i class="icon-rating text-[#F8DA48]"></i>
-                    <i class="icon-rating text-[#F8DA48]"></i>
-                    <i class="icon-rating text-[#F8DA48]"></i>
-                    <i class="icon-rating text-quicksilver"></i>
-                  </div>
-                </div>
-                <p class="text-sm text-japaneseIndigo pt-4">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-                  Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient
-                  montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis,
-                  sem.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodoligula eget dolor.</p>
-              </div>
-            </div>
-          </div>
+
           <!-- ad banner -->
-          <div class="w-full mt-5 addsBox">
+          <div class="w-full py-2.5 addsBox">
             <img src="/assets/images/banner-ads.png" alt="ring-ad" class="w-full object-cover" />
           </div>
         </div>
+        <div class="w-full lg:w-4/12 p-4"></div>
       </div>
       <!-- Subscription plan details-Teb-Content   -->
       <div class="w-full space-y-7 tab-main" id="Subscription" [class]="subscription ? 'active' : ''">
