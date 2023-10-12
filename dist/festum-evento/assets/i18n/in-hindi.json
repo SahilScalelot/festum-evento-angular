@@ -14,6 +14,7 @@
       "Redeem": "एवज",
       "Entertainment": "मनोरंजन",
       "Our Product": "हमारे उत्पाद",
+      "Our Products": "हमारे उत्पाद",
       "Booking": "बुकिंग",
       "Promotions": "प्रचार",
       "FAQs": "अक्सर पूछे जाने वाले प्रश्न",
@@ -150,6 +151,15 @@
       "Start And End Date": "आरंभ और समाप्ति तिथि",
       "Categories": "श्रेणियाँ",
 
+      "history": "इतिहास",
+      "Create New": "नया बनायें",
+      "Promote": "प्रचार करें",
+      "newPromotion": "नया प्रचार बनाएँ",
+      "promotionTitle": "प्रमोशन शीर्षक",
+      "link": "लिंक",
+      "done": "हो गया",
+      "preview": "पूर्व दर्शन",
+
       "Create Notification": "अधिसूचना बनाएं",
       "New Notification": "नई अधिसूचना",
       "Notification name" : "अधिसूचना का नाम",
@@ -169,8 +179,11 @@
       "All" : "सभी",
       "Images": "इमेजिस",
       "Video": "वीडियो",
+      "Photo": "फ़ोटो",
 
       "No Records Found": "कोई रिकॉर्ड नहीं मिला",
       "No More Records": "कोई और रिकॉर्ड नहीं",
-      "You have no comments yet": "आपके पास अभी तक कोई टिप्पणी नहीं है"
+      "You have no comments yet": "आपके पास अभी तक कोई टिप्पणी नहीं है",
+
+      "posterHint": "अधिकतम फ़ाइल आकार 10MB और रिज़ॉल्यूशन 1080PX x 780PX होना चाहिए"
 }     

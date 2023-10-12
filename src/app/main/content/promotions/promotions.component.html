@@ -3,11 +3,11 @@
     <!-- title-holder  -->
     <div class="flex justify-between items-center">
       <a href="javascript:void(0);" class="flex items-center">
-        <h2>Promotions</h2>
+        <h2>{{'Promotions' | translate }}</h2>
       </a>
       <div class="flex items-center space-x-5">
-        <button class="secondary px-5 py-2 capitalize anim"><i class="icon-history mr-3"></i><span>history</span></button>
-        <button class="secondary px-5 py-2 capitalize anim" routerLink="create"><i class="icon-plus mr-3"></i><span>Create new</span></button>
+        <button class="secondary px-5 py-2 capitalize anim"><i class="icon-history mr-3"></i><span>{{'history' | translate }}</span></button>
+        <button class="secondary px-5 py-2 capitalize anim" routerLink="create"><i class="icon-plus mr-3"></i><span>{{'Create New' | translate }}</span></button>
       </div>
     </div>
     <!-- main-content  -->
@@ -37,7 +37,7 @@
             </div>
             <p class="text-gray-400 text-base pt-3 font-medium" [innerHTML]="notification?.description"></p>
             <div class="flex justify-end">
-              <button class="secondary flex items-center px-3 py-1.5 anim" (click)="promoteNotification(notification?._id)"><i class="icon-fill_megaphone mr-2"></i><span>Promote</span></button>
+              <button class="secondary flex items-center px-3 py-1.5 anim" (click)="promoteNotification(notification?._id)"><i class="icon-fill_megaphone mr-2"></i><span>{{'Promote' | translate }}</span></button>
             </div>
           </div>
         </div>
@@ -54,18 +54,6 @@
         <img src="/assets/images/banner-ads.png" alt="ring-ad" class="w-full object-cover" />
       </div>
       <!-- advisement end-->
-      
-      <!-- next preview button  -->
-      <div class="prw-next-btn hidden">
-        <button type="button" class="flex items-center">
-          <i class="icon-left_arrow mr-3"></i>
-          <h5>Back</h5>
-        </button>
-        <button type="button" class="flex items-center active">
-          <h5>Next</h5>
-          <i class="icon-right_arrow ml-3"></i>
-        </button>
-      </div>
     </div>
   </div>
 </div>

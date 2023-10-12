@@ -11,7 +11,8 @@
       "Notification": "Benachrichtigung",
       "Redeem": "Tilgen",
       "Entertainment": "Unterhaltung",
-      "Our Product": "Unser Produkt",
+      "Our Product": "Unsere Produkt",
+      "Our Products": "Unsere Produkte",
       "Booking": "Buchung",
       "Promotions": "Werbeaktionen",
       "FAQs": "FAQs",
@@ -138,6 +139,14 @@
       "Copy Code": "Code kopieren",
       "Start And End Date": "Start- und Enddatum",
       "Categories": "Kategorien",
+      "history": "Geschichte",
+      "Create New": "Erstelle neu",
+      "Promote": "Fördern",
+      "newPromotion": "Erstellen Sie eine neue Aktion",
+      "promotionTitle": "Promotion-Titel",
+      "link": "Verknüpfung",
+      "done": "Erledigt",
+      "preview": "Vorschau",
       "Create Notification": "Benachrichtigung erstellen",
       "New Notification": "Neue Benachrichtigung",
       "Notification name": "Benachrichtigungsname",
@@ -156,8 +165,11 @@
       "All": "Alle",
       "Images": "Bilder",
       "Video": "Video",
+      "Photo": "Foto",
 
       "No Records Found": "Keine Aufzeichnungen gefunden",
       "No More Records": "Keine Aufzeichnungen mehr",
-      "You have no comments yet": "Sie haben noch keine Kommentare"
+      "You have no comments yet": "Sie haben noch keine Kommentare",
+
+      "posterHint": "Maximale Dateigröße 10 MB und Auflösung muss 1080PX x 780PX betragen"
 }

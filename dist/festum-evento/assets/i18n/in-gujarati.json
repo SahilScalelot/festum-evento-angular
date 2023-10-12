@@ -13,7 +13,8 @@
       "Notification": "સૂચના",
       "Redeem": "રિડીમ",
       "Entertainment": "મનોરંજન",
-      "Our Product": "અમારું ઉત્પાદન",
+      "Our Product": "અમારા ઉત્પાદન",
+      "Our Products": "અમારા ઉત્પાદનો",
       "Booking": "બુકિંગ",
       "Promotions": "પ્રચાર",
       "FAQs": "સામાન્ય પ્રશ્નો",
@@ -150,6 +151,15 @@
       "Start And End Date": "પ્રારંભ અને સમાપ્તિ તારીખ",
       "Categories": "શ્રેણીઓ",
 
+      "history": "ઇતિહાસ",
+      "Create New": "નવું બનાવો",
+      "Promote": "પ્રમોટ કરો",
+      "newPromotion": "નવું પ્રમોશન બનાવો",
+      "promotionTitle": "પ્રમોશન શીર્ષક",
+      "link": "લિંક",
+      "done": "થઈ ગયું",
+      "preview": "પૂર્વાવલોકન",
+
       "Create Notification": "સૂચના બનાવો",
       "New Notification": "નવી સૂચના",
       "Notification name" : "સૂચનાનું નામ",
@@ -169,8 +179,11 @@
       "All" : "બધા",
       "Images": "છબીઓ",
       "Video": "વિડિયો",
+      "Photo": "ફોટો",
 
       "No Records Found": "કોઈ રેકોર્ડ્સ મળ્યા નથી",
       "No More Records": "કોઈ વધુ રેકોર્ડ્સ નથી",
-      "You have no comments yet": "તમારી પાસે હજુ સુધી કોઈ ટિપ્પણીઓ નથી"
+      "You have no comments yet": "તમારી પાસે હજુ સુધી કોઈ ટિપ્પણીઓ નથી",
+
+      "posterHint": "મહત્તમ ફાઇલ કદ 10MB અને રિઝોલ્યુશન 1080PX x 780PX હોવું આવશ્યક છે"
 }     

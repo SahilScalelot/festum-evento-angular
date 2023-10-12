@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TranslateModule } from "@ngx-translate/core";
 import { RouterModule, Routes } from '@angular/router';
 import { PromoteComponent } from './promote.component';
 import { UserTypesComponent } from './user-types/user-types.component';
@@ -44,6 +45,7 @@ const routes: Routes = [
   imports: [
     RouterModule.forChild(routes),
     CommonModule,
+    TranslateModule,
     StepsModule,
     ReactiveFormsModule,
     CalendarModule,

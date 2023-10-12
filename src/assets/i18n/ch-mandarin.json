@@ -10,6 +10,7 @@
       "Redeem": "赎回",
       "Entertainment": "娱乐",
       "Our Product": "我们的产品",
+      "Our Products": "我们的产品",
       "Booking": "预订",
       "Promotions": "促销活动",
       "FAQs": "अक्सर पूछे जाने वाले प्रश्न",
@@ -144,6 +145,15 @@
       "Start And End Date": "开始和结束日期",
       "Categories": "类别",
 
+      "history": "历史",
+      "Create New": "创建新的",
+      "Promote": "推动",
+      "newPromotion": "创建新促销",
+      "promotionTitle": "促销标题",
+      "link": "关联",
+      "done": "完毕",
+      "preview": "预览",
+
       "Create Notification": "创建通知",
       "New Notification": "新通知",
       "Notification name" : "通知名称",
@@ -163,8 +173,11 @@
       "All" : "全部",
       "Images": "图片",
       "Video": "视频o",
+      "Photo": "照片",
 
       "No Records Found": "没有找到记录",
       "No More Records": "没有更多记录",
-      "You have no comments yet": "您还没有评论"
+      "You have no comments yet": "您还没有评论",
+
+      "posterHint": "最大文件大小 10MB，分辨率必须为 1080PX x 780PX"
 }     

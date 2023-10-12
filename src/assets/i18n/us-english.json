@@ -10,6 +10,7 @@
       "Notification": "Notification",
       "Redeem": "Redeem",
       "Our Product": "Our Product",
+      "Our Products": "Our Products",
       "Booking": "Booking",
       "FAQs": "FAQs",
       "Help & FAQ": "Help & FAQ",
@@ -146,6 +147,15 @@
       "Start And End Date": "Start And End Date",
       "Categories": "Categories",
 
+      "history": "History",
+      "Create New": "Create New",
+      "Promote": "Promote",
+      "newPromotion": "Create New Promotion",
+      "promotionTitle": "Promotion Title",
+      "link": "Link",
+      "done": "Done",
+      "preview": "Preview",
+
       "Create Notification": "Create Notification",
       "New Notification": "New Notification",
       "Notification name" : "Notification name",
@@ -165,8 +175,11 @@
       "All" : "All",
       "Images": "Images",
       "Video": "Video",
+      "Photo": "Photo",
 
       "No Records Found": "No Records Found",
       "No More Records": "No More Records",
-      "You have no comments yet": "You have no comments yet"
+      "You have no comments yet": "You have no comments yet",
+
+      "posterHint": "Max File Size 10MB & Resolution Must be 1080PX x 780PX"
 }     

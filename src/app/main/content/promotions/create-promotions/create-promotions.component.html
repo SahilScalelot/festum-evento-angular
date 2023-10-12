@@ -3,13 +3,13 @@
     <!-- title-holder  -->
     <div class="flex justify-start items-center">
       <a href="javascript:void(0);" class="flex items-center" [routerLink]="'/promotions'"><i class="icon-left_arrow mr-4 text-2xl"></i></a>
-      <h2>Create New Promotion</h2>
+      <h2>{{'newPromotion' | translate }}</h2>
     </div>
     <!-- main-content  -->
     <form class="space-y-5" [formGroup]="notificationForm">
       <div class="flex items-end flex-wrap -mx-2">
         <div class="w-full md:w-1/2 px-2 inputHolder relative pb-0.5 mb-7">
-          <span class="input-titel">Promotion Title<span>*</span></span>
+          <span class="input-titel">{{'promotionTitle' | translate }}<span>*</span></span>
           <input type="text" id="notification-title" formControlName="notification_title" class="input" />
           <span class="absolute top-full text-red-500 text-xs" *ngIf="notificationForm.get('notification_title')?.invalid && (notificationForm.get('notification_title')?.dirty && notificationForm.get('notification_title')?.touched)">
             <span *ngIf="notificationForm.get('notification_title')?.errors?.['required']">
@@ -18,7 +18,7 @@
           </span>
         </div>
         <div class="w-full md:w-1/2 px-2 inputHolder relative pb-0.5 mb-7">
-          <span class="input-titel">Link<span>*</span></span>
+          <span class="input-titel">{{'link' | translate }}<span>*</span></span>
           <input type="text" id="link" formControlName="link" class="input" />
           <span class="absolute top-full text-red-500 text-xs" *ngIf="notificationForm.get('link')?.invalid && (notificationForm.get('link')?.dirty && notificationForm.get('link')?.touched)">
             <span *ngIf="notificationForm.get('link')?.errors?.['required']">
@@ -30,7 +30,7 @@
           </span>
         </div>
         <div class="w-full relative group px-2 pb-0.5 mb-7">
-          <h5 class="input-titel">Photo (Max File Size 10MB & Resolution Must be 1080PX x 780PX)<span>*</span></h5>
+          <h5 class="input-titel">{{'Photo' | translate }} ({{'posterHint' | translate }})<span>*</span></h5>
           <p-progressSpinner *ngIf="isPhotoLoading" [style]="{width: '20px', height: '20px'}" animationDuration=".5s" strokeWidth="4" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-x-1 bottom-0 top-10 z-20" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
           <label class="upload upload-popup py-3">
             <input (change)="onChangePhoto($event)" accept="image/png, image/jpeg, image/jpg" class="appearance-none hidden" id="banner" name="banner" type="file"/>
@@ -47,7 +47,7 @@
           </span>
         </div>
         <div class="w-full space-y-2.5 px-2 relative pb-0.5 mb-7">
-          <h5 class="input-titel">Description<span>*</span></h5>
+          <h5 class="input-titel">{{'description' | translate }}<span>*</span></h5>
           <div class="w-full bg-white rounded">
             <ckeditor (ready)="onTextEditorReady($event)" [config]="editorConfig" [editor]="detailEditor" [formControlName]="'description'" class="h-44 text-editor" id="description-editor" name="description"></ckeditor>
             <span class="absolute top-full text-red-500 text-xs ml-0" *ngIf="notificationForm.get('description')?.invalid && (notificationForm.get('description')?.dirty && notificationForm.get('description')?.touched)">
@@ -58,15 +58,15 @@
           </div>
         </div>
         <div class="w-full px-2 text-right">
-          <button class="bg-japaneseIndigo rounded-lg text-white capitalize hover:bg-transparent border border-japaneseIndigo hover:text-japaneseIndigo px-8 py-2 anim" (click)="openPreviewNotification()">preview</button>
+          <button class="bg-japaneseIndigo rounded-lg text-white capitalize hover:bg-transparent border border-japaneseIndigo hover:text-japaneseIndigo px-8 py-2 anim" (click)="openPreviewNotification()">{{'preview' | translate }}</button>
         </div>
       </div>
       <div class="prw-next-btn">
-        <button type="button" class="flex items-center"><i class="icon-left_arrow mr-3"></i><h5>Back</h5></button>
+        <button type="button" class="flex items-center"><i class="icon-left_arrow mr-3"></i><h5>{{'Back' | translate }}</h5></button>
 
         <div class="relative">
           <button class="secondary px-6 py-2 anim" type="submit" (click)="createNotification()">
-            <span [ngClass]="{'opacity-0': isCreateNotificationLoading}">Done</span>
+            <span [ngClass]="{'opacity-0': isCreateNotificationLoading}">{{'done' | translate}}</span>
           </button>
           <div class="absolute inset-0 text-white flex items-center" *ngIf="isCreateNotificationLoading">
             <mat-progress-spinner [diameter]="22" [mode]="'indeterminate'" class="mx-auto"></mat-progress-spinner>

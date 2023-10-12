@@ -12,6 +12,7 @@
       "Redeem": "แลก",
       "Entertainment": "ความบันเทิง",
       "Our Product": "ผลิตภัณฑ์ของเรา",
+      "Our Products": "ผลิตภัณฑ์ของเรา",
       "Booking": "การจอง",
       "Promotions": "โปรโมชั่น",
       "FAQs": "คำถามที่พบบ่อย",
@@ -138,6 +139,14 @@
       "Copy Code" : "คัดลอกรหัส",
       "Start And End Date": "วันที่เริ่มต้นและสิ้นสุด",
       "Categories": "หมวดหมู่",
+      "history": "ประวัติศาสตร์",
+      "Create New": "สร้างใหม่",
+      "Promote": "ส่งเสริม",
+      "newPromotion": "สร้างโปรโมชั่นใหม่",
+      "promotionTitle": "ชื่อโปรโมชัน",
+      "link": "ลิงค์",
+      "done": "เสร็จแล้ว",
+      "preview": "ดูตัวอย่าง",
       "Create Notification": "สร้างการแจ้งเตือน",
       "New Notification": "ประกาศใหม่",
       "Notification name" : "ชื่อการแจ้งเตือน",
@@ -156,8 +165,11 @@
       "All" : "ทั้งหมด",
       "Images": "รูปภาพ",
       "Video": "วิดีโอ",
+      "Photo": "รูปถ่าย",
 
       "No Records Found": "ไม่พบบันทึก",
       "No More Records": "ไม่มีบันทึกอีกต่อไป",
-      "You have no comments yet": "คุณยังไม่มีความคิดเห็น"
+      "You have no comments yet": "คุณยังไม่มีความคิดเห็น",
+
+      "posterHint": "ขนาดไฟล์สูงสุด 10MB และความละเอียดต้องเป็น 1080PX x 780PX"
 }
