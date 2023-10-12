@@ -2,34 +2,34 @@
 <!-- main-content  -->
 <form class="w-full flex items-end flex-wrap p-ngCss"  [formGroup]="createStreamForm">
   <div class="w-full lg:w-1/2 px-2 pt-5 pb-0.5 inputHolder relative">
-    <span class="input-titel">Event Name<span>*</span></span>
+    <span class="input-titel">Live Stream Name<span>*</span></span>
     <input type="text" name="event_name" formControlName="event_name" class="input" />
     <span class="absolute top-full text-red-500 text-xs" *ngIf="createStreamForm.get('event_name')?.invalid && (createStreamForm.get('event_name')?.dirty && createStreamForm.get('event_name')?.touched)">
       <span *ngIf="createStreamForm.get('event_name')?.errors?.['required']">
-        Event Name is required.
+        Live Stream Name is required.
       </span>
     </span>
   </div>
   <div class="w-full lg:w-1/2 px-2 pt-5 pb-0.5 inputHolder relative">
-    <span class="input-titel">Event Category</span>
+    <span class="input-titel">Live Stream Category</span>
     <div>
-      <p-dropdown styleClass="w-full border-0 font-bold" panelStyleClass="p-0" [formControlName]="'event_category'" [options]="eventCategories" placeholder="Select Event Category" optionLabel="categoryname" optionValue="_id" [showClear]="true"></p-dropdown>
+      <p-dropdown styleClass="w-full border-0 font-bold" panelStyleClass="p-0" [formControlName]="'event_category'" [options]="eventCategories" placeholder="Select Live Stream Category" optionLabel="categoryname" optionValue="_id" [showClear]="true"></p-dropdown>
     </div>
     <span class="absolute top-full text-red-500 text-xs" *ngIf="createStreamForm.get('event_category')?.invalid && (createStreamForm.get('event_category')?.dirty && createStreamForm.get('event_category')?.touched)">
       <span *ngIf="createStreamForm.get('event_category')?.errors?.['required']">
-        Event Category is required.
+        Live Stream Category is required.
       </span>
     </span>
   </div>
   <div class="w-full px-2 pt-5 pb-0.5 relative">
-    <span class="input-titel">Event Description <i class="text-xs font-medium" [ngClass]="{'text-magicPotion' : textEditor}">( {{textEditorLimit}} characters out of {{textEditorMaxLimit}} )</i></span>
+    <span class="input-titel">Live Stream Description <i class="text-xs font-medium" [ngClass]="{'text-magicPotion' : textEditor}">( {{textEditorLimit}} characters out of {{textEditorMaxLimit}} )</i></span>
     <div class="w-full bg-white rounded">
       <ckeditor (ready)="onTextEditorReady($event, 'event_description')" (keyup)="editorCharacterSet()" [config]="editorConfig" [editor]="detailEditor" [formControlName]="'event_description'" class="h-44 text-editor" id="event_description" name="event_description"></ckeditor>
     </div>
     <!-- <textarea name="event_description" formControlName="event_description" cols="30" rows="4" class="outline-none flex items-center w-full bg-white p-3 rounded-md placeholder:text-sm placeholder:text-[#a6a6a6] placeholder:font-bold" placeholder="Type here"></textarea> -->
     <span class="absolute top-full text-red-500 text-xs" *ngIf="createStreamForm.get('event_description')?.invalid && (createStreamForm.get('event_description')?.dirty && createStreamForm.get('event_description')?.touched)">
       <span *ngIf="createStreamForm.get('event_description')?.errors?.['required']">
-        Event Description is required.
+        Live Stream Description is required.
       </span>
     </span>
   </div>
