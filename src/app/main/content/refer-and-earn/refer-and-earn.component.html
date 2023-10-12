@@ -1,23 +1,23 @@
  <div class="wrapper min-h-full">
    <div class="space-y-7 h-full">
-     <h2>Refer To Earn</h2>
+     <h2>{{'Refer To Earn' | translate }}</h2>
      <div class="p-7  rounded-md">
        <div class="py-3.5 px-5 rounded-lg bg-magicPotion flex items-center justify-between">
          <img src="../assets/images/coin.png" alt="Coin" />
          <h2 class="text-white px-3 text-center text-xl lg:text-3xl">
-           <span class="font-normal text-xl lg:text-3xl">Total Rewards Earned :</span>
+           <span class="font-normal text-xl lg:text-3xl">{{'totalReward' | translate}} :</span>
            <br class="lg:hidden" /> {{userObj?.f_coins}} F-Coins
          </h2>
          <img src="../assets/images/coin.png" alt="Coin" />
        </div>
        <div class="text-center space-y-3 bg-white lg:space-y-6 py-8 border-b border-gray-200">
          <img src="../assets/images/refer.png" alt="Refer" class="mx-auto" />
-         <h1 class="text-japaneseIndigo font-bold text-3xl lg:text-40">Refer to your Friends and Earn</h1>
-         <h2 class="text-caribbeanGreen">Refer and Get 10 Coin</h2>
-         <p class="text-base text-black font-normal">Refer a friend and get an additional 10 coins and your friend gets additional 10 point. So Refer away</p>
+         <h1 class="text-japaneseIndigo font-bold text-3xl lg:text-40">{{'referFriend' | translate}}</h1>
+         <h2 class="text-caribbeanGreen">{{'referGet' | translate }}</h2>
+         <p class="text-base text-black font-normal">{{'referStatement' | translate}}</p>
        </div>
        <div class="pt-5 lg:pt-10 space-y-2">
-         <h3 class="text-lg">Share your refer code via</h3>
+         <h3 class="text-lg">{{'shareCode' | translate}}</h3>
          <div class="flex flex-wrap items-center justify-between">
            <div class="w-full lg:w-auto flex items-center justify-between space-x-5">
              <div class="flex items-center space-x-2">
@@ -38,12 +38,12 @@
                </a>
              </div>
              <button type="button" class="p-3 px-4 bg-brightGray rounded-md text-lg font-bold uppercase" (click)="shareByEmail()">
-               <i class="icon-share mr-2"></i> Other </button>
+               <i class="icon-share mr-2"></i> {{'Other' | translate }} </button>
            </div>
            <div class="mt-3 lg:mt-0">
              <div class="rounded-md border-2 border-dotted border-caribbeanGreen bg-caribbeanGreen bg-opacity-20 p-3 flex items-center justify-between">
                <div class="pr-7">
-                 <p class="text-xs text-japaneseIndigo">Referral Code</p>
+                 <p class="text-xs text-japaneseIndigo">{{'Referral Code' | translate }}</p>
                  <h1 class="text-40 text-caribbeanGreen">{{userObj?.my_refer_code}}</h1>
                </div>
                <div class="px-3 border-l-2 border-ufoGreen border-dotted" (click)="copyLink(userObj?.my_refer_code)">
