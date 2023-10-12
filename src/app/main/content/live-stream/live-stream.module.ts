@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TranslateModule } from "@ngx-translate/core";
 import { RouterModule, Routes } from '@angular/router';
 import { LiveStreamComponent } from './live-stream.component';
 import { StreamOverviewComponent } from './stream-overview/stream-overview.component';
@@ -38,6 +39,7 @@ const routes: Routes = [
   imports: [
     RouterModule.forChild(routes),
     CommonModule,
+    TranslateModule,
     CalendarModule,
     ReactiveFormsModule,
     SharedModule,

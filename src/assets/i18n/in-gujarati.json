@@ -41,6 +41,14 @@
       "Next": "આગળ",
       "Date & Time": "તારીખ અને સમય",
       "Can I know the dates": "શું હું તારીખો જાણી શકું",
+
+      "liveStreamType": "લાઇવસ્ટ્રીમ પ્રકાર",
+      "Viewers": "દર્શકો",
+      "Free": "મફત",
+      "Paid": "ચૂકવેલ",
+      "Verified": "ચકાસાયેલ",
+      "Unverified": "વણચકાસાયેલ",
+      "Ratings": "રેટિંગ્સ",
       
       "Start Time": "પ્રારંભ સમય",
       "End Time": "અંતિમ સમય",

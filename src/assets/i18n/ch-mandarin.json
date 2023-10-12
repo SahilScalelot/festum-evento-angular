@@ -35,6 +35,14 @@
       "Next": "下一个",
       "Date & Time": "约会时间",
       "Can I know the dates": "我可以知道日期吗",
+
+      "liveStreamType": "直播类型",
+      "Viewers": "观众",
+      "Free": "自由的",
+      "Paid": "有薪酬的",
+      "Verified": "已验证",
+      "Unverified": "未验证",
+      "Ratings": "收视率",
       
       "Start Time": "开始时间",
       "End Time": "时间结束",
