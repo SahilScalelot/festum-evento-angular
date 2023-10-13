@@ -2,11 +2,11 @@
 
 <div class="wrapper">
   <div class="flex flex-wrap items-center">
-    <h2>Events</h2>
+    <h2>{{'Events' | translate }}</h2>
 <!--    <h2>{{'Events' | translate}}</h2>-->
     <div class="flex whitespace-nowrap space-x-5 ml-auto">
       <button class="bg-white px-5 py-3 text-japaneseIndigo font-bold rounded-md tracking-wider" (click)="multipleLiveEvent()">MultipleLive</button>
-      <span class="secondary cursor-pointer px-7 py-3" (click)="openAddEventDialog()"><i class="icon-plus mr-3"></i>Create new event</span>
+      <span class="secondary cursor-pointer px-7 py-3" (click)="openAddEventDialog()"><i class="icon-plus mr-3"></i>{{'Create New Event' | translate }}</span>
     </div>
   </div>
   <!-- *ngIf="!isLoading" -->
@@ -72,7 +72,7 @@
                             <path d="M4.99976 11.375C6.86372 11.375 8.37476 9.86396 8.37476 8C8.37476 6.13604 6.86372 4.625 4.99976 4.625C3.13579 4.625 1.62476 6.13604 1.62476 8C1.62476 9.86396 3.13579 11.375 4.99976 11.375Z" fill="#46CC8D"/>
                             <path d="M6.96851 6.875L5.54714 8.63899C4.9839 9.338 4.70228 9.6875 4.33179 9.6875C3.9613 9.6875 3.67968 9.338 3.11644 8.63899L2.74976 8.18392" stroke="white" stroke-width="0.5" stroke-linecap="round"/>
                           </svg>                         
-                          <span class="inline-block w-0 invisible pl-1.5 group-hover:visible group-hover:w-auto text-xs font-bold text-black/70 whitespace-nowrap">Booking Accepting</span> 
+                          <span class="inline-block w-0 invisible pl-1.5 group-hover:visible group-hover:w-auto text-xs font-bold text-black/70 whitespace-nowrap">{{'bookingAccept' | translate}}</span>
                         </div>
                         <div *ngIf="event.accept_booking == false" class="group flex items-center justify-center p-1.5 transition-all rounded bg-[#EEEEEE]">
                           <svg class="translate-x-1 group-hover:translate-x-0" width="18" height="16" viewBox="0 0 10 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -83,27 +83,27 @@
                             <path d="M4.99976 11.375C6.86372 11.375 8.37476 9.86396 8.37476 8C8.37476 6.13604 6.86372 4.625 4.99976 4.625C3.13579 4.625 1.62476 6.13604 1.62476 8C1.62476 9.86396 3.13579 11.375 4.99976 11.375Z" fill="#FE4D5F"/>
                             <path d="M3.87476 7L6.12475 9M3.87476 9L4.99976 8L6.12476 7" stroke="white" stroke-width="0.5" stroke-linecap="round"/>
                           </svg>                         
-                          <span class="inline-block w-0 invisible pl-1.5 group-hover:visible group-hover:w-auto text-xs font-bold text-black/70 whitespace-nowrap">Booking Not Accepting</span> 
+                          <span class="inline-block w-0 invisible pl-1.5 group-hover:visible group-hover:w-auto text-xs font-bold text-black/70 whitespace-nowrap">{{'bookingNotAccept' | translate}}</span>
                         </div>
 
                         <label class="flex items-center relative" (click)="liveEventCheck($event, event, i)">
                           <span class="absolute opacity-0 inset-y-0 left-3 right-10 block z-10" *ngIf="!event.is_approved"></span>
                           <input type="checkbox" class="switch mr-1.5 lg:mx-3 order-2" (click)="liveEvent($event, event, i)" [checked]="event?.is_live" [disabled]="!event?.is_approved"/>
-                          <span class="text-base font-bold anim order-3">Live</span>
+                          <span class="text-base font-bold anim order-3">{{'Live' | translate }}</span>
                         </label>
                       </div>
                     </div>
                     <div class="flex flex-wrap pt-3">
                       <div class="border-brightGray px-2 lg:pl-0 lg:pr-4">
-                        <div class="text-xs font-semibold text-quicksilver pt-3"><i class="icon-calendar mr-1.5"></i>Date</div>
+                        <div class="text-xs font-semibold text-quicksilver pt-3"><i class="icon-calendar mr-1.5"></i>{{'Date' | translate }}</div>
                         <span class="text-japaneseIndigo text-xs font-bold" *ngIf="event?.about?.start_date && event?.about?.end_date">{{event?.about?.start_date | date:'dd MMM, yyyy'}} - {{event?.about?.end_date | date:'dd MMM, yyyy'}}</span>
                       </div>
                       <div class="border-l-2 border-brightGray px-2 lg:px-4">
-                        <div class="text-xs font-semibold text-quicksilver pt-3"><i class="icon-time mr-1.5"></i>Time</div>
+                        <div class="text-xs font-semibold text-quicksilver pt-3"><i class="icon-time mr-1.5"></i>{{'Time' | translate }}</div>
                         <span class="text-japaneseIndigo text-xs font-bold" *ngIf="event?.about?.start_time && event?.about?.end_time">{{'0' + ' ' + event?.about?.start_time | date : 'hh:mm a'}} - {{'0' + ' ' + event?.about?.end_time | date : 'hh:mm a'}}</span>
                       </div>
                       <div class="border-l-2 border-brightGray px-2 lg:px-4">
-                        <div class="text-xs font-semibold text-quicksilver pt-3"><i class="icon-location-1 mr-1.5"></i>Location</div>
+                        <div class="text-xs font-semibold text-quicksilver pt-3"><i class="icon-location-1 mr-1.5"></i>{{'Location' | translate }}</div>
                         <span class="text-japaneseIndigo text-xs font-bold" *ngIf="event?.event_location?.city && event?.event_location?.state">{{event?.event_location?.city}}, {{event?.event_location?.state}}</span>
                       </div>
                       <!-- <div class="border-l-2 border-brightGray px-2 lg:px-4">
@@ -130,14 +130,14 @@
                 <div class="flex flex-wrap justify-between">
                   <div class="flex items-center space-x-1 pt-4">
                     <p-rating [(ngModel)]="event.ratings" [readonly]="true" [cancel]="false"></p-rating>
-                    <span class="text-quicksilver text-xs font-bold pl-2"> {{event?.totalreview}} ratings</span>
+                    <span class="text-quicksilver text-xs font-bold pl-2"> {{event?.totalreview}} {{'Ratings' | translate }}</span>
                   </div>
                   <div class="flex items-center space-x-2.5 pt-4">
-                    <span class="text-xs font-bold text-quicksilver">{{event?.total_booked_seats || 0}} Sold</span>
+                    <span class="text-xs font-bold text-quicksilver">{{event?.total_booked_seats || 0}} {{'Sold' | translate }}</span>
                     <div class="w-[70px] h-1.5">
                       <p-progressBar [styleClass]="'h-1.5'" [value]="((event?.total_booked_seats || 0) * 100) / (event?.total_seats || 0)" [showValue]="false"></p-progressBar>
                     </div>
-                    <span class="text-xs font-bold text-quicksilver">{{event?.total_available_seats || 0}} UnSold</span>
+                    <span class="text-xs font-bold text-quicksilver">{{event?.total_available_seats || 0}} {{'Unsold' | translate }}</span>
                   </div>
                   <div class="flex space-x-2 pt-4">
                     <a href="javascript:void(0)" (click)="editEvent($event, event?._id)" *ngIf="event?.iseditable" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-edit text-sm leading-0 text-japaneseIndigo"></i></a>

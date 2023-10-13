@@ -41,6 +41,9 @@
       "Next": "अगला",
       "Date & Time": "दिनांक & समय",
       "Can I know the dates": "क्या मैं तारीखें जान सकता हूँ",
+      "Live": "लाइव",
+      "bookingAccept": "बुकिंग स्वीकार की जा रही है",
+      "bookingNotAccept": "बुकिंग स्वीकार नहीं की जा रही है",
 
       "liveStreamType": "लाइवस्ट्रीम प्रकार",
       "Viewers": "दर्शकों",

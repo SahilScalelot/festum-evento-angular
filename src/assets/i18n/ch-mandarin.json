@@ -35,6 +35,9 @@
       "Next": "下一个",
       "Date & Time": "约会时间",
       "Can I know the dates": "我可以知道日期吗",
+      "Live": "居住",
+      "bookingAccept": "接受预订",
+      "bookingNotAccept": "不接受预订",
 
       "liveStreamType": "直播类型",
       "Viewers": "观众",

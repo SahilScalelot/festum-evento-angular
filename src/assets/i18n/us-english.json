@@ -37,6 +37,9 @@
       "Next": "Next",
       "Date & Time": "Date & Time",
       "Can I know the dates": "Can I know the dates",
+      "Live": "Live",
+      "bookingAccept": "Booking Accepting",
+      "bookingNotAccept": "Booking Not Accepting",
 
       "liveStreamType": "LiveStream Type",
       "Viewers": "Viewers",
