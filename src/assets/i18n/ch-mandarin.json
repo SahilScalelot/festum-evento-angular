@@ -43,6 +43,10 @@
       "Verified": "已验证",
       "Unverified": "未验证",
       "Ratings": "收视率",
+
+      "aboutLiveStream":"关于直播",
+      "createStream": "创建流",
+      "termsConditions": "条款和条件",
       
       "Start Time": "开始时间",
       "End Time": "时间结束",
@@ -182,6 +186,12 @@
       "Images": "图片",
       "Video": "视频o",
       "Photo": "照片",
+      "Videos": "视频",
+      "Photos": "相片",
+
+      "readMore": "阅读更多",
+      "readLess": "少读",
+      "socialMedia": "社交媒体",
 
       "No Records Found": "没有找到记录",
       "No More Records": "没有更多记录",

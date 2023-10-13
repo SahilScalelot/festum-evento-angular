@@ -46,7 +46,9 @@
       "Unverified": "Unverified",
       "Ratings": "Ratings",
 
+      "aboutLiveStream":"About LiveStream",
       "createStream": "Create Stream",
+      "termsConditions": "Terms & Conditions",
       
       "Start Time": "Start Time",
       "End Time": "End Time",
@@ -128,6 +130,7 @@
       "Change Text": "Change Text",
      
       "Overview": "Overview",
+      "Reviews": "Reviews",
       "Attendee": "Attendee",
       "Date": "Date",
       "Time": "Time",
@@ -186,6 +189,12 @@
       "Images": "Images",
       "Video": "Video",
       "Photo": "Photo",
+      "Videos": "Videos",
+      "Photos": "Photos",
+
+      "readMore": "Read More",
+      "readLess": "Read Less",
+      "socialMedia": "Social Media",
 
       "No Records Found": "No Records Found",
       "No More Records": "No More Records",

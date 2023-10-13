@@ -49,6 +49,10 @@
       "Verified": "सत्यापित",
       "Unverified": "असत्यापित",
       "Ratings": "रेटिंग",
+
+      "aboutLiveStream":"लाइव स्ट्रीम के बारे में",
+      "createStream": "लाइव स्ट्रीम बनाएं",
+      "termsConditions": "नियम और शर्तें",
       
       "Start Time": "समय शुरू",
       "End Time": "अंतिम समय",
@@ -188,6 +192,12 @@
       "Images": "इमेजिस",
       "Video": "वीडियो",
       "Photo": "फ़ोटो",
+      "Videos": "वीडियो",
+      "Photos": "तस्वीरें",
+
+      "readMore": "और पढ़ें",
+      "readLess": "कम पढ़ें",
+      "socialMedia": "सोशल मीडिया",
 
       "No Records Found": "कोई रिकॉर्ड नहीं मिला",
       "No More Records": "कोई और रिकॉर्ड नहीं",

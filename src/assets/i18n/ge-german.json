@@ -45,6 +45,9 @@
       "Verified": "Verifiziert",
       "Unverified": "Nicht bestätigt",
       "Ratings": "Bewertungen",
+      "aboutLiveStream":"Über Live-Stream",
+      "createStream": "Stream erstellen",
+      "termsConditions": "Geschäftsbedingungen",
       "Start Time": "Startzeit",
       "End Time": "Endzeit",
       "Back": "Zurück",
@@ -173,6 +176,12 @@
       "Images": "Bilder",
       "Video": "Video",
       "Photo": "Foto",
+      "Videos": "Videos",
+      "Photos": "Fotos",
+
+      "readMore": "Mehr lesen",
+      "readLess": "Lese weniger",
+      "socialMedia": "Sozialen Medien",
 
       "No Records Found": "Keine Aufzeichnungen gefunden",
       "No More Records": "Keine Aufzeichnungen mehr",

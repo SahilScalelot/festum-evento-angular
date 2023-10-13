@@ -45,6 +45,9 @@
       "Verified": "ตรวจสอบแล้ว",
       "Unverified": "ไม่ได้รับการยืนยัน",
       "Ratings": "การให้คะแนน",
+      "aboutLiveStream":"เกี่ยวกับสตรีมสด",
+      "createStream": "สร้างกระแส",
+      "termsConditions": "ข้อกำหนดและเงื่อนไข",
       "Start Time": "เวลาเริ่มต้น",
       "End Time": "เวลาสิ้นสุด",
       "Back": "กลับ",
@@ -173,6 +176,12 @@
       "Images": "รูปภาพ",
       "Video": "วิดีโอ",
       "Photo": "รูปถ่าย",
+      "Videos": "วิดีโอ",
+      "Photos": "ภาพถ่าย",
+
+      "readMore": "อ่านเพิ่มเติม",
+      "readLess": "อ่านน้อยลง",
+      "socialMedia": "สื่อสังคม",
 
       "No Records Found": "ไม่พบบันทึก",
       "No More Records": "ไม่มีบันทึกอีกต่อไป",

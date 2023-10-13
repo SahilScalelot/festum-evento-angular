@@ -49,6 +49,10 @@
       "Verified": "ચકાસાયેલ",
       "Unverified": "વણચકાસાયેલ",
       "Ratings": "રેટિંગ્સ",
+
+      "aboutLiveStream":"લાઈવ સ્ટ્રીમ વિશે",
+      "createStream": "લાઈવ સ્ટ્રીમ બનાવો",
+      "termsConditions": "નિયમો અને શરત",
       
       "Start Time": "પ્રારંભ સમય",
       "End Time": "અંતિમ સમય",
@@ -129,7 +133,8 @@
       "View all": "બધા જુઓ",
       "Change Text": "ટેક્સ્ટ બદલો",
      
-      "Overview": "ઝાંખી",
+      "Overview": "વિહંગાવલોકન",
+      "Reviews": "સમીક્ષાઓ",
       "Attendee": "હાજરી આપનાર",
       "Date": "તારીખ",
       "Time": "સમય",
@@ -188,6 +193,12 @@
       "Images": "છબીઓ",
       "Video": "વિડિયો",
       "Photo": "ફોટો",
+      "Videos": "વિડિઓઝ",
+      "Photos": "ફોટા",
+
+      "readMore": "વધુ વાંચો",
+      "readLess": "ઓછું વાંચો",
+      "socialMedia": "સોશિયલ મીડિયા",
 
       "No Records Found": "કોઈ રેકોર્ડ્સ મળ્યા નથી",
       "No More Records": "કોઈ વધુ રેકોર્ડ્સ નથી",
