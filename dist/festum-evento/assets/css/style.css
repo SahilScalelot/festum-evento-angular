@@ -1994,6 +1994,8 @@ li#video-card.active .video-cover {
   line-height: 2rem;
 }
 
+/*  Chat */
+.chat_link.active{@apply bg-primary/5;}
 /* slidedown  */
 
 .Accordion_item .inner_content.i_c {

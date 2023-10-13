@@ -17,6 +17,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { TooltipModule } from 'primeng/tooltip';
 import { ModalModule } from '../../_modal';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { EventChatComponent } from './event-chat/event-chat.component';
 
 const routes: Routes = [
   {
@@ -24,13 +25,17 @@ const routes: Routes = [
   },
   {
     path: ':id', component: EventOverviewComponent
+  },
+  {
+    path: 'chat/:id', component: EventChatComponent
   }
 ];
 
 @NgModule({
   declarations: [
     EventComponent,
-    EventOverviewComponent
+    EventOverviewComponent,
+    EventChatComponent
   ],
   imports: [
     RouterModule.forChild(routes),

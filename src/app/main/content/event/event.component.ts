@@ -106,6 +106,11 @@ export class EventComponent implements OnInit {
     this._router.navigate(['/events/create/add-event']);
   }
 
+  chatEvent(event: any, eventId: any): void {
+    event.stopPropagation();
+    this._router.navigate(['/events/chat/' + eventId]);
+  }
+
   liveEvent(event: any, eventObj: any, index: number): void {
     event.stopPropagation();
     this._sNotify.clear();
