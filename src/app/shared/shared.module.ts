@@ -19,6 +19,7 @@ import { PrivacyPolicyUserComponent } from '../main/common/privacy-policy-user/p
 import { RPCPRulesComponent } from '../main/common/rpcp-rules/rpcp-rules.component';
 import { BroadcastStreamSettingsComponent } from '../main/content/dialogs/broadcast-stream-settings/broadcast-stream-settings.component';
 import { QrCodeScannerComponent } from '../main/content/dialogs/qr-code-scanner/qr-code-scanner.component';
+import { SkelScreenComponent } from '../main/common/skel-screen/skel-screen.component';
 
 
 @NgModule({
@@ -35,7 +36,8 @@ import { QrCodeScannerComponent } from '../main/content/dialogs/qr-code-scanner/
     PrivacyPolicyComponent,
     TermsAndConditionsUserComponent,
     PrivacyPolicyUserComponent,
-    RPCPRulesComponent
+    RPCPRulesComponent,
+    SkelScreenComponent
   ],
   imports: [
     CommonModule,
@@ -62,7 +64,8 @@ import { QrCodeScannerComponent } from '../main/content/dialogs/qr-code-scanner/
     ValidNumberWithDecimalDirective,
     TermsAndConditionsComponent,
     PrivacyPolicyComponent,
-    RPCPRulesComponent
+    RPCPRulesComponent,
+    SkelScreenComponent
   ]
 })
 export class SharedModule {

@@ -1,0 +1,123 @@
+<div class="wrapper">
+
+
+    <div class="space-y-5 pt-10">
+
+        <div class="space-y-2.5 animate-pulse">
+            <div class="w-full flex items-center cursor-pointer" *ngFor="let item of skeletonItems; let i = index">
+                <!--<div class="" [ngClass]="{'opacity-50' : !event?.is_approved || event?.is_live}">-->
+                    <!--<p-checkbox name="groupname" class="mr-5" [value]="event._id" [(ngModel)]="selectedEventIds" [disabled]="!event?.is_approved || event?.is_live" (click)="checkClick($event, event)"></p-checkbox>-->
+                <!--</div>-->
+
+                <div class="w-full flex items-center" >
+                    <div class="w-full  bg-white rounded">
+                        <div class="flex flex-wrap xl:flex-nowrap xl:space-x-5 xl:min-h-[182px] xl:max-h-[182px]">
+                            <div class="relative w-full lg:max-w-[288px]">
+                                <svg class="w-10 h-10 text-gray-200 dark:text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+                                    <path d="M18 0H2a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm4.376 10.481A1 1 0 0 1 16 15H4a1 1 0 0 1-.895-1.447l3.5-7A1 1 0 0 1 7.468 6a.965.965 0 0 1 .9.5l2.775 4.757 1.546-1.887a1 1 0 0 1 1.618.1l2.541 4a1 1 0 0 1 .028 1.011Z"/>
+                                </svg>
+                                <div class="space-x-2 flex items-center justify-center absolute top-0 left-0  w-full lg:max-w-[200px] bg-magicPotion">
+
+                                    <!--<span class="text-xs text-white font-bold px-2 py-1 ">{{(event?.event_category?.categoryname) ? event?.event_category?.categoryname : event?.other }}</span>-->
+                                </div>
+                            </div>
+                            <div class="w-full xl:pt-0X xl:max-w-[calc(100%-310px)] p-4">
+                                <div class="block border-b-2 pb-4">
+                                    <div class="w-full">
+                                        <div class="flex items-center">
+                                            <h4 class="text-japaneseIndigo text-ellipsis whitespace-nowrap overflow-hidden max-w-[530px]" ></h4>
+                                            <div class="ml-auto flex flex-wrap lg:flex-nowrap items-center space-x-2 lg:space-x-3">
+
+                                                <div  class="group flex items-center justify-center p-1.5 transition-all rounded bg-[#EEEEEE]">
+                                                    <svg class="w-10 h-10 text-gray-200 dark:text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+                                                        <path d="M18 0H2a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm4.376 10.481A1 1 0 0 1 16 15H4a1 1 0 0 1-.895-1.447l3.5-7A1 1 0 0 1 7.468 6a.965.965 0 0 1 .9.5l2.775 4.757 1.546-1.887a1 1 0 0 1 1.618.1l2.541 4a1 1 0 0 1 .028 1.011Z"/>
+                                                    </svg>
+                                                </div>
+                                                <div  class="group flex items-center justify-center p-1.5 transition-all rounded bg-[#EEEEEE]">
+                                                    <svg class="w-10 h-10 text-gray-200 dark:text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+                                                        <path d="M18 0H2a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm4.376 10.481A1 1 0 0 1 16 15H4a1 1 0 0 1-.895-1.447l3.5-7A1 1 0 0 1 7.468 6a.965.965 0 0 1 .9.5l2.775 4.757 1.546-1.887a1 1 0 0 1 1.618.1l2.541 4a1 1 0 0 1 .028 1.011Z"/>
+                                                    </svg>
+                                                </div>
+
+
+                                                <div  class="group flex items-center justify-center p-1.5 transition-all rounded bg-[#EEEEEE]">
+                                                    <svg class="w-10 h-10 text-gray-200 dark:text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+                                                        <path d="M18 0H2a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm4.376 10.481A1 1 0 0 1 16 15H4a1 1 0 0 1-.895-1.447l3.5-7A1 1 0 0 1 7.468 6a.965.965 0 0 1 .9.5l2.775 4.757 1.546-1.887a1 1 0 0 1 1.618.1l2.541 4a1 1 0 0 1 .028 1.011Z"/>
+                                                    </svg>
+                                                </div>
+                                                <div  class="group flex items-center justify-center p-1.5 transition-all rounded bg-[#EEEEEE]">
+                                                    <svg class="w-10 h-10 text-gray-200 dark:text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+                                                        <path d="M18 0H2a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm4.376 10.481A1 1 0 0 1 16 15H4a1 1 0 0 1-.895-1.447l3.5-7A1 1 0 0 1 7.468 6a.965.965 0 0 1 .9.5l2.775 4.757 1.546-1.887a1 1 0 0 1 1.618.1l2.541 4a1 1 0 0 1 .028 1.011Z"/>
+                                                    </svg>
+                                                </div>
+
+                                                <div  class="group flex items-center justify-center p-1.5 transition-all rounded bg-[#EEEEEE]">
+                                                    <svg class="w-10 h-10 text-gray-200 dark:text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+                                                        <path d="M18 0H2a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm4.376 10.481A1 1 0 0 1 16 15H4a1 1 0 0 1-.895-1.447l3.5-7A1 1 0 0 1 7.468 6a.965.965 0 0 1 .9.5l2.775 4.757 1.546-1.887a1 1 0 0 1 1.618.1l2.541 4a1 1 0 0 1 .028 1.011Z"/>
+                                                    </svg>
+                                                </div>
+                                                <div  class="group flex items-center justify-center p-1.5 transition-all rounded bg-[#EEEEEE]">
+                                                    <svg class="w-10 h-10 text-gray-200 dark:text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+                                                        <path d="M18 0H2a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm4.376 10.481A1 1 0 0 1 16 15H4a1 1 0 0 1-.895-1.447l3.5-7A1 1 0 0 1 7.468 6a.965.965 0 0 1 .9.5l2.775 4.757 1.546-1.887a1 1 0 0 1 1.618.1l2.541 4a1 1 0 0 1 .028 1.011Z"/>
+                                                    </svg>
+                                                </div>
+
+                                                <label class="flex items-center relative">
+                                                    <span class="absolute opacity-0 inset-y-0 left-3 right-10 block z-10" ></span>
+                                                    <input type="checkbox" class="switch mr-1.5 lg:mx-3 order-2"/>
+                                                    <span class="text-base font-bold anim order-3"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="flex flex-wrap pt-3">
+                                            <div class="border-brightGray px-2 lg:pl-0 lg:pr-4">
+                                                <div class="text-xs font-semibold text-quicksilver pt-3"><i class="icon-calendar mr-1.5"></i></div>
+                                                <span class="text-japaneseIndigo text-xs font-bold" ></span>
+                                            </div>
+                                            <div class="border-l-2 border-brightGray px-2 lg:px-4">
+                                                <div class="text-xs font-semibold text-quicksilver pt-3"><i class="icon-time mr-1.5"></i></div>
+                                                <span class="text-japaneseIndigo text-xs font-bold" ></span>
+                                            </div>
+                                            <div class="border-l-2 border-brightGray px-2 lg:px-4">
+                                                <div class="text-xs font-semibold text-quicksilver pt-3"><i class="icon-location-1 mr-1.5"></i></div>
+                                                <span class="text-japaneseIndigo text-xs font-bold" ></span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <div class="flex flex-wrap justify-between">
+                                    <div class="flex items-center space-x-1 pt-4">
+                                        <!--<p-rating [(ngModel)]="event.ratings" [readonly]="true" [cancel]="false"></p-rating>-->
+                                        <span class="text-quicksilver text-xs font-bold pl-2"> </span>
+                                    </div>
+                                    <div class="flex items-center space-x-2.5 pt-4">
+                                        <span class="text-xs font-bold text-quicksilver"></span>
+                                        <div class="w-[70px] h-1.5">
+                                            <!--<p-progressBar [styleClass]="'h-1.5'" [value]="((event?.total_booked_seats || 0) * 100) / (event?.total_seats || 0)" [showValue]="false"></p-progressBar>-->
+                                        </div>
+                                        <span class="text-xs font-bold text-quicksilver"></span>
+                                    </div>
+                                    <div class="flex space-x-2 pt-4">
+                                        <a href="javascript:void(0)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-edit text-sm leading-0 text-japaneseIndigo"></i></a>
+                                        <a href="javascript:void(0)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-massage text-sm leading-0 text-japaneseIndigo"></i></a>
+                                        <a href="javascript:void(0)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-show text-xs leading-0 text-japaneseIndigo"></i></a>
+                                        <a href="javascript:void(0)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-fill_megaphone text-sm leading-0 text-japaneseIndigo"></i></a>
+
+                                        <a href="javascript:void(0)"  class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-online_offer text-xl leading-0 text-japaneseIndigo"></i></a>
+
+                                        <a href="javascript:void(0)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-share text-sm leading-0 text-japaneseIndigo"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
