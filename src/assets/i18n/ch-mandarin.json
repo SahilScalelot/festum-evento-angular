@@ -38,6 +38,13 @@
       "Live": "居住",
       "bookingAccept": "接受预订",
       "bookingNotAccept": "不接受预订",
+      "aboutEvent": "关于活动",
+      "arrangement": "安排",
+      "companyDetails": "公司详情",
+      "personalDetails": "个人资料",
+      "scanQR": "扫描二维码",
+      "permission": "允许",
+      "discount": "折扣",
 
       "liveStreamType": "直播类型",
       "Viewers": "观众",

@@ -90,7 +90,7 @@
     <div class="teb-holder">
       <button [class]="overview ? 'active' : ''" (click)="onTabChange('overview')" type="button">{{'Overview' | translate }}</button>
       <button [class]="attendee ? 'active' : ''" (click)="onTabChange('attendee')" type="button" *ngIf="event?.accept_booking && !event?.iseditable">Attendees</button>
-      <button [class]="reviews ? 'active' : ''" (click)="onTabChange('reviews')" type="button" *ngIf="event?.reviews?.length">Reviews</button>
+      <button [class]="reviews ? 'active' : ''" (click)="onTabChange('reviews')" type="button" *ngIf="event?.reviews?.length">{{'Reviews' | translate }}</button>
       <!-- <button [class]="deposit ? 'active' : ''" (click)="onTabChange('deposit')" type="button" *ngIf="event?.total_event_deposit">Deposit</button> -->
 
       <a class="secondary px-5 py-2 flex items-end rounded-sm max-w-max ml-auto" href="javascript:void(0);" (click)="exportAttendees()" *ngIf="!!(event?.accept_booking) && event?.is_live && attendee && scanAttendees?.length">Export</a>
@@ -103,11 +103,11 @@
           <!-- Overview left-bar -->
           <div class="w-full lg:w-8/12 lg:pr-5 space-y-7" *ngIf="overview">
             <div  class="p-7 bg-white rounded-md space-y-1" *ngIf="event?.about?.about_event != ''">
-              <h5>About Event</h5>
+              <h5>{{'aboutEvent' | translate }}</h5>
               <div class="w-full flex flex-col">
                 <div [innerHtml]="(aboutevent) ? event?.about?.about_event : event?.about?.about_event | slice:0:180"></div>
-                <a href="javascript:;" (click)="aboutevent=true" *ngIf="!aboutevent && event?.about?.about_event.length > 180" class="text-magicPotion text-sm font-semibold">...Read More</a>
-                <a href="javascript:;" (click)="aboutevent=false" *ngIf="aboutevent && event?.about?.about_event.length > 180" class="text-magicPotion text-sm font-semibold">...Read Less</a>
+                <a href="javascript:;" (click)="aboutevent=true" *ngIf="!aboutevent && event?.about?.about_event.length > 180" class="text-magicPotion text-sm font-semibold">...{{'readMore' | translate}}</a>
+                <a href="javascript:;" (click)="aboutevent=false" *ngIf="aboutevent && event?.about?.about_event.length > 180" class="text-magicPotion text-sm font-semibold">...{{'readLess' | translate}}</a>
               </div>
             </div>
             <!-- Photo-holder -->
@@ -155,7 +155,7 @@
             </div>
             <!-- Accordion -->
             <div *ngIf="event?.seating_arrangements && event?.seating_arrangements?.length" class="space-y-1.5">
-              <h5 class="text-lg font-bold pb-5">Arrangement</h5>
+              <h5 class="text-lg font-bold pb-5">{{'arrangement' | translate }}</h5>
               <!-- <div class="accordions w-full space-y-5">
                 <div *ngFor="let seating of event?.seating_arrangements;let i = index;" class="accordion_item cursor-pointer h-full p-0 relative">
                   <div #accordionClick class="title_tab flex justify-between items-center px-5 py-6 max-h-[78px] accordion">
@@ -357,7 +357,7 @@
                       <!-- media title  -->
                       <div class="flex justify-between items-center">
                         <h3 class="text-lg">Food Photos</h3>
-                        <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(seating?.food_details, true, false)">View All</a>
+                        <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(seating?.food_details, true, false)">{{'View all' | translate }}</a>
                       </div>
                       <!-- photo-holder -->
                       <div class="w-full">
@@ -395,7 +395,7 @@
                       <!-- media title  -->
                       <div class="flex justify-between items-center">
                         <h3 class="text-lg">Equipment Photos</h3>
-                        <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(seating?.equipment_details, true, false)">View All</a>
+                        <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(seating?.equipment_details, true, false)">{{'View all' | translate }}</a>
                       </div>
                       <!-- photo-holder -->
                       <div class="w-full">
@@ -418,13 +418,13 @@
             </div>
             <!-- Company Details -->
             <div *ngIf="event?.companydetail" class="space-y-1.5">
-              <h5 class="text-lg font-bold">Company Details</h5>
+              <h5 class="text-lg font-bold">{{'companyDetails' | translate }}</h5>
               <div class="p-7 bg-white rounded-md space-y-1">
                 <span class="block text-base lg:text-lg font-bold">{{ event?.companydetail?.name }}</span>
                 <div class="w-full flex flex-col">
                   <div [innerHtml]="(showMore) ? event?.companydetail?.about : event?.companydetail?.about | slice:0:180"></div>
-                  <a href="javascript:;" (click)="showMore=true" *ngIf="!showMore && event?.companydetail?.about.length > 180" class="text-magicPotion text-sm font-semibold">...Read More</a>
-                  <a href="javascript:;" (click)="showMore=false" *ngIf="showMore && event?.companydetail?.about.length > 180" class="text-magicPotion text-sm font-semibold">...Read Less</a>
+                  <a href="javascript:;" (click)="showMore=true" *ngIf="!showMore && event?.companydetail?.about.length > 180" class="text-magicPotion text-sm font-semibold">...{{'readMore' | translate}}</a>
+                  <a href="javascript:;" (click)="showMore=false" *ngIf="showMore && event?.companydetail?.about.length > 180" class="text-magicPotion text-sm font-semibold">...{{'readLess' | translate}}</a>
                   <!-- <p class="text-quicksilver text-sm leading-6 font-normal">{{ event.companydetail.about }}</p> -->
                 </div>
               </div>
@@ -434,7 +434,7 @@
               <!-- media title  -->
               <div class="flex justify-between items-center">
                 <h3 class="text-lg">Company Photos</h3>
-                <a class="text-spiroDiscoBall text-sm font-bold opacity-60" href="javascript:void(0);" (click)="openImageAndVideoDialog(event?.companydetail?.photos, true, false, false)">View All</a>
+                <a class="text-spiroDiscoBall text-sm font-bold opacity-60" href="javascript:void(0);" (click)="openImageAndVideoDialog(event?.companydetail?.photos, true, false, false)">{{'View all' | translate }}</a>
               </div>
               <!-- photo-holder -->
               <div class="w-full">
@@ -473,11 +473,11 @@
             </div>
             <!-- Company Details -->
             <div *ngIf="event?.tandc?.t_and_c && event?.tandc?.t_and_c != ''" class="space-y-1.5">
-              <h3 class="text-lg">Event Terms & Conditions</h3>
+              <h3 class="text-lg">{{'termsConditions' | translate}}</h3>
               <div class="p-3.5 xl:p-5 bg-white rounded-md">
                 <div [innerHtml]="(tandcShow) ? event?.tandc?.t_and_c : event?.tandc?.t_and_c | slice:0:180"></div>
-                <a href="javascript:;" (click)="tandcShow=true" *ngIf="!tandcShow && event?.tandc?.t_and_c.length > 180" class="text-magicPotion text-sm font-semibold">...Read More</a>
-                <a href="javascript:;" (click)="tandcShow=false" *ngIf="tandcShow && event?.tandc?.t_and_c.length > 180" class="text-magicPotion text-sm font-semibold">...Read Less</a>
+                <a href="javascript:;" (click)="tandcShow=true" *ngIf="!tandcShow && event?.tandc?.t_and_c.length > 180" class="text-magicPotion text-sm font-semibold">...{{'readMore' | translate}}</a>
+                <a href="javascript:;" (click)="tandcShow=false" *ngIf="tandcShow && event?.tandc?.t_and_c.length > 180" class="text-magicPotion text-sm font-semibold">...{{'readLess' | translate}}</a>
               </div>
             </div>
             <!-- Social-Media -->
@@ -489,7 +489,7 @@
                 event?.tandc?.instagram && event?.tandc?.instagram != '' ||
                 event?.tandc?.linkedin && event?.tandc?.linkedin != ''"
               >
-              <span class="block text-base lg:text-xl font-bold">Social Media</span>
+              <span class="block text-base lg:text-xl font-bold">{{'socialMedia' | translate}}</span>
               <div class="flex items-center space-x-5 p-5 lg:p-7  rounded-lg">
                 <a *ngIf="event?.tandc?.facebook != ''" [href]="event?.tandc?.facebook" target="_blank">
                 <img class="w-10 h-10 object-cover" alt="facebook" src="../assets/images/facebook.png" />
@@ -737,7 +737,7 @@
       <span class="text-xs font-bold text-quicksilver whitespace-nowrap">{{event?.total_available_seats || 0}} {{'Unsold' | translate }}</span>
     </div>
     <div class="pt-4">
-      <a class="secondary px-5 py-2 flex items-end rounded-sm max-w-max mx-auto" href="javascript:void(0);" (click)="openScannerModel()"><i class="icon-scanner mr-3 text-lg"></i>SCAN QR</a>
+      <a class="secondary px-5 py-2 flex items-end rounded-sm max-w-max mx-auto" href="javascript:void(0);" (click)="openScannerModel()"><i class="icon-scanner mr-3 text-lg"></i>{{'scanQR' | translate }}</a>
     </div>
   </div>
 </div>

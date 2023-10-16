@@ -44,6 +44,13 @@
       "Live": "જીવંત",
       "bookingAccept": "બુકિંગ સ્વીકારી રહ્યું છે",
       "bookingNotAccept": "બુકિંગ સ્વીકારી રહ્યું નથી",
+      "aboutEvent": "ઇવેન્ટ વિશે",
+      "arrangement": "વ્યવસ્થા",
+      "companyDetails": "કંપનીની વિગતો",
+      "personalDetails": "અંગત વિગતો",
+      "scanQR": "QR સ્કેન કરો",
+      "permission": "પરવાનગી",
+      "discount": "ડિસ્કાઉન્ટ",
 
       "liveStreamType": "લાઇવસ્ટ્રીમ પ્રકાર",
       "Viewers": "દર્શકો",
@@ -55,7 +62,7 @@
 
       "aboutLiveStream":"લાઈવ સ્ટ્રીમ વિશે",
       "createStream": "લાઈવ સ્ટ્રીમ બનાવો",
-      "termsConditions": "નિયમો અને શરત",
+      "termsConditions": "નિયમો અને શરતો",
       
       "Start Time": "પ્રારંભ સમય",
       "End Time": "અંતિમ સમય",
@@ -76,7 +83,6 @@
       "Add Photos": "ફોટા ઉમેરો",
       "Add Video": "વિડિઓ ઉમેરો",
       "Add Permission Letter": "પરવાનગી પત્ર ઉમેરો",
-      "Accept Booking": "બુકિંગ સ્વીકારો",
       "permitNote": "જો તમે માત્ર ઇવેન્ટ બતાવવા માંગતા હોવ અને વપરાશકર્તાને તેને બુક કરવાની મંજૂરી ન આપો તો આને નાપસંદ કરો.",
       "permitNote-1": "વેચાયેલી દરેક ટિકિટ માટે 5% કમિશન + GST ​​હશે",
       "permitNote-1A": "વસૂલ કરવામાં આવશે",

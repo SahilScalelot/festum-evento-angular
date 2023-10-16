@@ -44,6 +44,13 @@
       "Live": "लाइव",
       "bookingAccept": "बुकिंग स्वीकार की जा रही है",
       "bookingNotAccept": "बुकिंग स्वीकार नहीं की जा रही है",
+      "aboutEvent": "घटना के बारे में",
+      "arrangement": "व्यवस्था",
+      "companyDetails": "कंपनी का विवरण",
+      "personalDetails": "व्यक्तिगत विवरण",
+      "scanQR": "QR स्कैन करें",
+      "permission": "अनुमति",
+      "discount": "छूट",
 
       "liveStreamType": "लाइवस्ट्रीम प्रकार",
       "Viewers": "दर्शकों",
