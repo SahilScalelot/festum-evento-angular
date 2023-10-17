@@ -1,14 +1,7 @@
 <div class="wrapper">
-
-
-    <div class="space-y-5 pt-10">
-
+    <div class="space-y-5 pt-10" *ngIf="objectType == 'events'">
         <div class="space-y-2.5 animate-pulse">
             <div class="w-full flex items-center cursor-pointer" *ngFor="let item of skeletonItems; let i = index">
-                <!--<div class="" [ngClass]="{'opacity-50' : !event?.is_approved || event?.is_live}">-->
-                    <!--<p-checkbox name="groupname" class="mr-5" [value]="event._id" [(ngModel)]="selectedEventIds" [disabled]="!event?.is_approved || event?.is_live" (click)="checkClick($event, event)"></p-checkbox>-->
-                <!--</div>-->
-
                 <div class="w-full flex items-center" >
                     <div class="w-full bg-white rounded">
                         <div class="flex flex-wrap xl:flex-nowrap xl:space-x-5 xl:min-h-[182px] xl:max-h-[182px]">
@@ -16,10 +9,6 @@
                                 <svg class="h-[40px] w-full text-gray-200 dark:text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
                                     <path d="M18 0H2a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm4.376 10.481A1 1 0 0 1 16 15H4a1 1 0 0 1-.895-1.447l3.5-7A1 1 0 0 1 7.468 6a.965.965 0 0 1 .9.5l2.775 4.757 1.546-1.887a1 1 0 0 1 1.618.1l2.541 4a1 1 0 0 1 .028 1.011Z"/>
                                 </svg>
-                                <!--<div class="space-x-2 flex items-center justify-center absolute top-0 left-0  w-full lg:max-w-[200px] bg-magicPotion">-->
-
-                                    <!--&lt;!&ndash;<span class="text-xs text-white font-bold px-2 py-1 ">{{(event?.event_category?.categoryname) ? event?.event_category?.categoryname : event?.other }}</span>&ndash;&gt;-->
-                                <!--</div>-->
                             </div>
                             <div class="w-full xl:pt-0X xl:max-w-[calc(100%-310px)] p-4">
                                 <div class="block border-b-2 pb-4">
@@ -45,11 +34,8 @@
                                                         <path d="M18 0H2a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm4.376 10.481A1 1 0 0 1 16 15H4a1 1 0 0 1-.895-1.447l3.5-7A1 1 0 0 1 7.468 6a.965.965 0 0 1 .9.5l2.775 4.757 1.546-1.887a1 1 0 0 1 1.618.1l2.541 4a1 1 0 0 1 .028 1.011Z"/>
                                                     </svg>
                                                 </div>
-
-
                                                 <label class="flex items-center relative">
                                                     <span class="absolute opacity-0 inset-y-0 left-3 right-10 block z-10" ></span>
-
                                                     <span class="text-base font-bold anim order-3">
                                                         <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
                                                     </span>
@@ -69,11 +55,8 @@
                                                 <div class="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-32"></div>
                                                 <div class="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700"></div>
                                             </div>
-
                                         </div>
                                     </div>
-
-
                                 </div>
                                 <div class="flex flex-wrap justify-between">
                                     <div class="flex items-center space-x-1 pt-4">
@@ -128,7 +111,97 @@
                 </div>
             </div>
         </div>
-
     </div>
+    <div class="space-y-5 pt-10" *ngIf="objectType == 'liveStream'">
+        <div class="space-y-2.5 animate-pulse">
+            <div class="w-full flex items-center cursor-pointer" *ngFor="let item of skeletonItems; let i = index">
+                <div class="w-full flex items-center" >
+                    <div class="w-full bg-white rounded">
+                        <div class="flex flex-wrap xl:flex-nowrap xl:space-x-5 xl:min-h-[182px] xl:max-h-[182px]">
+                            <div role="status" class="relative flex w-full items-center justify-center lg:max-w-[288px] bg-gray-300 rounded-lg animate-pulse dark:bg-gray-700">
+                                <svg class="h-[40px] w-full text-gray-200 dark:text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+                                    <path d="M18 0H2a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm4.376 10.481A1 1 0 0 1 16 15H4a1 1 0 0 1-.895-1.447l3.5-7A1 1 0 0 1 7.468 6a.965.965 0 0 1 .9.5l2.775 4.757 1.546-1.887a1 1 0 0 1 1.618.1l2.541 4a1 1 0 0 1 .028 1.011Z"/>
+                                </svg>
+                            </div>
+                            <div class="w-full xl:pt-0X xl:max-w-[calc(100%-310px)] p-4">
+                                <div class="block border-b-2 pb-4">
+                                    <div class="w-full">
+                                        <div class="flex items-center">
+                                            <h4 class="text-japaneseIndigo text-ellipsis whitespace-nowrap overflow-hidden max-w-[530px]">
+                                                <div class="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-48 mb-4"></div>
+                                            </h4>
+                                            <div class="ml-auto flex flex-wrap lg:flex-nowrap items-center space-x-2 lg:space-x-3">
 
+                                                <div  class="group flex items-center justify-center p-1.5 transition-all rounded bg-[#EEEEEE]">
+                                                    <svg class="w-6 h-6 text-gray-200 dark:text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+                                                        <path d="M18 0H2a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm4.376 10.481A1 1 0 0 1 16 15H4a1 1 0 0 1-.895-1.447l3.5-7A1 1 0 0 1 7.468 6a.965.965 0 0 1 .9.5l2.775 4.757 1.546-1.887a1 1 0 0 1 1.618.1l2.541 4a1 1 0 0 1 .028 1.011Z"/>
+                                                    </svg>
+                                                </div>
+                                                <div  class="group flex items-center justify-center p-1.5 transition-all rounded bg-[#EEEEEE]">
+                                                    <svg class="w-6 h-6 text-gray-200 dark:text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+                                                        <path d="M18 0H2a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm4.376 10.481A1 1 0 0 1 16 15H4a1 1 0 0 1-.895-1.447l3.5-7A1 1 0 0 1 7.468 6a.965.965 0 0 1 .9.5l2.775 4.757 1.546-1.887a1 1 0 0 1 1.618.1l2.541 4a1 1 0 0 1 .028 1.011Z"/>
+                                                    </svg>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="flex flex-wrap pt-3">
+                                            <div class="border-brightGray px-2 lg:pl-0 lg:pr-4 space-y-2">
+                                                <div class="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-32"></div>
+                                                <div class="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+                                            </div>
+                                            <div class="border-l-2 border-brightGray px-2 lg:px-4 space-y-2">
+                                                <div class="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-32"></div>
+                                                <div class="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+                                            </div>
+                                            <div class="border-l-2 border-brightGray px-2 lg:px-4 space-y-2">
+                                                <div class="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-32"></div>
+                                                <div class="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+                                            </div>
+                                            <div class="border-l-2 border-brightGray px-2 lg:px-4 space-y-2">
+                                                <div class="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-32"></div>
+                                                <div class="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex flex-wrap justify-between">
+                                    <div class="flex items-center space-x-1 pt-4">
+                                        <div class="w-[250px] h-1.5">
+                                            <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 "></div>
+                                        </div>
+                                        <span class="text-quicksilver text-xs font-bold pl-2"> </span>
+                                    </div>
+
+                                    <div class="flex space-x-2 pt-4">
+                                        <a href="javascript:void(0)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded">
+                                            <svg class="text-gray-200 dark:text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+                                                <path d="M18 0H2a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm4.376 10.481A1 1 0 0 1 16 15H4a1 1 0 0 1-.895-1.447l3.5-7A1 1 0 0 1 7.468 6a.965.965 0 0 1 .9.5l2.775 4.757 1.546-1.887a1 1 0 0 1 1.618.1l2.541 4a1 1 0 0 1 .028 1.011Z"/>
+                                            </svg>
+                                        </a>
+                                        <a href="javascript:void(0)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded">
+                                            <svg class="text-gray-200 dark:text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+                                                <path d="M18 0H2a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm4.376 10.481A1 1 0 0 1 16 15H4a1 1 0 0 1-.895-1.447l3.5-7A1 1 0 0 1 7.468 6a.965.965 0 0 1 .9.5l2.775 4.757 1.546-1.887a1 1 0 0 1 1.618.1l2.541 4a1 1 0 0 1 .028 1.011Z"/>
+                                            </svg>
+                                        </a>
+                                        <a href="javascript:void(0)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded">
+                                            <svg class="text-gray-200 dark:text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+                                                <path d="M18 0H2a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm4.376 10.481A1 1 0 0 1 16 15H4a1 1 0 0 1-.895-1.447l3.5-7A1 1 0 0 1 7.468 6a.965.965 0 0 1 .9.5l2.775 4.757 1.546-1.887a1 1 0 0 1 1.618.1l2.541 4a1 1 0 0 1 .028 1.011Z"/>
+                                            </svg>
+                                        </a>
+                                        <a href="javascript:void(0)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded">
+                                            <svg class="text-gray-200 dark:text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+                                                <path d="M18 0H2a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm4.376 10.481A1 1 0 0 1 16 15H4a1 1 0 0 1-.895-1.447l3.5-7A1 1 0 0 1 7.468 6a.965.965 0 0 1 .9.5l2.775 4.757 1.546-1.887a1 1 0 0 1 1.618.1l2.541 4a1 1 0 0 1 .028 1.011Z"/>
+                                            </svg>
+                                        </a>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

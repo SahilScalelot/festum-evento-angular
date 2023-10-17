@@ -89,7 +89,7 @@
     <!-- tab-holder deposit -->
     <div class="teb-holder">
       <button [class]="overview ? 'active' : ''" (click)="onTabChange('overview')" type="button">{{'Overview' | translate }}</button>
-      <button [class]="attendee ? 'active' : ''" (click)="onTabChange('attendee')" type="button" *ngIf="event?.accept_booking && !event?.iseditable">Attendees</button>
+      <button [class]="attendee ? 'active' : ''" (click)="onTabChange('attendee')" type="button" *ngIf="event?.accept_booking && !event?.iseditable">{{'Attendees' | translate }}</button>
       <button [class]="reviews ? 'active' : ''" (click)="onTabChange('reviews')" type="button" *ngIf="event?.reviews?.length">{{'Reviews' | translate }}</button>
       <!-- <button [class]="deposit ? 'active' : ''" (click)="onTabChange('deposit')" type="button" *ngIf="event?.total_event_deposit">Deposit</button> -->
 
@@ -346,7 +346,7 @@
                           <span class="text-lg font-bold text-japaneseIndigo capitalize">{{(seating?.food == 'BOTH') ? 'Veg & Non-Veg' : seating?.food}}</span>
                         </div>
                         <div class="border-l border-slate-500 px-4" *ngIf="seating?.food_description">
-                          <p class="pb-1 text-slate-400">Description</p>
+                          <p class="pb-1 text-slate-400">{{'description' | translate}}</p>
                           <p class="text-xs" [innerHTML]="seating?.food_description || ''"></p>
                         </div>
                       </div>
@@ -384,7 +384,7 @@
                           <span class="text-lg font-bold text-japaneseIndigo capitalize">{{seating?.equipment ? 'Not Include' : 'Include'}}</span>
                         </div>
                         <div class="border-l border-slate-500 px-4" *ngIf="seating?.equipment_description">
-                          <p class="pb-1 text-slate-400">Description</p>
+                          <p class="pb-1 text-slate-400">{{'description' | translate}}</p>
                           <p class="text-xs" [innerHTML]="seating?.equipment_description || ''"></p>
                         </div>
                       </div>

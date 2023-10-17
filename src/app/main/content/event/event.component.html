@@ -9,7 +9,7 @@
       <span class="secondary cursor-pointer px-7 py-3" (click)="openAddEventDialog()"><i class="icon-plus mr-3"></i>{{'Create New Event' | translate }}</span>
     </div>
   </div>
-  <app-skel-screen *ngIf="isLoading"></app-skel-screen>
+  <app-skel-screen [objectType]="'events'" *ngIf="isLoading"></app-skel-screen>
   <div class="space-y-5 pt-10">
     
     <div class="space-y-2.5" *ngIf="!isLoading">

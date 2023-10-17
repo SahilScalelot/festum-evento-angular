@@ -41,10 +41,10 @@ export class LiveStreamComponent implements OnInit {
 
   ngOnInit(): void {
     this._globalService.loginUser$.subscribe((user: any) => {
-      this.isLoading = true;
+      //this.isLoading = true;
       if (user) {
         this.userObj = user;
-        this.isLoading = false;
+        //this.isLoading = false;
       }
     });
     this._globalFunctions.removeIdsFromLocalStorage();

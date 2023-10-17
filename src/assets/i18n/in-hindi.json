@@ -106,6 +106,7 @@
       "Veg": "शाकाहारी",
       "Non Veg": "मासाहारी",
       "Both": "दोनों",
+      "food": "खाना",
       "Food Not Include": "भोजन शामिल नहीं",
       "Food description": "भोजन विवरण",
       "Equipment": "उपकरण",
@@ -144,7 +145,7 @@
       "Change Text": "टेक्स्ट बदलें",
      
       "Overview": "अवलोकन",
-      "Attendee": "प्रतिभागी",
+      "Attendees": "सहभागी",
       "Date": "दिनांक",
       "Time": "समय",
       "Sold": "बिका",

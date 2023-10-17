@@ -100,6 +100,7 @@
       "Veg": "蔬菜",
       "Non Veg": "非素食",
       "Both": "两个都",
+      "food": "食物",
       "Food Not Include": "食物不包括",
       "Food description": "食物说明",
       "Equipment": "设备",
@@ -138,7 +139,7 @@
       "Change Text": "更改文本",
      
       "Overview": "概述",
-      "Attendee": "参加者",
+      "Attendees": "出席者",
       "Date": "日期",
       "Time": "时间",
       "Sold": "卖",
