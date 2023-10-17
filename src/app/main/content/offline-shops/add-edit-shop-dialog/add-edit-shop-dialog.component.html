@@ -187,14 +187,14 @@
               <span class="input-titel">Shop Close Time <span>*</span></span>
             </div>
           </div>
-          <div formArrayName="shop_days">
-            <div class="row" *ngFor="let item of weekDayList; let i = index" [formGroupName]="i">
-               <input formControlName="day" />
-               <input formControlName="shop_close" />
-               <input formControlName="starttime" />
-               <input formControlName="endtime" />
-           </div>
-           </div>
+          <!--<div formArrayName="shop_days">-->
+            <!--<div class="row" *ngFor="let item of weekDayList; let i = index" [formGroupName]="i">-->
+              <!--<input formControlName="day" />-->
+              <!--<input formControlName="shop_close" />-->
+              <!--<input formControlName="starttime" />-->
+              <!--<input formControlName="endtime" />-->
+            <!--</div>-->
+           <!--</div>-->
           <div class="w-full flex" [formArrayName]="'shop_days'" *ngFor="let item of weekDayList; let i = index" [formGroupName]="i">
             <div class="w-full lg:w-[20%] px-2 pt-5 inputHolder relative">
               <div class="weekDays-selector w-full flex flex-col space-y-2">

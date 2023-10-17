@@ -1,4 +1,4 @@
-<p-progressSpinner *ngIf="isLoading" [style]="{width: '50px', height: '50px'}" animationDuration=".5s" strokeWidth="8" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-x-0 top-0 h-full w-full z-40" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
+<!--<p-progressSpinner *ngIf="isLoading" [style]="{width: '50px', height: '50px'}" animationDuration=".5s" strokeWidth="8" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-x-0 top-0 h-full w-full z-40" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>-->
 <div class="wrapper">
   <!-- title-holder  -->
   <div class="flex items-center justify-between pb-2.5">
@@ -6,6 +6,7 @@
     <button class="secondary px-7 py-3" (click)="openAddEditShopDialog($event)"><i class="icon-plus"></i><span class="pl-5">Add Shop</span></button>
   </div>
   <!-- main-content -->
+  <app-skel-screen [objectType]="'offline-shops'" *ngIf="isLoading"></app-skel-screen>
   <div class="space-y-5 pt-10">
 
     <div class="space-y-2.5" *ngIf="!isLoading">
