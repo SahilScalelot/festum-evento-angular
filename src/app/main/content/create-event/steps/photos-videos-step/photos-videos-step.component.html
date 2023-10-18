@@ -115,7 +115,7 @@
       <h6 class="input-titel text-sm font-bold text-quicksilver flex items-center">Select Photo <p class="text-10 ml-2">15 Images (up to 7MB/Image)</p></h6>
     
       <div class="block">
-        <ngx-dropzone #dropzonePhotos class="flex-wrap" (change)="onSelectImages($event)" [maxFileSize]="3145728" accept="image/jpeg,image/jpg,image/png,image/gif">
+        <ngx-dropzone #dropzonePhotos class="flex-wrap" (change)="onSelectImages($event)"  accept="image/jpeg,image/jpg,image/png,image/gif">
           <ngx-dropzone-label>Drop images here</ngx-dropzone-label>
           <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of imagesFiles" [file]="f" [removable]="true" (removed)="onRemoveImages(f)"></ngx-dropzone-image-preview>
         </ngx-dropzone>

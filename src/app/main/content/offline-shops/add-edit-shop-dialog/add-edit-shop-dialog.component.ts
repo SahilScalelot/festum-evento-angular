@@ -49,15 +49,14 @@ export class AddEditShopDialogComponent implements OnInit, OnDestroy {
   detailEditor = DecoupledEditor;
   editorConfig: any = {};
 
-  weekDayList = ['su','mo','tu','we','th','fr','st'];
   weekDays: any = [
-    { value: 'su', label: 'Sun' },
-    { value: 'mo', label: 'Mon' },
-    { value: 'tu', label: 'Tue' },
-    { value: 'we', label: 'Wed' },
-    { value: 'th', label: 'Thu' },
-    { value: 'fr', label: 'Fri' },
-    { value: 'st', label: 'Sat' }
+    { value: 'su', label: 'SU' },
+    { value: 'mo', label: 'MO' },
+    { value: 'tu', label: 'TU' },
+    { value: 'we', label: 'WE' },
+    { value: 'th', label: 'TH' },
+    { value: 'fr', label: 'FR' },
+    { value: 'st', label: 'SR' }
   ];
 
   imgChangeEvt: any = '';
@@ -153,6 +152,7 @@ export class AddEditShopDialogComponent implements OnInit, OnDestroy {
       });
 
       if (this.shopId && this.shopId != '') {
+        this.addBlankDays();
         this.getOfflineShopByShopId(this.shopId);
       }
     }, 0);
@@ -408,6 +408,12 @@ export class AddEditShopDialogComponent implements OnInit, OnDestroy {
         this.phoneForm.patchValue({
           phone: this.shopObj.contact_number
         });
+
+        if (result?.Data?.shop_days.length !== 0) {
+          console.log('Data Exist');
+          // this.addExistingDays(result?.Data?.shop_days);
+          console.log(this.addShopForm);
+        }
         
         this.shopObj.emailid = result?.Data?.companydetails?.emailid;
         this.shopObj.about = result?.Data?.companydetails?.about;
@@ -523,7 +529,8 @@ export class AddEditShopDialogComponent implements OnInit, OnDestroy {
     this.banner?.setValue(image);
   }
 
-  isContinueClick(): void {    
+  isContinueClick(): void {
+    console.log(this.addShopForm.value);
     if (this.addShopForm.invalid) {
       Object.keys(this.addShopForm.controls).forEach((key) => {
         this.addShopForm.controls[key].touched = true;
@@ -622,67 +629,73 @@ export class AddEditShopDialogComponent implements OnInit, OnDestroy {
     const preparedShopObj: any = this.prepareShopObj(this.addShopForm.value);   
     console.log("621",preparedShopObj);
      
-    this._offlineShopsService.addEditOfflineShop(preparedShopObj).subscribe((result: any) => {
-      if (result && result.IsSuccess) {
-        //this.successfully = true;
-        //setTimeout(() => {
-          //this.successfully = false;
-          this.closeAddEditShopDialog(true);
-        //}, 3000);
-        // this._sNotify.success('Shop Created And Update Successfully.', 'Success');
-      } else {
-        this._globalFunctions.successErrorHandling(result, this, true);
-      }
-      this.isLoading = false;
-    }, (error: any) => {
-      this._globalFunctions.errorHanding(error, this, true);
-      this.isLoading = false;
+    // this._offlineShopsService.addEditOfflineShop(preparedShopObj).subscribe((result: any) => {
+    //   if (result && result.IsSuccess) {
+    //     //this.successfully = true;
+    //     //setTimeout(() => {
+    //       //this.successfully = false;
+    //       this.closeAddEditShopDialog(true);
+    //     //}, 3000);
+    //     // this._sNotify.success('Shop Created And Update Successfully.', 'Success');
+    //   } else {
+    //     this._globalFunctions.successErrorHandling(result, this, true);
+    //   }
+    //   this.isLoading = false;
+    // }, (error: any) => {
+    //   this._globalFunctions.errorHanding(error, this, true);
+    //   this.isLoading = false;
+    // });
+  }
+
+
+  addExistingDays(existingDays: any[]) {
+
+    const dayArray = this.addShopForm.get('shop_days') as FormArray;
+
+    existingDays.forEach(item => {
+      const dayGroup = this._formBuilder.group({
+        day: item.day,
+        open: item.open,
+        starttime: item.starttime,
+        endtime: item.endtime
+      });
+
+      dayArray.push(dayGroup);
+    });
+    console.log(this.addShopForm.value);
+  }
+
+  addBlankDays() {
+    const dayArray = this.addShopForm.get('shop_days') as FormArray;
+
+    this.weekDays.forEach((item: any) => {
+      const dayGroup = this._formBuilder.group({
+        day: item.label,
+        open: false,
+        starttime: new FormControl<Date | null>(null),
+        endtime: new FormControl<Date | null>(null)
+      });
+
+      dayArray.push(dayGroup);
     });
   }
 
-  onCheckboxChange(e: any): void {
-    const weekDays: FormArray = this.addShopForm.get('shop_days') as FormArray;
-    
-    console.log("weekdays",weekDays);
-    
-    if (e.target.checked) {
-      weekDays.push(new FormControl(e.target.value));
-    } else {
-      let i: number = 0;
-      weekDays.controls.forEach((item: any) => {
-        if (item.value == e.target.value) {
-          weekDays.removeAt(i);
-          return;
-        }
-        i++;
-      });
-    }
-  }
-
-  // editshopday:any = this._formBuilder.array([
-
-  // ]);
 
   private _prepareShopForm(addShopObj: any = {}): void {
     console.log("665",addShopObj);
-    this.shopDays = this._formBuilder.array(this.weekDayList.map(x => this._formBuilder.group({
-      day: this._formBuilder.control(x),
-      shop_close: false,
-      starttime: '',
-      endtime: ''
-    })));
+
     this.addShopForm = this._formBuilder.group({
       shopid: [(this.shopId && this.shopId != '') ? this.shopId : ''],
       banner: [addShopObj?.banner || '', [Validators.required]],
       shop_name: [addShopObj?.shop_name || '', [Validators.required]],
       shop_category: [(addShopObj.shop_category && addShopObj.shop_category._id) ? addShopObj.shop_category._id : '', [Validators.required]],
-      shop_days: this.shopDays,
+      shop_days: this._formBuilder.array([]),
       //shop_days: this._formBuilder.array((addShopObj.shop_days && addShopObj.shop_days.length) ? addShopObj.shop_days : [], [Validators.required]),
       // shop_days: this._formBuilder.array((this.editshopday && this.editshopday.day && this.editshopday.opentime && this.editshopday.closetime) ? this.editshopday : [],[Validators.required]),
       // start_date: [(addShopObj.start_date) ? new Date(addShopObj.start_date) : ''],
       // end_date: [(addShopObj.end_date) ? new Date(addShopObj.end_date) : ''],
-      shop_open_time: [(addShopObj?.shop_open_time) ? moment(addShopObj?.shop_open_time, 'hh:mm').format('hh:mm a') : '', [Validators.required]],
-      shop_close_time: [(addShopObj?.shop_close_time) ? moment(addShopObj?.shop_close_time, 'hh:mm').format('hh:mm a') : '', [Validators.required]],
+      //shop_open_time: [(addShopObj?.shop_open_time) ? moment(addShopObj?.shop_open_time, 'hh:mm').format('hh:mm a') : '', [Validators.required]],
+      //shop_close_time: [(addShopObj?.shop_close_time) ? moment(addShopObj?.shop_close_time, 'hh:mm').format('hh:mm a') : '', [Validators.required]],
       // shop_open_time: ['10:00', [Validators.required]],
       // shop_close_time: ['12:00', [Validators.required]],
       about_shop: [addShopObj?.about_shop || ''],
@@ -709,13 +722,14 @@ export class AddEditShopDialogComponent implements OnInit, OnDestroy {
     if (addShopObj?.about) {
       this.editorCharacterSetTac();
     }
+    if (Object.keys(addShopObj).length == 0) {
+      console.log(' Empty');
+      this.addBlankDays();
+    } else {
+      console.log('Not Empty');
+      this.addExistingDays(addShopObj?.shop_days);
+    }
 
-    // if (addShopObj && addShopObj.shop_days && addShopObj.shop_days.length) {
-    //   this.weekDays = this.weekDays.map((dayObj: any) => {
-    //     dayObj.isSelected = (addShopObj.shop_days.indexOf(dayObj.value) != -1);
-    //     return dayObj;
-    //   });
-    // }
     this.pincodeValidation(this.addShopForm.value.pincode);
   }
   createDays(): void {
