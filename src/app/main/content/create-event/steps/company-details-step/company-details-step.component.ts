@@ -321,11 +321,11 @@ export class CompanyDetailsStepComponent implements OnInit {
           return;
         }
 
-        const image_size = image.size / 1024 / 1024;
-        if (image_size > CONSTANTS.maxImageSizeInMB) {
-          this._sNotify.error('Maximum Image Size is ' + CONSTANTS.maxImageSizeInMB + 'MB.', 'Oops!');
-          return;
-        }
+        // const image_size = image.size / 1024 / 1024;
+        // if (image_size > CONSTANTS.maxImageSizeInMB) {
+        //   this._sNotify.error('Maximum Image Size is ' + CONSTANTS.maxImageSizeInMB + 'MB.', 'Oops!');
+        //   return;
+        // }
 
         if (this.photoArr && this.photoArr.length && this.photoArr.length >= this.photosUploadLimit) {
           this._sNotify.error('Maximum 5 images can upload!', 'Oops!');
