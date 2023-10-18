@@ -629,22 +629,22 @@ export class AddEditShopDialogComponent implements OnInit, OnDestroy {
     const preparedShopObj: any = this.prepareShopObj(this.addShopForm.value);   
     console.log("621",preparedShopObj);
      
-    // this._offlineShopsService.addEditOfflineShop(preparedShopObj).subscribe((result: any) => {
-    //   if (result && result.IsSuccess) {
-    //     //this.successfully = true;
-    //     //setTimeout(() => {
-    //       //this.successfully = false;
-    //       this.closeAddEditShopDialog(true);
-    //     //}, 3000);
-    //     // this._sNotify.success('Shop Created And Update Successfully.', 'Success');
-    //   } else {
-    //     this._globalFunctions.successErrorHandling(result, this, true);
-    //   }
-    //   this.isLoading = false;
-    // }, (error: any) => {
-    //   this._globalFunctions.errorHanding(error, this, true);
-    //   this.isLoading = false;
-    // });
+    this._offlineShopsService.addEditOfflineShop(preparedShopObj).subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        //this.successfully = true;
+        //setTimeout(() => {
+          //this.successfully = false;
+          this.closeAddEditShopDialog(true);
+        //}, 3000);
+        // this._sNotify.success('Shop Created And Update Successfully.', 'Success');
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+      }
+      this.isLoading = false;
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isLoading = false;
+    });
   }
 
 
@@ -672,14 +672,28 @@ export class AddEditShopDialogComponent implements OnInit, OnDestroy {
       const dayGroup = this._formBuilder.group({
         day: item.label,
         open: false,
-        starttime: new FormControl<Date | null>(null),
-        endtime: new FormControl<Date | null>(null)
+        starttime: '',
+        endtime: ''
       });
 
       dayArray.push(dayGroup);
     });
   }
+  setStartTime(index: number) {
+    const dayArray = this.addShopForm.get('shop_days') as FormArray;
+    const dayGroup = dayArray.at(index) as FormGroup;
 
+    let nameValue = dayGroup.get('starttime').value;
+    dayGroup.get('starttime').setValue(moment(nameValue).format('hh:mm A'));
+
+  }
+  setEndTime(index:any) {
+    const dayArray = this.addShopForm.get('shop_days') as FormArray;
+    const dayGroup = dayArray.at(index) as FormGroup;
+
+    let nameValue = dayGroup.get('endtime').value;
+    dayGroup.get('endtime').setValue(moment(nameValue).format('hh:mm A'));
+  }
 
   private _prepareShopForm(addShopObj: any = {}): void {
     console.log("665",addShopObj);

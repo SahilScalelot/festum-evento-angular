@@ -174,11 +174,11 @@
         <!-- Start Shop Days Time Wise -->
         <div class="w-full">
           <div class="w-full flex">
-            <div class="w-full lg:w-[20%] px-2 pt-5 inputHolder relative">
+            <div class="w-full lg:w-[20%] px-2 pt-8 inputHolder relative">
               <span class="input-titel">Shop Days</span>
             </div>
             <div class="w-full lg:w-[20%] px-2 pt-5 relative">
-              <span class="input-titel">Off / On</span>
+              <span class="input-titel">Open</span>
             </div>
             <div class="w-full lg:w-[30&] px-2 pt-5 relative">
               <span class="input-titel">Shop Open Time</span>
@@ -199,14 +199,14 @@
             </div>
             <div class="w-full lg:w-[20%] px-2 pt-5 relative">
                 <div class="w-full py-3">
-                  <input type="checkbox" name="weekday" [value]="addShopForm.get('shop_days').get(i.toString()).get('open').value"  class="weekday" [checked]="addShopForm.get('shop_days').get(i.toString()).get('open').value"  class="switch mr-1.5 lg:mx-3 order-2"/>
+                  <input type="checkbox" name="weekday" [value]="addShopForm.get('shop_days').get(i.toString()).get('open').value"  class="weekday" formControlName="open"  class="switch mr-1.5 lg:mx-3 order-2"/>
                 </div>
             </div>
             <div class="w-full lg:w-[30&] px-2 pt-5 relative">
               <div class="w-full space-y-2">
                 <label class="bg-white border border-white rounded-md flex space-x-3 relative">
                   <i class="icon-time text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0"></i>
-                  <p-calendar class="w-full"  formControlName="starttime" [touchUI]="true" [hourFormat]="'12'" [showTime]="true" [timeOnly]="true"  [showButtonBar]="true"></p-calendar>
+                  <p-calendar class="w-full"  formControlName="starttime" [touchUI]="true" [hourFormat]="'12'" [showTime]="true" [timeOnly]="true"  [showButtonBar]="true" (onSelect)="setStartTime(i)"></p-calendar>
                 </label>
               </div>
             </div>
@@ -214,7 +214,7 @@
               <div class="w-full space-y-2">
                 <label class="bg-white border border-white rounded-md flex space-x-3 relative">
                   <i class="icon-time text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0"></i>
-                  <p-calendar class="w-full" formControlName="endtime"  [touchUI]="true" [hourFormat]="'12'" [showTime]="true" [timeOnly]="true"  [showButtonBar]="true"></p-calendar>
+                  <p-calendar class="w-full" formControlName="endtime"  [touchUI]="true" [hourFormat]="'12'" [showTime]="true" [timeOnly]="true"  [showButtonBar]="true" (onSelect)="setEndTime(i)"></p-calendar>
                 </label>
               </div>
             </div>
