@@ -409,11 +409,11 @@ export class AddEditShopDialogComponent implements OnInit, OnDestroy {
           phone: this.shopObj.contact_number
         });
 
-        if (result?.Data?.shop_days.length !== 0) {
-          console.log('Data Exist');
-          // this.addExistingDays(result?.Data?.shop_days);
-          console.log(this.addShopForm);
-        }
+        // if (result?.Data?.shop_days.length !== 0) {
+        //   console.log('Data Exist');
+        //   // this.addExistingDays(result?.Data?.shop_days);
+        //   console.log(this.addShopForm);
+        // }
         
         this.shopObj.emailid = result?.Data?.companydetails?.emailid;
         this.shopObj.about = result?.Data?.companydetails?.about;
@@ -662,7 +662,7 @@ export class AddEditShopDialogComponent implements OnInit, OnDestroy {
 
       dayArray.push(dayGroup);
     });
-    console.log(this.addShopForm.value);
+
   }
 
   addBlankDays() {
@@ -696,7 +696,7 @@ export class AddEditShopDialogComponent implements OnInit, OnDestroy {
   }
 
   private _prepareShopForm(addShopObj: any = {}): void {
-    console.log("665",addShopObj);
+   // console.log("665",addShopObj);
 
     this.addShopForm = this._formBuilder.group({
       shopid: [(this.shopId && this.shopId != '') ? this.shopId : ''],
@@ -737,33 +737,14 @@ export class AddEditShopDialogComponent implements OnInit, OnDestroy {
       this.editorCharacterSetTac();
     }
     if (Object.keys(addShopObj).length == 0) {
-      console.log(' Empty');
       this.addBlankDays();
     } else {
-      console.log('Not Empty');
       this.addExistingDays(addShopObj?.shop_days);
     }
 
     this.pincodeValidation(this.addShopForm.value.pincode);
   }
-  createDays(): void {
-  
-    let weekDays = ['su','mo','tu','we','th','fr','st'];
-    weekDays.forEach((element, index) => {
-      console.log(element, index);
-      return this._formBuilder.group(
-        {day: element, open_close: false,starttime: '',endtime: ''}
-      );
-    });
-   
-  }
-  // prepareTime(dateWithTime: any): any {
-  //   const date: any = new Date(dateWithTime);
-  //   if (date != 'Invalid Date') {
-  //     return date.getHours() + ':' + date.getMinutes();
-  //   }
-  //   return dateWithTime;
-  // }
+
   
   prepareObj(companyObj: any = {}): any {
     const preparedObj: any = companyObj;

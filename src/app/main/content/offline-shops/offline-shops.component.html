@@ -118,7 +118,7 @@
       </div>
     </div>
 
-    <div class="flex flex-wrap items-center justify-center" *ngIf="shops && shops.length">
+    <div class="flex flex-wrap items-center justify-center" *ngIf="!isLoading && shops && shops.length">
       <!-- <div class="pagination-festum py-2"><p class="show-text">Showing {{offset}} to {{(((offset - 1) + perPageLimit) < pTotal) ? (offset - 1) + perPageLimit : pTotal}} Of {{ pTotal }} Events.</p></div> -->
       <p-paginator [rows]="pageObj.limit" [totalRecords]="pageObj.totalDocs" [rowsPerPageOptions]="[10, 20, 30, 40, 50]" (onPageChange)="getOfflineShops($event)"></p-paginator>
     </div>
@@ -129,7 +129,7 @@
     </div>
   </div>
   
-  <div class="bg-white rounded-md text-center p-9 space-y-2" *ngIf="!shops || !shops.length">
+  <div class="bg-white rounded-md text-center p-9 space-y-2" *ngIf="!isLoading && !shops.length">
     <h4 class="w-full">You have no shops yet.</h4>
     <p class="">Create an shop using the Create new add shop button on the top right of the page..</p>
   </div>

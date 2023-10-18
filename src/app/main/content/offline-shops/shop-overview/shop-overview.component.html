@@ -196,21 +196,25 @@
                     <path d="M7.80964 8.21089H7.8165L8.42043 9.92661H8.98319V7.47656H8.53024V9.15454H8.52338L7.92631 7.47656H7.35669V9.92661H7.80964V8.21089Z" fill="white"/>
                   </svg>
                   Open Day</span>
-                <div class="weekDays-selector-box flex justify-between">
-                  <label for="weekday-su" class="flex flex-col items-center" *ngFor="let day of weekDays">
-                    <input type="checkbox" id="weekday-su" class="weekday appearance-none w-1 h-1 rounded-full bg-transparent" [checked]="day.isSelected" disabled/>
-                    <span class="block text-base font-bold text-quicksilver">{{day.label}}</span>
-                  </label>
+                <div class="weekDays-selector-box" *ngIf="shopObj?.shop_days?.length">
+                  <!--<label for="weekday-su" class="items-center">-->
+                    <div class="flex items-center justify-between py-1" *ngFor="let item of shopObj?.shop_days">
+                      <div class="flex items-center space-x-2.5">{{item.day}}</div>
+                      <div class="flex items-center space-x-1.5 justify-end w-full">{{item.starttime}} - {{item.endtime}}</div>
+                    </div>
+                    <!--<input type="checkbox" id="weekday-su" class="weekday appearance-none w-1 h-1 rounded-full bg-transparent" [checked]="day.isSelected" disabled/>-->
+                    <!--<span class="block text-base font-bold text-quicksilver">{{day.label}}</span>-->
+                  <!--</label>-->
                 </div>
               </div>
               <!-- <div>
                 <span class="text-quicksilver text-xs font-bold"><i class="icon-calendar mr-2"></i> Date</span>
                 <p class="text-sm font-bold text-japaneseIndigo">{{shopObj?.start_date | date: 'dd MMM, yyyy'}} - {{shopObj?.end_date | date: 'dd MMM, yyyy'}}</p>
               </div> -->
-              <div *ngIf="shopObj?.shop_open_time">
-                <span class="text-quicksilver text-xs font-bold"><i class="icon-time mr-2"></i> Shop Open Time</span>
-                <p class="text-sm font-bold text-japaneseIndigo">{{"0" + " " + shopObj?.shop_open_time | date:'shortTime'}} - {{"0" + " " + shopObj?.shop_close_time | date:'shortTime'}}</p>
-              </div>
+              <!--<div *ngIf="shopObj?.shop_open_time">-->
+                <!--<span class="text-quicksilver text-xs font-bold"><i class="icon-time mr-2"></i> Shop Open Time</span>-->
+                <!--<p class="text-sm font-bold text-japaneseIndigo">{{"0" + " " + shopObj?.shop_open_time | date:'shortTime'}} - {{"0" + " " + shopObj?.shop_close_time | date:'shortTime'}}</p>-->
+              <!--</div>-->
             </div>
           </div>
         </div>

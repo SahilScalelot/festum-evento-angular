@@ -174,7 +174,7 @@
         <!-- Start Shop Days Time Wise -->
         <div class="w-full">
           <div class="w-full flex">
-            <div class="w-full lg:w-[20%] px-2 pt-8 inputHolder relative">
+            <div class="w-full lg:w-[20%] px-2 pt-5 inputHolder relative">
               <span class="input-titel">Shop Days</span>
             </div>
             <div class="w-full lg:w-[20%] px-2 pt-5 relative">
@@ -190,7 +190,7 @@
 <div formArrayName="shop_days">
           <div class="w-full flex"  *ngFor="let item of addShopForm.get('shop_days').controls; let i = index">
             <ng-container [formGroupName]="i">
-            <div class="w-full lg:w-[20%] px-2 pt-5 inputHolder relative">
+            <div class="w-full lg:w-[20%] px-2 pt-8 inputHolder relative">
               <div class="weekDays-selector w-full flex flex-col space-y-2">
                 <div class="w-full" >
                   <label class="w-full cursor-pointer uppercase">{{ addShopForm.get('shop_days').get(i.toString()).get('day').value }}</label>
