@@ -122,6 +122,19 @@
       "Enter address": "पता लिखिए",
       "Add location": "स्थान जोड़ना",
 
+      "Offline Shops": "ऑफ़लाइन दुकानें",
+      "Running Offers": "चल रहे ऑफर",
+      "Open Day": "खुला दिन",
+
+      "Online Offers": "ऑनलाइन ऑफर",
+      "Product Name": "प्रोडक्ट का नाम",
+      "Offer Date": "ऑफर दिनांक",
+      "Total Click": "कुल क्लिक",
+      "Offer Status": "प्रस्ताव स्थिति",
+      "Product Image": "उत्पाद का चित्र",
+      "Product Description": "उत्पाद वर्णन",
+      "Platform & Product Link": "प्लेटफ़ॉर्म और उत्पाद लिंक",
+
       "Add Shop": "दुकान जोड़ें",
       "shopInfo": "उस पर दुकानें जोड़ने के लिए दुकान का चयन करें",
       "Shop name": "दुकान का नाम",

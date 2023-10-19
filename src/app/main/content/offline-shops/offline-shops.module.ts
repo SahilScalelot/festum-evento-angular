@@ -7,6 +7,7 @@ import { AgmCoreModule } from '@agm/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ModalModule } from '../../_modal';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { TranslateModule } from "@ngx-translate/core";
 import { CalendarModule } from 'primeng/calendar';
 import { RatingModule } from 'primeng/rating';
 import { PaginatorModule } from 'primeng/paginator';
@@ -42,6 +43,7 @@ const routes: Routes = [
     ReactiveFormsModule,
     ModalModule,
     ImageCropperModule,
+    TranslateModule,
     CalendarModule,
     RatingModule,
     PaginatorModule,

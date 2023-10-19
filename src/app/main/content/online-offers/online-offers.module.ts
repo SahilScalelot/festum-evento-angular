@@ -10,6 +10,7 @@ import { SharedModule } from "../../../shared/shared.module";
 import { ModalModule } from '../../_modal';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { TranslateModule } from "@ngx-translate/core";
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { PaginatorModule } from "primeng/paginator";
 import { NgSelectModule } from "@ng-select/ng-select";
@@ -47,6 +48,7 @@ const routes: Routes = [
     MatProgressSpinnerModule,
     PaginatorModule,
     ImageCropperModule,
+    TranslateModule,
     CKEditorModule,
     NgSelectModule,
     DropdownModule,

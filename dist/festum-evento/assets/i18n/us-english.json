@@ -118,6 +118,19 @@
       "Enter address": "Enter address",
       "Add location": "Add location",
 
+      "Offline Shops": "Offline Shops",
+      "Running Offers": "Running Offers",
+      "Open Day": "Open Day",
+
+      "Online Offers": "Online Offers",
+      "Product Name": "Product Name",
+      "Offer Date": "Offer Date",
+      "Total Click": "Total Click",
+      "Offer Status": "Offer Status",
+      "Product Image": "Product Image",
+      "Product Description": "Product Description",
+      "Platform & Product Link": "Platform & Product Link",
+
       "Add Shop": "Add Shop",
       "shopInfo": "Select the shop to add shops on it",
       "Shop name": "Shop name",

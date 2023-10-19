@@ -116,6 +116,19 @@
       "Enter address": "输入地址",
       "Add location": "添加位置",
 
+      "Offline Shops": "线下商店",
+      "Running Offers": "运行优惠",
+      "Open Day": "开放日",
+
+      "Online Offers": "网上优惠",
+      "Product Name": "产品名称",
+      "Offer Date": "报价日期",
+      "Total Click": "总点击次数",
+      "Offer Status": "报价状态",
+      "Product Image": "产品图片",
+      "Product Description": "产品描述",
+      "Platform & Product Link": "平台及产品链接",
+
       "Add Shop": "添加店铺",
       "shopInfo": "选择店铺添加店铺",
       "Shop name": "店铺名称",

@@ -13,20 +13,20 @@
         </div>
         <div class="w-full flex flex-wrap space-y-2 xl:space-y-0">
           <div class="pr-2.5 lg:pr-5 border-r">
-            <span class="text-xs font-bold text-quicksilver"><i class="icon-rating pr-1"></i>Ratings</span>
+            <span class="text-xs font-bold text-quicksilver"><i class="icon-rating pr-1"></i>{{'Ratings' | translate }}</span>
             <div class="flex flex-wrap items-center pt-1.5">
               <p-rating [(ngModel)]="shopObj.ratings" [readonly]="true" [cancel]="false"></p-rating>
-              <span class="text-quicksilver text-xs font-bold pl-2"> {{shopObj?.totalreviews}} ratings</span>
+              <span class="text-quicksilver text-xs font-bold pl-2"> {{shopObj?.totalreviews}} {{'Ratings' | translate }}</span>
             </div>
           </div>
           <div class="lg:pl-5">
-            <span class="text-xs font-bold text-quicksilver"><i class="icon-online_offer pr-1"></i>running offers</span>
+            <span class="text-xs font-bold text-quicksilver"><i class="icon-online_offer pr-1"></i>{{'Running Offers' | translate }}</span>
             <p class="text-sm text-japaneseIndigo font-bold pt-1">{{(!shopObj?.total_running_offers) ? 'There are no' : shopObj?.total_running_offers}} Offer{{((shopObj?.total_running_offers > 1) || 0) ? 's are' : ' '}} running.</p>
           </div>
         </div>
       </div>
       <div class="space-y-5">
-        <button class="secondary px-3 lg:px-7 py-3" (click)="openAddEditOfferDialog($event)"><i class="icon-plus"></i><span class="pl-2 lg:pl-5 whitespace-nowrap">Create Offer</span></button>
+        <button class="secondary px-3 lg:px-7 py-3" (click)="openAddEditOfferDialog($event)"><i class="icon-plus"></i><span class="pl-2 lg:pl-5 whitespace-nowrap">{{'Create Offer' | translate }}</span></button>
         <div class="flex justify-end space-x-2">
           <a href="javascript:void(0);" (click)="openAddEditShopDialog($event)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-edit text-sm leading-0 text-japaneseIndigo"></i></a>
           <a href="javascript:void(0);" (click)="gotoPromotion($event,shopId)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-fill_megaphone text-sm leading-0 text-japaneseIndigo"></i></a>
@@ -38,8 +38,8 @@
     <div class="">
       <div class="teb-holder teb-box flex justify-between w-full">
         <div class="teb-holder">
-          <button [class]="overview ? 'active' : ''" (click)="onTabChange('overview')" type="button">Overview</button>
-          <button [class]="reviews ? 'active' : ''" (click)="onTabChange('reviews')" type="button" *ngIf="shopObj && shopObj.reviews && shopObj.reviews.length">Reviews</button>
+          <button [class]="overview ? 'active' : ''" (click)="onTabChange('overview')" type="button">{{'Overview' | translate }}</button>
+          <button [class]="reviews ? 'active' : ''" (click)="onTabChange('reviews')" type="button" *ngIf="shopObj && shopObj.reviews && shopObj.reviews.length">{{'Reviews' | translate }}</button>
         </div>
         <form id="review-form" action="" class="review-form hidden">
           <div class="w-full inputHolder">
@@ -141,12 +141,12 @@
             </div>
             <!-- Company Details -->
             <div class="space-y-4" *ngIf="shopObj?.companydetails?.about || shopObj?.companydetails?.company_name || shopObj?.companydetails?.contact_number || shopObj?.companydetails?.emailid || shopObj?.companydetails?.gst_file">
-              <h5>Company Details</h5>
+              <h5>{{'companyDetails' | translate }}</h5>
               <div class="p-7 bg-white rounded-md space-y-1" *ngIf="shopObj?.companydetails?.about">
                 <h3 class="text-lg">{{shopObj.companydetails.company_name}}</h3>
                 <div [innerHtml]="(tandcShow) ? shopObj?.companydetails?.about : shopObj?.companydetails?.about | slice:0:180"></div>
-                <a href="javascript:;" *ngIf="!tandcShow && shopObj?.companydetails?.about.length > 180" (click)="tandcShow=true"class="text-magicPotion text-sm font-semibold ml-auto">...Read More</a>
-                <a href="javascript:;" *ngIf="tandcShow && shopObj?.companydetails?.about.length > 180" (click)="tandcShow=false"class="text-magicPotion text-sm font-semibold ml-auto">...Read Less</a>
+                <a href="javascript:;" *ngIf="!tandcShow && shopObj?.companydetails?.about.length > 180" (click)="tandcShow=true"class="text-magicPotion text-sm font-semibold ml-auto">...{{'readMore' | translate }}</a>
+                <a href="javascript:;" *ngIf="tandcShow && shopObj?.companydetails?.about.length > 180" (click)="tandcShow=false"class="text-magicPotion text-sm font-semibold ml-auto">...{{'readLess' | translate }}</a>
                 <!-- <p class="text-quicksilver text-sm font-normal">{{shopObj?.companydetails?.about}}</p> -->
               </div>
             </div>
@@ -158,7 +158,7 @@
               shopObj?.companydetails?.social_media_links?.pinterest_link && shopObj?.companydetails?.social_media_links?.pinterest_link != '' ||
               shopObj?.companydetails?.social_media_links?.instagram_link && shopObj?.companydetails?.social_media_links?.instagram_link != '' ||
               shopObj?.companydetails?.social_media_links?.linkedin_link && shopObj?.companydetails?.social_media_links?.linkedin_link != ''">
-              <h5>Social Media</h5> 
+              <h5>{{'socialMedia' | translate }}</h5>
               <div class="p-5 rounded-md flex items-center space-x-7">
                 <a *ngIf="shopObj?.companydetails?.social_media_links?.facebook_link != ''" [href]="shopObj?.companydetails?.social_media_links?.facebook_link" target="_blank"><img class="w-10 h-10 object-cover" alt="facebook" src="../assets/images/facebook.png" /></a>
                 <a *ngIf="shopObj?.companydetails?.social_media_links?.twitter_link != ''" [href]="shopObj?.companydetails?.social_media_links?.twitter_link" target="_blank"><img class="w-10 h-10 object-cover" alt="twiiter" src="../assets/images/twiiter.png" /></a>
@@ -180,7 +180,7 @@
                 <a class="w-10 h-10 flex items-center justify-center text-xl bg-white shadow-sm absolute right-4 bottom-4 text-magicPotion" href="javascript:void(0);"><i class="icon-map"></i></a>
               </div>
               <div class="p-3.5 xl:p-5">
-                <span class="input-titel"><i class="icon-location-1 mr-1"></i> Location</span>
+                <span class="input-titel"><i class="icon-location-1 mr-1"></i> {{'Location' | translate }}</span>
                 <h3 class="text-sm xl:text-base">{{shopObj?.flat_no}} {{(shopObj?.street_name) ? (shopObj?.street_name + ',') : ''}} {{(shopObj?.area_name) ? (shopObj?.area_name + ',') : ''}} {{shopObj?.city}}, {{shopObj?.state}}, {{shopObj?.pincode}}.</h3>
               </div>
             </div>
@@ -195,7 +195,7 @@
                     <path d="M7.10976 9.5217H6.20077V8.86286H7.02397V8.4583H6.20077V7.88147H7.07544V7.47656H5.7063V9.92661H7.10976V9.5217Z" fill="white"/>
                     <path d="M7.80964 8.21089H7.8165L8.42043 9.92661H8.98319V7.47656H8.53024V9.15454H8.52338L7.92631 7.47656H7.35669V9.92661H7.80964V8.21089Z" fill="white"/>
                   </svg>
-                  Open Day</span>
+                  {{'Open Day' | translate }}</span>
                 <div class="weekDays-selector-box" *ngIf="shopObj?.shop_days?.length">
                   <!--<label for="weekday-su" class="items-center">-->
                     <div class="flex items-center justify-between py-1" *ngFor="let item of shopObj?.shop_days">

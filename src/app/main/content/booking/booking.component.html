@@ -98,5 +98,5 @@
     </div>
   </div>
 
-  <p class="text-center text-xl" *ngIf="!bookings || !bookings?.length">{{'No Records Found' | translate }}.</p>
+  <p class="text-center text-xl" *ngIf="!isLoading && !bookings?.length">{{'No Records Found' | translate }}.</p>
 </div>
