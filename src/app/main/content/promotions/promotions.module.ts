@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { TranslateModule } from "@ngx-translate/core";
+import { SharedModule } from "../../../shared/shared.module";
 import { PromotionsComponent } from './promotions.component';
 import { CreatePromotionsComponent } from './create-promotions/create-promotions.component';
 import { CKEditorModule } from "@ckeditor/ckeditor5-angular";
@@ -33,6 +34,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     CommonModule,
     TranslateModule,
+    SharedModule,
     ModalModule,
     CKEditorModule,
     ReactiveFormsModule,
