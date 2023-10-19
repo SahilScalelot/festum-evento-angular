@@ -1,4 +1,4 @@
-<p-progressSpinner *ngIf="isLoading || isCategoryLoading" [style]="{width: '50px', height: '50px'}" animationDuration=".5s" strokeWidth="8" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-x-0 top-0 h-full w-full z-40" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
+<!--<p-progressSpinner *ngIf="isLoading || isCategoryLoading" [style]="{width: '50px', height: '50px'}" animationDuration=".5s" strokeWidth="8" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-x-0 top-0 h-full w-full z-40" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>-->
 
 <div class="wrapper min-h-full p-ngCss">
   <div class="space-y-8 h-full">
@@ -49,7 +49,8 @@
         </div>
       </div>
     </div>
-    <div class="space-y-2.5">
+    <app-skel-screen [objectType]="'booking'" *ngIf="isLoading"></app-skel-screen>
+    <div class="space-y-2.5" *ngIf="!isLoading">
       <div class="w-full bg-white flex flex-wrap lg:flex-nowrap rounded-md space-x-2.5" *ngFor="let booking of bookings">
         <div class="max-w-[170px] w-full h-[170px]">
           <img [src]="!!(booking?.event_id?.banner) ? constants.baseImageURL + booking?.event_id?.banner : constants.defaultImage" [alt]="booking?.event_id?.name" class="w-full h-full object-cover" />
