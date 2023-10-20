@@ -46,6 +46,25 @@ export class EventService {
     return this.http.post(environment.appURL + 'organizer/eventattendees/export', eventIdObj, this._globalFunctions.getAuthorizationHeader());
   }
 
+  getEventUserList(filter: any = {}): any {
+    return this.http.post(environment.appURL + 'organizer/uochats/users', filter, this._globalFunctions.getFileAuthorizationHeader());
+  }
+
+  sendChatMessage(messageData: any): any {
+    return this.http.post(environment.appURL + 'organizer/uochats/send', messageData, this._globalFunctions.getFileAuthorizationHeader());
+  }
+
+  getChatMessagesByUser(messageData: any): any {
+    return this.http.post(environment.appURL + 'organizer/uochats', messageData, this._globalFunctions.getFileAuthorizationHeader());
+  }
+
+  blockChatUser(userData: any): any {
+    return this.http.post(environment.appURL + 'organizer/uochats/block', userData, this._globalFunctions.getFileAuthorizationHeader());
+  }
+
+  unBlockChatUser(userData: any): any {
+    return this.http.post(environment.appURL + 'organizer/uochats/unblock', userData, this._globalFunctions.getFileAuthorizationHeader());
+  }
   // retrieveUser(): any {
   //   return this.http.get(environment.appURL + 'events/', this._globalFunctions.getAuthorizationHeader());
   // }

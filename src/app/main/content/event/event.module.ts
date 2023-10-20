@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { EventComponent } from "./event.component";
 import { ReactiveFormsModule } from "@angular/forms";
@@ -57,7 +57,8 @@ const routes: Routes = [
     }),
     TranslateModule,
     ProgressBarModule
-  ]
+  ],
+  providers: [DatePipe],
 })
 export class EventModule {
 }
