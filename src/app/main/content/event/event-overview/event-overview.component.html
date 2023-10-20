@@ -342,7 +342,7 @@
                       </div>
                       <div class="flex w-full space-y-2">
                         <div class="min-w-[148px] pr-5">
-                          <p>Food</p>
+                          <p>{{'food' | translate }}</p>
                           <span class="text-lg font-bold text-japaneseIndigo capitalize">{{(seating?.food == 'BOTH') ? 'Veg & Non-Veg' : seating?.food}}</span>
                         </div>
                         <div class="border-l border-slate-500 px-4" *ngIf="seating?.food_description">
@@ -380,7 +380,7 @@
                       </div>
                       <div class="flex w-full space-y-2">
                         <div class="min-w-[148px] pr-5">
-                          <p>Equipment</p>
+                          <p>{{'Equipment' | translate }}</p>
                           <span class="text-lg font-bold text-japaneseIndigo capitalize">{{seating?.equipment ? 'Not Include' : 'Include'}}</span>
                         </div>
                         <div class="border-l border-slate-500 px-4" *ngIf="seating?.equipment_description">

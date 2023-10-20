@@ -48,6 +48,9 @@
       "scanQR": "SCAN QR",
       "permission": "Permission",
       "discount": "Discount",
+      "Company Photos": "Company Photos",
+      "Food Photos": "Food Photos",
+      "Equipment Photos": "Equipment Photos",
 
       "liveStreamType": "LiveStream Type",
       "Viewers": "Viewers",
@@ -106,7 +109,7 @@
       "food": "Food",
       "Food Not Include": "Food Not Include",
       "Food description": "Food description",
-      "equipment": "Equipment",
+      "Equipment": "Equipment",
       "Not Include": "Not Include",
       "Equipment description": "Equipment description",
       "Add New": "Add New",

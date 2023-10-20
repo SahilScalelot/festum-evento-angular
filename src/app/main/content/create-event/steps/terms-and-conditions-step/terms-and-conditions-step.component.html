@@ -98,7 +98,7 @@
   </div>
   <div class="relative pt-4">
     <button class="secondary py-2.5 w-full uppercase anim relative" type="submit" (click)="saveFullEvent()">
-      <span [ngClass]="{'opacity-0': termsAndConditionsForm.disabled}">Save</span>
+      <span [ngClass]="{'opacity-0': termsAndConditionsForm.disabled}">{{'Save' | translate }}</span>
     </button>
     <div class="absolute inset-0 text-white flex items-center" *ngIf="isLoading">
       <mat-progress-spinner [diameter]="22" [mode]="'indeterminate'" class="mx-auto"></mat-progress-spinner>
@@ -115,7 +115,7 @@
   <div class="prw-next-btn">
     <button class="flex items-center active" type="button" (click)="backBtn()">
       <i class="icon-left_arrow mr-3"></i>
-      <h5>Back</h5>
+      <h5>{{'Back' | translate }}</h5>
     </button>
   </div>
 </div>

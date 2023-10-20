@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
+import { TranslateModule } from "@ngx-translate/core";
 import { StepsModule } from "primeng/steps";
 import { CreateEventComponent } from "./create-event.component";
 import { AddEventStepComponent } from "./steps/add-event-step/add-event-step.component";
@@ -91,6 +92,7 @@ const routes: Routes = [
   imports: [
     RouterModule.forChild(routes),
     CommonModule,
+    TranslateModule,
     StepsModule,
     TooltipModule,
     SharedModule,

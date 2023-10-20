@@ -12,7 +12,7 @@
     <div class="flex items-center justify-between">
       <span class="text-sm text-quicksilver font-semibold">Add Photos <span class="font-normal">(15 Images - up to 7MB/Image & Resolution up to 1080PX x 1080PX)</span></span>
       <!-- view all -->
-      <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(posterImageAndVideoObj.photos, true, false)">View All</a>
+      <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(posterImageAndVideoObj.photos, true, false)">{{'View all' | translate }}</a>
     </div>
     <div class="flex flex-wrap h-full pt-2">
       <div *ngFor="let photo of posterImageAndVideoObj.photos; let i = index" class="upload-box mr-2.5 mb-2.5">
@@ -46,7 +46,7 @@
   <div class="media-upload-holder">
     <div class="flex items-center justify-between">
       <span class="text-sm text-quicksilver font-semibold">Add Video <span class="font-normal">(2 videos - up to 256MB/Video)</span></span>
-      <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(posterImageAndVideoObj.videos, false, false)">View All</a>
+      <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(posterImageAndVideoObj.videos, false, false)">{{'View all' | translate }}</a>
     </div>
     <div class="flex space-x-2.5 h-full pt-2">
       <div *ngFor="let video of posterImageAndVideoObj.videos; let i = index" class="upload-box">
@@ -83,10 +83,10 @@
   <div class="prw-next-btn">
     <button [routerLink]="'/events/create/location'" class="flex items-center active" type="button">
       <i class="icon-left_arrow mr-3"></i>
-      <h5>Back</h5>
+      <h5>{{'Back' | translate }}</h5>
     </button>
     <button (click)="nextStep()" class="flex items-center active" type="button">
-      <h5>Next</h5>
+      <h5>{{'Next' | translate }}</h5>
       <i class="icon-right_arrow ml-3"></i>
     </button>
   </div>
