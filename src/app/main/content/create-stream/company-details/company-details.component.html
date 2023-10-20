@@ -143,10 +143,10 @@
   <div class="prw-next-btn">
     <button [routerLink]="'/live-stream/create/photos-and-videos'" class="flex items-center active" type="button">
       <i class="icon-left_arrow mr-3"></i>
-      <h5>Back</h5>
+      <h5>{{'Back' | translate }}</h5>
     </button>
     <button (click)="nextStep()" class="flex items-center active" type="button" [disabled]="isLoading || isPdfLoading || isImgLoading || isVideoLoading">
-      <h5>Next</h5>
+      <h5>{{'Next' | translate }}</h5>
       <i class="icon-right_arrow ml-3"></i>
     </button>
   </div>

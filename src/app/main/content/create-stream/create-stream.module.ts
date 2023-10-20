@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
+import { TranslateModule } from "@ngx-translate/core";
 import { CreateStreamComponent } from './create-stream.component';
 import { CreateComponent } from './create/create.component';
 import { PhotosAndVideosComponent } from './photos-and-videos/photos-and-videos.component';
@@ -61,6 +62,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     StepsModule,
     CommonModule,
+    TranslateModule,
     ReactiveFormsModule,
     CalendarModule,
     ImageCropperModule,
