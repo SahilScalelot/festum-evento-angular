@@ -13,11 +13,11 @@
         </div>
         <form #newEventNgForm="ngForm" [formGroup]="newEventForm" class="space-y-3">
           <div class="w-full block">
-            <label class="input-titel">What’s event name?</label>
+            <label class="input-titel">{{'eventName' | translate}}?</label>
             <input [formControlName]="'name'" class="input option rounded-lg w-full py-3 px-4 focus-visible:outline-none" type="text"/>
           </div>
           <div>
-            <label class="input-titel">What’s the event type?</label>
+            <label class="input-titel">{{'eventType' | translate}}?</label>
             <div class="flex items-center space-x-5">
               <label *ngFor="let eventType of constants.eventTypeArr" (change)="onChangeEventType(eventType.value)"
                class="w-1/2 bg-white py-3 px-4 flex items-center rounded-md cursor-pointer" [for]="eventType.value">
@@ -33,7 +33,7 @@
             </div>
           </div>
           <div class="">
-            <label class="input-titel">Select Category</label>
+            <label class="input-titel">{{'Select Category' | translate }}</label>
             <div class="relative">
               <select [formControlName]="'event_category'" (change)="newEventForm.get('other').setValue('')" class="bg-white rounded-md flex w-full space-x-3 outline-0 px-6 py-3 relative arrow">
                 <option value=""></option>
@@ -45,7 +45,7 @@
             </div>
           </div>
           <div class="w-full block">
-            <label class="input-titel">Other</label>
+            <label class="input-titel">{{'Other' | translate }}</label>
             <input [formControlName]="'other'" class="input option rounded-lg w-full py-3 px-4 focus-visible:outline-none" type="text"/>
           </div>
           <div class="w-full">

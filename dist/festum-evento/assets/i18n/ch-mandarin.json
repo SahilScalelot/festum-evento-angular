@@ -46,6 +46,16 @@
       "scanQR": "扫描二维码",
       "permission": "允许",
       "discount": "折扣",
+      "Company Photos": "公司照片",
+      "Food Photos": "食物照片",
+      "Equipment Photos": "设备照片",
+      "Note": "笔记",
+      "Seat": "座位",
+
+      "Address": "地址",
+      "Flat No": "单位号",
+      "Street Name": "街道名称",
+      "Area Name": "区域名称",
 
       "liveStreamType": "直播类型",
       "Viewers": "观众",

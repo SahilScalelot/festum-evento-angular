@@ -51,6 +51,13 @@
       "Company Photos": "Company Photos",
       "Food Photos": "Food Photos",
       "Equipment Photos": "Equipment Photos",
+      "Note": "Note",
+      "Seat": "Seat",
+
+      "Address": "Address",
+      "Flat No": "Flat No",
+      "Street Name": "Street Name",
+      "Area Name": "Area Name",
 
       "liveStreamType": "LiveStream Type",
       "Viewers": "Viewers",

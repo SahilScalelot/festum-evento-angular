@@ -52,6 +52,16 @@
       "scanQR": "QR स्कैन करें",
       "permission": "अनुमति",
       "discount": "छूट",
+      "Company Photos": "कंपनी तस्वीरें",
+      "Food Photos": "भोजन की तस्वीरें",
+      "Equipment Photos": "उपकरण तस्वीरें",
+      "Note": "टिप्पणी",
+      "Seat": "सीट",
+
+      "Address": "पता",
+      "Flat No": "फ़्लैट नं",
+      "Street Name": "सड़क का नाम",
+      "Area Name": "क्षेत्र का नाम",
 
       "liveStreamType": "लाइवस्ट्रीम प्रकार",
       "Viewers": "दर्शकों",

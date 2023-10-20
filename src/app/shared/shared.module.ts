@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { TranslateModule } from "@ngx-translate/core";
 import { AddEditEventDialogComponent } from "../main/content/dialogs/add-edit-event-dialog/add-edit-event-dialog.component";
 import { ProgressSpinnerModule } from "primeng/progressspinner";
 import { ValidNumberDirective } from "../directives/valid-number.directive";
@@ -41,6 +42,7 @@ import { SkelScreenComponent } from '../main/common/skel-screen/skel-screen.comp
   ],
   imports: [
     CommonModule,
+    TranslateModule,
     FormsModule,
     ReactiveFormsModule,
     ProgressSpinnerModule,

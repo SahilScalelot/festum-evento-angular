@@ -96,22 +96,22 @@
     </div>
   </div>
   <div class="space-y-5">
-    <h5 class="px-2">Address</h5>
+    <h5 class="px-2">{{'Address' | translate }}</h5>
     <div class="w-full flex flex-wrap">
       <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-5 inputHolder">
-        <span class="input-titel">Flat No.</span>
+        <span class="input-titel">{{'Flat No' | translate }}.</span>
         <input [formControlName]="'flat_no'" class="input" type="text"/>
       </div>
       <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-5 inputHolder">
-        <span class="input-titel">Street Name.</span>
+        <span class="input-titel">{{'Street Name' | translate }}.</span>
         <input [formControlName]="'street'" class="input" type="text"/>
       </div>
       <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-5 inputHolder">
-        <span class="input-titel">Area Name.</span>
+        <span class="input-titel">{{'Area Name' | translate }}.</span>
         <input [formControlName]="'area'" class="input" type="text"/>
       </div>
       <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-5 inputHolder relative">
-        <label class="input-titel">City</label>
+        <label class="input-titel">{{'City' | translate }}</label>
         <input [formControlName]="'city'" class="input" type="text" fuseValidAlphabet (keyup)="pincodeValidation(pincode.value)"/>
         <span class="absolute top-full text-red-500 text-xs" *ngIf="personalDetailForm.get('city')?.invalid && (personalDetailForm.get('city')?.dirty && personalDetailForm.get('city')?.touched)">
           <span *ngIf="personalDetailForm.get('city')?.errors?.['required']">
@@ -123,7 +123,7 @@
         </span>
       </div>
       <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-5 inputHolder relative">
-        <label class="input-titel">State</label>
+        <label class="input-titel">{{'State' | translate }}</label>
         <input [formControlName]="'state'" class="input" type="text" fuseValidAlphabet (keyup)="pincodeValidation(pincode.value)"/>
         <span class="absolute top-full text-red-500 text-xs" *ngIf="personalDetailForm.get('state')?.invalid && (personalDetailForm.get('state')?.dirty && personalDetailForm.get('state')?.touched)">
           <span *ngIf="personalDetailForm.get('state')?.errors?.['required']">
@@ -135,7 +135,7 @@
         </span>
       </div>
       <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-5 inputHolder relative">
-        <label class="input-titel">Pincode</label>
+        <label class="input-titel">{{'Pincode' | translate }}</label>
         <input #pincode [formControlName]="'pincode'" class="input" type="text" fuseValidNumber (keyup)="pincodeValidation(pincode.value)"/>
         <span class="absolute top-full text-red-500 text-xs" *ngIf="personalDetailForm.get('pincode')?.invalid && (personalDetailForm.get('pincode')?.dirty && personalDetailForm.get('pincode')?.touched)">
           <span *ngIf="personalDetailForm.get('pincode')?.errors?.['required']">
