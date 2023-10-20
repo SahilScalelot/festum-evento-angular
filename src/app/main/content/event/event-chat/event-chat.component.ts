@@ -19,6 +19,9 @@ export class EventChatComponent implements OnInit {
   eventId: any = '';
   users: any = [];
   messages: any = [];
+  selectedIndex: number | null = null;
+  selectedUser: any = {};
+
   constructor(
       public _globalFunctions: GlobalFunctions,
       private _activatedRoute: ActivatedRoute,
@@ -62,4 +65,34 @@ export class EventChatComponent implements OnInit {
     return this.datePipe.transform(timestamp, 'yyyy-MM-dd HH:mm:ss');
   }
 
+  selectUser(index: number, user: any): void {
+    this.selectedIndex = index;
+    this.selectedUser = user;
+    console.log(this.selectedUser);
+    this.messages = [];
+    this.getChatListForUser();
+  }
+
+  getChatListForUser(event: any = ''): void {
+    this.isLoadingMessages = true;
+    const page = event ? (event.page + 1) : 1;
+    const data: any = {
+         eventid: this.eventId,
+         userid: this.selectedUser?.userid?._id,
+         page : page || '1',
+         limit : event?.rows || '10'
+   };
+    this._eventService.getChatMessagesByUser(data).subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        console.log(result);
+        this.messages = result.Data;
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+      }
+      this.isLoadingMessages = false;
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isLoadingMessages = false;
+    });
+  }
 }
