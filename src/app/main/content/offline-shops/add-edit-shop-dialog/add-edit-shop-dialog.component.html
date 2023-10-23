@@ -208,6 +208,7 @@
                   <i class="icon-time text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0"></i>
                   <p-calendar class="w-full"  formControlName="starttime" [touchUI]="true" [hourFormat]="'12'" [showTime]="true" [timeOnly]="true"  [showButtonBar]="true" (onSelect)="setStartTime(i)"></p-calendar>
                 </label>
+                <span class="text-red-500 text-xs">{{ getControlErrors('shop_days', i, 'starttime') }}</span>
               </div>
             </div>
             <div class="w-full lg:w-[30&] px-2 pt-5 relative">
@@ -216,6 +217,7 @@
                   <i class="icon-time text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0"></i>
                   <p-calendar class="w-full" formControlName="endtime"  [touchUI]="true" [hourFormat]="'12'" [showTime]="true" [timeOnly]="true"  [showButtonBar]="true" (onSelect)="setEndTime(i)"></p-calendar>
                 </label>
+                <span class="text-red-500 text-xs">{{ getControlErrors('shop_days', i, 'endtime') }}</span>
               </div>
             </div>
             </ng-container>

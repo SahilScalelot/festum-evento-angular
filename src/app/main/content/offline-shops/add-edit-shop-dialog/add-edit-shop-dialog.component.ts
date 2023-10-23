@@ -543,6 +543,29 @@ export class AddEditShopDialogComponent implements OnInit, OnDestroy {
     if (this.textEditorLimit && this.textEditorMaxLimit && this.textEditorLimit > this.textEditorMaxLimit) {
       return;
     }
+
+    // Toggle the shop_days validation based on the boolean value
+    const shopDays = this.addShopForm.get('shop_days') as FormArray;
+
+    shopDays.controls.forEach((control) => {
+      const openControl = control.get('open').value;
+      const startTimeControl = control.get('starttime');
+      const endTimeControl = control.get('endtime');
+      console.log(openControl);
+      if (openControl) {
+        startTimeControl.setValidators([Validators.required]);
+        endTimeControl.setValidators([Validators.required]);
+      } else {
+        startTimeControl.clearValidators();
+        endTimeControl.clearValidators();
+      }
+      startTimeControl.updateValueAndValidity();
+      endTimeControl.updateValueAndValidity();
+    });
+
+    if (shopDays.invalid) {
+      return;
+    }
     this.isContinue = true;
   }
 
@@ -646,7 +669,11 @@ export class AddEditShopDialogComponent implements OnInit, OnDestroy {
       this.isLoading = false;
     });
   }
-
+  
+  getControlErrors(arrayName: string, index: number, controlName: string) {
+    const control = this.addShopForm.get(arrayName).get(index.toString()).get(controlName);
+    return control.hasError('required') ? `This ${controlName} is required` : '';
+  }
 
   addExistingDays(existingDays: any[]) {
 
