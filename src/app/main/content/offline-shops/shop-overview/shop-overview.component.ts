@@ -31,13 +31,13 @@ export class ShopOverviewComponent implements OnInit, OnDestroy {
   isAddUserWiseOffers: boolean = false;
   isLoading: boolean = false;
   weekDays: any = [
-    { value: 'su', label: 'Sun' },
-    { value: 'mo', label: 'Mon' },
-    { value: 'tu', label: 'Tue' },
-    { value: 'we', label: 'Wed' },
-    { value: 'th', label: 'Thu' },
-    { value: 'fr', label: 'Fri' },
-    { value: 'st', label: 'Sat' }
+    { value: 'Sun', label: 'Sun' },
+    { value: 'Mon', label: 'Mon' },
+    { value: 'Tue', label: 'Tue' },
+    { value: 'Wed', label: 'Wed' },
+    { value: 'Thu', label: 'Thu' },
+    { value: 'Fri', label: 'Fri' },
+    { value: 'Sat', label: 'Sat' }
   ];
   offerId: any;
   paging: any;

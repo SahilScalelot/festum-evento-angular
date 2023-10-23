@@ -50,13 +50,13 @@ export class AddEditShopDialogComponent implements OnInit, OnDestroy {
   editorConfig: any = {};
 
   weekDays: any = [
-    { value: 'su', label: 'SU' },
-    { value: 'mo', label: 'MO' },
-    { value: 'tu', label: 'TU' },
-    { value: 'we', label: 'WE' },
-    { value: 'th', label: 'TH' },
-    { value: 'fr', label: 'FR' },
-    { value: 'st', label: 'SR' }
+    { value: 'Sun', label: 'Sun' },
+    { value: 'Mon', label: 'Mon' },
+    { value: 'Tue', label: 'Tue' },
+    { value: 'Wed', label: 'Wed' },
+    { value: 'Thu', label: 'Thu' },
+    { value: 'Fri', label: 'Fri' },
+    { value: 'Sat', label: 'Sat' }
   ];
 
   imgChangeEvt: any = '';
