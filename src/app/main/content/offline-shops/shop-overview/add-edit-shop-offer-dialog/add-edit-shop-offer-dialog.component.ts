@@ -465,7 +465,7 @@ export class AddEditShopOfferDialogComponent implements OnInit {
         }
         const videoSize = video.size / 1024 / 1024;
         if (videoSize > CONSTANTS.maxVideoSizeInMB) {
-          this._sNotify.error('Maximum Video Size is ' + CONSTANTS.maxImageSizeInMB + 'MB.', 'Oops!');
+          this._sNotify.error('Maximum Video Size is ' + CONSTANTS.maxVideoSizeInMB + 'MB.', 'Oops!');
           return false;
         }
 
