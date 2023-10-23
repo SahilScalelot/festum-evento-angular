@@ -62,9 +62,9 @@ export class EventService {
     return this.http.post(environment.appURL + 'organizer/uochats/block', userData, this._globalFunctions.getFileAuthorizationHeader());
   }
 
-  unBlockChatUser(userData: any): any {
-    return this.http.post(environment.appURL + 'organizer/uochats/unblock', userData, this._globalFunctions.getFileAuthorizationHeader());
-  }
+  // unBlockChatUser(userData: any): any {
+  //   return this.http.post(environment.appURL + 'organizer/uochats/unblock', userData, this._globalFunctions.getFileAuthorizationHeader());
+  // }
   // retrieveUser(): any {
   //   return this.http.get(environment.appURL + 'events/', this._globalFunctions.getAuthorizationHeader());
   // }

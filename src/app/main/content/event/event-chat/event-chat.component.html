@@ -38,8 +38,9 @@
             <div class="relative group w-9 h-9 flex items-center justify-center rounded-full bg-primary/5 ml-auto ">
                 <svg class="w-5" viewBox="0 0 19 5" fill="none" xmlns="http://www.w3.org/2000/svg"> <circle cx="16.9391" cy="2.06061" r="2.06061" transform="rotate(90 16.9391 2.06061)" fill="#FE4D5F"/> <circle cx="9.72675" cy="2.06061" r="2.06061" transform="rotate(90 9.72675 2.06061)" fill="#FE4D5F"/> <circle cx="2.51459" cy="2.06061" r="2.06061" transform="rotate(90 2.51459 2.06061)" fill="#FE4D5F"/> </svg>
                 <ul class="absolute hidden group-hover:block top-full right-0 min-w-[150px] bg-white rounded-md shadow-[0px_0px_10px_0px_rgba(0,0,0,0.2)] py-2">
-                    <li><a href="#" class="block text-sm font-medium cursor-pointer py-1.5 px-3">Block</a></li>
-                    <li><a href="#" class="block text-sm font-medium cursor-pointer py-1.5 px-3">Clear chat</a></li>
+                    <li *ngIf="!selectedUser?.blockthisuserforchat"><a href="javascript:;" (click)="blockUser(selectedUser)"  class="block text-sm font-medium cursor-pointer py-1.5 px-3">Block</a></li>
+                    <li *ngIf="selectedUser?.blockthisuserforchat"><a href="javascript:;" (click)="blockUser(selectedUser)"  class="block text-sm font-medium cursor-pointer py-1.5 px-3">UnBlock</a></li>
+                    <!--<li><a href="javascript:;" (click)="clearChat(selectedUser)" class="block text-sm font-medium cursor-pointer py-1.5 px-3">Clear chat</a></li>-->
                 </ul>
             </div>
         </div>

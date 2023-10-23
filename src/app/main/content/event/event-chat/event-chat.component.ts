@@ -16,6 +16,7 @@ export class EventChatComponent implements OnInit {
   constants: any = CONSTANTS;
   isLoadingUser: boolean = false;
   isLoadingMessages: boolean = false;
+  isLoading: boolean = false;
   eventId: any = '';
   users: any = [];
   messages: any = [];
@@ -93,6 +94,28 @@ export class EventChatComponent implements OnInit {
     }, (error: any) => {
       this._globalFunctions.errorHanding(error, this, true);
       this.isLoadingMessages = false;
+    });
+  }
+
+  blockUser(user: any) {
+    this.isLoading = true;
+    const data: any = {
+        eventid : this.eventId,
+        userid : user?.userid?._id
+    };
+    this._eventService.blockChatUser(data).subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        console.log(result);
+        this.isLoading = false;
+        this.selectedUser.blockthisuserforchat = !this.selectedUser.blockthisuserforchat;
+        this._sNotify.success(result.Message, 'Success');
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+        this.isLoading = false;
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isLoading = false;
     });
   }
 }
