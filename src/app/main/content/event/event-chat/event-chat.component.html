@@ -9,7 +9,7 @@
         <div *ngFor="let user of users; let i = index" class="w-full chat_link cursor-pointer px-4 xl:px-7" [ngClass]="{ 'active': i === selectedIndex }" (click)="selectUser(i, user)">
             <div class="flex items-center border-b border-[#DDDDDD] py-5">
                 <div class="w-12 h-12 rounded-full overflow-hidden cursor-pointer">
-                    <img [src]="!!(user?.userid) ? constants?.baseImageURL + user.userid.profilepic : constants?.defaultImage" [alt]="user?.userid?.name" class="w-full object-cover"/>
+                    <img [src]="!!(user?.userid) && user.userid.profilepic !== '' ? constants?.baseImageURL + user.userid.profilepic : constants?.defaultImage" [alt]="user?.userid?.name" class="w-full object-cover"/>
                     <!--<img src="./assets/images/profile-2.png" alt="Elmer Laverty" class="w-full object-cover">-->
                 </div>
                 <div class="w-[calc(100%-48px)] pl-2.5">
@@ -38,7 +38,7 @@
     <div class="w-full h-[784px] bg-[#F6F7FB] shadow-[0px_0px_10px_0px_rgba(0,0,0,0.25)] rounded-md overflow-hidden">
         <div class="relative w-full flex items-center bg-white shadow-[0px_4px_4px_0px_rgba(0,0,0,0.08)] cursor-pointer py-4 px-5 z-20">
             <div class="w-[60px] h-[60px] rounded-full overflow-hidden">
-                <img [src]="!!(selectedUser?.userid) ? constants?.baseImageURL + selectedUser.userid.profilepic : constants?.defaultImage" [alt]="selectedUser?.userid?.name" class="w-full object-cover"/>
+                <img [src]="!!(selectedUser?.userid) && selectedUser.userid.profilepic !== '' ? constants?.baseImageURL + selectedUser.userid.profilepic : constants?.defaultImage" [alt]="selectedUser?.userid?.name" class="w-full object-cover"/>
             </div>
             <div class="ml-5">
                 <strong class="block text-lg text-[#2E363F]">{{selectedUser?.userid?.name}}</strong>
