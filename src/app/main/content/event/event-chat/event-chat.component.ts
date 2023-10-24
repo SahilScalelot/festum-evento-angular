@@ -128,7 +128,7 @@ export class EventChatComponent implements OnInit {
         result.Data.docs.forEach((element: any) => {
           console.log(element.chatflow);
         });
-        this.messages = result.Data;
+        this.messages = result.Data.docs;
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
       }

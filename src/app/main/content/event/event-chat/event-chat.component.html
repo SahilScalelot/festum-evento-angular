@@ -54,43 +54,27 @@
             </div>
         </div>
         <div #scrollMessage class="w-full h-[calc(100%-72px-92px)] overflow-y-auto p-5 pr-7">
-            <div class="flex flex-col mt-8">
-                <div class="max-w-2xl w-full flex justify-end ml-auto">
+            <div class="flex flex-col mt-8" *ngFor="let msg of messages">
+                <div *ngIf="msg.chatflow === 'otou'" class="max-w-2xl w-full flex justify-end ml-auto">
                     <div class="mb-5">
                         <div class="relative">
                             <div class="relative min-w-[284px] w-full flex items-center justify-between bg-white rounded-md py-3 px-6 z-10">
-                                <strong class="text-sm text-[#2E363F]">I need your help</strong>
-                                <span class="block">
-                    <svg class="w-3.5" viewBox="0 0 14 12" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M13.795 1.06441C13.5216 0.791029 13.0784 0.791029 12.805 1.06441L4.4186 9.45093L1.19499 6.22732C0.921635 5.95394 0.478447 5.95397 0.205037 6.22732C-0.0683457 6.50068 -0.0683457 6.94387 0.205037 7.21725L3.92362 10.9358C4.1969 11.2091 4.64041 11.2089 4.91358 10.9358L13.795 2.05437C14.0684 1.78101 14.0683 1.33779 13.795 1.06441Z" fill="black"/> </svg>
-                  </span>
+                                <strong class="text-sm text-[#2E363F]" *ngIf="msg.contentType === 'text'">{{msg?.content?.text?.message}}</strong>
+                                <strong class="text-sm text-[#2E363F]" *ngIf="msg.contentType === 'media'">{{msg?.content?.media?.path}}</strong>
                             </div>
                             <span class="block absolute top-4 left-full -translate-x-1/2 rotate-45 w-3 h-3 bg-[#D1D1D1]"></span>
                         </div>
-                        <strong class="text-[10px] text-[#9BA6A8]">2:55PM</strong>
+                        <strong class="text-[10px] text-[#9BA6A8]">{{msg?.timestamp | date:"dd MMM yyyy, hh:mm a"}}</strong>
                     </div>
                 </div>
-                <div class="max-w-2xl w-full flex space-x-3">
+                <div *ngIf="msg.chatflow === 'utoo'" class="max-w-2xl w-full flex space-x-3">
                     <div class="w-10 h-10 rounded-full overflow-hidden">
-                        <img src="./assets/images/profile-2.png" alt="Elmer Laverty" class="w-full object-cover">
-                    </div>
-                    <div class="mb-5">
-                        <div class="relative">
-                            <div class="relative min-w-[284px] w-full flex items-center justify-between bg-[#FE4D5F] rounded-md py-3 px-6 z-10">
-                                <strong class="text-sm text-white">Can you tell me exactly what you’re looking for?</strong>
-                            </div>
-                            <span class="block absolute top-4 right-full translate-x-1/2 rotate-45 w-3 h-3 bg-[#FE4D5F]"></span>
-                        </div>
-                        <strong class="text-[10px] text-[#9BA6A8]">2:55PM</strong>
-                    </div>
-                </div>
-                <div class="max-w-2xl w-full flex space-x-3">
-                    <div class="w-10 h-10 rounded-full overflow-hidden">
-                        <img src="./assets/images/profile-2.png" alt="Elmer Laverty" class="w-full object-cover">
+                        <img [src]="!!(msg?.userid) && msg.userid.profilepic !== '' ? constants?.baseImageURL + msg.userid.profilepic : constants?.defaultImage" alt="Elmer Laverty" class="w-full object-cover">
                     </div>
                     <div class="w-[calc(100%-40px)] mb-5">
                         <div class="relative">
                             <div class="relative min-w-[284px] w-full flex items-center justify-between bg-[#FE4D5F] rounded-md py-3 px-6 z-10">
-                                <strong class="text-sm text-white">Pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth,<br><br>1.praesentium voluptatum<br>2.deleniti atque corrupti quos dolores</strong>
+                                <strong class="text-sm text-white" *ngIf="msg.contentType === 'text'">{{msg?.content?.text?.message}}</strong>
                             </div>
                             <span class="block absolute top-4 right-full translate-x-1/2 rotate-45 w-3 h-3 bg-[#FE4D5F]"></span>
                         </div>
@@ -98,56 +82,97 @@
                     </div>
                 </div>
             </div>
-            <div class="w-full flex items-center">
-                <span class="block w-[calc(50%-33px)] h-0.5 bg-[#C4C4C4]"></span>
-                <span class="block text-[10px] text-[#9BA6A8] px-5">Today</span>
-                <span class="block w-[calc(50%-33px)] h-0.5 bg-[#C4C4C4]"></span>
-            </div>
-            <div class="flex flex-col mt-8">
-                <div class="max-w-2xl w-full flex justify-end ml-auto">
-                    <div class="mb-5">
-                        <div class="relative">
-                            <div class="relative min-w-[284px] w-full flex items-end justify-between bg-white rounded-md py-3 px-6 z-10">
-                                <strong class="text-sm text-[#2E363F]">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,<br><br>totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto <br><br>enouncing pleasure and praising
-                                </strong>
-                                <span class="block">
-                    <svg class="w-3.5" viewBox="0 0 14 12" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M13.795 1.06441C13.5216 0.791029 13.0784 0.791029 12.805 1.06441L4.4186 9.45093L1.19499 6.22732C0.921635 5.95394 0.478447 5.95397 0.205037 6.22732C-0.0683457 6.50068 -0.0683457 6.94387 0.205037 7.21725L3.92362 10.9358C4.1969 11.2091 4.64041 11.2089 4.91358 10.9358L13.795 2.05437C14.0684 1.78101 14.0683 1.33779 13.795 1.06441Z" fill="black"/> </svg>
-                  </span>
-                            </div>
-                            <span class="block absolute top-4 left-full -translate-x-1/2 rotate-45 w-3 h-3 bg-[#D1D1D1]"></span>
-                        </div>
-                        <strong class="text-[10px] text-[#9BA6A8]">2:55PM</strong>
-                    </div>
-                </div>
-                <div class="max-w-2xl w-full flex space-x-3">
-                    <div class="w-10 h-10 rounded-full overflow-hidden">
-                        <img src="./assets/images/profile-2.png" alt="Elmer Laverty" class="w-full object-cover">
-                    </div>
-                    <div class="mb-5">
-                        <div class="relative">
-                            <div class="relative min-w-[284px] w-full flex items-center justify-between bg-[#FE4D5F] rounded-md py-3 px-6 z-10">
-                                <strong class="text-sm text-white">Can you tell me exactly what you’re looking for?</strong>
-                            </div>
-                            <span class="block absolute top-4 right-full translate-x-1/2 rotate-45 w-3 h-3 bg-[#FE4D5F]"></span>
-                        </div>
-                        <strong class="text-[10px] text-[#9BA6A8]">2:55PM</strong>
-                    </div>
-                </div>
-                <div class="max-w-2xl w-full flex space-x-3">
-                    <div class="w-10 h-10 rounded-full overflow-hidden">
-                        <img src="./assets/images/profile-2.png" alt="Elmer Laverty" class="w-full object-cover">
-                    </div>
-                    <div class="w-[calc(100%-40px)] mb-5">
-                        <div class="relative">
-                            <div class="relative min-w-[284px] w-full flex items-center justify-between bg-[#FE4D5F] rounded-md py-3 px-6 z-10">
-                                <strong class="text-sm text-white">Pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth,<br><br>1.praesentium voluptatum<br>2.deleniti atque corrupti quos dolores</strong>
-                            </div>
-                            <span class="block absolute top-4 right-full translate-x-1/2 rotate-45 w-3 h-3 bg-[#FE4D5F]"></span>
-                        </div>
-                        <strong class="text-[10px] text-[#9BA6A8]">2:55PM</strong>
-                    </div>
-                </div>
-            </div>
+            <!--<div class="flex flex-col mt-8">-->
+                <!--<div class="max-w-2xl w-full flex justify-end ml-auto">-->
+                    <!--<div class="mb-5">-->
+                        <!--<div class="relative">-->
+                            <!--<div class="relative min-w-[284px] w-full flex items-center justify-between bg-white rounded-md py-3 px-6 z-10">-->
+                                <!--<strong class="text-sm text-[#2E363F]">I need your help</strong>-->
+                            <!--</div>-->
+                            <!--<span class="block absolute top-4 left-full -translate-x-1/2 rotate-45 w-3 h-3 bg-[#D1D1D1]"></span>-->
+                        <!--</div>-->
+                        <!--<strong class="text-[10px] text-[#9BA6A8]">2:55PM</strong>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="max-w-2xl w-full flex space-x-3">-->
+                    <!--<div class="w-10 h-10 rounded-full overflow-hidden">-->
+                        <!--<img src="./assets/images/profile-2.png" alt="Elmer Laverty" class="w-full object-cover">-->
+                    <!--</div>-->
+                    <!--<div class="mb-5">-->
+                        <!--<div class="relative">-->
+                            <!--<div class="relative min-w-[284px] w-full flex items-center justify-between bg-[#FE4D5F] rounded-md py-3 px-6 z-10">-->
+                                <!--<strong class="text-sm text-white">Can you tell me exactly what you’re looking for?</strong>-->
+                            <!--</div>-->
+                            <!--<span class="block absolute top-4 right-full translate-x-1/2 rotate-45 w-3 h-3 bg-[#FE4D5F]"></span>-->
+                        <!--</div>-->
+                        <!--<strong class="text-[10px] text-[#9BA6A8]">2:55PM</strong>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="max-w-2xl w-full flex space-x-3">-->
+                    <!--<div class="w-10 h-10 rounded-full overflow-hidden">-->
+                        <!--<img src="./assets/images/profile-2.png" alt="Elmer Laverty" class="w-full object-cover">-->
+                    <!--</div>-->
+                    <!--<div class="w-[calc(100%-40px)] mb-5">-->
+                        <!--<div class="relative">-->
+                            <!--<div class="relative min-w-[284px] w-full flex items-center justify-between bg-[#FE4D5F] rounded-md py-3 px-6 z-10">-->
+                                <!--<strong class="text-sm text-white">Pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth,<br><br>1.praesentium voluptatum<br>2.deleniti atque corrupti quos dolores</strong>-->
+                            <!--</div>-->
+                            <!--<span class="block absolute top-4 right-full translate-x-1/2 rotate-45 w-3 h-3 bg-[#FE4D5F]"></span>-->
+                        <!--</div>-->
+                        <!--<strong class="text-[10px] text-[#9BA6A8]">2:55PM</strong>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="w-full flex items-center">-->
+                <!--<span class="block w-[calc(50%-33px)] h-0.5 bg-[#C4C4C4]"></span>-->
+                <!--<span class="block text-[10px] text-[#9BA6A8] px-5">Today</span>-->
+                <!--<span class="block w-[calc(50%-33px)] h-0.5 bg-[#C4C4C4]"></span>-->
+            <!--</div>-->
+            <!--<div class="flex flex-col mt-8">-->
+                <!--<div class="max-w-2xl w-full flex justify-end ml-auto">-->
+                    <!--<div class="mb-5">-->
+                        <!--<div class="relative">-->
+                            <!--<div class="relative min-w-[284px] w-full flex items-end justify-between bg-white rounded-md py-3 px-6 z-10">-->
+                                <!--<strong class="text-sm text-[#2E363F]">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,<br><br>totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto <br><br>enouncing pleasure and praising-->
+                                <!--</strong>-->
+                                <!--<span class="block">-->
+                    <!--<svg class="w-3.5" viewBox="0 0 14 12" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M13.795 1.06441C13.5216 0.791029 13.0784 0.791029 12.805 1.06441L4.4186 9.45093L1.19499 6.22732C0.921635 5.95394 0.478447 5.95397 0.205037 6.22732C-0.0683457 6.50068 -0.0683457 6.94387 0.205037 7.21725L3.92362 10.9358C4.1969 11.2091 4.64041 11.2089 4.91358 10.9358L13.795 2.05437C14.0684 1.78101 14.0683 1.33779 13.795 1.06441Z" fill="black"/> </svg>-->
+                  <!--</span>-->
+                            <!--</div>-->
+                            <!--<span class="block absolute top-4 left-full -translate-x-1/2 rotate-45 w-3 h-3 bg-[#D1D1D1]"></span>-->
+                        <!--</div>-->
+                        <!--<strong class="text-[10px] text-[#9BA6A8]">2:55PM</strong>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="max-w-2xl w-full flex space-x-3">-->
+                    <!--<div class="w-10 h-10 rounded-full overflow-hidden">-->
+                        <!--<img src="./assets/images/profile-2.png" alt="Elmer Laverty" class="w-full object-cover">-->
+                    <!--</div>-->
+                    <!--<div class="mb-5">-->
+                        <!--<div class="relative">-->
+                            <!--<div class="relative min-w-[284px] w-full flex items-center justify-between bg-[#FE4D5F] rounded-md py-3 px-6 z-10">-->
+                                <!--<strong class="text-sm text-white">Can you tell me exactly what you’re looking for?</strong>-->
+                            <!--</div>-->
+                            <!--<span class="block absolute top-4 right-full translate-x-1/2 rotate-45 w-3 h-3 bg-[#FE4D5F]"></span>-->
+                        <!--</div>-->
+                        <!--<strong class="text-[10px] text-[#9BA6A8]">2:55PM</strong>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="max-w-2xl w-full flex space-x-3">-->
+                    <!--<div class="w-10 h-10 rounded-full overflow-hidden">-->
+                        <!--<img src="./assets/images/profile-2.png" alt="Elmer Laverty" class="w-full object-cover">-->
+                    <!--</div>-->
+                    <!--<div class="w-[calc(100%-40px)] mb-5">-->
+                        <!--<div class="relative">-->
+                            <!--<div class="relative min-w-[284px] w-full flex items-center justify-between bg-[#FE4D5F] rounded-md py-3 px-6 z-10">-->
+                                <!--<strong class="text-sm text-white">Pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth,<br><br>1.praesentium voluptatum<br>2.deleniti atque corrupti quos dolores</strong>-->
+                            <!--</div>-->
+                            <!--<span class="block absolute top-4 right-full translate-x-1/2 rotate-45 w-3 h-3 bg-[#FE4D5F]"></span>-->
+                        <!--</div>-->
+                        <!--<strong class="text-[10px] text-[#9BA6A8]">2:55PM</strong>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
         </div>
         <div class="relative w-full flex items-center bg-white shadow-[0px_-3px_4px_0px_rgba(0,0,0,0.08)] p-5 z-20">
             <span class="block" (click)="toggleEmojiPicker()">
