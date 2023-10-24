@@ -53,7 +53,14 @@
                 </ul>
             </div>
         </div>
-        <div #scrollMessage class="w-full h-[calc(100%-72px-92px)] overflow-y-auto p-5 pr-7">
+        <div #scrollMessage class="w-full h-[calc(100%-72px-92px)] overflow-y-auto p-5 pr-7" infiniteScroll
+             [infiniteScrollDistance]="2"
+             [infiniteScrollThrottle]="50"
+             [fromRoot]="false"
+             (scrolled)="onScroll()"
+             [scrollWindow]="false">
+            <p-progressSpinner *ngIf="isLoadingMessages" [style]="{width: '50px', height: '50px'}" animationDuration=".5s" strokeWidth="8" class="bg-opacity-25 inset-x-0 top-0 h-full w-full z-40" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
+            <div class="flex items-center" *ngIf="!isLoadingMessages && !messages.length">No Message</div>
             <div class="flex flex-col mt-4" *ngFor="let msg of messages">
                 <div *ngIf="msg.chatflow === 'otou'" class="max-w-2xl w-full flex justify-end ml-auto">
                     <div class="mb-2">
@@ -92,6 +99,9 @@
                         <strong class="text-[10px] text-[#9BA6A8]">{{msg?.timestamp | date:"dd MMM yyyy, hh:mm a"}}</strong>
                     </div>
                 </div>
+            </div>
+            <div class="text-center mt-8" *ngIf="!hasMoreRecords">
+                <p>{{ 'No More Records' | translate }}.</p>
             </div>
             <!--<div class="flex flex-col mt-8">-->
                 <!--<div class="max-w-2xl w-full flex justify-end ml-auto">-->

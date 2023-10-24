@@ -13,6 +13,7 @@ import { AgmCoreModule } from '@agm/core';
 import { ImageModule } from 'primeng/image';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { TranslateModule } from "@ngx-translate/core";
+import { InfiniteScrollModule } from "ngx-infinite-scroll";
 import { ProgressBarModule } from "primeng/progressbar";
 import { MatExpansionModule } from '@angular/material/expansion';
 import { TooltipModule } from 'primeng/tooltip';
@@ -58,6 +59,7 @@ const routes: Routes = [
       libraries: ['places']
     }),
     TranslateModule,
+    InfiniteScrollModule,
     ProgressBarModule
   ],
   providers: [DatePipe],

@@ -29,7 +29,7 @@ export class EventChatComponent implements OnInit {
   showEmojiPicker: boolean = false;
 
   currentPage: number = 1;
-  pageSize: number = 20;
+  pageSize: number = 10;
   hasMoreRecords: boolean = true;
 
   constructor(
@@ -112,28 +112,39 @@ export class EventChatComponent implements OnInit {
     this.messages = [];
     this.getChatListForUser();
   }
+  onScroll() {
+    //alert("scrolled!!");
+    this.getChatListForUser();
+  }
+  getChatListForUser() {
+    if (!this.isLoadingMessages && Object.keys(this.selectedUser).length) {
+      this.isLoadingMessages = true;
+      const data: any = {
+            eventid: this.eventId,
+            userid: this.selectedUser.userid._id,
+            page: this.currentPage,
+            limit : this.pageSize
+      };
+      this._eventService.getChatMessagesByUser(data).subscribe((result: any) => {
+        if (result && result.IsSuccess) {
+          console.log(result);
+          if (result.Data.docs.length === 0) {
+            this.hasMoreRecords = false;
+            this.isLoadingMessages = false;
+          } else {
+            this.messages = [...this.messages, ...result.Data.docs];
+            this.isLoadingMessages = false;
+            this.currentPage++;
+          }
+        } else {
+          this._globalFunctions.successErrorHandling(result, this, true);
+        }
 
-  getChatListForUser(event: any = ''): void {
-    this.isLoadingMessages = true;
-    const page = event ? (event.page + 1) : 1;
-    const data: any = {
-         eventid: this.eventId,
-         userid: this.selectedUser?.userid?._id,
-         page : page || '1',
-         limit : event?.rows || '10'
-   };
-    this._eventService.getChatMessagesByUser(data).subscribe((result: any) => {
-      if (result && result.IsSuccess) {
-        console.log(result);
-        this.messages = result.Data.docs;
-      } else {
-        this._globalFunctions.successErrorHandling(result, this, true);
-      }
-      this.isLoadingMessages = false;
-    }, (error: any) => {
-      this._globalFunctions.errorHanding(error, this, true);
-      this.isLoadingMessages = false;
-    });
+      }, (error: any) => {
+        this._globalFunctions.errorHanding(error, this, true);
+        this.isLoadingMessages = false;
+      });
+    }
   }
 
   blockUser(user: any) {
