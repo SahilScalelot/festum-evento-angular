@@ -125,9 +125,6 @@ export class EventChatComponent implements OnInit {
     this._eventService.getChatMessagesByUser(data).subscribe((result: any) => {
       if (result && result.IsSuccess) {
         console.log(result);
-        result.Data.docs.forEach((element: any) => {
-          console.log(element.chatflow);
-        });
         this.messages = result.Data.docs;
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
@@ -180,5 +177,41 @@ export class EventChatComponent implements OnInit {
   }
   onBlur() {
     this.showEmojiPicker = false;
+  }
+
+  sendChatMessage(message: any = ''): void {
+    if (message && message != '' && message.trim() != '') {
+      this.isLoading = true;
+      const data: any = {
+        eventid: this.eventId,
+        userid: this.selectedUser.userid._id,
+        message: message.trim(),
+        file: ""
+      };
+      this._eventService.sendChatMessage(data).subscribe((result: any) => {
+        if (result && result.IsSuccess) {
+          console.log(result?.Data);
+          this.messages.push(result?.Data);
+          this.messageInput.nativeElement.value = "";
+          this.isLoading = false;
+          setTimeout(() => {
+            this.scrollToBottom();
+            this._sNotify.success(result?.Message, 'Success');
+          }, 0);
+        } else {
+          this._globalFunctions.successErrorHandling(result, this, true);
+          this.isLoading = false;
+        }
+      }, (error: any) => {
+        this._globalFunctions.errorHanding(error, this, true);
+        this.isLoading = false;
+      });
+    }
+  }
+
+  scrollToBottom(): void {
+    try {
+      this.messageScrollContainer.nativeElement.scrollTop = this.messageScrollContainer.nativeElement.scrollHeight;
+    } catch (err) { }
   }
 }
