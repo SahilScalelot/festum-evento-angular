@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, HostListener } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, HostListener } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute, Router, NavigationStart, Event as NavigationEvent, NavigationEnd } from '@angular/router';
 import { CONSTANTS } from 'src/app/main/common/constants';
@@ -13,6 +13,9 @@ import { SnotifyService } from 'ng-snotify';
   styleUrls: ['./event-chat.component.scss']
 })
 export class EventChatComponent implements OnInit {
+  @ViewChild('scrollMessage') private messageScrollContainer: any;
+  @ViewChild('messageInput') messageInput: any;
+
   constants: any = CONSTANTS;
   isLoadingUser: boolean = false;
   isLoadingMessages: boolean = false;
@@ -22,6 +25,12 @@ export class EventChatComponent implements OnInit {
   messages: any = [];
   selectedIndex: number | null = null;
   selectedUser: any = {};
+
+  showEmojiPicker: boolean = false;
+
+  currentPage: number = 1;
+  pageSize: number = 20;
+  hasMoreRecords: boolean = true;
 
   constructor(
       public _globalFunctions: GlobalFunctions,
@@ -116,6 +125,9 @@ export class EventChatComponent implements OnInit {
     this._eventService.getChatMessagesByUser(data).subscribe((result: any) => {
       if (result && result.IsSuccess) {
         console.log(result);
+        result.Data.docs.forEach((element: any) => {
+          console.log(element.chatflow);
+        });
         this.messages = result.Data;
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
@@ -147,5 +159,26 @@ export class EventChatComponent implements OnInit {
       this._globalFunctions.errorHanding(error, this, true);
       this.isLoading = false;
     });
+  }
+
+  toggleEmojiPicker() {
+    this.showEmojiPicker = !this.showEmojiPicker;
+  }
+
+  addEmoji(event: any) {
+    let message = '';
+    if (this.messageInput.nativeElement.value && this.messageInput.nativeElement.value != '') {
+      message = this._globalFunctions.copyObject(this.messageInput.nativeElement.value);
+    }
+    const text = `${message}${event.emoji.native}`;
+    this.messageInput.nativeElement.value = text;
+    // this.showEmojiPicker = false;
+  }
+
+  onFocus() {
+    this.showEmojiPicker = false;
+  }
+  onBlur() {
+    this.showEmojiPicker = false;
   }
 }

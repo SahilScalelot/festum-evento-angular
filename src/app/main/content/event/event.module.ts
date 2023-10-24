@@ -11,6 +11,7 @@ import { PaginatorModule } from 'primeng/paginator';
 import { VirtualScrollerModule } from 'primeng/virtualscroller';
 import { AgmCoreModule } from '@agm/core';
 import { ImageModule } from 'primeng/image';
+import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { TranslateModule } from "@ngx-translate/core";
 import { ProgressBarModule } from "primeng/progressbar";
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -47,6 +48,7 @@ const routes: Routes = [
     PaginatorModule,
     VirtualScrollerModule,
     ImageModule,
+    PickerModule,
     ModalModule,
     MatProgressSpinnerModule,
     MatExpansionModule,
