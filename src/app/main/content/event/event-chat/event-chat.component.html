@@ -66,13 +66,13 @@
                     <div class="mb-2">
                         <div class="relative">
                             <div class="relative min-w-[284px] w-full flex items-center justify-between bg-white rounded-md py-3 px-6 z-10">
-                                <strong class="text-sm text-[#2E363F]" *ngIf="msg.contentType === 'text'">{{msg?.content?.text?.message}}</strong>
+                                <strong class="text-sm text-[#2E363F] text-clip overflow-hidden max-w-[230px]" *ngIf="msg.contentType === 'text'">{{msg?.content?.text?.message}}</strong>
                                 <ng-container *ngIf="msg.contentType === 'media'">
                                     <img *ngIf="msg?.content?.media?.type === 'IMG'" [src]="!!(msg?.content) && msg?.content?.media?.path !== '' ? constants?.baseImageURL + msg.content.media.path : constants?.defaultImage" [alt]="msg?.content?.media?.name" />
                                     <video *ngIf="msg?.content?.media?.type === 'VIDEO'" controls>
                                        <source [src]="!!(msg?.content) && msg?.content?.media?.path !== '' ? constants?.baseImageURL + msg.content.media.path : constants?.defaultImage" type="video/mp4">
                                     </video>
-                                    <strong class="text-sm text-[#2E363F]" *ngIf="msg?.content?.media?.type === 'DOC'">{{msg?.content?.media?.name}}</strong>
+                                    <strong class="text-sm text-[#2E363F] text-ellipsis whitespace-nowrap overflow-hidden max-w-[530px]" *ngIf="msg?.content?.media?.type === 'DOC'">{{msg?.content?.media?.name}}</strong>
                                 </ng-container>
                             </div>
                             <span class="block absolute top-4 left-full -translate-x-1/2 rotate-45 w-3 h-3 bg-[#D1D1D1]"></span>
@@ -87,7 +87,7 @@
                     <div class="w-[calc(100%-40px)] mb-2">
                         <div class="relative">
                             <div class="relative min-w-[284px] w-full flex items-center justify-between bg-[#FE4D5F] rounded-md py-3 px-6 z-10">
-                                <strong class="text-sm text-white" *ngIf="msg.contentType === 'text'">{{msg?.content?.text?.message}}</strong>
+                                <strong class="text-sm text-white text-clip overflow-hidden" *ngIf="msg.contentType === 'text'">{{msg?.content?.text?.message}}</strong>
                                 <ng-container *ngIf="msg.contentType === 'media'">
                                     <img *ngIf="msg?.content?.media?.type === 'IMG'" [src]="!!(msg?.content) && msg?.content?.media?.path !== '' ? constants?.baseImageURL + msg.content.media.path : constants?.defaultImage" [alt]="msg?.content?.media?.name" />
                                     <video *ngIf="msg?.content?.media?.type === 'VIDEO'" controls>
