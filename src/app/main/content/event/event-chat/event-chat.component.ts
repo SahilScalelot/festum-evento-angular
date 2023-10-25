@@ -191,6 +191,19 @@ export class EventChatComponent implements OnInit {
     this.showEmojiPicker = false;
   }
 
+  onChange(event: any): any {
+    if (event.target.files.length > 0) {
+      const attachment = event.target.files[0];
+      if (attachment != undefined) {
+        if (attachment.type != 'image/jpeg' && attachment.type != 'image/jpg' && attachment.type != 'image/png' && attachment.type != 'image/gif' && attachment.type != 'image/avif' && attachment.type != 'image/raw') {
+          this._sNotify.error('Images type should only jpeg, jpg, png, gif, avif and raw.', 'Oops!');
+          return false;
+        }
+        console.log(attachment)
+      }
+    }
+  }
+
   sendChatMessage(message: any = ''): void {
     if (message && message != '' && message.trim() != '') {
       this.isLoading = true;
