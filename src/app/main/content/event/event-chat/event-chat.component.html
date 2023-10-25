@@ -69,8 +69,11 @@
                                 <strong class="text-sm text-[#2E363F] text-clip overflow-hidden max-w-[230px]" *ngIf="msg.contentType === 'text'">{{msg?.content?.text?.message}}</strong>
                                 <ng-container *ngIf="msg.contentType === 'media'">
                                     <img *ngIf="msg?.content?.media?.type === 'IMG'" [src]="!!(msg?.content) && msg?.content?.media?.path !== '' ? constants?.baseImageURL + msg.content.media.path : constants?.defaultImage" [alt]="msg?.content?.media?.name" />
-                                    <video *ngIf="msg?.content?.media?.type === 'VIDEO'" controls>
-                                       <source [src]="!!(msg?.content) && msg?.content?.media?.path !== '' ? constants?.baseImageURL + msg.content.media.path : constants?.defaultImage" type="video/mp4">
+                                    <audio *ngIf="msg?.content?.media?.type === 'AUD'" controls="controls" id="audioPreview">
+                                        <source [src]="msg?.content?.media?.path" type="audio/mp4" />
+                                    </audio>
+                                    <video *ngIf="msg?.content?.media?.type === 'VID'" controls>
+                                       <source [src]="msg?.content?.media?.path !== ''" type="video/mp4">
                                     </video>
                                     <strong class="text-sm text-[#2E363F] text-ellipsis whitespace-nowrap overflow-hidden max-w-[530px]" *ngIf="msg?.content?.media?.type === 'DOC'">{{msg?.content?.media?.name}}</strong>
                                 </ng-container>
@@ -90,8 +93,11 @@
                                 <strong class="text-sm text-white text-clip overflow-hidden" *ngIf="msg.contentType === 'text'">{{msg?.content?.text?.message}}</strong>
                                 <ng-container *ngIf="msg.contentType === 'media'">
                                     <img *ngIf="msg?.content?.media?.type === 'IMG'" [src]="!!(msg?.content) && msg?.content?.media?.path !== '' ? constants?.baseImageURL + msg.content.media.path : constants?.defaultImage" [alt]="msg?.content?.media?.name" />
-                                    <video *ngIf="msg?.content?.media?.type === 'VIDEO'" controls>
-                                        <source [src]="!!(msg?.content) && msg?.content?.media?.path !== '' ? constants?.baseImageURL + msg.content.media.path : constants?.defaultImage" type="video/mp4">
+                                    <audio *ngIf="msg?.content?.media?.type === 'AUD'" controls="controls" id="utooAudioPreview">
+                                        <source [src]="msg?.content?.media?.path" type="audio/mp4" />
+                                    </audio>
+                                    <video *ngIf="msg?.content?.media?.type === 'VID'" controls>
+                                        <source [src]="msg?.content?.media?.path !== ''" type="video/mp4">
                                     </video>
                                     <strong class="text-sm text-white" *ngIf="msg?.content?.media?.type === 'DOC'">{{msg?.content?.media?.name}}</strong>
                                 </ng-container>

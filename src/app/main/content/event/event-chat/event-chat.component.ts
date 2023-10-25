@@ -17,6 +17,7 @@ export class EventChatComponent implements OnInit {
   @ViewChild('messageInput') messageInput: any;
 
   constants: any = CONSTANTS;
+  allowedContentTypes: any = CONSTANTS.allowedContentTypes;
   isLoadingUser: boolean = false;
   isLoadingMessages: boolean = false;
   isLoading: boolean = false;
@@ -192,14 +193,19 @@ export class EventChatComponent implements OnInit {
   }
 
   onChange(event: any): any {
-    if (event.target.files.length > 0) {
-      const attachment = event.target.files[0];
-      if (attachment != undefined) {
-        if (attachment.type != 'image/jpeg' && attachment.type != 'image/jpg' && attachment.type != 'image/png' && attachment.type != 'image/gif' && attachment.type != 'image/avif' && attachment.type != 'image/raw') {
-          this._sNotify.error('Images type should only jpeg, jpg, png, gif, avif and raw.', 'Oops!');
-          return false;
-        }
-        console.log(attachment)
+    const attachmentFile = event.target.files[0];
+    if (attachmentFile) {
+      const fileExtension = attachmentFile.name.split('.').pop().toLowerCase();
+      const fileType = attachmentFile.type;
+      const isValidFileType = this.allowedContentTypes.some((contentType: any) =>
+          (contentType.extn === fileExtension && contentType.mimeType === fileType)
+      );
+
+      if (isValidFileType) {
+        console.log('File is valid');
+      } else {
+        this._sNotify.error('Invalid file type', 'Oops!');
+        return false;
       }
     }
   }
