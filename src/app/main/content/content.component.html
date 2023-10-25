@@ -321,7 +321,72 @@
         <div class="right-top-menu flex items-center space-x-1">
            <a href="javascript:void(0);" class="block hover:text-spiroDiscoBall anim" title="QR Scanner" (click)="openScannerModel()"><span class="icon-scanner text-2xl block"></span></a>
           <a href="javascript:void(0);" class="block hover:text-spiroDiscoBall anim" title="language" (click)="openLanguageModel()"><span class="icon-language text-2xl block"></span></a>
+          <!-- Start Chat Notification -->
+          <div class="relative group ">
+            <a href="javascript:void(0);" class="relative inline-flex items-center px-3 py-1.5 text-sm font-medium text-center">
+              <span class="icon-massage text-2xl block"></span>
+              <div class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full top-0 right-[2px] dark:border-gray-900">{{chatNotificationLength.length}}</div>
+            </a>
+            <div class="absolute top-full right-0 pt-3 hidden group-hover:block">
+              <span class="absolute top-2 right-5 w-3 h-3 bg-white shadow-md border rotate-45"></span>
+              <span class="absolute top-2 right-5 w-2.5 h-2.5 bg-white m-px z-10 rotate-45"></span>
+              <div class="relative shadow-md rounded-md bg-white border p-2.5">
+                <div class="py-2 notification">
 
+                  <div class="list" *ngIf="chatMessages.length > 0" >
+                    <div *ngFor="let cms of chatMessages">
+
+                      <a *ngIf="cms.type === 'event'" [routerLink]="['/events', cms.entityid]" class="flex items-center px-4 py-3 border-b hover:bg-gray-100 -mx-2">
+                        <img [src]="!!(cms?.banner) ? constants.baseImageURL + cms.banner : constants.defaultImage" alt="{{cms?.banner}}" class="h-8 w-8 rounded-full object-cover mx-1"/>
+                        <p class="text-gray-600 text-sm mx-2">
+                          {{cms?.message}} <span class="decoration-1">{{cms?.timestamp | dateAgo}}</span>
+                        </p>
+                      </a>
+                      <a *ngIf="cms.type === 'livetsream'" [routerLink]="['/live-stream', cms.entityid]" class="flex items-center px-4 py-3 border-b hover:bg-gray-100 -mx-2">
+                        <img [src]="!!(cms?.banner) ? constants.baseImageURL + cms.banner : constants.defaultImage" alt="{{cms?.banner}}" class="h-8 w-8 rounded-full object-cover mx-1"/>
+                        <p class="text-gray-600 text-sm mx-2">
+                          {{cms?.message}} {{cms?.timestamp | dateAgo}}
+                        </p>
+                      </a>
+                      <a *ngIf="cms.type === 'shop'" [routerLink]="['/offline-shops', cms.entityid]" class="flex items-center px-4 py-3 border-b hover:bg-gray-100 -mx-2">
+                        <img [src]="!!(cms?.banner) ? constants.baseImageURL + cms.banner : constants.defaultImage" alt="{{cms?.banner}}" class="h-8 w-8 rounded-full object-cover mx-1"/>
+                        <p class="text-gray-600 text-sm mx-2">
+                          {{cms?.message}} <span class="font-medium">{{cms?.timestamp | dateAgo}}</span>
+                        </p>
+                      </a>
+                      <a *ngIf="cms.type === 'onlineoffer'" [routerLink]="['/online-offers', cms.entityid]" class="flex items-center px-4 py-3 border-b hover:bg-gray-100 -mx-2">
+                        <img [src]="!!(cms?.banner) ? constants.baseImageURL + cms.banner : constants.defaultImage" alt="{{cms?.banner}}" class="h-8 w-8 rounded-full object-cover mx-1"/>
+                        <p class="text-gray-600 text-sm mx-2">
+                          {{cms?.message}} {{cms?.timestamp | dateAgo}}
+                        </p>
+                      </a>
+                      <a *ngIf="cms.type === 'offlineoffer'" [routerLink]="'/offline-shops/'+cms.shopid+'/offer-overview/'+cms.entityid" class="flex items-center px-4 py-3 border-b hover:bg-gray-100 -mx-2">
+                        <img [src]="!!(cms?.banner) ? constants.baseImageURL + cms.banner : constants.defaultImage" alt="{{cms?.banner}}" class="h-8 w-8 rounded-full object-cover mx-1"/>
+                        <p class="text-gray-600 text-sm mx-2">
+                          {{cms?.message}} {{cms?.timestamp | dateAgo}}
+                        </p>
+                      </a>
+                      <a *ngIf="cms.type === 'fcoin'" [routerLink]="['/redeem']" class="flex items-center px-4 py-3 border-b hover:bg-gray-100 -mx-2">
+                        <img [src]="!!(cms?.banner) ? constants.baseImageURL + cms.banner : constants.defaultImage" alt="{{cms?.banner}}" class="h-8 w-8 rounded-full object-cover mx-1"/>
+                        <p class="text-gray-600 text-sm mx-2">
+                          {{cms?.message}} {{cms?.timestamp | dateAgo}}
+                        </p>
+                      </a>
+                    </div>
+                  </div>
+                  <div class="no-list" *ngIf="chatMessages.length === 0">
+                    <div class="flex items-center justify-center empty">
+                      <p class="block text-black py-2">{{ 'No Chat Notifications' | translate }}</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex items-center justify-center">
+                  <a href="javascript:void(0);" [routerLink]="'#'" class="block text-black font-bold py-2">{{ 'See All Chat Notifications' | translate }}</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End Chat Notification -->
            <!--<a href="javascript:void(0);" class="block hover:text-spiroDiscoBall anim" title="message"><span class="icon-massage text-2xl block"></span></a>-->
            <a href="javascript:void(0);" [routerLink]="'promotions'" class="block hover:text-spiroDiscoBall anim" title="promotions" ><span class="icon-megaphone text-2xl block"></span></a>
           <a href="javascript:void(0);" class="block hover:text-spiroDiscoBall anim" title="QR Code" (click)="openBarcode()">

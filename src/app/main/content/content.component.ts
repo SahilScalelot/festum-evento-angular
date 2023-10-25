@@ -42,8 +42,10 @@ export class ContentComponent implements OnInit, OnDestroy {
   public qrCodeDownloadLink: SafeUrl = "";
   public isNotification: boolean = false;
   public messages: any = [];
+  public chatMessages: any = [];
   public organiser: any;
   public notificationLength: any = [];
+  public chatNotificationLength: any = [];
 
   constructor(
     private _sNotify: SnotifyService,
@@ -124,6 +126,7 @@ export class ContentComponent implements OnInit, OnDestroy {
     });
 
     this.getNotificationListData();
+    this.getChatNotificationList();
     //this.SocketioService.joinChannel(this.channelId);
 
     // this.SocketioService.listenToAnyEvent((eventName: string, data: any) => {
@@ -277,6 +280,20 @@ export class ContentComponent implements OnInit, OnDestroy {
     this._contentService.getNotificationList(data).subscribe((result: any) => {
       if (result && result.IsSuccess) {
         this.messages = this._globalFunctions.copyObject(result.Data.docs);
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+    });
+  }
+
+  getChatNotificationList() {
+    let data = {page: 1, limit: 5};
+    this.chatMessages = [];
+    this._contentService.getChatNotificationList(data).subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        this.chatMessages = this._globalFunctions.copyObject(result.Data.docs);
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
       }

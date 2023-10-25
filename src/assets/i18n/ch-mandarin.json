@@ -27,6 +27,10 @@
       "Logout": "登出",
       "Notifications": "通知",
       "NotificationTitle": "通知",
+      "No Notifications": "无通知",
+      "See All Notifications": "查看所有通知",
+      "No Chat Notifications": "无聊天通知",
+      "See All Chat Notifications": "查看所有聊天通知",
       "Language": "语",
 
       "Create New Event": "创建新事件",

@@ -20,6 +20,11 @@ export class ContentService {
     return this.http.post(environment.appURL + 'organizer/alertnotification', data, this._globalFunctions.getAuthorizationHeader());
   }
 
+  // Chat Notification List
+  getChatNotificationList(data: any = {}): any {
+    return this.http.post(environment.appURL + 'organizer/chatnotification', data, this._globalFunctions.getAuthorizationHeader());
+  }
+
   getScannedFCoinUser(data: any = {}): any {
     return this.http.post(environment.appURL + 'organizer/fcoin/getuser', data, this._globalFunctions.getAuthorizationHeader());
   }
