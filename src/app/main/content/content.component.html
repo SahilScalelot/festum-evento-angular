@@ -336,42 +336,13 @@
                   <div class="list" *ngIf="chatMessages.length > 0" >
                     <div *ngFor="let cms of chatMessages">
 
-                      <a *ngIf="cms.type === 'event'" [routerLink]="['/events', cms.entityid]" class="flex items-center px-4 py-3 border-b hover:bg-gray-100 -mx-2">
+                      <a  [routerLink]="['/events/chat', cms.entityid]" class="flex items-center px-4 py-3 border-b hover:bg-gray-100 -mx-2">
                         <img [src]="!!(cms?.banner) ? constants.baseImageURL + cms.banner : constants.defaultImage" alt="{{cms?.banner}}" class="h-8 w-8 rounded-full object-cover mx-1"/>
                         <p class="text-gray-600 text-sm mx-2">
                           {{cms?.message}} <span class="decoration-1">{{cms?.timestamp | dateAgo}}</span>
                         </p>
                       </a>
-                      <a *ngIf="cms.type === 'livetsream'" [routerLink]="['/live-stream', cms.entityid]" class="flex items-center px-4 py-3 border-b hover:bg-gray-100 -mx-2">
-                        <img [src]="!!(cms?.banner) ? constants.baseImageURL + cms.banner : constants.defaultImage" alt="{{cms?.banner}}" class="h-8 w-8 rounded-full object-cover mx-1"/>
-                        <p class="text-gray-600 text-sm mx-2">
-                          {{cms?.message}} {{cms?.timestamp | dateAgo}}
-                        </p>
-                      </a>
-                      <a *ngIf="cms.type === 'shop'" [routerLink]="['/offline-shops', cms.entityid]" class="flex items-center px-4 py-3 border-b hover:bg-gray-100 -mx-2">
-                        <img [src]="!!(cms?.banner) ? constants.baseImageURL + cms.banner : constants.defaultImage" alt="{{cms?.banner}}" class="h-8 w-8 rounded-full object-cover mx-1"/>
-                        <p class="text-gray-600 text-sm mx-2">
-                          {{cms?.message}} <span class="font-medium">{{cms?.timestamp | dateAgo}}</span>
-                        </p>
-                      </a>
-                      <a *ngIf="cms.type === 'onlineoffer'" [routerLink]="['/online-offers', cms.entityid]" class="flex items-center px-4 py-3 border-b hover:bg-gray-100 -mx-2">
-                        <img [src]="!!(cms?.banner) ? constants.baseImageURL + cms.banner : constants.defaultImage" alt="{{cms?.banner}}" class="h-8 w-8 rounded-full object-cover mx-1"/>
-                        <p class="text-gray-600 text-sm mx-2">
-                          {{cms?.message}} {{cms?.timestamp | dateAgo}}
-                        </p>
-                      </a>
-                      <a *ngIf="cms.type === 'offlineoffer'" [routerLink]="'/offline-shops/'+cms.shopid+'/offer-overview/'+cms.entityid" class="flex items-center px-4 py-3 border-b hover:bg-gray-100 -mx-2">
-                        <img [src]="!!(cms?.banner) ? constants.baseImageURL + cms.banner : constants.defaultImage" alt="{{cms?.banner}}" class="h-8 w-8 rounded-full object-cover mx-1"/>
-                        <p class="text-gray-600 text-sm mx-2">
-                          {{cms?.message}} {{cms?.timestamp | dateAgo}}
-                        </p>
-                      </a>
-                      <a *ngIf="cms.type === 'fcoin'" [routerLink]="['/redeem']" class="flex items-center px-4 py-3 border-b hover:bg-gray-100 -mx-2">
-                        <img [src]="!!(cms?.banner) ? constants.baseImageURL + cms.banner : constants.defaultImage" alt="{{cms?.banner}}" class="h-8 w-8 rounded-full object-cover mx-1"/>
-                        <p class="text-gray-600 text-sm mx-2">
-                          {{cms?.message}} {{cms?.timestamp | dateAgo}}
-                        </p>
-                      </a>
+
                     </div>
                   </div>
                   <div class="no-list" *ngIf="chatMessages.length === 0">
