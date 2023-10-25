@@ -108,6 +108,7 @@ export class EventChatComponent implements OnInit {
   selectUser(index: number, user: any): void {
     this.selectedIndex = index;
     this.selectedUser = user;
+    this.currentPage = 1;
     console.log(this.selectedUser);
     this.messages = [];
     this.getChatListForUser();
@@ -217,6 +218,8 @@ export class EventChatComponent implements OnInit {
         this._globalFunctions.errorHanding(error, this, true);
         this.isLoading = false;
       });
+    } else {
+      this._sNotify.error('please enter message.', 'Oops');
     }
   }
 

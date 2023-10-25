@@ -72,6 +72,7 @@
                                     <video *ngIf="msg?.content?.media?.type === 'VIDEO'" controls>
                                        <source [src]="!!(msg?.content) && msg?.content?.media?.path !== '' ? constants?.baseImageURL + msg.content.media.path : constants?.defaultImage" type="video/mp4">
                                     </video>
+                                    <strong class="text-sm text-[#2E363F]" *ngIf="msg?.content?.media?.type === 'DOC'">{{msg?.content?.media?.name}}</strong>
                                 </ng-container>
                             </div>
                             <span class="block absolute top-4 left-full -translate-x-1/2 rotate-45 w-3 h-3 bg-[#D1D1D1]"></span>
@@ -92,6 +93,7 @@
                                     <video *ngIf="msg?.content?.media?.type === 'VIDEO'" controls>
                                         <source [src]="!!(msg?.content) && msg?.content?.media?.path !== '' ? constants?.baseImageURL + msg.content.media.path : constants?.defaultImage" type="video/mp4">
                                     </video>
+                                    <strong class="text-sm text-white" *ngIf="msg?.content?.media?.type === 'DOC'">{{msg?.content?.media?.name}}</strong>
                                 </ng-container>
                             </div>
                             <span class="block absolute top-4 right-full translate-x-1/2 rotate-45 w-3 h-3 bg-[#FE4D5F]"></span>
