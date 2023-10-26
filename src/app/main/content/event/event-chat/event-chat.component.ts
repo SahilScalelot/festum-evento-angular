@@ -114,6 +114,7 @@ export class EventChatComponent implements OnInit {
     console.log(this.selectedUser);
     this.messages = [];
     this.getChatListForUser();
+    this.scrollToBottom();
   }
   onScroll() {
     //alert("scrolled!!");
@@ -124,7 +125,7 @@ export class EventChatComponent implements OnInit {
     this.getChatListForUser();
   }
   getChatListForUser() {
-    if (!this.isLoadingMessages && Object.keys(this.selectedUser).length) {
+    if (!this.isLoadingMessages && this.hasMoreRecords && Object.keys(this.selectedUser).length) {
       this.isLoadingMessages = true;
       const data: any = {
             eventid: this.eventId,
@@ -228,7 +229,7 @@ export class EventChatComponent implements OnInit {
       this._eventService.sendChatMessage(data).subscribe((result: any) => {
         if (result && result.IsSuccess) {
           console.log(result?.Data);
-          this.messages.push(result?.Data);
+          this.messages.unshift(result?.Data);
           this.messageInput.nativeElement.value = "";
           this.isLoading = false;
           setTimeout(() => {
