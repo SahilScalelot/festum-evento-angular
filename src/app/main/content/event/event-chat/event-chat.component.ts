@@ -110,11 +110,10 @@ export class EventChatComponent implements OnInit {
   selectUser(index: number, user: any): void {
     this.selectedIndex = index;
     this.selectedUser = user;
-    this.currentPage = 1;
     console.log(this.selectedUser);
     this.messages = [];
+    this.currentPage = 1;
     this.getChatListForUser();
-    this.scrollToBottom();
   }
   onScroll() {
     //alert("scrolled!!");
@@ -125,7 +124,7 @@ export class EventChatComponent implements OnInit {
     this.getChatListForUser();
   }
   getChatListForUser() {
-    if (!this.isLoadingMessages && this.hasMoreRecords && Object.keys(this.selectedUser).length) {
+    if (!this.isLoadingMessages  && Object.keys(this.selectedUser).length) {
       this.isLoadingMessages = true;
       const data: any = {
             eventid: this.eventId,
@@ -142,6 +141,10 @@ export class EventChatComponent implements OnInit {
           } else {
             this.messages = [...this.messages, ...result.Data.docs];
             this.isLoadingMessages = false;
+            if (this.currentPage === 1) {
+              this.scrollToBottom();
+              alert('ok');
+            }
             this.currentPage++;
           }
         } else {
