@@ -530,7 +530,20 @@ export class AddEditShopDialogComponent implements OnInit, OnDestroy {
   }
 
   isContinueClick(): void {
-    console.log(this.addShopForm.value);
+    //console.log(this.addShopForm.value);
+    this.addShopForm.value.shop_days.forEach((item: any) => {
+      //console.log(item);
+      if (moment(item.starttime, moment.ISO_8601, true).isValid()) {
+        //console.log("is start date!");
+        item.starttime = moment(item.starttime).format('hh:mm A');
+      }
+      if (moment(item.endtime, moment.ISO_8601, true).isValid()) {
+        //console.log("is end date!");
+        item.endtime = moment(item.endtime).format('hh:mm A');
+      }
+    });
+
+    //console.log(this.addShopForm.value);
     if (this.addShopForm.invalid) {
       Object.keys(this.addShopForm.controls).forEach((key) => {
         this.addShopForm.controls[key].touched = true;
@@ -551,7 +564,7 @@ export class AddEditShopDialogComponent implements OnInit, OnDestroy {
       const openControl = control.get('open').value;
       const startTimeControl = control.get('starttime');
       const endTimeControl = control.get('endtime');
-      console.log(openControl);
+      //console.log(openControl);
       if (openControl) {
         startTimeControl.setValidators([Validators.required]);
         endTimeControl.setValidators([Validators.required]);
@@ -624,6 +637,7 @@ export class AddEditShopDialogComponent implements OnInit, OnDestroy {
     preparedShopObj.dial_code = preparedShopObj.country_wise_contact?.dialCode || '';
     const contactNumber = preparedShopObj.country_wise_contact?.e164Number || '';
     preparedShopObj.contact_number = contactNumber.replace(preparedShopObj.dial_code, '') || '';
+    //console.log(preparedShopObj);
     return preparedShopObj;
   }
 
@@ -648,9 +662,20 @@ export class AddEditShopDialogComponent implements OnInit, OnDestroy {
       return;
     }
     this.isLoading = true;
-    
-    const preparedShopObj: any = this.prepareShopObj(this.addShopForm.value);   
-    console.log("621",preparedShopObj);
+    //console.log(this.addShopForm.value);
+    const preparedShopObj: any = this.prepareShopObj(this.addShopForm.value);
+    preparedShopObj.shop_days.forEach((item: any) => {
+      //console.log('in last moment');
+      if (moment(item.starttime, moment.ISO_8601, true).isValid()) {
+        //console.log("is start date!");
+        item.starttime = moment(item.starttime).format('hh:mm A');
+      }
+      if (moment(item.endtime, moment.ISO_8601, true).isValid()) {
+        //console.log("is end date!");
+        item.endtime = moment(item.endtime).format('hh:mm A');
+      }
+    });
+    //console.log("621",preparedShopObj);
      
     this._offlineShopsService.addEditOfflineShop(preparedShopObj).subscribe((result: any) => {
       if (result && result.IsSuccess) {
@@ -680,6 +705,14 @@ export class AddEditShopDialogComponent implements OnInit, OnDestroy {
     const dayArray = this.addShopForm.get('shop_days') as FormArray;
 
     existingDays.forEach(item => {
+      // if (Object.prototype.toString.call(item.starttime) === '[object Date]' && !isNaN(item.starttime)) {
+      //   console.log("is date!");
+      //   item.starttime = moment(item.starttime).format('hh:mm A');
+      // }
+      // if (Object.prototype.toString.call(item.endtime) === '[object Date]' && !isNaN(item.endtime)) {
+      //   console.log("is date!");
+      //   item.endtime = moment(item.endtime).format('hh:mm A');
+      // }
       const dayGroup = this._formBuilder.group({
         day: item.day,
         open: item.open,
