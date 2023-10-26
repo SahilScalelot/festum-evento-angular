@@ -26,6 +26,7 @@ export class EventChatComponent implements OnInit {
   messages: any = [];
   selectedIndex: number | null = null;
   selectedUser: any = {};
+  selectedFile: any;
 
   showEmojiPicker: boolean = false;
 
@@ -116,6 +117,10 @@ export class EventChatComponent implements OnInit {
   }
   onScroll() {
     //alert("scrolled!!");
+    //this.getChatListForUser();
+  }
+  onScrollUp() {
+    console.log("scrolled up!!");
     this.getChatListForUser();
   }
   getChatListForUser() {
@@ -203,6 +208,7 @@ export class EventChatComponent implements OnInit {
 
       if (isValidFileType) {
         console.log('File is valid');
+        //this.selectedFile = {attachmentFile, previewUrl: this.getPreviewUrl(attachmentFile)};
       } else {
         this._sNotify.error('Invalid file type', 'Oops!');
         return false;
@@ -242,6 +248,38 @@ export class EventChatComponent implements OnInit {
     }
   }
 
+  getPreviewUrl(file: File) {
+    // Determine the file type and return a suitable preview URL or icon
+    if (this.isImage(file)) {
+      return URL.createObjectURL(file);
+    } else if (this.isVideo(file)) {
+      return URL.createObjectURL(file);
+    } else if (this.isAudio(file)) {
+      return URL.createObjectURL(file);
+    } else if (this.isDocument(file)) {
+      // You can return a link to the document preview or an icon
+      return 'https://example.com/document-icon.png';
+    }
+
+    return null;
+  }
+  isImage(file: File) {
+    return file.type.startsWith('image/');
+  }
+
+  isVideo(file: File) {
+    return file.type.startsWith('video/');
+  }
+
+  isAudio(file: File) {
+    return file.type.startsWith('audio/');
+  }
+
+  isDocument(file: File) {
+    // Implement logic to check if the file is a document (e.g., PDF, Word)
+    // You can use the file extension or MIME type for this check
+    return file.type === 'application/pdf' || file.type === 'application/msword';
+  }
   scrollToBottom(): void {
     try {
       this.messageScrollContainer.nativeElement.scrollTop = this.messageScrollContainer.nativeElement.scrollHeight;
