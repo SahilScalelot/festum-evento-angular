@@ -115,6 +115,7 @@ export class EventChatComponent implements OnInit {
     console.log(this.selectedUser);
     this.messages = [];
     this.currentPage = 1;
+    this.clearFilePreview();
     this.getChatListForUser();
   }
   onScroll() {
@@ -222,19 +223,26 @@ export class EventChatComponent implements OnInit {
   }
 
   sendChatMessage(message: any = ''): void {
-    if (message && message != '' && message.trim() != '') {
+    //console.log(this.selectedUser);
+    if(Object.keys(this.selectedUser).length === 0){
+      this._sNotify.error('please select user.', 'Oops');
+      return;
+    }
+    if (message && message != '' || this.selectedFile !== undefined) {
       this.isLoading = true;
-      const data: any = {
-        eventid: this.eventId,
-        userid: this.selectedUser.userid._id,
-        message: message.trim(),
-        file: ""
-      };
-      this._eventService.sendChatMessage(data).subscribe((result: any) => {
+      const posterFormData = new FormData();
+      posterFormData.append('eventid', this.eventId);
+      posterFormData.append('userid', Object.keys(this.selectedUser).length !== 0 ? this.selectedUser.userid._id : "");
+      posterFormData.append('message', message != '' ? message.trim() : "");
+      posterFormData.append('file', this.selectedFile !== undefined ? this.selectedFile.attachmentFile : "");
+
+      //console.log(posterFormData);
+      this._eventService.sendChatMessage(posterFormData).subscribe((result: any) => {
         if (result && result.IsSuccess) {
-          console.log(result?.Data);
+          //console.log(result?.Data);
           this.messages.unshift(result?.Data);
           this.messageInput.nativeElement.value = "";
+          this.clearFilePreview();
           this.isLoading = false;
           setTimeout(() => {
             this.scrollToBottom();
@@ -254,7 +262,7 @@ export class EventChatComponent implements OnInit {
   }
 
   getPreviewUrl(file: File) {
-    console.log(file)
+    //console.log(file)
     // Determine the file type and return a suitable preview URL or icon
     if (file.type.startsWith('image/')) {
       this.filePreview.nativeElement.innerHTML = `<img src="${URL.createObjectURL(file)}" alt="Image Preview" />`;
@@ -270,6 +278,9 @@ export class EventChatComponent implements OnInit {
     }
 
     return null;
+  }
+  clearFilePreview() {
+    this.filePreview.nativeElement.innerHTML = '';
   }
 
   scrollToBottom(): void {
