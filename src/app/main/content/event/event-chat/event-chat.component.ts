@@ -13,6 +13,7 @@ import { SnotifyService } from 'ng-snotify';
   styleUrls: ['./event-chat.component.scss']
 })
 export class EventChatComponent implements OnInit {
+  @ViewChild('scrollUser') private userScrollContainer: any;
   @ViewChild('scrollMessage') private messageScrollContainer: any;
   @ViewChild('messageInput') messageInput: any;
   @ViewChild('imagePreview') imagePreview: any;
@@ -31,6 +32,10 @@ export class EventChatComponent implements OnInit {
   selectedFile: any;
 
   showEmojiPicker: boolean = false;
+
+  currentPageUser: number = 1;
+  pageSizeUser: number = 10;
+  hasMoreUsers: boolean = true;
 
   currentPage: number = 1;
   pageSize: number = 10;
@@ -52,27 +57,29 @@ export class EventChatComponent implements OnInit {
     this.getEventUserList();
   }
 
-  getEventUserList(event: any = ''): void {
-    this.isLoadingUser = true;
-    const page = event ? (event.page + 1) : 1;
-    const filter: any = {
+  getEventUserList(): void {
+    if (!this.isLoadingUser) {
+      const filter: any = {
         eventid: this.eventId,
-        page : page || '1',
-        limit : event?.rows || '10',
+        page: this.currentPageUser,
+        limit: this.pageSizeUser,
         search: ""
-    };
-    this._eventService.getEventUserList(filter).subscribe((result: any) => {
-      if (result && result.IsSuccess) {
-        console.log(result);
-        this.users = result.Data;
-      } else {
-        this._globalFunctions.successErrorHandling(result, this, true);
-      }
-      this.isLoadingUser = false;
-    }, (error: any) => {
-      this._globalFunctions.errorHanding(error, this, true);
-      this.isLoadingUser = false;
-    });
+      };
+      this._eventService.getEventUserList(filter).subscribe((result: any) => {
+        if (result.Data.length === 0) {
+          this.hasMoreUsers = false;
+          this.isLoadingUser = false;
+        } else {
+          this.users = [...this.users, ...result.Data];
+          this.isLoadingMessages = false;
+          this.currentPageUser++;
+        }
+        this.isLoadingUser = false;
+      }, (error: any) => {
+        this._globalFunctions.errorHanding(error, this, true);
+        this.isLoadingUser = false;
+      });
+    }
   }
 
   formatDate(timestamp: number): any {
@@ -118,6 +125,11 @@ export class EventChatComponent implements OnInit {
     this.clearFilePreview();
     this.getChatListForUser();
   }
+
+  onScrollUser() {
+    alert("User scrolled!!");
+    this.getEventUserList();
+  }
   onScroll() {
     //alert("scrolled!!");
     //this.getChatListForUser();
@@ -137,7 +149,7 @@ export class EventChatComponent implements OnInit {
       };
       this._eventService.getChatMessagesByUser(data).subscribe((result: any) => {
         if (result && result.IsSuccess) {
-          console.log(result);
+         // console.log(result);
           if (result.Data.docs.length === 0) {
             this.hasMoreRecords = false;
             this.isLoadingMessages = false;
@@ -213,7 +225,7 @@ export class EventChatComponent implements OnInit {
       );
 
       if (isValidFileType) {
-        console.log('File is valid');
+        //console.log('File is valid');
         this.selectedFile = {attachmentFile, previewUrl: this.getPreviewUrl(attachmentFile)};
       } else {
         this._sNotify.error('Invalid file type', 'Oops!');
