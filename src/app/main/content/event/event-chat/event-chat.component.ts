@@ -15,6 +15,8 @@ import { SnotifyService } from 'ng-snotify';
 export class EventChatComponent implements OnInit {
   @ViewChild('scrollMessage') private messageScrollContainer: any;
   @ViewChild('messageInput') messageInput: any;
+  @ViewChild('imagePreview') imagePreview: any;
+  @ViewChild('filePreview') filePreview: ElementRef;
 
   constants: any = CONSTANTS;
   allowedContentTypes: any = CONSTANTS.allowedContentTypes;
@@ -143,7 +145,6 @@ export class EventChatComponent implements OnInit {
             this.isLoadingMessages = false;
             if (this.currentPage === 1) {
               this.scrollToBottom();
-              alert('ok');
             }
             this.currentPage++;
           }
@@ -212,7 +213,7 @@ export class EventChatComponent implements OnInit {
 
       if (isValidFileType) {
         console.log('File is valid');
-        //this.selectedFile = {attachmentFile, previewUrl: this.getPreviewUrl(attachmentFile)};
+        this.selectedFile = {attachmentFile, previewUrl: this.getPreviewUrl(attachmentFile)};
       } else {
         this._sNotify.error('Invalid file type', 'Oops!');
         return false;
@@ -253,37 +254,24 @@ export class EventChatComponent implements OnInit {
   }
 
   getPreviewUrl(file: File) {
+    console.log(file)
     // Determine the file type and return a suitable preview URL or icon
-    if (this.isImage(file)) {
-      return URL.createObjectURL(file);
-    } else if (this.isVideo(file)) {
-      return URL.createObjectURL(file);
-    } else if (this.isAudio(file)) {
-      return URL.createObjectURL(file);
-    } else if (this.isDocument(file)) {
+    if (file.type.startsWith('image/')) {
+      this.filePreview.nativeElement.innerHTML = `<img src="${URL.createObjectURL(file)}" alt="Image Preview" />`;
+    } else if (file.type.startsWith('video/')) {
+      const blob = new Blob([file], { type: file.type });
+      this.filePreview.nativeElement.innerHTML = `<video src="${URL.createObjectURL(blob)}" controls></video>`;
+    } else if (file.type.startsWith('audio/')) {
+      const blob = new Blob([file], { type: file.type });
+      this.filePreview.nativeElement.innerHTML = `<audio src="${URL.createObjectURL(blob)}" controls></audio>`;
+    } else if (file.type.startsWith('*/')) {
       // You can return a link to the document preview or an icon
       return 'https://example.com/document-icon.png';
     }
 
     return null;
   }
-  isImage(file: File) {
-    return file.type.startsWith('image/');
-  }
 
-  isVideo(file: File) {
-    return file.type.startsWith('video/');
-  }
-
-  isAudio(file: File) {
-    return file.type.startsWith('audio/');
-  }
-
-  isDocument(file: File) {
-    // Implement logic to check if the file is a document (e.g., PDF, Word)
-    // You can use the file extension or MIME type for this check
-    return file.type === 'application/pdf' || file.type === 'application/msword';
-  }
   scrollToBottom(): void {
     try {
       this.messageScrollContainer.nativeElement.scrollTop = this.messageScrollContainer.nativeElement.scrollHeight;
