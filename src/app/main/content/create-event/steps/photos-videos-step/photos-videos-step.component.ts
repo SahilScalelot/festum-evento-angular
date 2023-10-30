@@ -56,7 +56,7 @@ export class PhotosVideosStepComponent implements OnInit {
   photosUploadLimit: number = 15;
   rejectedPhotosList: any;
   imagesFiles: File[] = [];
-  videosUploadLimit: number = 2;
+  videosUploadLimit: number = 10;
   rejectedVideosList: any;
   videosFiles: File[] = [];
   descriptionLimit: any = 0;
@@ -241,8 +241,8 @@ export class PhotosVideosStepComponent implements OnInit {
   openUploadVideoDialog(): void {
     this.descriptionLimit = 0;
     this.videosNgForm.resetForm();
-    if (this.posterImageAndVideoObj.videos && this.posterImageAndVideoObj.videos.length && this.posterImageAndVideoObj.videos.length >= 2) {
-      this._sNotify.error('Maximum 2 videos can upload!', 'Oops!');
+    if (this.posterImageAndVideoObj.videos && this.posterImageAndVideoObj.videos.length && this.posterImageAndVideoObj.videos.length >= 10) {
+      this._sNotify.error('Maximum 10 videos can upload!', 'Oops!');
     } else {
       this._modalService.open('video');
     }
@@ -413,8 +413,8 @@ export class PhotosVideosStepComponent implements OnInit {
           return;
         }
 
-        if (this.posterImageAndVideoObj.videos && this.posterImageAndVideoObj.videos.length && this.posterImageAndVideoObj.videos.length >= 2) {
-          this._sNotify.error('Maximum 2 videos can upload!', 'Oops!');
+        if (this.posterImageAndVideoObj.videos && this.posterImageAndVideoObj.videos.length && this.posterImageAndVideoObj.videos.length >= 10) {
+          this._sNotify.error('Maximum 10 videos can upload!', 'Oops!');
           return;
         }
 

@@ -298,7 +298,7 @@ export const CONSTANTS = {
   maxPosterSizeInMB: 10,
   maxImageSizeInMB: 7,
   maxIconSizeInKB: 500,
-  maxVideoSizeInMB: 256,
+  maxVideoSizeInMB: 128,
   maxCompanyVideoSizeInMB: 2,
   defaultMapZoom: 12,
   latitude: 21.228125,

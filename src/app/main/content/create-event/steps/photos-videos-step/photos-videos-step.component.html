@@ -45,7 +45,7 @@
   </div>
   <div class="media-upload-holder">
     <div class="flex items-center justify-between">
-      <span class="text-sm text-quicksilver font-semibold">Add Video <span class="font-normal">(2 videos - up to 256MB/Video)</span></span>
+      <span class="text-sm text-quicksilver font-semibold">Add Video <span class="font-normal">(10 videos - up to 128MB/Video)</span></span>
       <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(posterImageAndVideoObj.videos, false, false)">{{'View all' | translate }}</a>
     </div>
     <div class="flex space-x-2.5 h-full pt-2">
@@ -61,7 +61,7 @@
       </div>
       <app-image-and-video-preview *ngIf="isOpenPopup" (openClosePopup)="closePop($event)" [isSingleVideo]="isSingleVideo" [isImageOrVideoFlag]="isImage" [isCompanyImagesAndVideo]="companyIAndV" [expectedProp]="imagesOrVideosArr"></app-image-and-video-preview>
       <!-- *ngIf="videoArr.i <= 2" -->
-      <div (click)="openUploadVideoDialog()" class="upload-holder" *ngIf="posterImageAndVideoObj.videos.length < 2">
+      <div (click)="openUploadVideoDialog()" class="upload-holder" *ngIf="posterImageAndVideoObj.videos.length < 10">
         <label class="upload-photo" for="event-upload1">
           <!-- <input type="file" id="photo" name="photo" (change)="onFileChange($event, 'photo')" id="event-upload1" class="appearance-none hidden" accept="image/png, image/jpeg, image/gif" /> -->
           <i class="icon-video_upload text-base text-quicksilver"></i>
@@ -160,13 +160,13 @@
 <modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="video" title="Upload video" *ngIf="videoForm">
   <form #videosNgForm="ngForm" [formGroup]="videoForm" class="py-6 space-y-5">
     <div class="upload-holder- w-full">
-      <h6 class="input-titel text-sm font-bold text-quicksilver flex items-center">Select video <p class="text-10 ml-2"> ( {{ 2 - posterImageAndVideoObj.videos.length}} videos - up to 256MB/Video)</p></h6>
+      <h6 class="input-titel text-sm font-bold text-quicksilver flex items-center">Select video <p class="text-10 ml-2"> ( {{ 10 - posterImageAndVideoObj.videos.length}} videos - up to 128MB/Video)</p></h6>
       <!-- <label class="upload upload-popup py-3" for="create-video-upload">
         <input accept="video/mp4" class="appearance-none hidden" id="create-video-upload" name="images" type="file" (change)="readURL($event);"/>
         <span class="input-titel flex justify-center items-center"><i class="icon-video_upload text-lg mr-2 leading-none"></i> {{inputText ? inputText : 'Choose Video'}}</span>
       </label> -->
       <div class="block">
-        <ngx-dropzone #dropzoneVideos class="flex-wrap" (change)="onSelectVideos($event)" [maxFileSize]="4294967296" accept="video/mp4,video/x-m4v,video/*">
+        <ngx-dropzone #dropzoneVideos class="flex-wrap" (change)="onSelectVideos($event)" [maxFileSize]="134217728" accept="video/mp4,video/x-m4v,video/*">
           <ngx-dropzone-label>Drop videos here</ngx-dropzone-label>
           <ngx-dropzone-video-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of videosFiles" [file]="f" [removable]="true" (removed)="onRemoveVideos(f)"></ngx-dropzone-video-preview>
         </ngx-dropzone>
@@ -191,10 +191,10 @@
 <modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="videoEdit" title="Edit Video">
     <form #videoEditForm="ngForm" [formGroup]="videoUpdateForm" class="py-6 space-y-5">
         <div class="upload-holder- w-full">
-            <h6 class="input-titel text-sm font-bold text-quicksilver flex items-center">Select Video <p class="text-10 ml-2">(up to 256MB)</p></h6>
+            <h6 class="input-titel text-sm font-bold text-quicksilver flex items-center">Select Video <p class="text-10 ml-2">(up to 128MB)</p></h6>
 
             <label class="upload upload-popup p-0 relative group" id="editVideoUpload">
-                <input #editVideo (change)="onEditVideoChange($event)" accept="video/mp4,video/x-m4v,video/*" data-max-file-size="256M" class="editVideo hidden" id="editVideo" type="file" />
+                <input #editVideo (change)="onEditVideoChange($event)" accept="video/mp4,video/x-m4v,video/*" data-max-file-size="128M" class="editVideo hidden" id="editVideo" type="file" />
             </label>
 
         </div>
