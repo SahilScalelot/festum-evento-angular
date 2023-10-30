@@ -44,7 +44,7 @@
         </div>
     </div>
     <div class="w-full h-[784px] bg-[#F6F7FB] shadow-[0px_0px_10px_0px_rgba(0,0,0,0.25)] rounded-md overflow-hidden">
-        <div class="relative w-full flex items-center bg-white shadow-[0px_4px_4px_0px_rgba(0,0,0,0.08)] cursor-pointer py-4 px-5 z-20">
+        <div *ngIf="(selectedUser | json) != ({} | json)" class="relative w-full flex items-center bg-white shadow-[0px_4px_4px_0px_rgba(0,0,0,0.08)] cursor-pointer py-4 px-5 z-20">
             <div class="w-[60px] h-[60px] rounded-full overflow-hidden">
                 <img [src]="!!(selectedUser?.userid) && selectedUser.userid.profilepic !== '' ? constants?.baseImageURL + selectedUser.userid.profilepic : constants?.defaultImage" [alt]="selectedUser?.userid?.name" class="w-full object-cover"/>
             </div>
@@ -69,7 +69,8 @@
              (scrolledUp)="onScrollUp()"
              [scrollWindow]="false">
             <p-progressSpinner *ngIf="isLoadingMessages" [style]="{width: '50px', height: '50px'}" animationDuration=".5s" strokeWidth="8" class="bg-opacity-25 inset-x-0 top-0 h-full w-full z-40" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
-            <div class="flex items-center" *ngIf="!isLoadingMessages && !messages.length">No Message</div>
+            <div class="flex items-center" *ngIf="!isLoadingMessages && !messages.length && (selectedUser | json) != ({} | json)">No Message</div>
+            <div class="flex items-center" *ngIf="(selectedUser | json) == ({} | json)">Please Select User for Chat</div>
             <!--<div class="text-center mt-8" *ngIf="!hasMoreRecords">-->
                 <!--<p>{{ 'No More Records' | translate }}.</p>-->
             <!--</div>-->
