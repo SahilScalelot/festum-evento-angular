@@ -45,6 +45,7 @@ import { AgmCoreModule } from '@agm/core';
 import { PaginatorModule } from "primeng/paginator";
 import { DateAgoPipe } from 'src/app/pipe/date-ago.pipe';
 import { NotificationsComponent } from './notifications/notifications.component';
+import { ChatNotificationsComponent } from './chat-notifications/chat-notifications.component';
 
 
 const routes: Routes = [
@@ -69,7 +70,8 @@ const routes: Routes = [
     SearchComponent,
     MyPostsComponent,
     DateAgoPipe,
-    NotificationsComponent
+    NotificationsComponent,
+    ChatNotificationsComponent
   ],
   imports: [
     RouterModule.forChild(routes),

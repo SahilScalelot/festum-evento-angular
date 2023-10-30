@@ -22,6 +22,7 @@ import { PrivacyPolicyUserComponent } from './main/common/privacy-policy-user/pr
 import { SearchComponent } from './main/content/search/search.component';
 import { MyPostsComponent } from './main/content/my-posts/my-posts.component';
 import { NotificationsComponent } from './main/content/notifications/notifications.component';
+import { ChatNotificationsComponent } from './main/content/chat-notifications/chat-notifications.component';
 
 const routes: Routes = [
 
@@ -153,6 +154,10 @@ const routes: Routes = [
       {
         path: 'notifications',
         component: NotificationsComponent
+      },
+      {
+        path: 'chat-notifications',
+        component: ChatNotificationsComponent
       }
     ]
   },
