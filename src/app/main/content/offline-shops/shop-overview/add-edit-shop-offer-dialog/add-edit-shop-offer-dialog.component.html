@@ -2,7 +2,7 @@
 <div class="space-y-5 relative">
   <form #offerNgForm="ngForm" [formGroup]="addEditOfferForm" class="p-ngCss">
     <span (click)="closeAddEditOfferDialog();" class="absolute right-0 -top-14 mt-1 cursor-pointer text-xl"><i class="icon-close"></i></span>
-    <div *ngIf="!isTAndC && !isAddUserWiseOffers">
+    <div *ngIf="!isTAndC && !isAddUserWiseOffers && !con">
       <div class="flex flex-wrap items-end -mx-2">
         <div class="w-full lg:w-1/2 px-2 pt-5 inputHolder relative">
           <span class="input-titel">Offer Title <span>*</span></span>
@@ -87,27 +87,57 @@
           </span>
         </span>
       </div>
-      <div class="flex items-start pt-9">
+      <!-- <div class="flex items-start pt-9">
         <p-checkbox name="offer_on_all_products" [value]="'true'" formControlName="offer_on_all_products" (onChange)="onSelectOfferOnAllProduct($event)"></p-checkbox>
         <div class="ml-4">
           <span class="block text-base text-black font-bold">Select if you have offer on all products</span>
           <span class=" text-sm text-quicksilver">Don't select if you have offer on specific products</span>
         </div>
-      </div>
+      </div> -->
       
+      <!-- Btn Continue -->
+      <div class="flex justify-end pt-5">
+        <button class="secondary py-3 px-12 uppercase text-lg font-bold" [disabled]="isLoading || isUploadPosterLoading || isUploadVideoLoading || isUploadImageLoading" (click)="onContinueClick()">
+          {{(isLoading || isUploadPosterLoading || isUploadVideoLoading || isUploadImageLoading) ? 'Please Wait..' : 'Continue'}}
+          <!-- Continue -->
+        </button>
+      </div>
+    </div>
+    
+    <div *ngIf="con">
+      <!-- <div class="flex items-start pt-9">
+        <p-checkbox name="offer_on_all_products" [value]="'true'" formControlName="offer_on_all_products" (onChange)="onSelectOfferOnAllProduct($event)"></p-checkbox>
+        <div class="ml-4">
+          <span class="block text-base text-black font-bold">Select if you have offer on all products</span>
+          <span class=" text-sm text-quicksilver">Don't select if you have offer on specific products</span>
+        </div>
+      </div> -->
+      <!-- (change)="onOfferTypeChange()" -->
+      <div class="w-full pt-5 inputHolder">
+        <span class="input-titel">Select Offer Type</span>
+        <select name="offer_on_all_products" [formControlName]="'offer_on_all_products'" (change)="onSelectOfferOnAllProduct($event)" 
+                class="arrow bg-white py-3 text-japaneseIndigo font-bold rounded-md tracking-wider appearance-none focus-visible:outline-none">
+          <option [value]="true">Offer On All Product</option>
+          <option [value]="false">Offer On Specific Product</option>
+        </select>
+      </div>
+    </div>
+
+    <div *ngIf="abcd">
+
       <!-- Offer On Shop All Products -->
-      <div class="" *ngIf="offerOnAllProducts && offerOnAllProducts.value && (offerOnAllProducts.value[0] == 'true' || offerOnAllProducts?.value[0] == true)">
+      <div class="" >
         <div class="flex items-center pt-3 relative">
           <div *ngFor="let item of offerImageArray;let i =index" class="upload-box mr-2.5 mb-2.5">
             <label for="image-upload-{{i}}" class="upload-photo"
-                   *ngIf="!allProductImages.value || !allProductImages.value.length || !allProductImages.value[i]">
+                    *ngIf="!allProductImages.value || !allProductImages.value.length || !allProductImages.value[i]">
               <input type="file" accept="image/png, image/jpeg, image/gif" name="image-upload-{{i}}" id="image-upload-{{i}}"
-                     class="appearance-none hidden" (change)="onFileChange($event)" />
+                      class="appearance-none hidden" (change)="onFileChange($event)" />
               <i class="icon-img_upload text-base text-quicksilver"></i>
               <div class="mt-1 flex items-baseline justify-center"><span class="input-titel pt-1">Add Photos</span></div>
             </label>
             <div class="rounded relative overflow-hidden h-full w-full"
-                 *ngIf="allProductImages.value && allProductImages.value.length && allProductImages.value[i] && allProductImages.value[i].url">
+                  *ngIf="allProductImages.value && allProductImages.value.length && allProductImages.value[i] && allProductImages.value[i].url">
               <img [alt]="'add-photo-' + i" [src]="!!(allProductImages?.value[i]?.url) ? constants.baseImageURL + allProductImages.value[i].url : constants.defaultImage" class="object-cover w-full h-full"/>
               <button (click)="removeImage(i)">Remove</button>
             </div>
@@ -153,8 +183,8 @@
                 <label for="" class="flex items-center w-full bg-white p-2 px-3.5 rounded-md">
                   <div class="w-full pr-4">
                     <input type="number" class="w-full outline-none text-spiroDiscoBall font-bold text-base capitalize" [formControlName]="'discount'"
-                           [placeholder]="productOfferObj && productOfferObj.value && productOfferObj.value.discount_type" [min]="0"
-                           [max]="(productOfferObj?.value?.discount_type == constants.discountTypeArr[constants.discountTypeObj.percentage].value) ? 100 : positiveMaxNumber" fuseValidNumber/>
+                            [placeholder]="productOfferObj && productOfferObj.value && productOfferObj.value.discount_type" [min]="0"
+                            [max]="(productOfferObj?.value?.discount_type == constants.discountTypeArr[constants.discountTypeObj.percentage].value) ? 100 : positiveMaxNumber" fuseValidNumber/>
                   </div>
                   <div class="selectPrice flex items-center space-x-3">
                     <label *ngFor="let discountType of constants.discountTypeArr" class="block cursor-pointer">
@@ -185,15 +215,13 @@
           </div>
         </div>
       </div>
-      <!-- Btn Continue -->
       <div class="flex justify-end pt-5">
-        <button class="secondary py-3 px-12 uppercase text-lg font-bold" [disabled]="isLoading || isUploadPosterLoading || isUploadVideoLoading || isUploadImageLoading" (click)="onContinueClick()">
+        <button class="secondary py-3 px-12 uppercase text-lg font-bold" [disabled]="isLoading || isUploadPosterLoading || isUploadVideoLoading || isUploadImageLoading" (click)="onContinueClick1()">
           {{(isLoading || isUploadPosterLoading || isUploadVideoLoading || isUploadImageLoading) ? 'Please Wait..' : 'Continue'}}
           <!-- Continue -->
         </button>
       </div>
     </div>
-    
     <div *ngIf="isAddUserWiseOffers">
       <div class="w-full pt-5 inputHolder">
         <span class="input-titel">Select Offer Type</span>

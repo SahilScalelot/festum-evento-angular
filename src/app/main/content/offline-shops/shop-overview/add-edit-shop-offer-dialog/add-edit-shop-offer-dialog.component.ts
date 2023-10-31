@@ -39,7 +39,10 @@ export class AddEditShopOfferDialogComponent implements OnInit {
   successfully: boolean = false;
 
   get offerOnAllProducts(): any {
+    console.log(this.addEditOfferForm.get('offer_on_all_products'));
+    
     return this.addEditOfferForm.get('offer_on_all_products');
+    // return this.addEditOfferForm.get('offer_on_all_products').setValue(this.offerOnAllProducts.value[0]);
   }
   get allProductConditions(): any {
     return this.addEditOfferForm.get('all_product_conditions') as FormArray;
@@ -140,9 +143,14 @@ export class AddEditShopOfferDialogComponent implements OnInit {
   }
 
   onSelectOfferOnAllProduct(event: any = {}): void {
-    if (event.checked && event.checked.length && event.checked[0] && event.checked[0] == 'true') {
+    
+    if (event.target.value && event.target.value.length && (event.target.value == 'true' || event.target.value == true )) {
+      this.abcd = true;
+      this.isAddUserWiseOffers = false;
       this.addProductLimitation();
     } else {
+      this.isAddUserWiseOffers = true;
+      this.abcd = false;
       this.allProductConditions.clear();
     }
   }
@@ -226,9 +234,27 @@ export class AddEditShopOfferDialogComponent implements OnInit {
     }
     return true;
   }
+  con:any=false;
+  abcd:any=false;
+  onContinueClick():any {
+    this.isTAndC = false;
+    this.con = true;
+    // this.isAddUserWiseOffers = true;
+    debugger
+    this.addEditOfferForm.get('offer_on_all_products').setValue(this.offerOnAllProducts.value[0]);
+    if(this.offerOnAllProducts.value == true || this.offerOnAllProducts.value == 'true'){
+      this.abcd=true;
+      this.isAddUserWiseOffers = false;
+    }else{
+      this.abcd=false;
+      this.isAddUserWiseOffers = true;
+    }
+    this.flagsEvent.emit({isTAndC: this.isTAndC, isAddUserWiseOffers: this.isAddUserWiseOffers});
+  }
 
-  onContinueClick(): any {
-    const isForTAndC: boolean = !!(this.offerOnAllProducts && this.offerOnAllProducts.value && this.offerOnAllProducts.value.length && this.offerOnAllProducts.value[0] == 'true');
+  onContinueClick1(): any {
+    const isForTAndC: boolean = !!(this.offerOnAllProducts && this.offerOnAllProducts.value);
+    
     if (!this.checkValidation(isForTAndC)) {
       return false;
     }
@@ -236,6 +262,8 @@ export class AddEditShopOfferDialogComponent implements OnInit {
       this.addEditOfferForm.get('tandc').setValidators([Validators.required]);
       this.addEditOfferForm.get('tandc').updateValueAndValidity();
       this.isTAndC = true;
+      this.abcd = false;
+      this.con = false
       this.isAddUserWiseOffers = false;
     } else {
       if (!this.offerObj || !this.offerObj.offer_type_conditions || !this.offerObj.offer_type_conditions.length) { 
@@ -248,7 +276,7 @@ export class AddEditShopOfferDialogComponent implements OnInit {
   }
 
   onSaveAndContinueClick(): any {
-    const isForTAndC: boolean = !!(this.offerOnAllProducts && this.offerOnAllProducts.value && this.offerOnAllProducts.value.length && this.offerOnAllProducts.value[0] == 'true');
+    const isForTAndC: boolean = !!(this.offerOnAllProducts && this.offerOnAllProducts.value && this.offerOnAllProducts.value.length && this.offerOnAllProducts.value == 'true');
     if (!this.checkValidation(isForTAndC, true)) {
       return false;
     }
@@ -257,19 +285,22 @@ export class AddEditShopOfferDialogComponent implements OnInit {
     this.addEditOfferForm.get('tandc').updateValueAndValidity();
     this.isTAndC = true;
     this.isAddUserWiseOffers = false;
+    this.con=false
     this.flagsEvent.emit({isTAndC: this.isTAndC, isAddUserWiseOffers: this.isAddUserWiseOffers});
   }
 
   prepareOfferObj(offerObj: any): any {
+    // debugger
     const preparedOfferObj: any = this._globalFunctions.copyObject(offerObj);
     preparedOfferObj.start_date = moment(offerObj.start_date).format('YYYY-MM-DD');
     preparedOfferObj.end_date = moment(offerObj.end_date).format('YYYY-MM-DD');
-    preparedOfferObj.offer_on_all_products = (offerObj && offerObj.offer_on_all_products && offerObj.offer_on_all_products.length  && (offerObj.offer_on_all_products[0] == 'true' || offerObj.offer_on_all_products[0] == true));
+    preparedOfferObj.offer_on_all_products = (offerObj && offerObj.offer_on_all_products && offerObj.offer_on_all_products.length  && (offerObj.offer_on_all_products[0] == 'true' || offerObj.offer_on_all_products[0] == true || offerObj.offer_on_all_products == 'true' || offerObj.offer_on_all_products == true  ));
     return preparedOfferObj;
   }
 
   addEditOffer(): any {
-    const isForTAndC: boolean = !!(this.offerOnAllProducts && this.offerOnAllProducts.value && this.offerOnAllProducts.value.length && this.offerOnAllProducts.value[0] == 'true');
+    // debugger
+    const isForTAndC: boolean = !!(this.offerOnAllProducts && (this.offerOnAllProducts.value  && ( this.offerOnAllProducts.value[0] == 'true' || this.offerOnAllProducts.value == 'true')));
     if (!this.checkValidation(isForTAndC, true)) {
       return false;
     }
@@ -571,6 +602,7 @@ export class AddEditShopOfferDialogComponent implements OnInit {
   }
 
   private _prepareOfferForm(offerObj: any = {}): void {
+    // debuggeru
     this.addEditOfferForm = this._formBuilder.group({
       shopid: [this.shopId || ''],
       offerid: [this.offerId || ''],
@@ -581,7 +613,7 @@ export class AddEditShopOfferDialogComponent implements OnInit {
       video: [offerObj?.video || ''],
       description: [offerObj?.description || '', [Validators.required]],
       status: [offerObj?.status || false],
-      offer_on_all_products: [(offerObj.offer_on_all_products) ? [offerObj.offer_on_all_products.toString()] : ''],
+      offer_on_all_products: [(offerObj.offer_on_all_products) ? [offerObj.offer_on_all_products.toString()] : ['false']],
       all_product_images: [(offerObj.all_product_images && offerObj.all_product_images.length) ? offerObj.all_product_images : []],
       all_product_conditions: this._formBuilder.array([]),
       offer_type: [offerObj?.offer_type || CONSTANTS.offerTypeArr[CONSTANTS.offerTypeObj.unlimited].value],
