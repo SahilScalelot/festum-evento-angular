@@ -71,7 +71,7 @@ export class EventChatComponent implements OnInit {
           this.isLoadingUser = false;
         } else {
           this.users = [...this.users, ...result.Data];
-          this.isLoadingMessages = false;
+          this.isLoadingUser = false;
           this.currentPageUser++;
         }
         this.isLoadingUser = false;
