@@ -14,6 +14,7 @@ export class ChatNotificationsComponent implements OnInit {
   constants: any = CONSTANTS;
   isLoading: boolean = false;
   paging: any;
+  userid:any;
   constructor(private _router: Router,
               private _globalFunctions: GlobalFunctions,
               private _chatNotificationsService: ChatNotificationsService) { }

@@ -5,29 +5,53 @@
             <a href="javascript:void(0);" class="flex items-center">
                 <h2>{{'Chat Notifications' | translate }}</h2>
             </a>
-
         </div>
 
         <div class="space-y-2.5">
-            <!--<div class="bg-white p-5 rounded-md" *ngFor="let notification of notificationObj">-->
-                <!--<div class="flex justify-between items-start">-->
-                    <!--<div class="relative w-full md:max-w-[68px]">-->
-                        <!--<img [src]="!!(notification?.banner) ? constants.baseImageURL + notification.banner : constants.defaultImage" alt="{{notification?.banner}}" class="h-16 w-16 rounded-full object-cover mx-1"/>-->
-                    <!--</div>-->
-                    <!--<div class="pl-5 w-full md:max-w-[clac(100%-128px)]">-->
-                        <!--<div class="flex justify-between">-->
-                            <!--<h5>{{notification?.title}}</h5>-->
-                            <!--<a href="javascript:void(0);"><i class="icon-more font-bold text-base"></i></a>-->
-                        <!--</div>-->
-                        <!--<p class="text-gray-400 text-base pt-3 font-medium" [innerHTML]="notification?.message"></p>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
+            <div *ngFor="let chatNotification of chatNotificationObj" class="w-full flex bg-white rounded-xl px-4 py-2.5">
+                <div class="w-16 h-16 bg-slate-200 rounded-full overflow-hidden">
+                    <img [src]="!!(chatNotification?.banner) ? constants.baseImageURL + chatNotification.banner : constants.defaultImage" alt="" class="w-full h-full object-cover">
+                </div>
+                <div class="w-[calc(100%-64px)] pl-4">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <span class="block text-lg font-semibold">{{chatNotification.newmsg.userid.name}}&nbsp;/&nbsp;</span>
+                            <span class="block text-sm font-semibold text-black/50">{{chatNotification.title}}</span>
+                        </div>
+                        <div class="flex items-center">
+                            <!-- <span class="block text-xs font-medium">10:00 am&nbsp;&nbsp;-&nbsp;&nbsp;</span> -->
+                            <span class="block text-xs font-medium">{{chatNotification?.timestamp | date:'dd MMM, yyyy  hh:mm a'}}</span>
+                        </div>
+                    </div>
+                    <p class="mt-2">{{chatNotification.message}}</p>
+                </div>
+            </div>
 
-            <!--<p *ngIf="!isLoading && !notificationObj?.length">{{'No Records Found' | translate }}.</p>-->
-            <!--<div class="flex flex-wrap items-center justify-center" *ngIf="notificationObj && notificationObj?.length">-->
-                <!--<p-paginator [rows]="paging?.limit" [totalRecords]="paging?.totalDocs" [rowsPerPageOptions]="[10, 20, 30, 40, 50]" (onPageChange)="getNotificationList($event)"></p-paginator>-->
-            <!--</div>-->
+            <p *ngIf="!isLoading && !chatNotificationObj?.length">{{'No Records Found' | translate }}.</p>
+            <div class="flex flex-wrap items-center justify-center" *ngIf="chatNotificationObj && chatNotificationObj?.length">
+                <p-paginator [rows]="paging?.limit" [totalRecords]="paging?.totalDocs" [rowsPerPageOptions]="[10, 20, 30, 40, 50]" (onPageChange)="getChatNotificationList($event)"></p-paginator>
+            </div>
         </div>
+        
     </div>
 </div>
+
+<!-- <div class="bg-white p-5 rounded-md" *ngFor="let notification of notificationObj">
+    <div class="flex justify-between items-start">
+        <div class="relative w-full md:max-w-[68px]">
+            <img [src]="!!(notification?.banner) ? constants.baseImageURL + notification.banner : constants.defaultImage" alt="{{notification?.banner}}" class="h-16 w-16 rounded-full object-cover mx-1"/>
+        </div>
+        <div class="pl-5 w-full md:max-w-[clac(100%-128px)]">
+            <div class="flex justify-between">
+                <h5>{{notification?.title}}</h5>
+                <a href="javascript:void(0);"><i class="icon-more font-bold text-base"></i></a>
+            </div>
+            <p class="text-gray-400 text-base pt-3 font-medium" [innerHTML]="notification?.message"></p>
+        </div>
+    </div>
+</div> -->
+
+<!--<p *ngIf="!isLoading && !notificationObj?.length">{{'No Records Found' | translate }}.</p>-->
+<!--<div class="flex flex-wrap items-center justify-center" *ngIf="notificationObj && notificationObj?.length">-->
+    <!--<p-paginator [rows]="paging?.limit" [totalRecords]="paging?.totalDocs" [rowsPerPageOptions]="[10, 20, 30, 40, 50]" (onPageChange)="getNotificationList($event)"></p-paginator>-->
+<!--</div>-->
