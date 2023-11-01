@@ -68,12 +68,17 @@
              (scrolled)="onScroll()"
              (scrolledUp)="onScrollUp()"
              [scrollWindow]="false">
-            <p-progressSpinner *ngIf="isLoadingMessages" [style]="{width: '50px', height: '50px'}" animationDuration=".5s" strokeWidth="8" class="bg-opacity-25 inset-x-0 top-0 h-full w-full z-40" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
+            <div *ngIf="isLoadingMessages" class="w-full flex justify-center items-center">
+                <div class="chat-loader bg-[#FE4D5F] rounded-full inline-flex p-2">
+                    <mat-progress-spinner color="white" [diameter]="22" [mode]="'indeterminate'" class="mx-auto"></mat-progress-spinner>
+                    <span class="text-sm text-white ml-[1px] px-4">Loading...</span>
+                </div>
+            </div>
             <div class="flex items-center" *ngIf="!isLoadingMessages && !messages.length && (selectedUser | json) != ({} | json)">No Message</div>
             <div class="flex items-center" *ngIf="(selectedUser | json) == ({} | json)">Please Select User for Chat</div>
-            <!--<div class="text-center mt-8" *ngIf="!hasMoreRecords">-->
-                <!--<p>{{ 'No More Records' | translate }}.</p>-->
-            <!--</div>-->
+            <div class="text-center mt-8" *ngIf="!hasMoreRecords">
+                <p>{{ 'No More Records' | translate }}.</p>
+            </div>
             <div class="flex flex-col mt-4" *ngFor="let msg of messages.slice().reverse()">
                 <div *ngIf="msg.chatflow === 'otou'" class="max-w-2xl w-full flex justify-end ml-auto">
                     <div class="mb-2">

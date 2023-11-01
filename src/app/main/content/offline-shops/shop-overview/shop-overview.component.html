@@ -65,8 +65,8 @@
             <div *ngIf="shopObj?.about_shop" class="p-7 bg-white rounded-md space-y-1">
               <h3 class="text-lg">{{'About Shop' | translate }}</h3>
               <div [innerHtml]="(tandcShowA) ? shopObj?.about_shop : shopObj?.about_shop | slice:0:180"></div>
-              <a href="javascript:;" (click)="tandcShowA=true" *ngIf="!tandcShowA && shopObj?.about_shop.length > 180" class="text-magicPotion text-sm font-semibold ml-auto">...Read More</a>
-              <a href="javascript:;" (click)="tandcShowA=false" *ngIf="tandcShowA && shopObj?.about_shop.length > 180" class="text-magicPotion text-sm font-semibold ml-auto">...Read Less</a>
+              <a href="javascript:;" (click)="tandcShowA=true" *ngIf="!tandcShowA && shopObj?.about_shop.length > 180" class="text-magicPotion text-sm font-semibold ml-auto">...{{'readMore' | translate }}</a>
+              <a href="javascript:;" (click)="tandcShowA=false" *ngIf="tandcShowA && shopObj?.about_shop.length > 180" class="text-magicPotion text-sm font-semibold ml-auto">...{{'readLess' | translate }}</a>
               <!-- <p class="text-quicksilver text-sm font-normal">{{shopObj.about_shop}}</p> -->
             </div>
             <!-- Rainy season sale -->
