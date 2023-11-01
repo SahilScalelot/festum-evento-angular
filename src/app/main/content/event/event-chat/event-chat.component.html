@@ -68,12 +68,18 @@
              (scrolled)="onScroll()"
              (scrolledUp)="onScrollUp()"
              [scrollWindow]="false">
-            <p-progressSpinner *ngIf="isLoadingMessages" [style]="{width: '50px', height: '50px'}" animationDuration=".5s" strokeWidth="8" class="bg-opacity-25 inset-x-0 top-0 h-full w-full z-40" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
+            <!--<p-progressSpinner *ngIf="isLoadingMessages" [style]="{width: '50px', height: '50px'}" animationDuration=".5s" strokeWidth="8" class="bg-opacity-25 inset-x-0 top-0 h-full w-full z-40" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>-->
+            <div *ngIf="isLoadingMessages" class="w-full flex justify-center items-center">
+                <div class="chat-loader bg-[#FE4D5F] rounded-full inline-flex p-2">
+                    <mat-progress-spinner color="white" [diameter]="22" [mode]="'indeterminate'" class="mx-auto"></mat-progress-spinner>
+                    <span class="text-sm text-white ml-[1px] px-4">Loading...</span>
+                </div>
+            </div>
             <div class="flex items-center" *ngIf="!isLoadingMessages && !messages.length && (selectedUser | json) != ({} | json)">No Message</div>
             <div class="flex items-center" *ngIf="(selectedUser | json) == ({} | json)">Please Select User for Chat</div>
-            <!--<div class="text-center mt-8" *ngIf="!hasMoreRecords">-->
-                <!--<p>{{ 'No More Records' | translate }}.</p>-->
-            <!--</div>-->
+            <div class="text-center mt-8" *ngIf="!hasMoreRecords">
+                <p>{{ 'No More Records' | translate }}.</p>
+            </div>
             <div class="flex flex-col mt-4" *ngFor="let msg of messages.slice().reverse()">
                 <div *ngIf="msg.chatflow === 'otou'" class="max-w-2xl w-full flex justify-end ml-auto">
                     <div class="mb-2">
@@ -150,8 +156,8 @@
                 </div>
             </div>
         </div>
-        <div class="relative w-full flex flex-col bg-white shadow-[0px_-3px_4px_0px_rgba(0,0,0,0.08)] p-5 z-20 h-[244px]">
-            <div #filePreview id="filePreview" class="file-preview w-full flex h-[210px]"></div>
+        <div class="relative w-full flex flex-col bg-white shadow-[0px_-3px_4px_0px_rgba(0,0,0,0.08)] p-5 z-20" [ngClass]="{'h-[244px]' : (tempSendImgVideo)}">
+            <div #filePreview id="filePreview" class="file-preview w-full flex" [ngClass]="{'h-[210px]' : (tempSendImgVideo)}"></div>
             <div class="w-full flex items-center">
                 <div class="relative flex items-center ml-3">
                     <button class="pr-2" (click)="toggleEmojiPicker()">
