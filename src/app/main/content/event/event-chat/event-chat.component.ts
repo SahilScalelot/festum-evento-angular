@@ -277,7 +277,7 @@ export class EventChatComponent implements OnInit {
     //console.log(file)
     // Determine the file type and return a suitable preview URL or icon
     if (file.type.startsWith('image/')) {
-      this.filePreview.nativeElement.innerHTML = `<img src="${URL.createObjectURL(file)}" alt="Image Preview" />`;
+      this.filePreview.nativeElement.innerHTML = `<img src="${URL.createObjectURL(file)}" alt="Image Preview" width="150" height="150"/>`;
     } else if (file.type.startsWith('video/')) {
       const blob = new Blob([file], { type: file.type });
       this.filePreview.nativeElement.innerHTML = `<video src="${URL.createObjectURL(blob)}" controls></video>`;
@@ -292,7 +292,10 @@ export class EventChatComponent implements OnInit {
     return null;
   }
   clearFilePreview() {
-    this.filePreview.nativeElement.innerHTML = '';
+    console.log(this.filePreview);
+    if(this.filePreview !== undefined) {
+      this.filePreview.nativeElement.innerHTML = '';
+    }
   }
 
   scrollToBottom(): void {
