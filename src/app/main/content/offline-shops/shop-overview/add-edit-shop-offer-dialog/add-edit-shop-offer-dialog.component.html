@@ -53,6 +53,7 @@
       </div>
 
       <!-- <div class="flex flex-wrap items-end -mx-2"> -->
+        
         <div class="upload-holder w-full md:w-1/2 h-full px-2 pt-5 relative">
           <span class="text-sm text-quicksilver font-semibold">Add Poster <span class="font-normal input-titel inline-block">(Max File size 10MB & Resolution Must be (1080PX x 780PX))<span>*</span></span></span>
           <p-progressSpinner *ngIf="isUploadPosterLoading" [style]="{width: '50px', height: '50px'}" animationDuration=".5s" strokeWidth="8" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-x-0 top-0 h-full w-full z-40" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
@@ -87,14 +88,7 @@
           </span>
         </span>
       </div>
-      <!-- <div class="flex items-start pt-9">
-        <p-checkbox name="offer_on_all_products" [value]="'true'" formControlName="offer_on_all_products" (onChange)="onSelectOfferOnAllProduct($event)"></p-checkbox>
-        <div class="ml-4">
-          <span class="block text-base text-black font-bold">Select if you have offer on all products</span>
-          <span class=" text-sm text-quicksilver">Don't select if you have offer on specific products</span>
-        </div>
-      </div> -->
-      <!-- Btn Continue -->
+
       <div class="flex justify-end pt-5">
         <button class="secondary py-3 px-12 uppercase text-lg font-bold" [disabled]="isLoading || isUploadPosterLoading || isUploadVideoLoading || isUploadImageLoading" (click)="onContinueClick()">
           {{(isLoading || isUploadPosterLoading || isUploadVideoLoading || isUploadImageLoading) ? 'Please Wait..' : 'Continue'}}
@@ -121,7 +115,6 @@
         </select>
       </div>
     </div>
-
     <div *ngIf="abcd">
 
       <!-- Offer On Shop All Products -->
@@ -325,7 +318,7 @@
       </div>
       <div class="flex justify-between pt-5">
         <button class="flex items-center" type="button" (click)="closeEditOfferProductDialog();">
-          <i class="icon-left_arrow mr-3"></i><h5>back</h5>
+          <!-- <i class="icon-left_arrow mr-3"></i><h5>back</h5> -->
         </button>
         <button (click)="onSaveAndContinueClick()" class="secondary py-3 px-5 uppercase text-lg font-bold">Save and Continue</button>
       </div>

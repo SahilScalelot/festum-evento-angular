@@ -43,7 +43,7 @@
            <p>{{ 'No More Records' | translate }}.</p>
         </div>
     </div>
-    <div class="w-full h-[784px] bg-[#F6F7FB] shadow-[0px_0px_10px_0px_rgba(0,0,0,0.25)] rounded-md overflow-hidden">
+    <div class="flex flex-col w-full h-[784px] bg-[#F6F7FB] shadow-[0px_0px_10px_0px_rgba(0,0,0,0.25)] rounded-md overflow-hidden">
         <div *ngIf="(selectedUser | json) != ({} | json)" class="relative w-full flex items-center bg-white shadow-[0px_4px_4px_0px_rgba(0,0,0,0.08)] cursor-pointer py-4 px-5 z-20">
             <div class="w-[60px] h-[60px] rounded-full overflow-hidden">
                 <img [src]="!!(selectedUser?.userid) && selectedUser.userid.profilepic !== '' ? constants?.baseImageURL + selectedUser.userid.profilepic : constants?.defaultImage" [alt]="selectedUser?.userid?.name" class="w-full object-cover"/>
@@ -61,24 +61,19 @@
                 </ul>
             </div>
         </div>
-        <div #scrollMessage class="w-full h-[calc(100%-72px-92px)] overflow-y-auto p-5 pr-7" infiniteScroll
+        <div #scrollMessage class="w-full h-full overflow-y-auto p-5 pr-7" infiniteScroll
              [infiniteScrollDistance]="2"
              [infiniteScrollThrottle]="50"
              [fromRoot]="false"
              (scrolled)="onScroll()"
              (scrolledUp)="onScrollUp()"
              [scrollWindow]="false">
-            <div *ngIf="isLoadingMessages" class="w-full flex justify-center items-center">
-                <div class="chat-loader bg-[#FE4D5F] rounded-full inline-flex p-2">
-                    <mat-progress-spinner color="white" [diameter]="22" [mode]="'indeterminate'" class="mx-auto"></mat-progress-spinner>
-                    <span class="text-sm text-white ml-[1px] px-4">Loading...</span>
-                </div>
-            </div>
+            <p-progressSpinner *ngIf="isLoadingMessages" [style]="{width: '50px', height: '50px'}" animationDuration=".5s" strokeWidth="8" class="bg-opacity-25 inset-x-0 top-0 h-full w-full z-40" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
             <div class="flex items-center" *ngIf="!isLoadingMessages && !messages.length && (selectedUser | json) != ({} | json)">No Message</div>
             <div class="flex items-center" *ngIf="(selectedUser | json) == ({} | json)">Please Select User for Chat</div>
-            <div class="text-center mt-8" *ngIf="!hasMoreRecords">
-                <p>{{ 'No More Records' | translate }}.</p>
-            </div>
+            <!--<div class="text-center mt-8" *ngIf="!hasMoreRecords">-->
+                <!--<p>{{ 'No More Records' | translate }}.</p>-->
+            <!--</div>-->
             <div class="flex flex-col mt-4" *ngFor="let msg of messages.slice().reverse()">
                 <div *ngIf="msg.chatflow === 'otou'" class="max-w-2xl w-full flex justify-end ml-auto">
                     <div class="mb-2">
@@ -155,24 +150,27 @@
                 </div>
             </div>
         </div>
-        <div class="relative w-full flex items-center bg-white shadow-[0px_-3px_4px_0px_rgba(0,0,0,0.08)] p-5 space-x-3 z-20">
-            <div #filePreview  class="file-preview absolute bottom-20 w-full flexs"></div>
-            <div class="relative flex items-center">
-                <button class="pr-2" (click)="toggleEmojiPicker()">
-                    <svg class="w-6" viewBox="0 0 32 32" width="24" height="24" fill="none" xmlns="http://www.w3.org/2000/svg"> <g opacity="0.7" clip-path="url(#clip0_10330_12299)"> <path d="M16 32C24.8366 32 32 24.8366 32 16C32 7.16344 24.8366 0 16 0C7.16344 0 0 7.16344 0 16C0 24.8366 7.16344 32 16 32Z" fill="#FFD93B"/> <path d="M16.0001 26.2841C11.3211 26.2841 7.24406 23.1151 6.08606 18.5791C5.99506 18.2221 6.21006 17.8591 6.56706 17.7681C6.92206 17.6751 7.28606 17.8921 7.37706 18.2491C8.38506 22.1951 11.9301 24.9511 15.9991 24.9511C20.0681 24.9511 23.6141 22.1951 24.6211 18.2491C24.7111 17.8921 25.0741 17.6751 25.4321 17.7681C25.7891 17.8591 26.0041 18.2221 25.9131 18.5791C24.7561 23.1151 20.6791 26.2841 16.0001 26.2841Z" fill="#3E4347"/> <path d="M31.9999 15.9999C31.9999 24.8399 24.8349 31.9999 15.9999 31.9999C10.9699 31.9999 6.47992 29.6799 3.54492 26.0449C6.28992 28.2649 9.78492 29.5899 13.5899 29.5899C22.4249 29.5899 29.5899 22.4299 29.5899 13.5899C29.5899 9.78492 28.2649 6.28992 26.0449 3.54492C29.6749 6.47992 31.9999 10.9699 31.9999 15.9999Z" fill="#F4C534"/> <path d="M10.8333 16.683C12.1876 16.683 13.2853 15.3783 13.2853 13.769C13.2853 12.1596 12.1876 10.855 10.8333 10.855C9.47915 10.855 8.38135 12.1596 8.38135 13.769C8.38135 15.3783 9.47915 16.683 10.8333 16.683Z" fill="#3E4347"/> <path d="M11.9394 13.142C11.7484 13.292 11.4344 13.218 11.2334 12.974C11.0324 12.73 11.0224 12.403 11.2134 12.253C11.4034 12.096 11.7184 12.17 11.9184 12.414C12.1204 12.665 12.1224 12.986 11.9394 13.142Z" fill="#5A5F63"/> <path d="M21.1698 16.683C22.524 16.683 23.6218 15.3783 23.6218 13.769C23.6218 12.1596 22.524 10.855 21.1698 10.855C19.8156 10.855 18.7178 12.1596 18.7178 13.769C18.7178 15.3783 19.8156 16.683 21.1698 16.683Z" fill="#3E4347"/> </g> <defs> <clipPath id="clip0_10330_12299"> <rect width="32" height="32" fill="white"/> </clipPath> </defs> </svg>
-                </button>
-                <label>
-                    <i class="icon-paper w-6 text-base text-quicksilver"></i>
-                    <input #fileInput type="file" accept="image/jpeg, .jpeg, image/png, .png, image/pjpeg, .jpg, image/gif, .gif, text/plain, video/*, audio/*,.xlsx, .xls, .csv,.doc,.docx, .pdf" (change)="onChange($event)" style="display:none"/>
-                </label>
+        <div class="relative w-full flex flex-col bg-white shadow-[0px_-3px_4px_0px_rgba(0,0,0,0.08)] p-5 z-20 h-[244px]">
+            <div #filePreview id="filePreview" class="file-preview w-full flex h-[210px]"></div>
+            <div class="w-full flex items-center">
+                <div class="relative flex items-center ml-3">
+                    <button class="pr-2" (click)="toggleEmojiPicker()">
+                        <svg class="w-6" viewBox="0 0 32 32" width="24" height="24" fill="none" xmlns="http://www.w3.org/2000/svg"> <g opacity="0.7" clip-path="url(#clip0_10330_12299)"> <path d="M16 32C24.8366 32 32 24.8366 32 16C32 7.16344 24.8366 0 16 0C7.16344 0 0 7.16344 0 16C0 24.8366 7.16344 32 16 32Z" fill="#FFD93B"/> <path d="M16.0001 26.2841C11.3211 26.2841 7.24406 23.1151 6.08606 18.5791C5.99506 18.2221 6.21006 17.8591 6.56706 17.7681C6.92206 17.6751 7.28606 17.8921 7.37706 18.2491C8.38506 22.1951 11.9301 24.9511 15.9991 24.9511C20.0681 24.9511 23.6141 22.1951 24.6211 18.2491C24.7111 17.8921 25.0741 17.6751 25.4321 17.7681C25.7891 17.8591 26.0041 18.2221 25.9131 18.5791C24.7561 23.1151 20.6791 26.2841 16.0001 26.2841Z" fill="#3E4347"/> <path d="M31.9999 15.9999C31.9999 24.8399 24.8349 31.9999 15.9999 31.9999C10.9699 31.9999 6.47992 29.6799 3.54492 26.0449C6.28992 28.2649 9.78492 29.5899 13.5899 29.5899C22.4249 29.5899 29.5899 22.4299 29.5899 13.5899C29.5899 9.78492 28.2649 6.28992 26.0449 3.54492C29.6749 6.47992 31.9999 10.9699 31.9999 15.9999Z" fill="#F4C534"/> <path d="M10.8333 16.683C12.1876 16.683 13.2853 15.3783 13.2853 13.769C13.2853 12.1596 12.1876 10.855 10.8333 10.855C9.47915 10.855 8.38135 12.1596 8.38135 13.769C8.38135 15.3783 9.47915 16.683 10.8333 16.683Z" fill="#3E4347"/> <path d="M11.9394 13.142C11.7484 13.292 11.4344 13.218 11.2334 12.974C11.0324 12.73 11.0224 12.403 11.2134 12.253C11.4034 12.096 11.7184 12.17 11.9184 12.414C12.1204 12.665 12.1224 12.986 11.9394 13.142Z" fill="#5A5F63"/> <path d="M21.1698 16.683C22.524 16.683 23.6218 15.3783 23.6218 13.769C23.6218 12.1596 22.524 10.855 21.1698 10.855C19.8156 10.855 18.7178 12.1596 18.7178 13.769C18.7178 15.3783 19.8156 16.683 21.1698 16.683Z" fill="#3E4347"/> </g> <defs> <clipPath id="clip0_10330_12299"> <rect width="32" height="32" fill="white"/> </clipPath> </defs> </svg>
+                    </button>
+                    <label>
+                        <i class="icon-paper w-6 text-base text-quicksilver"></i>
+                        <input #fileInput type="file" accept="image/jpeg, .jpeg, image/png, .png, image/pjpeg, .jpg, image/gif, .gif, text/plain, video/*, audio/*,.xlsx, .xls, .csv,.doc,.docx, .pdf" (change)="onChange($event)" style="display:none"/>
+                    </label>
+                </div>
+                <div class="w-[calc(100%-56px)] relative flex items-center ml-3">
+                    <textarea #messageInput class="w-full px-4 text-sm font-medium outline-none" placeholder="Type here..." rows="1" (blur)="onBlur()" (focus)="onFocus()" (keyup.enter)="sendChatMessage(messageInput.value)"></textarea>
+                </div>
+                <span class="block ml-3" (click)="sendChatMessage(messageInput.value)">
+                    <svg class="w-6" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg"> <g clip-path="url(#clip0_10330_12295)"> <path d="M22.5236 10.7532L1.16695 0.896326C0.826887 0.741901 0.421112 0.833899 0.184546 1.12632C-0.0536625 1.41874 -0.0618765 1.83437 0.164832 2.13501L7.18787 11.4991L0.164832 20.8631C-0.0618765 21.1638 -0.0536625 21.581 0.182903 21.8718C0.342256 22.0706 0.580465 22.1774 0.821959 22.1774C0.938599 22.1774 1.05524 22.1527 1.16531 22.1018L22.5219 12.2449C22.8144 12.1102 23 11.8194 23 11.4991C23 11.1787 22.8143 10.8879 22.5236 10.7532Z" fill="#FE4D5F"/> </g> <defs> <clipPath id="clip0_10330_12295"> <rect width="23" height="23" fill="white"/> </clipPath> </defs> </svg>
+                </span>
+                <emoji-mart class="emoji-mart absolute bottom-full left-0" *ngIf="showEmojiPicker" (emojiSelect)="addEmoji($event)" title="Pick your emoji…"></emoji-mart>
             </div>
-            <div class="w-[calc(100%-56px)] relative flex items-center">
-                <textarea #messageInput class="w-full px-4 text-sm font-medium outline-none" placeholder="Type here..." rows="1" (blur)="onBlur()" (focus)="onFocus()" (keyup.enter)="sendChatMessage(messageInput.value)"></textarea>
-            </div>
-            <span class="block" (click)="sendChatMessage(messageInput.value)">
-                <svg class="w-6" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg"> <g clip-path="url(#clip0_10330_12295)"> <path d="M22.5236 10.7532L1.16695 0.896326C0.826887 0.741901 0.421112 0.833899 0.184546 1.12632C-0.0536625 1.41874 -0.0618765 1.83437 0.164832 2.13501L7.18787 11.4991L0.164832 20.8631C-0.0618765 21.1638 -0.0536625 21.581 0.182903 21.8718C0.342256 22.0706 0.580465 22.1774 0.821959 22.1774C0.938599 22.1774 1.05524 22.1527 1.16531 22.1018L22.5219 12.2449C22.8144 12.1102 23 11.8194 23 11.4991C23 11.1787 22.8143 10.8879 22.5236 10.7532Z" fill="#FE4D5F"/> </g> <defs> <clipPath id="clip0_10330_12295"> <rect width="23" height="23" fill="white"/> </clipPath> </defs> </svg>
-            </span>
-            <emoji-mart class="emoji-mart absolute bottom-full left-0" *ngIf="showEmojiPicker" (emojiSelect)="addEmoji($event)" title="Pick your emoji…"></emoji-mart>
         </div>
     </div>
+    
 </div>

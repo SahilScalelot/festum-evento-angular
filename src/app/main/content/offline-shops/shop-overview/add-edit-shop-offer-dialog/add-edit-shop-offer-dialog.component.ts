@@ -242,7 +242,7 @@ export class AddEditShopOfferDialogComponent implements OnInit {
     // this.isAddUserWiseOffers = true;
     debugger
     this.addEditOfferForm.get('offer_on_all_products').setValue(this.offerOnAllProducts.value[0]);
-    if(this.offerOnAllProducts.value == true || this.offerOnAllProducts.value == 'true'){
+    if (this.offerOnAllProducts.value == true || this.offerOnAllProducts.value == 'true'){
       this.abcd=true;
       this.isAddUserWiseOffers = false;
     }else{
