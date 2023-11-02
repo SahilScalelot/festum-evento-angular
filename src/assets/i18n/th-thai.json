@@ -231,6 +231,15 @@
       "No More Records": "ไม่มีบันทึกอีกต่อไป",
       "You have no comments yet": "คุณยังไม่มีความคิดเห็น",
 
+      "QR Code Scanner" : "เครื่องสแกนรหัส QR",
+      "Scan QR Code": "สแกนรหัส QR",
+      "scanPay": "สแกนรหัสนี้เพื่อชำระเงินให้ฉัน",
+      "Download QR": "ดาวน์โหลด คิวอาร์",
+      "Booked": "จองแล้ว",
+      "noShopOffer": "คุณยังไม่มีข้อเสนอร้านค้า",
+      "createOfferHint": "สร้างข้อเสนอโดยใช้ปุ่มสร้างข้อเสนอที่มุมขวาบนของหน้า",
+      "Entity": "เอนทิตี",
+
       "Personal Profile": "รายละเอียดส่วนบุคคล",
       "Business Profile": "ข้อมูลธุรกิจ",
       "Edit Profile": "แก้ไขโปรไฟล์",

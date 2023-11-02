@@ -245,6 +245,15 @@
       "No More Records": "No More Records",
       "You have no comments yet": "You have no comments yet",
 
+      "QR Code Scanner" : "QR Code Scanner",
+      "Scan QR Code": "Scan QR Code",
+      "scanPay": "Scan this code to pay me",
+      "Download QR": "Download QR",
+      "Booked": "Booked",
+      "noShopOffer": "You have no Shop Offer yet",
+      "createOfferHint": "Create an offer using the Create Offer button on the top right of the page",
+      "Entity": "Entity",
+
       "Personal Profile": "Personal Profile",
       "Business Profile": "Business Profile",
       "Edit Profile": "Edit Profile",

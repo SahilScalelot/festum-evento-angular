@@ -231,6 +231,15 @@
       "No More Records": "Plus de dossiers",
       "You have no comments yet": "Vous n'avez pas encore de commentaires",
 
+      "QR Code Scanner" : "Scanner de codes QR",
+      "Scan QR Code": "Scanner le code QR",
+      "scanPay": "Scannez ce code pour me payer",
+      "Download QR": "Télécharger le code QR",
+      "Booked": "Réservé",
+      "noShopOffer": "Vous n'avez pas encore d'offre de boutique",
+      "createOfferHint": "Créez une offre à l'aide du bouton Créer une offre en haut à droite de la page",
+      "Entity": "Entité",
+
       "Personal Profile": "Profil personnel",
       "Business Profile": "Profil d'entreprise",
       "Edit Profile": "Editer le profil",

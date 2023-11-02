@@ -248,6 +248,15 @@
       "No More Records": "कोई और रिकॉर्ड नहीं",
       "You have no comments yet": "आपके पास अभी तक कोई टिप्पणी नहीं है",
 
+      "QR Code Scanner" : "QR कोड स्कैनर",
+      "Scan QR Code": "स्कैन QR कोड",
+      "scanPay": "मुझे भुगतान करने के लिए इस कोड को स्कैन करें",
+      "Download QR": "QR डाउनलोड करें",
+      "Booked": "बुक्ड",
+      "noShopOffer": "आपके पास अभी तक कोई शॉप ऑफ़र नहीं है",
+      "createOfferHint": "पृष्ठ के शीर्ष दाईं ओर स्थित ऑफ़र बनाएं बटन का उपयोग करके एक ऑफ़र बनाएं",
+      "Entity": "इकाई",
+
       "Personal Profile": "व्यक्तिगत प्रोफाइल",
       "Business Profile": "व्यापार प्रोफ़ाइल",
       "Edit Profile": "प्रोफ़ाइल संपादित करें",

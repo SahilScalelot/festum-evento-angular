@@ -244,6 +244,15 @@
       "No More Records": "没有更多记录",
       "You have no comments yet": "您还没有评论",
 
+      "QR Code Scanner" : "二维码扫描仪",
+      "Scan QR Code": "扫描二维码",
+      "scanPay": "扫描此代码即可付款",
+      "Download QR": "下载二维码",
+      "Booked": "已预订",
+      "noShopOffer": "您还没有商店优惠",
+      "createOfferHint": "使用页面右上角的“创建报价”按钮创建报价",
+      "Entity": "实体",
+
       "Personal Profile": "个人简介",
       "Business Profile": "业务简介",
       "Edit Profile": "编辑个人资料",
