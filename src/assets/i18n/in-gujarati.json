@@ -248,5 +248,19 @@
       "No More Records": "કોઈ વધુ રેકોર્ડ્સ નથી",
       "You have no comments yet": "તમારી પાસે હજુ સુધી કોઈ ટિપ્પણીઓ નથી",
 
+      "Personal Profile": "વ્યક્તિગત પ્રોફાઇલ",
+      "Business Profile": "વ્યવસાય પ્રોફાઇલ",
+      "Edit Profile": "પ્રોફાઇલ સંપાદિત કરો",
+      "Edit Business Profile": "વ્યવસાય પ્રોફાઇલ સંપાદિત કરો",
+      "Name": "નામ",
+      "Company Name": "કંપની નું નામ",
+      "Company Email": "કંપની ઈમેઈલ",
+      "Phone Number": "ફોન નંબર",
+      "Date Of Birth": "જન્મ તારીખ",
+      "Country Name": "દેશનું નામ",
+      "Country": "દેશ",
+      "About Our Company": "અમારી કંપની વિશે",
+      "About Me": "મારા વિશે",
+
       "posterHint": "મહત્તમ ફાઇલ કદ 10MB અને રિઝોલ્યુશન 1080PX x 780PX હોવું આવશ્યક છે"
 }     

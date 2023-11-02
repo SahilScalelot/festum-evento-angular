@@ -244,5 +244,19 @@
       "No More Records": "没有更多记录",
       "You have no comments yet": "您还没有评论",
 
+      "Personal Profile": "个人简介",
+      "Business Profile": "业务简介",
+      "Edit Profile": "编辑个人资料",
+      "Edit Business Profile": "编辑企业简介",
+      "Name": "姓名",
+      "Company Name": "公司名称",
+      "Company Email": "公司邮箱",
+      "Phone Number": "电话号码",
+      "Date Of Birth": "出生日期",
+      "Country Name": "国家的名字",
+      "Country": "国家",
+      "About Our Company": "关于我们公司",
+      "About Me": "关于我",
+
       "posterHint": "最大文件大小 10MB，分辨率必须为 1080PX x 780PX"
 }     

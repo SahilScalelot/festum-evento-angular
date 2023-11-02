@@ -5,9 +5,9 @@
     <!-- title-holder  -->
     <form [formGroup]="profileForm">
       <div class="flex justify-between items-center pt-4 pb-8">
-        <h1>Personal Profile</h1>
-        <button *ngIf="!isEditProfile" class="secondary px-5 py-2" (click)="enableFields()">Edit Profile</button>
-        <button type="submit" *ngIf="isEditProfile" class="secondary px-5 py-2" (click)="updatePersonalProfile()">Submit</button>
+        <h1>{{'Personal Profile' | translate }}</h1>
+        <button *ngIf="!isEditProfile" class="secondary px-5 py-2" (click)="enableFields()">{{'Edit Profile' | translate }}</button>
+        <button type="submit" *ngIf="isEditProfile" class="secondary px-5 py-2" (click)="updatePersonalProfile()">{{'Submit' | translate }}</button>
       </div>
       <!-- profile image-->
       <div class="flex items-center">
@@ -43,18 +43,18 @@
       <div class="w-full">
         <div class="flex flex-wrap -mx-2">
           <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4">
-            <span class="input-titel">Name</span>
+            <span class="input-titel">{{'Name' | translate }}</span>
             <input type="text" class="input font-bold" formControlName='name' />
             <span *ngIf="profileFirstName && profileFirstName.invalid && profileFirstName.touched" class="text-red-500 text-xs">
               Name is required
             </span>
           </div>
           <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4">
-            <span class="input-titel">Email</span>
+            <span class="input-titel">{{'Email' | translate }}</span>
             <input type="text" class="input font-bold" formControlName='email' />
           </div>
           <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4">
-            <span class="input-titel">Phone Number</span>
+            <span class="input-titel">{{'Phone Number' | translate }}</span>
             <div class="flex items-center h-auto space-x-3">
               <div class="inputHolder">
                 <input type="text" formControlName="country_code" class="input font-bold w-full max-w-[60px] xl:max-w-[70px] text-center" value="" />
@@ -65,7 +65,7 @@
             </div>
           </div>
           <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4">
-            <span class="input-titel">Date Of Birth</span>
+            <span class="input-titel">{{'Date Of Birth' | translate }}</span>
             <p-calendar inputStyleClass="input font-bold" [showIcon]="false" inputId="icon" formControlName='dob' [maxDate]="maxDate" dateFormat="dd-mm-yy"></p-calendar>
             <!-- <span *ngIf="dob && dob.invalid && dob.touched && submit" class="text-red-500 text-xs">DOB is required</span> -->
             <span *ngIf="profileDob && profileDob.invalid && profileDob.touched" class="text-red-500 text-xs">
@@ -73,19 +73,19 @@
             </span>
           </div>
           <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4">
-            <span class="input-titel">Flat No.</span>
+            <span class="input-titel">{{'Flat No' | translate }}.</span>
             <input [formControlName]="'flat_no'" class="input font-bold" type="text"/>
           </div>
           <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4">
-            <span class="input-titel">Street Name.</span>
+            <span class="input-titel">{{'Street Name' | translate }}.</span>
             <input [formControlName]="'street'" class="input font-bold" type="text"/>
           </div>
           <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4">
-            <span class="input-titel">Area Name.</span>
+            <span class="input-titel">{{'Area Name' | translate }}.</span>
             <input [formControlName]="'area'" class="input font-bold" type="text"/>
           </div>          
           <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4 relative">
-            <label class="input-titel">City</label>
+            <label class="input-titel">{{'City' | translate }}</label>
             <input [formControlName]="'city'" class="input font-bold" type="text" fuseValidAlphabet (keyup)="pincodeValidation(pincode.value)"/>
             <span class="absolute top-full text-red-500 text-xs" *ngIf="profileForm.get('city')?.invalid && (profileForm.get('city')?.dirty && profileForm.get('city')?.touched)">
               <span *ngIf="profileForm.get('city')?.errors?.['required']">
@@ -97,7 +97,7 @@
             </span>
           </div>
           <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4 relative">
-            <label class="input-titel">State</label>
+            <label class="input-titel">{{'State' | translate }}</label>
             <input [formControlName]="'state'" class="input font-bold" type="text" fuseValidAlphabet (keyup)="pincodeValidation(pincode.value)"/>
             <span class="absolute top-full text-red-500 text-xs" *ngIf="profileForm.get('state')?.invalid && (profileForm.get('state')?.dirty && profileForm.get('state')?.touched)">
               <span *ngIf="profileForm.get('state')?.errors?.['required']">
@@ -109,7 +109,7 @@
             </span>
           </div>
           <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4 relative">
-            <label class="input-titel">Pincode</label>
+            <label class="input-titel">{{'Pincode' | translate }}</label>
             <input #pincode [formControlName]="'pincode'" class="input font-bold" type="text" fuseValidNumber (keyup)="pincodeValidation(pincode.value)"/>
             <span class="absolute top-full text-red-500 text-xs" *ngIf="profileForm.get('pincode')?.invalid && (profileForm.get('pincode')?.dirty && profileForm.get('pincode')?.touched)">
               <span *ngIf="profileForm.get('pincode')?.errors?.['required']">
@@ -124,7 +124,7 @@
             </span>
           </div>
           <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4">
-            <span class="input-titel">Country</span>
+            <span class="input-titel">{{'Country' | translate }}</span>
             <input type="text" class="input font-bold" formControlName='country' fuseValidAlphabet/>
             <span *ngIf="profileCountry && profileCountry.invalid && profileCountry.touched" class="text-red-500 text-xs">
               <span *ngIf="profileCountry?.errors?.required">
@@ -133,7 +133,7 @@
             </span>
           </div>
           <div class="w-full px-2 inputHolder pt-4">
-            <span class="input-titel">About Me</span>
+            <span class="input-titel">{{'About Me' | translate }}</span>
             <div class="w-full bg-white rounded">
               <ckeditor (ready)="onTextEditorReady($event)" [config]="editorConfig" [editor]="detailEditor" [formControlName]="'about'" class="h-44 text-editor" id="about" name="about"></ckeditor>
             </div>
@@ -149,9 +149,9 @@
     <!-- title-holder  -->
     <form [formGroup]="businessForm" *ngIf="true">
       <div class="flex justify-between items-center pt-4 pb-8">
-        <h1>Business Profile </h1>
-        <button *ngIf="!isEditBusinessProfile" class="secondary px-5 py-2" (click)="enableFields(true)">Edit Business Profile</button>
-        <button type="submit" *ngIf="isEditBusinessProfile" class="secondary px-5 py-2" (click)="updateBusinessProfile()">Submit</button>
+        <h1>{{'Business Profile' | translate }} </h1>
+        <button *ngIf="!isEditBusinessProfile" class="secondary px-5 py-2" (click)="enableFields(true)">{{'Edit Business Profile' | translate }}</button>
+        <button type="submit" *ngIf="isEditBusinessProfile" class="secondary px-5 py-2" (click)="updateBusinessProfile()">{{'Submit' | translate }}</button>
       </div>
       <!-- profile image-->
       <div class="flex items-center">
@@ -175,7 +175,7 @@
       <div class="">
         <div class="flex items-end flex-wrap -mx-2">
           <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4 relative">
-            <span class="input-titel">Company name</span>
+            <span class="input-titel">{{'Company Name' | translate }}</span>
             <input class="input font-bold" type="text" id="name" name="name" [formControlName]="'name'" required />
             <span class="absolute top-full text-red-500 text-xs" *ngIf="businessForm.get('name')?.invalid && (businessForm.get('name')?.dirty && businessForm.get('name')?.touched)">
               <span *ngIf="businessForm.get('name')?.errors?.['minlength']">
@@ -184,7 +184,7 @@
             </span>
           </div>
           <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4 relative">
-            <span class="input-titel">Company Email</span>
+            <span class="input-titel">{{'Company Email' | translate }}</span>
             <input [formControlName]="'email'" class="input font-bold" type="text"/>
             <span class="absolute top-full text-red-500 text-xs" *ngIf="businessForm.get('email')?.invalid && (businessForm.get('email')?.dirty && businessForm.get('email')?.touched)">
               <span *ngIf="businessForm.get('email')?.errors?.['pattern']">
@@ -193,7 +193,7 @@
             </span>
           </div>
           <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4 relative">
-            <span class="input-titel">Phone Number</span>
+            <span class="input-titel">{{'Phone Number' | translate }}</span>
             <div class="flex items-center h-auto space-x-3">
               <div class="inputHolder">
                 <input type="text" [formControlName]="'country_code'" class="input font-bold w-full max-w-[60px] xl:max-w-[70px] text-center" value="" />
@@ -204,20 +204,20 @@
             </div>
           </div>
           <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4 relative">
-            <span class="input-titel">Flat No.</span>
+            <span class="input-titel">{{'Flat No' | translate }}.</span>
             <input [formControlName]="'flat_no'" class="input font-bold" type="text"/>
           </div>
           <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4 relative">
-            <span class="input-titel">Street Name.</span>
+            <span class="input-titel">{{'Street Name' | translate }}.</span>
             <input [formControlName]="'street'" class="input font-bold" type="text"/>
           </div>
           <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4 relative">
-            <span class="input-titel">Area Name.</span>
+            <span class="input-titel">{{'Area Name' | translate }}.</span>
             <input [formControlName]="'area'" class="input font-bold" type="text"/>
           </div>
 
           <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4 relative">
-            <label class="input-titel">City</label>
+            <label class="input-titel">{{'City' | translate }}</label>
             <input [formControlName]="'city'" class="input font-bold" type="text" fuseValidAlphabet (keyup)="pincodeValidation(pincode.value, true)"/>
             <span class="absolute top-full text-red-500 text-xs" *ngIf="profileForm.get('city')?.invalid && (profileForm.get('city')?.dirty && profileForm.get('city')?.touched)">
               <span *ngIf="businessForm.get('city')?.errors?.['required']">
@@ -229,7 +229,7 @@
             </span>
           </div>
           <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4 relative">
-            <label class="input-titel">State</label>
+            <label class="input-titel">{{'State' | translate }}</label>
             <input [formControlName]="'state'" class="input font-bold" type="text" fuseValidAlphabet (keyup)="pincodeValidation(pincode.value, true)"/>
             <span class="absolute top-full text-red-500 text-xs" *ngIf="businessForm.get('state')?.invalid && (businessForm.get('state')?.dirty && businessForm.get('state')?.touched)">
               <span *ngIf="businessForm.get('state')?.errors?.['required']">
@@ -241,7 +241,7 @@
             </span>
           </div>
           <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4 relative">
-            <label class="input-titel">Pincode</label>
+            <label class="input-titel">{{'Pincode' | translate }}</label>
             <input #pincode [formControlName]="'pincode'" class="input font-bold" type="text" fuseValidNumber (keyup)="pincodeValidation(pincode.value, true)"/>
             <span class="absolute top-full text-red-500 text-xs" *ngIf="businessForm.get('pincode')?.invalid && (businessForm.get('pincode')?.dirty && businessForm.get('pincode')?.touched)">
               <span *ngIf="businessForm.get('pincode')?.errors?.['required']">
@@ -287,11 +287,11 @@
             </span>
           </div> -->
           <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4 relative">
-            <span class="input-titel">Country Name.</span>
+            <span class="input-titel">{{'Country Name' | translate }}.</span>
             <input [formControlName]="'country'" class="input font-bold" type="text"/>
           </div>
           <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4 relative">
-            <span class="input-titel">Country</span>
+            <span class="input-titel">{{'Country' | translate }}</span>
             <input type="text" class="input font-bold" formControlName='country' />
             <span *ngIf="profileCountry && profileCountry.invalid && profileCountry.touched" class="text-red-500 text-xs">
               <span *ngIf="profileCountry?.errors?.required">
@@ -300,7 +300,7 @@
             </span>
           </div>
           <div class="w-full px-2 inputHolder pt-4 relative">
-            <span class="input-titel">About Our Company<span class="text-magicPotion">*</span></span>
+            <span class="input-titel">{{'About Our Company' | translate }}<span class="text-magicPotion">*</span></span>
             <div class="w-full bg-white rounded">
               <ckeditor (ready)="onTextEditorReady($event)" [config]="editorConfig" [editor]="detailEditor" [formControlName]="'about'" class="h-44 text-editor" id="about" name="about"></ckeditor>
             </div>

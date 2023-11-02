@@ -248,5 +248,19 @@
       "No More Records": "कोई और रिकॉर्ड नहीं",
       "You have no comments yet": "आपके पास अभी तक कोई टिप्पणी नहीं है",
 
+      "Personal Profile": "व्यक्तिगत प्रोफाइल",
+      "Business Profile": "व्यापार प्रोफ़ाइल",
+      "Edit Profile": "प्रोफ़ाइल संपादित करें",
+      "Edit Business Profile": "व्यावसायिक प्रोफ़ाइल संपादित करें",
+      "Name": "नाम",
+      "Company Name": "कंपनी का नाम",
+      "Company Email": "कंपनी ईमेल",
+      "Phone Number": "फ़ोन नंबर",
+      "Date Of Birth": "जन्म की तारीख",
+      "Country Name": "देश नाम",
+      "Country": "देश",
+      "About Our Company": "हमारी कंपनी के बारे में",
+      "About Me": "मेरे बारे में",
+
       "posterHint": "अधिकतम फ़ाइल आकार 10MB और रिज़ॉल्यूशन 1080PX x 780PX होना चाहिए"
 }     

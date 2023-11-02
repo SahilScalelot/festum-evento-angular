@@ -231,5 +231,19 @@
       "No More Records": "Plus de dossiers",
       "You have no comments yet": "Vous n'avez pas encore de commentaires",
 
+      "Personal Profile": "Profil personnel",
+      "Business Profile": "Profil d'entreprise",
+      "Edit Profile": "Editer le profil",
+      "Edit Business Profile": "Modifier le profil de l'entreprise",
+      "Name": "Nom",
+      "Company Name": "Nom de l'entreprise",
+      "Company Email": "E-mail de l'entreprise",
+      "Phone Number": "Numéro de téléphone",
+      "Date Of Birth": "Date de naissance",
+      "Country Name": "Nom du pays",
+      "Country": "Pays",
+      "About Our Company": "Au sujet de notre compagnie",
+      "About Me": "Sur moi",
+
       "posterHint": "Taille maximale du fichier 10 Mo et la résolution doit être de 1080PX x 780PX"
 }

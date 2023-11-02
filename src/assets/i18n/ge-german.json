@@ -231,5 +231,19 @@
       "No More Records": "Keine Aufzeichnungen mehr",
       "You have no comments yet": "Sie haben noch keine Kommentare",
 
+      "Personal Profile": "Persönliches Profil",
+      "Business Profile": "Unternehmensprofil",
+      "Edit Profile": "Profil bearbeiten",
+      "Edit Business Profile": "Unternehmensprofil bearbeiten",
+      "Name": "Name",
+      "Company Name": "Name der Firma",
+      "Company Email": "Firmen-E-Mail",
+      "Phone Number": "Telefonnummer",
+      "Date Of Birth": "Geburtsdatum",
+      "Country Name": "Ländername",
+      "Country": "Land",
+      "About Our Company": "Über unsere Firma",
+      "About Me": "Über mich",
+
       "posterHint": "Maximale Dateigröße 10 MB und Auflösung muss 1080PX x 780PX betragen"
 }

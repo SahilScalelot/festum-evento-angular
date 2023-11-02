@@ -245,5 +245,19 @@
       "No More Records": "No More Records",
       "You have no comments yet": "You have no comments yet",
 
+      "Personal Profile": "Personal Profile",
+      "Business Profile": "Business Profile",
+      "Edit Profile": "Edit Profile",
+      "Edit Business Profile": "Edit Business Profile",
+      "Name": "Name",
+      "Company Name": "Company Name",
+      "Company Email": "Company Email",
+      "Phone Number": "Phone Number",
+      "Date Of Birth": "Date Of Birth",
+      "Country Name": "Country Name",
+      "Country": "Country",
+      "About Our Company": "About Our Company",
+      "About Me": "About Me",
+
       "posterHint": "Max File Size 10MB & Resolution Must be 1080PX x 780PX"
 }     

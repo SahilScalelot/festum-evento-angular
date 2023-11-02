@@ -231,5 +231,19 @@
       "No More Records": "ไม่มีบันทึกอีกต่อไป",
       "You have no comments yet": "คุณยังไม่มีความคิดเห็น",
 
+      "Personal Profile": "รายละเอียดส่วนบุคคล",
+      "Business Profile": "ข้อมูลธุรกิจ",
+      "Edit Profile": "แก้ไขโปรไฟล์",
+      "Edit Business Profile": "Eแก้ไขข้อมูลธุรกิจ",
+      "Name": "ชื่อ",
+      "Company Name": "ชื่อ บริษัท",
+      "Company Email": "อีเมล์บริษัท",
+      "Phone Number": "หมายเลขโทรศัพท์",
+      "Date Of Birth": "วันเกิด",
+      "Country Name": "ชื่อประเทศ",
+      "Country": "ประเทศ",
+      "About Our Company": "เกี่ยวกับบริษัทของเรา",
+      "About Me": "เกี่ยวกับฉัน",
+
       "posterHint": "ขนาดไฟล์สูงสุด 10MB และความละเอียดต้องเป็น 1080PX x 780PX"
 }
