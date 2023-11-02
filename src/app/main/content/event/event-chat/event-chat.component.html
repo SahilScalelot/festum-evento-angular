@@ -156,7 +156,7 @@
                 </div>
             </div>
         </div>
-        <div class="relative w-full flex flex-col bg-white shadow-[0px_-3px_4px_0px_rgba(0,0,0,0.08)] p-5 z-20" [ngClass]="{'h-[244px]' : (tempSendImgVideo)}">
+        <div *ngIf="(selectedUser | json) != ({} | json)" class="relative w-full flex flex-col bg-white shadow-[0px_-3px_4px_0px_rgba(0,0,0,0.08)] p-5 z-20" [ngClass]="{'h-[244px]' : (tempSendImgVideo)}">
             <div #filePreview id="filePreview" class="file-preview w-full flex" [ngClass]="{'h-[210px]' : (tempSendImgVideo)}"></div>
             <div class="w-full flex items-center">
                 <div class="relative flex items-center ml-3">

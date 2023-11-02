@@ -276,18 +276,13 @@ export class EventChatComponent implements OnInit {
   }
 
   getPreviewUrl(file: File) {
-    //console.log(file)
-    // Determine the file type and return a suitable preview URL or icon
     if (file.type.startsWith('image/')) {
-      this.filePreview.nativeElement.innerHTML = `<div class="relative group" style="width:150px;height:150px;border-radius:15px;"><img style="width:150px;height:150px;border-radius:15px;" src="${URL.createObjectURL(file)}" alt="Image Preview" /><div class="hidden group-hover:block bg-black/50 absolute inset-0 w-full h-full rounded-[15px]"><span class="block icon-close text-white absolute top-5 right-5 cursor-pointer text-sm z-10" id="removeSendChild"></span></div></div>`;
+      this.filePreview.nativeElement.innerHTML = `<div class="relative" style="width:150px;height:150px;border-radius:15px;"><img style="width:150px;height:150px;border-radius:15px;" src="${URL.createObjectURL(file)}" alt="Image Preview" /><div class="bg-black/50 absolute inset-0 w-full h-full rounded-[15px]"><span class="block icon-close text-white absolute top-5 right-5 cursor-pointer text-sm z-10" id="removeSendChild"></span></div></div>`;
       this.tempSendImgVideo = true;
-      document.getElementById('removeSendChild').addEventListener('click',() =>{
-        //console.log('remove');
-        this.clearFilePreview();
-      })
     } else if (file.type.startsWith('video/')) {
       const blob = new Blob([file], { type: file.type });
-      this.filePreview.nativeElement.innerHTML = `<video class="chatElementChild" style="width:150px;height:150px;border-radius:15px;" src="${URL.createObjectURL(blob)}" controls></video>`;
+      this.filePreview.nativeElement.innerHTML = `<div class="relative" style="width:150px;height:150px;border-radius:15px;"><video class="chatElementChild" style="width:150px;height:150px;border-radius:15px;" src="${URL.createObjectURL(blob)}" controls></video><div class="bg-black/50 absolute inset-0 w-full h-full rounded-[15px]"><span class="block icon-close text-white absolute top-5 right-5 cursor-pointer text-sm z-10" id="removeSendChild"></span></div>`;
+      this.tempSendImgVideo = true;
     } else if (file.type.startsWith('audio/')) {
       const blob = new Blob([file], { type: file.type });
       this.filePreview.nativeElement.innerHTML = `<audio class="chatElementChild" style="width:150px;height:150px;border-radius:15px;" src="${URL.createObjectURL(blob)}" controls></audio>`;
@@ -295,6 +290,9 @@ export class EventChatComponent implements OnInit {
       // You can return a link to the document preview or an icon
       return 'https://example.com/document-icon.png';
     }
+    document.getElementById('removeSendChild').addEventListener('click',() =>{
+      this.clearFilePreview();
+    });
     // if(this.filePreview.nativeElement.innerHTML.length > 0){
     //   console.log(this.tempSendImgVideo)
     // }
