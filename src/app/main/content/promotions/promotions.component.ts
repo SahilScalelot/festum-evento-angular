@@ -29,7 +29,7 @@ export class PromotionsComponent implements OnInit {
 
   promoteNotification(notificationId: any = ''): void {
     localStorage.setItem('nId', notificationId);
-    this._router.navigate(['/promotions/promote/user-type']);
+    this._router.navigate(['/promotions/promote']);
   }
 
   getOnlineShopOffers(event: any = {}): void {

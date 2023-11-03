@@ -230,8 +230,8 @@ export const CONSTANTS = {
   userTypeArr: [
     {value: 'eventusers', url: '/assets/images/event-user.png', type: 'Event User'},
     {value: 'shopusers', url: '/assets/images/shope-user.png', type: 'Shop User'},
-    {value: 'onlineofferusers', url: '/assets/images/online-shop-user.png', type: 'online shop offers user'},
-    {value: 'livestreamusers', url: '/assets/images/live-streaming-user.png', type: 'live streaming user'},
+    {value: 'onlineofferusers', url: '/assets/images/online-shop-user.png', type: 'Online shop offers user'},
+    {value: 'livestreamusers', url: '/assets/images/live-streaming-user.png', type: 'Live streaming user'},
     {value: 'allusers', url: '/assets/images/all-user.png', type: 'All User'},
     {value: 'existingusers', url: '/assets/images/existing-user.png', type: 'Existing User'}
   ],

@@ -18,4 +18,11 @@
     background: #EEEEEE;
   }
   input.small-input {@apply py-0 pl-3 pr-12 bg-white w-full;}
+  .p-inputtext {
+    border: 0 !important;
+  }
+  .p-inputtext:enabled:focus {
+    border: 0 !important;
+    box-shadow: none !important;
+  }
 }

@@ -1,18 +1,259 @@
-<div class="wrapper flex flex-col min-h-full">
-  <div class="space-y-8">
-    <!-- title-holder  -->
-    <div class="flex justify-between items-center">
-      <div class="flex items-center">
-        <i routerLink=".." class="icon-left_arrow cursor-pointer mr-4 text-2xl"></i>
-        <h2>{{'Promote' | translate }}</h2>
+<div class="wrapper min-h-full">
+  <div class="space-y-8 h-full">
+    <div class="flex justify-start items-center">
+      <a href="javascript:void(0);" class="flex items-center" [routerLink]="'/promotions'"><i class="icon-left_arrow mr-4 text-2xl"></i></a>
+      <h2>{{'Promote' | translate }}</h2>
+    </div>
+    <!-- main-content  -->
+    <form class="space-y-5" [formGroup]="promoteForm">
+      <div class="flex items-end flex-wrap -mx-2">
+        <div class="flex flex-wrap">
+          <div class="w-1/2 lg:w-1/6 xl:w-1/6 p-3 group" *ngFor="let userType of constants.userTypeArr">
+            <label [id]="userType?.value" class="user_type text-center bg-white rounded flex flex-col justify-between items-center h-full px-5 py-7 anim relative group cursor-pointer">
+              <input type="radio" name="user_type" formControlName="usertype" [id]="userType?.value" [value]="userType?.value" class="hidden" />
+              <span class="absolute inset-0 border-2 border-magicPotion opacity-0 anim"></span>
+              <div class="w-24 h-24">
+                <img [src]="userType?.url" [alt]="userType?.type" class="w-full h-full object-contain" />
+              </div>
+              <p class="text-base text-sm font-bold pt-8 whitespace-pre-wrap">{{userType?.type}}</p>
+            </label>
+          </div>
+        </div>
+        <!--<div class="w-full px-2 inputHolder relative pb-0.5 mb-7">-->
+          <!--<span class="input-titel">Select Business<span>*</span></span>-->
+          <!--<select [formControlName]="'usertype'" class="bg-white rounded-md flex w-full space-x-3 outline-0 px-6 py-3 relative arrow">-->
+            <!--<option value=""></option>-->
+            <!--<option *ngFor="let userType of constants.userTypeArr" [value]="userType?.value">{{userType?.type}}</option>-->
+          <!--</select>-->
+        <!--</div>-->
+        <ng-container *ngIf="promoteForm.controls['usertype'].value !== 'allusers' && promoteForm.controls['usertype'].value !== 'existingusers'">
+          <div class="w-full lg:w-1/2 px-2 inputHolder relative pb-0.5 mb-7">
+            <span class="input-titel">Select User</span>
+            <select class="bg-white rounded-md flex space-x-3 outline-0 px-6 py-3 relative arrow" [formControlName]="'numberofusers'">
+              <option *ngFor='let in of totalOptions;let i = index' [value]="i ? (i * usersSelectionLimit) : totalUsersCount">{{i ? (i * usersSelectionLimit) : 'Select All'}}</option>
+              <!-- <option *ngFor='let in of totalOptions;let i = index' [value]="i ? (i * math.ceil(totalUsersCount / 10)) : totalUsersCount">{{i ? (i * math.ceil(totalUsersCount / 10)) : 'Select All'}}</option> -->
+            </select>
+          </div>
+          <div class="w-full lg:w-1/2 px-2 inputHolder relative pb-0.5 mb-7">
+            <span class="input-titel">Total User</span>
+            <div class="bg-white p-[12px] rounded-md mt-5 lg:mt-0">
+              <span class="text-base font-bold text-japaneseIndigo">{{totalUsersCount}}</span>
+            </div>
+          </div>
+        </ng-container>
+
+        <!--{{promoteForm.controls['usertype'].value}}-->
+        <div class="w-full mb-7" *ngIf="promoteForm.controls['usertype'].value === 'allusers' ">
+          <!-- select user card  -->
+          <div class="">
+            <h5>Select User Plan</h5>
+            <div class="flex flex-wrap xl:flex-nowrap justify-between xl:space-x-5 items-center py-5">
+              <div class="w-full xl:w-1/3 pb-5 xl:pb-0" *ngFor="let promotionPlan of allPromotionPlans; let i = index">
+                <div class="bg-gradient-to-r {{!i ? 'from-[#13e1b094] to-[#13E1B0]' : ((i == 1) ? 'from-[#20c0e878] to-[#20C0E8]' : 'from-[#faba1585] to-[#FABA15]')}} p-5 rounded-xl relative overflow-hidden cursor-pointer">
+                  <div class="absolute -left-3 -bottom-3">
+                    <img src="../assets/images/event-subscription.png" alt="celebration" />
+                  </div>
+                  <label [for]="'promotion-plan' + i" class="cursor-pointer relative">
+                    <div class="flex items-center">
+                      <div class="radio">
+                        <input class="radio" type="radio" name="promotion-plan-card" [id]="'promotion-plan' + i"
+                               [value]="promotionPlan._id" [formControlName]="'selected_plan'" (click)="onPromotionPlanClick()"/>
+                        <i class="icon-right text-white"></i>
+                      </div>
+                      <span class="text-xl font-normal text-white ml-5">{{promotionPlan.planname}}</span>
+                    </div>
+                    <div class="pt-7 space-y-3">
+                      <div class="flex w-full justify-between items-center">
+                        <span class="text-sm text-japaneseIndigo font-bold">Notification</span>
+                        <span class="text-sm text-japaneseIndigo font-bold">{{promotionPlan.notification_amount | number:'1.2-2'}} FOR {{promotionPlan.total_users | number:'1.0-0'}} USERS</span>
+                      </div>
+                      <div class="flex w-full justify-between items-center">
+                        <span class="text-sm text-japaneseIndigo font-bold">SMS</span>
+                        <span class="text-sm text-japaneseIndigo font-bold">{{promotionPlan.sms_amount | number:'1.2-2'}} FOR {{promotionPlan.total_users | number:'1.0-0'}} USERS</span>
+                      </div>
+                      <div class="flex w-full justify-between items-center">
+                        <span class="text-sm text-japaneseIndigo font-bold">Email</span>
+                        <span class="text-sm text-japaneseIndigo font-bold">{{promotionPlan.email_amount | number:'1.2-2'}} FOR {{promotionPlan.total_users | number:'1.0-0'}} USERS</span>
+                      </div>
+                      <div class="flex w-full justify-between items-center">
+                        <span class="text-sm text-japaneseIndigo font-bold">All</span>
+                        <span class="text-sm text-japaneseIndigo font-bold">{{promotionPlan.combo_amount | number:'1.2-2'}} FOR {{promotionPlan.total_users | number:'1.0-0'}} USERS</span>
+                      </div>
+                    </div>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- dashed border   -->
+          <h2 class="border-t-2 border-gray-400 border-dashed text-center relative my-10"><small
+                  class="text-japaneseIndigo py-1 px-10 absolute -mt-5 bg-brightGray">OR</small></h2>
+          <!-- main-content  -->
+          <div>
+            <div class="flex items-end justify-between">
+              <div class="w-1/2">
+                <h5 class="pb-3 capitalize">Select All App User</h5>
+                <select class="bg-white rounded-md flex space-x-3 outline-0 px-6 py-[18px] relative arrow option" [formControlName]="'numberofusers'" (change)="onChangeUserSelection()">
+                  <option *ngFor='let in of totalOptions;let i = index' [value]="i ? (i * usersSelectionLimit) : totalUsersCount">{{i ? (i * usersSelectionLimit) : 'Select All'}}</option>
+                </select>
+              </div>
+              <div class="bg-white p-[18px] rounded-md">
+                <span class="text-base font-bold text-japaneseIndigo">Total User : {{totalUsersCount}}</span>
+              </div>
+            </div>
+            <div class="flex pt-7">
+              <div class="w-1/2">
+                <h5 class="pb-3 capitalize">ads publish location</h5>
+                <div class="flex items-center justify-between inputHolder bg-white rounded-md px-5 py-3">
+                  <input type="text" class="input text-base font-bold text-japaneseIndigo w-full" name="published_location" id="published_location" [formControlName]="'published_location'" />
+                  <a href="javascript:void(0);"><i class="icon-mark_location text-magicPotion text-3xl"></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="w-full mb-7" *ngIf="promoteForm.controls['usertype'].value === 'existingusers' ">
+          <h5>Select User</h5>
+          <div class="flex flex-wrap lg:flex-nowrap lg:space-x-12 pt-5">
+            <div class="w-full lg:w-1/2 relative">
+              <div class="space-y-3 max-h-[540px] overflow-y-auto">
+                <p-progressSpinner *ngIf="isLoading" [style]="{width: '50px', height: '50px'}" animationDuration=".5s" strokeWidth="8" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-x-0 top-0 h-full w-full z-40" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
+                <div class="flex items-center bg-white rounded-md cursor-pointer w-full px-4 py-3 sticky top-0 z-10 shadow">
+                  <label class="checkbox w-8 h-8 " for="is_selected_all">
+                    <input type="checkbox" class="bgbrightgray" name="is_selected_all" id="is_selected_all" [formControlName]="'is_selected_all'" (click)="onSelectAllChecked($event)"/>
+                    <i class="icon-right text-10 text-white"></i>
+                  </label>
+                  <span class="text-base text-japaneseIndigo font-bold ml-4">Select All</span>
+                </div>
+                <div class="flex items-center bg-white rounded-md cursor-pointer w-full px-4 py-3" *ngFor="let importedUser of allImportedUsers; let i = index">
+                  <label class="checkbox w-8 h-8">
+                    <input type="checkbox" class="bgbrightgray" [id]="'user-' + i" [checked]="importedUser.selected" (change)="onCheckboxChange(importedUser, i)" />
+                    <i class="icon-right text-10 text-white"></i>
+                  </label>
+                  <div class="flex items-center ml-4">
+                    <div class="w-8 h-8 rounded-full overflow-hidden mr-4">
+                      <img [src]="(importedUser.Photo && importedUser.Photo != '') ? importedUser.Photo : constants.defaultImage" [alt]="importedUser?.FullName" class="w-full h-full object-cover" />
+                    </div>
+                    <span class="text-base text-japaneseIndigo font-bold">{{importedUser?.FullName}}</span>
+                  </div>
+                </div>
+                <div class="text-center" *ngIf="pageObj && pageObj.hasNextPage">
+                  <button class="secondary px-5 py-2" (click)="getImportedUsersList()">Load more</button>
+                </div>
+              </div>
+            </div>
+            <div class="w-full lg:w-1/2 pt-5 lg:pt-0">
+              <div class="max-w-max ml-auto text-base font-bold text-japaneseIndigo bg-white py-3 px-8 rounded-md">Total User: <span>{{totalUsersCount | number:'1.0-0'}}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="upload-holder w-full h-full pt-5">
+            <div class="flex items-end justify-between pb-3">
+              <h5>Upload Excel</h5>
+              <a class="secondary px-5 py-2" [href]="constants.baseImageURL + constants.importUsersDemoUrl" target="_self">Demo</a>
+            </div>
+            <label for="upload-csv" class="upload py-14">
+              <input type="file" accept="text/csv, text/xml, text/xls, text/xlsx" name="upload-csv" id="upload-csv" class="appearance-none hidden" (change)="uploadUserCSV($event)"/>
+              <div class="mt-1 flex items-center justify-center"><i
+                      class="icon-excel text-quicksilver text-base mr-2"></i>
+                <span class="input-titel pt-1">Upload Excel</span>
+              </div>
+            </label>
+          </div>
+        </div>
+        <div class="w-full px-2 inputHolder relative pb-0.5 mb-7">
+          <span class="input-titel">Bill Details</span>
+          <div class="bg-white rounded p-8 mt-6 space-y-5">
+            <div class="flex items-start" *ngIf="notificationObj && notificationObj.is_notification">
+              <i class="w-8 icon-bell_fill text-magicPotion text-2xl mr-5"></i>
+              <div class="w-full flex justify-between">
+                <div class="">
+                  <p class="text-base text-japaneseIndigo font-bold">Notification</p>
+                  <span class="text-sm text-gray-300 font-normal" *ngIf="calculateTotalObj.planDiscount">{{numberOfUsers}} User x {{settingObj?.notificationcost}}</span>
+                  <span class="text-sm text-gray-300 font-normal" *ngIf="!calculateTotalObj.planDiscount">{{selectedPlanObj.notification_amount | number:'1.2-2'}} FOR {{selectedPlanObj.total_users | number:'1.0-0'}} USERS</span>
+                </div>
+                <h4 class="font-normal"><i class="icon-rs rs-black text-base mr-2"></i>{{(calculateTotalObj?.notificationTotal || 0) | number:'1.2-2'}}</h4>
+              </div>
+            </div>
+            <div class="flex items-start" *ngIf="notificationObj && notificationObj.is_sms ">
+              <i class="w-8 icon-massage_fill text-magicPotion text-2xl mr-5"></i>
+              <div class="w-full flex justify-between">
+                <div class="">
+                  <p class="text-base text-japaneseIndigo font-bold">SMS</p>
+                  <span class="text-sm text-gray-300 font-normal" *ngIf="calculateTotalObj.planDiscount">{{numberOfUsers}} Phone Number x {{settingObj?.smscost}}</span>
+                  <span class="text-sm text-gray-300 font-normal" *ngIf="!calculateTotalObj.planDiscount">{{selectedPlanObj.sms_amount | number:'1.2-2'}} FOR {{selectedPlanObj.total_users | number:'1.0-0'}} USERS</span>
+                </div>
+                <h4 class="font-normal"><i class="icon-rs rs-black text-base mr-2"></i>{{(calculateTotalObj?.smsTotal || 0) | number:'1.2-2'}}</h4>
+              </div>
+            </div>
+            <div class="flex items-start" *ngIf="notificationObj && notificationObj.is_email">
+              <i class="w-8 icon-email_fill text-magicPotion text-2xl mr-5"></i>
+              <div class="w-full flex justify-between">
+                <div class="">
+                  <p class="text-base text-japaneseIndigo font-bold">Email</p>
+                  <span class="text-sm text-gray-300 font-normal" *ngIf="calculateTotalObj.planDiscount">{{numberOfUsers}} Email ID x {{settingObj?.emailcost}}</span>
+                  <span class="text-sm text-gray-300 font-normal" *ngIf="!calculateTotalObj.planDiscount">{{selectedPlanObj.email_amount | number:'1.2-2'}} FOR {{selectedPlanObj.total_users | number:'1.0-0'}} USERS</span>
+                </div>
+                <h4 class="font-normal"><i class="icon-rs rs-black text-base mr-2"></i>{{(calculateTotalObj?.emailTotal || 0) | number:'1.2-2'}}</h4>
+              </div>
+            </div>
+            <div class="flex items-start" *ngIf="selectedPlanObj && calculateTotalObj.planDiscount">
+              <i class="w-8 icon-email_fill text-magicPotion text-2xl mr-5"></i>
+              <div class="w-full flex justify-between">
+                <div class="">
+                  <p class="text-base text-japaneseIndigo font-bold">All</p>
+                  <span class="text-sm text-gray-300 font-normal">{{selectedPlanObj.combo_amount | number:'1.2-2'}} FOR {{selectedPlanObj.total_users | number:'1.0-0'}} USERS</span>
+                </div>
+                <h4 class="font-normal"><i class="icon-rs rs-black text-base mr-2"></i>{{(selectedPlanObj?.combo_amount || 0) | number:'1.2-2'}}</h4>
+              </div>
+            </div>
+            <div class="flex justify-between capitalize text-magicPotion" *ngIf="selectedCoupon && selectedCoupon._id && selectedCoupon._id != ''">
+              <h5>discount savings</h5>
+              <h4>- <i class="icon-rs rs-black text-base mr-2"></i>{{(calculateTotalObj?.totalCouponDiscount || 0) | number:'1.2-2'}}</h4>
+            </div>
+            <span class="block border-b-2 border-dashed border-gray-300"></span>
+            <div class="flex justify-between capitalize">
+              <h2>total</h2>
+              <h4><i class="icon-rs rs-black text-lg mr-2"></i>{{(calculateTotalObj.total || 0) | number:'1.2-2'}}</h4>
+            </div>
+          </div>
+        </div>
+        <div class="w-full px-2 inputHolder relative pb-0.5 mb-7" *ngIf="couponsList && couponsList.length">
+          <h5 class="capitalize">discount coupon</h5>
+          <div *ngFor="let coupon of couponsList">
+            <div class="flex justify-between items-center border border-caribbeanGreen rounded-md px-5 py-6 bg-green-50"
+                 *ngIf="selectedCoupon && selectedCoupon._id && selectedCoupon._id == coupon._id">
+              <div>
+                <h5 class="text-caribbeanGreen pb-2">Coupon applied - You saved ₹{{(calculateTotalObj?.totalCouponDiscount || 0) | number:'1.2-2'}}</h5>
+                <span class="text-sm text-quicksilver">Coupon Code : {{selectedCoupon?.code}}</span>
+              </div>
+              <div>
+                <a href="javascript:void(0);" (click)="onRemoveCoupon()"><i class="icon-delete text-magicPotion text-2xl"></i></a>
+              </div>
+            </div>
+            <div class="bg-white rounded p-8 flex items-start mt-3" *ngIf="!selectedCoupon || !selectedCoupon._id || selectedCoupon._id != coupon._id">
+              <i class="w-8 icon-coupan text-magicPotion text-2xl mr-5"></i>
+              <div class="w-full flex justify-between">
+                <div class="">
+                  <p class="text-base text-japaneseIndigo font-bold">Apply Coupons</p>
+                  <span class="text-sm text-gray-300 font-normal" [innerHTML]="coupon?.description || ''"></span>
+                </div>
+                <div class="flex items-center text-lg text-japaneseIndigo capitalize">
+                  <button class="bg-japaneseIndigo text-white border border-japaneseIndigo hover:bg-transparent hover:text-japaneseIndigo px-3 py-2 rounded-md anim" (click)="onApplyCoupon(coupon)">
+                    Apply Code
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- pay now button  -->
+        <button type="button" class="secondary w-full uppercase py-2.5 anim mt-5" (click)="payNow()">
+          <h5>Pay NOW</h5>
+        </button>
       </div>
-    </div>
-    <div class="w-full overflow-hidden overflow-x-auto capitalize">
-      <p-steps [model]="items" [readonly]="false"></p-steps>
-    </div>
-  </div>
-  <!-- main-content  -->
-  <div class="outletPortal pt-8 max-h-full overflow-auto">
-    <router-outlet></router-outlet>
+    </form>
   </div>
 </div>

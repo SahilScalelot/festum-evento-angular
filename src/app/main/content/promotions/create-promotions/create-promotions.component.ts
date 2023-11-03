@@ -19,6 +19,7 @@ export class CreatePromotionsComponent implements OnInit {
   notificationForm: any;
   notificationId: any = '';
   editorConfig: any = {};
+  minDateValue: any = new Date();
   constants: any = CONSTANTS;
   detailEditor = DecoupledEditor;
   inputText: any;
@@ -157,6 +158,12 @@ export class CreatePromotionsComponent implements OnInit {
       link: [notificationObj?.link || '', [Validators.required, Validators.pattern('(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?')]],
       banner: [notificationObj?.banner || '', [Validators.required]],
       description: [notificationObj?.description || '', [Validators.required]],
+      notification_date: [notificationObj && notificationObj.notification_date ? new Date(notificationObj?.notification_date) : ''],
+      notification_time: [notificationObj?.notification_time || ''],
+      is_notification : [notificationObj?.is_notification  || true],
+      is_email: [notificationObj?.is_email || false],
+      is_sms: [notificationObj?.is_sms || false],
+      email_template_id: [notificationObj?.email_template_id || ''],
       status: [true],
     });
   }

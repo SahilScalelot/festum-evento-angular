@@ -46,7 +46,47 @@
             </span>
           </span>
         </div>
+        <div class="w-full md:w-1/2 px-2 inputHolder relative pb-0.5 mb-7">
+            <span class="input-titel">{{'Date' | translate }}<span>*</span></span>
+            <label class="bg-white rounded-md flex space-x-3 relative">
+              <i class="icon-calendar-2 text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0 z-10"></i>
+              <p-calendar class="w-full" styleClass="w-full" [formControlName]="'notification_date'" name="date" [minDate]="minDateValue" [readonlyInput]="true" inputId="date"></p-calendar>
+            </label>
+        </div>
+        <div class="w-full md:w-1/2 px-2 inputHolder relative pb-0.5 mb-7">
+          <span class="input-titel">{{'Time' | translate }}<span>*</span></span>
+            <label class="bg-white rounded-md flex space-x-3 relative">
+              <i class="icon-time text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0"></i>
+              <p-calendar class="w-full" [timeOnly]="true" inputId="timeonly" [formControlName]="'notification_time'"></p-calendar>
+            </label>
+        </div>
         <div class="w-full space-y-2.5 px-2 relative pb-0.5 mb-7">
+          <h5 class="input-titel">{{'Select Category' | translate }}<span>*</span></h5>
+          <div class="flex pt-2">
+              <div class="flex items-center pb-4 pr-4">
+                <label class="checkbox w-8">
+                  <input type="checkbox" name="is_notification" id="is_notification" [formControlName]="'is_notification'" />
+                  <i class="icon-right text-white"></i>
+                </label>
+                <span class="text-base font-bold text-japaneseIndigo pl-4">Notification</span>
+              </div>
+              <div class="flex items-center pb-4 pr-4">
+                <label class="checkbox w-8">
+                  <input type="checkbox" name="is_sms" id="is_sms" [formControlName]="'is_sms'" />
+                  <i class="icon-right text-white"></i>
+                </label>
+                <span class="text-base font-bold text-japaneseIndigo pl-4">SMS</span>
+              </div>
+              <div class="flex items-center pb-4 pr-4">
+                <label class="checkbox w-8">
+                  <input type="checkbox" name="is_email" id="is_email" [formControlName]="'is_email'" />
+                  <i class="icon-right text-white"></i>
+                </label>
+                <span class="text-base font-bold text-japaneseIndigo pl-4">Email</span>
+              </div>
+          </div>
+        </div>
+        <div class="w-full space-y-2.5 px-2 relative pb-0.5 mb-7" *ngIf="notificationForm.controls['is_notification'].value">
           <h5 class="input-titel">{{'description' | translate }}<span>*</span></h5>
           <div class="w-full bg-white rounded">
             <ckeditor (ready)="onTextEditorReady($event)" [config]="editorConfig" [editor]="detailEditor" [formControlName]="'description'" class="h-44 text-editor" id="description-editor" name="description"></ckeditor>
@@ -56,6 +96,20 @@
               </span>
             </span>
           </div>
+        </div>
+        <!--<div class="w-full md:w-1/2 px-2 inputHolder relative pb-0.5 mb-7" *ngIf="notificationForm.controls['is_sms'].value">-->
+            <!--<span class="input-titel">SMS Template</span>-->
+            <!--<select class="bg-white rounded-md flex space-x-3 outline-0 px-6 py-3 relative arrow" [formControlName]="'sms_template_id'">-->
+              <!--<option value=""></option>-->
+              <!--<option value="1">SMS Template 1</option>-->
+            <!--</select>-->
+        <!--</div>-->
+        <div class="w-full md:w-1/2 px-2 inputHolder relative pb-0.5 mb-7" *ngIf="notificationForm.controls['is_email'].value">
+          <span class="input-titel">Email Template</span>
+          <select class="bg-white rounded-md flex space-x-3 outline-0 px-6 py-3 relative arrow" [formControlName]="'email_template_id'">
+            <option value=""></option>
+            <option value="1">Email Template 1</option>
+          </select>
         </div>
         <div class="w-full px-2 text-right">
           <button class="bg-japaneseIndigo rounded-lg text-white capitalize hover:bg-transparent border border-japaneseIndigo hover:text-japaneseIndigo px-8 py-2 anim" (click)="openPreviewNotification()">{{'preview' | translate }}</button>

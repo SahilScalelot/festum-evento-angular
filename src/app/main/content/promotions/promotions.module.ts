@@ -8,6 +8,7 @@ import { CreatePromotionsComponent } from './create-promotions/create-promotions
 import { CKEditorModule } from "@ckeditor/ckeditor5-angular";
 import { ReactiveFormsModule } from "@angular/forms";
 import { PaginatorModule } from "primeng/paginator";
+import { CalendarModule } from "primeng/calendar";
 import { ProgressSpinnerModule } from "primeng/progressspinner";
 import { ModalModule } from "../../_modal";
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -39,6 +40,7 @@ const routes: Routes = [
     CKEditorModule,
     ReactiveFormsModule,
     PaginatorModule,
+    CalendarModule,
     ProgressSpinnerModule,
     MatProgressSpinnerModule,
   ]
