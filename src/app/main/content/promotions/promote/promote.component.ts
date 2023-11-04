@@ -42,12 +42,13 @@ export class PromoteComponent implements OnInit {
               private _promoteService: PromoteService,
               private _router: Router,
               private _globalFunctions: GlobalFunctions,
-              private _globalService: GlobalService) { }
+              private _globalService: GlobalService) {
+    this._preparePromoteForm();
+  }
 
   ngOnInit(): void {
     this.nId = localStorage.getItem('nId');
     if (this.nId && this.nId != '') {
-      this._preparePromoteForm();
       this.notificationObj = this._globalService.promoteNotification$.getValue();
       console.log(this.notificationObj);
       if (this.notificationObj && this.notificationObj._id && this.notificationObj._id != '') {
@@ -62,9 +63,11 @@ export class PromoteComponent implements OnInit {
     } else {
       this._router.navigate(['promotions']);
     }
-    this.promoteForm.get('usertype').valueChanges.subscribe((change: any) => {
-      console.log(change)
-    })
+   // if (this.notificationObj !== null ) {
+      this.promoteForm.get('usertype').valueChanges.subscribe((change: any) => {
+        console.log(change)
+      });
+   // }
   }
   get totalOptions() {
     return new Array(this.totalUsersCount ? (Math.ceil((this.totalUsersCount + 1) / this.usersSelectionLimit)) : 0);

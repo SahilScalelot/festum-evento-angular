@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, Validators} from '@angular/forms';
+import {FormBuilder, Validators, AbstractControl} from '@angular/forms';
 import { Router } from '@angular/router';
 import { SnotifyService } from 'ng-snotify';
 // @ts-ignore
@@ -47,6 +47,9 @@ export class CreatePromotionsComponent implements OnInit {
       this.notificationId = localStorage.getItem('nId');
       this.getNotificationById(this.notificationId);
     }
+    this.notificationForm.get('is_notification').valueChanges.subscribe((change: any) => {
+      console.log(change)
+    });
   }
 
   onTextEditorReady(editor: any): void {
@@ -74,6 +77,32 @@ export class CreatePromotionsComponent implements OnInit {
       this._globalFunctions.errorHanding(error, this, true);
       this.isLoading = false;
     });
+  }
+
+  updateNotification() {
+    const bannerControl = this.notificationForm.get('banner');
+    const descriptionControl = this.notificationForm.get('description');
+
+    if (this.notificationForm.get('is_notification').value) {
+      bannerControl.setValidators(Validators.required);
+      descriptionControl.setValidators(Validators.required);
+    } else {
+      bannerControl.clearValidators();
+      descriptionControl.clearValidators();
+    }
+
+    bannerControl.updateValueAndValidity();
+    descriptionControl.updateValueAndValidity();
+  }
+
+  updateEmail() {
+    const emailTemplateControl = this.notificationForm.get('email_template_id');
+    if (this.notificationForm.get('is_email').value) {
+      emailTemplateControl.setValidators(Validators.required);
+    } else {
+      emailTemplateControl.clearValidators();
+    }
+    emailTemplateControl.updateValueAndValidity();
   }
 
   onChangePhoto(event: any): any {
@@ -158,14 +187,25 @@ export class CreatePromotionsComponent implements OnInit {
       link: [notificationObj?.link || '', [Validators.required, Validators.pattern('(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?')]],
       banner: [notificationObj?.banner || '', [Validators.required]],
       description: [notificationObj?.description || '', [Validators.required]],
-      notification_date: [notificationObj && notificationObj.notification_date ? new Date(notificationObj?.notification_date) : ''],
-      notification_time: [notificationObj?.notification_time || ''],
-      is_notification : [notificationObj?.is_notification  || true],
+      notification_date: [notificationObj && notificationObj.notification_date ? new Date(notificationObj?.notification_date) : '', [Validators.required]],
+      notification_time: [notificationObj?.notification_time || '', [Validators.required]],
+      is_notification: [notificationObj?.is_notification  || true],
       is_email: [notificationObj?.is_email || false],
       is_sms: [notificationObj?.is_sms || false],
-      email_template_id: [notificationObj?.email_template_id || ''],
+      email_template_id: [notificationObj?.email_template_id || '', [Validators.required]],
       status: [true],
-    });
+    }, { validator: this.requireAtLeastOneCheckbox });
   }
 
+  requireAtLeastOneCheckbox(control: AbstractControl) {
+    const checkbox1 = control.get('is_notification').value;
+    const checkbox2 = control.get('is_email').value;
+    const checkbox3 = control.get('is_sms').value;
+
+    if (!checkbox1 && !checkbox2 && !checkbox3) {
+      return { requireAtLeastOne: true };
+    }
+
+    return null;
+  }
 }

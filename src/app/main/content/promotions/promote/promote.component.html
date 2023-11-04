@@ -7,7 +7,7 @@
     <!-- main-content  -->
     <form class="space-y-5" [formGroup]="promoteForm">
       <div class="flex items-end flex-wrap -mx-2">
-        <div class="flex flex-wrap">
+        <div class="flex flex-wrap mb-7">
           <div class="w-1/2 lg:w-1/6 xl:w-1/6 p-3 group" *ngFor="let userType of constants.userTypeArr">
             <label [id]="userType?.value" class="user_type text-center bg-white rounded flex flex-col justify-between items-center h-full px-5 py-7 anim relative group cursor-pointer">
               <input type="radio" name="user_type" formControlName="usertype" [id]="userType?.value" [value]="userType?.value" class="hidden" />
@@ -36,7 +36,7 @@
           </div>
           <div class="w-full lg:w-1/2 px-2 inputHolder relative pb-0.5 mb-7">
             <span class="input-titel">Total User</span>
-            <div class="bg-white p-[12px] rounded-md mt-5 lg:mt-0">
+            <div class="p-[12px] rounded-md mt-5 lg:mt-0">
               <span class="text-base font-bold text-japaneseIndigo">{{totalUsersCount}}</span>
             </div>
           </div>
