@@ -46,7 +46,7 @@
         <div class="w-full mb-7" *ngIf="promoteForm.controls['usertype'].value === 'allusers' ">
           <!-- select user card  -->
           <div class="">
-            <h5>Select User Plan</h5>
+            <span class="input-titel">Select User Plan</span>
             <div class="flex flex-wrap xl:flex-nowrap justify-between xl:space-x-5 items-center py-5">
               <div class="w-full xl:w-1/3 pb-5 xl:pb-0" *ngFor="let promotionPlan of allPromotionPlans; let i = index">
                 <div class="bg-gradient-to-r {{!i ? 'from-[#13e1b094] to-[#13E1B0]' : ((i == 1) ? 'from-[#20c0e878] to-[#20C0E8]' : 'from-[#faba1585] to-[#FABA15]')}} p-5 rounded-xl relative overflow-hidden cursor-pointer">
@@ -92,7 +92,7 @@
           <div>
             <div class="flex items-end justify-between">
               <div class="w-1/2">
-                <h5 class="pb-3 capitalize">Select All App User</h5>
+                <span class="pb-3 input-titel">Select All App User</span>
                 <select class="bg-white rounded-md flex space-x-3 outline-0 px-6 py-[18px] relative arrow option" [formControlName]="'numberofusers'" (change)="onChangeUserSelection()">
                   <option *ngFor='let in of totalOptions;let i = index' [value]="i ? (i * usersSelectionLimit) : totalUsersCount">{{i ? (i * usersSelectionLimit) : 'Select All'}}</option>
                 </select>
@@ -103,7 +103,7 @@
             </div>
             <div class="flex pt-7">
               <div class="w-1/2">
-                <h5 class="pb-3 capitalize">ads publish location</h5>
+                <span class="pb-3 input-titel">ads publish location</span>
                 <div class="flex items-center justify-between inputHolder bg-white rounded-md px-5 py-3">
                   <input type="text" class="input text-base font-bold text-japaneseIndigo w-full" name="published_location" id="published_location" [formControlName]="'published_location'" />
                   <a href="javascript:void(0);"><i class="icon-mark_location text-magicPotion text-3xl"></i></a>
@@ -114,7 +114,7 @@
         </div>
 
         <div class="w-full mb-7" *ngIf="promoteForm.controls['usertype'].value === 'existingusers' ">
-          <h5>Select User</h5>
+          <span class="input-titel">Select User</span>
           <div class="flex flex-wrap lg:flex-nowrap lg:space-x-12 pt-5">
             <div class="w-full lg:w-1/2 relative">
               <div class="space-y-3 max-h-[540px] overflow-y-auto">
@@ -151,8 +151,8 @@
 
           <div class="upload-holder w-full h-full pt-5">
             <div class="flex items-end justify-between pb-3">
-              <h5>Upload Excel</h5>
-              <a class="secondary px-5 py-2" [href]="constants.baseImageURL + constants.importUsersDemoUrl" target="_self">Demo</a>
+              <span class="input-titel">Upload Excel</span>
+              <a class="secondary px-5 py-2" [href]="constants.baseImageURL + constants.importUsersDemoUrl" target="_self">Download Demo</a>
             </div>
             <label for="upload-csv" class="upload py-14">
               <input type="file" accept="text/csv, text/xml, text/xls, text/xlsx" name="upload-csv" id="upload-csv" class="appearance-none hidden" (change)="uploadUserCSV($event)"/>

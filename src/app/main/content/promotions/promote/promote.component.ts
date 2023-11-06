@@ -80,6 +80,9 @@ export class PromoteComponent implements OnInit {
         this._globalService.promoteNotification$.next(result.Data);
         this._preparePromoteForm(result.Data);
         this.getTotalUsers(result.Data.usertype);
+        if (result.Data.usertype === 'existingusers') {
+           this.getImportedUsersList();
+        }
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
       }
