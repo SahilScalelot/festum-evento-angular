@@ -87,12 +87,10 @@ export class OfferOverviewComponent implements OnInit {
     this.isSingleVideo = isSingleVideo;
     this.isOpenPopup = true;
   }
-  gotoPromotion(event: any){
+  gotoPromotion(event: any, offerId: any){
     event.stopPropagation();
     // localStorage.setItem('eId', shopId);
-    this._router.navigate(['/promotions']);
-   
-    
+    this._router.navigate(['/promotions/'], { queryParams: {id: offerId, type: 'offlineoffer'}});
   }
 
   closePop(flag: boolean = false): void {

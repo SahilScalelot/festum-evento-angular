@@ -57,8 +57,8 @@
         <span class="inline-block w-0 invisible pl-1.5 group-hover:visible group-hover:w-auto text-xs font-bold text-black/70 whitespace-nowrap">{{'Unverified' | translate }}</span>
       </div>
         <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" (click)="editOffer($event, offerObj._id)" href="javascript:void(0);"><i class="icon-edit text-sm leading-0 text-japaneseIndigo"></i></a>
-        <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" (click)="gotoPromotion($event)"><i class="icon-fill_megaphone text-sm leading-0 text-japaneseIndigo"></i></a>
-        <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" (click)="gotoPromotion($event)"><i class="icon-share text-sm leading-0 text-japaneseIndigo"></i></a>
+        <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" (click)="gotoPromotion($event, offerObj._id)"><i class="icon-fill_megaphone text-sm leading-0 text-japaneseIndigo"></i></a>
+        <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-share text-sm leading-0 text-japaneseIndigo"></i></a>
     </div>
   </div>
       <!-- tab-holder  -->

@@ -141,12 +141,16 @@ export class ShopOverviewComponent implements OnInit, OnDestroy {
     });
   }
 
-  gotoPromotion(event: any, shopId: any){
+  goShopPromotion(event: any, shopId: any){
     event.stopPropagation();
     // localStorage.setItem('eId', shopId);
-    this._router.navigate(['/promotions']);
-   
-    
+    this._router.navigate(['/promotions/'], { queryParams: {id: shopId, type: 'shop'}});
+  }
+
+  goShopOfferPromotion(event: any, offerId: any){
+    event.stopPropagation();
+    // localStorage.setItem('eId', offerId);
+    this._router.navigate(['/promotions/'], { queryParams: {id: offerId, type: 'offlineoffer'}});
   }
 
   openAddEditShopDialog(event: any): void {

@@ -143,10 +143,10 @@ export class OfflineShopsComponent implements OnInit, OnDestroy {
       this.isDeleteLoading = false;
     });
   }
-  gotoPromotion(event: any, eventId: any){
+  gotoPromotion(event: any, shopId: any){
     event.stopPropagation();
-    localStorage.setItem('eId', eventId);
-    this._router.navigate(['/promotions']);
+    localStorage.setItem('eId', shopId);
+    this._router.navigate(['/promotions/'], { queryParams: {id: shopId, type: 'shop'}});
   }
   ngOnDestroy() {
     let elem = document.querySelector("#messageScript");

@@ -87,10 +87,10 @@ export class OfferOverviewComponent implements OnInit {
       this.isLoading = false;
     });
   }
-  gotoPromotion(event: any){
+  gotoPromotion(event: any, onlineOfferId: any){
     event.stopPropagation();
     // localStorage.setItem('eId', eventId);
-    this._router.navigate(['/promotions']);
+    this._router.navigate(['/promotions/'], { queryParams: {id: onlineOfferId, type: 'onlineoffer'}});
   }
 
   offerLive(event: any, offerObj: any): void {
