@@ -158,9 +158,7 @@ export class StreamOverviewComponent implements OnInit {
   gotoPromotion(event: any, liveStreamId: any){
     event.stopPropagation();
     localStorage.setItem('eId', liveStreamId);
-    this._router.navigate(['/promotions']);
-
-
+    this._router.navigate(['/promotions/'], { queryParams: {id: liveStreamId, type: 'event'}});
   }
 
   cancelLiveStreamPopup(event: any): void {

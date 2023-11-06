@@ -43,20 +43,21 @@ export class PromoteComponent implements OnInit {
               private _router: Router,
               private _globalFunctions: GlobalFunctions,
               private _globalService: GlobalService) {
-    this._preparePromoteForm();
   }
 
   ngOnInit(): void {
     this.nId = localStorage.getItem('nId');
     if (this.nId && this.nId != '') {
-      this.notificationObj = this._globalService.promoteNotification$.getValue();
-      console.log(this.notificationObj);
-      if (this.notificationObj && this.notificationObj._id && this.notificationObj._id != '') {
-        this._preparePromoteForm(this.notificationObj);
-        this.promoteForm.get('usertype').updateValueAndValidity();
-      } else {
-        this.getNotificationById();
-      }
+      this._preparePromoteForm();
+      this.getNotificationById();
+      // this.notificationObj = this._globalService.promoteNotification$.getValue();
+      // console.log(this.notificationObj);
+      // if (this.notificationObj && this.notificationObj._id && this.notificationObj._id != '') {
+      //   this._preparePromoteForm(this.notificationObj);
+      //   this.promoteForm.get('usertype').updateValueAndValidity();
+      // } else {
+      //   this.getNotificationById();
+      // }
       this.getCoupons();
       this.getSettings();
       this.getPromotionPlans();
@@ -78,6 +79,7 @@ export class PromoteComponent implements OnInit {
       if (result && result.IsSuccess) {
         this._globalService.promoteNotification$.next(result.Data);
         this._preparePromoteForm(result.Data);
+        this.getTotalUsers(result.Data.usertype);
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
       }
@@ -99,6 +101,25 @@ export class PromoteComponent implements OnInit {
       is_selected_all: [promoteObj?.is_selected_all || false],
     });
   }
+
+  getTotalUsers(userType: any): void {
+    const userTypes = {
+      notificationid: this.nId,
+      usertype: userType
+    };
+    this._promoteService.saveUserType(userTypes).subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        console.log(result)
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+
+    });
+  }
+
   getPromotionPlans(): any {
     this.isLoading = true;
     this._promoteService.getPromotionPlans().subscribe((result: any) => {
@@ -118,11 +139,11 @@ export class PromoteComponent implements OnInit {
   getImportedUsersList(): any {
     this.isLoading = true;
     const filterObj: any = {
-              "notificationid" : this.nId,
-              page : this.pageObj?.nextPage || 1,
-        limit : this.pageObj?.limit || 6,
+        "notificationid" : this.nId,
+         page : this.pageObj?.nextPage || 1,
+         limit : this.pageObj?.limit || 6,
         "search" : ""
-  };
+    };
     this._promoteService.getImportedUsersList(filterObj).subscribe((result: any) => {
       if (result && result.IsSuccess) {
         if (this.allImportedUsers && this.allImportedUsers.length) {

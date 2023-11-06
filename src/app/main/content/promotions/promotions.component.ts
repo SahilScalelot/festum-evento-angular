@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CONSTANTS } from '../../common/constants';
 import { GlobalFunctions } from '../../common/global-functions';
 import { PromotionsService } from './promotions.service';
@@ -16,6 +16,7 @@ export class PromotionsComponent implements OnInit {
   paging: any;
 
   constructor(
+    private route: ActivatedRoute,
     private _router: Router,
     private _globalFunctions: GlobalFunctions,
     private _promotionsService: PromotionsService,
@@ -23,8 +24,10 @@ export class PromotionsComponent implements OnInit {
 
   ngOnInit(): void {
     this._globalFunctions.removeIdsFromLocalStorage();
-
-    this.getOnlineShopOffers();
+    this.route.queryParams.subscribe(params => {
+      console.log(params)
+    });
+    this.getPromotionsList();
   }
 
   promoteNotification(notificationId: any = ''): void {
@@ -32,7 +35,7 @@ export class PromotionsComponent implements OnInit {
     this._router.navigate(['/promotions/promote']);
   }
 
-  getOnlineShopOffers(event: any = {}): void {
+  getPromotionsList(event: any = {}): void {
     this.isLoading = true;
     const page = event ? (event.page + 1) : 1;
     const filter: any = {

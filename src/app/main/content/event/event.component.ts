@@ -175,7 +175,7 @@ export class EventComponent implements OnInit {
   gotoPromotion(event: any, eventId: any){
     event.stopPropagation();
     localStorage.setItem('eId', eventId);
-    this._router.navigate(['/promotions']);
+    this._router.navigate(['/promotions/'], { queryParams: {id: eventId, type: 'event'}});
   }
   gotoDiscount(event: any, eventId: any): void{
     event.stopPropagation();
