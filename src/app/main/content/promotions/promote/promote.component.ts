@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { GlobalFunctions } from 'src/app/main/common/global-functions';
 import { GlobalService } from "../../../../services/global.service";
@@ -15,6 +15,10 @@ import * as _ from 'lodash';
   styleUrls: ['./promote.component.scss']
 })
 export class PromoteComponent implements OnInit {
+  @ViewChild('form') form: ElementRef;
+  accessCode: any;
+  encRequestRes : any;
+
   nId: any;
   constants: any = CONSTANTS;
   promoteForm: any;
@@ -26,6 +30,7 @@ export class PromoteComponent implements OnInit {
   isExistingUserSelected: boolean = false;
   isUploadCSVLoading: boolean = false;
   tmpSelectedPlan: any = '';
+  totalUsers: any = 0;
   totalUsersCount: any = 5999;
   usersSelectionLimit: any = 500;
   calculateTotalObj: any = {};
@@ -112,7 +117,20 @@ export class PromoteComponent implements OnInit {
     };
     this._promoteService.saveUserType(userTypes).subscribe((result: any) => {
       if (result && result.IsSuccess) {
-        console.log(result)
+        console.log(result);
+        if (userType === 'onlineofferusers') {
+          this.totalUsers = result.Data.totalonlineofferusers;
+        } else if (userType === 'eventusers') {
+          this.totalUsers = result.Data.totaleventusers;
+        } else if (userType === 'shopusers') {
+          this.totalUsers = result.Data.totalshopusers;
+        } else if (userType === 'livestreamusers') {
+          this.totalUsers = result.Data.totallivestreamusers;
+        } else if (userType === 'allusers') {
+          this.totalUsers = result.Data.totalusers;
+        } else {
+          return
+        }
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
 
@@ -160,7 +178,7 @@ export class PromoteComponent implements OnInit {
         //   });
         // }
         this.pageObj = this._globalFunctions.copyObject(result.Data);
-        this.totalUsersCount = this.pageObj.totalDocs;
+        this.totalUsers = this.pageObj.totalDocs;
         delete this.pageObj.docs;
         this.isLoading = false;
       } else {

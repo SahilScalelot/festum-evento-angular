@@ -31,13 +31,12 @@
             <span class="input-titel">Select User</span>
             <select class="bg-white rounded-md flex space-x-3 outline-0 px-6 py-3 relative arrow" [formControlName]="'numberofusers'">
               <option *ngFor='let in of totalOptions;let i = index' [value]="i ? (i * usersSelectionLimit) : totalUsersCount">{{i ? (i * usersSelectionLimit) : 'Select All'}}</option>
-              <!-- <option *ngFor='let in of totalOptions;let i = index' [value]="i ? (i * math.ceil(totalUsersCount / 10)) : totalUsersCount">{{i ? (i * math.ceil(totalUsersCount / 10)) : 'Select All'}}</option> -->
             </select>
           </div>
           <div class="w-full lg:w-1/2 px-2 inputHolder relative pb-0.5 mb-7">
             <span class="input-titel">Total User</span>
             <div class="p-[12px] rounded-md mt-5 lg:mt-0">
-              <span class="text-base font-bold text-japaneseIndigo">{{totalUsersCount}}</span>
+              <span class="text-base font-bold text-japaneseIndigo">{{totalUsers}}</span>
             </div>
           </div>
         </ng-container>
@@ -98,7 +97,7 @@
                 </select>
               </div>
               <div class="bg-white p-[18px] rounded-md">
-                <span class="text-base font-bold text-japaneseIndigo">Total User : {{totalUsersCount}}</span>
+                <span class="text-base font-bold text-japaneseIndigo">Total User : {{totalUsers}}</span>
               </div>
             </div>
             <div class="flex pt-7">
@@ -144,7 +143,7 @@
               </div>
             </div>
             <div class="w-full lg:w-1/2 pt-5 lg:pt-0">
-              <div class="max-w-max ml-auto text-base font-bold text-japaneseIndigo bg-white py-3 px-8 rounded-md">Total User: <span>{{totalUsersCount | number:'1.0-0'}}</span>
+              <div class="max-w-max ml-auto text-base font-bold text-japaneseIndigo bg-white py-3 px-8 rounded-md">Total User: <span>{{totalUsers | number:'1.0-0'}}</span>
               </div>
             </div>
           </div>
@@ -254,6 +253,14 @@
           <h5>Pay NOW</h5>
         </button>
       </div>
+    </form>
+    <form #form ngNoForm
+          id="nonseamless"
+          method="post"
+          name="redirect"
+          action="https://test.ccavenue.com/transaction/transaction.do?command=initiateTransaction">
+      <input type="hidden" id="encRequest" name="encRequest" value="{{encRequestRes}}">
+      <input type="hidden" name="access_code" id="access_code" value="{{accessCode}}">
     </form>
   </div>
 </div>
