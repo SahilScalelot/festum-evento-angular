@@ -1,743 +1,745 @@
 <p-progressSpinner *ngIf="isLoading" [style]="{width: '50px', height: '50px'}" animationDuration=".5s" strokeWidth="8" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-x-0 top-0 h-full w-full z-40" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
-<div *ngIf="event && !isLoading" class="">
-  <div class="-mt-12 relative -z-10">
-    <!-- src="../assets/images/cooking-together-big.png"  -->
-    <img [src]="!!(event?.banner) ? constants?.baseImageURL + event.banner : constants?.defaultImage" alt="cooking-together-bg" class="w-full object-cover max-h-80"/>
-  </div>
-  <div class="wrapper min-h-full -mt-14 z-10">
-    <div class="flex flex-wrap items-center justify-between bg-white py-5 px-7 rounded-md">
-      <div class="w-full md:w-1/2 lg:w-2/3 xl:w-[75%] space-y-3">
-        <div class="flex items-center space-x-2">
-          <h2 class="text-ellipsis whitespace-nowrap overflow-hidden">{{ event.name }}</h2>
-          <div class="flex space-x-2">
-            <div *ngIf="event.event_financial_type == 'paid'" class="group flex items-center justify-center p-1.5 transition-all rounded bg-[#EEEEEE]">
-               <svg  class="translate-x-1 group-hover:translate-x-0" width="18" height="16" viewBox="0 0 18 16" fill="none" xmlns="http://www.w3.org/2000/svg"class="translate-x-1 group-hover:translate-x-0">
-               <path d="M14.9589 1.78764C14.651 0.655899 13.758 0.23246 12.7224 0.517319L3.57998 2.96556H15.2669L14.9589 1.78764ZM18 5.88729V13.7556C18 14.768 17.1993 15.5687 16.1869 15.5687H1.81309C0.800684 15.5687 0 14.768 0 13.7556V5.88729C0 4.87489 0.800684 4.0742 1.81309 4.0742H16.1831C17.1762 4.07417 18 4.89799 18 5.88729Z" fill="#FE4D5F"/>
-               <path d="M11.25 7.71887V6.87512H6.75V7.71887H8.18182C8.71445 7.71887 9.16405 8.0724 9.33341 8.56262H6.75V9.40637H9.33341C9.24943 9.65242 9.09365 9.86563 8.88745 10.0167C8.68126 10.1678 8.43476 10.2493 8.18182 10.2501H6.75V11.2685L9.03518 13.6251H10.1921L7.73755 11.0939H8.18182C8.6531 11.0933 9.10976 10.9251 9.47478 10.6177C9.8398 10.3103 10.0908 9.88246 10.1855 9.40637H11.25V8.56262H10.1855C10.1228 8.25559 9.9936 7.96715 9.80755 7.71887H11.25Z" fill="white"/>
-               </svg>                         
-               <span class="inline-block w-0 invisible pl-1.5 group-hover:visible group-hover:w-auto text-xs font-bold text-black/70 whitespace-nowrap">{{'Paid' | translate }}</span>
-             </div>
-             <div *ngIf="event.event_financial_type == 'free'" class="group flex items-center justify-center p-1.5 transition-all rounded bg-[#EEEEEE]">
-               <svg width="18" height="16" viewBox="0 0 18 16" fill="none" xmlns="http://www.w3.org/2000/svg"class="translate-x-1 group-hover:translate-x-0"> <g clip-path="url(#clip0_9777_12558)"> <path d="M14.9589 2.78764C14.651 1.6559 13.758 1.23246 12.7224 1.51732L3.57998 3.96556H15.2669L14.9589 2.78764ZM18 6.88729V14.7556C18 15.768 17.1993 16.5687 16.1869 16.5687H1.81309C0.800684 16.5687 0 15.768 0 14.7556V6.88729C0 5.87489 0.800684 5.0742 1.81309 5.0742H16.1831C17.1762 5.07417 18 5.89799 18 6.88729Z" fill="#13E1B0"/> <path d="M11.25 8.71887V7.87512H6.75V8.71887H8.18182C8.71445 8.71887 9.16405 9.0724 9.33341 9.56262H6.75V10.4064H9.33341C9.24943 10.6524 9.09365 10.8656 8.88745 11.0167C8.68126 11.1678 8.43476 11.2493 8.18182 11.2501H6.75V12.2685L9.03518 14.6251H10.1921L7.73755 12.0939H8.18182C8.6531 12.0933 9.10976 11.9251 9.47478 11.6177C9.8398 11.3103 10.0908 10.8825 10.1855 10.4064H11.25V9.56262H10.1855C10.1228 9.25559 9.9936 8.96715 9.80755 8.71887H11.25Z" fill="white"/> <rect x="15.5674" y="-0.182251" width="1.125" height="22.6311" transform="rotate(38.314 15.5674 -0.182251)" fill="white"/> </g> <defs> <clipPath id="clip0_9777_12558"> <rect width="18" height="18" fill="white"/> </clipPath> </defs> </svg>                
-               <span class="inline-block w-0 invisible pl-1.5 group-hover:visible group-hover:w-auto text-xs font-bold text-black/70 whitespace-nowrap">{{'Free' | translate }}</span>
-             </div>
-             <div *ngIf="event.is_approved == true" class="group flex items-center justify-center p-1.5 transition-all rounded bg-[#EEEEEE]">
-               <svg class="translate-x-1 group-hover:translate-x-0" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                 <path d="M15.8903 7.50531C15.6467 7.3637 15.4279 7.18334 15.2423 6.97131C15.2611 6.67612 15.3314 6.3865 15.4501 6.11556C15.6683 5.49981 15.9151 4.80231 15.5191 4.26006C15.1231 3.71781 14.3753 3.73506 13.7191 3.75006C13.4291 3.7799 13.1361 3.76011 12.8528 3.69156C12.7018 3.44594 12.594 3.1763 12.5341 2.89431C12.3481 2.26056 12.1358 1.54431 11.4841 1.32981C10.8556 1.12731 10.2736 1.57281 9.75905 1.96431C9.53705 2.16705 9.27981 2.32744 9.00005 2.43756C8.71737 2.32834 8.45727 2.1679 8.2328 1.96431C7.7198 1.57506 7.14005 1.12506 6.50855 1.33056C5.8583 1.54206 5.64605 2.26056 5.45855 2.89431C5.39865 3.17538 5.29191 3.44438 5.1428 3.69006C4.85894 3.75843 4.56562 3.77871 4.27505 3.75006C3.61655 3.73206 2.8748 3.71256 2.47505 4.26006C2.0753 4.80756 2.32505 5.49981 2.54405 6.11481C2.66438 6.38534 2.73574 6.67509 2.7548 6.97056C2.56961 7.18287 2.35098 7.3635 2.10755 7.50531C1.55855 7.88031 0.935303 8.30706 0.935303 9.00006C0.935303 9.69306 1.55855 10.1183 2.10755 10.4948C2.35093 10.6364 2.56955 10.8168 2.7548 11.0288C2.73774 11.3242 2.66842 11.6142 2.55005 11.8853C2.33255 12.5003 2.08655 13.1978 2.4818 13.7401C2.87705 14.2823 3.62255 14.2651 4.2818 14.2501C4.57203 14.2202 4.86522 14.24 5.1488 14.3086C5.29909 14.5544 5.40661 14.824 5.4668 15.1058C5.6528 15.7396 5.86505 16.4558 6.5168 16.6703C6.62129 16.7038 6.73032 16.721 6.84005 16.7213C7.36746 16.6456 7.85764 16.4058 8.24105 16.0358C8.46306 15.8331 8.7203 15.6727 9.00005 15.5626C9.28273 15.6718 9.54284 15.8322 9.7673 16.0358C10.2811 16.4281 10.8631 16.8758 11.4923 16.6696C12.1426 16.4581 12.3548 15.7396 12.5423 15.1066C12.6024 14.825 12.7099 14.5556 12.8603 14.3101C13.1431 14.2412 13.4355 14.2209 13.7251 14.2501C14.3836 14.2658 15.1253 14.2876 15.5251 13.7401C15.9248 13.1926 15.6751 12.5003 15.4561 11.8846C15.3365 11.6143 15.2652 11.3252 15.2453 11.0303C15.4306 10.8178 15.6495 10.6372 15.8933 10.4956C16.4423 10.1206 17.0656 9.69306 17.0656 9.00006C17.0656 8.30706 16.4401 7.88106 15.8903 7.50531Z" fill="#46CC8D"/>
-                 <path d="M12.6059 6.75L10.2539 9.57238C9.32191 10.6908 8.8559 11.25 8.24284 11.25C7.62977 11.25 7.16377 10.6908 6.23176 9.57238L5.625 8.84427" stroke="white" stroke-linecap="round"/>
-               </svg>
-               <span class="inline-block w-0 invisible pl-1.5 group-hover:visible group-hover:w-auto text-xs font-bold text-black/70 whitespace-nowrap">{{'Verified' | translate }}</span>
-             </div>
-             <div *ngIf="event.is_approved == false" class="group flex items-center justify-center p-1.5 transition-all rounded bg-[#EEEEEE]">
-               <svg class="translate-x-1 group-hover:translate-x-0" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                 <path d="M15.8903 7.50531C15.6467 7.3637 15.4279 7.18334 15.2423 6.97131C15.2611 6.67612 15.3314 6.3865 15.4501 6.11556C15.6683 5.49981 15.9151 4.80231 15.5191 4.26006C15.1231 3.71781 14.3753 3.73506 13.7191 3.75006C13.4291 3.7799 13.1361 3.76011 12.8528 3.69156C12.7018 3.44594 12.594 3.1763 12.5341 2.89431C12.3481 2.26056 12.1358 1.54431 11.4841 1.32981C10.8556 1.12731 10.2736 1.57281 9.75905 1.96431C9.53705 2.16705 9.27981 2.32744 9.00005 2.43756C8.71737 2.32834 8.45727 2.1679 8.2328 1.96431C7.7198 1.57506 7.14005 1.12506 6.50855 1.33056C5.8583 1.54206 5.64605 2.26056 5.45855 2.89431C5.39865 3.17538 5.29191 3.44438 5.1428 3.69006C4.85894 3.75843 4.56562 3.77871 4.27505 3.75006C3.61655 3.73206 2.8748 3.71256 2.47505 4.26006C2.0753 4.80756 2.32505 5.49981 2.54405 6.11481C2.66438 6.38534 2.73574 6.67509 2.7548 6.97056C2.56961 7.18287 2.35098 7.3635 2.10755 7.50531C1.55855 7.88031 0.935303 8.30706 0.935303 9.00006C0.935303 9.69306 1.55855 10.1183 2.10755 10.4948C2.35093 10.6364 2.56955 10.8168 2.7548 11.0288C2.73774 11.3242 2.66842 11.6142 2.55005 11.8853C2.33255 12.5003 2.08655 13.1978 2.4818 13.7401C2.87705 14.2823 3.62255 14.2651 4.2818 14.2501C4.57203 14.2202 4.86522 14.24 5.1488 14.3086C5.29909 14.5544 5.40661 14.824 5.4668 15.1058C5.6528 15.7396 5.86505 16.4558 6.5168 16.6703C6.62129 16.7038 6.73032 16.721 6.84005 16.7213C7.36746 16.6456 7.85764 16.4058 8.24105 16.0358C8.46306 15.8331 8.7203 15.6727 9.00005 15.5626C9.28273 15.6718 9.54284 15.8322 9.7673 16.0358C10.2811 16.4281 10.8631 16.8758 11.4923 16.6696C12.1426 16.4581 12.3548 15.7396 12.5423 15.1066C12.6024 14.825 12.7099 14.5556 12.8603 14.3101C13.1431 14.2412 13.4355 14.2209 13.7251 14.2501C14.3836 14.2658 15.1253 14.2876 15.5251 13.7401C15.9248 13.1926 15.6751 12.5003 15.4561 11.8846C15.3365 11.6143 15.2652 11.3252 15.2453 11.0303C15.4306 10.8178 15.6495 10.6372 15.8933 10.4956C16.4423 10.1206 17.0656 9.69306 17.0656 9.00006C17.0656 8.30706 16.4401 7.88106 15.8903 7.50531Z" fill="#FE4D5F"/>
-                 <path d="M7.5 7.5L10.5 10.5M7.50001 10.5L9 9L10.5 7.5" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
-               </svg>
-               <span class="inline-block w-0 invisible pl-1.5 group-hover:visible group-hover:w-auto text-xs font-bold text-black/70 whitespace-nowrap">{{'Unverified' | translate }}</span>
-             </div>
-             <div *ngIf="event.accept_booking == true" class="group flex items-center justify-center p-1.5 transition-all rounded bg-[#EEEEEE]">
-               <svg class="translate-x-1 group-hover:translate-x-0" width="18" height="16" viewBox="0 0 10 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                 <path d="M9.41912 1.86187C9.41912 1.15746 8.84809 0.586426 8.14367 0.586426H1.85626C1.15184 0.586426 0.580811 1.15746 0.580811 1.86187V13.259H9.41912V1.86187Z" fill="white"/>
-                 <path d="M9.41915 1.86187C9.41915 1.15746 8.84812 0.586426 8.14371 0.586426H5V13.259H9.41915V1.86187Z" fill="white"/>
-                 <path d="M8.14367 0.125H1.85626C0.898551 0.125 0.119385 0.904167 0.119385 1.86188V14.1381C0.119385 15.0958 0.898551 15.875 1.85626 15.875H8.14367C9.10138 15.875 9.88055 15.0958 9.88055 14.1381V1.86188C9.88055 0.904167 9.10138 0.125 8.14367 0.125ZM1.04224 12.7976V1.86188C1.04224 1.41303 1.40741 1.04786 1.85626 1.04786H8.14367C8.59252 1.04786 8.95769 1.41303 8.95769 1.86188V12.7976H1.04224Z" fill="#25364F"/>
-                 <path d="M8.14371 0.125H5V1.04786H8.14371C8.59255 1.04786 8.95773 1.41303 8.95773 1.86188V12.7976H5V15.875H8.14371C9.10142 15.875 9.88058 15.0958 9.88058 14.1381V1.86188C9.88058 0.904167 9.10142 0.125 8.14371 0.125Z" fill="#25364F"/>
-                 <path d="M4.99976 11.375C6.86372 11.375 8.37476 9.86396 8.37476 8C8.37476 6.13604 6.86372 4.625 4.99976 4.625C3.13579 4.625 1.62476 6.13604 1.62476 8C1.62476 9.86396 3.13579 11.375 4.99976 11.375Z" fill="#46CC8D"/>
-                 <path d="M6.96851 6.875L5.54714 8.63899C4.9839 9.338 4.70228 9.6875 4.33179 9.6875C3.9613 9.6875 3.67968 9.338 3.11644 8.63899L2.74976 8.18392" stroke="white" stroke-width="0.5" stroke-linecap="round"/>
-               </svg>                         
-               <span class="inline-block w-0 invisible pl-1.5 group-hover:visible group-hover:w-auto text-xs font-bold text-black/70 whitespace-nowrap">{{'bookingAccept' | translate}}</span>
-             </div>
-             <div *ngIf="event.accept_booking == false" class="group flex items-center justify-center p-1.5 transition-all rounded bg-[#EEEEEE]">
-               <svg class="translate-x-1 group-hover:translate-x-0" width="18" height="16" viewBox="0 0 10 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                 <path d="M9.41912 1.86187C9.41912 1.15746 8.84809 0.586426 8.14367 0.586426H1.85626C1.15184 0.586426 0.580811 1.15746 0.580811 1.86187V13.259H9.41912V1.86187Z" fill="white"/>
-                 <path d="M9.41915 1.86187C9.41915 1.15746 8.84812 0.586426 8.14371 0.586426H5V13.259H9.41915V1.86187Z" fill="white"/>
-                 <path d="M8.14367 0.125H1.85626C0.898551 0.125 0.119385 0.904167 0.119385 1.86188V14.1381C0.119385 15.0958 0.898551 15.875 1.85626 15.875H8.14367C9.10138 15.875 9.88055 15.0958 9.88055 14.1381V1.86188C9.88055 0.904167 9.10138 0.125 8.14367 0.125ZM1.04224 12.7976V1.86188C1.04224 1.41303 1.40741 1.04786 1.85626 1.04786H8.14367C8.59252 1.04786 8.95769 1.41303 8.95769 1.86188V12.7976H1.04224Z" fill="#25364F"/>
-                 <path d="M8.14371 0.125H5V1.04786H8.14371C8.59255 1.04786 8.95773 1.41303 8.95773 1.86188V12.7976H5V15.875H8.14371C9.10142 15.875 9.88058 15.0958 9.88058 14.1381V1.86188C9.88058 0.904167 9.10142 0.125 8.14371 0.125Z" fill="#25364F"/>
-                 <path d="M4.99976 11.375C6.86372 11.375 8.37476 9.86396 8.37476 8C8.37476 6.13604 6.86372 4.625 4.99976 4.625C3.13579 4.625 1.62476 6.13604 1.62476 8C1.62476 9.86396 3.13579 11.375 4.99976 11.375Z" fill="#FE4D5F"/>
-                 <path d="M3.87476 7L6.12475 9M3.87476 9L4.99976 8L6.12476 7" stroke="white" stroke-width="0.5" stroke-linecap="round"/>
-               </svg>                         
-               <span class="inline-block w-0 invisible pl-1.5 group-hover:visible group-hover:w-auto text-xs font-bold text-black/70 whitespace-nowrap">{{'bookingNotAccept' | translate}}</span>
-             </div>
-         </div>
+<div class="flex flex-col min-h-full">
+  <div *ngIf="event && !isLoading" class="mb-14">
+    <div class="-mt-12 relative -z-10">
+      <!-- src="../assets/images/cooking-together-big.png"  -->
+      <img [src]="!!(event?.banner) ? constants?.baseImageURL + event.banner : constants?.defaultImage" alt="cooking-together-bg" class="w-full object-cover max-h-80"/>
+    </div>
+    <div class="wrapper min-h-full -mt-14 z-10">
+      <div class="flex flex-wrap items-center justify-between bg-white py-5 px-7 rounded-md">
+        <div class="w-full md:w-1/2 lg:w-2/3 xl:w-[75%] space-y-3">
+          <div class="flex items-center space-x-2">
+            <h2 class="text-ellipsis whitespace-nowrap overflow-hidden">{{ event.name }}</h2>
+            <div class="flex space-x-2">
+              <div *ngIf="event.event_financial_type == 'paid'" class="group flex items-center justify-center p-1.5 transition-all rounded bg-[#EEEEEE]">
+                <svg  class="translate-x-1 group-hover:translate-x-0" width="18" height="16" viewBox="0 0 18 16" fill="none" xmlns="http://www.w3.org/2000/svg"class="translate-x-1 group-hover:translate-x-0">
+                <path d="M14.9589 1.78764C14.651 0.655899 13.758 0.23246 12.7224 0.517319L3.57998 2.96556H15.2669L14.9589 1.78764ZM18 5.88729V13.7556C18 14.768 17.1993 15.5687 16.1869 15.5687H1.81309C0.800684 15.5687 0 14.768 0 13.7556V5.88729C0 4.87489 0.800684 4.0742 1.81309 4.0742H16.1831C17.1762 4.07417 18 4.89799 18 5.88729Z" fill="#FE4D5F"/>
+                <path d="M11.25 7.71887V6.87512H6.75V7.71887H8.18182C8.71445 7.71887 9.16405 8.0724 9.33341 8.56262H6.75V9.40637H9.33341C9.24943 9.65242 9.09365 9.86563 8.88745 10.0167C8.68126 10.1678 8.43476 10.2493 8.18182 10.2501H6.75V11.2685L9.03518 13.6251H10.1921L7.73755 11.0939H8.18182C8.6531 11.0933 9.10976 10.9251 9.47478 10.6177C9.8398 10.3103 10.0908 9.88246 10.1855 9.40637H11.25V8.56262H10.1855C10.1228 8.25559 9.9936 7.96715 9.80755 7.71887H11.25Z" fill="white"/>
+                </svg>                         
+                <span class="inline-block w-0 invisible pl-1.5 group-hover:visible group-hover:w-auto text-xs font-bold text-black/70 whitespace-nowrap">{{'Paid' | translate }}</span>
+              </div>
+              <div *ngIf="event.event_financial_type == 'free'" class="group flex items-center justify-center p-1.5 transition-all rounded bg-[#EEEEEE]">
+                <svg width="18" height="16" viewBox="0 0 18 16" fill="none" xmlns="http://www.w3.org/2000/svg"class="translate-x-1 group-hover:translate-x-0"> <g clip-path="url(#clip0_9777_12558)"> <path d="M14.9589 2.78764C14.651 1.6559 13.758 1.23246 12.7224 1.51732L3.57998 3.96556H15.2669L14.9589 2.78764ZM18 6.88729V14.7556C18 15.768 17.1993 16.5687 16.1869 16.5687H1.81309C0.800684 16.5687 0 15.768 0 14.7556V6.88729C0 5.87489 0.800684 5.0742 1.81309 5.0742H16.1831C17.1762 5.07417 18 5.89799 18 6.88729Z" fill="#13E1B0"/> <path d="M11.25 8.71887V7.87512H6.75V8.71887H8.18182C8.71445 8.71887 9.16405 9.0724 9.33341 9.56262H6.75V10.4064H9.33341C9.24943 10.6524 9.09365 10.8656 8.88745 11.0167C8.68126 11.1678 8.43476 11.2493 8.18182 11.2501H6.75V12.2685L9.03518 14.6251H10.1921L7.73755 12.0939H8.18182C8.6531 12.0933 9.10976 11.9251 9.47478 11.6177C9.8398 11.3103 10.0908 10.8825 10.1855 10.4064H11.25V9.56262H10.1855C10.1228 9.25559 9.9936 8.96715 9.80755 8.71887H11.25Z" fill="white"/> <rect x="15.5674" y="-0.182251" width="1.125" height="22.6311" transform="rotate(38.314 15.5674 -0.182251)" fill="white"/> </g> <defs> <clipPath id="clip0_9777_12558"> <rect width="18" height="18" fill="white"/> </clipPath> </defs> </svg>                
+                <span class="inline-block w-0 invisible pl-1.5 group-hover:visible group-hover:w-auto text-xs font-bold text-black/70 whitespace-nowrap">{{'Free' | translate }}</span>
+              </div>
+              <div *ngIf="event.is_approved == true" class="group flex items-center justify-center p-1.5 transition-all rounded bg-[#EEEEEE]">
+                <svg class="translate-x-1 group-hover:translate-x-0" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M15.8903 7.50531C15.6467 7.3637 15.4279 7.18334 15.2423 6.97131C15.2611 6.67612 15.3314 6.3865 15.4501 6.11556C15.6683 5.49981 15.9151 4.80231 15.5191 4.26006C15.1231 3.71781 14.3753 3.73506 13.7191 3.75006C13.4291 3.7799 13.1361 3.76011 12.8528 3.69156C12.7018 3.44594 12.594 3.1763 12.5341 2.89431C12.3481 2.26056 12.1358 1.54431 11.4841 1.32981C10.8556 1.12731 10.2736 1.57281 9.75905 1.96431C9.53705 2.16705 9.27981 2.32744 9.00005 2.43756C8.71737 2.32834 8.45727 2.1679 8.2328 1.96431C7.7198 1.57506 7.14005 1.12506 6.50855 1.33056C5.8583 1.54206 5.64605 2.26056 5.45855 2.89431C5.39865 3.17538 5.29191 3.44438 5.1428 3.69006C4.85894 3.75843 4.56562 3.77871 4.27505 3.75006C3.61655 3.73206 2.8748 3.71256 2.47505 4.26006C2.0753 4.80756 2.32505 5.49981 2.54405 6.11481C2.66438 6.38534 2.73574 6.67509 2.7548 6.97056C2.56961 7.18287 2.35098 7.3635 2.10755 7.50531C1.55855 7.88031 0.935303 8.30706 0.935303 9.00006C0.935303 9.69306 1.55855 10.1183 2.10755 10.4948C2.35093 10.6364 2.56955 10.8168 2.7548 11.0288C2.73774 11.3242 2.66842 11.6142 2.55005 11.8853C2.33255 12.5003 2.08655 13.1978 2.4818 13.7401C2.87705 14.2823 3.62255 14.2651 4.2818 14.2501C4.57203 14.2202 4.86522 14.24 5.1488 14.3086C5.29909 14.5544 5.40661 14.824 5.4668 15.1058C5.6528 15.7396 5.86505 16.4558 6.5168 16.6703C6.62129 16.7038 6.73032 16.721 6.84005 16.7213C7.36746 16.6456 7.85764 16.4058 8.24105 16.0358C8.46306 15.8331 8.7203 15.6727 9.00005 15.5626C9.28273 15.6718 9.54284 15.8322 9.7673 16.0358C10.2811 16.4281 10.8631 16.8758 11.4923 16.6696C12.1426 16.4581 12.3548 15.7396 12.5423 15.1066C12.6024 14.825 12.7099 14.5556 12.8603 14.3101C13.1431 14.2412 13.4355 14.2209 13.7251 14.2501C14.3836 14.2658 15.1253 14.2876 15.5251 13.7401C15.9248 13.1926 15.6751 12.5003 15.4561 11.8846C15.3365 11.6143 15.2652 11.3252 15.2453 11.0303C15.4306 10.8178 15.6495 10.6372 15.8933 10.4956C16.4423 10.1206 17.0656 9.69306 17.0656 9.00006C17.0656 8.30706 16.4401 7.88106 15.8903 7.50531Z" fill="#46CC8D"/>
+                  <path d="M12.6059 6.75L10.2539 9.57238C9.32191 10.6908 8.8559 11.25 8.24284 11.25C7.62977 11.25 7.16377 10.6908 6.23176 9.57238L5.625 8.84427" stroke="white" stroke-linecap="round"/>
+                </svg>
+                <span class="inline-block w-0 invisible pl-1.5 group-hover:visible group-hover:w-auto text-xs font-bold text-black/70 whitespace-nowrap">{{'Verified' | translate }}</span>
+              </div>
+              <div *ngIf="event.is_approved == false" class="group flex items-center justify-center p-1.5 transition-all rounded bg-[#EEEEEE]">
+                <svg class="translate-x-1 group-hover:translate-x-0" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M15.8903 7.50531C15.6467 7.3637 15.4279 7.18334 15.2423 6.97131C15.2611 6.67612 15.3314 6.3865 15.4501 6.11556C15.6683 5.49981 15.9151 4.80231 15.5191 4.26006C15.1231 3.71781 14.3753 3.73506 13.7191 3.75006C13.4291 3.7799 13.1361 3.76011 12.8528 3.69156C12.7018 3.44594 12.594 3.1763 12.5341 2.89431C12.3481 2.26056 12.1358 1.54431 11.4841 1.32981C10.8556 1.12731 10.2736 1.57281 9.75905 1.96431C9.53705 2.16705 9.27981 2.32744 9.00005 2.43756C8.71737 2.32834 8.45727 2.1679 8.2328 1.96431C7.7198 1.57506 7.14005 1.12506 6.50855 1.33056C5.8583 1.54206 5.64605 2.26056 5.45855 2.89431C5.39865 3.17538 5.29191 3.44438 5.1428 3.69006C4.85894 3.75843 4.56562 3.77871 4.27505 3.75006C3.61655 3.73206 2.8748 3.71256 2.47505 4.26006C2.0753 4.80756 2.32505 5.49981 2.54405 6.11481C2.66438 6.38534 2.73574 6.67509 2.7548 6.97056C2.56961 7.18287 2.35098 7.3635 2.10755 7.50531C1.55855 7.88031 0.935303 8.30706 0.935303 9.00006C0.935303 9.69306 1.55855 10.1183 2.10755 10.4948C2.35093 10.6364 2.56955 10.8168 2.7548 11.0288C2.73774 11.3242 2.66842 11.6142 2.55005 11.8853C2.33255 12.5003 2.08655 13.1978 2.4818 13.7401C2.87705 14.2823 3.62255 14.2651 4.2818 14.2501C4.57203 14.2202 4.86522 14.24 5.1488 14.3086C5.29909 14.5544 5.40661 14.824 5.4668 15.1058C5.6528 15.7396 5.86505 16.4558 6.5168 16.6703C6.62129 16.7038 6.73032 16.721 6.84005 16.7213C7.36746 16.6456 7.85764 16.4058 8.24105 16.0358C8.46306 15.8331 8.7203 15.6727 9.00005 15.5626C9.28273 15.6718 9.54284 15.8322 9.7673 16.0358C10.2811 16.4281 10.8631 16.8758 11.4923 16.6696C12.1426 16.4581 12.3548 15.7396 12.5423 15.1066C12.6024 14.825 12.7099 14.5556 12.8603 14.3101C13.1431 14.2412 13.4355 14.2209 13.7251 14.2501C14.3836 14.2658 15.1253 14.2876 15.5251 13.7401C15.9248 13.1926 15.6751 12.5003 15.4561 11.8846C15.3365 11.6143 15.2652 11.3252 15.2453 11.0303C15.4306 10.8178 15.6495 10.6372 15.8933 10.4956C16.4423 10.1206 17.0656 9.69306 17.0656 9.00006C17.0656 8.30706 16.4401 7.88106 15.8903 7.50531Z" fill="#FE4D5F"/>
+                  <path d="M7.5 7.5L10.5 10.5M7.50001 10.5L9 9L10.5 7.5" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+                <span class="inline-block w-0 invisible pl-1.5 group-hover:visible group-hover:w-auto text-xs font-bold text-black/70 whitespace-nowrap">{{'Unverified' | translate }}</span>
+              </div>
+              <div *ngIf="event.accept_booking == true" class="group flex items-center justify-center p-1.5 transition-all rounded bg-[#EEEEEE]">
+                <svg class="translate-x-1 group-hover:translate-x-0" width="18" height="16" viewBox="0 0 10 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M9.41912 1.86187C9.41912 1.15746 8.84809 0.586426 8.14367 0.586426H1.85626C1.15184 0.586426 0.580811 1.15746 0.580811 1.86187V13.259H9.41912V1.86187Z" fill="white"/>
+                  <path d="M9.41915 1.86187C9.41915 1.15746 8.84812 0.586426 8.14371 0.586426H5V13.259H9.41915V1.86187Z" fill="white"/>
+                  <path d="M8.14367 0.125H1.85626C0.898551 0.125 0.119385 0.904167 0.119385 1.86188V14.1381C0.119385 15.0958 0.898551 15.875 1.85626 15.875H8.14367C9.10138 15.875 9.88055 15.0958 9.88055 14.1381V1.86188C9.88055 0.904167 9.10138 0.125 8.14367 0.125ZM1.04224 12.7976V1.86188C1.04224 1.41303 1.40741 1.04786 1.85626 1.04786H8.14367C8.59252 1.04786 8.95769 1.41303 8.95769 1.86188V12.7976H1.04224Z" fill="#25364F"/>
+                  <path d="M8.14371 0.125H5V1.04786H8.14371C8.59255 1.04786 8.95773 1.41303 8.95773 1.86188V12.7976H5V15.875H8.14371C9.10142 15.875 9.88058 15.0958 9.88058 14.1381V1.86188C9.88058 0.904167 9.10142 0.125 8.14371 0.125Z" fill="#25364F"/>
+                  <path d="M4.99976 11.375C6.86372 11.375 8.37476 9.86396 8.37476 8C8.37476 6.13604 6.86372 4.625 4.99976 4.625C3.13579 4.625 1.62476 6.13604 1.62476 8C1.62476 9.86396 3.13579 11.375 4.99976 11.375Z" fill="#46CC8D"/>
+                  <path d="M6.96851 6.875L5.54714 8.63899C4.9839 9.338 4.70228 9.6875 4.33179 9.6875C3.9613 9.6875 3.67968 9.338 3.11644 8.63899L2.74976 8.18392" stroke="white" stroke-width="0.5" stroke-linecap="round"/>
+                </svg>                         
+                <span class="inline-block w-0 invisible pl-1.5 group-hover:visible group-hover:w-auto text-xs font-bold text-black/70 whitespace-nowrap">{{'bookingAccept' | translate}}</span>
+              </div>
+              <div *ngIf="event.accept_booking == false" class="group flex items-center justify-center p-1.5 transition-all rounded bg-[#EEEEEE]">
+                <svg class="translate-x-1 group-hover:translate-x-0" width="18" height="16" viewBox="0 0 10 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M9.41912 1.86187C9.41912 1.15746 8.84809 0.586426 8.14367 0.586426H1.85626C1.15184 0.586426 0.580811 1.15746 0.580811 1.86187V13.259H9.41912V1.86187Z" fill="white"/>
+                  <path d="M9.41915 1.86187C9.41915 1.15746 8.84812 0.586426 8.14371 0.586426H5V13.259H9.41915V1.86187Z" fill="white"/>
+                  <path d="M8.14367 0.125H1.85626C0.898551 0.125 0.119385 0.904167 0.119385 1.86188V14.1381C0.119385 15.0958 0.898551 15.875 1.85626 15.875H8.14367C9.10138 15.875 9.88055 15.0958 9.88055 14.1381V1.86188C9.88055 0.904167 9.10138 0.125 8.14367 0.125ZM1.04224 12.7976V1.86188C1.04224 1.41303 1.40741 1.04786 1.85626 1.04786H8.14367C8.59252 1.04786 8.95769 1.41303 8.95769 1.86188V12.7976H1.04224Z" fill="#25364F"/>
+                  <path d="M8.14371 0.125H5V1.04786H8.14371C8.59255 1.04786 8.95773 1.41303 8.95773 1.86188V12.7976H5V15.875H8.14371C9.10142 15.875 9.88058 15.0958 9.88058 14.1381V1.86188C9.88058 0.904167 9.10142 0.125 8.14371 0.125Z" fill="#25364F"/>
+                  <path d="M4.99976 11.375C6.86372 11.375 8.37476 9.86396 8.37476 8C8.37476 6.13604 6.86372 4.625 4.99976 4.625C3.13579 4.625 1.62476 6.13604 1.62476 8C1.62476 9.86396 3.13579 11.375 4.99976 11.375Z" fill="#FE4D5F"/>
+                  <path d="M3.87476 7L6.12475 9M3.87476 9L4.99976 8L6.12476 7" stroke="white" stroke-width="0.5" stroke-linecap="round"/>
+                </svg>                         
+                <span class="inline-block w-0 invisible pl-1.5 group-hover:visible group-hover:w-auto text-xs font-bold text-black/70 whitespace-nowrap">{{'bookingNotAccept' | translate}}</span>
+              </div>
+          </div>
+          </div>
+          <div class="flex items-center space-x-1">
+            <p-rating [(ngModel)]="event.ratings" [readonly]="true" [cancel]="false"></p-rating>
+            <!-- <div id="rateYo"></div> -->
+            <span class="text-quicksilver text-xs font-bold pl-2"> {{event?.totalreview}} {{'Ratings' | translate }} </span>
+          </div>
+          <div class="flex items-center space-x-1">
+            <span class="px-3 py-1 rounded-sm text-xs text-white font-bold bg-magicPotion">{{(event?.event_category?.categoryname) ? event?.event_category?.categoryname : event?.other }}</span>
+          </div>
         </div>
-        <div class="flex items-center space-x-1">
-          <p-rating [(ngModel)]="event.ratings" [readonly]="true" [cancel]="false"></p-rating>
-          <!-- <div id="rateYo"></div> -->
-          <span class="text-quicksilver text-xs font-bold pl-2"> {{event?.totalreview}} {{'Ratings' | translate }} </span>
-        </div>
-        <div class="flex items-center space-x-1">
-          <span class="px-3 py-1 rounded-sm text-xs text-white font-bold bg-magicPotion">{{(event?.event_category?.categoryname) ? event?.event_category?.categoryname : event?.other }}</span>
+        <div class="w-full md:w-1/2 lg:w-1/3 xl:w-[25%] space-y-3">
+          <h3 class="text-right">{{event?.startingat}} INR</h3>
+          <div class="flex space-x-2 justify-end">
+            <label class="flex items-center justify-end">
+              <input type="checkbox" class="switch mr-1.5 lg:mx-3 order-2" (click)="liveEvent($event, event)" [checked]="event?.is_live" [disabled]="!event?.is_approved" />
+              <span class="text-base font-bold anim order-3">{{'Live' | translate }}</span>
+            </label>
+            <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" (click)="editEvent($event, event._id)" *ngIf="event?.iseditable" href="javascript:void(0);"><i class="icon-edit text-sm leading-0 text-japaneseIndigo"></i></a>
+            <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" (click)="gotoPromotion($event,event?._id)"><i class="icon-fill_megaphone text-sm leading-0 text-japaneseIndigo"></i></a>
+            <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" (click)="openSocialMediaDailog($event,event)"><i class="icon-share text-sm leading-0 text-japaneseIndigo"></i></a>
+          
+          </div>
+          <div class="flex items-center justify-end space-x-3">
+            <a class="flex items-center justify-center h-[30px] text-center rounded bg-red-500 text-white text-xs px-2 font-semibold active:bg-red-400" (click)="cancelEventPopup($event)" *ngIf="event?.iseditable" href="javascript:void(0);">Cancel Event</a>
+            <!-- <span class="px-3 py-1 rounded-sm text-xs text-white font-bold bg-japaneseIndigo">{{constants?.eventTypeArr[constants?.eventTypeObj[event?.event_type]]?.displayLabel}}</span> -->
+          </div>
         </div>
       </div>
-      <div class="w-full md:w-1/2 lg:w-1/3 xl:w-[25%] space-y-3">
-        <h3 class="text-right">{{event?.startingat}} INR</h3>
-        <div class="flex space-x-2 justify-end">
-          <label class="flex items-center justify-end">
-            <input type="checkbox" class="switch mr-1.5 lg:mx-3 order-2" (click)="liveEvent($event, event)" [checked]="event?.is_live" [disabled]="!event?.is_approved" />
-            <span class="text-base font-bold anim order-3">{{'Live' | translate }}</span>
-          </label>
-          <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" (click)="editEvent($event, event._id)" *ngIf="event?.iseditable" href="javascript:void(0);"><i class="icon-edit text-sm leading-0 text-japaneseIndigo"></i></a>
-          <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" (click)="gotoPromotion($event,event?._id)"><i class="icon-fill_megaphone text-sm leading-0 text-japaneseIndigo"></i></a>
-          <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" (click)="openSocialMediaDailog($event,event)"><i class="icon-share text-sm leading-0 text-japaneseIndigo"></i></a>
-         
-        </div>
-        <div class="flex items-center justify-end space-x-3">
-          <a class="flex items-center justify-center h-[30px] text-center rounded bg-red-500 text-white text-xs px-2 font-semibold active:bg-red-400" (click)="cancelEventPopup($event)" *ngIf="event?.iseditable" href="javascript:void(0);">Cancel Event</a>
-          <!-- <span class="px-3 py-1 rounded-sm text-xs text-white font-bold bg-japaneseIndigo">{{constants?.eventTypeArr[constants?.eventTypeObj[event?.event_type]]?.displayLabel}}</span> -->
-        </div>
+      <!-- tab-holder deposit -->
+      <div class="teb-holder">
+        <button [class]="overview ? 'active' : ''" (click)="onTabChange('overview')" type="button">{{'Overview' | translate }}</button>
+        <button [class]="attendee ? 'active' : ''" (click)="onTabChange('attendee')" type="button" *ngIf="event?.accept_booking && !event?.iseditable">{{'Attendees' | translate }}</button>
+        <button [class]="reviews ? 'active' : ''" (click)="onTabChange('reviews')" type="button" *ngIf="event?.reviews?.length">{{'Reviews' | translate }}</button>
+        <!-- <button [class]="deposit ? 'active' : ''" (click)="onTabChange('deposit')" type="button" *ngIf="event?.total_event_deposit">Deposit</button> -->
+
+        <a class="secondary px-5 py-2 flex items-end rounded-sm max-w-max ml-auto" href="javascript:void(0);" (click)="exportAttendees()" *ngIf="!!(event?.accept_booking) && event?.is_live && attendee && scanAttendees?.length">Export</a>
       </div>
-    </div>
-    <!-- tab-holder deposit -->
-    <div class="teb-holder">
-      <button [class]="overview ? 'active' : ''" (click)="onTabChange('overview')" type="button">{{'Overview' | translate }}</button>
-      <button [class]="attendee ? 'active' : ''" (click)="onTabChange('attendee')" type="button" *ngIf="event?.accept_booking && !event?.iseditable">{{'Attendees' | translate }}</button>
-      <button [class]="reviews ? 'active' : ''" (click)="onTabChange('reviews')" type="button" *ngIf="event?.reviews?.length">{{'Reviews' | translate }}</button>
-      <!-- <button [class]="deposit ? 'active' : ''" (click)="onTabChange('deposit')" type="button" *ngIf="event?.total_event_deposit">Deposit</button> -->
-
-      <a class="secondary px-5 py-2 flex items-end rounded-sm max-w-max ml-auto" href="javascript:void(0);" (click)="exportAttendees()" *ngIf="!!(event?.accept_booking) && event?.is_live && attendee && scanAttendees?.length">Export</a>
-    </div>
-    <!-- tab-contents-holder -->
-    <div class="pt-7 lg:pt-10">
-      <!--overview-tab-contents -->
-      <div class="relative tab-main" [class]="(!reviews && !deposit) ? 'active' : ''" *ngIf="!reviews && !deposit">
-        <div class="flex flex-wrap">
-          <!-- Overview left-bar -->
-          <div class="w-full lg:w-8/12 lg:pr-5 space-y-7" *ngIf="overview">
-            <div  class="p-7 bg-white rounded-md space-y-1" *ngIf="event?.about?.about_event != ''">
-              <h5>{{'aboutEvent' | translate }}</h5>
-              <div class="w-full flex flex-col">
-                <div [innerHtml]="(aboutevent) ? event?.about?.about_event : event?.about?.about_event | slice:0:180"></div>
-                <a href="javascript:;" (click)="aboutevent=true" *ngIf="!aboutevent && event?.about?.about_event.length > 180" class="text-magicPotion text-sm font-semibold">...{{'readMore' | translate}}</a>
-                <a href="javascript:;" (click)="aboutevent=false" *ngIf="aboutevent && event?.about?.about_event.length > 180" class="text-magicPotion text-sm font-semibold">...{{'readLess' | translate}}</a>
-              </div>
-            </div>
-            <!-- Photo-holder -->
-            <div *ngIf="event?.photos?.length" class="media-upload-holder">
-
-              <!-- media title  -->
-              <div class="flex justify-between items-center">
-                <h3 class="text-lg">{{'Photos' | translate }}</h3>
-                <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(event?.photos, true, false)">{{'View all' | translate }}</a>
-              </div>
-              <!-- photo-holder -->
-              <div class="w-full">
-                <div class="flex flex-wrap overflow-hidden -mx-2">
-                  <div *ngFor="let img of event?.photos" class="w-full lg:w-2/12 p-2 group hover">
-                    <div class="rounded relative overflow-hidden bg-white h-24" (click)="openImageAndVideoDialog([img], true, false, false)">
-                      <p-image [src]="!!(img?.url) ? constants?.baseImageURL + img?.url : constants?.defaultImage" imageClass="w-full h-full object-cover rounded" styleClass="w-full h-full" [preview]="false"></p-image>
-                      <div class="opacity-0 bg-black bg-opacity-50 flex items-center justify-center group-hover:opacity-100 absolute inset-0 transition-all duration-300">
-                        <i class="pi pi-eye text-2xl text-white"></i>
-                      </div>
-                    </div>
-                  </div>
+      <!-- tab-contents-holder -->
+      <div class="pt-7 lg:pt-10">
+        <!--overview-tab-contents -->
+        <div class="relative tab-main" [class]="(!reviews && !deposit) ? 'active' : ''" *ngIf="!reviews && !deposit">
+          <div class="flex flex-wrap">
+            <!-- Overview left-bar -->
+            <div class="w-full lg:w-8/12 lg:pr-5 space-y-7" *ngIf="overview">
+              <div  class="p-7 bg-white rounded-md space-y-1" *ngIf="event?.about?.about_event != ''">
+                <h5>{{'aboutEvent' | translate }}</h5>
+                <div class="w-full flex flex-col">
+                  <div [innerHtml]="(aboutevent) ? event?.about?.about_event : event?.about?.about_event | slice:0:180"></div>
+                  <a href="javascript:;" (click)="aboutevent=true" *ngIf="!aboutevent && event?.about?.about_event.length > 180" class="text-magicPotion text-sm font-semibold">...{{'readMore' | translate}}</a>
+                  <a href="javascript:;" (click)="aboutevent=false" *ngIf="aboutevent && event?.about?.about_event.length > 180" class="text-magicPotion text-sm font-semibold">...{{'readLess' | translate}}</a>
                 </div>
               </div>
-            </div>
-            <!-- videos-holder -->
-            <div *ngIf="event?.videos?.length" class="media-upload-holder">
-              <!-- media title  -->
-              <div class="flex justify-between items-center">
-                <h3 class="text-lg">{{'Videos' | translate }}</h3>
-                <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(event?.videos, false, false)">{{'View all' | translate }}</a>
-              </div>
-              <!-- media-holder -->
-              <div class="w-full">
-                <div class="flex flex-wrap overflow-hidden -mx-2">
-                  <div *ngFor="let video of event?.videos" class="w-full lg:w-2/12 p-2 group hover">
-                    <div class="rounded relative overflow-hidden bg-white h-24" (click)="openImageAndVideoDialog([video], false, false, true)">
-                      <video [src]="!!(video?.url) ? constants?.baseImageURL + video?.url + '#t=0.5' : constants?.defaultImage" class="w-full h-full object-cover bg-white"></video>
-                      <div class="opacity-0 bg-black bg-opacity-50 flex items-center justify-center group-hover:opacity-100 absolute inset-0 transition-all duration-300">
-                        <i class="pi pi-eye text-2xl text-white"></i>
-                      </div>
-                    </div>
-                  </div>
+              <!-- Photo-holder -->
+              <div *ngIf="event?.photos?.length" class="media-upload-holder">
+
+                <!-- media title  -->
+                <div class="flex justify-between items-center">
+                  <h3 class="text-lg">{{'Photos' | translate }}</h3>
+                  <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(event?.photos, true, false)">{{'View all' | translate }}</a>
                 </div>
-              </div>
-            </div>
-            <!-- Accordion -->
-            <div *ngIf="event?.seating_arrangements && event?.seating_arrangements?.length" class="space-y-1.5">
-              <h5 class="text-lg font-bold pb-5">{{'arrangement' | translate }}</h5>
-              <!-- <div class="accordions w-full space-y-5">
-                <div *ngFor="let seating of event?.seating_arrangements;let i = index;" class="accordion_item cursor-pointer h-full p-0 relative">
-                  <div #accordionClick class="title_tab flex justify-between items-center px-5 py-6 max-h-[78px] accordion">
-                    <div (click)="accordionClick.click()" class="space-x-7 flex items-center">
-                      <div class="w-10 text-center">
-                        <img alt="{{seating?.seating_item?.itemname}}" class="mx-auto h-10 max-w-full object-contain" [src]="!!(seating?.seating_item?.itemimage) ? constants?.baseImageURL + seating?.seating_item?.itemimage : constants?.defaultImage"/>
-                      </div>
-                      <h4>{{seating?.seating_item?.itemname}}</h4>
-                    </div>
-                    <div class="flex items-center space-x-7">
-                      <span (click)="accordionClick.click()" class="uper-down flex items-center cursor-pointer"><i class="icon-drop_arrow"></i></span>
-                    </div>
-                  </div>
-                  <div class="inner_content i_c space-y-6 border-t px-5 py-6">
-                    <div class="flex">
-                      <div class="pr-5">
-                        <img alt="select-item" src="../assets/images/select-item.png"/>
-                      </div>
-                      <div class="w-full space-y-2">
-                        <div class="flex items-center justify-between">
-                          <h6 class="text-lg text-japaneseIndigo font-bold">Select Item</h6>
+                <!-- photo-holder -->
+                <div class="w-full">
+                  <div class="flex flex-wrap overflow-hidden -mx-2">
+                    <div *ngFor="let img of event?.photos" class="w-full lg:w-2/12 p-2 group hover">
+                      <div class="rounded relative overflow-hidden bg-white h-24" (click)="openImageAndVideoDialog([img], true, false, false)">
+                        <p-image [src]="!!(img?.url) ? constants?.baseImageURL + img?.url : constants?.defaultImage" imageClass="w-full h-full object-cover rounded" styleClass="w-full h-full" [preview]="false"></p-image>
+                        <div class="opacity-0 bg-black bg-opacity-50 flex items-center justify-center group-hover:opacity-100 absolute inset-0 transition-all duration-300">
+                          <i class="pi pi-eye text-2xl text-white"></i>
                         </div>
-                        <div class="borders">
-                          <div class="" *ngFor="let arrangement of seating?.arrangements">
-                            <div class="flex flex-wrap items-center">
-                              <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4">
-                                <span class="block text-xs xl:text-sm text-quicksilver">No of {{seating?.seating_item?.itemname}}</span>
-                                <span class="block text-base font-bold text-quicksilver">{{arrangement.number_of_seating_item}}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- videos-holder -->
+              <div *ngIf="event?.videos?.length" class="media-upload-holder">
+                <!-- media title  -->
+                <div class="flex justify-between items-center">
+                  <h3 class="text-lg">{{'Videos' | translate }}</h3>
+                  <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(event?.videos, false, false)">{{'View all' | translate }}</a>
+                </div>
+                <!-- media-holder -->
+                <div class="w-full">
+                  <div class="flex flex-wrap overflow-hidden -mx-2">
+                    <div *ngFor="let video of event?.videos" class="w-full lg:w-2/12 p-2 group hover">
+                      <div class="rounded relative overflow-hidden bg-white h-24" (click)="openImageAndVideoDialog([video], false, false, true)">
+                        <video [src]="!!(video?.url) ? constants?.baseImageURL + video?.url + '#t=0.5' : constants?.defaultImage" class="w-full h-full object-cover bg-white"></video>
+                        <div class="opacity-0 bg-black bg-opacity-50 flex items-center justify-center group-hover:opacity-100 absolute inset-0 transition-all duration-300">
+                          <i class="pi pi-eye text-2xl text-white"></i>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Accordion -->
+              <div *ngIf="event?.seating_arrangements && event?.seating_arrangements?.length" class="space-y-1.5">
+                <h5 class="text-lg font-bold pb-5">{{'arrangement' | translate }}</h5>
+                <!-- <div class="accordions w-full space-y-5">
+                  <div *ngFor="let seating of event?.seating_arrangements;let i = index;" class="accordion_item cursor-pointer h-full p-0 relative">
+                    <div #accordionClick class="title_tab flex justify-between items-center px-5 py-6 max-h-[78px] accordion">
+                      <div (click)="accordionClick.click()" class="space-x-7 flex items-center">
+                        <div class="w-10 text-center">
+                          <img alt="{{seating?.seating_item?.itemname}}" class="mx-auto h-10 max-w-full object-contain" [src]="!!(seating?.seating_item?.itemimage) ? constants?.baseImageURL + seating?.seating_item?.itemimage : constants?.defaultImage"/>
+                        </div>
+                        <h4>{{seating?.seating_item?.itemname}}</h4>
+                      </div>
+                      <div class="flex items-center space-x-7">
+                        <span (click)="accordionClick.click()" class="uper-down flex items-center cursor-pointer"><i class="icon-drop_arrow"></i></span>
+                      </div>
+                    </div>
+                    <div class="inner_content i_c space-y-6 border-t px-5 py-6">
+                      <div class="flex">
+                        <div class="pr-5">
+                          <img alt="select-item" src="../assets/images/select-item.png"/>
+                        </div>
+                        <div class="w-full space-y-2">
+                          <div class="flex items-center justify-between">
+                            <h6 class="text-lg text-japaneseIndigo font-bold">Select Item</h6>
+                          </div>
+                          <div class="borders">
+                            <div class="" *ngFor="let arrangement of seating?.arrangements">
+                              <div class="flex flex-wrap items-center">
+                                <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4">
+                                  <span class="block text-xs xl:text-sm text-quicksilver">No of {{seating?.seating_item?.itemname}}</span>
+                                  <span class="block text-base font-bold text-quicksilver">{{arrangement.number_of_seating_item}}</span>
+                                </div>
+                                <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4">
+                                  <span class="block text-xs xl:text-sm text-quicksilver">Location</span>
+                                  <span class="block text-base font-bold text-quicksilver">{{((arrangement.vertical_location == 'FRONT') ? 'F' : (arrangement.vertical_location == 'CENTER' ? 'C' : 'L'))}} - {{((arrangement.horizontal_location == 'LEFT') ? 'L' : ((arrangement.horizontal_location == 'CENTER') ? 'C' : (arrangement.horizontal_location == 'RIGHT' ? 'R' : 'N')))}}</span>
+                                </div>
+                                <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4"
+                                  *ngIf="(!seating?.seating_item?.isonlyperperson)">
+                                  <span class="block text-xs xl:text-sm text-quicksilver">per {{seating?.seating_item?.itemname}} person capacity</span>
+                                  <span class="block text-base font-bold text-quicksilver">{{arrangement.per_seating_person}}</span>
+                                </div>
+                                <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4">
+                                  <span class="block text-xs xl:text-sm text-quicksilver">Total person capacity</span>
+                                  <span class="block text-base font-bold text-quicksilver">{{arrangement.total_person}}</span>
+                                </div>
+                                <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4"
+                                  *ngIf="(!seating?.seating_item?.isonlyperperson)">
+                                  <span class="block text-xs xl:text-sm text-quicksilver">Per {{seating?.seating_item?.itemname}} Price</span>
+                                  <span class="block text-base font-bold text-quicksilver">{{arrangement.per_seating_price}}</span>
+                                </div>
+                                <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4">
+                                  <span class="block text-xs xl:text-sm text-quicksilver">per person price</span>
+                                  <span class="block text-base font-bold text-quicksilver">{{arrangement.per_person_price}} INR</span>
+                                </div>
+                                <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4">
+                                  <span class="block text-xs xl:text-sm text-quicksilver">Total Amount</span>
+                                  <span class="block text-base font-bold text-japaneseIndigo">{{arrangement.total_amount}} INR</span>
+                                </div>
+                                <div class="space-y-1 pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4">
+                                  <p>Description</p>
+                                  <span class="text-base text-quicksilver font-bold" [innerHTML]="arrangement?.description || 'null'"></span>
+                                </div>
+                                <div class="flex items-center pt-4 ml-auto" *ngIf="(!seating?.seating_item?.isonlyperperson)">
+                                  <input class="switch mx-3 order-2" id="on" type="checkbox" [(ngModel)]="arrangement.booking_acceptance"/>
+                                  <span class="off text-base font-bold anim order-1 text-caribbeanGreen">per table</span>
+                                  <span class="on text-base font-bold anim order-3">per person</span>
+                                </div>
                               </div>
-                              <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4">
-                                <span class="block text-xs xl:text-sm text-quicksilver">Location</span>
-                                <span class="block text-base font-bold text-quicksilver">{{((arrangement.vertical_location == 'FRONT') ? 'F' : (arrangement.vertical_location == 'CENTER' ? 'C' : 'L'))}} - {{((arrangement.horizontal_location == 'LEFT') ? 'L' : ((arrangement.horizontal_location == 'CENTER') ? 'C' : (arrangement.horizontal_location == 'RIGHT' ? 'R' : 'N')))}}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="flex">
+                        <div class="pr-5">
+                          <img alt="non-veg" src="../assets/images/non-veg.png"/>
+                        </div>
+                        <div class="flex w-full space-y-2">
+                          <div class="min-w-[148px] pr-5">
+                            <p>Food</p>
+                            <span class="text-lg font-bold text-japaneseIndigo capitalize">{{(seating.food == 'BOTH') ? 'Veg & Non-Veg' : seating.food}}</span>
+                          </div>
+                          <div class="border-l border-slate-500 px-4" *ngIf="seating?.food_description">
+                            <p class="pb-1 text-slate-400">Description</p>
+                            <p class="text-xs" [innerHTML]="seating.food_description || ''"></p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="flex">
+                        <div class="pr-5">
+                          <img alt="not-include" src="../assets/images/not-include.png"/>
+                        </div>
+                        <div class="flex w-full space-y-2">
+                          <div class="min-w-[148px] pr-5">
+                            <p>Equipment</p>
+                            <span class="text-lg font-bold text-japaneseIndigo capitalize">{{seating.equipment ? 'Not Include' : 'Include'}}</span>
+                          </div>
+                          <div class="border-l border-slate-500 px-4" *ngIf="seating?.equipment_description">
+                            <p class="pb-1 text-slate-400">Description</p>
+                            <p class="text-xs" [innerHTML]="seating.equipment_description || ''"></p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div> -->
+
+                <mat-accordion>
+                  <mat-expansion-panel *ngFor="let seating of event?.seating_arrangements;let i = index;">
+                    <mat-expansion-panel-header class="px-5 py-6">
+                      <mat-panel-title class="space-x-7 flex items-center">
+                        <div class="w-10 text-center">
+                          <img alt="{{seating?.seating_item?.itemname}}" class="mx-auto h-10 max-w-full object-contain" [src]="!!(seating?.seating_item?.itemimage) ? constants?.baseImageURL + seating?.seating_item?.itemimage : constants?.defaultImage"/>
+                        </div>
+                        <h4>{{seating?.seating_item?.itemname}}</h4>
+                      </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    
+                    <div class="space-y-6 py-6">
+                      <div class="flex">
+                        <div class="pr-5">
+                          <img alt="select-item" src="../assets/images/select-item.png"/>
+                        </div>
+                        <div class="w-full space-y-2">
+                          <div class="flex items-center justify-between">
+                            <h6 class="text-lg text-japaneseIndigo font-bold">Select Item</h6>
+                          </div>
+                          <div class="borders">
+                            <div class="" *ngFor="let arrangement of seating?.arrangements">
+                              <div class="flex flex-wrap items-center">
+                                <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4">
+                                  <span class="block text-xs xl:text-sm text-quicksilver">No of {{seating?.seating_item?.itemname}}</span>
+                                  <span class="block text-base font-bold text-quicksilver">{{arrangement?.number_of_seating_item}}</span>
+                                </div>
+                                <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4">
+                                  <span class="block text-xs xl:text-sm text-quicksilver">Location</span>
+                                  <span class="block text-base font-bold text-quicksilver">{{((arrangement?.vertical_location == 'FRONT') ? 'F' : (arrangement?.vertical_location == 'MIDDLE' ? 'M' : 'B'))}} - {{((arrangement?.horizontal_location == 'LEFT') ? 'L' : ((arrangement?.horizontal_location == 'CENTER') ? 'C' : (arrangement?.horizontal_location == 'RIGHT' ? 'R' : 'N')))}}</span>
+                                </div>
+                                <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4"
+                                  *ngIf="(!seating?.seating_item?.isonlyperperson)">
+                                  <span class="block text-xs xl:text-sm text-quicksilver">per {{seating?.seating_item?.itemname}} person capacity</span>
+                                  <span class="block text-base font-bold text-quicksilver">{{arrangement?.per_seating_person}}</span>
+                                </div>
+                                <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4">
+                                  <span class="block text-xs xl:text-sm text-quicksilver">Total person capacity</span>
+                                  <span class="block text-base font-bold text-quicksilver">{{arrangement?.total_person}}</span>
+                                </div>
+                                <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4"
+                                  *ngIf="(!seating?.seating_item?.isonlyperperson)">
+                                  <span class="block text-xs xl:text-sm text-quicksilver">Per {{seating?.seating_item?.itemname}} Price</span>
+                                  <span class="block text-base font-bold text-quicksilver">{{arrangement?.per_seating_price || 0 | number:'1.2-2'}}</span>
+                                </div>
+                                <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4">
+                                  <span class="block text-xs xl:text-sm text-quicksilver">per person price</span>
+                                  <span class="block text-base font-bold text-quicksilver">{{arrangement?.per_person_price || 0 | number:'1.2-2'}} INR</span>
+                                </div>
+                                <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4">
+                                  <span class="block text-xs xl:text-sm text-quicksilver">Total Amount</span>
+                                  <span class="block text-base font-bold text-japaneseIndigo">{{arrangement?.total_amount || 0 | number:'1.2-2'}} INR</span>
+                                </div>
+                                <div class="space-y-1 pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4">
+                                  <p class="block text-xs xl:text-sm text-quicksilver">Description</p>
+                                  <span class="text-base text-quicksilver font-bold" [innerHTML]="arrangement?.description || 'null'"></span>
+                                </div>
+                                <div class="flex items-center pt-4 ml-auto" *ngIf="(!seating?.seating_item?.isonlyperperson)">
+                                  <!-- <input class="switch mx-3 order-2" id="on" type="checkbox" [(ngModel)]="arrangement.booking_acceptance"/>
+                                  <span class="off text-base font-bold anim order-1 text-caribbeanGreen">Per table</span>
+                                  <span class="on text-base font-bold anim order-3">Per person</span> -->
+                                  <span class="off text-base font-bold anim order-1 text-caribbeanGreen capitalize" *ngIf="seating?.seating_item">Per {{seating?.seating_item?.itemname}}</span>
+                                  <span class="off text-base font-bold anim order-1 text-caribbeanGreen capitalize" *ngIf="seating?.seating_item == 'Standing'">Per Person</span>
+                                </div>
+                                <div class="flex items-center pt-4 ml-auto" *ngIf="(seating?.seating_item?.isonlyperperson)">
+                                  <!-- <input class="switch mx-3 order-2" id="on" type="checkbox" [(ngModel)]="arrangement.booking_acceptance"/>
+                                  <span class="off text-base font-bold anim order-1 text-caribbeanGreen">Per table</span>
+                                  <span class="on text-base font-bold anim order-3">Per person</span> -->
+                                  <!-- <span class="off text-base font-bold anim order-1 text-caribbeanGreen capitalize" *ngIf="seating?.seating_item?.itemname == 'Chair'">Per {{seating?.seating_item?.itemname}}</span> -->
+                                  <span class="off text-base font-bold anim order-1 text-caribbeanGreen capitalize" *ngIf="seating?.seating_item?.itemname">Per Person</span>
+                                  
+                                </div>
                               </div>
-                              <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4"
-                                *ngIf="(!seating?.seating_item?.isonlyperperson)">
-                                <span class="block text-xs xl:text-sm text-quicksilver">per {{seating?.seating_item?.itemname}} person capacity</span>
-                                <span class="block text-base font-bold text-quicksilver">{{arrangement.per_seating_person}}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="flex">
+                        <div class="pr-5">
+                          <img alt="non-veg" src="../assets/images/non-veg.png"/>
+                        </div>
+                        <div class="flex w-full space-y-2">
+                          <div class="min-w-[148px] pr-5">
+                            <p>{{'food' | translate }}</p>
+                            <span class="text-lg font-bold text-japaneseIndigo capitalize">{{(seating?.food == 'BOTH') ? 'Veg & Non-Veg' : seating?.food}}</span>
+                          </div>
+                          <div class="border-l border-slate-500 px-4" *ngIf="seating?.food_description">
+                            <p class="pb-1 text-slate-400">{{'description' | translate}}</p>
+                            <p class="text-xs" [innerHTML]="seating?.food_description || ''"></p>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- photo section food  -->
+                      <div *ngIf="seating?.food_details?.length" class="media-upload-holder">
+
+                        <!-- media title  -->
+                        <div class="flex justify-between items-center">
+                          <h3 class="text-lg">{{'Food Photos' | translate }}</h3>
+                          <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(seating?.food_details, true, false)">{{'View all' | translate }}</a>
+                        </div>
+                        <!-- photo-holder -->
+                        <div class="w-full">
+                          <div class="flex flex-wrap overflow-hidden -mx-2">
+                            <div *ngFor="let img of seating?.food_details" class="w-full lg:w-2/12 p-2 group hover">
+                              <div class="rounded relative overflow-hidden bg-white h-24" (click)="openImageAndVideoDialog([img], true, false, false)">
+                                <p-image [src]="!!(img?.url) ? constants?.baseImageURL + img?.url : constants?.defaultImage" imageClass="w-full h-full object-cover rounded" styleClass="w-full h-full" [preview]="false"></p-image>
+                                <div class="opacity-0 bg-black bg-opacity-50 flex items-center justify-center group-hover:opacity-100 absolute inset-0 transition-all duration-300">
+                                  <i class="pi pi-eye text-2xl text-white"></i>
+                                </div>
                               </div>
-                              <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4">
-                                <span class="block text-xs xl:text-sm text-quicksilver">Total person capacity</span>
-                                <span class="block text-base font-bold text-quicksilver">{{arrangement.total_person}}</span>
-                              </div>
-                              <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4"
-                                *ngIf="(!seating?.seating_item?.isonlyperperson)">
-                                <span class="block text-xs xl:text-sm text-quicksilver">Per {{seating?.seating_item?.itemname}} Price</span>
-                                <span class="block text-base font-bold text-quicksilver">{{arrangement.per_seating_price}}</span>
-                              </div>
-                              <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4">
-                                <span class="block text-xs xl:text-sm text-quicksilver">per person price</span>
-                                <span class="block text-base font-bold text-quicksilver">{{arrangement.per_person_price}} INR</span>
-                              </div>
-                              <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4">
-                                <span class="block text-xs xl:text-sm text-quicksilver">Total Amount</span>
-                                <span class="block text-base font-bold text-japaneseIndigo">{{arrangement.total_amount}} INR</span>
-                              </div>
-                              <div class="space-y-1 pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4">
-                                <p>Description</p>
-                                <span class="text-base text-quicksilver font-bold" [innerHTML]="arrangement?.description || 'null'"></span>
-                              </div>
-                              <div class="flex items-center pt-4 ml-auto" *ngIf="(!seating?.seating_item?.isonlyperperson)">
-                                <input class="switch mx-3 order-2" id="on" type="checkbox" [(ngModel)]="arrangement.booking_acceptance"/>
-                                <span class="off text-base font-bold anim order-1 text-caribbeanGreen">per table</span>
-                                <span class="on text-base font-bold anim order-3">per person</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="flex">
+                        <div class="pr-5">
+                          <img alt="not-include" src="../assets/images/not-include.png"/>
+                        </div>
+                        <div class="flex w-full space-y-2">
+                          <div class="min-w-[148px] pr-5">
+                            <p>{{'Equipment' | translate }}</p>
+                            <span class="text-lg font-bold text-japaneseIndigo capitalize">{{seating?.equipment ? 'Not Include' : 'Include'}}</span>
+                          </div>
+                          <div class="border-l border-slate-500 px-4" *ngIf="seating?.equipment_description">
+                            <p class="pb-1 text-slate-400">{{'description' | translate}}</p>
+                            <p class="text-xs" [innerHTML]="seating?.equipment_description || ''"></p>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- photo section equipment  -->
+                      <div *ngIf="seating?.equipment_details?.length" class="media-upload-holder">
+
+                        <!-- media title  -->
+                        <div class="flex justify-between items-center">
+                          <h3 class="text-lg">Equipment Photos</h3>
+                          <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(seating?.equipment_details, true, false)">{{'View all' | translate }}</a>
+                        </div>
+                        <!-- photo-holder -->
+                        <div class="w-full">
+                          <div class="flex flex-wrap overflow-hidden -mx-2">
+                            <div *ngFor="let img of seating?.equipment_details" class="w-full lg:w-2/12 p-2 group hover">
+                              <div class="rounded relative overflow-hidden bg-white h-24" (click)="openImageAndVideoDialog([img], true, false, false)">
+                                <p-image [src]="!!(img?.url) ? constants?.baseImageURL + img?.url : constants?.defaultImage" imageClass="w-full h-full object-cover rounded" styleClass="w-full h-full" [preview]="false"></p-image>
+                                <div class="opacity-0 bg-black bg-opacity-50 flex items-center justify-center group-hover:opacity-100 absolute inset-0 transition-all duration-300">
+                                  <i class="pi pi-eye text-2xl text-white"></i>
+                                </div>
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                    <div class="flex">
-                      <div class="pr-5">
-                        <img alt="non-veg" src="../assets/images/non-veg.png"/>
-                      </div>
-                      <div class="flex w-full space-y-2">
-                        <div class="min-w-[148px] pr-5">
-                          <p>Food</p>
-                          <span class="text-lg font-bold text-japaneseIndigo capitalize">{{(seating.food == 'BOTH') ? 'Veg & Non-Veg' : seating.food}}</span>
-                        </div>
-                        <div class="border-l border-slate-500 px-4" *ngIf="seating?.food_description">
-                          <p class="pb-1 text-slate-400">Description</p>
-                          <p class="text-xs" [innerHTML]="seating.food_description || ''"></p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="flex">
-                      <div class="pr-5">
-                        <img alt="not-include" src="../assets/images/not-include.png"/>
-                      </div>
-                      <div class="flex w-full space-y-2">
-                        <div class="min-w-[148px] pr-5">
-                          <p>Equipment</p>
-                          <span class="text-lg font-bold text-japaneseIndigo capitalize">{{seating.equipment ? 'Not Include' : 'Include'}}</span>
-                        </div>
-                        <div class="border-l border-slate-500 px-4" *ngIf="seating?.equipment_description">
-                          <p class="pb-1 text-slate-400">Description</p>
-                          <p class="text-xs" [innerHTML]="seating.equipment_description || ''"></p>
+                  </mat-expansion-panel>
+                </mat-accordion>
+                
+              </div>
+              <!-- Company Details -->
+              <div *ngIf="event?.companydetail" class="space-y-1.5">
+                <h5 class="text-lg font-bold">{{'companyDetails' | translate }}</h5>
+                <div class="p-7 bg-white rounded-md space-y-1">
+                  <span class="block text-base lg:text-lg font-bold">{{ event?.companydetail?.name }}</span>
+                  <div class="w-full flex flex-col">
+                    <div [innerHtml]="(showMore) ? event?.companydetail?.about : event?.companydetail?.about | slice:0:180"></div>
+                    <a href="javascript:;" (click)="showMore=true" *ngIf="!showMore && event?.companydetail?.about.length > 180" class="text-magicPotion text-sm font-semibold">...{{'readMore' | translate}}</a>
+                    <a href="javascript:;" (click)="showMore=false" *ngIf="showMore && event?.companydetail?.about.length > 180" class="text-magicPotion text-sm font-semibold">...{{'readLess' | translate}}</a>
+                    <!-- <p class="text-quicksilver text-sm leading-6 font-normal">{{ event.companydetail.about }}</p> -->
+                  </div>
+                </div>
+              </div>
+              <!-- Photo-holder -->
+              <div *ngIf="event?.companydetail?.photos?.length" class="media-upload-holder">
+                <!-- media title  -->
+                <div class="flex justify-between items-center">
+                  <h3 class="text-lg">Company Photos</h3>
+                  <a class="text-spiroDiscoBall text-sm font-bold opacity-60" href="javascript:void(0);" (click)="openImageAndVideoDialog(event?.companydetail?.photos, true, false, false)">{{'View all' | translate }}</a>
+                </div>
+                <!-- photo-holder -->
+                <div class="w-full">
+                  <div class="flex flex-wrap -mx-2">
+                    <div *ngFor="let img of event?.companydetail?.photos" class="w-full lg:w-2/12 p-2 group hover">
+                      <div class="rounded relative overflow-hidden bg-white h-24" (click)="openImageAndVideoDialog([img], true, false, false)">
+                        <p-image [src]="!!(img?.url) ? constants?.baseImageURL + img?.url : constants?.defaultImage" imageClass="w-full h-full object-cover rounded" styleClass="w-full h-full" [preview]="false"></p-image>
+                        <div class="opacity-0 bg-black bg-opacity-50 flex items-center justify-center group-hover:opacity-100 absolute inset-0 transition-all duration-300">
+                          <i class="pi pi-eye text-2xl text-white"></i>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div> -->
+              </div>
+              <!-- videos-holder -->
+              <div *ngIf="event?.companydetail?.videos?.length" class="media-upload-holder">
+                <!-- media title  -->
+                <div class="flex justify-between items-center">
+                  <h3 class="text-lg">Company Videos</h3>
+                  <a class="text-spiroDiscoBall text-sm font-bold opacity-60" href="javascript:void(0);" (click)="openImageAndVideoDialog(event?.companydetail?.videos, false, false)">View All</a>
+                </div>
+                <!-- media-holder -->
+                <div class="w-full">
+                  <div class="flex flex-wrap -mx-2">
+                    <div *ngFor="let video of event?.companydetail?.videos" class="w-full lg:w-2/12 p-2 group hover">
+                      <div class="rounded relative overflow-hidden h-24 cursor-pointer" (click)="openImageAndVideoDialog([video], false, false, true)">
+                        <video [src]="!!(video?.url) ? constants?.baseImageURL + video.url + '#t=0.5' : constants?.defaultImage" class="w-full h-full object-cover bg-white"></video>
+                        <div class="opacity-0 bg-black bg-opacity-50 flex items-center justify-center group-hover:opacity-100 absolute inset-0 transition-all duration-300">
+                          <i class="pi pi-eye text-2xl text-white"></i>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Company Details -->
+              <div *ngIf="event?.tandc?.t_and_c && event?.tandc?.t_and_c != ''" class="space-y-1.5">
+                <h3 class="text-lg">{{'termsConditions' | translate}}</h3>
+                <div class="p-3.5 xl:p-5 bg-white rounded-md">
+                  <div [innerHtml]="(tandcShow) ? event?.tandc?.t_and_c : event?.tandc?.t_and_c | slice:0:180"></div>
+                  <a href="javascript:;" (click)="tandcShow=true" *ngIf="!tandcShow && event?.tandc?.t_and_c.length > 180" class="text-magicPotion text-sm font-semibold">...{{'readMore' | translate}}</a>
+                  <a href="javascript:;" (click)="tandcShow=false" *ngIf="tandcShow && event?.tandc?.t_and_c.length > 180" class="text-magicPotion text-sm font-semibold">...{{'readLess' | translate}}</a>
+                </div>
+              </div>
+              <!-- Social-Media -->
+              <div class="w-full space-y-3"
+                *ngIf="event?.tandc?.facebook && event?.tandc?.facebook != '' ||
+                  event?.tandc?.twitter && event?.tandc?.twitter != '' ||
+                  event?.tandc?.youtube && event?.tandc?.youtube != '' ||
+                  event?.tandc?.pinterest && event?.tandc?.pinterest != '' ||
+                  event?.tandc?.instagram && event?.tandc?.instagram != '' ||
+                  event?.tandc?.linkedin && event?.tandc?.linkedin != ''"
+                >
+                <span class="block text-base lg:text-xl font-bold">{{'socialMedia' | translate}}</span>
+                <div class="flex items-center space-x-5 p-5 lg:p-7  rounded-lg">
+                  <a *ngIf="event?.tandc?.facebook != ''" [href]="event?.tandc?.facebook" target="_blank">
+                  <img class="w-10 h-10 object-cover" alt="facebook" src="../assets/images/facebook.png" />
+                  </a>
+                  <a *ngIf="event?.tandc?.twitter != ''" [href]="event?.tandc?.twitter" target="_blank">
+                  <img class="w-10 h-10 object-cover" alt="twiiter" src="../assets/images/twiiter.png" />
+                  </a>
+                  <a *ngIf="event?.tandc?.youtube != ''" [href]="event?.tandc?.youtube" target="_blank">
+                  <img class="w-10 h-10 object-cover" alt="youtube" src="../assets/images/youtube.png" />
+                  </a>
+                  <a *ngIf="event?.tandc?.pinterest != ''" [href]="event?.tandc?.pinterest" target="_blank">
+                  <img class="w-10 h-10 object-cover" alt="pinterest" src="../assets/images/pinterest.png" />
+                  </a>
+                  <a *ngIf="event?.tandc?.instagram != ''" [href]="event?.tandc?.instagram" target="_blank">
+                  <img class="w-10 h-10 object-cover" alt="instagram" src="../assets/images/instagram.png" />
+                  </a>
+                  <a *ngIf="event?.tandc?.linkedin != ''" [href]="event?.tandc?.linkedin" target="_blank">
+                  <img class="w-10 h-10 object-cover" alt="linkdin" src="../assets/images/linked.png" />
+                  </a>
+                </div>
+              </div>
+              <!-- product_ad -->
+              <div class="w-full mt-5 addsBox">
+                <img src="/assets/images/banner-ads.png" alt="ring-ad" class="w-full object-cover" />
+              </div>
+            </div>
+            <!-- Attendee left-bar -->
+            <div class="w-full lg:w-8/12 space-y-2.5" *ngIf="attendee && scanAttendees && scanAttendees?.length">
+              <div class="accordions">
+                <div *ngFor="let attendee of scanAttendees;let i = index;" class="accordion_item p-0 cursor-pointer relative mb-5">
+                  <div #accordionClick (click)="toggleAccordion($event, i)" class="title_tab bg-white px-5 py-2.5 flex justify-between items-center rounded-md accordion">
+                    <div class="space-y-2">
+                      <div class="flex items-center space-x-3">
+                        <h3 class="text-base">{{attendee?.userid?.name}}</h3>
+                        <span class="input-titel font-bold text-caribbeanGreen pb-0" *ngIf="attendee && attendee?.invoice_no">#{{attendee?.invoice_no}}</span>
+                      </div>
+                      <p class="text-quicksilver text-xs font-bold flex items-center" *ngIf="attendee && attendee?.createdAt">{{attendee?.createdAt | date:'dd MMM, yyyy  hh:mm a'}}</p>
+                    </div>
+                    <div class="space-y-1">
+                      <h3 class="text-lg" *ngIf="attendee && attendee?.amount">₹{{attendee?.amount | number: '1.2-2'}}</h3>
+                      <span class="block input-titel text-magicPotion text-right" *ngIf="attendee && attendee?.booked_tickets">{{attendee?.booked_tickets}} Ticket</span>
+                    </div>
+                  </div>
+                  <div class="border-t panel overflow-y-auto">
+                    <div class="inner_content i_c px-5 py-6">
+                      <div>
+                        <div *ngFor="let seat of attendee?.seats || []">
+                          <div class="flex- items-center justify-between" *ngFor="let arrangement of seat?.arrangements || []">
+                            <div class="flex justify-between w-full text-quicksilver text-sm font-bold text-left">
+                              <span class="block w-1/6 py-1">{{seat?.seating_item?.itemname}}</span>
+                              <span class="block w-2/6 py-1">{{arrangement?.vertical_location}} - {{arrangement?.horizontal_location}}</span>
+                              <span class="block w-2/6 py-1">{{arrangement?.ItemCount || 0}} Ticket Booked</span>
+                              <span class="block w-1/6 py-1 text-right">₹{{arrangement?.totalAmountItemCount | number: '1.2-2'}}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="flex flex-wrap items-center justify-center" *ngIf="scanAttendees && scanAttendees?.length">
+                <p-paginator [rows]="paging?.limit" [totalRecords]="paging?.totalDocs" [rowsPerPageOptions]="[10, 20, 30, 40, 50]" (onPageChange)="getAttendeesWithScan($event)"></p-paginator>
+              </div>
+              <div class="w-full addsBox">
+                <img src="/assets/images/banner-ads.png" alt="ring-ad" class="w-full object-cover" />
+              </div>
+            </div>
+            <div class="w-full lg:w-8/12 space-y-2.5" *ngIf="attendee && (!scanAttendees || !scanAttendees?.length)">
+              <h3>No attendees Found</h3>
+            </div>
+            <!-- right-bar  -->
+            <div class="w-full lg:w-4/12 lg:pl-5 space-y-3 sticky top-0 ml-auto" *ngIf="overview">
+              <!-- map-content  -->
+              <div class="w-full p-2.5 bg-white rounded-md" *ngIf="event?.event_location?.location?.coordinates?.length && overview">
+                <div class="relative">
+                  <agm-map [latitude]="event?.event_location?.location?.coordinates[1]" [longitude]="event?.event_location?.location?.coordinates[0]" [zoom]="zoom" class="w-full h-56">
+                  <agm-marker [latitude]="event?.event_location?.location?.coordinates[1]" [longitude]="event?.event_location?.location?.coordinates[0]"></agm-marker>
+                  </agm-map>
+                  <a class="w-10 h-10 flex items-center justify-center text-xl bg-white shadow-sm absolute right-4 bottom-4 text-magicPotion" href="javascript:void(0);"><i class="icon-map"></i></a>
+                </div>
+                <div class="p-3.5 xl:p-5">
+                  <span class="input-titel"><i class="icon-location-1 mr-1"></i> {{'Location' | translate }}</span>
+                  <h3 class="text-sm xl:text-base">{{event.event_location.flat_no  + ' - ' + event.event_location.street_name  + ', ' + event.event_location.area_name + ', ' + event.event_location.city + ', ' + event.event_location.state }}</h3>
+                </div>
+              </div>
+              <!-- date-content  -->
+              <div class="w-full p-5 xl:p-7 bg-white rounded-md space-y-3" 
+                *ngIf="(event?.about?.start_date || event?.about?.end_date || event?.about?.start_time || event?.about?.end_time ) && overview" >
+                <div class="w-full">
+                  <div class="text-xs lg:text-sm font-medium text-quicksilver flex items-center"><i class="icon-calendar mr-1.5 text-base"></i>{{'Date' | translate }} </div>
+                  <span class="text-japaneseIndigo text-xs lg:text-sm font-bold">{{ event?.about?.start_date | date:'dd MMM, yyyy' }} - {{ event?.about?.end_date | date:'dd MMM, yyyy' }}</span>
+                </div>
+                <div class="w-full">
+                  <div class="text-xs lg:text-sm font-medium text-quicksilver flex items-center"><i class="icon-time mr-1.5 text-sm"></i>{{'Time' | translate }} </div>
+                  <span class="text-japaneseIndigo text-xs lg:text-sm font-bold">{{ '0' + ' ' + event?.about?.start_time | date : 'hh:mm a'}} - {{ '0' + ' ' + event?.about?.end_time | date : 'hh:mm a'}}</span>
+                </div>
+              </div>
+              <!-- Discount On Total Bill  -->
+              <div *ngIf="overview">
+              <div class="bg-gradient-to-r from-[#13e1b094] to-[#13E1B0] p-3.5 xl:p-5 rounded-lg relative overflow-hidden" *ngFor="let discount of event?.discounts || []" >
+                <div class="w-full space-y-4" *ngIf="overview">
+                  <h4 class="text-white">{{discount?.discountname}}</h4>
+                  <h1 class="text-black font-bold">{{discount?.discount}}%</h1>
+                  <div class="space-y-2">
+                    <span class="text-xs text-white font-normal block">{{discount?.description}}</span>
+                  </div>
+                  <img alt="celebration" class="absolute -right-3 -bottom-3 opacity-80" src="../assets/images/event-subscription.png"/>
+                </div>
+              </div>
+            </div>
 
+              <div class="attendees-panel" *ngIf="bookedAttendees?.length && overview">
               <mat-accordion>
-                <mat-expansion-panel *ngFor="let seating of event?.seating_arrangements;let i = index;">
-                  <mat-expansion-panel-header class="px-5 py-6">
-                    <mat-panel-title class="space-x-7 flex items-center">
-                      <div class="w-10 text-center">
-                        <img alt="{{seating?.seating_item?.itemname}}" class="mx-auto h-10 max-w-full object-contain" [src]="!!(seating?.seating_item?.itemimage) ? constants?.baseImageURL + seating?.seating_item?.itemimage : constants?.defaultImage"/>
-                      </div>
-                      <h4>{{seating?.seating_item?.itemname}}</h4>
+                <mat-expansion-panel (opened)="attendeesOpenState = true" (closed)="attendeesOpenState = false">
+                  <mat-expansion-panel-header class="flex justify-between px-5 bg-japaneseIndigo">
+                    <mat-panel-title class="text-sm">
+                      <span class="text-sm font-bold text-white">Book Ticket</span>
                     </mat-panel-title>
+                    <mat-panel-description>
+                      <span class="text-sm font-bold text-white">Total&nbsp;Amount</span>
+                    </mat-panel-description>
                   </mat-expansion-panel-header>
-                  
-                  <div class="space-y-6 py-6">
-                    <div class="flex">
-                      <div class="pr-5">
-                        <img alt="select-item" src="../assets/images/select-item.png"/>
-                      </div>
-                      <div class="w-full space-y-2">
-                        <div class="flex items-center justify-between">
-                          <h6 class="text-lg text-japaneseIndigo font-bold">Select Item</h6>
-                        </div>
-                        <div class="borders">
-                          <div class="" *ngFor="let arrangement of seating?.arrangements">
-                            <div class="flex flex-wrap items-center">
-                              <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4">
-                                <span class="block text-xs xl:text-sm text-quicksilver">No of {{seating?.seating_item?.itemname}}</span>
-                                <span class="block text-base font-bold text-quicksilver">{{arrangement?.number_of_seating_item}}</span>
-                              </div>
-                              <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4">
-                                <span class="block text-xs xl:text-sm text-quicksilver">Location</span>
-                                <span class="block text-base font-bold text-quicksilver">{{((arrangement?.vertical_location == 'FRONT') ? 'F' : (arrangement?.vertical_location == 'MIDDLE' ? 'M' : 'B'))}} - {{((arrangement?.horizontal_location == 'LEFT') ? 'L' : ((arrangement?.horizontal_location == 'CENTER') ? 'C' : (arrangement?.horizontal_location == 'RIGHT' ? 'R' : 'N')))}}</span>
-                              </div>
-                              <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4"
-                                *ngIf="(!seating?.seating_item?.isonlyperperson)">
-                                <span class="block text-xs xl:text-sm text-quicksilver">per {{seating?.seating_item?.itemname}} person capacity</span>
-                                <span class="block text-base font-bold text-quicksilver">{{arrangement?.per_seating_person}}</span>
-                              </div>
-                              <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4">
-                                <span class="block text-xs xl:text-sm text-quicksilver">Total person capacity</span>
-                                <span class="block text-base font-bold text-quicksilver">{{arrangement?.total_person}}</span>
-                              </div>
-                              <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4"
-                                *ngIf="(!seating?.seating_item?.isonlyperperson)">
-                                <span class="block text-xs xl:text-sm text-quicksilver">Per {{seating?.seating_item?.itemname}} Price</span>
-                                <span class="block text-base font-bold text-quicksilver">{{arrangement?.per_seating_price || 0 | number:'1.2-2'}}</span>
-                              </div>
-                              <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4">
-                                <span class="block text-xs xl:text-sm text-quicksilver">per person price</span>
-                                <span class="block text-base font-bold text-quicksilver">{{arrangement?.per_person_price || 0 | number:'1.2-2'}} INR</span>
-                              </div>
-                              <div class="space-y-1 border-r pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4">
-                                <span class="block text-xs xl:text-sm text-quicksilver">Total Amount</span>
-                                <span class="block text-base font-bold text-japaneseIndigo">{{arrangement?.total_amount || 0 | number:'1.2-2'}} INR</span>
-                              </div>
-                              <div class="space-y-1 pr-3 xl:pr-5 mr-3 xl:mr-5 mb-4">
-                                <p class="block text-xs xl:text-sm text-quicksilver">Description</p>
-                                <span class="text-base text-quicksilver font-bold" [innerHTML]="arrangement?.description || 'null'"></span>
-                              </div>
-                              <div class="flex items-center pt-4 ml-auto" *ngIf="(!seating?.seating_item?.isonlyperperson)">
-                                <!-- <input class="switch mx-3 order-2" id="on" type="checkbox" [(ngModel)]="arrangement.booking_acceptance"/>
-                                <span class="off text-base font-bold anim order-1 text-caribbeanGreen">Per table</span>
-                                <span class="on text-base font-bold anim order-3">Per person</span> -->
-                                <span class="off text-base font-bold anim order-1 text-caribbeanGreen capitalize" *ngIf="seating?.seating_item">Per {{seating?.seating_item?.itemname}}</span>
-                                <span class="off text-base font-bold anim order-1 text-caribbeanGreen capitalize" *ngIf="seating?.seating_item == 'Standing'">Per Person</span>
-                              </div>
-                              <div class="flex items-center pt-4 ml-auto" *ngIf="(seating?.seating_item?.isonlyperperson)">
-                                <!-- <input class="switch mx-3 order-2" id="on" type="checkbox" [(ngModel)]="arrangement.booking_acceptance"/>
-                                <span class="off text-base font-bold anim order-1 text-caribbeanGreen">Per table</span>
-                                <span class="on text-base font-bold anim order-3">Per person</span> -->
-                                <!-- <span class="off text-base font-bold anim order-1 text-caribbeanGreen capitalize" *ngIf="seating?.seating_item?.itemname == 'Chair'">Per {{seating?.seating_item?.itemname}}</span> -->
-                                <span class="off text-base font-bold anim order-1 text-caribbeanGreen capitalize" *ngIf="seating?.seating_item?.itemname">Per Person</span>
-                                
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="flex">
-                      <div class="pr-5">
-                        <img alt="non-veg" src="../assets/images/non-veg.png"/>
-                      </div>
-                      <div class="flex w-full space-y-2">
-                        <div class="min-w-[148px] pr-5">
-                          <p>{{'food' | translate }}</p>
-                          <span class="text-lg font-bold text-japaneseIndigo capitalize">{{(seating?.food == 'BOTH') ? 'Veg & Non-Veg' : seating?.food}}</span>
-                        </div>
-                        <div class="border-l border-slate-500 px-4" *ngIf="seating?.food_description">
-                          <p class="pb-1 text-slate-400">{{'description' | translate}}</p>
-                          <p class="text-xs" [innerHTML]="seating?.food_description || ''"></p>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- photo section food  -->
-                    <div *ngIf="seating?.food_details?.length" class="media-upload-holder">
-
-                      <!-- media title  -->
-                      <div class="flex justify-between items-center">
-                        <h3 class="text-lg">{{'Food Photos' | translate }}</h3>
-                        <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(seating?.food_details, true, false)">{{'View all' | translate }}</a>
-                      </div>
-                      <!-- photo-holder -->
-                      <div class="w-full">
-                        <div class="flex flex-wrap overflow-hidden -mx-2">
-                          <div *ngFor="let img of seating?.food_details" class="w-full lg:w-2/12 p-2 group hover">
-                            <div class="rounded relative overflow-hidden bg-white h-24" (click)="openImageAndVideoDialog([img], true, false, false)">
-                              <p-image [src]="!!(img?.url) ? constants?.baseImageURL + img?.url : constants?.defaultImage" imageClass="w-full h-full object-cover rounded" styleClass="w-full h-full" [preview]="false"></p-image>
-                              <div class="opacity-0 bg-black bg-opacity-50 flex items-center justify-center group-hover:opacity-100 absolute inset-0 transition-all duration-300">
-                                <i class="pi pi-eye text-2xl text-white"></i>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="flex">
-                      <div class="pr-5">
-                        <img alt="not-include" src="../assets/images/not-include.png"/>
-                      </div>
-                      <div class="flex w-full space-y-2">
-                        <div class="min-w-[148px] pr-5">
-                          <p>{{'Equipment' | translate }}</p>
-                          <span class="text-lg font-bold text-japaneseIndigo capitalize">{{seating?.equipment ? 'Not Include' : 'Include'}}</span>
-                        </div>
-                        <div class="border-l border-slate-500 px-4" *ngIf="seating?.equipment_description">
-                          <p class="pb-1 text-slate-400">{{'description' | translate}}</p>
-                          <p class="text-xs" [innerHTML]="seating?.equipment_description || ''"></p>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- photo section equipment  -->
-                    <div *ngIf="seating?.equipment_details?.length" class="media-upload-holder">
-
-                      <!-- media title  -->
-                      <div class="flex justify-between items-center">
-                        <h3 class="text-lg">Equipment Photos</h3>
-                        <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(seating?.equipment_details, true, false)">{{'View all' | translate }}</a>
-                      </div>
-                      <!-- photo-holder -->
-                      <div class="w-full">
-                        <div class="flex flex-wrap overflow-hidden -mx-2">
-                          <div *ngFor="let img of seating?.equipment_details" class="w-full lg:w-2/12 p-2 group hover">
-                            <div class="rounded relative overflow-hidden bg-white h-24" (click)="openImageAndVideoDialog([img], true, false, false)">
-                              <p-image [src]="!!(img?.url) ? constants?.baseImageURL + img?.url : constants?.defaultImage" imageClass="w-full h-full object-cover rounded" styleClass="w-full h-full" [preview]="false"></p-image>
-                              <div class="opacity-0 bg-black bg-opacity-50 flex items-center justify-center group-hover:opacity-100 absolute inset-0 transition-all duration-300">
-                                <i class="pi pi-eye text-2xl text-white"></i>
-                              </div>
-                            </div>
-                          </div>
+                  <div class="container" (scroll)="onScroll($event)">
+                    <div *ngFor="let attendee of bookedAttendees;let i = index;" >
+                      <div class="bg-white" *ngFor="let seat of attendee?.seats || []">
+                        <div class="flex justify-between  border-brightGray pr-5 py-2" *ngFor="let arrangement of seat?.arrangements || []" [ngClass]="{'border-t': i !== 0}">
+                          <span class="text-sm font-bold text-japaneseIndigo w-1/3">{{arrangement?.ItemCount || 0}} {{((arrangement.vertical_location == 'FRONT') ? 'F' : (arrangement.vertical_location == 'MIDDLE' ? 'M' : 'B'))}} - {{((arrangement.horizontal_location == 'LEFT') ? 'L' : ((arrangement.horizontal_location == 'CENTER') ? 'C' : (arrangement.horizontal_location == 'RIGHT' ? 'R' : 'N')))}}</span>
+                          <span class="text-sm font-bold text-japaneseIndigo w-1/3 text-center">{{seat?.seating_item?.itemname}}</span>
+                          <span class="text-sm font-bold text-japaneseIndigo w-1/3 text-right">₹{{arrangement?.totalAmountItemCount | number: '1.2-2'}}</span>
                         </div>
                       </div>
                     </div>
                   </div>
                 </mat-expansion-panel>
               </mat-accordion>
-              
-            </div>
-            <!-- Company Details -->
-            <div *ngIf="event?.companydetail" class="space-y-1.5">
-              <h5 class="text-lg font-bold">{{'companyDetails' | translate }}</h5>
-              <div class="p-7 bg-white rounded-md space-y-1">
-                <span class="block text-base lg:text-lg font-bold">{{ event?.companydetail?.name }}</span>
-                <div class="w-full flex flex-col">
-                  <div [innerHtml]="(showMore) ? event?.companydetail?.about : event?.companydetail?.about | slice:0:180"></div>
-                  <a href="javascript:;" (click)="showMore=true" *ngIf="!showMore && event?.companydetail?.about.length > 180" class="text-magicPotion text-sm font-semibold">...{{'readMore' | translate}}</a>
-                  <a href="javascript:;" (click)="showMore=false" *ngIf="showMore && event?.companydetail?.about.length > 180" class="text-magicPotion text-sm font-semibold">...{{'readLess' | translate}}</a>
-                  <!-- <p class="text-quicksilver text-sm leading-6 font-normal">{{ event.companydetail.about }}</p> -->
-                </div>
               </div>
-            </div>
-            <!-- Photo-holder -->
-            <div *ngIf="event?.companydetail?.photos?.length" class="media-upload-holder">
-              <!-- media title  -->
-              <div class="flex justify-between items-center">
-                <h3 class="text-lg">Company Photos</h3>
-                <a class="text-spiroDiscoBall text-sm font-bold opacity-60" href="javascript:void(0);" (click)="openImageAndVideoDialog(event?.companydetail?.photos, true, false, false)">{{'View all' | translate }}</a>
-              </div>
-              <!-- photo-holder -->
-              <div class="w-full">
-                <div class="flex flex-wrap -mx-2">
-                  <div *ngFor="let img of event?.companydetail?.photos" class="w-full lg:w-2/12 p-2 group hover">
-                    <div class="rounded relative overflow-hidden bg-white h-24" (click)="openImageAndVideoDialog([img], true, false, false)">
-                      <p-image [src]="!!(img?.url) ? constants?.baseImageURL + img?.url : constants?.defaultImage" imageClass="w-full h-full object-cover rounded" styleClass="w-full h-full" [preview]="false"></p-image>
-                      <div class="opacity-0 bg-black bg-opacity-50 flex items-center justify-center group-hover:opacity-100 absolute inset-0 transition-all duration-300">
-                        <i class="pi pi-eye text-2xl text-white"></i>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- videos-holder -->
-            <div *ngIf="event?.companydetail?.videos?.length" class="media-upload-holder">
-              <!-- media title  -->
-              <div class="flex justify-between items-center">
-                <h3 class="text-lg">Company Videos</h3>
-                <a class="text-spiroDiscoBall text-sm font-bold opacity-60" href="javascript:void(0);" (click)="openImageAndVideoDialog(event?.companydetail?.videos, false, false)">View All</a>
-              </div>
-              <!-- media-holder -->
-              <div class="w-full">
-                <div class="flex flex-wrap -mx-2">
-                  <div *ngFor="let video of event?.companydetail?.videos" class="w-full lg:w-2/12 p-2 group hover">
-                    <div class="rounded relative overflow-hidden h-24 cursor-pointer" (click)="openImageAndVideoDialog([video], false, false, true)">
-                      <video [src]="!!(video?.url) ? constants?.baseImageURL + video.url + '#t=0.5' : constants?.defaultImage" class="w-full h-full object-cover bg-white"></video>
-                      <div class="opacity-0 bg-black bg-opacity-50 flex items-center justify-center group-hover:opacity-100 absolute inset-0 transition-all duration-300">
-                        <i class="pi pi-eye text-2xl text-white"></i>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- Company Details -->
-            <div *ngIf="event?.tandc?.t_and_c && event?.tandc?.t_and_c != ''" class="space-y-1.5">
-              <h3 class="text-lg">{{'termsConditions' | translate}}</h3>
-              <div class="p-3.5 xl:p-5 bg-white rounded-md">
-                <div [innerHtml]="(tandcShow) ? event?.tandc?.t_and_c : event?.tandc?.t_and_c | slice:0:180"></div>
-                <a href="javascript:;" (click)="tandcShow=true" *ngIf="!tandcShow && event?.tandc?.t_and_c.length > 180" class="text-magicPotion text-sm font-semibold">...{{'readMore' | translate}}</a>
-                <a href="javascript:;" (click)="tandcShow=false" *ngIf="tandcShow && event?.tandc?.t_and_c.length > 180" class="text-magicPotion text-sm font-semibold">...{{'readLess' | translate}}</a>
-              </div>
-            </div>
-            <!-- Social-Media -->
-            <div class="w-full space-y-3"
-              *ngIf="event?.tandc?.facebook && event?.tandc?.facebook != '' ||
-                event?.tandc?.twitter && event?.tandc?.twitter != '' ||
-                event?.tandc?.youtube && event?.tandc?.youtube != '' ||
-                event?.tandc?.pinterest && event?.tandc?.pinterest != '' ||
-                event?.tandc?.instagram && event?.tandc?.instagram != '' ||
-                event?.tandc?.linkedin && event?.tandc?.linkedin != ''"
-              >
-              <span class="block text-base lg:text-xl font-bold">{{'socialMedia' | translate}}</span>
-              <div class="flex items-center space-x-5 p-5 lg:p-7  rounded-lg">
-                <a *ngIf="event?.tandc?.facebook != ''" [href]="event?.tandc?.facebook" target="_blank">
-                <img class="w-10 h-10 object-cover" alt="facebook" src="../assets/images/facebook.png" />
-                </a>
-                <a *ngIf="event?.tandc?.twitter != ''" [href]="event?.tandc?.twitter" target="_blank">
-                <img class="w-10 h-10 object-cover" alt="twiiter" src="../assets/images/twiiter.png" />
-                </a>
-                <a *ngIf="event?.tandc?.youtube != ''" [href]="event?.tandc?.youtube" target="_blank">
-                <img class="w-10 h-10 object-cover" alt="youtube" src="../assets/images/youtube.png" />
-                </a>
-                <a *ngIf="event?.tandc?.pinterest != ''" [href]="event?.tandc?.pinterest" target="_blank">
-                <img class="w-10 h-10 object-cover" alt="pinterest" src="../assets/images/pinterest.png" />
-                </a>
-                <a *ngIf="event?.tandc?.instagram != ''" [href]="event?.tandc?.instagram" target="_blank">
-                <img class="w-10 h-10 object-cover" alt="instagram" src="../assets/images/instagram.png" />
-                </a>
-                <a *ngIf="event?.tandc?.linkedin != ''" [href]="event?.tandc?.linkedin" target="_blank">
-                <img class="w-10 h-10 object-cover" alt="linkdin" src="../assets/images/linked.png" />
-                </a>
-              </div>
-            </div>
-            <!-- product_ad -->
-            <div class="w-full mt-5 addsBox">
-              <img src="/assets/images/banner-ads.png" alt="ring-ad" class="w-full object-cover" />
-            </div>
-          </div>
-          <!-- Attendee left-bar -->
-          <div class="w-full lg:w-8/12 space-y-2.5" *ngIf="attendee && scanAttendees && scanAttendees?.length">
-            <div class="accordions">
-              <div *ngFor="let attendee of scanAttendees;let i = index;" class="accordion_item p-0 cursor-pointer relative mb-5">
-                <div #accordionClick (click)="toggleAccordion($event, i)" class="title_tab bg-white px-5 py-2.5 flex justify-between items-center rounded-md accordion">
-                  <div class="space-y-2">
-                    <div class="flex items-center space-x-3">
-                      <h3 class="text-base">{{attendee?.userid?.name}}</h3>
-                      <span class="input-titel font-bold text-caribbeanGreen pb-0" *ngIf="attendee && attendee?.invoice_no">#{{attendee?.invoice_no}}</span>
-                    </div>
-                    <p class="text-quicksilver text-xs font-bold flex items-center" *ngIf="attendee && attendee?.createdAt">{{attendee?.createdAt | date:'dd MMM, yyyy  hh:mm a'}}</p>
-                  </div>
-                  <div class="space-y-1">
-                    <h3 class="text-lg" *ngIf="attendee && attendee?.amount">₹{{attendee?.amount | number: '1.2-2'}}</h3>
-                    <span class="block input-titel text-magicPotion text-right" *ngIf="attendee && attendee?.booked_tickets">{{attendee?.booked_tickets}} Ticket</span>
-                  </div>
-                </div>
-                <div class="border-t panel overflow-y-auto">
-                  <div class="inner_content i_c px-5 py-6">
-                    <div>
-                      <div *ngFor="let seat of attendee?.seats || []">
-                        <div class="flex- items-center justify-between" *ngFor="let arrangement of seat?.arrangements || []">
-                          <div class="flex justify-between w-full text-quicksilver text-sm font-bold text-left">
-                            <span class="block w-1/6 py-1">{{seat?.seating_item?.itemname}}</span>
-                            <span class="block w-2/6 py-1">{{arrangement?.vertical_location}} - {{arrangement?.horizontal_location}}</span>
-                            <span class="block w-2/6 py-1">{{arrangement?.ItemCount || 0}} Ticket Booked</span>
-                            <span class="block w-1/6 py-1 text-right">₹{{arrangement?.totalAmountItemCount | number: '1.2-2'}}</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="flex flex-wrap items-center justify-center" *ngIf="scanAttendees && scanAttendees?.length">
-              <p-paginator [rows]="paging?.limit" [totalRecords]="paging?.totalDocs" [rowsPerPageOptions]="[10, 20, 30, 40, 50]" (onPageChange)="getAttendeesWithScan($event)"></p-paginator>
-            </div>
-            <div class="w-full addsBox">
-              <img src="/assets/images/banner-ads.png" alt="ring-ad" class="w-full object-cover" />
-            </div>
-          </div>
-          <div class="w-full lg:w-8/12 space-y-2.5" *ngIf="attendee && (!scanAttendees || !scanAttendees?.length)">
-            <h3>No attendees Found</h3>
-          </div>
-          <!-- right-bar  -->
-          <div class="w-full lg:w-4/12 lg:pl-5 space-y-3 sticky top-0 ml-auto" *ngIf="overview">
-            <!-- map-content  -->
-            <div class="w-full p-2.5 bg-white rounded-md" *ngIf="event?.event_location?.location?.coordinates?.length && overview">
-              <div class="relative">
-                <agm-map [latitude]="event?.event_location?.location?.coordinates[1]" [longitude]="event?.event_location?.location?.coordinates[0]" [zoom]="zoom" class="w-full h-56">
-                <agm-marker [latitude]="event?.event_location?.location?.coordinates[1]" [longitude]="event?.event_location?.location?.coordinates[0]"></agm-marker>
-                </agm-map>
-                <a class="w-10 h-10 flex items-center justify-center text-xl bg-white shadow-sm absolute right-4 bottom-4 text-magicPotion" href="javascript:void(0);"><i class="icon-map"></i></a>
-              </div>
-              <div class="p-3.5 xl:p-5">
-                <span class="input-titel"><i class="icon-location-1 mr-1"></i> {{'Location' | translate }}</span>
-                <h3 class="text-sm xl:text-base">{{event.event_location.flat_no  + ' - ' + event.event_location.street_name  + ', ' + event.event_location.area_name + ', ' + event.event_location.city + ', ' + event.event_location.state }}</h3>
-              </div>
-            </div>
-            <!-- date-content  -->
-            <div class="w-full p-5 xl:p-7 bg-white rounded-md space-y-3" 
-              *ngIf="(event?.about?.start_date || event?.about?.end_date || event?.about?.start_time || event?.about?.end_time ) && overview" >
-              <div class="w-full">
-                <div class="text-xs lg:text-sm font-medium text-quicksilver flex items-center"><i class="icon-calendar mr-1.5 text-base"></i>{{'Date' | translate }} </div>
-                <span class="text-japaneseIndigo text-xs lg:text-sm font-bold">{{ event?.about?.start_date | date:'dd MMM, yyyy' }} - {{ event?.about?.end_date | date:'dd MMM, yyyy' }}</span>
-              </div>
-              <div class="w-full">
-                <div class="text-xs lg:text-sm font-medium text-quicksilver flex items-center"><i class="icon-time mr-1.5 text-sm"></i>{{'Time' | translate }} </div>
-                <span class="text-japaneseIndigo text-xs lg:text-sm font-bold">{{ '0' + ' ' + event?.about?.start_time | date : 'hh:mm a'}} - {{ '0' + ' ' + event?.about?.end_time | date : 'hh:mm a'}}</span>
-              </div>
-            </div>
-            <!-- Discount On Total Bill  -->
-            <div *ngIf="overview">
-            <div class="bg-gradient-to-r from-[#13e1b094] to-[#13E1B0] p-3.5 xl:p-5 rounded-lg relative overflow-hidden" *ngFor="let discount of event?.discounts || []" >
-              <div class="w-full space-y-4" *ngIf="overview">
-                <h4 class="text-white">{{discount?.discountname}}</h4>
-                <h1 class="text-black font-bold">{{discount?.discount}}%</h1>
-                <div class="space-y-2">
-                  <span class="text-xs text-white font-normal block">{{discount?.description}}</span>
-                </div>
-                <img alt="celebration" class="absolute -right-3 -bottom-3 opacity-80" src="../assets/images/event-subscription.png"/>
-              </div>
-            </div>
-          </div>
 
-            <div class="attendees-panel" *ngIf="bookedAttendees?.length && overview">
-            <mat-accordion>
-              <mat-expansion-panel (opened)="attendeesOpenState = true" (closed)="attendeesOpenState = false">
-                <mat-expansion-panel-header class="flex justify-between px-5 bg-japaneseIndigo">
-                  <mat-panel-title class="text-sm">
-                    <span class="text-sm font-bold text-white">Book Ticket</span>
-                  </mat-panel-title>
-                  <mat-panel-description>
-                    <span class="text-sm font-bold text-white">Total&nbsp;Amount</span>
-                  </mat-panel-description>
-                </mat-expansion-panel-header>
-                <div class="container" (scroll)="onScroll($event)">
-                  <div *ngFor="let attendee of bookedAttendees;let i = index;" >
-                    <div class="bg-white" *ngFor="let seat of attendee?.seats || []">
-                      <div class="flex justify-between  border-brightGray pr-5 py-2" *ngFor="let arrangement of seat?.arrangements || []" [ngClass]="{'border-t': i !== 0}">
-                        <span class="text-sm font-bold text-japaneseIndigo w-1/3">{{arrangement?.ItemCount || 0}} {{((arrangement.vertical_location == 'FRONT') ? 'F' : (arrangement.vertical_location == 'MIDDLE' ? 'M' : 'B'))}} - {{((arrangement.horizontal_location == 'LEFT') ? 'L' : ((arrangement.horizontal_location == 'CENTER') ? 'C' : (arrangement.horizontal_location == 'RIGHT' ? 'R' : 'N')))}}</span>
-                        <span class="text-sm font-bold text-japaneseIndigo w-1/3 text-center">{{seat?.seating_item?.itemname}}</span>
-                        <span class="text-sm font-bold text-japaneseIndigo w-1/3 text-right">₹{{arrangement?.totalAmountItemCount | number: '1.2-2'}}</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </mat-expansion-panel>
-            </mat-accordion>
-            </div>
-
-            <!-- Old Book_ticket_detils without infinite -->
-            <!--<div class="bg-white rounded-md max-h-[206px] overflow-y-auto" *ngIf="attendees?.length && overview">-->
-              <!--<div class="flex justify-between px-5 py-2 bg-japaneseIndigo sticky top-0">-->
-                <!--<span class="text-sm font-bold text-white">Book Ticket</span>-->
-                <!--<span class="text-sm font-bold text-white">Total Amount</span>-->
-                <!--<span class="icon-drop_arrow text-[10px] text-white flex items-center pt-0.5"  ></span>-->
-              <!--</div>-->
-              <!--<div *ngFor="let attendee of attendees;let i = index;" >-->
-                <!--<div class="bg-white" *ngFor="let seat of attendee?.seats || []">-->
-                  <!--<div  class="flex justify-between border-t border-brightGray px-5 py-2" *ngFor="let arrangement of seat?.arrangements || []">-->
-                    <!--<span class="text-sm font-bold text-japaneseIndigo w-1/3">{{arrangement?.ItemCount || 0}} {{((arrangement.vertical_location == 'FRONT') ? 'F' : (arrangement.vertical_location == 'MIDDLE' ? 'M' : 'B'))}} - {{((arrangement.horizontal_location == 'LEFT') ? 'L' : ((arrangement.horizontal_location == 'CENTER') ? 'C' : (arrangement.horizontal_location == 'RIGHT' ? 'R' : 'N')))}}</span>-->
-                    <!--<span class="text-sm font-bold text-japaneseIndigo w-1/3 text-center">{{seat?.seating_item?.itemname}}</span>-->
-                    <!--<span class="text-sm font-bold text-japaneseIndigo w-1/3 text-right">₹{{arrangement?.totalAmountItemCount | number: '1.2-2'}}</span>-->
+              <!-- Old Book_ticket_detils without infinite -->
+              <!--<div class="bg-white rounded-md max-h-[206px] overflow-y-auto" *ngIf="attendees?.length && overview">-->
+                <!--<div class="flex justify-between px-5 py-2 bg-japaneseIndigo sticky top-0">-->
+                  <!--<span class="text-sm font-bold text-white">Book Ticket</span>-->
+                  <!--<span class="text-sm font-bold text-white">Total Amount</span>-->
+                  <!--<span class="icon-drop_arrow text-[10px] text-white flex items-center pt-0.5"  ></span>-->
+                <!--</div>-->
+                <!--<div *ngFor="let attendee of attendees;let i = index;" >-->
+                  <!--<div class="bg-white" *ngFor="let seat of attendee?.seats || []">-->
+                    <!--<div  class="flex justify-between border-t border-brightGray px-5 py-2" *ngFor="let arrangement of seat?.arrangements || []">-->
+                      <!--<span class="text-sm font-bold text-japaneseIndigo w-1/3">{{arrangement?.ItemCount || 0}} {{((arrangement.vertical_location == 'FRONT') ? 'F' : (arrangement.vertical_location == 'MIDDLE' ? 'M' : 'B'))}} - {{((arrangement.horizontal_location == 'LEFT') ? 'L' : ((arrangement.horizontal_location == 'CENTER') ? 'C' : (arrangement.horizontal_location == 'RIGHT' ? 'R' : 'N')))}}</span>-->
+                      <!--<span class="text-sm font-bold text-japaneseIndigo w-1/3 text-center">{{seat?.seating_item?.itemname}}</span>-->
+                      <!--<span class="text-sm font-bold text-japaneseIndigo w-1/3 text-right">₹{{arrangement?.totalAmountItemCount | number: '1.2-2'}}</span>-->
+                    <!--</div>-->
                   <!--</div>-->
                 <!--</div>-->
               <!--</div>-->
-            <!--</div>-->
 
 
 
+            </div>
           </div>
         </div>
-      </div>
-      <!-- Reviews-Teb-Content   -->
-      <div *ngIf="reviews" class="flex flex-wrap -mx-4 tab-main" [class]="reviews ? 'active' : ''">
-        <div class="w-full lg:w-8/12 p-4 space-y-2.5 p-4">
-          <div *ngFor="let reviews of event?.reviews" class="flex justify-between p-5 bg-white rounded-md">
-            <div class="">
-              <div class="w-14 h-14 border-2 border-brightGray rounded-full overflow-hidden bg-white">
-                <img alt="cutting-board" class="w-full h-full object-cover" [src]="!!(reviews?.userid?.profilepic) ? constants?.baseImageURL + reviews?.userid?.profilepic : constants.userDefaultImage"/>
-              </div>
-            </div>
-            <div class="w-full pl-5">
-              <div class="flex justify-between">
-                <h3>{{ reviews?.userid?.name }}</h3>
-                <div class="flex items-center space-x-2">
-                  <span class="text-xs text-quicksilver">{{ reviews?.createdAt | date:'dd MMM, yyyy' }}</span>
-                  <p-rating [(ngModel)]="reviews.ratings" [readonly]="true" [cancel]="false"></p-rating>
+        <!-- Reviews-Teb-Content   -->
+        <div *ngIf="reviews" class="flex flex-wrap -mx-4 tab-main" [class]="reviews ? 'active' : ''">
+          <div class="w-full lg:w-8/12 p-4 space-y-2.5 p-4">
+            <div *ngFor="let reviews of event?.reviews" class="flex justify-between p-5 bg-white rounded-md">
+              <div class="">
+                <div class="w-14 h-14 border-2 border-brightGray rounded-full overflow-hidden bg-white">
+                  <img alt="cutting-board" class="w-full h-full object-cover" [src]="!!(reviews?.userid?.profilepic) ? constants?.baseImageURL + reviews?.userid?.profilepic : constants.userDefaultImage"/>
                 </div>
               </div>
-              <p class="text-japaneseIndigo text-sm font-normal leading-6">{{ reviews?.review }}</p>
+              <div class="w-full pl-5">
+                <div class="flex justify-between">
+                  <h3>{{ reviews?.userid?.name }}</h3>
+                  <div class="flex items-center space-x-2">
+                    <span class="text-xs text-quicksilver">{{ reviews?.createdAt | date:'dd MMM, yyyy' }}</span>
+                    <p-rating [(ngModel)]="reviews.ratings" [readonly]="true" [cancel]="false"></p-rating>
+                  </div>
+                </div>
+                <p class="text-japaneseIndigo text-sm font-normal leading-6">{{ reviews?.review }}</p>
+              </div>
+            </div>
+            <div class="w-full py-2.5 addsBox">
+              <img src="/assets/images/banner-ads.png" alt="ring-ad" class="w-full object-cover" />
             </div>
           </div>
-          <div class="w-full py-2.5 addsBox">
-            <img src="/assets/images/banner-ads.png" alt="ring-ad" class="w-full object-cover" />
-          </div>
+          <div class="w-full lg:w-4/12 p-4"></div>
         </div>
-        <div class="w-full lg:w-4/12 p-4"></div>
-      </div>
-      <!-- Deposit-Teb-Content   -->
-      <div class="w-full space-y-7 tab-main" [class]="deposit ? 'active' : ''">
-        <div class="w-full space-y-5 px-5">
-          <div class="w-full text-sm space-y-1">
-            <h5 class="text-red-600">*Note:</h5>
-            <p class="px-0.5">We take 10% of <strong>₹{{event?.total_event_cost?.display_value}}/-</strong> as a security deposit for the safety of our users. Nominal bank charges will be deducted from the deposited amount <strong>₹{{event?.total_event_deposit?.display_value}}/-</strong> and will be refunded within 7 working days after the completion of your event.</p>
-          </div>
-          <div class="flex flex-wrap">
-            <div class="pt-5 pr-5">
-              <div class="p-7 bg-white rounded-md space-y-1">
-                <h5>₹{{event?.total_event_cost?.display_value}}/-</h5>
-                <div>Total Event Cost</div>
-              </div>
+        <!-- Deposit-Teb-Content   -->
+        <div class="w-full space-y-7 tab-main" [class]="deposit ? 'active' : ''">
+          <div class="w-full space-y-5 px-5">
+            <div class="w-full text-sm space-y-1">
+              <h5 class="text-red-600">*Note:</h5>
+              <p class="px-0.5">We take 10% of <strong>₹{{event?.total_event_cost?.display_value}}/-</strong> as a security deposit for the safety of our users. Nominal bank charges will be deducted from the deposited amount <strong>₹{{event?.total_event_deposit?.display_value}}/-</strong> and will be refunded within 7 working days after the completion of your event.</p>
             </div>
-            <div class="pt-5 pr-5">
-              <div class="p-7 bg-white rounded-md space-y-1">
-                <h5 class="text-red-500">₹{{event?.total_event_deposit?.display_value}}/-</h5>
-                <div>Due Event Deposit</div>
+            <div class="flex flex-wrap">
+              <div class="pt-5 pr-5">
+                <div class="p-7 bg-white rounded-md space-y-1">
+                  <h5>₹{{event?.total_event_cost?.display_value}}/-</h5>
+                  <div>Total Event Cost</div>
+                </div>
               </div>
-            </div>
-            <div class="pt-5 pr-5 mt-auto">
-              <button type="button" class="secondary px-5 py-2 flex items-end rounded-sm max-w-max mx-auto">Add Deposit</button>
-            </div>
-            <!-- <div class="pt-5 w-full">
-              <div class="p-7 bg-white rounded-md space-y-1">
-                <h5>₹{{event?.total_event_deposit?.display_value}}/-</h5>
-                <div>Due Event Deposit</div>
+              <div class="pt-5 pr-5">
+                <div class="p-7 bg-white rounded-md space-y-1">
+                  <h5 class="text-red-500">₹{{event?.total_event_deposit?.display_value}}/-</h5>
+                  <div>Due Event Deposit</div>
+                </div>
               </div>
-            </div> -->
-          </div>
-          <div class="w-full py-2.5 addsBox">
-            <img src="/assets/images/banner-ads.png" alt="ring-ad" class="w-full object-cover" />
+              <div class="pt-5 pr-5 mt-auto">
+                <button type="button" class="secondary px-5 py-2 flex items-end rounded-sm max-w-max mx-auto">Add Deposit</button>
+              </div>
+              <!-- <div class="pt-5 w-full">
+                <div class="p-7 bg-white rounded-md space-y-1">
+                  <h5>₹{{event?.total_event_deposit?.display_value}}/-</h5>
+                  <div>Due Event Deposit</div>
+                </div>
+              </div> -->
+            </div>
+            <div class="w-full py-2.5 addsBox">
+              <img src="/assets/images/banner-ads.png" alt="ring-ad" class="w-full object-cover" />
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-<!-- bottom-bar -->
-<div class="-mb-14 mt-14 bg-white pb-4">
-  <div class="flex flex-wrap items-center justify-between max-w-7xl mx-auto px-5 xl:px-8">
-    <div class="flex items-center space-x-2 pt-4">
-      <h4 class="pr-5 border-r border-brightGray"><span class="text-quicksilver font-normal">{{'Sold' | translate }} :</span>
-        {{ event?.total_booked_seats || 0}}
-      </h4>
-      <h4 class="px-5"><span class="text-quicksilver font-normal">{{'Unsold' | translate }}  :</span> {{event?.total_available_seats || 0}}</h4>
-      <h4 class="px-5"><span class="text-quicksilver font-normal">Booked  :</span> {{event?.total_booked_amount || 0}} INR</h4>
+  <!-- bottom-bar -->
+  <div class="mt-auto bg-white pb-4">
+    <div class="flex flex-wrap items-center justify-between max-w-7xl mx-auto px-5 xl:px-8">
+      <div class="flex items-center space-x-2 pt-4">
+        <h4 class="pr-5 border-r border-brightGray"><span class="text-quicksilver font-normal">{{'Sold' | translate }} :</span>
+          {{ event?.total_booked_seats || 0}}
+        </h4>
+        <h4 class="px-5"><span class="text-quicksilver font-normal">{{'Unsold' | translate }}  :</span> {{event?.total_available_seats || 0}}</h4>
+        <h4 class="px-5"><span class="text-quicksilver font-normal">Booked  :</span> {{event?.total_booked_amount || 0}} INR</h4>
 
-    </div>
-    <div class="flex items-center space-x-2 pt-4">
-      <span class="text-xs font-bold text-quicksilver whitespace-nowrap">{{event?.total_booked_seats || 0}} {{'Sold' | translate }}</span>
-      <!--<div class="w-32 md:w-[150px] xl:w-[203px] bg-[#D6D7DC] rounded-full h-1.5">
-        <div class="bg-magicPotion h-1.5 rounded-full" style="width: 30%"></div>
-        </div>-->
-      <div class="w-32 h-1.5">
-        <p-progressBar [styleClass]="'h-1.5'" [value]="((event?.total_booked_seats || 0) * 100) / (event?.total_seats || 0)" [showValue]="false"></p-progressBar>
       </div>
-      <span class="text-xs font-bold text-quicksilver whitespace-nowrap">{{event?.total_available_seats || 0}} {{'Unsold' | translate }}</span>
-    </div>
-    <div class="pt-4">
-      <a class="secondary px-5 py-2 flex items-end rounded-sm max-w-max mx-auto" href="javascript:void(0);" (click)="openScannerModel()"><i class="icon-scanner mr-3 text-lg"></i>{{'scanQR' | translate }}</a>
+      <div class="flex items-center space-x-2 pt-4">
+        <span class="text-xs font-bold text-quicksilver whitespace-nowrap">{{event?.total_booked_seats || 0}} {{'Sold' | translate }}</span>
+        <!--<div class="w-32 md:w-[150px] xl:w-[203px] bg-[#D6D7DC] rounded-full h-1.5">
+          <div class="bg-magicPotion h-1.5 rounded-full" style="width: 30%"></div>
+          </div>-->
+        <div class="w-32 h-1.5">
+          <p-progressBar [styleClass]="'h-1.5'" [value]="((event?.total_booked_seats || 0) * 100) / (event?.total_seats || 0)" [showValue]="false"></p-progressBar>
+        </div>
+        <span class="text-xs font-bold text-quicksilver whitespace-nowrap">{{event?.total_available_seats || 0}} {{'Unsold' | translate }}</span>
+      </div>
+      <div class="pt-4">
+        <a class="secondary px-5 py-2 flex items-end rounded-sm max-w-max mx-auto" href="javascript:void(0);" (click)="openScannerModel()"><i class="icon-scanner mr-3 text-lg"></i>{{'scanQR' | translate }}</a>
+      </div>
     </div>
   </div>
 </div>

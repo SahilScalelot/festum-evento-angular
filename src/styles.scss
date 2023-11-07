@@ -51,7 +51,7 @@ button.primary,.primary{@apply bg-caribbeanGreen rounded-md font-bold text-white
 .right-top-menu a {@apply flex items-center border-b-[3px] border-transparent px-3 py-1.5 hover:border-current hover:text-magicPotion hover:bg-[rgba(254,77,95,0.3)] transition-all duration-300 -mb-1 rounded;}
 .right-top-menu a.active {@apply text-magicPotion border-magicPotion bg-[rgba(254,77,95,0.3)];}
 /* rightInContent */
-.rightInContent {@apply py-12 overflow-y-auto h-[calc(100vh-76px)];}
+.rightInContent {@apply pt-12 overflow-y-auto h-[calc(100vh-76px)];}
 
 /* Wrapper */
 .wrapper {@apply max-w-screen-xl mx-auto px-3.5 md:px-5 xl:px-8 2xl:px-10;}

@@ -164,7 +164,7 @@
                                   <span class="input-titel text-xs">Per Person Price</span>
                                   <div class="w-full flex items-center space-x-5">
                                     <div class="w-full inputHolder relative">
-                                      <input (input)="updateCalculatedValue()" [formControlName]="'per_person_price'" [min]="0" placeholder="0" [name]="'per_person_price' + i" class="bgquicksilver" fuseValidNumber type="number">                                      
+                                      <input (input)="updateCalculatedValue()" [formControlName]="'per_person_price'" [min]="1" placeholder="0" [name]="'per_person_price' + i" class="bgquicksilver" fuseValidNumber type="number">                                      
                                       <span class="absolute top-full text-red-500 text-10" *ngIf="child?.get('per_person_price')?.invalid && (child?.get('per_person_price')?.dirty && child?.get('per_person_price')?.touched)">
                                         <span *ngIf="child?.get('per_person_price')?.errors?.['required']">
                                           This field must have required.
