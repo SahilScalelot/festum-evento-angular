@@ -6,6 +6,7 @@ import { CONSTANTS } from '../../common/constants';
 import { ModalService } from '../../_modal';
 import { Router } from "@angular/router";
 import { SnotifyService } from 'ng-snotify';
+import { Clipboard } from '@angular/cdk/clipboard';
 
 @Component({
   selector: 'app-offline-shops',
@@ -28,6 +29,11 @@ export class OfflineShopsComponent implements OnInit, OnDestroy {
   offset: any = 1;
   isOpenAddEditShop: boolean = false;
 
+  openPopUp: boolean = false;
+  shareLink: string = `${window.location.origin}`;
+  selectedEventId: string = '';
+  fullShareLink: string = `${this.shareLink}/#/offline-shops/${this.selectedEventId}`;
+
   constructor(
     private _offlineShopsService: OfflineShopsService,
     private _globalFunctions: GlobalFunctions,
@@ -35,6 +41,7 @@ export class OfflineShopsComponent implements OnInit, OnDestroy {
     private _router: Router,
     private _sNotify:SnotifyService,
     private renderer: Renderer2,
+    private _clipboard: Clipboard,
     @Inject(DOCUMENT) private document: Document
   ) { }
 
@@ -148,6 +155,20 @@ export class OfflineShopsComponent implements OnInit, OnDestroy {
     localStorage.setItem('eId', shopId);
     this._router.navigate(['/promotions/'], { queryParams: {id: shopId, type: 'shop'}});
   }
+
+  openSocailMediaPopUp(event:any, data?: any){
+    event.stopPropagation();
+    this.openPopUp = !this.openPopUp;
+    console.log(data);
+    
+    this.selectedEventId = data?._id;
+  }
+  copyShareLink() {
+    let copyText = `${this.shareLink}/#/offline-shops/${this.selectedEventId}`;
+    this._clipboard.copy(copyText);
+    this._sNotify.success('Link Copied.');
+  }
+
   ngOnDestroy() {
     let elem = document.querySelector("#messageScript");
     if (elem) {

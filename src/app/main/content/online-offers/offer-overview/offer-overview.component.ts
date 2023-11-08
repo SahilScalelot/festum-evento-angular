@@ -23,6 +23,10 @@ export class OfferOverviewComponent implements OnInit {
   tAndc1: boolean = false;
   tAndc2: boolean = false;
 
+  openPopUp: boolean = false;
+  shareLink: string = `${window.location.origin}`;
+  selectedEventId: string = '';
+  fullShareLink: string = `${this.shareLink}/#/online-offers/${this.selectedEventId}`;
 
   constructor(
     private _router: Router,
@@ -48,6 +52,8 @@ export class OfferOverviewComponent implements OnInit {
     //   }
     // });
     this.getOnlineShopOfferByOfferId(this.offerId);
+    // console.log(offerObj?._id);
+    
   }
   overview: boolean = true;
   reviews: boolean = false;
@@ -158,6 +164,19 @@ export class OfferOverviewComponent implements OnInit {
       this._globalFunctions.errorHanding(error, this, true);
       this.isDeleteLoading = false;
     });
+  }
+  openSocialMediaDailog(event:any, data?: any) {
+    debugger
+    event.stopPropagation();
+    this.openPopUp = !this.openPopUp;
+    console.log(data?._id);
+    
+    this.selectedEventId = data;
+  }
+  copyShareLink() {
+    let copyText = `${this.shareLink}/#/online-offers/${this.selectedEventId}`;
+    this._clipboard.copy(copyText);
+    this._sNotify.success('Link Copied.');
   }
 
 }

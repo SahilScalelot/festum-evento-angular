@@ -6,6 +6,7 @@ import { CONSTANTS } from 'src/app/main/common/constants';
 import { GlobalFunctions } from 'src/app/main/common/global-functions';
 import { ModalService } from 'src/app/main/_modal';
 import { OfflineShopsService } from '../../offline-shops.service';
+import { Clipboard } from '@angular/cdk/clipboard';
 
 @Component({
   selector: 'app-offer-overview',
@@ -50,6 +51,12 @@ export class OfferOverviewComponent implements OnInit {
     { value: 'st', label: 'Sat' }
   ];
 
+  openPopUp: boolean = false;
+  shareLink: string = `${window.location.origin}`;
+  offerid:string = '';
+  selectedEventId: string = '';
+  fullShareLink: string = `${this.shareLink}/#/offline-shops/${this.selectedEventId}/offer-overview/${this.offerid}`;
+
   constructor(
     private _modalService: ModalService,
     private _globalFunctions: GlobalFunctions,
@@ -58,6 +65,7 @@ export class OfferOverviewComponent implements OnInit {
     private _offlineShopsService: OfflineShopsService,
     private _activatedRoute: ActivatedRoute,
     private _sNotify: SnotifyService,
+    private _clipboard: Clipboard
   ) { }
 
   ngOnInit(): void {
@@ -250,6 +258,18 @@ export class OfferOverviewComponent implements OnInit {
       this._globalFunctions.errorHanding(error, this, true);
       this.isDeleteLoading = false;
     });
+  }
+ 
+  openSocialMediaDailog(event:any, data?: any, offer?: any) {
+    event.stopPropagation();
+    this.openPopUp = !this.openPopUp;
+    this.selectedEventId = data;
+    this.offerid = offer;
+  }
+  copyShareLink() {
+    let copyText = `${this.shareLink}/#/offline-shops/${this.selectedEventId}/offer-overview/${this.offerid}`;
+    this._clipboard.copy(copyText);
+    this._sNotify.success('Link Copied.');
   }
 
   backRouter(): void {

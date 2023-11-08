@@ -5,6 +5,9 @@ import {OnlineOffersService} from "./online-offers.service";
 import {GlobalFunctions} from "../../common/global-functions";
 import { ModalService } from '../../_modal';
 import { SnotifyService } from 'ng-snotify';
+import { Clipboard } from '@angular/cdk/clipboard';
+// import { Clipboard } from '@angular/cdk/clipboard';
+
 
 @Component({
   selector: 'app-online-offers',
@@ -21,12 +24,18 @@ export class OnlineOffersComponent implements OnInit {
   tmpOfferObj: any = {};
   isDeleteLoading: boolean = false;
 
+  openPopUp: boolean = false;
+  shareLink: string = `${window.location.origin}`;
+  selectedEventId: string = '';
+  fullShareLink: string = `${this.shareLink}/#/online-offers/${this.selectedEventId}`;
+
   constructor(
     private _router: Router,
     private _sNotify: SnotifyService,
     private _modalService: ModalService,
     private _globalFunctions: GlobalFunctions,
     private _onlineOffersService: OnlineOffersService,
+    private _clipboard: Clipboard
   ) { }
 
   ngOnInit(): void {
@@ -144,5 +153,15 @@ export class OnlineOffersComponent implements OnInit {
   offerOverview(event: any, offerId: any): void {
     event.stopPropagation();
     this._router.navigate(['/online-offers/' + offerId]);
+  }
+  openSocailMediaPopUp(event:any, data?: any){
+    event.stopPropagation();
+    this.openPopUp = !this.openPopUp;
+    this.selectedEventId = data?._id;
+  }
+  copyShareLink() {
+    let copyText = `${this.shareLink}/#/online-offers/${this.selectedEventId}`;
+    this._clipboard.copy(copyText);
+    this._sNotify.success('Link Copied.');
   }
 }

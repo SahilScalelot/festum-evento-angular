@@ -6,6 +6,7 @@ import { ModalService } from 'src/app/main/_modal';
 import { ActivatedRoute, Router, NavigationStart, Event as NavigationEvent } from '@angular/router';
 import { OfflineShopsService } from '../offline-shops.service';
 import { SnotifyService } from 'ng-snotify';
+import { Clipboard } from '@angular/cdk/clipboard';
 import * as _ from 'lodash';
 
 @Component({
@@ -50,6 +51,11 @@ export class ShopOverviewComponent implements OnInit, OnDestroy {
   isDeleteOffer: boolean = false;
   successfully: boolean = false;
 
+  openPopUp: boolean = false;
+  shareLink: string = `${window.location.origin}`;
+  selectedEventId: string = '';
+  fullShareLink: string = `${this.shareLink}/#/offline-shops/${this.selectedEventId}`;
+
   constructor(
     private _modalService: ModalService,
     private _globalFunctions: GlobalFunctions,
@@ -58,6 +64,7 @@ export class ShopOverviewComponent implements OnInit, OnDestroy {
     private _activatedRoute: ActivatedRoute,
     private _sNotify: SnotifyService,
     private renderer: Renderer2,
+    private _clipboard: Clipboard,
     @Inject(DOCUMENT) private document: Document
   ) { }
 
@@ -286,6 +293,16 @@ export class ShopOverviewComponent implements OnInit, OnDestroy {
       return (offer.noofbooked / (offer.noofbooked + offer?.noofunbooked)) * 100;
     }
   
+  }
+  openSocialMediaDailog(event:any, data?: any) {
+    event.stopPropagation();
+    this.openPopUp = !this.openPopUp;
+    this.selectedEventId = data;
+  }
+  copyShareLink() {
+    let copyText = `${this.shareLink}/#/offline-shops/${this.selectedEventId}`;
+    this._clipboard.copy(copyText);
+    this._sNotify.success('Link Copied.');
   }
     ngOnDestroy() {
       let elem = document.querySelector("#messageScript");
