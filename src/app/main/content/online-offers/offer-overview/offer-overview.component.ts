@@ -166,7 +166,7 @@ export class OfferOverviewComponent implements OnInit {
     });
   }
   openSocialMediaDailog(event:any, data?: any) {
-    debugger
+    // debugger
     event.stopPropagation();
     this.openPopUp = !this.openPopUp;
     console.log(data?._id);
