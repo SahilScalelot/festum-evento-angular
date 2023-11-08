@@ -4,7 +4,7 @@
   <form [formGroup]="companyForm">
     <div class="flex items-end flex-wrap -mx-2">
       <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative">
-        <span class="input-titel">Company name</span>
+        <span class="input-titel">{{'Company Name' | translate }}</span>
         <input class="input" type="text" id="name" name="name" [formControlName]="'name'" />
         <span class="absolute top-full text-red-500 text-xs" *ngIf="companyForm.get('name')?.invalid && (companyForm.get('name')?.dirty && companyForm.get('name')?.touched)">
           <span *ngIf="companyForm.get('name')?.errors?.['minlength']">
@@ -66,7 +66,7 @@
         </span>
       </div>
       <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative">
-        <span class="input-titel">Company Email</span>
+        <span class="input-titel">{{'Company Email' | translate }}</span>
         <input [formControlName]="'email'" class="input" type="text"/>
         <span class="absolute top-full text-red-500 text-xs" *ngIf="companyForm.get('email')?.invalid && (companyForm.get('email')?.dirty && companyForm.get('email')?.touched)">
           <span *ngIf="companyForm.get('email')?.errors?.['pattern']">

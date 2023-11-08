@@ -249,6 +249,18 @@
       "Live Streams": "สตรีมสด",
       "Offline Offer": "ข้อเสนอออฟไลน์",
 
+      "Full Name": "ชื่อเต็ม",
+      "Mr": "นาย",
+      "Mrs": "นาง",
+      "Ms": "นางสาว",
+      "Mobile Number": "เบอร์มือถือ",
+      "Alternative Mobile Number": "หมายเลขโทรศัพท์มือถือสำรอง",
+      "optional": "ไม่จำเป็น",
+      "Company GST": "ภาษีมูลค่าเพิ่มของบริษัท",
+      "Company Contact No": "เบอร์ติดต่อบริษัท",
+      "About": "เกี่ยวกับ",
+
+
       "Personal Profile": "รายละเอียดส่วนบุคคล",
       "Business Profile": "ข้อมูลธุรกิจ",
       "Edit Profile": "แก้ไขโปรไฟล์",

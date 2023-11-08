@@ -2,7 +2,7 @@
 
 <div [formGroup]="termsAndConditionsForm" class="space-y-5 px-2">
   <div class="w-full space-y-2.5">
-    <h5>Terms And Conditions <i class="text-xs font-medium" [ngClass]="{'text-magicPotion' : textEditor}">( {{textEditorLimit}} characters out of {{textEditorMaxLimit}} )</i></h5>
+    <h5>{{'termsConditions' | translate}} <i class="text-xs font-medium" [ngClass]="{'text-magicPotion' : textEditor}">( {{textEditorLimit}} characters out of {{textEditorMaxLimit}} )</i></h5>
     <div class="w-full bg-white rounded relative">
       <ckeditor (ready)="onTextEditorReady($event, 't_and_c')" [config]="editorConfig"
                 (keyup)="editorCharacterSet()"
@@ -16,7 +16,7 @@
     </div>
   </div>
   <div class="w-full pt-5">
-    <h3 class="pb-2">Social Media</h3>
+    <h3 class="pb-2">{{'socialMedia' | translate}}</h3>
     <div class="-mx-2">
       <div class="w-full flex flex-wrap">
         <div class="w-full md:w-1/2 p-2">

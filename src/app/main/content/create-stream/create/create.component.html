@@ -34,7 +34,7 @@
     </span>
   </div>
   <div class="w-full lg:w-1/2 px-2 pt-5 pb-0.5 relative">
-    <span class="input-titel">Start Date<span>*</span></span>
+    <span class="input-titel">{{'Start Date' | translate }}<span>*</span></span>
     <label class="bg-white rounded-md flex space-x-3 relative">
       <i class="icon-calendar-2 text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0 z-10"></i>
       <p-calendar class="input w-full" formControlName="event_date" [touchUI]="true" [minDate]="minStartDateValue" [defaultDate]="minStartDateValue" [dateFormat]="'dd/mm/yy'" name="event_date" inputId="event_date"></p-calendar>
@@ -46,7 +46,7 @@
     </span>
   </div>
   <div class="w-1/2 lg:w-1/4 px-2 pt-5 pb-0.5 relative">
-    <span class="input-titel">Start Time</span>
+    <span class="input-titel">{{'Start Time' | translate }}</span>
     <label class="bg-white rounded-md flex space-x-3 relative">
       <i class="icon-time text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0 z-10"></i>
       <p-calendar class="w-4/5" [formControlName]="'event_start_time'" name="event_start_time" [showTime]="true" [hourFormat]="'12'" [timeOnly]="true" inputId="event_start_time"></p-calendar>
@@ -58,7 +58,7 @@
     </span>
   </div>
   <div class="w-1/2 lg:w-1/4 px-2 pt-5 pb-0.5 relative">
-    <span class="input-titel">End Time</span>
+    <span class="input-titel">{{'End Time' | translate }}</span>
     <label class="bg-white rounded-md flex space-x-3 relative">
       <i class="icon-time text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0 z-10"></i>
       <p-calendar class="w-4/5" [formControlName]="'event_end_time'" name="event_end_time" [showTime]="true" [hourFormat]="'12'" [timeOnly]="true" inputId="event_end_time"></p-calendar>
@@ -87,7 +87,7 @@
     </div>
   </div>
   <div class="w-full lg:w-1/2 px-2 py-5">
-    <span class="input-titel">LiveStream Type</span>
+    <span class="input-titel">{{'liveStreamType' | translate }}</span>
     <div class="flex pt-2">
       <div class="flex items-center">
         <label for="public-livestream" class="interested_in flex items-center text-black mb-0 cursor-pointer">

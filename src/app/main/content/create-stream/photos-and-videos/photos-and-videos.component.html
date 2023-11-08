@@ -2,14 +2,14 @@
 <!-- main-content  -->
 <div class="space-y-5">
   <div class="upload-holder w-full h-auto">
-    <span class="text-sm text-quicksilver font-semibold">Add Poster <span class="font-normal">(Max File size 10MB & Resolution Must be 1080PX x 780PX)</span><span class="text-red-500 text-base">*</span></span>
+    <span class="text-sm text-quicksilver font-semibold">{{'Add Poster' | translate }} <span class="font-normal">({{'posterHint' | translate }})</span><span class="text-red-500 text-base">*</span></span>
     <label class="upload upload-popup p-0 relative group" id="posterUpload">
       <input #poster (change)="onPosterChange($event)" accept="image/png, image/jpeg, image/gif" class="poster hidden" id="poster" type="file" />
     </label>
   </div>
   <div class="media-upload-holder pt-5">
     <div class="flex items-center justify-between">
-    <span class="text-sm text-quicksilver font-semibold">Add Photos <span class="font-normal">({{photosUploadLimit}} Images - up to 7MB/Image & Resolution up to 1080PX x 1080PX)</span></span>
+    <span class="text-sm text-quicksilver font-semibold">{{'Add Photos' | translate }} <span class="font-normal">({{photosUploadLimit}} Images - up to 7MB/Image & Resolution up to 1080PX x 1080PX)</span></span>
     <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(photoArr, true, false)">{{'View all' | translate }}</a>
     </div>
     <div class="flex flex-wrap h-full pt-2">
@@ -26,14 +26,14 @@
       <div (click)="openUploadPhotoDialog()" class="upload-holder" *ngIf="photoArr?.length < photosUploadLimit">
         <label class="upload-photo" for="event-upload1">
           <i class="icon-img_upload text-base text-quicksilver"></i>
-          <div class="mt-1 flex items-baseline justify-center"><span class="input-titel pt-1">Add Photos</span></div>
+          <div class="mt-1 flex items-baseline justify-center"><span class="input-titel pt-1">{{'Add Photos' | translate }}</span></div>
         </label>
       </div>
     </div>
   </div>  
   <div class="media-upload-holder">
     <div class="flex items-center justify-between">
-         <span class="text-sm text-quicksilver font-semibold">Add Video <span class="font-normal">({{videosUploadLimit}} Videos - up to 128MB/Video)</span></span>
+         <span class="text-sm text-quicksilver font-semibold">{{'Add Video' | translate }} <span class="font-normal">({{videosUploadLimit}} Videos - up to 128MB/Video)</span></span>
          <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(videoArr, false, false)">{{'View all' | translate }}</a>
     </div>
     <div class="flex space-x-2.5 h-full pt-2">
@@ -55,7 +55,7 @@
         <label class="upload-photo">
 <!--          <input (change)="uploadVideo()" accept="video/mp4" class="appearance-none hidden" id="create-video-upload" name="videos" type="file"/>-->
           <i class="icon-video_upload text-base text-quicksilver"></i>
-          <div class="mt-1 flex items-baseline justify-center"><span class="input-titel pt-1">Add video</span></div>
+          <div class="mt-1 flex items-baseline justify-center"><span class="input-titel pt-1">{{'Add Video' | translate }}</span></div>
         </label>
       </div>
     </div>

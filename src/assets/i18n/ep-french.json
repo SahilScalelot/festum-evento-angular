@@ -249,6 +249,17 @@
       "Live Streams": "Diffusions en direct",
       "Offline Offer": "Offre hors ligne",
 
+      "Full Name": "Nom et prénom",
+      "Mr": "M",
+      "Mrs": "Mme",
+      "Ms": "MS",
+      "Mobile Number": "Numéro de portable",
+      "Alternative Mobile Number": "Numéro de portable alternatif",
+      "optional": "facultatif",
+      "Company GST": "TPS de l'entreprise",
+      "Company Contact No": "Numéro de contact de l'entreprise",
+      "About": "À propos",
+
       "Personal Profile": "Profil personnel",
       "Business Profile": "Profil d'entreprise",
       "Edit Profile": "Editer le profil",
