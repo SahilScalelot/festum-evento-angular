@@ -6,7 +6,7 @@
       <div *ngIf="!isContinue">
         <!-- //poster add -->
         <div class="upload-holder w-full h-auto relative">
-          <span class="text-sm text-quicksilver font-semibold">Add Image <span class="font-normal input-titel inline-block">(Max File size 10MB & Resolution Must be 1080PX x 780PX)<span>*</span></span></span>
+          <span class="text-sm text-quicksilver font-semibold">{{'Add Image' | translate }} <span class="font-normal input-titel inline-block">({{'posterHint' | translate }})<span>*</span></span></span>
           <label class="upload upload-popup p-0 relative group" id="shop-img-obj-upload">
             <input (change)="onPosterChange($event)" accept="image/png, image/jpeg, image/gif" class="poster hidden" name="banner" id="poster" type="file" />
           </label>
@@ -78,7 +78,7 @@
         <!-- //Shop name and shop category section -->
         <div class="flex flex-wrap justify-between -mx-2">
           <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative">
-            <span class="input-titel">Shop Name <span>*</span></span>
+            <span class="input-titel">{{'Shop name' | translate }} <span>*</span></span>
             <input type="text" [formControlName]="'shop_name'" name="shop_name" class="input" />
             <span class="absolute top-full text-red-500 text-xs" *ngIf="addShopForm.get('shop_name')?.invalid && (addShopForm.get('shop_name')?.dirty && addShopForm.get('shop_name')?.touched)">
               <span *ngIf="addShopForm.get('shop_name')?.errors?.['required']">
@@ -87,7 +87,7 @@
             </span>
           </div>
           <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative">
-            <span class="input-titel">Shop Category <span>*</span></span>
+            <span class="input-titel">{{'Shop Category' | translate }} <span>*</span></span>
             <select [formControlName]="'shop_category'" class="arrow bg-white py-3 text-japaneseIndigo font-bold rounded-md tracking-wider appearance-none focus-visible:outline-none" name="shop_category">
               <option value="">Select Shop Category</option>
               <option *ngFor="let shopCategory of shopCategories" [value]="shopCategory._id">
@@ -175,16 +175,16 @@
         <div class="w-full">
           <div class="w-full flex">
             <div class="w-full lg:w-[20%] px-2 pt-5 inputHolder relative">
-              <span class="input-titel">Shop Days</span>
+              <span class="input-titel">{{'Shop Days' | translate }}</span>
             </div>
             <div class="w-full lg:w-[20%] px-2 pt-5 relative">
-              <span class="input-titel">Open</span>
+              <span class="input-titel">{{'Open' | translate }}</span>
             </div>
             <div class="w-full lg:w-[30&] px-2 pt-5 relative">
-              <span class="input-titel">Shop Open Time</span>
+              <span class="input-titel">{{'Shop Open Time' | translate }}</span>
             </div>
             <div class="w-full lg:w-[30&] px-2 pt-5 relative">
-              <span class="input-titel">Shop Close Time</span>
+              <span class="input-titel">{{'Shop Close Time' | translate }}</span>
             </div>
           </div>
 <div formArrayName="shop_days">
@@ -193,7 +193,7 @@
             <div class="w-full lg:w-[20%] px-2 pt-8 inputHolder relative">
               <div class="weekDays-selector w-full flex flex-col space-y-2">
                 <div class="w-full" >
-                  <label class="w-full cursor-pointer uppercase">{{ addShopForm.get('shop_days').get(i.toString()).get('day').value }}</label>
+                  <label class="w-full cursor-pointer uppercase">{{ addShopForm.get('shop_days').get(i.toString()).get('day').value | translate }}</label>
                 </div>
               </div>
             </div>
@@ -287,19 +287,19 @@
         
         <!-- //About Us Paragraph -->
         <div class="w-full pt-5 relative">
-          <span class="input-titel">About us <i class="text-xs font-medium" [ngClass]="{'text-magicPotion' : textEditor}">( {{textEditorLimit}} characters out of {{textEditorMaxLimit}} )</i></span>
+          <span class="input-titel">{{'About us' | translate }} <i class="text-xs font-medium" [ngClass]="{'text-magicPotion' : textEditor}">( {{textEditorLimit}} characters out of {{textEditorMaxLimit}} )</i></span>
           <div class="w-full bg-white rounded">
             <ckeditor (ready)="onTextEditorReady($event, 'about_shop')" (keyup)="editorCharacterSet()" (keydown)="editorCharacterSet()" [config]="editorConfig" [editor]="detailEditor" [formControlName]="'about_shop'" class="h-44 text-editor" id="about_shop" name="about_shop"></ckeditor>
           </div>
         </div>
         
         <div class="pt-5 -mx-2">
-          <h5 class="px-2 pb-2">Address</h5>
+          <h5 class="px-2 pb-2">{{'Address' | translate }}</h5>
         </div>
         
         <div class="w-full flex flex-wrap pb-7 -mx-2">
           <div class="w-full px-2 py-3 lg:pt-0 inputHolder">
-            <label class="input-titel">What’s the Location?</label>
+            <label class="input-titel">{{'What’s the Location' | translate }}?</label>
             <div class="bg-white rounded-md location relative">
               <input #search (keydown.enter)="$event.preventDefault()" autocapitalize="off" autocorrect="off" class="form-control absolute top-1 left-1 right-1 z-10 px-3 py-1.5 text-base rounded" placeholder="Search Nearest Location" spellcheck="off" type="text"/>
               <agm-map (mapClick)="mapClicked(markers, $event)" [disableDefaultUI]="false" [latitude]="lat" [longitude]="lng" [zoomControl]="false" [zoom]="zoom">
@@ -312,19 +312,19 @@
             </div>
           </div>
           <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-3 inputHolder">
-            <span class="input-titel">Flat No.</span>
+            <span class="input-titel">{{'Flat No' | translate }}.</span>
             <input class="input" [formControlName]="'flat_no'" name="flat_no" type="text" />
           </div>
           <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-3 inputHolder">
-            <span class="input-titel">Street Name.</span>
+            <span class="input-titel">{{'Street Name' | translate }}.</span>
             <input class="input" [formControlName]="'street_name'" name="street_name" type="text" />
           </div>
           <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-3 inputHolder">
-            <span class="input-titel">Area Name.</span>
+            <span class="input-titel">{{'Area Name' | translate }}.</span>
             <input class="input" [formControlName]="'area_name'" name="area_name" type="text" />
           </div>
           <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-3 inputHolder relative">
-            <label class="input-titel">City <span>*</span></label>
+            <label class="input-titel">{{'City' | translate }} <span>*</span></label>
             <input class="input" [formControlName]="'city'" name="city" type="text" fuseValidAlphabet [readOnly]="true"/>
             <span class="absolute top-full text-red-500 text-xs" *ngIf="addShopForm.get('city')?.invalid && (addShopForm.get('city')?.dirty && addShopForm.get('city')?.touched)">
               <span *ngIf="addShopForm.get('city')?.errors?.['required']">
@@ -339,7 +339,7 @@
             </span>
           </div>
           <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-3 inputHolder relative">
-            <label class="input-titel">State <span>*</span></label>
+            <label class="input-titel">{{'State' | translate }} <span>*</span></label>
             <input class="input" [formControlName]="'state'" name="state" type="text" fuseValidAlphabet [readOnly]="true"/>
             <span class="absolute top-full text-red-500 text-xs" *ngIf="addShopForm.get('state')?.invalid && (addShopForm.get('state')?.dirty && addShopForm.get('state')?.touched)">
               <span *ngIf="addShopForm.get('state')?.errors?.['required']">
@@ -354,7 +354,7 @@
             </span>
           </div>
           <div class="w-full md:w-1/2 lg:w-1/3 px-2 pt-3 inputHolder relative">
-            <label class="input-titel">Pincode <span>*</span></label>
+            <label class="input-titel">{{'Pincode' | translate }} <span>*</span></label>
             <input class="input" [formControlName]="'pincode'" name="pincode" type="text" fuseValidNumber [readOnly]="true"/>
             <span class="absolute top-full text-red-500 text-xs" *ngIf="addShopForm.get('pincode')?.invalid && (addShopForm.get('pincode')?.dirty && addShopForm.get('pincode')?.touched)">
               <span *ngIf="addShopForm.get('pincode')?.errors?.['required']">
@@ -369,7 +369,7 @@
             </span>
           </div>
           <div class="w-full px-2 pt-3 inputHolder relative">
-            <label class="input-titel">Manual address <i>( If address from the google map is not accurate, you can write it manually. )</i></label>
+            <label class="input-titel">{{'Manual address' | translate }} <i>( {{'ManualAddressHint' | translate }} )</i></label>
             <textarea class="input" [formControlName]="'manual_address'" name="manual_address" id="manual_address" rows="3"></textarea>
           </div>
         </div>
@@ -384,11 +384,11 @@
       <div *ngIf="isContinue">
         <div class="flex items-end flex-wrap -mx-2">
           <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative">
-            <span class="input-titel">Company name</span>
+            <span class="input-titel">{{'Company Name' | translate }}</span>
             <input type="text" [formControlName]="'company_name'" name="company_name" class="input">
           </div>
           <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative group">
-            <span class="input-titel">Company GST (Optional)</span>
+            <span class="input-titel">{{'Company GST' | translate }} ({{'optional' | translate }})</span>
             <p-progressSpinner *ngIf="isPdfLoading" [style]="{width: '20px', height: '20px'}" animationDuration=".5s" strokeWidth="4" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-x-1 bottom-0 top-10 z-20" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
             <label class="upload upload-popup py-3">
               <input (change)="onChangePDF()" accept="application/pdf" class="appearance-none hidden" id="company_gst" name="images" type="file"/>
@@ -405,7 +405,7 @@
         </div>
         <div class="flex items-end flex-wrap -mx-2">
           <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative">
-            <span class="input-titel">Company Contact No</span>
+            <span class="input-titel">{{'Company Contact No' | translate }}</span>
             <!-- <input type="text" [formControlName]="'contact_number'" name="contact_number" class="input"> -->
             <div #phoneF="ngForm"  [formGroup]="phoneForm">
               <ngx-intl-tel-input
@@ -434,7 +434,7 @@
             </span>
           </div>
           <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative">
-            <span class="input-titel">Company Email</span>
+            <span class="input-titel">{{'Company Email' | translate }}</span>
             <input type="email" [formControlName]="'emailid'" name="emailid" class="input">
             <span class="absolute top-full text-red-500 text-xs" *ngIf="addShopForm.get('emailid')?.invalid && addShopForm.get('emailid')?.dirty && addShopForm.get('emailid')?.touched">
               <span *ngIf="addShopForm.get('emailid')?.errors?.['pattern']">Please enter valid email.</span>
@@ -442,14 +442,14 @@
           </div>
         </div>
         <div class="w-full pt-5 inputHolder relative">
-          <span class="input-titel">About Our Company <i class="text-xs font-medium" [ngClass]="{'text-magicPotion' : textEditorTac}">( {{textEditorLimitTac}} characters out of {{textEditorMaxLimitTac}} )</i></span>
+          <span class="input-titel">{{'About Our Company' | translate }} <i class="text-xs font-medium" [ngClass]="{'text-magicPotion' : textEditorTac}">( {{textEditorLimitTac}} characters out of {{textEditorMaxLimitTac}} )</i></span>
           <div class="w-full bg-white rounded">
             <ckeditor (ready)="onTextEditorReady($event, 'about')" (keyup)="editorCharacterSetTac()" (keydown)="editorCharacterSetTac()" [config]="editorConfig" [editor]="detailEditor" [formControlName]="'about'" class="h-44 text-editor" id="about" name="about"></ckeditor>
           </div>
           <!-- <textarea cols="30" rows="4" [formControlName]="'about'" name="about" class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md"></textarea> -->
         </div>
         <div class="w-full pt-5 lg:pt-12">
-          <h5>Social Media</h5>
+          <h5>{{'socialMedia' | translate }}</h5>
           <div class="-mx-2">
             <div class="w-full flex flex-wrap">
               <div class="w-full md:w-1/2 p-2">
@@ -551,10 +551,10 @@
 
         <div class="flex justify-between pt-5">
             <button class="flex items-center" type="button" (click)="closeEditShopDialog()">
-              <i class="icon-left_arrow mr-3"></i><h5>back</h5>
+              <i class="icon-left_arrow mr-3"></i><h5>{{'Back' | translate }}</h5>
             </button>
             <button class="secondary py-2 px-14 anim uppercase" type="submit" (click)="addEditShopOffer()" [disabled]="isLoading">
-              <span [ngClass]="{'opacity-0': isLoading}">Save</span>
+              <span [ngClass]="{'opacity-0': isLoading}">{{'Save' | translate }}</span>
             </button>
             <div class="absolute inset-0 text-white flex items-center" *ngIf="isLoading">
               <mat-progress-spinner [diameter]="22" [mode]="'indeterminate'" class="mx-auto"></mat-progress-spinner>
