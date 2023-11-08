@@ -2,14 +2,14 @@
 <div class="wrapper min-h-full">
   <div class="space-y-7 h-full">
     <div class="flex justify-between items-center" *ngIf="!searchObj?.events?.length && !searchObj?.shops?.length && !searchObj?.offlineoffer?.length && !searchObj?.onlineoffer?.length && !searchObj?.livestreams?.length">
-      <h2>Search</h2>
+      <h2>{{'Search' | translate }}</h2>
     </div>  
     <div class="bg-white rounded-md text-center p-9 space-y-2" *ngIf="!searchObj?.events?.length && !searchObj?.shops?.length && !searchObj?.offlineoffer?.length && !searchObj?.onlineoffer?.length && !searchObj?.livestreams?.length">
       <h4 class="w-full">No result found</h4>
     </div>
 
     <div class="space-y-5" *ngIf="searchObj?.events && searchObj?.events?.length">
-      <h2>Events</h2>
+      <h2>{{'Events' | translate }}</h2>
       <div class="w-full flex items-center cursor-pointer" *ngFor="let event of searchObj?.events; let i = index" (click)="openUrl(event, 'events')">
         <!-- <div class="w-full flex items-center" (click)="gotoEventOverview($event, event)"> -->
         <div class="w-full flex items-center">
@@ -29,15 +29,15 @@
                     </div>
                     <div class="flex flex-wrap pt-3">
                       <div class="border-brightGray px-2 lg:pl-0 lg:pr-4">
-                        <div class="text-xs lg:text-sm font-semibold text-quicksilver pt-3"><i class="icon-calendar mr-1.5"></i>Date</div>
+                        <div class="text-xs lg:text-sm font-semibold text-quicksilver pt-3"><i class="icon-calendar mr-1.5"></i>{{'Date' | translate }}</div>
                         <span class="text-japaneseIndigo text-xs lg:text-sm font-bold">{{event?.about?.start_date | date:'dd MMM, yyyy'}} - {{event?.about?.end_date | date:'dd MMM, yyyy'}}</span>
                       </div>
                       <div class="border-l-2 border-brightGray px-2 lg:px-4">
-                        <div class="text-xs lg:text-sm font-semibold text-quicksilver pt-3"><i class="icon-time mr-1.5"></i>Time</div>
+                        <div class="text-xs lg:text-sm font-semibold text-quicksilver pt-3"><i class="icon-time mr-1.5"></i>{{'Time' | translate }}</div>
                         <span class="text-japaneseIndigo text-xs lg:text-sm font-bold">{{'0' + ' ' + event?.about?.start_time | date : 'hh:mm a'}} - {{'0' + ' ' + event?.about?.end_time | date : 'hh:mm a'}}</span>
                       </div>
                       <div class="border-l-2 border-brightGray px-2 lg:px-4">
-                        <div class="text-xs lg:text-sm font-semibold text-quicksilver pt-3"><i class="icon-location-1 mr-1.5"></i>Location</div>
+                        <div class="text-xs lg:text-sm font-semibold text-quicksilver pt-3"><i class="icon-location-1 mr-1.5"></i>{{'Location' | translate }}</div>
                         <span class="text-japaneseIndigo text-xs lg:text-sm font-bold">{{event?.event_location?.city}}, {{event?.event_location?.state}}</span>
                       </div>
                     </div>
@@ -46,7 +46,7 @@
                     <label class="flex items-center relative">
                       <span class="absolute opacity-0 inset-y-0 left-3 right-10 block z-10" *ngIf="!event.is_approved"></span>
                       <input type="checkbox" class="switch mr-1.5 lg:mx-3 order-2" [checked]="event?.is_live" [disabled]="true"/>
-                      <span class="text-base font-bold anim order-3">Live</span>
+                      <span class="text-base font-bold anim order-3">{{'Live' | translate }}</span>
                     </label>
                     <!-- <h3 class="text-right">250 INR</h3>-->
                   </div>
@@ -54,14 +54,14 @@
                 <div class="flex flex-wrap justify-between">
                   <div class="flex items-center space-x-1 pt-4">
                     <p-rating [(ngModel)]="event.ratings" [readonly]="true" [cancel]="false"></p-rating>
-                    <span class="text-quicksilver text-xs font-bold pl-2"> {{event?.totalreview}} ratings</span>
+                    <span class="text-quicksilver text-xs font-bold pl-2"> {{event?.totalreview}} {{'Ratings' | translate }}</span>
                   </div>
                   <div class="flex items-center space-x-2.5 pt-4">
-                    <span class="text-xs font-bold text-quicksilver">{{event?.total_booked_seats || 0}} Sold</span>
+                    <span class="text-xs font-bold text-quicksilver">{{event?.total_booked_seats || 0}} {{'Sold' | translate }}</span>
                     <div class="w-[70px] h-1.5">
                       <p-progressBar [styleClass]="'h-1.5'" [value]="((event?.total_booked_seats || 0) * 100) / (event?.total_seats || 0)" [showValue]="false"></p-progressBar>
                     </div>
-                    <span class="text-xs font-bold text-quicksilver">{{event?.total_available_seats || 0}} UnSold</span>
+                    <span class="text-xs font-bold text-quicksilver">{{event?.total_available_seats || 0}} {{'Unsold' | translate }}</span>
                   </div>
                 </div>
               </div>
@@ -71,7 +71,7 @@
       </div>
     </div>
     <div class="space-y-5" *ngIf="searchObj?.shops && searchObj?.shops?.length">
-      <h2>Shops</h2>
+      <h2>{{'Shops' | translate }}</h2>
       <div class="bg-white flex flex-wrap items-center justify-between p-4 cursor-pointer" *ngFor="let shop of searchObj?.shops; let i = index" (click)="openUrl(shop, 'shops')">
         <div class="w-full lg:flex items-center lg:items-stretch">
           <div class="relative w-full lg:max-w-[200px]">
@@ -84,20 +84,20 @@
             </div>
             <div class="w-full flex flex-wrap space-y-2 xl:space-y-0">
               <div class="w-full md:w-1/3 px-2.5 lg:px-5">
-                <span class="text-xs font-bold text-quicksilver"><i class="icon-rating pr-1"></i>Ratings</span>
+                <span class="text-xs font-bold text-quicksilver"><i class="icon-rating pr-1"></i>{{'Ratings' | translate }}</span>
                 <div class="flex flex-wrap items-center pt-1.5">
                   <p-rating [(ngModel)]="shop.ratings" [readonly]="true" [cancel]="false"></p-rating>
                   <span class="text-quicksilver text-xs font-bold pl-2"> {{shop?.totalreviews}} ratings</span>
                 </div>
               </div> 
               <div class="w-full md:w-1/3 px-2.5 lg:px-5 border-x">
-                <span class="text-xs font-bold text-quicksilver"><i class="icon-location-1 pr-1"></i>Location</span>
+                <span class="text-xs font-bold text-quicksilver"><i class="icon-location-1 pr-1"></i>{{'Location' | translate }}</span>
                 <p class="text-sm text-japaneseIndigo font-bold pt-2">
                   {{shop?.flat_no}} {{(shop?.street_name) ? (shop?.street_name + ',') : ''}} {{(shop?.area_name) ? (shop?.area_name + ',') : ''}} {{shop?.city}}, {{shop?.state}}, {{shop?.pincode}}.
                 </p>
               </div>
               <div class="w-full md:w-1/3 px-2.5 lg:px-5">
-                <span class="text-xs font-bold text-quicksilver"><i class="icon-online_offer pr-1"></i>Running Offers</span>
+                <span class="text-xs font-bold text-quicksilver"><i class="icon-online_offer pr-1"></i>{{'Running Offers' | translate }}</span>
                 <p class="text-sm text-japaneseIndigo font-bold pt-2">1 is running offers</p>
               </div>
             </div>
@@ -106,7 +106,7 @@
       </div>
     </div>
     <div class="space-y-5" *ngIf="searchObj?.offlineoffer && searchObj?.offlineoffer?.length">
-      <h2>Offline Offer</h2>          
+      <h2>{{'Offline Offer' | translate }}</h2>
       <div class="w-full p-2.5 bg-white rounded cursor-pointer" *ngFor="let offer of searchObj?.offlineoffer; let i = index" (click)="openUrl(offer, 'offlineoffer')">
         <div class="flex flex-wrap items-center lg:flex-nowrap">
           <div class="relative w-full lg:max-w-[200px] h-full xl:max-h-32 overflow-hidden">
@@ -124,15 +124,16 @@
             <div class="flex items-end justify-between">
               <div class="space-y-2 xl:space-y-3">
                 <div>
-                  <span class="text-quicksilver text-xs font-bold"><i class="icon-calendar"></i> Date</span>
+                  <span class="text-quicksilver text-xs font-bold"><i class="icon-calendar"></i> {{'Date' | translate }}</span>
                   <p class="text-sm font-bold text-japaneseIndigo">{{offer?.start_date | date: 'dd MMM, yyyy'}} - {{offer?.end_date | date: 'dd MMM, yyyy'}}</p>
                 </div>
                 <div class="flex items-center space-x-2.5">
-                  <span class="text-xs font-bold text-quicksilver">{{offer?.noofbooked}} Sold</span>
+                  <span class="text-xs font-bold text-quicksilver">{{offer?.noofbooked}} {{'Sold' | translate }}</span>
                   <div class="w-[70px] bg-[#D6D7DC] rounded-full h-2">
                     <div class="bg-magicPotion h-2 rounded-full" style="width: 50%"></div>
                   </div>
-                  <span class="text-xs font-bold text-quicksilver">{{offer?.noofunbooked}}</span>
+                  <span class="text-xs font-bold text-quicksilver" *ngIf="offer?.noofunbooked === 'Unlimited'">{{offer?.noofunbooked | translate}}</span>
+                  <span class="text-xs font-bold text-quicksilver" *ngIf="offer?.noofunbooked !== 'Unlimited'">{{offer?.noofunbooked}}</span>
                 </div>
               </div>
             </div>
@@ -141,7 +142,7 @@
       </div>
     </div>
     <div class="space-y-5" *ngIf="searchObj?.onlineoffer && searchObj?.onlineoffer?.length">
-      <h2>Online Offer</h2>
+      <h2>{{'Online Offers' | translate }}</h2>
       <div class="w-full p-4 bg-white rounded cursor-pointer" *ngFor="let shopOffer of searchObj?.onlineoffer; let i = index" (click)="openUrl(shopOffer, 'onlineoffer')">
         <div class="flex flex-wrap xl:flex-nowrap xl:space-x-5">
           <div class="relative w-full lg:max-w-[200px]">
@@ -153,23 +154,23 @@
                 <h4 class="text-japaneseIndigo">{{shopOffer?.shop_name}}</h4>
                 <div class="flex flex-wrap pt-3">
                   <div class="pt-3 pr-2 lg:pr-4">
-                    <div class="text-sm font-semibold text-quicksilver"><i class="icon-product mr-1.5"></i>Product Name</div>
+                    <div class="text-sm font-semibold text-quicksilver"><i class="icon-product mr-1.5"></i>{{'Product Name' | translate }}</div>
                     <span class="text-japaneseIndigo text-sm font-bold">{{shopOffer?.product_name}}</span>
                   </div>
                   <div class="border-l-2 border-brightGray px-2 lg:px-4">
-                    <div class="text-sm font-semibold text-quicksilver pt-3"><i class="icon-calendar mr-1.5"></i>Offer Date</div>
+                    <div class="text-sm font-semibold text-quicksilver pt-3"><i class="icon-calendar mr-1.5"></i>{{'Offer Date' | translate }}</div>
                     <span class="text-japaneseIndigo text-sm font-bold">{{shopOffer?.start_date | date:'dd MMM, yyyy'}} - {{shopOffer?.end_date | date:'dd MMM, yyyy'}}</span>
                   </div>
                   <div class="border-l-2 border-brightGray px-2 lg:px-4">
-                    <div class="text-sm font-semibold text-quicksilver pt-3"><i class="icon-click mr-1.5"></i>Total Click</div>
+                    <div class="text-sm font-semibold text-quicksilver pt-3"><i class="icon-click mr-1.5"></i>{{'Total Click' | translate }}</div>
                     <span class="text-japaneseIndigo text-sm font-bold">320K</span>
                   </div>
                   <div class="border-l-2 border-brightGray px-2 lg:px-4">
-                    <div class="text-sm font-semibold text-quicksilver pt-3"><i class="icon-online_offer mr-1.5"></i>Offer Status</div>
+                    <div class="text-sm font-semibold text-quicksilver pt-3"><i class="icon-online_offer mr-1.5"></i>{{'Offer Status' | translate }}</div>
                     <div class="flex items-center">
                       <input type="checkbox" id="on" class="switch mx-3 order-2" [checked]="shopOffer?.status" [disabled]="true" />
-                      <span class="off text-base font-bold anim order-1 text-caribbeanGreen">On</span>
-                      <span class="on text-base font-bold anim order-3">Off</span>
+                      <span class="off text-base font-bold anim order-1 text-caribbeanGreen">{{'On' | translate }}</span>
+                      <span class="on text-base font-bold anim order-3">{{'Off' | translate }}</span>
                     </div>
                   </div>
                 </div>
@@ -198,7 +199,7 @@
       </div>
     </div>
     <div class="space-y-5" *ngIf="searchObj?.livestreams && searchObj?.livestreams?.length">
-      <h2>Live Streams</h2>
+      <h2>{{'Live Streams' | translate }}</h2>
       <div class="w-full flex items-center cursor-pointer" *ngFor="let liveStream of searchObj?.livestreams; let i = index" (click)="openUrl(liveStream, 'livestreams')">
         <div class="w-full p-4 pr-7 bg-white rounded">
           <div class="flex flex-wrap lg:flex-nowrap lg:space-x-5">
@@ -212,11 +213,11 @@
                   <h4 class="text-japaneseIndigo">{{liveStream?.event_name}}</h4>
                   <div class="flex pt-3">
                     <div class="">
-                      <div class="text-sm font-semibold text-quicksilver pt-3"><i class="icon-calendar-2 mr-3"></i>Date</div>
+                      <div class="text-sm font-semibold text-quicksilver pt-3"><i class="icon-calendar-2 mr-3"></i>{{'Date' | translate }}</div>
                       <span class="text-japaneseIndigo text-sm font-bold">{{liveStream?.event_date | date:'dd MMM, yyyy'}}</span>
                     </div>
                     <div class="border-l-2 border-brightGray pl-3 lg:pl-7 ml-3 lg:ml-7">
-                      <div class="text-sm font-semibold text-quicksilver pt-3"><i class="icon-time mr-3"></i>Time</div>
+                      <div class="text-sm font-semibold text-quicksilver pt-3"><i class="icon-time mr-3"></i>{{'Time' | translate }}</div>
                       <span class="text-japaneseIndigo text-sm font-bold uppercase">{{liveStream?.event_start_time}} - {{liveStream?.event_end_time}}</span>
                     </div>
                   </div>
@@ -231,7 +232,7 @@
               <div class="flex justify-between pt-4">
                 <div class="flex items-center space-x-1">
                   <p-rating [(ngModel)]="liveStream.ratings" [readonly]="true" [cancel]="false"></p-rating>
-                  <span class="text-quicksilver text-xs font-bold pl-2"> {{liveStream?.totalreview}} ratings</span>
+                  <span class="text-quicksilver text-xs font-bold pl-2"> {{liveStream?.totalreview}} {{'Ratings' | translate }}</span>
                 </div>
               </div>
             </div>
