@@ -65,6 +65,10 @@
       "Flat No": "ફ્લેટ નં",
       "Street Name": "શેરીનું નામ",
       "Area Name": "વિસ્તારનું નામ",
+      "Manual address": "મેન્યુઅલ સરનામું",
+      "ManualAddressHint": "જો ગૂગલ મેપ પરથી સરનામું સચોટ નથી, તો તમે તેને જાતે લખી શકો છો.",
+      "Agree with our": "અમારી સાથે સહમત",
+      "Event": "ઇવેન્ટ",
 
       "liveStreamType": "લાઇવસ્ટ્રીમ પ્રકાર",
       "Viewers": "દર્શકો",
@@ -144,6 +148,16 @@
       "Off": "બંધ",
       "User Click": "વપરાશકર્તા ક્લિક કરો",
       "noRunningOffer": "ત્યાં કોઈ ઓફર ચાલી રહી નથી",
+
+      "Online shop Name": "ઑનલાઇન દુકાનનું નામ",
+      "Offer": "ઓફર",
+      "Offer Start Date": "ઓફરની શરૂઆતની તારીખ",
+      "Offer End Date": "ઓફર સમાપ્તિ તારીખ",
+      "Offer Product Image": "ઓફર ઉત્પાદન છબી",
+      "Select platform": "પ્લેટફોર્મ પસંદ કરો",
+      "Enter platform product link": "પ્લેટફોર્મ ઉત્પાદન લિંક દાખલ કરો",
+      "Add Item": "આઇટમ ઉમેરો",
+      "Save and Continue": "સાચવો અને ચાલુ રાખો",
 
       "Online Offers": "ઓનલાઈન ઓફર્સ",
       "Product Name": "ઉત્પાદન નામ",

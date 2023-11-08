@@ -61,6 +61,10 @@
       "Flat No": "单位号",
       "Street Name": "街道名称",
       "Area Name": "区域名称",
+      "Manual address": "手动地址",
+      "ManualAddressHint": "如果谷歌地图上的地址不准确，您可以手动输入。",
+      "Agree with our": "同意我们的",
+      "Event": "事件",
 
       "liveStreamType": "直播类型",
       "Viewers": "观众",
@@ -141,6 +145,16 @@
       "Off": "离开",
       "User Click": "用户点击",
       "noRunningOffer": "没有正在运行的优惠",
+
+      "Online shop Name": "网上商店名称",
+      "Offer": "提供",
+      "Offer Start Date": "优惠开始日期",
+      "Offer End Date": "优惠结束日期",
+      "Offer Product Image": "提供产品图片",
+      "Select platform": "选择平台",
+      "Enter platform product link": "输入平台产品链接",
+      "Add Item": "新增项目",
+      "Save and Continue": "保存并继续",
 
       "Online Offers": "网上优惠",
       "Product Name": "产品名称",

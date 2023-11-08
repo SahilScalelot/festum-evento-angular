@@ -61,6 +61,10 @@
       "Flat No": "Flat No",
       "Street Name": "Street Name",
       "Area Name": "Area Name",
+      "Manual address": "Manual address",
+      "ManualAddressHint": "If address from the google map is not accurate, you can write it manually",
+      "Agree with our": "Agree with our",
+      "Event": "Event",
 
       "liveStreamType": "LiveStream Type",
       "Viewers": "Viewers",
@@ -141,6 +145,16 @@
       "Off": "Off",
       "User Click": "User Click",
       "noRunningOffer": "There are no Offer running",
+
+      "Online shop Name": "Online shop Name",
+      "Offer": "Offer",
+      "Offer Start Date": "Offer Start Date",
+      "Offer End Date": "Offer End Date",
+      "Offer Product Image": "Offer Product Image",
+      "Select platform": "Select platform",
+      "Enter platform product link": "Enter platform product link",
+      "Add Item": "Add Item",
+      "Save and Continue": "Save and Continue",
 
       "Online Offers": "Online Offers",
       "Product Name": "Product Name",

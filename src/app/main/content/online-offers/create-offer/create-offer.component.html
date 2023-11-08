@@ -6,13 +6,13 @@
         <i class="icon-left_arrow mr-4 text-2xl"></i>
         <h2>{{(offerId && offerId != '') ? 'Edit' : 'Create'}} Offer</h2>
       </a>
-      <button class="secondary anim px-5 py-3" (click)="saveAndContinue()">Save and Continue</button>
+      <button class="secondary anim px-5 py-3" (click)="saveAndContinue()">{{'Save and Continue' | translate }}</button>
     </div>
     <!-- main-content  -->
     <form class="p-ngCss pt-3" [formGroup]="addEditOfferForm">
       <div class="flex flex-wrap -mx-2">
         <div class="w-full lg:w-1/2 px-2 pt-5 inputHolder relative">
-          <span class="input-titel">Online shop Name<span>*</span></span>
+          <span class="input-titel">{{'Online shop Name' | translate }}<span>*</span></span>
           <input type="text" name="shop_name" formControlName="shop_name" class="input" />
           <span class="absolute top-full text-red-500 text-xs" *ngIf="addEditOfferForm.get('shop_name')?.invalid && (addEditOfferForm.get('shop_name')?.dirty && addEditOfferForm.get('shop_name')?.touched)">
             <span *ngIf="addEditOfferForm.get('shop_name')?.errors?.['required']">
@@ -21,7 +21,7 @@
           </span>
         </div>
         <div class="w-full lg:w-1/2 px-2 pt-5 inputHolder relative">
-          <span class="input-titel">Offer<span>*</span></span>
+          <span class="input-titel">{{'Offer' | translate }}<span>*</span></span>
           <div class="flex items-center w-full bg-white p-2 px-3.5 rounded-md">
             <div class="w-full pr-4">
               <input type="number" class="w-full outline-none text-spiroDiscoBall font-bold text-base capitalize" [formControlName]="'offer_amount'"
@@ -50,7 +50,7 @@
         </div>
         <div class="w-full lg:w-1/2 px-2 pt-5 flex space-x-4">
           <div class="w-full lg:w-1/2 relative">
-            <span class="input-titel">Offer Start Date<span>*</span></span>
+            <span class="input-titel">{{'Offer Start Date' | translate }}<span>*</span></span>
             <label class="bg-white rounded-md flex space-x-3 relative">
               <i class="icon-calendar-2 text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0 z-10"></i>
               <p-calendar class="input w-full" formControlName="start_date" [touchUI]="true" 
@@ -68,7 +68,7 @@
             </span>
           </div>
           <div class="w-full lg:w-1/2 relative">
-            <span class="input-titel">Offer End Date<span>*</span></span>
+            <span class="input-titel">{{'Offer End Date' | translate }}<span>*</span></span>
             <label class="bg-white rounded-md flex space-x-3 relative">
               <i class="icon-calendar-2 text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0 z-10"></i>
               <p-calendar class="input w-full" formControlName="end_date" [touchUI]="true" 
@@ -86,7 +86,7 @@
           </div>
         </div>
         <div class="w-full lg:w-1/2 px-2 pt-5 inputHolder relative">
-          <span class="input-titel">Product Name<span>*</span></span>
+          <span class="input-titel">{{'Product Name' | translate }}<span>*</span></span>
           <input type="text" name="product_name" formControlName="product_name" class="input" />
           <span class="absolute top-full text-red-500 text-xs" *ngIf="addEditOfferForm.get('product_name')?.invalid && (addEditOfferForm.get('product_name')?.dirty && addEditOfferForm.get('product_name')?.touched)">
             <span *ngIf="addEditOfferForm.get('product_name')?.errors?.['required']">
@@ -96,7 +96,7 @@
         </div>
         <div class="w-full lg:w-1/2 px-2 pt-5">
           <div class="upload-holder w-full h-auto relative">
-            <span class="text-sm text-quicksilver font-semibold">Add Poster <span class="font-normal">(Max File size 10MB & Resolution Must be 1080PX x 780PX)</span><span class="text-magicPotion">*</span></span>
+            <span class="text-sm text-quicksilver font-semibold">{{'Add Poster' | translate }} <span class="font-normal">({{'posterHint' | translate}})</span><span class="text-magicPotion">*</span></span>
             <label class="upload upload-popup p-0 relative group" id="posterUpload">
               <input (change)="onPosterChange($event)" accept="image/png, image/jpeg, image/gif" class="poster hidden" id="poster" type="file" />
             </label>
@@ -108,7 +108,7 @@
           </div>
         </div>
         <div class="w-full lg:w-1/2 px-2 pt-5">
-          <span class="input-titel">Offer Product Image (Max File size 7MB & Resolution Must be 1080PX x 1080PX)<span>*</span></span>
+          <span class="input-titel">{{'Offer Product Image' | translate }} (Max File size 7MB & Resolution Must be 1080PX x 1080PX)<span>*</span></span>
           <div class="flex flex-wrap h-full relative">
             <div *ngFor="let photo of images.value; let i = index" class="upload-box mr-2.5 mb-2.5">
               <div class="rounded relative overflow-hidden h-full w-full">
@@ -132,7 +132,7 @@
           </div>
         </div>
         <div class="w-full px-2 pt-5">
-          <span class="input-titel">Product Description <i class="text-xs font-medium" [ngClass]="{'text-magicPotion' : proDescTextEditor}">( {{proDescTextEditorLimit}} characters out of {{proDescTextEditorMaxLimit}} )</i></span>
+          <span class="input-titel">{{'Product Description' | translate }} <i class="text-xs font-medium" [ngClass]="{'text-magicPotion' : proDescTextEditor}">( {{proDescTextEditorLimit}} characters out of {{proDescTextEditorMaxLimit}} )</i></span>
           <div class="w-full bg-white rounded">
             <ckeditor (ready)="onTextEditorReady($event, 'description')" (keyup)="editorCharacterSet('description')" [config]="editorConfig" [editor]="detailEditor" [formControlName]="'description'" class="h-44 text-editor" id="description" name="description"></ckeditor>
           </div>
@@ -142,12 +142,12 @@
           <div class="bg-white p-3.5 lg:p-5 offerProducts rounded-md w-full" formArrayName="product_links">
             <div class="flex justify-end">
               <button  (click)="addProductLink()" class="text-xs text-white font-bold px-3 rounded py-1 whitespace-nowrap bg-magicPotion flex ">
-                <i class="icon-plus_round leading-0 mr-2"></i> Add Item
+                <i class="icon-plus_round leading-0 mr-2"></i> {{'Add Item' | translate }}
               </button>
             </div>
             <div class="flex items-start mb-4 -mx-2" *ngFor="let child of productLinks.controls; let i = index" [formGroupName]="i">
               <div class="w-full lg:w-1/1 px-2 inputHolder relative">
-                <span class="input-titel">Select platform<span>*</span></span>
+                <span class="input-titel">{{'Select platform' | translate }}<span>*</span></span>
                 <!--Using items input-->
              <ng-select [items]="platformArr" class="selectBox" bindLabel="name" bindValue="_id" formControlName="platform" (change)="checkValidPlatform($event);"> 
                  <!-- <ng-template ng-header-tmp>
@@ -172,7 +172,7 @@
                 </span>
               </div>
               <div class="w-full lg:w-1/1 px-2 relative">
-                <span class="input-titel">Enter platform product link<span>*</span></span>
+                <span class="input-titel">{{'Enter platform product link' | translate }}<span>*</span></span>
                 <div class="w-full flex items-center space-x-5">
                   <div class="w-full inputHolder">
                     <input type="text" class="bgquicksilver bg-white" formControlName="product_link" />
@@ -201,7 +201,7 @@
           </div>
         </div> 
         <div class="w-full lg:w-1/2 px-2 pt-5 inputHolder relative">
-          <span class="input-titel">Company name<span>*</span></span>
+          <span class="input-titel">{{'Company Name' | translate }}<span>*</span></span>
           <input type="text" name="company_name" formControlName="company_name" class="input" />
           <span class="absolute top-full text-red-500 text-xs" *ngIf="addEditOfferForm.get('company_name')?.invalid && (addEditOfferForm.get('company_name')?.dirty && addEditOfferForm.get('company_name')?.touched)">
             <span *ngIf="addEditOfferForm.get('company_name')?.errors?.['required']">
@@ -210,7 +210,7 @@
           </span>
         </div>
         <div class="w-full lg:w-1/2 px-2 pt-5 inputHolder relative group">
-          <span class="input-titel">Company GST (Optional)</span>
+          <span class="input-titel">{{'Company GST' | translate }}({{'optional' | translate }})</span>
           <p-progressSpinner *ngIf="isPdfLoading" [style]="{width: '20px', height: '20px'}" animationDuration=".5s" strokeWidth="4" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-x-1 bottom-0 top-10 z-20" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
           <label class="upload upload-popup py-3">
             <input (change)="onChangePDF($event)" accept="application/pdf" class="appearance-none hidden" id="company_gst" name="images" type="file"/>
@@ -225,7 +225,7 @@
           </span>
         </div>
         <div class="w-full lg:w-1/2 px-2 pt-5 inputHolder relative">
-          <span class="input-titel">Company Contact No<span>*</span></span>
+          <span class="input-titel">{{'Company Contact No' | translate }}<span>*</span></span>
           <!-- <input type="tel" name="company_contact_no" formControlName="company_contact_no" class="input" fuseValidNumber /> -->
           <!-- <span class="absolute top-full text-red-500 text-xs" *ngIf="addEditOfferForm.get('company_contact_no')?.invalid && addEditOfferForm.get('company_contact_no')?.dirty && addEditOfferForm.get('company_contact_no')?.touched">
             <span *ngIf="addEditOfferForm.get('company_contact_no')?.errors?.['required']">Company contact number is required.</span>
@@ -258,7 +258,7 @@
           </span>
         </div>
         <div class="w-full lg:w-1/2 px-2 pt-5 inputHolder relative">
-          <span class="input-titel">Company Email<span>*</span></span>
+          <span class="input-titel">{{'Company Email' | translate }}<span>*</span></span>
           <input type="email" name="company_email" formControlName="company_email" class="input" />
           <span class="absolute top-full text-red-500 text-xs" *ngIf="addEditOfferForm.get('company_email')?.invalid && addEditOfferForm.get('company_email')?.dirty && addEditOfferForm.get('company_email')?.touched">
             <span *ngIf="addEditOfferForm.get('company_email')?.errors?.['required']">Company email is required.</span>
@@ -266,7 +266,7 @@
           </span>
         </div>
         <div class="w-full px-2 pt-5">
-          <span class="input-titel">About Our Company <i class="text-xs font-medium" [ngClass]="{'text-magicPotion' : comDescTextEditor}">( {{comDescTextEditorLimit}} characters out of {{comDescTextEditorMaxLimit}} )</i></span>
+          <span class="input-titel">{{'About Our Company' | translate }} <i class="text-xs font-medium" [ngClass]="{'text-magicPotion' : comDescTextEditor}">( {{comDescTextEditorLimit}} characters out of {{comDescTextEditorMaxLimit}} )</i></span>
           <div class="w-full bg-white rounded">
             <ckeditor (ready)="onTextEditorReady($event, 'about_company')" (keyup)="editorCharacterSet('company')" [config]="editorConfig" [editor]="detailEditor" [formControlName]="'about_company'" class="h-44 text-editor" id="about_company" name="about_company"></ckeditor>
           </div>

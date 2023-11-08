@@ -65,6 +65,10 @@
       "Flat No": "फ़्लैट नं",
       "Street Name": "सड़क का नाम",
       "Area Name": "क्षेत्र का नाम",
+      "Manual address": "मैनुअल पता",
+      "ManualAddressHint": "यदि गूगल मैप का पता सटीक नहीं है तो आप इसे मैन्युअल रूप से लिख सकते हैं।",
+      "Agree with our": "हमारी बात से सहमत",
+      "Event": "आयोजन",
 
       "liveStreamType": "लाइवस्ट्रीम प्रकार",
       "Viewers": "दर्शकों",
@@ -145,6 +149,16 @@
       "Off": "बंद",
       "User Click": "उपयोगकर्ता क्लिक करें",
       "noRunningOffer": "कोई ऑफर नहीं चल रहा है",
+
+      "Online shop Name": "ऑनलाइन दुकान का नाम",
+      "Offer": "ऑफर",
+      "Offer Start Date": "ऑफर आरंभ तिथि",
+      "Offer End Date": "ऑफर समाप्ति तिथि",
+      "Offer Product Image": "उत्पाद छवि पेश करें",
+      "Select platform": "प्लेटफ़ॉर्म चुनें",
+      "Enter platform product link": "प्लेटफ़ॉर्म उत्पाद लिंक दर्ज करें",
+      "Add Item": "आइटम जोड़ें",
+      "Save and Continue": "सेव करें और जारी रखें",
 
       "Online Offers": "ऑनलाइन ऑफर",
       "Product Name": "प्रोडक्ट का नाम",
