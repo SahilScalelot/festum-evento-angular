@@ -254,6 +254,11 @@
       "createOfferHint": "Create an offer using the Create Offer button on the top right of the page",
       "Entity": "Entity",
 
+      "Event Date": "Event Date",
+      "Event Time": "Event Time",
+      "Event Location": "Event Location",
+      "Booking Time": "Booking Time",
+
       "Personal Profile": "Personal Profile",
       "Business Profile": "Business Profile",
       "Edit Profile": "Edit Profile",

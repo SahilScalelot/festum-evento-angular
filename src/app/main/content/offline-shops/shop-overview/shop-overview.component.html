@@ -97,7 +97,8 @@
                             <div class="bg-magicPotion h-2 rounded-full"  [style.width.%]="percentageSold(offer)"></div>
                             <!-- style="width:20%" -->
                           </div>
-                          <span class="text-xs font-bold text-quicksilver">{{offer?.noofunbooked}}</span>
+                          <span class="text-xs font-bold text-quicksilver" *ngIf="offer?.noofunbooked === 'Unlimited'">{{offer?.noofunbooked | translate}}</span>
+                          <span class="text-xs font-bold text-quicksilver" *ngIf="offer?.noofunbooked !== 'Unlimited'">{{offer?.noofunbooked}}</span>
                         </div>
                       </div>
                       <div>

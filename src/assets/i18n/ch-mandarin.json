@@ -253,6 +253,12 @@
       "createOfferHint": "使用页面右上角的“创建报价”按钮创建报价",
       "Entity": "实体",
 
+
+      "Event Date": "活动日期",
+      "Event Time": "活动时间",
+      "Event Location": "活动地点",
+      "Booking Time": "预约时间",
+
       "Personal Profile": "个人简介",
       "Business Profile": "业务简介",
       "Edit Profile": "编辑个人资料",

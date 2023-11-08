@@ -240,6 +240,11 @@
       "createOfferHint": "สร้างข้อเสนอโดยใช้ปุ่มสร้างข้อเสนอที่มุมขวาบนของหน้า",
       "Entity": "เอนทิตี",
 
+      "Event Date": "วันที่จัดงาน",
+      "Event Time": "เวลากิจกรรม",
+      "Event Location": "สถานที่จัดงาน",
+      "Booking Time": "เวลาจอง",
+
       "Personal Profile": "รายละเอียดส่วนบุคคล",
       "Business Profile": "ข้อมูลธุรกิจ",
       "Edit Profile": "แก้ไขโปรไฟล์",

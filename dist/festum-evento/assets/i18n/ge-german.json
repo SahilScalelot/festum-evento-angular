@@ -240,6 +240,11 @@
       "createOfferHint": "Erstellen Sie ein Angebot, indem Sie oben rechts auf der Seite auf die Schaltfläche „Angebot erstellen“ klicken",
       "Entity": "Juristische Person",
 
+      "Event Date": "Veranstaltungsdatum",
+      "Event Time": "Ereigniszeit",
+      "Event Location": "Veranstaltungsort",
+      "Booking Time": "Buchungszeit",
+
       "Personal Profile": "Persönliches Profil",
       "Business Profile": "Unternehmensprofil",
       "Edit Profile": "Profil bearbeiten",

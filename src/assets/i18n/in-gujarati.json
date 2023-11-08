@@ -257,6 +257,12 @@
       "createOfferHint": "પૃષ્ઠની ઉપર જમણી બાજુએ ઑફર બનાવો બટનનો ઉપયોગ કરીને ઑફર બનાવો",
       "Entity": "એન્ટિટી",
 
+
+      "Event Date": "ઇવેન્ટની તારીખ",
+      "Event Time": "ઇવેન્ટનો સમય",
+      "Event Location": "ઇવેન્ટ સ્થાન",
+      "Booking Time": "બુકિંગ સમય",
+
       "Personal Profile": "વ્યક્તિગત પ્રોફાઇલ",
       "Business Profile": "વ્યવસાય પ્રોફાઇલ",
       "Edit Profile": "પ્રોફાઇલ સંપાદિત કરો",
