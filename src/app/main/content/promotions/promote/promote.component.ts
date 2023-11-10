@@ -298,14 +298,14 @@ export class PromoteComponent implements OnInit {
   }
   onPromotionPlanClick(): void {
     setTimeout(() => {
-      // if (this.usersForm.value.selected_plan && this.usersForm.value.selected_plan == this.tmpSelectedPlan) {
-      //   this.usersForm.get('selected_plan').setValue('');
-      //   this.tmpSelectedPlan = '';
-      // } else {
-      //   this.tmpSelectedPlan = this.usersForm.value.selected_plan;
-      //   this.usersForm.get('numberofusers').setValue('');
-      //   this.usersForm.get('published_location').setValue('');
-      // }
+      if (this.promoteForm.value.selected_plan && this.promoteForm.value.selected_plan == this.tmpSelectedPlan) {
+        this.promoteForm.get('selected_plan').setValue('');
+        this.tmpSelectedPlan = '';
+      } else {
+        this.tmpSelectedPlan = this.promoteForm.value.selected_plan;
+        this.promoteForm.get('numberofusers').setValue('');
+        this.promoteForm.get('published_location').setValue('');
+      }
     }, 0);
   }
   onChangeUserSelection(event: any): void {
