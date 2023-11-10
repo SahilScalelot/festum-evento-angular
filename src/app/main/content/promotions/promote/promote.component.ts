@@ -93,6 +93,7 @@ export class PromoteComponent implements OnInit {
     this.isLoading = true;
     this._promoteService.getNotificationById(this.nId).subscribe((result: any) => {
       if (result && result.IsSuccess) {
+        this.notificationObj = result.Data;
         this._globalService.promoteNotification$.next(result.Data);
         this._preparePromoteForm(result.Data);
         this.getTotalUsers(result.Data.usertype);
@@ -307,7 +308,10 @@ export class PromoteComponent implements OnInit {
       // }
     }, 0);
   }
-  onChangeUserSelection(): void {
+  onChangeUserSelection(event: any): void {
+    //console.log(event)
+    this.numberOfUsers = event.target.value;
+    this.calculatePrice();
     //this.usersForm.get('selected_plan').setValue('');
     this.tmpSelectedPlan = '';
   }
