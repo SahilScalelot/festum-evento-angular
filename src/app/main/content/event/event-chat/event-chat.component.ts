@@ -275,7 +275,7 @@ export class EventChatComponent implements OnInit {
     }
   }
 
-  getPreviewUrl(file: File) {
+  getPreviewUrl(file: File): void {
     if (file.type.startsWith('image/')) {
       this.filePreview.nativeElement.innerHTML = `<div class="relative" style="width:150px;height:150px;border-radius:15px;"><img style="width:150px;height:150px;border-radius:15px;" src="${URL.createObjectURL(file)}" alt="Image Preview" /><div class="bg-black/50 absolute inset-0 w-full h-full rounded-[15px]"><span class="block icon-close text-white absolute top-5 right-5 cursor-pointer text-sm z-10" id="removeSendChild"></span></div></div>`;
       this.tempSendImgVideo = true;
@@ -286,9 +286,12 @@ export class EventChatComponent implements OnInit {
     } else if (file.type.startsWith('audio/')) {
       const blob = new Blob([file], { type: file.type });
       this.filePreview.nativeElement.innerHTML = `<audio class="chatElementChild" style="width:150px;height:150px;border-radius:15px;" src="${URL.createObjectURL(blob)}" controls></audio>`;
-    } else if (file.type.startsWith('*/')) {
-      // You can return a link to the document preview or an icon
-      return 'https://example.com/document-icon.png';
+    } else if (file.type.startsWith('application/')) {
+      this.filePreview.nativeElement.innerHTML = `<div class="relative" style="width:150px;height:150px;border-radius:15px;"><img style="width:150px;height:150px;border-radius:15px;" src="/assets/images/documentation.png" alt="Image Preview" /><div class="bg-black/50 absolute inset-0 w-full h-full rounded-[15px]"><span class="block icon-close text-white absolute top-5 right-5 cursor-pointer text-sm z-10" id="removeSendChild"></span></div></div>`;
+      this.tempSendImgVideo = true;
+    } else if (file.type.startsWith('text/')) {
+      this.filePreview.nativeElement.innerHTML = `<div class="relative" style="width:150px;height:150px;border-radius:15px;"><img style="width:150px;height:150px;border-radius:15px;" src="/assets/images/documentation.png" alt="Image Preview" /><div class="bg-black/50 absolute inset-0 w-full h-full rounded-[15px]"><span class="block icon-close text-white absolute top-5 right-5 cursor-pointer text-sm z-10" id="removeSendChild"></span></div></div>`;
+      this.tempSendImgVideo = true;
     }
     document.getElementById('removeSendChild').addEventListener('click',() =>{
       this.clearFilePreview();
