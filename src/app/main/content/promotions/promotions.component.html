@@ -6,8 +6,8 @@
         <h2>{{'Promotions' | translate }}</h2>
       </a>
       <div class="flex items-center space-x-5">
-        <button class="secondary px-5 py-2 capitalize anim"><i class="icon-history mr-3"></i><span>{{'history' | translate }}</span></button>
-        <button class="secondary px-5 py-2 capitalize anim" routerLink="create"><i class="icon-plus mr-3"></i><span>{{'Create New' | translate }}</span></button>
+        <!--<button class="secondary px-5 py-2 capitalize anim"><i class="icon-history mr-3"></i><span>{{'history' | translate }}</span></button>-->
+        <button *ngIf="!!sourceId" class="secondary px-5 py-2 capitalize anim" routerLink="create"><i class="icon-plus mr-3"></i><span>{{'Create New' | translate }}</span></button>
       </div>
     </div>
     <!-- main-content  -->

@@ -10,6 +10,8 @@ import { PromotionsService } from './promotions.service';
   styleUrls: ['./promotions.component.scss']
 })
 export class PromotionsComponent implements OnInit {
+  sourceId: any;
+  sourceType: any;
   notificationObj: any = [];
   constants: any = CONSTANTS;
   isLoading: boolean = false;
@@ -25,9 +27,11 @@ export class PromotionsComponent implements OnInit {
   ngOnInit(): void {
     this._globalFunctions.removeIdsFromLocalStorage();
     this.route.queryParams.subscribe(params => {
-      console.log(params)
+      this.sourceId = params['id'];
+      this.sourceType = params['type'];
     });
     this.getPromotionsList();
+    //console.log(this.sourceType)
   }
 
   promoteNotification(notificationId: any = ''): void {
