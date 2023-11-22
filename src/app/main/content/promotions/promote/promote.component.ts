@@ -75,7 +75,7 @@ export class PromoteComponent implements OnInit {
       //   this.getNotificationById();
       // }
       this.getCoupons();
-      this.getSettings();
+      //this.getSettings();
       this.getPromotionPlans();
     } else {
       this._router.navigate(['promotions']);
