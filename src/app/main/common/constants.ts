@@ -233,7 +233,7 @@ export const CONSTANTS = {
     {value: 'onlineofferusers', url: '/assets/images/online-shop-user.png', type: 'Online shop offers user'},
     {value: 'livestreamusers', url: '/assets/images/live-streaming-user.png', type: 'Live streaming user'},
     {value: 'allusers', url: '/assets/images/all-user.png', type: 'All User'},
-    {value: 'existingusers', url: '/assets/images/existing-user.png', type: 'Existing User'}
+    {value: 'excelusers', url: '/assets/images/existing-user.png', type: 'Excel User'}
   ],
 
   adsGalleryVideoList: [

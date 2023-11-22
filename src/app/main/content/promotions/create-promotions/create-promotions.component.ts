@@ -78,7 +78,6 @@ export class CreatePromotionsComponent implements OnInit {
     };
     this._promotionsService.getNotificationEmailTemplate(filter).subscribe((result: any) => {
       if (result && result.IsSuccess) {
-        console.log(result);
         this.EmailTemplatesList = result.Data.EmailTemplates;
         this.SMSTemplatesList = result.Data.SMSTemplates;
       } else {
