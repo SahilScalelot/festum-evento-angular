@@ -15,6 +15,9 @@ export class PromotionsService {
     return this.http.post(environment.appURL + 'organizer/notification', filter, this._globalFunctions.getAuthorizationHeader());
   }
 
+  getNotificationEmailTemplate(data: any): any {
+    return this.http.post(environment.appURL + 'organizer/notification/template', data, this._globalFunctions.getAuthorizationHeader());
+  }
   // Create Notification Api
   createNotification(notificationObj: any): any {
     return this.http.post(environment.appURL + 'organizer/notification/save', notificationObj, this._globalFunctions.getAuthorizationHeader());

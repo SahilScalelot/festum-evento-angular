@@ -18,7 +18,13 @@ import {ModalService} from "../../../_modal";
 export class CreatePromotionsComponent implements OnInit {
   notificationForm: any;
   notificationId: any = '';
+  sourceId: any;
+  sourceType: any;
   editorConfig: any = {};
+  EmailTemplatesList: any = [];
+  SMSTemplatesList: any = [];
+  selectedEmailTemplateContent: any = '';
+  selectedSMSTemplateContent: any = '';
   minDateValue: any = new Date();
   constants: any = CONSTANTS;
   detailEditor = DecoupledEditor;
@@ -47,6 +53,12 @@ export class CreatePromotionsComponent implements OnInit {
       this.notificationId = localStorage.getItem('nId');
       this.getNotificationById(this.notificationId);
     }
+    if (localStorage.getItem('entityId') && localStorage.getItem('entityType')) {
+      this.sourceId = localStorage.getItem('entityId');
+      this.sourceType = localStorage.getItem('entityType');
+      this.getTemplateList();
+      this._prepareNotificationForm();
+    }
     this.notificationForm.get('is_notification').valueChanges.subscribe((change: any) => {
       console.log(change)
     });
@@ -57,6 +69,25 @@ export class CreatePromotionsComponent implements OnInit {
       editor.ui.view.toolbar.element,
       editor.ui.getEditableElement()
     );
+  }
+
+  getTemplateList() {
+    const filter: any = {
+      entitytype: this.sourceType,
+      entityid: this.sourceId,
+    };
+    this._promotionsService.getNotificationEmailTemplate(filter).subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        console.log(result);
+        this.EmailTemplatesList = result.Data.EmailTemplates;
+        this.SMSTemplatesList = result.Data.SMSTemplates;
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+      }
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+
+    });
   }
 
   getNotificationById(notificationId: any): void {
@@ -95,8 +126,18 @@ export class CreatePromotionsComponent implements OnInit {
     descriptionControl.updateValueAndValidity();
   }
 
+  updateSMS() {
+    const smsTemplateControl = this.notificationForm.get('smstemplate');
+    if (this.notificationForm.get('is_sms').value) {
+      smsTemplateControl.setValidators(Validators.required);
+    } else {
+      smsTemplateControl.clearValidators();
+    }
+    smsTemplateControl.updateValueAndValidity();
+  }
+
   updateEmail() {
-    const emailTemplateControl = this.notificationForm.get('email_template_id');
+    const emailTemplateControl = this.notificationForm.get('emailtemplate');
     if (this.notificationForm.get('is_email').value) {
       emailTemplateControl.setValidators(Validators.required);
     } else {
@@ -156,6 +197,12 @@ export class CreatePromotionsComponent implements OnInit {
     if (!this.validateForm()) {
       return false;
     }
+    const selectedEmailTemplateId = this.notificationForm.value?.emailtemplate;
+    this.selectedEmailTemplateContent = this.EmailTemplatesList.find(function(item: any) {
+      return item._id == selectedEmailTemplateId;
+    });
+    console.log(this.selectedEmailTemplateContent);
+    console.log(this.notificationForm.value);
     this._modalService.open("notification-pop");
   }
 
@@ -164,9 +211,12 @@ export class CreatePromotionsComponent implements OnInit {
       return false;
     }
     this.isCreateNotificationLoading = true;
+    console.log(this.notificationForm.value);
     this._promotionsService.createNotification(this.notificationForm.value).subscribe((result: any) => {
       if (result && result.IsSuccess) {
         this._modalService.close("notification-pop");
+        localStorage.removeItem('entityId');
+        localStorage.removeItem('entityType');
         this._sNotify.success('Notification Created Successfully.', 'Success');
         this._router.navigate(['/promotions']);
         this.isCreateNotificationLoading = false;
@@ -183,8 +233,9 @@ export class CreatePromotionsComponent implements OnInit {
   private _prepareNotificationForm(notificationObj: any = {}): void {
     this.notificationForm = this._formBuilder.group({
       notificationid: [this.notificationId || ''],
+      entitytype: [this.sourceType || ''],
+      entityid: [this.sourceId || ''],
       notification_title: [notificationObj?.notification_title || '', [Validators.required]],
-      link: [notificationObj?.link || '', [Validators.required, Validators.pattern('(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?')]],
       banner: [notificationObj?.banner || '', [Validators.required]],
       description: [notificationObj?.description || '', [Validators.required]],
       notification_date: [notificationObj && notificationObj.notification_date ? new Date(notificationObj?.notification_date) : '', [Validators.required]],
@@ -192,8 +243,8 @@ export class CreatePromotionsComponent implements OnInit {
       is_notification: [notificationObj?.is_notification  || true],
       is_email: [notificationObj?.is_email || false],
       is_sms: [notificationObj?.is_sms || false],
-      email_template_id: [notificationObj?.email_template_id || '', [Validators.required]],
-      status: [true],
+      emailtemplate: [notificationObj?.emailtemplate || '', [Validators.required]],
+      smstemplate: [notificationObj?.smstemplate || '', [Validators.required]]
     }, { validator: this.requireAtLeastOneCheckbox });
   }
 

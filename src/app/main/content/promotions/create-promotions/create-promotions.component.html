@@ -17,18 +17,18 @@
             </span>
           </span>
         </div>
-        <div class="w-full md:w-1/2 px-2 inputHolder relative pb-0.5 mb-7">
-          <span class="input-titel">{{'link' | translate }}<span>*</span></span>
-          <input type="text" id="link" formControlName="link" class="input" />
-          <span class="absolute top-full text-red-500 text-xs" *ngIf="notificationForm.get('link')?.invalid && (notificationForm.get('link')?.dirty && notificationForm.get('link')?.touched)">
-            <span *ngIf="notificationForm.get('link')?.errors?.['required']">
-              Link is required.
-            </span>
-            <span *ngIf="notificationForm.get('link')?.errors?.['pattern']">
-              Please enter valid link.
-            </span>
-          </span>
-        </div>
+        <!--<div class="w-full md:w-1/2 px-2 inputHolder relative pb-0.5 mb-7">-->
+          <!--<span class="input-titel">{{'link' | translate }}<span>*</span></span>-->
+          <!--<input type="text" id="link" formControlName="link" class="input" />-->
+          <!--<span class="absolute top-full text-red-500 text-xs" *ngIf="notificationForm.get('link')?.invalid && (notificationForm.get('link')?.dirty && notificationForm.get('link')?.touched)">-->
+            <!--<span *ngIf="notificationForm.get('link')?.errors?.['required']">-->
+              <!--Link is required.-->
+            <!--</span>-->
+            <!--<span *ngIf="notificationForm.get('link')?.errors?.['pattern']">-->
+              <!--Please enter valid link.-->
+            <!--</span>-->
+          <!--</span>-->
+        <!--</div>-->
         <div class="w-full md:w-1/2 px-2 inputHolder relative pb-0.5 mb-7">
             <span class="input-titel">{{'Date' | translate }}<span>*</span></span>
             <label class="bg-white rounded-md flex space-x-3 relative">
@@ -65,7 +65,7 @@
               </div>
               <div class="flex items-center pb-4 pr-4">
                 <label class="checkbox w-8">
-                  <input type="checkbox" name="is_sms" id="is_sms" [formControlName]="'is_sms'" />
+                  <input type="checkbox" name="is_sms" id="is_sms" [formControlName]="'is_sms'" (change)="updateSMS()"/>
                   <i class="icon-right text-white"></i>
                 </label>
                 <span class="text-base font-bold text-japaneseIndigo pl-4">SMS</span>
@@ -112,13 +112,25 @@
         </div>
         <div class="w-full md:w-1/2 px-2 inputHolder relative pb-0.5 mb-7" *ngIf="notificationForm.controls['is_email'].value">
           <span class="input-titel">Email Template<span>*</span></span>
-          <select class="bg-white rounded-md flex space-x-3 outline-0 px-6 py-3 relative arrow" [formControlName]="'email_template_id'">
+          <select class="bg-white rounded-md flex space-x-3 outline-0 px-6 py-3 relative arrow" [formControlName]="'emailtemplate'">
             <option value=""></option>
-            <option value="1">Email Template 1</option>
+            <option *ngFor="let tmp of EmailTemplatesList" [value]="tmp._id">{{tmp.title}}</option>
           </select>
-          <span class="absolute top-full text-red-500 text-xs ml-0" *ngIf="notificationForm.get('email_template_id')?.invalid && (notificationForm.get('email_template_id')?.dirty && notificationForm.get('email_template_id')?.touched)">
-              <span *ngIf="notificationForm.get('email_template_id')?.errors?.['required']">
+          <span class="absolute top-full text-red-500 text-xs ml-0" *ngIf="notificationForm.get('emailtemplate')?.invalid && (notificationForm.get('emailtemplate')?.dirty && notificationForm.get('emailtemplate')?.touched)">
+              <span *ngIf="notificationForm.get('emailtemplate')?.errors?.['required']">
                 Email Template is required.
+              </span>
+            </span>
+        </div>
+        <div class="w-full md:w-1/2 px-2 inputHolder relative pb-0.5 mb-7" *ngIf="notificationForm.controls['is_sms'].value">
+          <span class="input-titel">SMS Template<span>*</span></span>
+          <select class="bg-white rounded-md flex space-x-3 outline-0 px-6 py-3 relative arrow" [formControlName]="'smstemplate'">
+            <option value=""></option>
+            <option *ngFor="let smsObj of SMSTemplatesList" [value]="smsObj._id">{{smsObj.title}}</option>
+          </select>
+          <span class="absolute top-full text-red-500 text-xs ml-0" *ngIf="notificationForm.get('smstemplate')?.invalid && (notificationForm.get('smstemplate')?.dirty && notificationForm.get('smstemplate')?.touched)">
+              <span *ngIf="notificationForm.get('smstemplate')?.errors?.['required']">
+                SMS Template is required.
               </span>
             </span>
         </div>
@@ -143,7 +155,7 @@
 </div>
 
 <!-- Preview Notification -->
-<modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="notification-pop" title="Promotion" maxWidth="lg:max-w-7xl xl:px-0">
+<modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="notification-pop" title="Promotion Preview" maxWidth="lg:max-w-7xl xl:px-0">
   <div class="relative pt-5">
     <div class="bg-white p-7 rounded-md w-full">
       <div class="flex justify-between items-start">
@@ -153,6 +165,22 @@
         <div class="pl-5 w-full md:max-w-[clac(100%-128px)]">
           <div class="flex justify-between">
             <h4>{{notificationForm.value?.notification_title}}</h4>
+          </div>
+          <div class="flex">
+            <div class="w-full md:w-1/2 inputHolder relative pb-0.5 mb-2">
+              <span class="input-titel">{{'Date' | translate }}:</span>
+              <p class="text-gray-400 text-base pt-1 font-medium normal-case">{{notificationForm.value?.notification_date | date:'dd MMM, yyyy'}}</p>
+            </div>
+            <div class="w-full md:w-1/2 inputHolder relative pb-0.5 mb-2">
+              <span class="input-titel">{{'Time' | translate }}:</span>
+              <p class="text-gray-400 text-base pt-1 font-medium normal-case">{{notificationForm.value?.notification_time | date : 'hh:mm a'}}</p>
+            </div>
+          </div>
+          <div class="flex">
+            <div class="w-full inputHolder relative pb-0.5 mb-2">
+              <span class="input-titel">Email Template:</span>
+              <p class="text-gray-400 text-base pt-1 font-medium normal-case" [innerHtml]="selectedEmailTemplateContent?.htmlContent"></p>
+            </div>
           </div>
           <!--<div class="p-3 lg:p-7 bg-white rounded-md space-y-1" [innerHtml]="notificationForm.value?.description"></div>-->
           <p class="text-gray-400 text-base pt-3 font-medium normal-case" [innerHtml]="notificationForm.value?.description"></p>

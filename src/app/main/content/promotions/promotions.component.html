@@ -7,7 +7,7 @@
       </a>
       <div class="flex items-center space-x-5">
         <!--<button class="secondary px-5 py-2 capitalize anim"><i class="icon-history mr-3"></i><span>{{'history' | translate }}</span></button>-->
-        <button *ngIf="!!sourceId" class="secondary px-5 py-2 capitalize anim" routerLink="create"><i class="icon-plus mr-3"></i><span>{{'Create New' | translate }}</span></button>
+        <button *ngIf="!!sourceId" class="secondary px-5 py-2 capitalize anim" (click)="createNewPromotion()"><i class="icon-plus mr-3"></i><span>{{'Create New' | translate }}</span></button>
       </div>
     </div>
     <!-- main-content  -->
@@ -36,7 +36,7 @@
               <h4>{{notification?.notification_title}}</h4>
               <a href="javascript:void(0);"><i class="icon-more font-bold text-base"></i></a>
             </div>
-            <p class="text-gray-400 text-base pt-3 font-medium" [innerHTML]="notification?.description"></p>
+            <p class="text-gray-400 text-base pt-3 font-medium text-ellipsis " [innerHTML]="notification?.description | slice:0:280"></p>
             <div class="flex justify-end">
               <button class="secondary flex items-center px-3 py-1.5 anim" (click)="promoteNotification(notification?._id)"><i class="icon-fill_megaphone mr-2"></i><span>{{'Promote' | translate }}</span></button>
             </div>
