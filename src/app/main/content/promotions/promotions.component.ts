@@ -43,6 +43,8 @@ export class PromotionsComponent implements OnInit {
     this.isLoading = true;
     const page = event ? (event.page + 1) : 1;
     const filter: any = {
+      entitytype: this.sourceType,
+      entityid: this.sourceId,
       page : page || '1',
       limit : event?.rows || '10',
       search: ""
