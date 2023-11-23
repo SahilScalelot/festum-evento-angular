@@ -7,7 +7,7 @@
     <!-- main-content  -->
     <form class="space-y-5" [formGroup]="promoteForm">
       <div class="flex items-end flex-wrap -mx-2">
-        <div class="flex flex-wrap mb-7" *ngIf="notificationObj">
+        <div class="flex flex-wrap w-full mb-7" *ngIf="notificationObj">
           <div class="w-1/2  p-3 group" [class]="constants.userTypeArr.length === 5 ? 'lg:w-1/5 xl:w-1/5' : 'lg:w-1/6 xl:w-1/6'" *ngFor="let userType of constants.userTypeArr">
             <label [id]="userType?.value" class="user_type text-center bg-white rounded flex flex-col justify-between items-center h-full px-5 py-7 anim relative group cursor-pointer">
               <input type="radio" name="user_type" [formControlName]="'usertype'" [id]="userType?.value" [value]="userType?.value" class="hidden" (change)="getTotalUsers(userType?.value)"/>
@@ -24,6 +24,7 @@
               </span>
             </span>
         </div>
+
         <!--<div class="w-full px-2 inputHolder relative pb-0.5 mb-7">-->
           <!--<span class="input-titel">Select Business<span>*</span></span>-->
           <!--<select [formControlName]="'usertype'" class="bg-white rounded-md flex w-full space-x-3 outline-0 px-6 py-3 relative arrow">-->
@@ -263,14 +264,6 @@
           <h5>Pay NOW</h5>
         </button>
       </div>
-    </form>
-    <form #form ngNoForm
-          id="nonseamless"
-          method="post"
-          name="redirect"
-          action="https://test.ccavenue.com/transaction/transaction.do?command=initiateTransaction">
-      <input type="hidden" id="encRequest" name="encRequest" value="{{encRequestRes}}">
-      <input type="hidden" name="access_code" id="access_code" value="{{accessCode}}">
     </form>
   </div>
 </div>

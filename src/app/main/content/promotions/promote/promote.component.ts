@@ -17,20 +17,6 @@ import * as _ from 'lodash';
   providers: [WindowRef]
 })
 export class PromoteComponent implements OnInit {
-  @ViewChild('form') form: ElementRef;
-  accessCode: any;
-  encRequestRes : any;
-  order_no : any = 'qaz234567';
-  testAmount : any = '10';
-  selectedAddress : any = {
-    name : 'testing',
-    address : 'test address',
-    city : 'test city',
-    pincode : '23456',
-    state : 'state test',
-    phone : '1234567890'
-  };
-
   nId: any;
   constants: any = CONSTANTS;
   promoteForm: any;
@@ -63,7 +49,6 @@ export class PromoteComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.accessCode = 'AVIF27KJ05CN98FINC';
     this.nId = localStorage.getItem('nId');
     if (this.nId && this.nId != '') {
       this._preparePromoteForm();
@@ -96,7 +81,7 @@ export class PromoteComponent implements OnInit {
     this._promoteService.getNotificationById(this.nId).subscribe((result: any) => {
       if (result && result.IsSuccess) {
         this.notificationObj = result.Data;
-        if (this.notificationObj.is_email || this.notificationObj.is_sms) {
+        if (!this.notificationObj.is_email && !this.notificationObj.is_sms) {
           this.constants.userTypeArr.splice(5, 1);
         }
         this._globalService.promoteNotification$.next(result.Data);
