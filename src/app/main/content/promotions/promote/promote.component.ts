@@ -2,6 +2,7 @@ import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { GlobalFunctions } from 'src/app/main/common/global-functions';
 import { GlobalService } from "../../../../services/global.service";
+import { WindowRef } from "../../../../services/windowRef.service";
 import { CONSTANTS } from "../../../common/constants";
 import { PromoteService } from './promote.service';
 import { SnotifyService } from 'ng-snotify';
@@ -12,7 +13,8 @@ import * as _ from 'lodash';
 @Component({
   selector: 'app-promote',
   templateUrl: './promote.component.html',
-  styleUrls: ['./promote.component.scss']
+  styleUrls: ['./promote.component.scss'],
+  providers: [WindowRef]
 })
 export class PromoteComponent implements OnInit {
   @ViewChild('form') form: ElementRef;
@@ -57,7 +59,7 @@ export class PromoteComponent implements OnInit {
               private _promoteService: PromoteService,
               private _router: Router,
               private _globalFunctions: GlobalFunctions,
-              private _globalService: GlobalService) {
+              private _globalService: GlobalService, private winRef: WindowRef) {
   }
 
   ngOnInit(): void {
@@ -94,6 +96,9 @@ export class PromoteComponent implements OnInit {
     this._promoteService.getNotificationById(this.nId).subscribe((result: any) => {
       if (result && result.IsSuccess) {
         this.notificationObj = result.Data;
+        if (this.notificationObj.is_email || this.notificationObj.is_sms) {
+          this.constants.userTypeArr.splice(5, 1);
+        }
         this._globalService.promoteNotification$.next(result.Data);
         this._preparePromoteForm(result.Data);
         if (result.Data?.usertype) {
@@ -119,7 +124,6 @@ export class PromoteComponent implements OnInit {
       payment_id: [promoteObj?.payment_id || ''],
       usertype: [promoteObj?.usertype || '', [Validators.required]],
       selectedusers: [promoteObj?.selectedusers || '', [Validators.required]],
-      numberofusers: [promoteObj?.numberofusers || ''],
       published_location: [promoteObj?.published_location || ''],
       selected_plan: [promoteObj?.selected_plan || ''],
       is_selected_all: [promoteObj?.is_selected_all || false],
@@ -127,7 +131,7 @@ export class PromoteComponent implements OnInit {
       sms_cost: [promoteObj?.sms_cost || null],
       email_cost: [promoteObj?.email_cost || null],
       total_cost: [promoteObj?.total_cost || null],
-      excelusersarray: []
+      excelusersarray: [null]
     });
   }
 
@@ -438,36 +442,49 @@ console.log(this.calculateTotalObj);
     if (!this.validateForm()) {
       return false;
     }
-    let redirect_url = 'http%3A%2F%2Flocalhost%3A3008%2Fhandleresponse';
-    let useremail = 'testemail@gmail.com';
-    let request = `merchant_id=2974261&order_id=${this.order_no}&currency=INR&amount=${this.testAmount}&redirect_url=${redirect_url}&cancel_url=${redirect_url}&language=EN&billing_name=${this.selectedAddress.name}&billing_address=${this.selectedAddress.address}&billing_city=${this.selectedAddress.city}&billing_state=MH&billing_zip=${this.selectedAddress.pincode}&billing_country=India&billing_tel=${this.selectedAddress.phone}&delivery_name=${this.selectedAddress.name}&delivery_address=${this.selectedAddress.address}&delivery_city=${this.selectedAddress.city}&delivery_state=${this.selectedAddress.state}&delivery_zip=${this.selectedAddress.pincode}&delivery_country=India&delivery_tel=${this.selectedAddress.phone}&billing_email=${useremail}`;
-    this._promoteService.processPayment(request).subscribe(
-        (data: any) => {
-          console.log('---------------------', data['response']);
-          this.encRequestRes = data['response'];
-          setTimeout(()=>{
-            this.form.nativeElement.submit();
-          },1000)
-        }, (error: any) => {
-          console.log(error)
+
+    if (this.isLoading) {
+      return false;
+    }
+
+    this.isLoading = true;
+    let options:any = {
+      key: "rzp_test_TYPb3cPjWHwjBY",
+      amount: this.promoteForm.value.total_cost * 100,
+      currency: 'INR',
+      name: "Festum Evento Pvt Ltd.",
+      description: "dummy data",
+      image: "./assets/images/logo.png",
+      modal: {
+        "escape": false
+      },
+      theme: {
+        "color": "#6fbc29"
+      }
+    };
+    options.handler = ((response: any) => {
+      console.log(response);
+      options['payment_response_id'] = response.razorpay_payment_id;
+      this.promoteForm.get('payment_id').setValue(response.razorpay_payment_id);
+      this._promoteService.processPayment(this.promoteForm.value).subscribe((result: any) => {
+        if (result && result.IsSuccess) {
+          console.log(result);
+          this._sNotify.success('Payment Successfully.', 'Success');
+          this.isLoading = false;
+        } else {
+          this._globalFunctions.successErrorHandling(result, this, true);
+          this.isLoading = false;
         }
-    );
-    // if (this.isLoading) {
-    //   return false;
-    // }
-    // const preparedCalculatedObj: any = this.prepareCalculatedObj();
-    // this.isLoading = true;
-    // this._promoteService.processPayment(preparedCalculatedObj).subscribe((result: any) => {
-    //   if (result && result.IsSuccess) {
-    //     this._sNotify.success('Payment Successfully.', 'Success');
-    //     this.isLoading = false;
-    //   } else {
-    //     this._globalFunctions.successErrorHandling(result, this, true);
-    //     this.isLoading = false;
-    //   }
-    // }, (error: any) => {
-    //   this._globalFunctions.errorHanding(error, this, true);
-    //   this.isLoading = false;
-    // });
+      }, (error: any) => {
+        this._globalFunctions.errorHanding(error, this, true);
+        this.isLoading = false;
+      });
+    });
+    options.modal.ondismiss = ((response: any) => {
+      console.log(response);
+      this.isLoading = false;
+    });
+    let rzp = new this.winRef.nativeWindow.Razorpay(options);
+    rzp.open();
   }
 }

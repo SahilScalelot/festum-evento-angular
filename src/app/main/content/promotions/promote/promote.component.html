@@ -7,9 +7,9 @@
     <!-- main-content  -->
     <form class="space-y-5" [formGroup]="promoteForm">
       <div class="flex items-end flex-wrap -mx-2">
-        <div class="flex flex-wrap mb-7">
-          <div class="w-1/2 lg:w-1/6 xl:w-1/6 p-3 group" *ngFor="let userType of constants.userTypeArr">
-            <label [id]="userType?.value" class="user_type text-center bg-white rounded flex flex-col justify-between items-center h-full px-5 py-7 anim relative group cursor-pointer" [class]="(notificationObj.is_email || notificationObj.is_sms) && userType?.value === 'excelusers' ? 'hidden' : ''">
+        <div class="flex flex-wrap mb-7" *ngIf="notificationObj">
+          <div class="w-1/2  p-3 group" [class]="constants.userTypeArr.length === 5 ? 'lg:w-1/5 xl:w-1/5' : 'lg:w-1/6 xl:w-1/6'" *ngFor="let userType of constants.userTypeArr">
+            <label [id]="userType?.value" class="user_type text-center bg-white rounded flex flex-col justify-between items-center h-full px-5 py-7 anim relative group cursor-pointer">
               <input type="radio" name="user_type" [formControlName]="'usertype'" [id]="userType?.value" [value]="userType?.value" class="hidden" (change)="getTotalUsers(userType?.value)"/>
               <span class="absolute inset-0 border-2 border-magicPotion opacity-0 anim"></span>
               <div class="w-24 h-24">
