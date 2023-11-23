@@ -18,6 +18,11 @@
               <p class="text-base text-sm font-bold pt-8 whitespace-pre-wrap">{{userType?.type}}</p>
             </label>
           </div>
+          <span class="top-full text-red-500 text-xs ml-4" *ngIf="promoteForm.get('usertype')?.invalid && (promoteForm.get('usertype')?.dirty && promoteForm.get('usertype')?.touched)">
+              <span *ngIf="promoteForm.get('usertype')?.errors?.['required']">
+                User Type is required.
+              </span>
+            </span>
         </div>
         <!--<div class="w-full px-2 inputHolder relative pb-0.5 mb-7">-->
           <!--<span class="input-titel">Select Business<span>*</span></span>-->
@@ -29,9 +34,14 @@
         <ng-container *ngIf="promoteForm.controls['usertype'].value !== 'allusers' && promoteForm.controls['usertype'].value !== 'excelusers'">
           <div class="w-full lg:w-1/2 px-2 inputHolder relative pb-0.5 mb-7">
             <span class="input-titel">Select User</span>
-            <select class="bg-white rounded-md flex space-x-3 outline-0 px-6 py-3 relative arrow" [formControlName]="'numberofusers'" (change)="onChangeUserSelection($event)">
-              <option *ngFor='let in of totalOptions;let i = index' [value]="i ? (i * usersSelectionLimit) : totalUsersCount">{{i ? (i * usersSelectionLimit) : 'Select All'}}</option>
+            <select class="bg-white rounded-md flex space-x-3 outline-0 px-6 py-3 relative arrow" [formControlName]="'selectedusers'" (change)="onChangeUserSelection($event)">
+              <option *ngFor='let in of totalOptions;let i = index' [value]="i ? (i * usersSelectionLimit) : totalUsers">{{i ? (i * usersSelectionLimit) : 'Select All'}}</option>
             </select>
+            <span class="absolute top-full text-red-500 text-xs ml-0" *ngIf="promoteForm.get('selectedusers')?.invalid && (promoteForm.get('selectedusers')?.dirty && promoteForm.get('selectedusers')?.touched)">
+              <span *ngIf="promoteForm.get('selectedusers')?.errors?.['required']">
+                Select User is required.
+              </span>
+            </span>
           </div>
           <div class="w-full lg:w-1/2 px-2 inputHolder relative pb-0.5 mb-7">
             <span class="input-titel">Total User</span>
@@ -93,7 +103,7 @@
               <div class="w-1/2">
                 <span class="pb-3 input-titel">Select All App User</span>
                 <select class="bg-white rounded-md flex space-x-3 outline-0 px-6 py-[18px] relative arrow option" [formControlName]="'numberofusers'" (change)="onChangeUserSelection($event)">
-                  <option *ngFor='let in of totalOptions;let i = index' [value]="i ? (i * usersSelectionLimit) : totalUsersCount">{{i ? (i * usersSelectionLimit) : 'Select All'}}</option>
+                  <option *ngFor='let in of totalOptions;let i = index' [value]="i ? (i * usersSelectionLimit) : totalUsers">{{i ? (i * usersSelectionLimit) : 'Select All'}}</option>
                 </select>
               </div>
               <div class="p-[18px] rounded-md">

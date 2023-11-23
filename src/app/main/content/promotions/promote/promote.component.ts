@@ -41,7 +41,7 @@ export class PromoteComponent implements OnInit {
   isUploadCSVLoading: boolean = false;
   tmpSelectedPlan: any = '';
   totalUsers: any = 0;
-  totalUsersCount: any = 5999;
+  totalUsersCount: any = 5000;
   usersSelectionLimit: any = 500;
   calculateTotalObj: any = {};
   selectedPlanObj: any = {};
@@ -96,7 +96,9 @@ export class PromoteComponent implements OnInit {
         this.notificationObj = result.Data;
         this._globalService.promoteNotification$.next(result.Data);
         this._preparePromoteForm(result.Data);
-        this.getTotalUsers(result.Data.usertype);
+        if (result.Data?.usertype) {
+          this.getTotalUsers(result.Data.usertype);
+        }
         if (result.Data.usertype === 'existingusers') {
            this.getImportedUsersList();
         }
@@ -114,11 +116,18 @@ export class PromoteComponent implements OnInit {
     console.log(promoteObj);
     this.promoteForm = this._formBuilder.group({
       notificationid: [this.nId, [Validators.required]],
+      payment_id: [promoteObj?.payment_id || ''],
       usertype: [promoteObj?.usertype || '', [Validators.required]],
+      selectedusers: [promoteObj?.selectedusers || '', [Validators.required]],
       numberofusers: [promoteObj?.numberofusers || ''],
       published_location: [promoteObj?.published_location || ''],
       selected_plan: [promoteObj?.selected_plan || ''],
       is_selected_all: [promoteObj?.is_selected_all || false],
+      notification_cost: [promoteObj?.notification_cost || null],
+      sms_cost: [promoteObj?.sms_cost || null],
+      email_cost: [promoteObj?.email_cost || null],
+      total_cost: [promoteObj?.total_cost || null],
+      excelusersarray: []
     });
   }
 
@@ -130,6 +139,7 @@ export class PromoteComponent implements OnInit {
     this._promoteService.saveUserType(userTypes).subscribe((result: any) => {
       if (result && result.IsSuccess) {
         console.log(result);
+        this.settingObj = this._globalFunctions.copyObject(result.Data?.cost || {});
         if (userType === 'onlineofferusers') {
           this.totalUsers = result.Data.totalonlineofferusers;
         } else if (userType === 'eventusers') {
@@ -143,6 +153,7 @@ export class PromoteComponent implements OnInit {
         } else {
           return
         }
+        //this.usersSelectionLimit = this.totalUsers;
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
 
@@ -309,7 +320,8 @@ export class PromoteComponent implements OnInit {
     }, 0);
   }
   onChangeUserSelection(event: any): void {
-    //console.log(event)
+    this.promoteForm.get('selectedusers').setValue(Number(event.target.value));
+    console.log(this.promoteForm.value);
     this.numberOfUsers = event.target.value;
     this.calculatePrice();
     //this.usersForm.get('selected_plan').setValue('');
@@ -359,7 +371,13 @@ export class PromoteComponent implements OnInit {
     this.calculateTotalObj.smsTotal = (isNotifyBySMS) ? Number(this.numberOfUsers) * Number(this.settingObj.smscost) : 0;
     this.calculateTotalObj.emailTotal = (isNotifyByEmail) ? Number(this.numberOfUsers) * Number(this.settingObj.emailcost) : 0;
     this.calculateTotalObj.subTotal = _.sum([this.calculateTotalObj.notificationTotal, this.calculateTotalObj.smsTotal, this.calculateTotalObj.emailTotal]);
-
+console.log('test here');
+console.log(this.calculateTotalObj);
+    this.promoteForm.get('notification_cost').setValue(Number(this.calculateTotalObj.notificationTotal.toFixed(2)));
+    this.promoteForm.get('sms_cost').setValue(Number(this.calculateTotalObj.smsTotal.toFixed(2)));
+    this.promoteForm.get('email_cost').setValue(Number(this.calculateTotalObj.emailTotal.toFixed(2)));
+    this.promoteForm.get('total_cost').setValue(Number(this.calculateTotalObj.subTotal.toFixed(2)));
+    console.log(this.promoteForm.value);
     if (this.selectedPlanObj && this.selectedPlanObj._id) {
       this.calculateTotalObj.notificationTotal = (isNotify) ? this.selectedPlanObj.notification_amount : 0;
       this.calculateTotalObj.smsTotal = (isNotifyBySMS) ? this.selectedPlanObj.sms_amount : 0;
@@ -405,7 +423,21 @@ export class PromoteComponent implements OnInit {
     return preparedCalculatedObj;
   }
 
+  validateForm(): any {
+    if (this.promoteForm.invalid) {
+      Object.keys(this.promoteForm.controls).forEach((key) => {
+        this.promoteForm.controls[key].touched = true;
+        this.promoteForm.controls[key].markAsDirty();
+      });
+      return false;
+    }
+    return true;
+  }
+
   payNow(): any {
+    if (!this.validateForm()) {
+      return false;
+    }
     let redirect_url = 'http%3A%2F%2Flocalhost%3A3008%2Fhandleresponse';
     let useremail = 'testemail@gmail.com';
     let request = `merchant_id=2974261&order_id=${this.order_no}&currency=INR&amount=${this.testAmount}&redirect_url=${redirect_url}&cancel_url=${redirect_url}&language=EN&billing_name=${this.selectedAddress.name}&billing_address=${this.selectedAddress.address}&billing_city=${this.selectedAddress.city}&billing_state=MH&billing_zip=${this.selectedAddress.pincode}&billing_country=India&billing_tel=${this.selectedAddress.phone}&delivery_name=${this.selectedAddress.name}&delivery_address=${this.selectedAddress.address}&delivery_city=${this.selectedAddress.city}&delivery_state=${this.selectedAddress.state}&delivery_zip=${this.selectedAddress.pincode}&delivery_country=India&delivery_tel=${this.selectedAddress.phone}&billing_email=${useremail}`;
