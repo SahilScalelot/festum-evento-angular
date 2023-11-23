@@ -6,6 +6,7 @@ import { SnotifyService } from 'ng-snotify';
 import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
 import {PromotionsService} from "../promotions.service";
 import * as _ from "lodash";
+import * as moment from 'moment';
 import {GlobalFunctions} from "../../../common/global-functions";
 import {CONSTANTS} from "../../../common/constants";
 import {ModalService} from "../../../_modal";
@@ -27,6 +28,7 @@ export class CreatePromotionsComponent implements OnInit {
   selectedSMSTemplateContent: any = '';
   minDateValue: any = new Date();
   constants: any = CONSTANTS;
+  moment: any = moment;
   detailEditor = DecoupledEditor;
   inputText: any;
   isLoading: boolean = false;
@@ -210,7 +212,9 @@ export class CreatePromotionsComponent implements OnInit {
       return false;
     }
     this.isCreateNotificationLoading = true;
-    console.log(this.notificationForm.value);
+    this.notificationForm.value.notification_date = moment(this.notificationForm.value.notification_date).format('YYYY-MM-DD');
+    this.notificationForm.value.notification_time = moment(this.notificationForm.value.notification_time).format('HH:mm');
+    //console.log(this.notificationForm.value);
     this._promotionsService.createNotification(this.notificationForm.value).subscribe((result: any) => {
       if (result && result.IsSuccess) {
         this._modalService.close("notification-pop");

@@ -33,7 +33,7 @@
             <span class="input-titel">{{'Date' | translate }}<span>*</span></span>
             <label class="bg-white rounded-md flex space-x-3 relative">
               <i class="icon-calendar-2 text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0 z-10"></i>
-              <p-calendar class="w-full" styleClass="w-full" [formControlName]="'notification_date'" name="date" [minDate]="minDateValue" [readonlyInput]="true" inputId="date"></p-calendar>
+              <p-calendar class="w-full" styleClass="w-full" [formControlName]="'notification_date'" name="date" [minDate]="minDateValue" [dateFormat]="'dd/mm/yy'" [readonlyInput]="true" inputId="date"></p-calendar>
             </label>
             <span class="absolute top-full text-red-500 text-xs" *ngIf="notificationForm.get('notification_date')?.invalid && (notificationForm.get('notification_date')?.dirty && notificationForm.get('notification_date')?.touched)">
                 <span *ngIf="notificationForm.get('notification_date')?.errors?.['required']">
@@ -45,7 +45,7 @@
             <span class="input-titel">{{'Time' | translate }}<span>*</span></span>
             <label class="bg-white rounded-md flex space-x-3 relative">
               <i class="icon-time text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0"></i>
-              <p-calendar class="w-full" [timeOnly]="true" inputId="timeonly" [formControlName]="'notification_time'"></p-calendar>
+              <p-calendar class="w-full" [hourFormat]="'24'" [timeOnly]="true" inputId="timeonly" [formControlName]="'notification_time'"></p-calendar>
             </label>
             <span class="absolute top-full text-red-500 text-xs" *ngIf="notificationForm.get('notification_time')?.invalid && (notificationForm.get('notification_time')?.dirty && notificationForm.get('notification_time')?.touched)">
               <span *ngIf="notificationForm.get('notification_time')?.errors?.['required']">
@@ -169,11 +169,11 @@
           <div class="flex">
             <div class="w-full md:w-1/2 inputHolder relative pb-0.5 mb-2">
               <span class="input-titel">{{'Date' | translate }}:</span>
-              <p class="text-gray-400 text-base pt-1 font-medium normal-case">{{notificationForm.value?.notification_date | date:'dd MMM, yyyy'}}</p>
+              <p class="text-gray-400 text-base pt-1 font-medium normal-case">{{moment(notificationForm.value?.notification_date).format('YYYY-MM-DD')}}</p>
             </div>
             <div class="w-full md:w-1/2 inputHolder relative pb-0.5 mb-2">
               <span class="input-titel">{{'Time' | translate }}:</span>
-              <p class="text-gray-400 text-base pt-1 font-medium normal-case">{{notificationForm.value?.notification_time | date : 'hh:mm a'}}</p>
+              <p class="text-gray-400 text-base pt-1 font-medium normal-case">{{notificationForm.value?.notification_time}}</p>
             </div>
           </div>
           <div class="flex">
