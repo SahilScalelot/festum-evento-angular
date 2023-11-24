@@ -145,7 +145,7 @@ export class PromoteComponent implements OnInit {
           this.totalUsers = 0;
         }
         this.promoteForm.get('selectedusers').setValue(Number(this.totalUsers));
-        this.numberOfUsers = 0;
+        this.numberOfUsers = this.totalUsers;
         this.calculatePrice();
         //this.usersSelectionLimit = this.totalUsers;
       } else {
