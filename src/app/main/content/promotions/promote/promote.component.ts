@@ -24,6 +24,7 @@ export class PromoteComponent implements OnInit {
   settingObj: any = {};
   allPromotionPlans: any = [];
   allImportedUsers: any = [];
+  userSelectionRange: any = [];
   isAllUserSelected: boolean = false;
   isExistingUserSelected: boolean = false;
   isUploadCSVLoading: boolean = false;
@@ -77,6 +78,32 @@ export class PromoteComponent implements OnInit {
   get totalOptions() {
     return new Array(this.totalUsersCount ? (Math.ceil((this.totalUsersCount + 1) / this.usersSelectionLimit)) : 0);
   }
+  generateArray(upperLimit: number): number[] {
+    let increment: number;
+
+    if (upperLimit >= 0 && upperLimit <= 50) {
+      increment = 5;
+    } else if (upperLimit >= 50 && upperLimit <= 100) {
+      increment = 10;
+    } else if(upperLimit >= 100 && upperLimit <= 200) {
+      increment = 20;
+    } else if(upperLimit >= 200 && upperLimit <= 500) {
+      increment = 25;
+    } else if(upperLimit >= 500 && upperLimit <= 1000) {
+      increment = 50;
+    } else if(upperLimit >= 1000 && upperLimit <= 5000) {
+      increment = 100;
+    } else {
+      increment = 200;
+    }
+    const resultArray: number[] = [];
+
+    for (let i = increment; i < upperLimit; i += increment) {
+      resultArray.push(i);
+    }
+     resultArray.push(upperLimit);
+    return resultArray;
+  }
   getNotificationById(): void {
     this.isLoading = true;
     this._promoteService.getNotificationById(this.nId).subscribe((result: any) => {
@@ -104,7 +131,7 @@ export class PromoteComponent implements OnInit {
   }
 
   private _preparePromoteForm(promoteObj: any = {}): void {
-    console.log(promoteObj);
+    //console.log(promoteObj);
     this.promoteForm = this._formBuilder.group({
       notificationid: [this.nId, [Validators.required]],
       payment_id: [promoteObj?.payment_id || ''],
@@ -125,7 +152,7 @@ export class PromoteComponent implements OnInit {
     };
     this._promoteService.saveUserType(userTypes).subscribe((result: any) => {
       if (result && result.IsSuccess) {
-        console.log(result);
+        //console.log(result);
         this.settingObj = this._globalFunctions.copyObject(result.Data?.cost || {});
         if (userType === 'onlineofferusers') {
           this.totalUsers = result.Data.totalonlineofferusers;
@@ -145,6 +172,9 @@ export class PromoteComponent implements OnInit {
         } else {
           this.totalUsers = 0;
         }
+        this.userSelectionRange = [];
+        this.userSelectionRange = this.generateArray(Number(this.totalUsers));
+        //console.log(this.userSelectionRange);
         this.promoteForm.get('selectedusers').setValue(Number(this.totalUsers));
         this.numberOfUsers = this.totalUsers;
         this.calculatePrice();
@@ -325,7 +355,7 @@ export class PromoteComponent implements OnInit {
   }
   onChangeUserSelection(event: any): void {
     this.promoteForm.get('selectedusers').setValue(Number(event.target.value));
-    console.log(this.promoteForm.value);
+    //console.log(this.promoteForm.value);
     this.numberOfUsers = event.target.value;
     this.calculatePrice();
     //this.usersForm.get('selected_plan').setValue('');
@@ -375,13 +405,13 @@ export class PromoteComponent implements OnInit {
     this.calculateTotalObj.smsTotal = (isNotifyBySMS) ? Number(this.numberOfUsers) * Number(this.settingObj.smscost) : 0;
     this.calculateTotalObj.emailTotal = (isNotifyByEmail) ? Number(this.numberOfUsers) * Number(this.settingObj.emailcost) : 0;
     this.calculateTotalObj.subTotal = _.sum([this.calculateTotalObj.notificationTotal, this.calculateTotalObj.smsTotal, this.calculateTotalObj.emailTotal]);
-console.log('test here');
-console.log(this.calculateTotalObj);
+//console.log('test here');
+///console.log(this.calculateTotalObj);
     this.promoteForm.get('notification_cost').setValue(Number(this.calculateTotalObj.notificationTotal.toFixed(2)));
     this.promoteForm.get('sms_cost').setValue(Number(this.calculateTotalObj.smsTotal.toFixed(2)));
     this.promoteForm.get('email_cost').setValue(Number(this.calculateTotalObj.emailTotal.toFixed(2)));
     this.promoteForm.get('total_cost').setValue(Number(this.calculateTotalObj.subTotal.toFixed(2)));
-    console.log(this.promoteForm.value);
+    //console.log(this.promoteForm.value);
     if (this.selectedPlanObj && this.selectedPlanObj._id) {
       this.calculateTotalObj.notificationTotal = (isNotify) ? this.selectedPlanObj.notification_amount : 0;
       this.calculateTotalObj.smsTotal = (isNotifyBySMS) ? this.selectedPlanObj.sms_amount : 0;
