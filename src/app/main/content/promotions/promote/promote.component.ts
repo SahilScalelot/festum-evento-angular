@@ -90,7 +90,7 @@ export class PromoteComponent implements OnInit {
         if (result.Data?.usertype) {
           this.getTotalUsers(result.Data.usertype);
         }
-        if (result.Data.usertype === 'existingusers') {
+        if (result.Data.usertype === 'excelusers') {
            this.getImportedUsersList();
         }
       } else {
@@ -110,8 +110,6 @@ export class PromoteComponent implements OnInit {
       payment_id: [promoteObj?.payment_id || ''],
       usertype: [promoteObj?.usertype || '', [Validators.required]],
       selectedusers: [promoteObj?.selectedusers || '', [Validators.required]],
-      published_location: [promoteObj?.published_location || ''],
-      selected_plan: [promoteObj?.selected_plan || ''],
       is_selected_all: [promoteObj?.is_selected_all || false],
       notification_cost: [promoteObj?.notification_cost || null],
       sms_cost: [promoteObj?.sms_cost || null],
@@ -141,10 +139,14 @@ export class PromoteComponent implements OnInit {
           this.totalUsers = result.Data.totalusers;
         } else if (userType === 'excelusers') {
           this.totalUsers = 0;
+          this.allImportedUsers = [];
           this.getImportedUsersList();
         } else {
           this.totalUsers = 0;
         }
+        this.promoteForm.get('selectedusers').setValue(Number(this.totalUsers));
+        this.numberOfUsers = 0;
+        this.calculatePrice();
         //this.usersSelectionLimit = this.totalUsers;
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
