@@ -530,6 +530,7 @@ export class AddEditShopDialogComponent implements OnInit, OnDestroy {
   }
 
   isContinueClick(): void {
+    debugger
     //console.log(this.addShopForm.value);
     this.addShopForm.value.shop_days.forEach((item: any) => {
       //console.log(item);
@@ -782,7 +783,6 @@ export class AddEditShopDialogComponent implements OnInit, OnDestroy {
       manual_address: [addShopObj?.manual_address || ''],
       longitude: [this.lng],
       latitude: [this.lat],
-
       company_name: [addShopObj?.companydetails?.company_name || ''],
       gst_file: [this.gstPdf || ''],
       contact_number: [addShopObj?.companydetails?.contact_number || ''],

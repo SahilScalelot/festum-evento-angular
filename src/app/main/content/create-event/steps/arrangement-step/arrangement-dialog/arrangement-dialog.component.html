@@ -126,7 +126,7 @@
                                   <span class="input-titel text-xs">Total Person Capacity</span>
                                   <div class="w-full flex items-center space-x-5">
                                     <div class="w-full inputHolder relative">
-                                      <input (input)="updateCalculatedValue()" [formControlName]="'total_person'" [min]="0" placeholder="0" [name]="'total_person' + i" class="bgquicksilver" fuseValidNumber type="number">
+                                      <input (input)="updateCalculatedValue()" readonly [formControlName]="'total_person'" [min]="0" placeholder="0" [name]="'total_person' + i" class="bgquicksilver" fuseValidNumber type="number">
                                       <span class="absolute top-full text-red-500 text-10" *ngIf="child?.get('total_person')?.invalid && (child?.get('total_person')?.dirty && child?.get('total_person')?.touched)">
                                         <span *ngIf="child?.get('total_person')?.errors?.['required']">
                                           This field must have required.

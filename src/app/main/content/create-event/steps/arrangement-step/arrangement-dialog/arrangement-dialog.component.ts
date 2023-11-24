@@ -446,6 +446,7 @@ export class ArrangementDialogComponent implements OnInit {
   }
   
   addArrangements(tempArrangementObj: any = {}): void {
+    
     this.eventId = localStorage.getItem('eId');
     this._createEventService.getEvent(this.eventId).subscribe((result: any) => {
       if (result && result.IsSuccess) {
@@ -460,10 +461,11 @@ export class ArrangementDialogComponent implements OnInit {
             total_person: [tempArrangementObj?.total_person || '', [Validators.required]],
             per_seating_price: [{value: (this.addEditEvent && this.addEditEvent == 'free') ? 0 : (tempArrangementObj?.per_seating_price || ''), disabled: !(!this.addEditEvent || this.addEditEvent == 'paid')}],
             per_person_price: [{value: (this.addEditEvent && this.addEditEvent == 'free') ? 0 : (tempArrangementObj?.per_person_price || ''), disabled: !(!this.addEditEvent || this.addEditEvent == 'paid')}, [Validators.required]],
-            total_amount: [{value: (this.addEditEvent && this.addEditEvent == 'free') ? 0 : (tempArrangementObj?.total_amount || ''), disabled: (!this.addEditEvent || this.addEditEvent == 'paid')}, [Validators.required]],
+            total_amount: [{value: (this.addEditEvent && this.addEditEvent == 'free') ? 0 : (tempArrangementObj?.total_amount || ''), disabled: !(!this.addEditEvent || this.addEditEvent == 'paid')}, [Validators.required]],
             description: [tempArrangementObj?.description || ''],
             booking_acceptance: [tempArrangementObj?.booking_acceptance || false],
           });
+          
         this.arrangements.push(arrangementsObj);
         this.updateCalculatedValue();
       } else {
@@ -574,11 +576,6 @@ export class ArrangementDialogComponent implements OnInit {
         });
       });
       return;
-    }
-    if (this.addEditEvent == 'paid' && this.seatingForm.total_amount == 0 || this.seatingForm.total_amount == '0') {
-      console.log(this.seatingForm.total_amount);
-      
-      
     }
     if (this.arrangements.value && this.arrangements.value.length ) {
       const tmpLocations: any = [];
