@@ -38,6 +38,7 @@ export class PromoteComponent implements OnInit {
   selectedCoupon: any = '';
   numberOfUsers: any = 0;
   isLoading: boolean = false;
+  isSelectExcelUserError: boolean = false;
   pageObj: any = {};
 
   constructor(private _formBuilder: FormBuilder,
@@ -115,8 +116,7 @@ export class PromoteComponent implements OnInit {
       notification_cost: [promoteObj?.notification_cost || null],
       sms_cost: [promoteObj?.sms_cost || null],
       email_cost: [promoteObj?.email_cost || null],
-      total_cost: [promoteObj?.total_cost || null],
-      excelusersarray: [null]
+      total_cost: [promoteObj?.total_cost || null]
     });
   }
 
@@ -139,8 +139,11 @@ export class PromoteComponent implements OnInit {
           this.totalUsers = result.Data.totallivestreamusers;
         } else if (userType === 'allusers') {
           this.totalUsers = result.Data.totalusers;
+        } else if (userType === 'excelusers') {
+          this.totalUsers = 0;
+          this.getImportedUsersList();
         } else {
-          return
+          this.totalUsers = 0;
         }
         //this.usersSelectionLimit = this.totalUsers;
       } else {
@@ -253,8 +256,14 @@ export class PromoteComponent implements OnInit {
           });
           if (event && event.target && event.target.checked) {
             localStorage.setItem('selectAll', 'true');
+            this.numberOfUsers = this.totalUsers;
+            this.promoteForm.get('selectedusers').setValue(Number(this.totalUsers));
+            this.calculatePrice();
           } else {
             localStorage.removeItem('selectAll');
+            this.numberOfUsers = this.totalUsers;
+            this.promoteForm.get('selectedusers').setValue(0);
+            this.calculatePrice();
           }
           this.isLoading = false;
         } else {
@@ -285,6 +294,9 @@ export class PromoteComponent implements OnInit {
             //this.usersForm.get('is_selected_all').setValue(false);
             localStorage.removeItem('selectAll');
           }
+          this.numberOfUsers = result.Data.totalSelected_users;
+          this.promoteForm.get('selectedusers').setValue(Number(result.Data.totalSelected_users));
+          this.calculatePrice();
           this.isLoading = false;
         } else {
           this._globalFunctions.successErrorHandling(result, this, true);
@@ -424,6 +436,10 @@ console.log(this.calculateTotalObj);
   }
 
   payNow(): any {
+    if (this.promoteForm.value.usertype === 'excelusers' && !this.promoteForm.value.is_selected_all && this.promoteForm.value.selectedusers === '') {
+      this.isSelectExcelUserError = true;
+      return false;
+    }
     if (!this.validateForm()) {
       return false;
     }
@@ -431,7 +447,7 @@ console.log(this.calculateTotalObj);
     if (this.isLoading) {
       return false;
     }
-
+    console.log(this.promoteForm.value)
     this.isLoading = true;
     let options:any = {
       key: "rzp_test_TYPb3cPjWHwjBY",

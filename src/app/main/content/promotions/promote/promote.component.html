@@ -103,7 +103,7 @@
             <div class="flex items-end justify-between">
               <div class="w-1/2">
                 <span class="pb-3 input-titel">Select All App User</span>
-                <select class="bg-white rounded-md flex space-x-3 outline-0 px-6 py-[18px] relative arrow option" [formControlName]="'numberofusers'" (change)="onChangeUserSelection($event)">
+                <select class="bg-white rounded-md flex space-x-3 outline-0 px-6 py-[18px] relative arrow option" [formControlName]="'selectedusers'" (change)="onChangeUserSelection($event)">
                   <option *ngFor='let in of totalOptions;let i = index' [value]="i ? (i * usersSelectionLimit) : totalUsers">{{i ? (i * usersSelectionLimit) : 'Select All'}}</option>
                 </select>
               </div>
@@ -136,6 +136,7 @@
                   </label>
                   <span class="text-base text-japaneseIndigo font-bold ml-4">Select All</span>
                 </div>
+                <span class="text-red-500 text-xs" *ngIf="isSelectExcelUserError">Please Upload File & Select User</span>
                 <div class="flex items-center bg-white rounded-md cursor-pointer w-full px-4 py-3" *ngFor="let importedUser of allImportedUsers; let i = index">
                   <label class="checkbox w-8 h-8">
                     <input type="checkbox" class="bgbrightgray" [id]="'user-' + i" [checked]="importedUser.selected" (change)="onCheckboxChange(importedUser, i)" />
@@ -154,7 +155,7 @@
               </div>
             </div>
             <div class="w-full lg:w-1/2 pt-5 lg:pt-0">
-              <div class="max-w-max ml-auto text-base font-bold text-japaneseIndigo bg-white py-3 px-8 rounded-md">Total User: <span>{{totalUsers | number:'1.0-0'}}</span>
+              <div class="max-w-max ml-auto text-base font-bold text-japaneseIndigo bg-white py-3 px-8 rounded-md">Total User: <span>{{totalUsers}}</span>
               </div>
             </div>
           </div>
