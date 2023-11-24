@@ -140,6 +140,7 @@ export class PromoteComponent implements OnInit {
         } else if (userType === 'excelusers') {
           this.totalUsers = 0;
           this.allImportedUsers = [];
+          this.pageObj.nextPage = 1;
           this.getImportedUsersList();
         } else {
           this.totalUsers = 0;
