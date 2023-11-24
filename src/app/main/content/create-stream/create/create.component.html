@@ -9,6 +9,11 @@
         Live Stream Name is required.
       </span>
     </span>
+    <span class="absolute top-full text-red-500 text-xs" *ngIf="createStreamForm.get('event_name')?.invalid && (createStreamForm.get('event_name')?.dirty && createStreamForm.get('event_name')?.touched)">
+      <span *ngIf="createStreamForm.get('event_name')?.errors?.['maxlength']">
+        Your Live Stream Name cannot exceed 30 characters.
+      </span>
+    </span>
   </div>
   <div class="w-full lg:w-1/2 px-2 pt-5 pb-0.5 inputHolder relative">
     <span class="input-titel">{{'Live Stream Category' | translate }}</span>

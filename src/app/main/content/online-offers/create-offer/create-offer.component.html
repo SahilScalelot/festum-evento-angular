@@ -16,9 +16,14 @@
           <input type="text" name="shop_name" formControlName="shop_name" class="input" />
           <span class="absolute top-full text-red-500 text-xs" *ngIf="addEditOfferForm.get('shop_name')?.invalid && (addEditOfferForm.get('shop_name')?.dirty && addEditOfferForm.get('shop_name')?.touched)">
             <span *ngIf="addEditOfferForm.get('shop_name')?.errors?.['required']">
-              Shope Name is required.
+              Shop Name is required.
             </span>
           </span>
+          <span class="absolute top-full text-red-500 text-xs" *ngIf="addEditOfferForm.get('shop_name')?.invalid && (addEditOfferForm.get('shop_name')?.dirty && addEditOfferForm.get('shop_name')?.touched)">
+      <span *ngIf="addEditOfferForm.get('shop_name')?.errors?.['maxlength']">
+        Your Shop Name cannot exceed 30 characters.
+      </span>
+    </span>
         </div>
         <div class="w-full lg:w-1/2 px-2 pt-5 inputHolder relative">
           <span class="input-titel">{{'Offer' | translate }}<span>*</span></span>

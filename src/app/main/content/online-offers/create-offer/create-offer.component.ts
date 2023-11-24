@@ -606,7 +606,7 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
   private _prepareAddEditOfferForm(addEditOfferObj: any = {}): void {
     this.addEditOfferForm = this._formBuilder.group({
       offerid: [this.offerId || ''],
-      shop_name: [addEditOfferObj?.shop_name || '', [Validators.required]],
+      shop_name: [addEditOfferObj?.shop_name || '', [Validators.required, Validators.maxLength(30)]],
       offer_amount: [addEditOfferObj?.offer_amount || '', [Validators.required]],
       offer_type: [addEditOfferObj?.offer_type || CONSTANTS.discountTypeArr[CONSTANTS.discountTypeObj.percentage].value, [Validators.required]],
       start_date: [(addEditOfferObj.start_date) ? new Date(addEditOfferObj.start_date) : '', [Validators.required]],

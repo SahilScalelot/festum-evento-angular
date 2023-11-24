@@ -85,6 +85,11 @@
                 Shop Name is required.
               </span>
             </span>
+            <span class="absolute top-full text-red-500 text-xs" *ngIf="addShopForm.get('shop_name')?.invalid && (addShopForm.get('shop_name')?.dirty && addShopForm.get('shop_name')?.touched)">
+      <span *ngIf="addShopForm.get('shop_name')?.errors?.['maxlength']">
+        Your Shop Name cannot exceed 30 characters.
+      </span>
+    </span>
           </div>
           <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative">
             <span class="input-titel">{{'Shop Category' | translate }} <span>*</span></span>

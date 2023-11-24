@@ -194,7 +194,7 @@ export class CreateComponent implements OnInit {
   private _prepareLiveStreamForm(liveStreamObj: any = {}): void {
     this.createStreamForm = this._formBuilder.group({
       livestreamid         : [this.liveStreamId || ''],
-      event_name           : [liveStreamObj?.event_name || '', [Validators.required]],
+      event_name           : [liveStreamObj?.event_name || '', [Validators.required, Validators.maxLength(30)]],
       event_category       : [liveStreamObj?.event_category?._id || '', [Validators.required]],
       event_description    : [liveStreamObj?.event_description || '', [Validators.required]],
       event_date           : [liveStreamObj && liveStreamObj.event_date ? new Date(liveStreamObj?.event_date) : '', [Validators.required]],

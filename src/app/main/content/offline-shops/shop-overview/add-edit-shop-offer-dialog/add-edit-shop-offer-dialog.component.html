@@ -12,6 +12,11 @@
               Offer title is required.
             </span>
           </span>
+          <span class="absolute top-full text-red-500 text-xs" *ngIf="addEditOfferForm.get('offer_title')?.invalid && (addEditOfferForm.get('offer_title')?.dirty && addEditOfferForm.get('offer_title')?.touched)">
+      <span *ngIf="addEditOfferForm.get('offer_title')?.errors?.['maxlength']">
+        Your Offer title cannot exceed 30 characters.
+      </span>
+    </span>
         </div>
         <div class="w-full lg:w-1/2 px-2 pt-5 flex space-x-4">
           <div class="w-full lg:w-1/2 relative">

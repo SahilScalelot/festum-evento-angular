@@ -762,7 +762,7 @@ export class AddEditShopDialogComponent implements OnInit, OnDestroy {
     this.addShopForm = this._formBuilder.group({
       shopid: [(this.shopId && this.shopId != '') ? this.shopId : ''],
       banner: [addShopObj?.banner || '', [Validators.required]],
-      shop_name: [addShopObj?.shop_name || '', [Validators.required]],
+      shop_name: [addShopObj?.shop_name || '', [Validators.required, Validators.maxLength(30)]],
       shop_category: [(addShopObj.shop_category && addShopObj.shop_category._id) ? addShopObj.shop_category._id : '', [Validators.required]],
       shop_days: this._formBuilder.array([]),
       //shop_days: this._formBuilder.array((addShopObj.shop_days && addShopObj.shop_days.length) ? addShopObj.shop_days : [], [Validators.required]),

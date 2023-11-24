@@ -39,7 +39,7 @@ export class AddEditEventDialogComponent implements OnInit {
     this.getEventCategories();
     this.isForUpdateEvent = !!(this.eventObj && this.eventObj._id);
     this.newEventForm = this._formBuilder.group({
-      name: [this.eventObj?.name ? this.eventObj.name : '', [Validators.required]],
+      name: [this.eventObj?.name ? this.eventObj.name : '', [Validators.required, Validators.maxLength(30)]],
       event_type: [this.selectedEventType, Validators.required],
       event_category: [this.eventObj?.event_category ? ((this.eventObj.event_category?._id) ? this.eventObj.event_category._id : '') : ''],
       other: [this.eventObj?.other ? this.eventObj.other : ''],
@@ -97,6 +97,13 @@ export class AddEditEventDialogComponent implements OnInit {
   }
 
   addEvent(): any {
+    if (this.newEventForm.invalid) {
+      Object.keys(this.newEventForm.controls).forEach((key) => {
+        this.newEventForm.controls[key].touched = true;
+        this.newEventForm.controls[key].markAsDirty();
+      });
+      return;
+    }
     const preparedEventObj: any = this.prepareEventObj(this.newEventForm.value);
     if (!this.validate(preparedEventObj)) {
       return;
@@ -122,6 +129,13 @@ export class AddEditEventDialogComponent implements OnInit {
   }
 
   updateEvent(): any {
+    if (this.newEventForm.invalid) {
+      Object.keys(this.newEventForm.controls).forEach((key) => {
+        this.newEventForm.controls[key].touched = true;
+        this.newEventForm.controls[key].markAsDirty();
+      });
+      return;
+    }
     const preparedEventObj: any = this.prepareEventObj(this.newEventForm.value, true);
     if (!this.validate(preparedEventObj)) {
       return;

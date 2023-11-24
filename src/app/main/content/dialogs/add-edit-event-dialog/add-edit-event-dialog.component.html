@@ -15,6 +15,16 @@
           <div class="w-full block">
             <label class="input-titel">{{'eventName' | translate}}?</label>
             <input [formControlName]="'name'" class="input option rounded-lg w-full py-3 px-4 focus-visible:outline-none" type="text"/>
+            <span class="top-full text-red-500 text-xs" *ngIf="newEventForm.get('name')?.invalid && (newEventForm.get('name')?.dirty && newEventForm.get('name')?.touched)">
+              <span *ngIf="newEventForm.get('name')?.errors?.['required']">
+                Event Name is required.
+              </span>
+            </span>
+            <span class="top-full text-red-500 text-xs" *ngIf="newEventForm.get('name')?.invalid && (newEventForm.get('name')?.dirty && newEventForm.get('name')?.touched)">
+              <span *ngIf="newEventForm.get('name')?.errors?.['maxlength']">
+                Your Event Name cannot exceed 30 characters.
+              </span>
+            </span>
           </div>
           <div>
             <label class="input-titel">{{'eventType' | translate}}?</label>

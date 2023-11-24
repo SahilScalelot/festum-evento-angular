@@ -606,7 +606,7 @@ export class AddEditShopOfferDialogComponent implements OnInit {
     this.addEditOfferForm = this._formBuilder.group({
       shopid: [this.shopId || ''],
       offerid: [this.offerId || ''],
-      offer_title: [offerObj?.offer_title || '', [Validators.required]],
+      offer_title: [offerObj?.offer_title || '', [Validators.required, Validators.maxLength(30)]],
       start_date: [(offerObj.start_date) ? new Date(offerObj.start_date) : '', [Validators.required]],
       end_date: [(offerObj.end_date) ? new Date(offerObj.end_date) : '', [Validators.required]],
       poster: [offerObj?.poster || '', [Validators.required]],
