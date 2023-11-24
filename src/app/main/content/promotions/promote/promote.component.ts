@@ -79,29 +79,35 @@ export class PromoteComponent implements OnInit {
     return new Array(this.totalUsersCount ? (Math.ceil((this.totalUsersCount + 1) / this.usersSelectionLimit)) : 0);
   }
   generateArray(upperLimit: number): number[] {
-    let increment: number;
-
-    if (upperLimit >= 0 && upperLimit <= 50) {
-      increment = 5;
-    } else if (upperLimit >= 50 && upperLimit <= 100) {
-      increment = 10;
-    } else if(upperLimit >= 100 && upperLimit <= 200) {
-      increment = 20;
-    } else if(upperLimit >= 200 && upperLimit <= 500) {
-      increment = 25;
-    } else if(upperLimit >= 500 && upperLimit <= 1000) {
-      increment = 50;
-    } else if(upperLimit >= 1000 && upperLimit <= 5000) {
-      increment = 100;
-    } else {
-      increment = 200;
-    }
+    let increment: number = 500;
     const resultArray: number[] = [];
-
-    for (let i = increment; i < upperLimit; i += increment) {
-      resultArray.push(i);
+    if (upperLimit <= 500) {
+      resultArray.push(upperLimit);
+    } else {
+      for (let i = increment; i < upperLimit; i += increment) {
+        resultArray.push(i);
+      }
+      resultArray.push(upperLimit);
     }
-     resultArray.push(upperLimit);
+    // if (upperLimit >= 0 && upperLimit <= 50) {
+    //   increment = 5;
+    // } else if (upperLimit >= 50 && upperLimit <= 100) {
+    //   increment = 10;
+    // } else if(upperLimit >= 100 && upperLimit <= 200) {
+    //   increment = 20;
+    // } else if(upperLimit >= 200 && upperLimit <= 500) {
+    //   increment = 25;
+    // } else if(upperLimit >= 500 && upperLimit <= 1000) {
+    //   increment = 50;
+    // } else if(upperLimit >= 1000 && upperLimit <= 5000) {
+    //   increment = 100;
+    // } else {
+    //   increment = 200;
+    // }
+
+
+
+
     return resultArray;
   }
   getNotificationById(): void {
