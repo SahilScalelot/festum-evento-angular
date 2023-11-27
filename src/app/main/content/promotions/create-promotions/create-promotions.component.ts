@@ -204,6 +204,10 @@ export class CreatePromotionsComponent implements OnInit {
     this.selectedEmailTemplateContent = this.EmailTemplatesList.find(function(item: any) {
       return item._id == selectedEmailTemplateId;
     });
+    const selectedSMSTemplateId = this.notificationForm.value?.smstemplate;
+    this.selectedSMSTemplateContent = this.SMSTemplatesList.find(function(item: any) {
+      return item._id == selectedSMSTemplateId;
+    });
     //console.log(this.selectedEmailTemplateContent);
     //console.log(this.notificationForm.value);
     this._modalService.open("notification-pop");

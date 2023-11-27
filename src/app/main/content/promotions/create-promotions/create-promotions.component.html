@@ -182,8 +182,14 @@
               <p class="text-gray-400 text-base pt-3 font-medium normal-case" [innerHtml]="notificationForm.value?.description"></p>
             </div>
           </div>
-          <div class="flex">
-            <div class="w-full inputHolder relative pb-0.5 mb-2" *ngIf="notificationForm.value?.is_email">
+          <div class="flex" *ngIf="notificationForm.value?.is_sms">
+            <div class="w-full inputHolder relative pb-0.5 mb-2">
+              <span class="input-titel">SMS Template:</span>
+              <p id="smsPreview">{{selectedSMSTemplateContent.smsContent}}</p>
+            </div>
+          </div>
+          <div class="flex" *ngIf="notificationForm.value?.is_email">
+            <div class="w-full inputHolder relative pb-0.5 mb-2">
               <span class="input-titel">Email Template:</span>
               <div id="emailPreview" [innerHtml]="selectedEmailTemplateContent?.htmlContent"></div>
             </div>
