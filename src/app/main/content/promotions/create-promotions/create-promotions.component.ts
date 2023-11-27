@@ -195,6 +195,8 @@ export class CreatePromotionsComponent implements OnInit {
   }
 
   openPreviewNotification(): any {
+    this.updateEmail();
+    this.updateSMS();
     if (!this.validateForm()) {
       return false;
     }
@@ -202,8 +204,8 @@ export class CreatePromotionsComponent implements OnInit {
     this.selectedEmailTemplateContent = this.EmailTemplatesList.find(function(item: any) {
       return item._id == selectedEmailTemplateId;
     });
-    console.log(this.selectedEmailTemplateContent);
-    console.log(this.notificationForm.value);
+    //console.log(this.selectedEmailTemplateContent);
+    //console.log(this.notificationForm.value);
     this._modalService.open("notification-pop");
   }
 
