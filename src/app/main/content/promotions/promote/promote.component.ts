@@ -105,9 +105,6 @@ export class PromoteComponent implements OnInit {
     //   increment = 200;
     // }
 
-
-
-
     return resultArray;
   }
   getNotificationById(): void {

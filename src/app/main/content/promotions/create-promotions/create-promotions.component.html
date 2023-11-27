@@ -33,7 +33,7 @@
             <span class="input-titel">{{'Date' | translate }}<span>*</span></span>
             <label class="bg-white rounded-md flex space-x-3 relative">
               <i class="icon-calendar-2 text-quicksilver flex items-center pr-5 absolute right-0 inset-y-0 z-10"></i>
-              <p-calendar class="w-full" styleClass="w-full" [formControlName]="'notification_date'" name="date" [minDate]="minDateValue" [dateFormat]="'dd/mm/yy'" [readonlyInput]="true" inputId="date"></p-calendar>
+              <p-calendar class="w-full" styleClass="w-full" [formControlName]="'notification_date'" name="notification_date" [minDate]="minDateValue" [dateFormat]="'dd/mm/yy'" [readonlyInput]="true" inputId="notification_date" appendTo="body"></p-calendar>
             </label>
             <span class="absolute top-full text-red-500 text-xs" *ngIf="notificationForm.get('notification_date')?.invalid && (notificationForm.get('notification_date')?.dirty && notificationForm.get('notification_date')?.touched)">
                 <span *ngIf="notificationForm.get('notification_date')?.errors?.['required']">
