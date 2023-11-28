@@ -124,7 +124,11 @@
         <!--</div>-->
 
         <div class="w-full mb-7" *ngIf="promoteForm.controls['usertype'].value === 'excelusers' ">
-          <span class="input-titel">Select User   ({{selectedCustomers}})</span>
+          <div class="flex items-end justify-between">
+            <span class="input-titel py-3">Select User   ({{selectedCustomers}})</span>
+            <div class="max-w-max ml-auto text-base font-bold text-japaneseIndigo py-3 px-8 rounded-md">Total User: <span>{{totalUsers}}</span>
+            </div>
+          </div>
           <div class="flex flex-wrap lg:flex-nowrap lg:space-x-12 pt-5">
             <div class="w-full lg:w-1/2 relative">
               <div class="space-y-3 max-h-[540px] overflow-y-auto">
@@ -154,8 +158,13 @@
                 </div>
               </div>
             </div>
-            <div class="w-full lg:w-1/2 pt-5 lg:pt-0">
-              <div class="max-w-max ml-auto text-base font-bold text-japaneseIndigo bg-white py-3 px-8 rounded-md">Total User: <span>{{totalUsers}}</span>
+            <div class="w-full lg:w-1/2 pt-5 lg:pt-0 relative">
+              <div class="space-y-3 max-h-[540px] overflow-y-auto">
+                <div class="flex items-center bg-white rounded-md cursor-pointer w-full px-4 py-3" *ngFor="let importedUser of allImportedRejectedUsers; let i = index">
+                  <div class="flex items-center ml-4">
+                    <span class="text-red-500 text-xs font-bold">{{importedUser?.customer?.FullName}} {{importedUser?.message}}</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

@@ -24,6 +24,7 @@ export class PromoteComponent implements OnInit {
   settingObj: any = {};
   allPromotionPlans: any = [];
   allImportedUsers: any = [];
+  allImportedRejectedUsers: any = [];
   userSelectionRange: any = [];
   isAllUserSelected: boolean = false;
   isExistingUserSelected: boolean = false;
@@ -227,7 +228,7 @@ export class PromoteComponent implements OnInit {
         }
         this.selectedCustomers = result.Data.totalselectedcustomers;
         this.promoteForm.get('selectedusers').setValue(Number(this.selectedCustomers));
-        
+
         this.pageObj = this._globalFunctions.copyObject(result.Data);
         this.totalUsers = this.pageObj.totalDocs;
         this.numberOfUsers = this.selectedCustomers;
@@ -247,6 +248,7 @@ export class PromoteComponent implements OnInit {
   uploadUserCSV(event: any): any {
     if (event.target.files && event.target.files[0]) {
       this.isUploadCSVLoading = true;
+      this.allImportedRejectedUsers = [];
       const file = event.target.files[0];
       if (file.type != 'text/csv' && file.type != 'text/xml' && file.type != 'text/xls' && file.type != 'text/xlsx') {
         this._sNotify.error('File type is Invalid.', 'Oops!');
@@ -262,6 +264,7 @@ export class PromoteComponent implements OnInit {
             this._sNotify.success(result.Data.importCount + ' Number of user records uploaded successfully.', 'Success');
           }
           if (result.Data.rejectedCount && result.Data.rejectedCount > 0) {
+            this.allImportedRejectedUsers = result.Data.rejectedRecords;
             this._sNotify.error(result.Data.rejectedCount + ' Number of user records rejected.', 'Oops');
           }
           this.pageObj = {};
@@ -495,7 +498,7 @@ export class PromoteComponent implements OnInit {
     this.isLoading = true;
     let options:any = {
       key: "rzp_test_TYPb3cPjWHwjBY",
-      amount: this.promoteForm.value.total_cost * 100,
+      amount: Number(this.promoteForm.value.total_cost * 100).toFixed(2),
       currency: 'INR',
       name: "Festum Evento Pvt Ltd.",
       description: "dummy data",
