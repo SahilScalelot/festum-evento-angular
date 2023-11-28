@@ -227,8 +227,7 @@ export class PromoteComponent implements OnInit {
         }
         this.selectedCustomers = result.Data.totalselectedcustomers;
         this.promoteForm.get('selectedusers').setValue(Number(this.selectedCustomers));
-        console.log(this.selectedCustomers);
-        console.log(this.promoteForm.value);
+        
         this.pageObj = this._globalFunctions.copyObject(result.Data);
         this.totalUsers = this.pageObj.totalDocs;
         this.numberOfUsers = this.selectedCustomers;
@@ -409,13 +408,12 @@ export class PromoteComponent implements OnInit {
     const isNotify = (this.notificationObj && this.notificationObj.is_notification);
     const isNotifyBySMS = (this.notificationObj && this.notificationObj.is_sms);
     const isNotifyByEmail = (this.notificationObj && this.notificationObj.is_email);
-    console.log(this.numberOfUsers);
+
     this.calculateTotalObj.notificationTotal = (isNotify) ? Number(this.numberOfUsers) * Number(this.settingObj.notificationcost) : 0;
     this.calculateTotalObj.smsTotal = (isNotifyBySMS) ? Number(this.numberOfUsers) * Number(this.settingObj.smscost) : 0;
     this.calculateTotalObj.emailTotal = (isNotifyByEmail) ? Number(this.numberOfUsers) * Number(this.settingObj.emailcost) : 0;
     this.calculateTotalObj.subTotal = _.sum([this.calculateTotalObj.notificationTotal, this.calculateTotalObj.smsTotal, this.calculateTotalObj.emailTotal]);
-//console.log('test here');
-console.log(this.calculateTotalObj);
+
     this.promoteForm.get('notification_cost').setValue(Number(this.calculateTotalObj.notificationTotal.toFixed(2)));
     this.promoteForm.get('sms_cost').setValue(Number(this.calculateTotalObj.smsTotal.toFixed(2)));
     this.promoteForm.get('email_cost').setValue(Number(this.calculateTotalObj.emailTotal.toFixed(2)));
@@ -478,9 +476,12 @@ console.log(this.calculateTotalObj);
   }
 
   payNow(): any {
-    console.log(this.promoteForm.value);
     if (this.promoteForm.value.usertype === 'excelusers' && !this.promoteForm.value.is_selected_all && this.promoteForm.value.selectedusers === 0) {
       this.isSelectExcelUserError = true;
+      return false;
+    }
+    if (this.promoteForm.value.usertype === 'excelusers' && this.promoteForm.value.total_cost <= 1) {
+      this._sNotify.error('Please Select at least 3 user & Minimum total amount is 1₹.', 'Success');
       return false;
     }
     if (!this.validateForm()) {
@@ -490,7 +491,7 @@ console.log(this.calculateTotalObj);
     if (this.isLoading) {
       return false;
     }
-    console.log(this.promoteForm.value);
+
     this.isLoading = true;
     let options:any = {
       key: "rzp_test_TYPb3cPjWHwjBY",
@@ -507,13 +508,12 @@ console.log(this.calculateTotalObj);
       }
     };
     options.handler = ((response: any) => {
-      console.log(response);
       options['payment_response_id'] = response.razorpay_payment_id;
       this.promoteForm.get('payment_id').setValue(response.razorpay_payment_id);
       this._promoteService.processPayment(this.promoteForm.value).subscribe((result: any) => {
         if (result && result.IsSuccess) {
-          console.log(result);
           this._sNotify.success('Payment Successfully.', 'Success');
+          this._router.navigate(['/promotions']);
           this.isLoading = false;
         } else {
           this._globalFunctions.successErrorHandling(result, this, true);
@@ -525,7 +525,6 @@ console.log(this.calculateTotalObj);
       });
     });
     options.modal.ondismiss = ((response: any) => {
-      console.log(response);
       this.isLoading = false;
     });
     let rzp = new this.winRef.nativeWindow.Razorpay(options);
