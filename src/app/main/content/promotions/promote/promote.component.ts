@@ -38,7 +38,9 @@ export class PromoteComponent implements OnInit {
   isCouponLoading: boolean = false;
   selectedCoupon: any = '';
   numberOfUsers: any = 0;
+  selectedCustomers: any = 0;
   isLoading: boolean = false;
+  isUserCheckLoading: boolean = false;
   isSelectExcelUserError: boolean = false;
   pageObj: any = {};
 
@@ -168,7 +170,7 @@ export class PromoteComponent implements OnInit {
         } else if (userType === 'allusers') {
           this.totalUsers = result.Data.totalusers;
         } else if (userType === 'excelusers') {
-          this.totalUsers = 0;
+          //this.totalUsers = 0;
           this.allImportedUsers = [];
           this.pageObj.nextPage = 1;
           this.getImportedUsersList();
@@ -223,15 +225,16 @@ export class PromoteComponent implements OnInit {
         } else {
           this.allImportedUsers = this._globalFunctions.copyObject(result.Data.docs);
         }
-        // if (this.allImportedUsers && this.allImportedUsers.length && !(localStorage.getItem('selectAll'))) {
-        //   this.allImportedUsers = _.map(this.allImportedUsers, (importedUser: any) => {
-        //     return {...importedUser, selected: false};
-        //   });
-        // }
+        this.selectedCustomers = result.Data.totalselectedcustomers;
+        this.promoteForm.get('selectedusers').setValue(Number(this.selectedCustomers));
+        console.log(this.selectedCustomers);
+        console.log(this.promoteForm.value);
         this.pageObj = this._globalFunctions.copyObject(result.Data);
         this.totalUsers = this.pageObj.totalDocs;
+        this.numberOfUsers = this.selectedCustomers;
         delete this.pageObj.docs;
         this.isLoading = false;
+        this.calculatePrice();
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
         this.isLoading = false;
@@ -266,6 +269,7 @@ export class PromoteComponent implements OnInit {
           this.allImportedUsers = [];
           this.getImportedUsersList();
           this.isUploadCSVLoading = false;
+          this.isSelectExcelUserError = false;
         } else {
           this._globalFunctions.successErrorHandling(result, this, true);
           this.isUploadCSVLoading = false;
@@ -301,6 +305,7 @@ export class PromoteComponent implements OnInit {
             this.promoteForm.get('selectedusers').setValue(0);
             this.calculatePrice();
           }
+          this.selectedCustomers = result.Data.totalSelected_users;
           this.isLoading = false;
         } else {
           this._globalFunctions.successErrorHandling(result, this, true);
@@ -315,7 +320,7 @@ export class PromoteComponent implements OnInit {
 
   onCheckboxChange(importedUser: any, index: number): void {
     if (importedUser && importedUser._id) {
-      this.isLoading = true;
+      this.isUserCheckLoading = true;
       const prepareCheckUserObj: any = {
         notificationid: this.nId,
         userid: importedUser._id,
@@ -331,16 +336,17 @@ export class PromoteComponent implements OnInit {
             localStorage.removeItem('selectAll');
           }
           this.numberOfUsers = result.Data.totalSelected_users;
+          this.selectedCustomers = result.Data.totalSelected_users;
           this.promoteForm.get('selectedusers').setValue(Number(result.Data.totalSelected_users));
           this.calculatePrice();
-          this.isLoading = false;
+          this.isUserCheckLoading = false;
         } else {
           this._globalFunctions.successErrorHandling(result, this, true);
-          this.isLoading = false;
+          this.isUserCheckLoading = false;
         }
       }, (error: any) => {
         this._globalFunctions.errorHanding(error, this, true);
-        this.isLoading = false;
+        this.isUserCheckLoading = false;
       });
     }
   }
@@ -403,13 +409,13 @@ export class PromoteComponent implements OnInit {
     const isNotify = (this.notificationObj && this.notificationObj.is_notification);
     const isNotifyBySMS = (this.notificationObj && this.notificationObj.is_sms);
     const isNotifyByEmail = (this.notificationObj && this.notificationObj.is_email);
-
+    console.log(this.numberOfUsers);
     this.calculateTotalObj.notificationTotal = (isNotify) ? Number(this.numberOfUsers) * Number(this.settingObj.notificationcost) : 0;
     this.calculateTotalObj.smsTotal = (isNotifyBySMS) ? Number(this.numberOfUsers) * Number(this.settingObj.smscost) : 0;
     this.calculateTotalObj.emailTotal = (isNotifyByEmail) ? Number(this.numberOfUsers) * Number(this.settingObj.emailcost) : 0;
     this.calculateTotalObj.subTotal = _.sum([this.calculateTotalObj.notificationTotal, this.calculateTotalObj.smsTotal, this.calculateTotalObj.emailTotal]);
 //console.log('test here');
-///console.log(this.calculateTotalObj);
+console.log(this.calculateTotalObj);
     this.promoteForm.get('notification_cost').setValue(Number(this.calculateTotalObj.notificationTotal.toFixed(2)));
     this.promoteForm.get('sms_cost').setValue(Number(this.calculateTotalObj.smsTotal.toFixed(2)));
     this.promoteForm.get('email_cost').setValue(Number(this.calculateTotalObj.emailTotal.toFixed(2)));
@@ -472,7 +478,8 @@ export class PromoteComponent implements OnInit {
   }
 
   payNow(): any {
-    if (this.promoteForm.value.usertype === 'excelusers' && !this.promoteForm.value.is_selected_all && this.promoteForm.value.selectedusers === '') {
+    console.log(this.promoteForm.value);
+    if (this.promoteForm.value.usertype === 'excelusers' && !this.promoteForm.value.is_selected_all && this.promoteForm.value.selectedusers === 0) {
       this.isSelectExcelUserError = true;
       return false;
     }
@@ -483,7 +490,7 @@ export class PromoteComponent implements OnInit {
     if (this.isLoading) {
       return false;
     }
-    console.log(this.promoteForm.value)
+    console.log(this.promoteForm.value);
     this.isLoading = true;
     let options:any = {
       key: "rzp_test_TYPb3cPjWHwjBY",

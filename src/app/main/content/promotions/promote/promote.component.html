@@ -124,11 +124,11 @@
         <!--</div>-->
 
         <div class="w-full mb-7" *ngIf="promoteForm.controls['usertype'].value === 'excelusers' ">
-          <span class="input-titel">Select User</span>
+          <span class="input-titel">Select User  {{selectedCustomers}}</span>
           <div class="flex flex-wrap lg:flex-nowrap lg:space-x-12 pt-5">
             <div class="w-full lg:w-1/2 relative">
               <div class="space-y-3 max-h-[540px] overflow-y-auto">
-                <p-progressSpinner *ngIf="isLoading" [style]="{width: '50px', height: '50px'}" animationDuration=".5s" strokeWidth="8" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-x-0 top-0 h-full w-full z-40" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
+                <p-progressSpinner *ngIf="isUserCheckLoading" [style]="{width: '50px', height: '50px'}" animationDuration=".5s" strokeWidth="8" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-x-0 top-0 h-full w-full z-40" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
                 <div class="flex items-center bg-white rounded-md cursor-pointer w-full px-4 py-3 sticky top-0 z-10 shadow">
                   <label class="checkbox w-8 h-8 " for="is_selected_all">
                     <input type="checkbox" class="bgbrightgray" name="is_selected_all" id="is_selected_all" [formControlName]="'is_selected_all'" (click)="onSelectAllChecked($event)"/>
