@@ -96,6 +96,9 @@ export class CreatePromotionsComponent implements OnInit {
     this._promotionsService.getNotificationById(notificationId).subscribe((result: any) => {
       if (result && result.IsSuccess) {
         const notificationObj: any = result?.Data || {};
+        this.sourceId = notificationObj.entityid;
+        this.sourceType = notificationObj.entitytype;
+        this.getTemplateList();
         this._prepareNotificationForm(notificationObj || {});
         if (notificationObj.banner) {
           this.inputText = _.last(_.split(notificationObj.banner, '/'));

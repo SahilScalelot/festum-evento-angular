@@ -113,7 +113,7 @@
         <div class="w-full md:w-1/2 px-2 inputHolder relative pb-0.5 mb-7" *ngIf="notificationForm.controls['is_email'].value">
           <span class="input-titel">Email Template<span>*</span></span>
           <select class="bg-white rounded-md flex space-x-3 outline-0 px-6 py-3 relative arrow" [formControlName]="'emailtemplate'">
-            <option value=""></option>
+            <option value="">Please Select Email Template</option>
             <option *ngFor="let tmp of EmailTemplatesList" [value]="tmp._id">{{tmp.title}}</option>
           </select>
           <span class="absolute top-full text-red-500 text-xs ml-0" *ngIf="notificationForm.get('emailtemplate')?.invalid && (notificationForm.get('emailtemplate')?.dirty && notificationForm.get('emailtemplate')?.touched)">
@@ -125,7 +125,7 @@
         <div class="w-full md:w-1/2 px-2 inputHolder relative pb-0.5 mb-7" *ngIf="notificationForm.controls['is_sms'].value">
           <span class="input-titel">SMS Template<span>*</span></span>
           <select class="bg-white rounded-md flex space-x-3 outline-0 px-6 py-3 relative arrow" [formControlName]="'smstemplate'">
-            <option value=""></option>
+            <option value="">Please Select SMS Template</option>
             <option *ngFor="let smsObj of SMSTemplatesList" [value]="smsObj._id">{{smsObj.title}}</option>
           </select>
           <span class="absolute top-full text-red-500 text-xs ml-0" *ngIf="notificationForm.get('smstemplate')?.invalid && (notificationForm.get('smstemplate')?.dirty && notificationForm.get('smstemplate')?.touched)">
@@ -173,7 +173,7 @@
             </div>
             <div class="w-full md:w-1/2 inputHolder relative pb-0.5 mb-2">
               <span class="input-titel">{{'Time' | translate }}:</span>
-              <p class="text-gray-400 text-base pt-1 font-medium normal-case">{{moment(notificationForm.value?.notification_time).format('HH:mm')}}</p>
+              <p class="text-gray-400 text-base pt-1 font-medium normal-case">{{moment(notificationForm.value?.notification_time, "HH:mm", true).isValid() ? notificationForm.value?.notification_time : moment(notificationForm.value?.notification_time).format('HH:mm')}}</p>
             </div>
           </div>
           <div class="flex">

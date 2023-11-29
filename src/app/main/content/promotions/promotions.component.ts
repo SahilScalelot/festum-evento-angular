@@ -39,7 +39,10 @@ export class PromotionsComponent implements OnInit {
     localStorage.setItem('entityType', this.sourceType);
     this._router.navigate(['/promotions/create']);
   }
-
+  editNotification(notificationId: any = ''): void {
+    localStorage.setItem('nId', notificationId);
+    this._router.navigate(['/promotions/create']);
+  }
   promoteNotification(notificationId: any = ''): void {
     localStorage.setItem('nId', notificationId);
     this._router.navigate(['/promotions/promote']);
