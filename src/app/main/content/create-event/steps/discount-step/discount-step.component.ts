@@ -123,7 +123,7 @@ export class DiscountStepComponent implements OnInit {
       const preparedDiscountObj: any = this.prepareDiscountObj(this.selectedDiscountTypes);
       this._createEventService.createDiscount(preparedDiscountObj).subscribe((result: any) => {
         if (result && result.IsSuccess) {
-          this._router.navigate(['/events/create/company-details']);
+          this._router.navigate(['/events/create/terms-and-conditions']);
         } else {
           this._globalFunctions.successErrorHandling(result, this, true);
         }
@@ -133,7 +133,7 @@ export class DiscountStepComponent implements OnInit {
         this.isLoading = false;
       });
     } else {
-      this._router.navigate(['/events/create/company-details']);
+      this._router.navigate(['/events/create/terms-and-conditions']);
     }
   }
 

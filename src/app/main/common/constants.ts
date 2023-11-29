@@ -281,14 +281,14 @@ export const CONSTANTS = {
       label: 'Discount',
       routerLink: 'discount'
     },
-    {
-      label: 'Company Details',
-      routerLink: 'company-details'
-    },
-    {
-      label: 'Personal Details',
-      routerLink: 'personal-details'
-    },
+    // {
+    //   label: 'Company Details',
+    //   routerLink: 'company-details'
+    // },
+    // {
+    //   label: 'Personal Details',
+    //   routerLink: 'personal-details'
+    // },
     {
       label: 'Terms & Conditions',
       routerLink: 'terms-and-conditions'

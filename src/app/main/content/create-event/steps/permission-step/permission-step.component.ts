@@ -155,7 +155,7 @@ export class PermissionStepComponent implements OnInit {
           this._router.navigate(['/events/create/discount']);
         } else {
           this._globalService.isHideDiscountitem$.next(true);
-          this._router.navigate(['/events/create/company-details']);
+          this._router.navigate(['/events/create/terms-and-conditions']);
         }       
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
