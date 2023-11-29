@@ -48,6 +48,7 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
   isDeleteLoading: boolean = false;
   isSaveLoading: boolean = false;
   isPlatformLoading: boolean = false;
+  tandcFormStatus: boolean = false;
   successfully: boolean = false;
   // minDateValue: any = new Date();
   minDateValue: any = new Date(new Date().setDate(new Date().getDate() + 2));
@@ -429,6 +430,11 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
     preparedOnlineShopOfferObj.company_contact_no = contactNumber.replace(preparedOnlineShopOfferObj.dial_code, '') || '';
     return preparedOnlineShopOfferObj;
   }
+  checkCondition(event: any) {
+    if(event.target.checked) {
+      this.tandcFormStatus = false;
+    }
+  }
 
   addEditOnlineShopOffer(): any {
     if (!this.validateForm(true)) {
@@ -444,7 +450,7 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
       return;
     }
 
-    if (this.tandcForm?.value?.status != '') {
+    if (this.tandcForm?.value?.status) {
 
     const preparedOnlineShopOfferObj: any = this.prepareOfferObj(this.addEditOfferForm.value);
     console.log(preparedOnlineShopOfferObj);
@@ -468,7 +474,9 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
       this._globalFunctions.errorHanding(error, this, true);
       this.isSaveLoading = false;
     });
-  }
+  } else {
+     this.tandcFormStatus = true;
+    }
 }
 
   addProductLink(tempPlatformObj: any = {}): void {
@@ -615,12 +623,7 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
       poster: [addEditOfferObj?.poster || '', [Validators.required]],
       images: [addEditOfferObj?.images || '', [Validators.required]],
       description: [addEditOfferObj?.description || ''],
-      product_links: this._formBuilder.array([]),
-      company_name: [addEditOfferObj?.company_name || '', [Validators.required]],
-      company_gst: [addEditOfferObj?.company_gst || ''],
-      // company_contact_no: [addEditOfferObj?.company_contact_no || '', [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
-      company_email: [addEditOfferObj?.company_email || '', [Validators.required,Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
-      about_company: [addEditOfferObj?.about_company || '']
+      product_links: this._formBuilder.array([])
     });
     if (addEditOfferObj && addEditOfferObj.product_links) {
       _.each(addEditOfferObj.product_links, (platformObj: any) => {
@@ -638,15 +641,15 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
       pinterest: [addEditOfferObj?.tandc?.pinterest || ''],
       instagram: [addEditOfferObj?.tandc?.instagram || ''],
       linkedin: [addEditOfferObj?.tandc?.linkedin || ''],
-      status: [false, [Validators.requiredTrue]],
+      status: [false]
     });
 
     if (addEditOfferObj?.description) {
       this.editorCharacterSet('description');
     }
-    if (addEditOfferObj?.about_company) {
-      this.editorCharacterSet('company');
-    }
+    // if (addEditOfferObj?.about_company) {
+    //   this.editorCharacterSet('company');
+    // }
     if (addEditOfferObj?.tandc?.t_and_c) {
       this.editorCharacterSet('tc');
     }

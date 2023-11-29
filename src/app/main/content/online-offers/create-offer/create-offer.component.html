@@ -1,5 +1,5 @@
 <div class="wrapper">
-  <div class="h-full">
+  <div class="h-full mb-7">
     <!-- title-holder  -->
     <div class="flex justify-between items-center">
       <a href="javascript:void(0);" class="flex items-center"  routerLink="/online-offers">
@@ -205,78 +205,72 @@
             <!-- </div> -->
           </div>
         </div> 
-        <div class="w-full lg:w-1/2 px-2 pt-5 inputHolder relative">
-          <span class="input-titel">{{'Company Name' | translate }}<span>*</span></span>
-          <input type="text" name="company_name" formControlName="company_name" class="input" />
-          <span class="absolute top-full text-red-500 text-xs" *ngIf="addEditOfferForm.get('company_name')?.invalid && (addEditOfferForm.get('company_name')?.dirty && addEditOfferForm.get('company_name')?.touched)">
-            <span *ngIf="addEditOfferForm.get('company_name')?.errors?.['required']">
-              Company name is required.
-            </span>
-          </span>
-        </div>
-        <div class="w-full lg:w-1/2 px-2 pt-5 inputHolder relative group">
-          <span class="input-titel">{{'Company GST' | translate }}({{'optional' | translate }})</span>
-          <p-progressSpinner *ngIf="isPdfLoading" [style]="{width: '20px', height: '20px'}" animationDuration=".5s" strokeWidth="4" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-x-1 bottom-0 top-10 z-20" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
-          <label class="upload upload-popup py-3">
-            <input (change)="onChangePDF($event)" accept="application/pdf" class="appearance-none hidden" id="company_gst" name="images" type="file"/>
-            <span class="input-titel text-base p-0">
-              <i class="icon-pdf_upload mr-2"></i> 
-              <span class="normal-case">{{inputText ? inputText : 'Upload PDF'}}</span>
-            </span>
-          </label>
-          <a *ngIf="inputText" class="absolute right-4 bottom-3 py-0.5 px-2 normal-case text-gray-400 anim hover:text-magicPotion text-sm font-semibold hidden border border-current group-hover:inline-block" [href]="constants.baseImageURL + companyGST.value" target="_blank" title="View File">View</a>
-          <span class="absolute top-full text-red-500 text-xs" *ngIf="isInValidPDF">
-            Please upload only PDF file. 
-          </span>
-        </div>
-        <div class="w-full lg:w-1/2 px-2 pt-5 inputHolder relative">
-          <span class="input-titel">{{'Company Contact No' | translate }}<span>*</span></span>
-          <!-- <input type="tel" name="company_contact_no" formControlName="company_contact_no" class="input" fuseValidNumber /> -->
-          <!-- <span class="absolute top-full text-red-500 text-xs" *ngIf="addEditOfferForm.get('company_contact_no')?.invalid && addEditOfferForm.get('company_contact_no')?.dirty && addEditOfferForm.get('company_contact_no')?.touched">
-            <span *ngIf="addEditOfferForm.get('company_contact_no')?.errors?.['required']">Company contact number is required.</span>
-            <span *ngIf="addEditOfferForm.get('company_contact_no')?.errors?.['pattern']">Please enter valid company contact number.</span>
-          </span> -->
-          <div #phoneF="ngForm" [formGroup]="phoneForm">
-            <ngx-intl-tel-input
-              [cssClass]="'w-full'"
-              [preferredCountries]="preferredCountries"
-              [enableAutoCountrySelect]="true"
-              [enablePlaceholder]="true"
-              [searchCountryFlag]="true"
-              [searchCountryField]="[
-                SearchCountryField.Iso2,
-                SearchCountryField.Name
-              ]"
-              [selectFirstCountry]="false"
-              [selectedCountryISO]="CountryISO.India"
-              [maxLength]="15"
-              [phoneValidation]="true"
-              [separateDialCode]="true"
-              [numberFormat]="PhoneNumberFormat.National"
-              name="phone"
-              formControlName="phone"
-            >
-            </ngx-intl-tel-input>
-          </div>
-          <span class="absolute top-full text-red-500 text-xs left-2" *ngIf="phoneF.form.controls['phone'].touched && phoneF.form.controls['phone'].invalid">
-            Please enter valid Contact Number & required.
-          </span>
-        </div>
-        <div class="w-full lg:w-1/2 px-2 pt-5 inputHolder relative">
-          <span class="input-titel">{{'Company Email' | translate }}<span>*</span></span>
-          <input type="email" name="company_email" formControlName="company_email" class="input" />
-          <span class="absolute top-full text-red-500 text-xs" *ngIf="addEditOfferForm.get('company_email')?.invalid && addEditOfferForm.get('company_email')?.dirty && addEditOfferForm.get('company_email')?.touched">
-            <span *ngIf="addEditOfferForm.get('company_email')?.errors?.['required']">Company email is required.</span>
-            <span *ngIf="addEditOfferForm.get('company_email')?.errors?.['pattern']">Please enter valid email.</span>
-          </span>
-        </div>
-        <div class="w-full px-2 pt-5">
-          <span class="input-titel">{{'About Our Company' | translate }} <i class="text-xs font-medium" [ngClass]="{'text-magicPotion' : comDescTextEditor}">( {{comDescTextEditorLimit}} characters out of {{comDescTextEditorMaxLimit}} )</i></span>
-          <div class="w-full bg-white rounded">
-            <ckeditor (ready)="onTextEditorReady($event, 'about_company')" (keyup)="editorCharacterSet('company')" [config]="editorConfig" [editor]="detailEditor" [formControlName]="'about_company'" class="h-44 text-editor" id="about_company" name="about_company"></ckeditor>
-          </div>
-          <!-- <textarea name="about_company" formControlName="about_company" cols="30" rows="4" class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md placeholder:text-sm placeholder:text-[#a6a6a6] placeholder:font-bold"></textarea> -->
-        </div>
+        <!--<div class="w-full lg:w-1/2 px-2 pt-5 inputHolder relative">-->
+          <!--<span class="input-titel">{{'Company Name' | translate }}<span>*</span></span>-->
+          <!--<input type="text" name="company_name" formControlName="company_name" class="input" />-->
+          <!--<span class="absolute top-full text-red-500 text-xs" *ngIf="addEditOfferForm.get('company_name')?.invalid && (addEditOfferForm.get('company_name')?.dirty && addEditOfferForm.get('company_name')?.touched)">-->
+            <!--<span *ngIf="addEditOfferForm.get('company_name')?.errors?.['required']">-->
+              <!--Company name is required.-->
+            <!--</span>-->
+          <!--</span>-->
+        <!--</div>-->
+        <!--<div class="w-full lg:w-1/2 px-2 pt-5 inputHolder relative group">-->
+          <!--<span class="input-titel">{{'Company GST' | translate }}({{'optional' | translate }})</span>-->
+          <!--<p-progressSpinner *ngIf="isPdfLoading" [style]="{width: '20px', height: '20px'}" animationDuration=".5s" strokeWidth="4" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-x-1 bottom-0 top-10 z-20" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>-->
+          <!--<label class="upload upload-popup py-3">-->
+            <!--<input (change)="onChangePDF($event)" accept="application/pdf" class="appearance-none hidden" id="company_gst" name="images" type="file"/>-->
+            <!--<span class="input-titel text-base p-0">-->
+              <!--<i class="icon-pdf_upload mr-2"></i> -->
+              <!--<span class="normal-case">{{inputText ? inputText : 'Upload PDF'}}</span>-->
+            <!--</span>-->
+          <!--</label>-->
+          <!--<a *ngIf="inputText" class="absolute right-4 bottom-3 py-0.5 px-2 normal-case text-gray-400 anim hover:text-magicPotion text-sm font-semibold hidden border border-current group-hover:inline-block" [href]="constants.baseImageURL + companyGST.value" target="_blank" title="View File">View</a>-->
+          <!--<span class="absolute top-full text-red-500 text-xs" *ngIf="isInValidPDF">-->
+            <!--Please upload only PDF file. -->
+          <!--</span>-->
+        <!--</div>-->
+        <!--<div class="w-full lg:w-1/2 px-2 pt-5 inputHolder relative">-->
+          <!--<span class="input-titel">{{'Company Contact No' | translate }}<span>*</span></span>-->
+          <!--<div #phoneF="ngForm" [formGroup]="phoneForm">-->
+            <!--<ngx-intl-tel-input-->
+              <!--[cssClass]="'w-full'"-->
+              <!--[preferredCountries]="preferredCountries"-->
+              <!--[enableAutoCountrySelect]="true"-->
+              <!--[enablePlaceholder]="true"-->
+              <!--[searchCountryFlag]="true"-->
+              <!--[searchCountryField]="[-->
+                <!--SearchCountryField.Iso2,-->
+                <!--SearchCountryField.Name-->
+              <!--]"-->
+              <!--[selectFirstCountry]="false"-->
+              <!--[selectedCountryISO]="CountryISO.India"-->
+              <!--[maxLength]="15"-->
+              <!--[phoneValidation]="true"-->
+              <!--[separateDialCode]="true"-->
+              <!--[numberFormat]="PhoneNumberFormat.National"-->
+              <!--name="phone"-->
+              <!--formControlName="phone"-->
+            <!--&gt;-->
+            <!--</ngx-intl-tel-input>-->
+          <!--</div>-->
+          <!--<span class="absolute top-full text-red-500 text-xs left-2" *ngIf="phoneF.form.controls['phone'].touched && phoneF.form.controls['phone'].invalid">-->
+            <!--Please enter valid Contact Number & required.-->
+          <!--</span>-->
+        <!--</div>-->
+        <!--<div class="w-full lg:w-1/2 px-2 pt-5 inputHolder relative">-->
+          <!--<span class="input-titel">{{'Company Email' | translate }}<span>*</span></span>-->
+          <!--<input type="email" name="company_email" formControlName="company_email" class="input" />-->
+          <!--<span class="absolute top-full text-red-500 text-xs" *ngIf="addEditOfferForm.get('company_email')?.invalid && addEditOfferForm.get('company_email')?.dirty && addEditOfferForm.get('company_email')?.touched">-->
+            <!--<span *ngIf="addEditOfferForm.get('company_email')?.errors?.['required']">Company email is required.</span>-->
+            <!--<span *ngIf="addEditOfferForm.get('company_email')?.errors?.['pattern']">Please enter valid email.</span>-->
+          <!--</span>-->
+        <!--</div>-->
+        <!--<div class="w-full px-2 pt-5">-->
+          <!--<span class="input-titel">{{'About Our Company' | translate }} <i class="text-xs font-medium" [ngClass]="{'text-magicPotion' : comDescTextEditor}">( {{comDescTextEditorLimit}} characters out of {{comDescTextEditorMaxLimit}} )</i></span>-->
+          <!--<div class="w-full bg-white rounded">-->
+            <!--<ckeditor (ready)="onTextEditorReady($event, 'about_company')" (keyup)="editorCharacterSet('company')" [config]="editorConfig" [editor]="detailEditor" [formControlName]="'about_company'" class="h-44 text-editor" id="about_company" name="about_company"></ckeditor>-->
+          <!--</div>-->
+        <!--</div>-->
       </div>
     </form>
   </div>
@@ -303,7 +297,7 @@
     <div class="w-full space-y-4 pt-2">
       <i class="text-xs font-medium" [ngClass]="{'text-magicPotion' : tcDescTextEditor}">You have {{tcDescTextEditorLimit}} of {{tcDescTextEditorMaxLimit}} characters remaining</i>
       <div class="w-full bg-white rounded relative">
-        <ckeditor (ready)="onTextEditorReady($event, 't_and_c')" (keyup)="editorCharacterSet('tc')" [config]="editorConfig" [editor]="detailEditor" [formControlName]="'t_and_c'" class="h-44 text-editor" id="t_and_c-editor" name="t_and_c"></ckeditor>
+        <ckeditor (ready)="onTextEditorReady($event, 't_and_c')" (keyup)="editorCharacterSet('tc')" [config]="editorConfig" [editor]="detailEditor" formControlName="t_and_c" class="h-44 text-editor" id="t_and_c-editor" name="t_and_c"></ckeditor>
         <span class="absolute top-full text-red-500 text-xs ml-0" *ngIf="tandcForm.get('t_and_c')?.invalid && (tandcForm.get('t_and_c')?.dirty && tandcForm.get('t_and_c')?.touched)">
           <span *ngIf="tandcForm.get('t_and_c')?.errors?.['required']">
             Terms and conditions is required.
@@ -313,13 +307,13 @@
       <div class="block w-full relative pt-4">
         <div class="inline-flex items-end cursor-pointer">
           <label class="checkbox rounded bg-white">
-            <input type="checkbox" [formControlName]="'status'" name="status" [checked]="false" />
+            <input type="checkbox" formControlName="status" name="status" (change)="checkCondition($event)" />
             <i class="icon-right text-white"></i>
           </label>
           <span class="input-titel text-base ml-4">Agree with our <span (click)="tAndCPop()" class="inline-block text-magicPotion">Terms And Conditions</span></span>
         </div>
-        <span class="absolute top-full left-0 text-red-500 text-xs" *ngIf="tandcForm.get('status')?.invalid && (tandcForm.get('status')?.dirty && tandcForm.get('status')?.touched)">
-          <span *ngIf="tandcForm.get('status')?.errors?.['required']">
+        <span class="absolute top-full left-0 text-red-500 text-xs" *ngIf="tandcFormStatus">
+          <span>
             Accepting Terms and Conditions is Required.
           </span>
         </span>
