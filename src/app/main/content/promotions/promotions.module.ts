@@ -12,6 +12,7 @@ import { CalendarModule } from "primeng/calendar";
 import { ProgressSpinnerModule } from "primeng/progressspinner";
 import { ModalModule } from "../../_modal";
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ViewPromotionsComponent } from './view-promotions/view-promotions.component';
 
 const routes: Routes = [
   {
@@ -19,6 +20,9 @@ const routes: Routes = [
   },
   {
     path: 'create', component: CreatePromotionsComponent
+  },
+  {
+    path: 'view/:id', component: ViewPromotionsComponent
   },
   {
     path: 'promote',
@@ -30,6 +34,7 @@ const routes: Routes = [
   declarations: [
     PromotionsComponent,
     CreatePromotionsComponent,
+    ViewPromotionsComponent,
   ],
   imports: [
     RouterModule.forChild(routes),

@@ -1,0 +1,71 @@
+<div class="wrapper min-h-full">
+    <div class="space-y-8 h-full">
+        <div class="space-y-5">
+            <div class="bg-white rounded p-8 mt-6 space-y-5">
+                <div class="flex justify-start items-center">
+                    <h2>{{notificationObj?.notification_title}}</h2>
+                </div>
+                    <div class="w-1/2 md:w-1/2 px-2 inputHolder relative pb-0.5 mb-7">
+                        <div class="text-xs lg:text-sm font-medium text-quicksilver flex items-center"><i class="icon-calendar mr-1.5 text-base"></i>{{'Date' | translate }} </div>
+                        <span class="text-japaneseIndigo text-xs lg:text-sm font-bold">{{ notificationObj?.notification_date | date:'dd MMM, yyyy' }}</span>
+                    </div>
+                    <div class="w-1/2 md:w-1/2 px-2 inputHolder relative pb-0.5 mb-7">
+                        <div class="text-xs lg:text-sm font-medium text-quicksilver flex items-center"><i class="icon-time mr-1.5 text-sm"></i>{{'Time' | translate }} </div>
+                        <span class="text-japaneseIndigo text-xs lg:text-sm font-bold">{{ notificationObj?.notification_time}}</span>
+                    </div>
+                <div class="w-1/2 md:w-1/2 px-2 inputHolder relative pb-0.5 mb-7">
+                    <div class="text-xs lg:text-sm font-medium text-quicksilver flex items-center">{{'Transaction Id' | translate }} </div>
+                    <span class="text-japaneseIndigo text-xs lg:text-sm font-bold">{{ notificationObj?.payment_id}}</span>
+                </div>
+                <div class="w-1/2 md:w-1/2 px-2 inputHolder relative pb-0.5 mb-7">
+                    <div class="text-xs lg:text-sm font-medium text-quicksilver flex items-center">{{'Total Users' | translate }} </div>
+                    <span class="text-japaneseIndigo text-xs lg:text-sm font-bold">{{ notificationObj?.selectedusers}}</span>
+                </div>
+            </div>
+            <div class="w-full px-2 inputHolder relative pb-0.5 mb-7">
+                <span class="input-titel">Bill Details</span>
+                <div class="bg-white rounded p-8 mt-6 space-y-5">
+                    <div class="flex items-start" *ngIf="notificationObj && notificationObj.is_notification">
+                        <i class="w-8 icon-bell_fill text-magicPotion text-2xl mr-5"></i>
+                        <div class="w-full flex justify-between">
+                            <div class="">
+                                <p class="text-base text-japaneseIndigo font-bold">Notification</p>
+                                <!--<span class="text-sm text-gray-300 font-normal" *ngIf="calculateTotalObj.planDiscount">{{numberOfUsers}} User x {{settingObj?.notificationcost}}</span>-->
+                                <span class="text-sm text-gray-300 font-normal">{{notificationObj.notification_cost | number:'1.2-2'}} FOR {{notificationObj.selectedusers | number:'1.0-0'}} USERS</span>
+                            </div>
+                            <h4 class="font-normal"><i class="icon-rs rs-black text-base mr-2"></i>{{(calculateTotalObj?.notificationTotal || 0) | number:'1.2-2'}}</h4>
+                        </div>
+                    </div>
+                    <div class="flex items-start" *ngIf="notificationObj && notificationObj.is_sms ">
+                        <i class="w-8 icon-massage_fill text-magicPotion text-2xl mr-5"></i>
+                        <div class="w-full flex justify-between">
+                            <div class="">
+                                <p class="text-base text-japaneseIndigo font-bold">SMS</p>
+                                <!--<span class="text-sm text-gray-300 font-normal" *ngIf="calculateTotalObj.planDiscount">{{numberOfUsers}} Phone Number x {{settingObj?.smscost}}</span>-->
+                                <span class="text-sm text-gray-300 font-normal">{{notificationObj.sms_cost | number:'1.2-2'}} FOR {{notificationObj.selectedusers | number:'1.0-0'}} USERS</span>
+                            </div>
+                            <h4 class="font-normal"><i class="icon-rs rs-black text-base mr-2"></i>{{(calculateTotalObj?.smsTotal || 0) | number:'1.2-2'}}</h4>
+                        </div>
+                    </div>
+                    <div class="flex items-start" *ngIf="notificationObj && notificationObj.is_email">
+                        <i class="w-8 icon-email_fill text-magicPotion text-2xl mr-5"></i>
+                        <div class="w-full flex justify-between">
+                            <div class="">
+                                <p class="text-base text-japaneseIndigo font-bold">Email</p>
+                                <!--<span class="text-sm text-gray-300 font-normal" *ngIf="calculateTotalObj.planDiscount">{{numberOfUsers}} Email ID x {{settingObj?.emailcost}}</span>-->
+                                <span class="text-sm text-gray-300 font-normal">{{notificationObj.email_cost | number:'1.2-2'}} FOR {{notificationObj.selectedusers | number:'1.0-0'}} USERS</span>
+                            </div>
+                            <h4 class="font-normal"><i class="icon-rs rs-black text-base mr-2"></i>{{(calculateTotalObj?.emailTotal || 0) | number:'1.2-2'}}</h4>
+                        </div>
+                    </div>
+
+                    <span class="block border-b-2 border-dashed border-gray-300"></span>
+                    <div class="flex justify-between capitalize">
+                        <h2>total</h2>
+                        <h4><i class="icon-rs rs-black text-lg mr-2"></i>{{(calculateTotalObj.total || 0) | number:'1.2-2'}}</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
