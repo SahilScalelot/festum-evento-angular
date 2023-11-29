@@ -625,7 +625,7 @@ export class PhotosAndVideosComponent implements OnInit {
     this._createStreamService.saveLiveStreamMedia(preparedPhotosAndVideosObj).subscribe((result: any) => {
       if (result && result.IsSuccess) {
         this.isLoading = false;
-        this._router.navigate(['/live-stream/create/company-details']);
+        this._router.navigate(['/live-stream/create/terms']);
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
         this.isLoading = false;

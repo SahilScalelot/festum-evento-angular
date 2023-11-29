@@ -44,16 +44,16 @@ export class CreateStreamComponent implements OnInit {
         tabindex: -1,
         routerLink: 'photos-and-videos'
       },
-      {
-        label: 'Company Details',
-        tabindex: -1,
-        routerLink: 'company-details'
-      },
-      {
-        label: 'Personal Details',
-        tabindex: -1,
-        routerLink: 'personal-details'
-      },
+      // {
+      //   label: 'Company Details',
+      //   tabindex: -1,
+      //   routerLink: 'company-details'
+      // },
+      // {
+      //   label: 'Personal Details',
+      //   tabindex: -1,
+      //   routerLink: 'personal-details'
+      // },
       {
         label: 'Terms & Conditions',
         tabindex: -1,
