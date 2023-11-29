@@ -415,35 +415,41 @@ export class PromoteComponent implements OnInit {
     this.calculateTotalObj.notificationTotal = (isNotify) ? Number(this.numberOfUsers) * Number(this.settingObj.notificationcost) : 0;
     this.calculateTotalObj.smsTotal = (isNotifyBySMS) ? Number(this.numberOfUsers) * Number(this.settingObj.smscost) : 0;
     this.calculateTotalObj.emailTotal = (isNotifyByEmail) ? Number(this.numberOfUsers) * Number(this.settingObj.emailcost) : 0;
-    this.calculateTotalObj.subTotal = _.sum([this.calculateTotalObj.notificationTotal, this.calculateTotalObj.smsTotal, this.calculateTotalObj.emailTotal]);
 
-    this.promoteForm.get('notification_cost').setValue(Number(this.calculateTotalObj.notificationTotal.toFixed(2)));
+    if (this.promoteForm.value.usertype === 'excelusers') {
+      this.promoteForm.get('notification_cost').setValue(Number(0));
+      this.calculateTotalObj.notificationTotal = 0;
+      this.calculateTotalObj.subTotal = _.sum([this.calculateTotalObj.smsTotal, this.calculateTotalObj.emailTotal]);
+    } else {
+      this.promoteForm.get('notification_cost').setValue(Number(this.calculateTotalObj.notificationTotal.toFixed(2)));
+      this.calculateTotalObj.subTotal = _.sum([this.calculateTotalObj.notificationTotal, this.calculateTotalObj.smsTotal, this.calculateTotalObj.emailTotal]);
+    }
     this.promoteForm.get('sms_cost').setValue(Number(this.calculateTotalObj.smsTotal.toFixed(2)));
     this.promoteForm.get('email_cost').setValue(Number(this.calculateTotalObj.emailTotal.toFixed(2)));
     this.promoteForm.get('total_cost').setValue(Number(this.calculateTotalObj.subTotal.toFixed(2)));
     //console.log(this.promoteForm.value);
-    if (this.selectedPlanObj && this.selectedPlanObj._id) {
-      this.calculateTotalObj.notificationTotal = (isNotify) ? this.selectedPlanObj.notification_amount : 0;
-      this.calculateTotalObj.smsTotal = (isNotifyBySMS) ? this.selectedPlanObj.sms_amount : 0;
-      this.calculateTotalObj.emailTotal = (isNotifyByEmail) ? this.selectedPlanObj.email_amount : 0;
-      this.calculateTotalObj.planDiscount = (isNotify && isNotifyBySMS && isNotifyByEmail);
+    // if (this.selectedPlanObj && this.selectedPlanObj._id) {
+    //   this.calculateTotalObj.notificationTotal = (isNotify) ? this.selectedPlanObj.notification_amount : 0;
+    //   this.calculateTotalObj.smsTotal = (isNotifyBySMS) ? this.selectedPlanObj.sms_amount : 0;
+    //   this.calculateTotalObj.emailTotal = (isNotifyByEmail) ? this.selectedPlanObj.email_amount : 0;
+    //   this.calculateTotalObj.planDiscount = (isNotify && isNotifyBySMS && isNotifyByEmail);
+    //
+    //   this.calculateTotalObj.subTotal = _.sum([this.calculateTotalObj.notificationTotal, this.calculateTotalObj.smsTotal, this.calculateTotalObj.emailTotal]);
+    //   if (this.calculateTotalObj.planDiscount) {
+    //     this.calculateTotalObj.subTotal = this.selectedPlanObj.combo_amount;
+    //   }
+    // }
 
-      this.calculateTotalObj.subTotal = _.sum([this.calculateTotalObj.notificationTotal, this.calculateTotalObj.smsTotal, this.calculateTotalObj.emailTotal]);
-      if (this.calculateTotalObj.planDiscount) {
-        this.calculateTotalObj.subTotal = this.selectedPlanObj.combo_amount;
-      }
-    }
-
-    this.calculateTotalObj.totalCouponDiscount = 0;
-    if (this.selectedCoupon && this.selectedCoupon._id) {
-      if (this.selectedCoupon.amount) {
-        this.calculateTotalObj.totalCouponDiscount = (this.selectedCoupon.amount <= this.calculateTotalObj.subTotal) ? this.selectedCoupon.amount : this.calculateTotalObj.subTotal;
-      } else if (this.selectedCoupon.percentage) {
-        const percentageCount = (this.selectedCoupon.percentage * (this.calculateTotalObj.subTotal / 100));
-        this.calculateTotalObj.totalCouponDiscount = (percentageCount <= this.calculateTotalObj.subTotal) ? percentageCount : this.calculateTotalObj.subTotal;
-      }
-    }
-    this.calculateTotalObj.total = this.calculateTotalObj.subTotal - this.calculateTotalObj.totalCouponDiscount;
+    // this.calculateTotalObj.totalCouponDiscount = 0;
+    // if (this.selectedCoupon && this.selectedCoupon._id) {
+    //   if (this.selectedCoupon.amount) {
+    //     this.calculateTotalObj.totalCouponDiscount = (this.selectedCoupon.amount <= this.calculateTotalObj.subTotal) ? this.selectedCoupon.amount : this.calculateTotalObj.subTotal;
+    //   } else if (this.selectedCoupon.percentage) {
+    //     const percentageCount = (this.selectedCoupon.percentage * (this.calculateTotalObj.subTotal / 100));
+    //     this.calculateTotalObj.totalCouponDiscount = (percentageCount <= this.calculateTotalObj.subTotal) ? percentageCount : this.calculateTotalObj.subTotal;
+    //   }
+    // }
+    this.calculateTotalObj.total = this.calculateTotalObj.subTotal;
   }
   onApplyCoupon(coupon: any = {}): void {
     this.selectedCoupon = this._globalFunctions.copyObject(coupon);
@@ -483,8 +489,8 @@ export class PromoteComponent implements OnInit {
       this.isSelectExcelUserError = true;
       return false;
     }
-    if (this.promoteForm.value.usertype === 'excelusers' && this.promoteForm.value.total_cost <= 1) {
-      this._sNotify.error('Please Select at least 3 user & Minimum total amount is 1₹.', 'Success');
+    if (this.promoteForm.value.total_cost <= 1) {
+      this._sNotify.error('Please Create Order with Minimum total amount is 1₹.', 'Success');
       return false;
     }
     if (!this.validateForm()) {
