@@ -397,17 +397,17 @@ export class AddEditShopDialogComponent implements OnInit, OnDestroy {
       if (result && result.IsSuccess) {
         this.shopObj = result.Data;
         this._prepareShopForm(result.Data);
-        this.gstPdf = result.Data.companydetails.gst_file;
-        this.inputText = _.last(_.split(result.Data.companydetails.gst_file, '/'));
+        //this.gstPdf = result.Data.companydetails.gst_file;
+        //this.inputText = _.last(_.split(result.Data.companydetails.gst_file, '/'));
         if (result?.Data?.banner) {
           this.setPosterInDropify(result?.Data?.banner);
         }
-        this.shopObj.company_name = result?.Data?.companydetails?.company_name;
-        this.shopObj.contact_number = result?.Data?.companydetails?.contact_number;
-
-        this.phoneForm.patchValue({
-          phone: this.shopObj.contact_number
-        });
+        // this.shopObj.company_name = result?.Data?.companydetails?.company_name;
+        // this.shopObj.contact_number = result?.Data?.companydetails?.contact_number;
+        //
+        // this.phoneForm.patchValue({
+        //   phone: this.shopObj.contact_number
+        // });
 
         // if (result?.Data?.shop_days.length !== 0) {
         //   console.log('Data Exist');
@@ -415,9 +415,9 @@ export class AddEditShopDialogComponent implements OnInit, OnDestroy {
         //   console.log(this.addShopForm);
         // }
         
-        this.shopObj.emailid = result?.Data?.companydetails?.emailid;
-        this.shopObj.about = result?.Data?.companydetails?.about;
-        this.socialLinks = result?.Data?.companydetails?.social_media_links;
+        // this.shopObj.emailid = result?.Data?.companydetails?.emailid;
+        // this.shopObj.about = result?.Data?.companydetails?.about;
+        this.socialLinks = result?.Data?.social_media_links;
         setTimeout(() => {
           this.lat = this.shopObj?.location?.coordinates[1] || CONSTANTS.latitude;
           this.lng = this.shopObj?.location?.coordinates[0] || CONSTANTS.longitude;
@@ -530,7 +530,6 @@ export class AddEditShopDialogComponent implements OnInit, OnDestroy {
   }
 
   isContinueClick(): void {
-    debugger
     //console.log(this.addShopForm.value);
     this.addShopForm.value.shop_days.forEach((item: any) => {
       //console.log(item);
@@ -580,7 +579,8 @@ export class AddEditShopDialogComponent implements OnInit, OnDestroy {
     if (shopDays.invalid) {
       return;
     }
-    this.isContinue = true;
+    //this.isContinue = true;
+    this.addEditShopOffer();
   }
 
   onChangePDF(): any {
@@ -632,12 +632,12 @@ export class AddEditShopDialogComponent implements OnInit, OnDestroy {
     // preparedShopObj.shop_close_time = this.prepareTime(moment(shopObj.shop_close_time, 'hh:mm a'));
     preparedShopObj.longitude = this.lng;
     preparedShopObj.latitude = this.lat;
-    preparedShopObj.gst_file = this.gstPdf;
+    //preparedShopObj.gst_file = this.gstPdf;
     preparedShopObj.social_media_links = this.socialLinks;
-    preparedShopObj.country_wise_contact = this.phoneForm?.value?.phone || undefined;
-    preparedShopObj.dial_code = preparedShopObj.country_wise_contact?.dialCode || '';
-    const contactNumber = preparedShopObj.country_wise_contact?.e164Number || '';
-    preparedShopObj.contact_number = contactNumber.replace(preparedShopObj.dial_code, '') || '';
+    //preparedShopObj.country_wise_contact = this.phoneForm?.value?.phone || undefined;
+    //preparedShopObj.dial_code = preparedShopObj.country_wise_contact?.dialCode || '';
+    //const contactNumber = preparedShopObj.country_wise_contact?.e164Number || '';
+    //preparedShopObj.contact_number = contactNumber.replace(preparedShopObj.dial_code, '') || '';
     //console.log(preparedShopObj);
     return preparedShopObj;
   }
@@ -657,11 +657,11 @@ export class AddEditShopDialogComponent implements OnInit, OnDestroy {
     if (this.textEditorLimitTac && this.textEditorMaxLimitTac && this.textEditorLimitTac > this.textEditorMaxLimitTac) {
       return;
     }
-    if (this.phoneForm.invalid) {
-      this.form.form.controls['phone'].touched = true;
-      this.phoneForm.controls['phone'].markAsDirty();
-      return;
-    }
+    // if (this.phoneForm.invalid) {
+    //   this.form.form.controls['phone'].touched = true;
+    //   this.phoneForm.controls['phone'].markAsDirty();
+    //   return;
+    // }
     this.isLoading = true;
     //console.log(this.addShopForm.value);
     const preparedShopObj: any = this.prepareShopObj(this.addShopForm.value);
@@ -782,20 +782,15 @@ export class AddEditShopDialogComponent implements OnInit, OnDestroy {
       pincode: [addShopObj?.pincode || '', [Validators.required, Validators.pattern('^[1-9]{1}[0-9]{2}\\s{0,1}[0-9]{3}$')]],
       manual_address: [addShopObj?.manual_address || ''],
       longitude: [this.lng],
-      latitude: [this.lat],
-      company_name: [addShopObj?.companydetails?.company_name || ''],
-      gst_file: [this.gstPdf || ''],
-      contact_number: [addShopObj?.companydetails?.contact_number || ''],
-      emailid: [addShopObj?.companydetails?.emailid || '',[Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
-      about: [addShopObj?.companydetails?.about || '']
+      latitude: [this.lat]
     });
 
     if (addShopObj?.about_shop) {
       this.editorCharacterSet();
     }
-    if (addShopObj?.about) {
-      this.editorCharacterSetTac();
-    }
+    // if (addShopObj?.about) {
+    //   this.editorCharacterSetTac();
+    // }
     if (Object.keys(addShopObj).length == 0) {
       this.addBlankDays();
     } else {
@@ -806,14 +801,14 @@ export class AddEditShopDialogComponent implements OnInit, OnDestroy {
   }
 
   
-  prepareObj(companyObj: any = {}): any {
-    const preparedObj: any = companyObj;
-    preparedObj.country_wise_contact = this.phoneForm?.value?.phone || undefined;
-    preparedObj.dial_code = preparedObj.country_wise_contact?.dialCode || '';
-    const contactNumber = preparedObj.country_wise_contact?.e164Number || '';
-    preparedObj.contact_no = contactNumber.replace(preparedObj.dial_code, '') || '';
-    return preparedObj;
-  }
+  // prepareObj(companyObj: any = {}): any {
+  //   const preparedObj: any = companyObj;
+  //   preparedObj.country_wise_contact = this.phoneForm?.value?.phone || undefined;
+  //   preparedObj.dial_code = preparedObj.country_wise_contact?.dialCode || '';
+  //   const contactNumber = preparedObj.country_wise_contact?.e164Number || '';
+  //   preparedObj.contact_no = contactNumber.replace(preparedObj.dial_code, '') || '';
+  //   return preparedObj;
+  // }
   
   markers: marker = {
     lat: CONSTANTS.latitude,
