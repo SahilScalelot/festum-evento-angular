@@ -169,17 +169,17 @@
           <div class="flex">
             <div class="w-full md:w-1/2 inputHolder relative pb-0.5 mb-2">
               <span class="input-titel">{{'Date' | translate }}:</span>
-              <p class="text-gray-400 text-base pt-1 font-medium normal-case">{{moment(notificationForm.value?.notification_date).format('YYYY-MM-DD')}}</p>
+              <p class="text-base pt-1 font-medium normal-case">{{moment(notificationForm.value?.notification_date).format('YYYY-MM-DD')}}</p>
             </div>
             <div class="w-full md:w-1/2 inputHolder relative pb-0.5 mb-2">
               <span class="input-titel">{{'Time' | translate }}:</span>
-              <p class="text-gray-400 text-base pt-1 font-medium normal-case">{{moment(notificationForm.value?.notification_time, "HH:mm", true).isValid() ? notificationForm.value?.notification_time : moment(notificationForm.value?.notification_time).format('HH:mm')}}</p>
+              <p class="text-base pt-1 font-medium normal-case">{{isDateInvalid(notificationForm.value?.notification_time)}}</p>
             </div>
           </div>
           <div class="flex">
             <div class="w-full inputHolder relative pb-0.5 mb-2">
               <span class="input-titel">{{'description' | translate }}:</span>
-              <p class="text-gray-400 text-base pt-3 font-medium normal-case" [innerHtml]="notificationForm.value?.description"></p>
+              <p class="text-base pt-3 font-medium normal-case" [innerHtml]="notificationForm.value?.description"></p>
             </div>
           </div>
           <div class="flex" *ngIf="notificationForm.value?.is_sms">

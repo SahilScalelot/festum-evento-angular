@@ -58,12 +58,9 @@ export class CreatePromotionsComponent implements OnInit {
     if (localStorage.getItem('entityId') && localStorage.getItem('entityType')) {
       this.sourceId = localStorage.getItem('entityId');
       this.sourceType = localStorage.getItem('entityType');
-      this.getTemplateList();
+      //this.getTemplateList();
       this._prepareNotificationForm();
     }
-    this.notificationForm.get('is_notification').valueChanges.subscribe((change: any) => {
-      console.log(change)
-    });
   }
 
   onTextEditorReady(editor: any): void {
@@ -96,10 +93,12 @@ export class CreatePromotionsComponent implements OnInit {
     this._promotionsService.getNotificationById(notificationId).subscribe((result: any) => {
       if (result && result.IsSuccess) {
         const notificationObj: any = result?.Data || {};
-        this.sourceId = notificationObj.entityid;
-        this.sourceType = notificationObj.entitytype;
-        this.getTemplateList();
-        this._prepareNotificationForm(notificationObj || {});
+        if (Object.keys(notificationObj).length !== 0) {
+          this.sourceId = notificationObj.entityid;
+          this.sourceType = notificationObj.entitytype;
+          this.getTemplateList();
+          this._prepareNotificationForm(notificationObj || {});
+        }
         if (notificationObj.banner) {
           this.inputText = _.last(_.split(notificationObj.banner, '/'));
         }
@@ -130,9 +129,15 @@ export class CreatePromotionsComponent implements OnInit {
     descriptionControl.updateValueAndValidity();
   }
 
+  loadTemplate() {
+    if(this.EmailTemplatesList.length === 0 || this.SMSTemplatesList.length === 0) {
+      this.getTemplateList();
+    }
+  }
   updateSMS() {
     const smsTemplateControl = this.notificationForm.get('smstemplate');
     if (this.notificationForm.get('is_sms').value) {
+      this.loadTemplate();
       smsTemplateControl.setValidators(Validators.required);
     } else {
       smsTemplateControl.setValue('');
@@ -144,6 +149,7 @@ export class CreatePromotionsComponent implements OnInit {
   updateEmail() {
     const emailTemplateControl = this.notificationForm.get('emailtemplate');
     if (this.notificationForm.get('is_email').value) {
+      this.loadTemplate();
       emailTemplateControl.setValidators(Validators.required);
     } else {
       emailTemplateControl.setValue('');
@@ -199,6 +205,14 @@ export class CreatePromotionsComponent implements OnInit {
     return true;
   }
 
+  isDateInvalid(dateInput: any): string {
+    if (new Date(dateInput).toString() === 'Invalid Date') {
+      return dateInput;
+    } else {
+      return dateInput = moment(dateInput).format('HH:mm');
+    }
+  }
+
   openPreviewNotification(): any {
     this.updateEmail();
     this.updateSMS();
@@ -213,8 +227,7 @@ export class CreatePromotionsComponent implements OnInit {
     this.selectedSMSTemplateContent = this.SMSTemplatesList.find(function(item: any) {
       return item._id == selectedSMSTemplateId;
     });
-    //console.log(this.selectedEmailTemplateContent);
-    //console.log(this.notificationForm.value);
+
     this._modalService.open("notification-pop");
   }
 
