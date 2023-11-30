@@ -261,8 +261,8 @@ export class CreatePromotionsComponent implements OnInit {
       is_notification: [notificationObj?.is_notification  || true],
       is_email: [notificationObj?.is_email || false],
       is_sms: [notificationObj?.is_sms || false],
-      emailtemplate: [notificationObj?.emailtemplate || '', [Validators.required]],
-      smstemplate: [notificationObj?.smstemplate || '', [Validators.required]]
+      emailtemplate: [notificationObj?.emailtemplate || ''],
+      smstemplate: [notificationObj?.smstemplate || '']
     }, { validator: this.requireAtLeastOneCheckbox });
   }
 
