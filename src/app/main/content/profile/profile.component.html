@@ -55,9 +55,9 @@
           </div>
           <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4 relative" aria-disabled="true">
             <!-- <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative"> -->
-              <span class="input-titel">{{'Company Contact No' | translate }}</span>
+              <span class="input-titel">{{'Contact No' | translate }}</span>
               <div #phoneF="ngForm" [formGroup]="phoneForm">
-                <ngx-intl-tel-input
+                <ngx-intl-tel-input 
                   [cssClass]="'w-full'"
                   [preferredCountries]="preferredCountries"
                   [enableAutoCountrySelect]="true"
@@ -78,16 +78,16 @@
                   formControlName="p_phone"
                 >
                 </ngx-intl-tel-input>
+                <span class="block absolute bg-transparent inset-0 z-10"></span>
               </div>
             <!-- </div> -->
           </div>
           
-          <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4 relative">
+          <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4 relative" >
             <!-- <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative"> -->
-              <span class="input-titel">{{'Company Contact No' | translate }}</span>
-              <div #phoneF="ngForm" [formGroup]="phoneForm">
-                <ngx-intl-tel-input
-                  [cssClass]="'w-full'"
+              <span class="input-titel">{{'Alternative Contact No' | translate }}</span>
+              <div #phoneF="ngForm" class="relative" [formGroup]="phoneForm">
+                <ngx-intl-tel-input [cssClass]="'w-full'"
                   [preferredCountries]="preferredCountries"
                   [enableAutoCountrySelect]="true"
                   [enablePlaceholder]="true"
@@ -107,6 +107,7 @@
                   formControlName="a_phone"
                 >
                 </ngx-intl-tel-input>
+                <span class="block absolute bg-transparent inset-0 z-10" *ngIf="!isEditProfile"></span>
               </div>
               <span class="absolute top-full text-red-500 text-xs left-2" *ngIf="phoneF.form.controls['a_phone'].touched && phoneF.form.controls['a_phone'].invalid">
                 Please enter valid Contact Number.
@@ -236,14 +237,17 @@
           <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4 relative">
             <span class="input-titel">{{'Company GST' | translate }} (Optional Max File size up to 7MB)</span>
             <p-progressSpinner *ngIf="isPdfLoading" [style]="{width: '20px', height: '20px'}" animationDuration=".5s" strokeWidth="4" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-x-1 bottom-0 top-10 z-20" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
-            <label class="upload upload-popup py-3">
-              <input (change)="onChangePDF($event)" accept="application/pdf" class="appearance-none hidden" id="company_gst" name="images" type="file"/>
-              <span class="input-titel text-base p-0">
-                <i class="icon-pdf_upload mr-2"></i> 
-                <span class="normal-case">{{inputText ? inputText : 'Upload PDF'}}</span>
-                <!-- <span>{{companyObj?.company_details?.gst}}</span> -->
-              </span>
-            </label>
+            <div class="relative">
+              <label class="upload upload-popup py-3">
+                <input (change)="onChangePDF($event)" accept="application/pdf" class="appearance-none hidden" id="company_gst" name="images" type="file"/>
+                <span class="input-titel text-base p-0">
+                  <i class="icon-pdf_upload mr-2"></i> 
+                  <span class="normal-case">{{inputText ? inputText : 'Upload PDF'}}</span>
+                  <!-- <span>{{companyObj?.company_details?.gst}}</span> -->
+                </span>
+              </label>
+              <span class="block absolute bg-transparent inset-0 z-50" *ngIf="!isEditBusinessProfile"></span>
+            </div>
             <a *ngIf="inputText" class="absolute right-4 bottom-3 py-0.5 px-2 normal-case text-gray-400 anim hover:text-magicPotion text-sm font-semibold hidden border border-current group-hover:inline-block" [href]="constants.baseImageURL + gstPdf" target="_blank" title="View File">View</a>
             <span class="absolute top-full text-red-500 text-xs" *ngIf="isInValidPDF">
               Please upload only PDF file. 
@@ -262,7 +266,7 @@
           <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4 relative">
             <!-- <div class="w-full md:w-1/2 px-2 pt-5 inputHolder relative"> -->
               <span class="input-titel">{{'Company Contact No' | translate }}</span>
-              <div #phoneF="ngForm" [formGroup]="phoneForm">
+              <div #phoneF="ngForm" class="relative" [formGroup]="phoneForm">
                 <ngx-intl-tel-input
                   [cssClass]="'w-full'"
                   [preferredCountries]="preferredCountries"
@@ -284,6 +288,7 @@
                   formControlName="phone"
                 >
                 </ngx-intl-tel-input>
+                <span class="block absolute bg-transparent inset-0 z-10" *ngIf="!isEditBusinessProfile"></span>
               </div>
               <span class="absolute top-full text-red-500 text-xs left-2" *ngIf="phoneF.form.controls['phone'].touched && phoneF.form.controls['phone'].invalid">
                 Please enter valid Contact Number.
@@ -342,6 +347,15 @@
               </span>
             </span>
           </div>
+          <!-- <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4 relative">
+            <span class="input-titel">{{'Country' | translate }}</span>
+            <input type="text" class="input font-bold" formControlName='country' />
+            <span *ngIf="profileCountry && profileCountry.invalid && profileCountry.touched" class="text-red-500 text-xs">
+              <span *ngIf="profileCountry?.errors?.required">
+                Country is required
+              </span>
+            </span>
+          </div> -->
 
               <!-- upload photo And Video  -->
     <div class="w-full px-2 inputHolder pt-4 relative">
@@ -356,13 +370,13 @@
               <div class="rounded relative overflow-hidden h-full w-full group">
                 <p-image [alt]="'add-photo-' + i" [src]="!!(photo?.url) ? constants.baseImageURL + photo.url : constants.defaultImage" *ngIf="photo.url" imageClass="w-full h-full object-cover rounded" styleClass="w-full h-full" [preview]="false"></p-image>
                 <div class="opacity-0 bg-black bg-opacity-50 flex items-center justify-center group-hover:opacity-100 absolute inset-0 transition-all duration-300">
-                  <button class="edit"  (click)="editImage(photo,i)">Edit</button>
+                  <button class="edit"  (click)="editImage(photo,i)" *ngIf="isEditBusinessProfile">Edit</button>
                   <span class="block" (click)="openImageAndVideoDialog([photo], true, false, false)"><i class="pi pi-eye text-2xl text-white cursor-pointer" ></i></span>
-                  <button (click)="removeImage(i)" class="remove">Remove</button>
+                  <button (click)="removeImage(i)" class="remove" *ngIf="isEditBusinessProfile">Remove</button>
                 </div>
               </div>
             </div>
-            <div (click)="openUploadPhotoDialog()" class="upload-holder" *ngIf="photoArr?.length < photosUploadLimit">
+            <div (click)="openUploadPhotoDialog()" class="upload-holder" *ngIf="photoArr?.length < photosUploadLimit && isEditBusinessProfile">
               <label class="upload-photo" for="event-upload1">
                 <i class="icon-img_upload text-base text-quicksilver"></i>
                 <div class="mt-1 flex items-baseline justify-center"><span class="input-titel pt-1">{{'Add Photos' | translate }}</span></div>
@@ -384,13 +398,13 @@
                   <source [src]="!!(video?.url) ? constants.baseImageURL + video.url + '#t=0.5' : constants.defaultImage" type="video/mp4">
                 </video>
                 <div class="opacity-0 bg-black bg-opacity-50 flex items-center justify-center group-hover:opacity-100 absolute inset-0 transition-all duration-300">
-                  <button class="edit" (click)="editVideoModal(video, i)" >Edit</button>
+                  <button class="edit" (click)="editVideoModal(video, i)" *ngIf="isEditBusinessProfile" >Edit</button>
                   <span class="block" (click)="openImageAndVideoDialog([video], false, false, true)"><i class="pi pi-eye text-2xl text-white cursor-pointer" ></i></span>
-                  <button (click)="removeVideo(i)" class="remove">Remove</button>
+                  <button (click)="removeVideo(i)" class="remove" *ngIf="isEditBusinessProfile">Remove</button>
                 </div>
               </div>
             </div>
-            <div (click)="openUploadVideoDialog()" class="upload-holder" *ngIf="videoArr.length < 10">
+            <div (click)="openUploadVideoDialog()" class="upload-holder" *ngIf="videoArr.length < 10 && isEditBusinessProfile">
               <!-- <div class="upload-holder relative" *ngIf="videoArr.length < 2"> -->
               <p-progressSpinner *ngIf="isVideoLoading" [style]="{width: '20px', height: '20px'}" animationDuration=".5s" strokeWidth="4" class="absolute bg-white bg-opacity-25 backdrop-blur-sm inset-0 z-20" styleClass="custom-spinner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></p-progressSpinner>
               <label class="upload-photo">
@@ -437,16 +451,8 @@
           <!-- <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4 relative">
             <span class="input-titel">{{'Country Name' | translate }}.</span>
             <input [formControlName]="'country'" class="input font-bold" type="text"/>
-          </div>
-          <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4 relative">
-            <span class="input-titel">{{'Country' | translate }}</span>
-            <input type="text" class="input font-bold" formControlName='country' />
-            <span *ngIf="profileCountry && profileCountry.invalid && profileCountry.touched" class="text-red-500 text-xs">
-              <span *ngIf="profileCountry?.errors?.required">
-                Country is required
-              </span>
-            </span>
           </div> -->
+       
           <div class="w-full px-2 inputHolder pt-4 relative">
             <span class="input-titel">{{'About Our Company' | translate }}<span class="text-magicPotion">*</span></span>
             <div class="w-full bg-white rounded">
