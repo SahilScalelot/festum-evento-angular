@@ -39,8 +39,9 @@
             </div>
             <p class="text-gray-400 text-base pt-3 font-medium line-clamp-3" [innerHTML]="notification?.description"></p>
             <div class="flex justify-end">
-              <button class="secondary flex items-center px-3 py-1.5 anim" *ngIf="notification.is_payment_done" (click)="viewReport($event, notification?._id)"><i class="icon-show mr-2"></i><span>{{'Report' | translate }}</span></button>
-              <button class="secondary flex items-center px-3 py-1.5 mr-2 anim" *ngIf="!notification.is_payment_done" (click)="editNotification(notification?._id)"><i class="icon-edit mr-2"></i><span>{{'Edit' | translate }}</span></button>
+              <button class="secondary flex items-center px-3 py-1.5 anim" *ngIf="notification.is_payment_done && !notification.is_sent" (click)="viewReport($event, notification?._id)"><i class="icon-show mr-2"></i><span>{{'View' | translate }}</span></button>
+              <button class="secondary flex items-center px-3 py-1.5 anim" *ngIf="notification.is_payment_done && notification.is_sent" (click)="getReport($event, notification?._id)"><i class="icon-show mr-2"></i><span>{{'Report' | translate }}</span></button>
+              <button class="secondary flex items-center px-3 py-1.5 mr-2 anim" *ngIf="!notification.is_payment_done && sourceId === notification.entityid" (click)="editNotification(notification?._id)"><i class="icon-edit mr-2"></i><span>{{'Edit' | translate }}</span></button>
               <button class="secondary flex items-center px-3 py-1.5 anim" *ngIf="!notification.is_payment_done" (click)="promoteNotification(notification?._id)"><i class="icon-fill_megaphone mr-2"></i><span>{{'Promote' | translate }}</span></button>
             </div>
           </div>

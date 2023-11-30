@@ -52,6 +52,10 @@ export class PromotionsComponent implements OnInit {
     event.stopPropagation();
     this._router.navigate(['/promotions/view/' + notificationId]);
   }
+  getReport(event: any, notificationId: any): void {
+    event.stopPropagation();
+    // this._router.navigate(['/promotions/view/' + notificationId]);
+  }
   getPromotionsList(event: any = {}): void {
     this.isLoading = true;
     const page = event ? (event.page + 1) : 1;
