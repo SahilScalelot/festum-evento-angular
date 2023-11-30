@@ -41,12 +41,12 @@ import { InfiniteScrollModule } from "ngx-infinite-scroll";
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
 
 import { AgmCoreModule } from '@agm/core';
-
+import { NgxDropzoneModule } from 'ngx-dropzone';
 import { PaginatorModule } from "primeng/paginator";
 import { DateAgoPipe } from 'src/app/pipe/date-ago.pipe';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { ChatNotificationsComponent } from './chat-notifications/chat-notifications.component';
-
+import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
 
 const routes: Routes = [
   {
@@ -83,6 +83,7 @@ const routes: Routes = [
     CreateStreamModule,
     ModalModule,
     FormsModule,
+    NgxDropzoneModule,
     ReactiveFormsModule,
     CalendarModule,
     ProgressSpinnerModule,
@@ -103,7 +104,7 @@ const routes: Routes = [
     QRCodeModule,
     InfiniteScrollModule,
     ZXingScannerModule,
-
+    NgxIntlTelInputModule,
     AgmCoreModule,
 
     PaginatorModule

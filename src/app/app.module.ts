@@ -13,7 +13,8 @@ import { GlobalService } from './services/global.service';
 import { SocketioService } from './services/socketio.service';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { QRCodeModule } from 'angularx-qrcode';
-
+import { DropdownModule } from 'primeng/dropdown';
+import { NgxDropzoneModule } from 'ngx-dropzone';
 // Localization module import
 import { TranslateModule, TranslateLoader, TranslateService } from  '@ngx-translate/core';
 import { TranslateHttpLoader } from  '@ngx-translate/http-loader';
@@ -35,8 +36,9 @@ export function HttpLoaderFactory(http:  HttpClient) {
     MainModule,
     SnotifyModule,
     SharedModule,
-
+    DropdownModule,
     HttpClientModule,
+    NgxDropzoneModule,
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,

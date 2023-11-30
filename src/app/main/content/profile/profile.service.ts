@@ -25,5 +25,20 @@ export class ProfileService {
   updateBusiness(businessProfileObj: any): any {
     return this.http.post(environment.appURL + 'organizer/profile/businessprofile', businessProfileObj, this._globalFunctions.getAuthorizationHeader());
   }
+  // PDF Api
+  documentUpload(pdfFormData: any): any {
+    return this.http.post(environment.appURL + 'organizer/profile/gst', pdfFormData, this._globalFunctions.getFileAuthorizationHeader());
+  }
+
+  // Video Api
+  uploadVideos(videoFormData: any): any {
+    return this.http.post(environment.appURL + 'organizer/profile/video', videoFormData, this._globalFunctions.getFileAuthorizationHeader());
+  }
+
+  // Images Api
+  uploadImages(photoFormData: any): any {
+    return this.http.post(environment.appURL + 'organizer/profile/image', photoFormData, this._globalFunctions.getFileAuthorizationHeader());
+  }
+  
 
 }
