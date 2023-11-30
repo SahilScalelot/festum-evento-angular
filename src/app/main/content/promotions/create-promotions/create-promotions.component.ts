@@ -135,6 +135,7 @@ export class CreatePromotionsComponent implements OnInit {
     if (this.notificationForm.get('is_sms').value) {
       smsTemplateControl.setValidators(Validators.required);
     } else {
+      smsTemplateControl.setValue('');
       smsTemplateControl.clearValidators();
     }
     smsTemplateControl.updateValueAndValidity();
@@ -145,6 +146,7 @@ export class CreatePromotionsComponent implements OnInit {
     if (this.notificationForm.get('is_email').value) {
       emailTemplateControl.setValidators(Validators.required);
     } else {
+      emailTemplateControl.setValue('');
       emailTemplateControl.clearValidators();
     }
     emailTemplateControl.updateValueAndValidity();
@@ -222,8 +224,12 @@ export class CreatePromotionsComponent implements OnInit {
     }
     this.isCreateNotificationLoading = true;
     this.notificationForm.value.notification_date = moment(this.notificationForm.value.notification_date).format('YYYY-MM-DD');
-    this.notificationForm.value.notification_time = moment(this.notificationForm.value.notification_time).format('HH:mm');
-    //console.log(this.notificationForm.value);
+    if (new Date(this.notificationForm.value.notification_time).toString() === 'Invalid Date') {
+      this.notificationForm.value.notification_time = this.notificationForm.value.notification_time;
+    } else {
+      this.notificationForm.value.notification_time = moment(this.notificationForm.value.notification_time).format('HH:mm');
+    }
+
     this._promotionsService.createNotification(this.notificationForm.value).subscribe((result: any) => {
       if (result && result.IsSuccess) {
         this._modalService.close("notification-pop");
@@ -251,7 +257,7 @@ export class CreatePromotionsComponent implements OnInit {
       banner: [notificationObj?.banner || '', [Validators.required]],
       description: [notificationObj?.description || '', [Validators.required]],
       notification_date: [notificationObj && notificationObj.notification_date ? new Date(notificationObj?.notification_date) : '', [Validators.required]],
-      notification_time: [notificationObj?.notification_time || '', [Validators.required]],
+      notification_time: [notificationObj && notificationObj.notification_time ? notificationObj.notification_time : '', [Validators.required]],
       is_notification: [notificationObj?.is_notification  || true],
       is_email: [notificationObj?.is_email || false],
       is_sms: [notificationObj?.is_sms || false],
