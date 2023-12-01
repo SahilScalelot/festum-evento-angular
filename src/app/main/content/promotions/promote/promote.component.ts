@@ -482,6 +482,9 @@ export class PromoteComponent implements OnInit {
   }
 
   payNow(): any {
+    if (!this.validateForm()) {
+      return false;
+    }
     if (this.promoteForm.value.usertype === 'excelusers' && !this.promoteForm.value.is_selected_all && this.promoteForm.value.selectedusers === 0) {
       this.isSelectExcelUserError = true;
       return false;
@@ -490,10 +493,7 @@ export class PromoteComponent implements OnInit {
       this._sNotify.error('Please Create Order with Minimum total amount is 1₹.', 'Success');
       return false;
     }
-    if (!this.validateForm()) {
-      return false;
-    }
-
+    
     if (this.isLoading) {
       return false;
     }

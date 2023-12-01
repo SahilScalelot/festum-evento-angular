@@ -37,7 +37,7 @@
               <h4>{{notification?.notification_title}}</h4>
               <a href="javascript:void(0);"><i class="icon-more font-bold text-base"></i></a>
             </div>
-            <p class="text-gray-400 text-base pt-3 font-medium line-clamp-3" [innerHTML]="notification?.description"></p>
+            <p class="text-gray-400 text-base pt-3 font-medium line-clamp-2" [innerHTML]="notification?.description"></p>
             <div class="flex justify-end">
               <button class="secondary flex items-center px-3 py-1.5 anim" *ngIf="notification.is_payment_done && !notification.is_sent" (click)="viewReport($event, notification?._id)"><i class="icon-show mr-2"></i><span>{{'View' | translate }}</span></button>
               <button class="secondary flex items-center px-3 py-1.5 anim" *ngIf="notification.is_payment_done && notification.is_sent" (click)="getReport($event, notification?._id)"><i class="icon-show mr-2"></i><span>{{'Report' | translate }}</span></button>
