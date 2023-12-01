@@ -160,6 +160,7 @@ export class ProfileComponent implements OnInit {
       this.isLoading = true;
       if (user) {
         this.profileObj = user;
+        console.log(this.profileObj);
         this._prepareProfileForm(this.profileObj);
         this.phoneForm.patchValue({
           p_phone: this.profileObj.country_wise_contact || undefined,
@@ -179,7 +180,6 @@ export class ProfileComponent implements OnInit {
             });
           }
           this._prepareBusinessForm(this.businessObj);
-          // debugger
         }
         this.isLoading = false;
       }
@@ -399,7 +399,6 @@ export class ProfileComponent implements OnInit {
           })
         )
         .subscribe((result: any) => {
-          // debugger
           if (result && result.IsSuccess) {
             this.photoArr.push({ url: result.Data.url, description: this.photoForm.value?.description });
             this.photoForm.get('description').setValue('');
@@ -564,7 +563,6 @@ export class ProfileComponent implements OnInit {
     const pdfUpload = $('#company_gst')[0].files[0];
     const pdfFormData = new FormData();
     this.isInValidPDF = false;
-    // debugger
     if (pdfUpload != undefined) {
       if (pdfUpload != undefined && pdfUpload.type != 'application/pdf') {
         // this._sNotify.error('File type is Invalid.', 'Oops!');
@@ -672,7 +670,6 @@ export class ProfileComponent implements OnInit {
   }
 
   updatePersonalProfile(): any {
-    debugger
     if (this.profileForm.invalid) {
       Object.keys(this.profileForm.controls).forEach((key) => {
         this.profileForm.controls[key].touched = true;
