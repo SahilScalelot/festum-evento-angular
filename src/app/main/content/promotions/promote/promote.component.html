@@ -8,16 +8,31 @@
     <form class="space-y-5" [formGroup]="promoteForm">
       <div class="flex items-end flex-wrap -mx-2">
         <div class="flex flex-wrap w-full mb-7" *ngIf="notificationObj">
-          <div class="w-1/2  p-3 group" [class]="constants.userTypeArr.length === 5 ? 'lg:w-1/5 xl:w-1/5' : 'lg:w-1/6 xl:w-1/6'" *ngFor="let userType of constants.userTypeArr">
-            <label [id]="userType?.value" class="user_type text-center bg-white rounded flex flex-col justify-between items-center h-full px-5 py-7 anim relative group cursor-pointer">
-              <input type="radio" name="user_type" [formControlName]="'usertype'" [id]="userType?.value" [value]="userType?.value" class="hidden" (change)="getTotalUsers(userType?.value)"/>
-              <span class="absolute inset-0 border-2 border-magicPotion opacity-0 anim"></span>
-              <div class="w-24 h-24">
-                <img [src]="userType?.url" [alt]="userType?.type" class="w-full h-full object-contain" />
-              </div>
-              <p class="text-base text-sm font-bold pt-8 whitespace-pre-wrap">{{userType?.type}}</p>
-            </label>
-          </div>
+          <ng-container *ngIf="notificationObj.is_sms || notificationObj.is_email; else elseBlock">
+            <div class="w-1/2  p-3 group" class="lg:w-1/6 xl:w-1/6 px-2" *ngFor="let userType of constants.userTypeExcelArr">
+              <label [id]="userType?.value" class="user_type text-center bg-white rounded flex flex-col justify-between items-center h-full px-5 py-7 anim relative group cursor-pointer">
+                <input type="radio" name="user_type" [formControlName]="'usertype'" [id]="userType?.value" [value]="userType?.value" class="hidden" (change)="getTotalUsers(userType?.value)"/>
+                <span class="absolute inset-0 border-2 border-magicPotion opacity-0 anim"></span>
+                <div class="w-24 h-24">
+                  <img [src]="userType?.url" [alt]="userType?.type" class="w-full h-full object-contain" />
+                </div>
+                <p class="text-base text-sm font-bold pt-8 whitespace-pre-wrap">{{userType?.type}}</p>
+              </label>
+            </div>
+          </ng-container>
+          <ng-template #elseBlock>
+            <div class="w-1/2  p-3 group" class="lg:w-1/5 xl:w-1/5 px-2" *ngFor="let userType of constants.userTypeArr">
+              <label [id]="userType?.value" class="user_type text-center bg-white rounded flex flex-col justify-between items-center h-full px-5 py-7 anim relative group cursor-pointer">
+                <input type="radio" name="user_type" [formControlName]="'usertype'" [id]="userType?.value" [value]="userType?.value" class="hidden" (change)="getTotalUsers(userType?.value)"/>
+                <span class="absolute inset-0 border-2 border-magicPotion opacity-0 anim"></span>
+                <div class="w-24 h-24">
+                  <img [src]="userType?.url" [alt]="userType?.type" class="w-full h-full object-contain" />
+                </div>
+                <p class="text-base text-sm font-bold pt-8 whitespace-pre-wrap">{{userType?.type}}</p>
+              </label>
+            </div>
+          </ng-template>
+
           <span class="top-full text-red-500 text-xs ml-4" *ngIf="promoteForm.get('usertype')?.invalid && (promoteForm.get('usertype')?.dirty && promoteForm.get('usertype')?.touched)">
               <span *ngIf="promoteForm.get('usertype')?.errors?.['required']">
                 User Type is required.

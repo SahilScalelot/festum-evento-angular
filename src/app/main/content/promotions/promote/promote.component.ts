@@ -114,10 +114,7 @@ export class PromoteComponent implements OnInit {
     this.isLoading = true;
     this._promoteService.getNotificationById(this.nId).subscribe((result: any) => {
       if (result && result.IsSuccess) {
-        this.notificationObj = result.Data;
-        if (!this.notificationObj.is_email && !this.notificationObj.is_sms) {
-          this.constants.userTypeArr.splice(5, 1);
-        }
+        this.notificationObj = result?.Data;
         this._globalService.promoteNotification$.next(result.Data);
         this._preparePromoteForm(result.Data);
         if (result.Data?.usertype) {
