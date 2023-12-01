@@ -82,7 +82,7 @@ export class ProfileComponent implements OnInit {
   companyDetailObj: any = {};
   photosUploadLimit: number = 5;
   imagesFiles: File[] = [];
-  videosUploadLimit: number = 10;
+  videosUploadLimit: number = 2;
   videosFiles: File[] = [];
   isHideDiscountitem: any = false;
   pdfObj: any = [];
