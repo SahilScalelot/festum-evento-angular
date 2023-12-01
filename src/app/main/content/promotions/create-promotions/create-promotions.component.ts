@@ -271,7 +271,7 @@ export class CreatePromotionsComponent implements OnInit {
       description: [notificationObj?.description || '', [Validators.required]],
       notification_date: [notificationObj && notificationObj.notification_date ? new Date(notificationObj?.notification_date) : '', [Validators.required]],
       notification_time: [notificationObj && notificationObj.notification_time ? notificationObj.notification_time : '', [Validators.required]],
-      is_notification: [notificationObj?.is_notification  || true],
+      is_notification: [Object.keys(notificationObj).length !== 0 ? notificationObj.is_notification : true],
       is_email: [notificationObj?.is_email || false],
       is_sms: [notificationObj?.is_sms || false],
       emailtemplate: [notificationObj?.emailtemplate || ''],
