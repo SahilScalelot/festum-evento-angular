@@ -421,11 +421,11 @@ export class PromoteComponent implements OnInit {
       this.calculateTotalObj.notificationTotal = 0;
       this.calculateTotalObj.subTotal = _.sum([this.calculateTotalObj.smsTotal, this.calculateTotalObj.emailTotal]);
     } else {
-      this.promoteForm.get('notification_cost').setValue(Number(this.calculateTotalObj.notificationTotal.toFixed(2)));
+      this.promoteForm.get('notification_cost').setValue(Number(this.settingObj.notificationcost));
       this.calculateTotalObj.subTotal = _.sum([this.calculateTotalObj.notificationTotal, this.calculateTotalObj.smsTotal, this.calculateTotalObj.emailTotal]);
     }
-    this.promoteForm.get('sms_cost').setValue(Number(this.calculateTotalObj.smsTotal.toFixed(2)));
-    this.promoteForm.get('email_cost').setValue(Number(this.calculateTotalObj.emailTotal.toFixed(2)));
+    this.promoteForm.get('sms_cost').setValue(Number(this.settingObj.smscost));
+    this.promoteForm.get('email_cost').setValue(Number(this.settingObj.emailcost));
     this.promoteForm.get('total_cost').setValue(Number(this.calculateTotalObj.subTotal.toFixed(2)));
     //console.log(this.promoteForm.value);
     // if (this.selectedPlanObj && this.selectedPlanObj._id) {
@@ -517,24 +517,29 @@ export class PromoteComponent implements OnInit {
       }
     };
     options.handler = ((response: any) => {
-      options['payment_response_id'] = response.razorpay_payment_id;
-      this.promoteForm.get('payment_id').setValue(response.razorpay_payment_id);
-      this._promoteService.processPayment(this.promoteForm.value).subscribe((result: any) => {
-        if (result && result.IsSuccess) {
-          this._sNotify.success('Payment Successfully.', 'Success');
-          this._router.navigate(['/promotions']);
+      if (response.error) {
+        this._sNotify.error(response.error.description, 'Oops!');
+      } else {
+        options['payment_response_id'] = response.razorpay_payment_id;
+        this.promoteForm.get('payment_id').setValue(response.razorpay_payment_id);
+        this._promoteService.processPayment(this.promoteForm.value).subscribe((result: any) => {
+          if (result && result.IsSuccess) {
+            this._sNotify.success('Payment Successfully.', 'Success');
+            this._router.navigate(['/promotions']);
+            this.isLoading = false;
+          } else {
+            this._globalFunctions.successErrorHandling(result, this, true);
+            this.isLoading = false;
+          }
+        }, (error: any) => {
+          this._globalFunctions.errorHanding(error, this, true);
           this.isLoading = false;
-        } else {
-          this._globalFunctions.successErrorHandling(result, this, true);
-          this.isLoading = false;
-        }
-      }, (error: any) => {
-        this._globalFunctions.errorHanding(error, this, true);
-        this.isLoading = false;
-      });
+        });
+      }
     });
     options.modal.ondismiss = ((response: any) => {
       this.isLoading = false;
+      this._sNotify.error('Payment cancelled by the user.', 'Oops!');
     });
     let rzp = new this.winRef.nativeWindow.Razorpay(options);
     rzp.open();
