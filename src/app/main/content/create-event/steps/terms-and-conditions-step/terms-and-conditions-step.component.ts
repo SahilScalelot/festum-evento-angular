@@ -82,7 +82,7 @@ export class TermsAndConditionsStepComponent implements OnInit, OnDestroy {
   }
 
   backBtn(): void {
-    this._router.navigate(['/events/create/personal-details']);
+    this._router.navigate(['/events/create/permission']);
   }
 
   getTAndCEvent(): any {

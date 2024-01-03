@@ -94,20 +94,16 @@ export class OnlineOffersComponent implements OnInit {
   offerLive(event: any, offerObj: any, index: number): void {
     event.stopPropagation();
     this._sNotify.clear();
-    this.isLoading = true;
     this._onlineOffersService.onOff(offerObj._id).subscribe((result: any) => {
       if (result && result.IsSuccess) {
         const tmpEvents = this._globalFunctions.copyObject(this.shopOffers);
         tmpEvents[index].is_live = event.target.checked;
         this.shopOffers = this._globalFunctions.copyObject(tmpEvents);
-        this.isLoading = false;
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
-        this.isLoading = false;
       }
     }, (error: any) => {
       this._globalFunctions.errorHanding(error, this, true);
-      this.isLoading = false;
     });
   }
 

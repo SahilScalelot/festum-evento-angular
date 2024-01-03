@@ -128,20 +128,16 @@ export class EventOverviewComponent implements OnInit {
   liveEvent(event: any, eventObj: any): void {
     event.stopPropagation();
     if (eventObj.is_approved) {
-      this.isLoading = true;
       this._eventService.liveEventById(eventObj._id).subscribe((result: any) => {
         if (result && result.IsSuccess) {
           const tmpEvents = this._globalFunctions.copyObject(this.event);
           tmpEvents.is_live = event.target.checked;
           this.event = this._globalFunctions.copyObject(tmpEvents);
-          this.isLoading = false;
         } else {
           this._globalFunctions.successErrorHandling(result, this, true);
-          this.isLoading = false;
         }
       }, (error: any) => {
         this._globalFunctions.errorHanding(error, this, true);
-        this.isLoading = false;
       });
     }
   }

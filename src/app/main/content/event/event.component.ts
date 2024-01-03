@@ -115,20 +115,16 @@ export class EventComponent implements OnInit {
     event.stopPropagation();
     this._sNotify.clear();
     if (eventObj.is_approved) {
-      this.isLoading = true;
       this._eventService.liveEventById(eventObj._id).subscribe((result: any) => {
         if (result && result.IsSuccess) {
           const tmpEvents = this._globalFunctions.copyObject(this.events);
           tmpEvents[index].is_live = event.target.checked;
           this.events =this._globalFunctions.copyObject(tmpEvents);
-          this.isLoading = false;
         } else {
           this._globalFunctions.successErrorHandling(result, this, true);
-          this.isLoading = false;
         }
       }, (error: any) => {
         this._globalFunctions.errorHanding(error, this, true);
-        this.isLoading = false;
       });
     } else {
       this._sNotify.error('Wait for Event Verified.', 'Oops');
