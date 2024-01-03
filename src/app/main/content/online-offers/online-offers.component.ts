@@ -106,6 +106,15 @@ export class OnlineOffersComponent implements OnInit {
       this._globalFunctions.errorHanding(error, this, true);
     });
   }
+  liveOfferCheck(event: any, eventObj: any, index: number): void {
+    console.log('click');
+    
+    event.stopPropagation();
+    this._sNotify.clear();
+    if (!eventObj.is_approved) {
+      this._sNotify.error('Wait for Offer Verified.', 'Oops');
+    }
+  }
 
   stopPropagation(event: any): void {
     event.stopPropagation();
