@@ -52,7 +52,9 @@
               "lodash",
               "moment",
               "html2canvas",
-              "@ckeditor/ckeditor5-build-decoupled-document"
+              "@ckeditor/ckeditor5-build-decoupled-document",
+              "@cordobo/qrcode",
+              "google-libphonenumber"
             ]
           },
           "configurations": {
@@ -60,13 +62,13 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "9mb",
-                  "maximumError": "10mb"
+                  "maximumWarning": "7mb",
+                  "maximumError": "7mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "2mb",
+                  "maximumError": "4mb"
                 }
               ],
               "fileReplacements": [

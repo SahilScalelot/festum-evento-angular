@@ -3,10 +3,10 @@
 @import "./node_modules/ng-snotify/styles/material.scss";
 @import "~@ng-select/ng-select/themes/default.theme.css";
 @import "https://fonts.googleapis.com/css?family=Roboto:400,300,700,900|Roboto+Condensed:400,300,700";
-@import "~swiper/css";
-@import "~swiper/css/pagination";
-@import "~swiper/css/navigation";
-@import '~@ctrl/ngx-emoji-mart/picker';
+@import "swiper/css";
+@import "swiper/css/pagination";
+@import "swiper/css/navigation";
+@import '@ctrl/ngx-emoji-mart/picker';
 
 html, body {scroll-behavior: smooth;}
 
