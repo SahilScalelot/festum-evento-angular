@@ -37,12 +37,12 @@
                   </div>
                   <div class="border-l-2 border-brightGray px-2 lg:px-4">
                     <div class="text-sm font-semibold text-quicksilver pt-3"><i class="icon-online_offer mr-1.5"></i>{{'Offer Status' | translate }}</div>
-                    <div class="flex items-center" >
-                      <label class="flex items-center relative" (click)="liveOfferCheck($event, shopOffers, i)">
-                        <span class="absolute opacity-0 inset-y-0 left-3 right-10 block z-10" *ngIf="!shopOffers.is_approved"></span>
-                        <input type="checkbox" id="on" class="switch mx-3 order-2" (click)="offerLive($event, shopOffer, i)" [checked]="shopOffer?.is_live" [disabled]="!shopOffer?.is_approved"/>
-                        <span class="off text-base font-bold anim order-1 text-caribbeanGreen">{{'On' | translate }}</span>
-                        <span class="on text-base font-bold anim order-3">{{'Off' | translate }}</span>
+                    <div class="flex items-center cursor-pointer" >
+                      <label class="flex items-center cursor-pointer relative" (click)="liveOfferCheck($event, shopOffers, i)">
+                        <span class="absolute opacity-0 cursor-pointer inset-y-0 left-3 right-10 block z-10" *ngIf="!shopOffers.is_approved"></span>
+                        <input type="checkbox" id="on" class="switch cursor-pointer mx-3 order-2" (click)="offerLive($event, shopOffer, i)" [checked]="shopOffer?.is_live" [disabled]="!shopOffer?.is_approved"/>
+                        <span class="off text-base cursor-pointer font-bold anim order-1 text-caribbeanGreen">{{'On' | translate }}</span>
+                        <span class="on text-base cursor-pointer font-bold anim order-3">{{'Off' | translate }}</span>
                       </label>
                     </div>
                   </div>

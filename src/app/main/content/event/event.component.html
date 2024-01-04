@@ -86,10 +86,10 @@
                           <span class="inline-block w-0 invisible pl-1.5 group-hover:visible group-hover:w-auto text-xs font-bold text-black/70 whitespace-nowrap">{{'bookingNotAccept' | translate}}</span>
                         </div>
 
-                        <label class="flex items-center relative" (click)="liveEventCheck($event, event, i)">
-                          <span class="absolute opacity-0 inset-y-0 left-3 right-10 block z-10" *ngIf="!event.is_approved"></span>
-                          <input type="checkbox" class="switch mr-1.5 lg:mx-3 order-2" (click)="liveEvent($event, event, i)" [checked]="event?.is_live" [disabled]="!event?.is_approved"/>
-                          <span class="text-base font-bold anim order-3">{{'Live' | translate }}</span>
+                        <label class="flex items-center cursor-pointer relative" (click)="liveEventCheck($event, event, i)">
+                          <span class="absolute opacity-0 cursor-pointer inset-y-0 left-3 right-10 block z-10" *ngIf="!event.is_approved"></span>
+                          <input type="checkbox" class="switch cursor-pointer mr-1.5 lg:mx-3 order-2" (click)="liveEvent($event, event, i)" [checked]="event?.is_live" [disabled]="!event?.is_approved"/>
+                          <span class="text-base font-bold cursor-pointer anim order-3">{{'Live' | translate }}</span>
                         </label>
                       </div>
                     </div>
