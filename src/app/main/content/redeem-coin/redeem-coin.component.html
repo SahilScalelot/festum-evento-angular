@@ -12,6 +12,9 @@
       </h2>
       <img src="../assets/images/coin.png" alt="Coin" />
     </div>
+    <div class="py-3.5 px-5 rounded-lg bg-magicPotion opacity-50 flex items-center justify-between" *ngIf="userObj?.is_approved">
+      <p>Frezed Coin your </p>
+    </div>
     <app-skel-screen [objectType]="'redeem'" *ngIf="isLoading"></app-skel-screen>
     <div class="space-y-5" *ngIf="!isLoading">
       <div class="flex items-center justify-between p-2.5 bg-white rounded-md" *ngFor="let history of redeemCoinHistory">
@@ -83,7 +86,6 @@
         </div>
       </div> -->
       <div class="flex flex-wrap items-center justify-center " *ngIf="!isLoading && redeemCoinHistory && redeemCoinHistory?.length">
-        <!-- <div class="pagination-festum py-2"><p class="show-text">Showing {{offset}} to {{(((offset - 1) + perPageLimit) < pTotal) ? (offset - 1) + perPageLimit : pTotal}} Of {{ pTotal }} Events.</p></div> -->
         <p-paginator [rows]="paging?.limit" [totalRecords]="paging?.totalDocs" [rowsPerPageOptions]="[10, 20, 30, 40, 50]" (onPageChange)="getRedeemHistory($event)"></p-paginator>
       </div>
     </div>    

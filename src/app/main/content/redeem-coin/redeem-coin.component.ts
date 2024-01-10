@@ -26,11 +26,27 @@ export class RedeemCoinComponent implements OnInit {
     this._globalService.loginUser$.subscribe((user: any) => {
       this.isLoading = true;
       if (user) {
-        this.userObj = this._globalFunctions.copyObject(user);
+        this.userObj = user;
         this.isLoading = false;
       }
     });
+    this.getLoginUser();
     this.getRedeemHistory();
+  }
+
+  getLoginUser(): void {
+    this.isLoading = true;
+    this._redeemCoinService.getLoginUser().subscribe((result: any) => {
+      if (result) {
+        this.userObj = this._globalFunctions.copyObject(result.Data);
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+      }
+      this.isLoading = false;
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isLoading = false;
+    });
   }
 
   getRedeemHistory(event: any = {}): void {

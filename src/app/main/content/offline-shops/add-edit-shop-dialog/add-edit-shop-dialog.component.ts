@@ -478,11 +478,11 @@ export class AddEditShopDialogComponent implements OnInit, OnDestroy {
           this._sNotify.error('Poster type is Invalid.', 'Oops!');
           return false;
         }
-        const image_size = poster.size / 1024 / 1024;
-        if (image_size > CONSTANTS.maxPosterSizeInMB) {
-          this._sNotify.error('Maximum Poster Size is ' + CONSTANTS.maxPosterSizeInMB + 'MB.', 'Oops!');
-          return false;
-        }
+        // const image_size = poster.size / 1024 / 1024;
+        // if (image_size > CONSTANTS.maxPosterSizeInMB) {
+        //   this._sNotify.error('Maximum Poster Size is ' + CONSTANTS.maxPosterSizeInMB + 'MB.', 'Oops!');
+        //   return false;
+        // }
         this.posterObj.image = poster;
         this.posterObj.name = poster.name;
         this.savePoster(poster);

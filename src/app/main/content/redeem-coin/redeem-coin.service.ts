@@ -14,4 +14,7 @@ export class RedeemCoinService {
     return this.http.post(environment.appURL + 'organizer/redeem/history', data, this._globalFunctions.getAuthorizationHeader());
   }
 
+  getLoginUser(): any {
+    return this.http.get(environment.appURL + 'organizer/profile', this._globalFunctions.getAuthorizationHeader());
+  }
 }

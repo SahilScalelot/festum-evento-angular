@@ -268,11 +268,11 @@ export class ArrangementDialogComponent implements OnInit {
           return false;
         }
 
-        const image_size = poster.size / 1024 / 1024;
-        if (image_size > 5) {
-          this._sNotify.error('Maximum Image Size is 5MB.', 'Oops!');
-          return false;
-        }
+        // const image_size = poster.size / 1024 / 1024;
+        // if (image_size > 5) {
+        //   this._sNotify.error('Maximum Image Size is 5MB.', 'Oops!');
+        //   return false;
+        // }
         this.photoUpdateForm.controls['image'].setValue(poster);
         //this.savePoster(poster);
       }
@@ -377,11 +377,11 @@ export class ArrangementDialogComponent implements OnInit {
           this._sNotify.error('Images type should only jpeg, jpg, png, gif, avif and raw.', 'Oops!');
           return;
         }
-        const image_size = image.size / 1024 / 1024;
-        if (image_size > 5) {
-          this._sNotify.error('Maximum Image Size is 5MB.', 'Oops!');
-          return;
-        }
+        // const image_size = image.size / 1024 / 1024;
+        // if (image_size > 5) {
+        //   this._sNotify.error('Maximum Image Size is 5MB.', 'Oops!');
+        //   return;
+        // }
         if (this.selectedTab == 1) {
           if (this.tempImgArr && this.tempImgArr.length && this.tempImgArr.length >= this.photosUploadLimit) {
             this._sNotify.error('Maximum 15 images can upload!', 'Oops!');

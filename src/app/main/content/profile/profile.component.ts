@@ -57,6 +57,7 @@ export class ProfileComponent implements OnInit {
   profileForm: any;
   isPdfLoading: boolean = false;
   businessForm: any;
+  kycForm: any;
   rejectedPhotosList: any;
   profileObj: any = {};
   businessObj: any = {};
@@ -97,6 +98,12 @@ export class ProfileComponent implements OnInit {
   isImgLoading: boolean = false;
   isVideoLoading: boolean = false;
   isDeleteLoading: boolean = false;
+  kycObj: any;
+  isKyc: boolean = false;
+  selectedItemImg: string | ArrayBuffer;
+  passbookImage: string | ArrayBuffer;
+  panImage: string | ArrayBuffer;
+  nk: any;
 
   get profileFirstName() {
     return this.profileForm.get('name')
@@ -156,38 +163,12 @@ export class ProfileComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this._globalService.loginUser$.subscribe((user: any) => {
-      this.isLoading = true;
-      if (user) {
-        this.profileObj = user;
-        console.log(this.profileObj);
-        this._prepareProfileForm(this.profileObj);
-        this.phoneForm.patchValue({
-          p_phone: this.profileObj.country_wise_contact || undefined,
-          a_phone: this.profileObj.alt_country_wise_contact || undefined,
-          
-        });
-        this.profile_pic = CONSTANTS.baseImageURL + this.profileObj?.profile_pic;
-        if (this.profileObj?.businessProfile?.profile_pic) {
-          
-          this.business_profile_pic = CONSTANTS.baseImageURL + this.profileObj?.businessProfile?.profile_pic;
-          this.businessObj = this.profileObj?.businessProfile;
-          this.photoArr = this.businessObj?.photos || [];
-          this.videoArr = this.businessObj?.videos || [];
-          if (this.businessObj && this.businessObj.country_wise_contact && this.businessObj.country_wise_contact != '') { 
-            this.phoneForm.patchValue({
-              phone: this.businessObj.country_wise_contact
-            });
-          }
-          this._prepareBusinessForm(this.businessObj);
-        }
-        this.isLoading = false;
-      }
-    });
-
+    this._prepareProfileForm();
+    this._prepareBusinessForm();
+    this._prepareKycForm();
+    this.getProfileDetails();
     this.maxDate = new Date();
-    this._prepareProfileForm(this.profileObj);
-    this._prepareBusinessForm(this.profileObj?.businessProfile);
+
     // this._getUserDetail();
     this.pincodeValidation(this.profileObj.pincode);
 
@@ -227,6 +208,40 @@ export class ProfileComponent implements OnInit {
       description: [null]
     });
   }
+  
+
+  getProfileDetails() {
+    this._globalService.loginUser$.subscribe((user: any) => {
+      this.isLoading = true;
+      if (user) {
+        this.profileObj = user;
+        this.kycObj = user.kyc_details;
+        this._prepareProfileForm(this.profileObj);
+        this._prepareKycForm(this.kycObj);
+        this._prepareBusinessForm(this.profileObj?.businessProfile);
+        this.phoneForm.patchValue({
+          p_phone: this.profileObj.country_wise_contact || undefined,
+          a_phone: this.profileObj.alt_country_wise_contact || undefined,
+          
+        });
+        this.profile_pic = CONSTANTS.baseImageURL + this.profileObj?.profile_pic;
+        if (this.profileObj?.businessProfile?.profile_pic) {
+          this.business_profile_pic = CONSTANTS.baseImageURL + this.profileObj?.businessProfile?.profile_pic;
+          this.businessObj = this.profileObj?.businessProfile;
+          this.photoArr = this.businessObj?.photos || [];
+          this.videoArr = this.businessObj?.videos || [];
+          if (this.businessObj && this.businessObj.country_wise_contact && this.businessObj.country_wise_contact != '') { 
+            this.phoneForm.patchValue({
+              phone: this.businessObj.country_wise_contact
+            });
+          }
+          this._prepareBusinessForm(this.businessObj);
+        }
+        this.isLoading = false;
+      }
+    });
+  }
+
   onSelectImages(event: any) {
     const totalPhotos = this.photosUploadLimit - ((this.photoArr?.length || 0) + (event?.addedFiles?.length || 0) + (this.imagesFiles?.length || 0));
     if ((totalPhotos >= 0) && (totalPhotos <= this.photosUploadLimit)) {
@@ -250,11 +265,11 @@ export class ProfileComponent implements OnInit {
             return;
           }
   
-          const video_size = video.size / 1024 / 1024;
-          if (video_size > CONSTANTS.maxVideoSizeInMB) {
-            this._sNotify.error('Maximum Video Size is ' + CONSTANTS.maxVideoSizeInMB + 'MB.', 'Oops!');
-            return;
-          }
+          // const video_size = video.size / 1024 / 1024;
+          // if (video_size > CONSTANTS.maxVideoSizeInMB) {
+          //   this._sNotify.error('Maximum Video Size is ' + CONSTANTS.maxVideoSizeInMB + 'MB.', 'Oops!');
+          //   return;
+          // }
   
           if (this.videoArr && this.videoArr.length && this.videoArr.length >= 10) {
             this._sNotify.error('Maximum 10 videos can upload!', 'Oops!');
@@ -427,11 +442,11 @@ export class ProfileComponent implements OnInit {
             return false;
           }
   
-          const image_size = poster.size / 1024 / 1024;
-          if (image_size > CONSTANTS.maxPosterSizeInMB) {
-            this._sNotify.error('Maximum Poster Size is ' + CONSTANTS.maxPosterSizeInMB + 'MB.', 'Oops!');
-            return false;
-          }
+          // const image_size = poster.size / 1024 / 1024;
+          // if (image_size > CONSTANTS.maxPosterSizeInMB) {
+          //   this._sNotify.error('Maximum Poster Size is ' + CONSTANTS.maxPosterSizeInMB + 'MB.', 'Oops!');
+          //   return false;
+          // }
           this.photoUpdateForm.controls['image'].setValue(poster);
           //this.savePoster(poster);
         }
@@ -500,11 +515,11 @@ export class ProfileComponent implements OnInit {
           return false;
         }
 
-        const image_size = video.size / 1024 / 1024;
-        if (image_size > CONSTANTS.maxVideoSizeInMB) {
-          this._sNotify.error('Maximum Video Size is ' + CONSTANTS.maxVideoSizeInMB + 'MB.', 'Oops!');
-          return false;
-        }
+        // const image_size = video.size / 1024 / 1024;
+        // if (image_size > CONSTANTS.maxVideoSizeInMB) {
+        //   this._sNotify.error('Maximum Video Size is ' + CONSTANTS.maxVideoSizeInMB + 'MB.', 'Oops!');
+        //   return false;
+        // }
         this.videoUpdateForm.controls['video'].setValue(video);
       }
     }
@@ -701,6 +716,48 @@ export class ProfileComponent implements OnInit {
       });
     }
   }
+  updateKycDetail(): any {
+    if (this.kycForm.invalid) {
+      Object.keys(this.kycForm.controls).forEach((key) => {
+        this.kycForm.controls[key].touched = true;
+        this.kycForm.controls[key].markAsDirty();
+      });
+      return;
+    }
+
+    if (this.kycForm.valid) {
+
+      const fileObj: any = new FormData();
+      fileObj.append('upi_id', this.kycForm.value.upi_id || "");
+      fileObj.append('pan_card_no', this.kycForm.value.pan_card_no || "");
+      fileObj.append('bank_account_holder_name', this.kycForm.value.bank_account_holder_name);
+      fileObj.append('bank_account_no', this.kycForm.value.bank_account_no);
+      fileObj.append('bank_ifsc_code', this.kycForm.value.bank_ifsc_code);
+      fileObj.append('pan_card_photo', this.kycForm.value.pan_card_photo);
+      fileObj.append('bank_passbook_photo', this.kycForm.value.bank_passbook_photo);
+
+      // const preparedKycObj: any = this.kycForm.value;
+      this.isLoading = true;
+      
+      this._profileService.kycDetail(fileObj).subscribe((result: any) => {
+        if (result && result.IsSuccess) {
+          this._globalService.loginUser$.next(result.Data);
+          this._sNotify.success(result.Message, 'Success');
+          // this.enableFields();
+          this.isKyc = false;
+          this.isLoading = false;
+          // window.location.reload();
+        } else {
+          this._globalFunctions.successErrorHandling(result, this, true);
+          this.isKyc = false;
+        }
+      }, (error: any) => {
+        this.isLoading = false;
+        this._globalFunctions.errorHanding(error, this, true);
+        this.isKyc = false;
+      });
+    }
+  }
   pprepareObj(companyObj: any = {}): any {
     const preparedObj: any = companyObj;
     // preparedObj.eventid = this.eventId;
@@ -808,8 +865,54 @@ export class ProfileComponent implements OnInit {
     }
   }
 
+  enablekycFields(){
+      this.isKyc = true
+      this.kycForm.get('upi_id').enable();
+      this.kycForm.get('pan_card_no').enable();
+      this.kycForm.get('bank_account_holder_name').enable();
+      this.kycForm.get('bank_account_no').enable();
+      this.kycForm.get('bank_ifsc_code').enable();
+      this.kycForm.get('pan_card_photo').enable();
+      this.kycForm.get('bank_passbook_photo').enable();
+  }
+
+
+  uploadItemImage(event: any, type : any): void {
+    if (type == 'passbook') {      
+      if (event.target.files && event.target.files[0]) {
+        const file = event.target.files[0];
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (event) => { // called once readAsDataURL is completed
+          // this.isUpload = true;
+          this.passbookImage = event?.target?.result;
+          const itemImageFormControl = this.kycForm.get('bank_passbook_photo');
+          itemImageFormControl.setValue(file);
+          // this.toastr.clear();
+          // this.toastr.success("Image uploaded successfully.", 'Success');
+        }
+      }
+    } else if (type == 'pan_card' ) {
+      if (event.target.files && event.target.files[0]) {
+        const file = event.target.files[0];
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (event) => { // called once readAsDataURL is completed
+          // this.isUpload = true;
+          this.panImage = event?.target?.result;
+          const itemImageFormControl1 = this.kycForm.get('pan_card_photo');
+          itemImageFormControl1.setValue(file);
+          // this.toastr.clear();
+          // this.toastr.success("Image uploaded successfully.", 'Success');
+        }
+      }
+    }
+  }
+
+
   private _prepareProfileForm(personalProfileObj: any = {}): void {
     const preparedDOB: any = moment(personalProfileObj?.dob, 'DD-MM-YYYY');
+
     this.profileForm = this._formBuilder.group({
       name: [{ value: personalProfileObj?.name, disabled: true }, [Validators.required]],
       email: [{ value: personalProfileObj?.email, disabled: true }, [Validators.required]],
@@ -845,6 +948,19 @@ export class ProfileComponent implements OnInit {
       about: [{ value: businessProfileObj?.about || '', disabled: true }],
       photos: [this.photoArr || []],
       videos: [this.videoArr || []],
+    });
+  }
+  private _prepareKycForm(kycObj: any = {}): void {
+    this.panImage = CONSTANTS.baseImageURL + kycObj.pan_card_photo;
+    this.passbookImage = CONSTANTS.baseImageURL+ kycObj.bank_passbook_photo;
+    this.kycForm = this._formBuilder.group({
+      upi_id: [{ value: kycObj?.upi_id || '', disabled: true }, [Validators.required]],
+      pan_card_no: [{ value: kycObj?.pan_card_no || '', disabled: true }, [Validators.required]],
+      bank_account_holder_name: [{ value: kycObj?.bank_account_holder_name || '', disabled: true }, [Validators.required]],
+      bank_account_no: [{ value: kycObj?.bank_account_no || '', disabled: true }, [Validators.required]],
+      bank_ifsc_code: [{ value: kycObj?.bank_ifsc_code || '', disabled: true }, [Validators.required]],
+      pan_card_photo: [{ value: kycObj?.pan_card_photo || '', disabled: true }, [Validators.required]],
+      bank_passbook_photo: [{ value: kycObj?.bank_passbook_photo || '', disabled: true }, [Validators.required]]
     });
   }
 }

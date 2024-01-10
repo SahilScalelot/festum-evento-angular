@@ -201,11 +201,11 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
           this._sNotify.error('Poster type is Invalid.', 'Oops!');
           return false;
         }
-        const image_size = poster.size / 1024 / 1024;
-        if (image_size > CONSTANTS.maxPosterSizeInMB) {
-          this._sNotify.error('Maximum Poster Size is ' + CONSTANTS.maxPosterSizeInMB + 'MB.', 'Oops!');
-          return false;
-        }
+        // const image_size = poster.size / 1024 / 1024;
+        // if (image_size > CONSTANTS.maxPosterSizeInMB) {
+        //   this._sNotify.error('Maximum Poster Size is ' + CONSTANTS.maxPosterSizeInMB + 'MB.', 'Oops!');
+        //   return false;
+        // }
         this.posterObj.image = poster;
         this.posterObj.name = poster.name;
         this.savePoster(poster);
@@ -281,12 +281,12 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
         $('#create-photo-upload').focus();
         return false;
       }
-      const image_size = image.size / 1024 / 1024;
-      if (image_size > CONSTANTS.maxImageSizeInMB) {
-        this._sNotify.error('Maximum Image Size is ' + CONSTANTS.maxImageSizeInMB + 'MB.', 'Oops!');
-        $('#create-photo-upload').focus();
-        return false;
-      }
+      // const image_size = image.size / 1024 / 1024;
+      // if (image_size > CONSTANTS.maxImageSizeInMB) {
+      //   this._sNotify.error('Maximum Image Size is ' + CONSTANTS.maxImageSizeInMB + 'MB.', 'Oops!');
+      //   $('#create-photo-upload').focus();
+      //   return false;
+      // }
       if (this.images && this.images.value && this.images.value.length && this.images.value.length >= 2) {
         this._sNotify.error('Maximum 2 images can upload!', 'Oops!');
         return false;
@@ -506,11 +506,11 @@ export class CreateOfferComponent implements OnInit, OnDestroy {
         this._sNotify.error('Image type is Invalid.', 'Oops!');
         return false;
       }
-      const image_size = image.size / 1024;
-      if (image_size > CONSTANTS.maxIconSizeInKB) {
-        this._sNotify.error('Maximum Image Size is ' + CONSTANTS.maxIconSizeInKB + 'KB.', 'Oops!');
-        return false;
-      }
+      // const image_size = image.size / 1024;
+      // if (image_size > CONSTANTS.maxIconSizeInKB) {
+      //   this._sNotify.error('Maximum Image Size is ' + CONSTANTS.maxIconSizeInKB + 'KB.', 'Oops!');
+      //   return false;
+      // }
       imgFormData.append('file', image);
       this.isIconLoading = true;
       this._onlineOffersService.uploadPlatformImage(imgFormData).subscribe((result: any) => {

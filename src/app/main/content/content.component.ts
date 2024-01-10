@@ -165,7 +165,7 @@ export class ContentComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this._globalService.loginUser$.complete();
+    // this._globalService.loginUser$.complete();
   }
 
   screenCapture() {

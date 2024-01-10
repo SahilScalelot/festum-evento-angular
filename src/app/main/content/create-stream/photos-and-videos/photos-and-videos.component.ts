@@ -174,11 +174,11 @@ export class PhotosAndVideosComponent implements OnInit {
           return false;
         }
 
-        const image_size = poster.size / 1024 / 1024;
-        if (image_size > CONSTANTS.maxPosterSizeInMB) {
-          this._sNotify.error('Maximum Poster Size is ' + CONSTANTS.maxPosterSizeInMB + 'MB.', 'Oops!');
-          return false;
-        }
+        // const image_size = poster.size / 1024 / 1024;
+        // if (image_size > CONSTANTS.maxPosterSizeInMB) {
+        //   this._sNotify.error('Maximum Poster Size is ' + CONSTANTS.maxPosterSizeInMB + 'MB.', 'Oops!');
+        //   return false;
+        // }
         this.posterObj.image = poster;
         this.posterObj.name = poster.name;
         this.savePoster(poster);
@@ -366,11 +366,11 @@ export class PhotosAndVideosComponent implements OnInit {
           return false;
         }
 
-        const image_size = poster.size / 1024 / 1024;
-        if (image_size > CONSTANTS.maxPosterSizeInMB) {
-          this._sNotify.error('Maximum Poster Size is ' + CONSTANTS.maxPosterSizeInMB + 'MB.', 'Oops!');
-          return false;
-        }
+        // const image_size = poster.size / 1024 / 1024;
+        // if (image_size > CONSTANTS.maxPosterSizeInMB) {
+        //   this._sNotify.error('Maximum Poster Size is ' + CONSTANTS.maxPosterSizeInMB + 'MB.', 'Oops!');
+        //   return false;
+        // }
         this.photoUpdateForm.controls['image'].setValue(poster);
         //this.savePoster(poster);
       }
@@ -423,11 +423,11 @@ export class PhotosAndVideosComponent implements OnInit {
           return;
         }
 
-        const video_size = video.size / 1024 / 1024;
-        if (video_size > CONSTANTS.maxVideoSizeInMB) {
-          this._sNotify.error('Maximum Video Size is ' + CONSTANTS.maxVideoSizeInMB + 'MB.', 'Oops!');
-          return;
-        }
+        // const video_size = video.size / 1024 / 1024;
+        // if (video_size > CONSTANTS.maxVideoSizeInMB) {
+        //   this._sNotify.error('Maximum Video Size is ' + CONSTANTS.maxVideoSizeInMB + 'MB.', 'Oops!');
+        //   return;
+        // }
 
         if (this.videoArr && this.videoArr.length && this.videoArr.length >= 10) {
           this._sNotify.error('Maximum 10 videos can upload!', 'Oops!');
@@ -533,11 +533,11 @@ export class PhotosAndVideosComponent implements OnInit {
           return false;
         }
 
-        const image_size = video.size / 1024 / 1024;
-        if (image_size > CONSTANTS.maxVideoSizeInMB) {
-          this._sNotify.error('Maximum Video Size is ' + CONSTANTS.maxVideoSizeInMB + 'MB.', 'Oops!');
-          return false;
-        }
+        // const image_size = video.size / 1024 / 1024;
+        // if (image_size > CONSTANTS.maxVideoSizeInMB) {
+        //   this._sNotify.error('Maximum Video Size is ' + CONSTANTS.maxVideoSizeInMB + 'MB.', 'Oops!');
+        //   return false;
+        // }
         this.videoUpdateForm.controls['video'].setValue(video);
       }
     }

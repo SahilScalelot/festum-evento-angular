@@ -39,6 +39,11 @@ export class ProfileService {
   uploadImages(photoFormData: any): any {
     return this.http.post(environment.appURL + 'organizer/profile/image', photoFormData, this._globalFunctions.getFileAuthorizationHeader());
   }
+
+    // Kyc Api
+    kycDetail(photoFormData: any): any {
+      return this.http.post(environment.appURL + 'organizer/profile/kyc', photoFormData, this._globalFunctions.getFileAuthorizationHeader());
+    }
   
 
 }

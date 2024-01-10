@@ -162,11 +162,11 @@ export class AddEditShopOfferDialogComponent implements OnInit {
         this._sNotify.error('Image type is Invalid.', 'Oops!');
         return false;
       }
-      const image_size = file.size / 1024 / 1024;
-      if (image_size > CONSTANTS.maxImageSizeInMB) {
-        this._sNotify.error('Maximum Image Size is ' + CONSTANTS.maxImageSizeInMB + 'MB.', 'Oops!');
-        return false;
-      }
+      // const image_size = file.size / 1024 / 1024;
+      // if (image_size > CONSTANTS.maxImageSizeInMB) {
+      //   this._sNotify.error('Maximum Image Size is ' + CONSTANTS.maxImageSizeInMB + 'MB.', 'Oops!');
+      //   return false;
+      // }
 
       this.uploadImage(file, isProductFormValidation, index);
     }
@@ -443,11 +443,11 @@ export class AddEditShopOfferDialogComponent implements OnInit {
           this._sNotify.error('Poster type is Invalid.', 'Oops!');
           return false;
         }
-        const image_size = poster.size / 1024 / 1024;
-        if (image_size > CONSTANTS.maxPosterSizeInMB) {
-          this._sNotify.error('Maximum Poster Size is ' + CONSTANTS.maxPosterSizeInMB + 'MB.', 'Oops!');
-          return false;
-        }
+        // const image_size = poster.size / 1024 / 1024;
+        // if (image_size > CONSTANTS.maxPosterSizeInMB) {
+        //   this._sNotify.error('Maximum Poster Size is ' + CONSTANTS.maxPosterSizeInMB + 'MB.', 'Oops!');
+        //   return false;
+        // }
 
         if (!this.isUploadPosterLoading) {
           const photoFormData = new FormData();
@@ -494,11 +494,11 @@ export class AddEditShopOfferDialogComponent implements OnInit {
           $('#create-video-upload').focus();
           return false;
         }
-        const videoSize = video.size / 1024 / 1024;
-        if (videoSize > CONSTANTS.maxVideoSizeInMB) {
-          this._sNotify.error('Maximum Video Size is ' + CONSTANTS.maxVideoSizeInMB + 'MB.', 'Oops!');
-          return false;
-        }
+        // const videoSize = video.size / 1024 / 1024;
+        // if (videoSize > CONSTANTS.maxVideoSizeInMB) {
+        //   this._sNotify.error('Maximum Video Size is ' + CONSTANTS.maxVideoSizeInMB + 'MB.', 'Oops!');
+        //   return false;
+        // }
 
         if (!this.isUploadVideoLoading) {
           const videoFormData = new FormData();

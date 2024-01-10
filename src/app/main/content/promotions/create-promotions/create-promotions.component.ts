@@ -168,11 +168,11 @@ export class CreatePromotionsComponent implements OnInit {
         this._sNotify.error('Image type is Invalid.', 'Oops!');
         return false;
       }
-      const image_size = image.size / 1024 / 1024;
-      if (image_size > CONSTANTS.maxPosterSizeInMB) {
-        this._sNotify.error('Maximum Photo Size is ' + CONSTANTS.maxPosterSizeInMB + 'MB.', 'Oops!');
-        return false;
-      }
+      // const image_size = image.size / 1024 / 1024;
+      // if (image_size > CONSTANTS.maxPosterSizeInMB) {
+      //   this._sNotify.error('Maximum Photo Size is ' + CONSTANTS.maxPosterSizeInMB + 'MB.', 'Oops!');
+      //   return false;
+      // }
 
       const imageFormData = new FormData();
       imageFormData.append('file', image);

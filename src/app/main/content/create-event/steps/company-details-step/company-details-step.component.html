@@ -254,7 +254,7 @@
       <h6 class="input-titel text-sm font-bold text-quicksilver flex items-center">Select Photo <p class="text-10 ml-2">(up to 7MB)</p></h6>
 
       <label class="upload upload-popup p-0 relative group" id="editPosterUpload">
-        <input #editPoster (change)="onEditPosterChange($event)" accept="image/png, image/jpeg, image/gif" data-max-file-size="7M" class="editPoster hidden" id="editPoster" type="file" />
+        <input #editPoster (change)="onEditPosterChange($event)" accept="image/png, image/jpeg, image/gif" class="editPoster hidden" id="editPoster" type="file" />
       </label>
 
     </div>
@@ -274,7 +274,7 @@
       <h6 class="input-titel text-sm font-bold text-quicksilver flex items-center">Select video <p class="text-10 ml-2"> ( {{ videosUploadLimit - videoArr.length}} videos - up to 128MB/Video)</p></h6>
 
       <div class="block">
-        <ngx-dropzone #dropzoneVideos class="flex-wrap" (change)="onSelectVideos($event)" [maxFileSize]="134217728" accept="video/mp4,video/x-m4v,video/*">
+        <ngx-dropzone #dropzoneVideos class="flex-wrap" (change)="onSelectVideos($event)"  accept="video/mp4,video/x-m4v,video/*">
           <ngx-dropzone-label>Drop videos here</ngx-dropzone-label>
           <ngx-dropzone-video-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of videosFiles" [file]="f" [removable]="true" (removed)="onRemoveVideos(f)"></ngx-dropzone-video-preview>
         </ngx-dropzone>
@@ -302,7 +302,7 @@
       <h6 class="input-titel text-sm font-bold text-quicksilver flex items-center">Select Video <p class="text-10 ml-2">(up to 128MB)</p></h6>
 
       <label class="upload upload-popup p-0 relative group" id="editVideoUpload">
-        <input #editVideo (change)="onEditVideoChange($event)" accept="video/mp4,video/x-m4v,video/*" data-max-file-size="128M" class="editVideo hidden" id="editVideo" type="file" />
+        <input #editVideo (change)="onEditVideoChange($event)" accept="video/mp4,video/x-m4v,video/*"  class="editVideo hidden" id="editVideo" type="file" />
       </label>
 
     </div>
