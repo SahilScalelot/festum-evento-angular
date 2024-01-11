@@ -20,10 +20,12 @@
     </div>
     <app-skel-screen [objectType]="'redeem'" *ngIf="isLoading"></app-skel-screen>
 
-    <div class="teb-holder">
+    <div class="teb-holder flex">
       <button [class]="Transaction ? 'active' : ''" (click)="onTabChange('Transaction')" type="button">{{'Transactions' | translate }}</button>
-      <button [class]="freezed_coin_transaction ? 'active' : ''" (click)="onTabChange('freezed_coin_transaction')" type="button">{{'Request Reddem List' | translate }}</button>
-      <button [class]="Scaned_user ? 'active' : ''" (click)="onTabChange('Scaned_user')" type="button">{{'Scaned Users' | translate }}</button>
+      <button [class]="freezed_coin_transaction ? 'active' : ''" (click)="onTabChange('freezed_coin_transaction')" type="button">{{'Request Redeem List' | translate }}</button>
+      <button [class]="Scaned_user ? 'active' : ''" (click)="onTabChange('Scaned_user')" type="button">{{'Scaned Users' | translate }}</button> 
+      <button [class]="Scaned_user ? 'active' : ''" type="button"><a [href]=exportData target="_blank" rel="noopener noreferrer">Excel Download</a></button> 
+      
     </div>
 
     <div class="space-y-5" [class]="(!freezed_coin_transaction && !Scaned_user) ? 'active' : ''" *ngIf="!freezed_coin_transaction && !Scaned_user && !isLoading">
@@ -124,7 +126,7 @@
         </div>
         <div class="flex items-center">
           <p class="pr-5 border-r-2 text-sm font-bold border-quicksilver">{{history?.createdAt | date:'MMM dd, yyyy'}}</p>
-          <h5 class="pl-5 border-r-2 pr-3 {{history?.fcoin ? 'text-ufoGreen' : 'text-red-500'}}">{{history?.fcoin}}</h5>
+          <h5 class="pl-5 border-r-2 pr-3 {{history?.fcoin ? 'text-green-600' : 'text-red-500'}}">{{history?.fcoin}}</h5>
           <h5 class="pl-5 pr-3 {{history?.fcoin ? 'text-ufoGreen' : 'text-red-500'}}">{{history?.fcointoinr}}</h5>
         </div>
       </div>
@@ -177,7 +179,7 @@
 <modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="delete-event-pop"  [isCloseHidden]="true" [isTitleHidden]="true">
   <div class="flex flex-wrap relative">
     <div class="w-full pb-8">
-      <h3 class="w-full pb-2 normal-case">Redeem Your Coin</h3>
+      <h3 class="w-full pb-2 normal-case">Redeem Your F-Coin</h3>
       <p class="normal-case">Minimun F-Coin to Redeem {{userObj.MIN_FCOIN_TO_REDEEM}} </p>
     </div>
     <form class="w-full block pb-8" #redeemNgForm="ngForm" [formGroup]="redeemForm">

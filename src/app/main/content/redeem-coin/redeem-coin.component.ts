@@ -34,6 +34,7 @@ export class RedeemCoinComponent implements OnInit {
   scannedPaging: any;
   requestCoinHistory: any;
   requestPaging: any;
+  exportData: any;
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -60,6 +61,7 @@ export class RedeemCoinComponent implements OnInit {
     this.getRedeemHistory();
     this.getScannedUser();
     this.getListRedeemRequest();
+    this.getExportScannedUser();
   }
 
   onTabChange(tabVarName: any): void {
@@ -131,6 +133,21 @@ export class RedeemCoinComponent implements OnInit {
     });
   }
 
+  getExportScannedUser(){
+    this._redeemCoinService.getExportScannedUser().subscribe((result: any) => {
+      if (result && result.IsSuccess) {
+        this.exportData = this._globalFunctions.copyObject(result.Data);
+        console.log("Export Xl File Url",this.exportData);
+      } else {
+        this._globalFunctions.successErrorHandling(result, this, true);
+      }
+      this.isLoading = false;
+    }, (error: any) => {
+      this._globalFunctions.errorHanding(error, this, true);
+      this.isLoading = false;
+    });
+  }
+
   calculate(event : any) {
     this.calculatesum = event.target.value / this.userObj.ONE_RUPEE_FCOIN;
   }
@@ -143,7 +160,7 @@ export class RedeemCoinComponent implements OnInit {
       });
       return;
     }
-    debugger
+  
     if (this.userObj.f_coins < parseInt(this.redeemForm.value.fcoin)) {
       this._sNotify.error('Enough Coin', 'Oops');
       return;
@@ -152,7 +169,7 @@ export class RedeemCoinComponent implements OnInit {
     this.isLoading = true;
     this.redeemForm.disable();
     this._redeemCoinService.redeemrequest(preparedEventObj).subscribe((result: any) => {
-      debugger
+    
       if (result && result.IsSuccess) {
         this._sNotify.success('Redeem Coin Succes', 'Succes');
         this.isLoading = false;

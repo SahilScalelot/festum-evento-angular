@@ -26,8 +26,8 @@ export class RedeemCoinService {
     return this.http.post(environment.appURL + 'organizer/redeem/scanneduser',data , this._globalFunctions.getAuthorizationHeader());
   }
 
-  getExportScannedUser(data: any): any {
-    return this.http.post(environment.appURL + 'organizer/redeem/exportscanneduser',data , this._globalFunctions.getAuthorizationHeader());
+  getExportScannedUser(): any {
+    return this.http.post(environment.appURL + 'organizer/redeem/exportscanneduser',null, this._globalFunctions.getFileAuthorizationHeader());
   }
 
   getListRedeemRequest(data: any): any {
