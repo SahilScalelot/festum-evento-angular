@@ -2,7 +2,7 @@
   <div class="space-y-7 h-full">
     <div class="flex justify-between items-center">
       <h2>{{'Refer To Earn' | translate }}</h2>
-      <button type="button" class="secondary text-base px-7 py-2 anim">{{'Redeem' | translate }}</button>
+      <button type="button" (click)="redeemCoin()" class="secondary text-base px-7 py-2 anim">{{'Redeem' | translate }}</button>
     </div>
     <div class="py-3.5 px-5 rounded-lg bg-magicPotion flex items-center justify-between">
       <img src="../assets/images/coin.png" alt="Coin" />
@@ -12,11 +12,21 @@
       </h2>
       <img src="../assets/images/coin.png" alt="Coin" />
     </div>
-    <div class="py-3.5 px-5 rounded-lg bg-magicPotion opacity-50 flex items-center justify-between" *ngIf="userObj?.is_approved">
-      <p>Frezed Coin your </p>
+    <div class="py-3.5 px-5 font-bold rounded-lg bg-magicPotion opacity-70 flex items-center justify-between" *ngIf="userObj?.freezedfcoins">
+      <p>Freezed Coin : {{userObj?.freezedfcoins?.freezfcoins}}</p>
+      <p>Total User : {{userObj?.freezedfcoins?.total_max_user}}</p>
+      <p>Scanned User : {{userObj?.freezedfcoins?.total_user_scanned}}</p>
+      <p>Remening User : {{userObj?.freezedfcoins?.total_user_scanned_remaining}}</p>
     </div>
     <app-skel-screen [objectType]="'redeem'" *ngIf="isLoading"></app-skel-screen>
-    <div class="space-y-5" *ngIf="!isLoading">
+
+    <div class="teb-holder">
+      <button [class]="Transaction ? 'active' : ''" (click)="onTabChange('Transaction')" type="button">{{'Transactions' | translate }}</button>
+      <button [class]="freezed_coin_transaction ? 'active' : ''" (click)="onTabChange('freezed_coin_transaction')" type="button">{{'Request Reddem List' | translate }}</button>
+      <button [class]="Scaned_user ? 'active' : ''" (click)="onTabChange('Scaned_user')" type="button">{{'Scaned Users' | translate }}</button>
+    </div>
+
+    <div class="space-y-5" [class]="(!freezed_coin_transaction && !Scaned_user) ? 'active' : ''" *ngIf="!freezed_coin_transaction && !Scaned_user && !isLoading">
       <div class="flex items-center justify-between p-2.5 bg-white rounded-md" *ngFor="let history of redeemCoinHistory">
         <div class="flex items-center space-x-4">
           <div class="rounded text-4xl w-14 h-14 flex items-center justify-center" [ngClass]="{'bg-[#D5DBFF]': (history?.transaction_type == 'redeem'), 'bg-[#FFF0C8]': (history?.transaction_type == 'refer'), 'bg-[#C8FFF2]': (history?.transaction_type == 'transaction')}">
@@ -88,13 +98,127 @@
       <div class="flex flex-wrap items-center justify-center " *ngIf="!isLoading && redeemCoinHistory && redeemCoinHistory?.length">
         <p-paginator [rows]="paging?.limit" [totalRecords]="paging?.totalDocs" [rowsPerPageOptions]="[10, 20, 30, 40, 50]" (onPageChange)="getRedeemHistory($event)"></p-paginator>
       </div>
+      <div class="bg-white rounded-md text-center p-9 space-y-2" *ngIf="!isLoading &&  !redeemCoinHistory?.length">
+        <h4 class="w-full">You have no Redeem Coin History yet</h4>
+      </div>
     </div>    
+
+    <div class="space-y-5" [class]="(!Transaction && !Scaned_user) ? 'active' : ''" *ngIf="!Transaction && !Scaned_user && !isLoading">
+      <div class="flex items-center justify-between p-2.5 bg-white rounded-md" *ngFor="let history of requestCoinHistory">
+        <div class="flex items-center space-x-4">
+          <div class="rounded text-4xl w-14 h-14 flex items-center justify-center" [ngClass]="{'bg-[#D5DBFF]': (history?.transaction_type == 'redeem'), 'bg-[#FFF0C8]': (history?.transaction_type == 'refer'), 'bg-[#C8FFF2]': (history?.transaction_type == 'transaction')}">
+            <img [src]="!!(history?.transaction_icon) ? constants.baseImageURL + history?.transaction_icon : constants.defaultImage" [alt]="history?.transaction_type" />
+          </div>
+          <div *ngIf="history?.transaction_type == 'redeem'">
+            <h3 class="text-base">Coin Redeem</h3>
+            <span class="input-titel">Processing</span>
+          </div>
+          <div *ngIf="history?.transaction_type == 'refer'">
+            <h3 class="text-base">Login Refer</h3>
+            <span class="input-titel">Refer by {{(history?.refer_data?.to_refer?._id != userObj?._id) ? history?.refer_data?.to_refer.name : history?.refer_data?.from_refer.name}}</span>
+          </div>
+          <div>
+            <h3 class="text-base">{{history?.status}}</h3>
+            <span class="input-titel">Refer by {{(history?.refer_data?.to_refer?._id != userObj?._id) ? history?.refer_data?.to_refer.name : history?.refer_data?.from_refer.name}}</span>
+          </div>
+        </div>
+        <div class="flex items-center">
+          <p class="pr-5 border-r-2 text-sm font-bold border-quicksilver">{{history?.createdAt | date:'MMM dd, yyyy'}}</p>
+          <h5 class="pl-5 border-r-2 pr-3 {{history?.fcoin ? 'text-ufoGreen' : 'text-red-500'}}">{{history?.fcoin}}</h5>
+          <h5 class="pl-5 pr-3 {{history?.fcoin ? 'text-ufoGreen' : 'text-red-500'}}">{{history?.fcointoinr}}</h5>
+        </div>
+      </div>
+      <div class="flex flex-wrap items-center justify-center " *ngIf="!isLoading && requestCoinHistory && requestCoinHistory?.length">
+        <p-paginator [rows]="requestPaging?.limit" [totalRecords]="requestPaging?.totalDocs" [rowsPerPageOptions]="[10, 20, 30, 40, 50]" (onPageChange)="getListRedeemRequest($event)"></p-paginator>
+      </div>
+      <div class="bg-white rounded-md text-center p-9 space-y-2" *ngIf="!isLoading &&  !requestCoinHistory?.length">
+        <h4 class="w-full">You have no Request Redeem Coin History yet</h4>
+      </div>
+    </div>  
+
+    <div class="space-y-5" [class]="(!Transaction && !freezed_coin_transaction) ? 'active' : ''" *ngIf="!Transaction && !freezed_coin_transaction && !isLoading">
+      <div class="flex items-center justify-between p-2.5 bg-white rounded-md" *ngFor="let history of scannedCoinHistory">
+        <div class="flex items-center space-x-4">
+          <div class="rounded text-4xl w-14 h-14 flex items-center justify-center">
+            <img [src]="!!(history?.userid?.profilepic) ? constants.baseImageURL + history?.userid?.profilepic : constants.defaultImage" [alt]="history?.userid?.name" />
+          </div>
+          <!-- <div *ngIf="history?.transaction_type == 'redeem'">
+            <h3 class="text-base">Coin Redeem</h3>
+            <span class="input-titel">Processing</span>
+          </div> -->
+          <!-- <div *ngIf="history?.transaction_type == 'refer'">
+            <h3 class="text-base">Login Refer</h3>
+            <span class="input-titel">Refer by {{(history?.refer_data?.to_refer?._id != userObj?._id) ? history?.refer_data?.to_refer.name : history?.refer_data?.from_refer.name}}</span>
+          </div> -->
+          <div>
+            <h3 class="text-base">Scanned User</h3>
+            <span class="input-titel">Scanned by : {{history?.userid?.name}}</span>
+          </div>
+        </div>
+        <div class="flex items-center">
+          <p class="pr-5 border-r-2 text-sm font-bold border-quicksilver">{{history?.createdAt | date:'MMM dd, yyyy'}}</p>
+          <h5 class="pl-5 pr-3 {{history?.fcoin  ? 'text-ufoGreen' : 'text-red-500'}}">{{history?.fcoin ? '+' : '-'}}{{history?.fcoin}}</h5>
+        </div>
+      </div>
+      <div class="flex flex-wrap items-center justify-center " *ngIf="!isLoading && scannedCoinHistory && scannedCoinHistory?.length">
+        <p-paginator [rows]="scannedPaging?.limit" [totalRecords]="scannedPaging?.totalDocs" [rowsPerPageOptions]="[10, 20, 30, 40, 50]" (onPageChange)="getScannedUser($event)"></p-paginator>
+      </div>
+      <div class="bg-white rounded-md text-center p-9 space-y-2" *ngIf="!isLoading &&  !scannedCoinHistory?.length">
+        <h4 class="w-full">You have no Scanned Redeem Coin History yet</h4>
+      </div>
+    </div>  
+
     <div class="w-full mt-5 addsBox">
       <img src="/assets/images/banner-ads.png" alt="ring-ad" class="w-full object-cover" />
     </div>
   </div>
-
-  <div class="bg-white rounded-md text-center p-9 space-y-2" *ngIf="!isLoading &&  !redeemCoinHistory?.length">
-    <h4 class="w-full">You have no Redeem Coin History yet</h4>
-  </div>
 </div>
+
+<modal class="popup table fixed w-full inset-0 z-40 bg-black bg-opacity-75 h-screen hidden" id="delete-event-pop"  [isCloseHidden]="true" [isTitleHidden]="true">
+  <div class="flex flex-wrap relative">
+    <div class="w-full pb-8">
+      <h3 class="w-full pb-2 normal-case">Redeem Your Coin</h3>
+      <p class="normal-case">Minimun F-Coin to Redeem {{userObj.MIN_FCOIN_TO_REDEEM}} </p>
+    </div>
+    <form class="w-full block pb-8" #redeemNgForm="ngForm" [formGroup]="redeemForm">
+      <div >
+        <label class="input-titel">{{'Enter Redeem Coin' | translate}}</label>
+        <input [formControlName]="'fcoin'" (keyup)="calculate($event)" class="input option rounded-lg w-full py-3 px-4 focus-visible:outline-none" type="text"/>
+        <span class="top-full text-red-500 text-xs" *ngIf="redeemForm.get('fcoin')?.invalid && (redeemForm.get('fcoin')?.dirty && redeemForm.get('fcoin')?.touched)">
+          <span *ngIf="redeemForm.get('fcoin')?.errors?.['required']">
+            F-Coin is required.
+          </span>
+        </span>
+      </div>
+    </form>
+    <div class="w-full block pb-8">
+      <label class="input-titel">{{'Redeem Coin To Inr' | translate}} (1 Rs = {{userObj?.ONE_RUPEE_FCOIN }} F-Coin)</label>
+      <input [value]="calculatesum"  class="input option rounded-lg w-full py-3 px-4 focus-visible:outline-none" type="text" [disabled]="true"/>
+    </div>
+    <div *ngIf="userObj?.kyc_details?.upi_id" class="w-full block pb-8">
+      <label class="input-titel">{{'UPI Id' | translate}}</label>
+      <input [value]="userObj?.kyc_details?.upi_id"  class="input option rounded-lg w-full py-3 px-4 focus-visible:outline-none" type="text" disabled/>
+    </div>
+    <div class="w-full block pb-8">
+      <label class="input-titel">{{'Bank Ac Holder Name' | translate}}</label>
+      <input [value]="userObj?.kyc_details?.bank_account_holder_name"  class="input option rounded-lg w-full py-3 px-4 focus-visible:outline-none" type="text" disabled/>
+    </div>
+    <div class="w-full block pb-8">
+      <label class="input-titel">{{'Bank Ac IFSC' | translate}}</label>
+      <input [value]="userObj?.kyc_details?.bank_ifsc_code"  class="input option rounded-lg w-full py-3 px-4 focus-visible:outline-none" type="text" disabled/>
+    </div>
+    <div class="w-full block pb-8">
+      <label class="input-titel">{{'Bank Ac No.' | translate}}</label>
+      <input [value]="userObj?.kyc_details?.bank_account_no" class="input option rounded-lg w-full py-3 px-4 focus-visible:outline-none" type="text" disabled/>
+    </div>
+
+    <div class="flex items-center justify-end space-x-5 w-full">
+      <button type="button" class="primary py-2 px-14 anim uppercase" (click)="close()">Cancel</button>    
+      <div class="relative">
+        <button class="secondary py-2 px-14 anim uppercase" type="submit" (click)="redeem()">
+          <span>Reddem</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</modal>
