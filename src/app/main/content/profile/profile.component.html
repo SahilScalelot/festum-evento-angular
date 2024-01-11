@@ -193,18 +193,18 @@
 
     <form [formGroup]="kycForm" >
       <div class="flex justify-between items-center pt-4 pb-8">
-        <h1>{{'Kyc Detail' | translate}}</h1>
+        <h1>{{'KYC Detail' | translate}}</h1>
         <button *ngIf="!isKyc && (profileObj?.kyc_details?.status !== 'pending' && profileObj?.kyc_details?.status !== 'approved')"  class="secondary px-5 py-2" [attr.disabled] = "profileObj?.kyc_details?.status === 'pending' ? 'disabled' : null" (click)="enablekycFields()">{{'Edit KYC Detail' | translate }}</button>
         <button type="submit" *ngIf="isKyc" class="secondary px-5 py-2" (click)="updateKycDetail()">{{'Submit' | translate }}</button>
       </div>
-      <div class="py-3.5 mb-5 px-5 rounded-lg font-black bg-blue-500 flex items-center justify-between" *ngIf="profileObj?.kyc_details?.status == 'pending'">
-        <p>our KYC is in Progress, It will take 72 hours for verification. Thank you for your patience.</p>
+      <div class="py-3.5 mb-5 px-5 rounded-lg bg-white font-black flex items-center justify-between bg-gradient-to-r from-white to-blue-400/40" *ngIf="profileObj?.kyc_details?.status == 'pending'">
+        <p class=" text-blue-500">our KYC is in Progress, It will take 72 hours for verification. Thank you for your patience.</p>
       </div>
-      <div class="py-3.5 mb-5 px-5 rounded-lg font-black bg-blue-500 flex items-center justify-between" *ngIf="profileObj?.kyc_details?.status == 'approved'">
-        <p>Your KYC Verified Successfully.</p>
+      <div class="py-3.5 mb-5 px-5 rounded-lg bg-white font-black flex items-center justify-between bg-gradient-to-r from-white to-green-400/40" *ngIf="profileObj?.kyc_details?.status == 'approved'">
+        <p class="text-green-500">Your KYC Verified Successfully.</p>
       </div>
-      <div class="py-3.5 mb-5 px-5 rounded-lg font-black bg-blue-500 flex items-center justify-between" *ngIf="profileObj?.kyc_details?.status == 'rejected'">
-        <p>Your KYC is Rejected, Please read the remarks and submit again for verification. {{profileObj?.kyc_details?.remark}}</p>
+      <div class="py-3.5 mb-5 px-5 rounded-lg font-black bg-white flex items-center justify-between bg-gradient-to-r from-white to-red-400/40" *ngIf="profileObj?.kyc_details?.status == 'rejected'">
+        <p class="text-red-500">Your KYC is Rejected, Please read the remarks and submit again for verification. {{profileObj?.kyc_details?.remark}}</p>
       </div>
       <!-- form Edit  -->
       <div class="w-full relative">
@@ -212,8 +212,8 @@
           <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4">
             <span class="input-titel">{{'UPI Id' | translate }}</span>
             <input type="text" class="input font-bold" formControlName='upi_id' />
-            <!-- <span *ngIf="profileFirstName && profileFirstName.invalid && profileFirstName.touched" class="text-red-500 text-xs"> -->
-              <!-- Name is required
+            <!-- <span *ngIf="profileFirstName && profileFirstName.invalid && profileFirstName.touched" class="text-red-500 text-xs">
+              Name is required
             </span> -->
           </div>
           <div class="w-full lg:w-1/2 xl:w-1/3 px-2 inputHolder pt-4">

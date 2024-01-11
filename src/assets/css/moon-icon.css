@@ -25,6 +25,21 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-paid:before {
+  content: "\e95b";
+}
+.icon-rejected .path1:before {
+  content: "\e959";
+  color: rgb(0, 0, 0);
+}
+.icon-rejected .path2:before {
+  content: "\e95a";
+  margin-left: -1em;
+  color: rgb(255, 255, 255);
+}
+.icon-processing:before {
+  content: "\e95c";
+}
 .icon-paper:before {
   content: "\e958";
 }

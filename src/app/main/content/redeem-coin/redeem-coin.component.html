@@ -12,20 +12,24 @@
       </h2>
       <img src="../assets/images/coin.png" alt="Coin" />
     </div>
-    <div class="py-3.5 px-5 font-bold rounded-lg bg-magicPotion opacity-70 flex items-center justify-between" *ngIf="userObj?.freezedfcoins">
-      <p>Freezed Coin : {{userObj?.freezedfcoins?.freezfcoins}}</p>
+    <div class="py-3.5 px-5 font-bold rounded-lg bg-gradient-to-r from-white via-gray-400 to-white text-gray-700 opacity-70 flex items-center justify-between" *ngIf="userObj?.freezedfcoins">
+      <div class="flex items-center space-x-4">
+        <svg class="w-8 h-8 opacity-50" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="512" height="512" x="0" y="0" viewBox="0 0 512.001 512.001" style="enable-background:new 0 0 512 512" xml:space="preserve"><g><path d="M341.954 328.358c-12.131 0-22-8.542-22-19.041 0-10.5 9.869-19.042 22-19.042s22 8.542 22 19.042c0 5.522 4.478 10 10 10s10-4.478 10-10c0-18.325-13.654-33.733-32-37.915v-5.201c0-5.522-4.478-10-10-10s-10 4.478-10 10v5.201c-18.346 4.182-32 19.59-32 37.915 0 21.527 18.841 39.041 42 39.041 12.131 0 22 8.542 22 19.042s-9.869 19.042-22 19.042-22-8.542-22-19.042c0-5.522-4.478-10-10-10s-10 4.478-10 10c0 18.325 13.654 33.733 32 37.915v4.32c0 5.522 4.478 10 10 10s10-4.478 10-10v-4.32c18.346-4.182 32-19.59 32-37.915 0-21.528-18.841-39.042-42-39.042zM451.482 268.876a130.294 130.294 0 0 0-53.222-47.101c-4.979-2.394-10.954-.298-13.346 4.68-2.393 4.978-.298 10.952 4.68 13.345C427.505 258.024 452 296.963 452 339.001c0 17.988-4.434 35.827-12.821 51.591-2.594 4.875-.745 10.931 4.131 13.525a10 10 0 0 0 13.525-4.131C466.756 381.342 472 360.253 472 339.001c0-24.96-7.095-49.209-20.518-70.125zM357.673 209.002l-.673-.001c-5.522 0-10 4.477-10 10s4.478 10 10 10l.579.001h.048c5.501 0 9.973-4.446 9.999-9.953.025-5.523-4.431-10.021-9.953-10.047zM294.407 438.202c-37.91-18.225-62.405-57.164-62.405-99.201 0-17.988 4.434-35.827 12.821-51.591 2.594-4.875.745-10.931-4.131-13.525-4.874-2.594-10.932-.745-13.525 4.131-9.921 18.645-15.165 39.733-15.165 60.985 0 24.96 7.095 49.208 20.518 70.125a130.304 130.304 0 0 0 53.222 47.102 10.002 10.002 0 0 0 8.665-18.026zM327.002 449.001l-.579-.002c-5.548-.01-10.02 4.429-10.045 9.953-.026 5.523 4.432 10.021 9.954 10.047l.67.002c5.522 0 10-4.478 10-10s-4.478-10-10-10z" fill="#000000" opacity="1" data-original="#000000"></path><path d="M387.409 175.168a45.9 45.9 0 0 0-4.443-8.168H409c25.364 0 46-20.636 46-46s-20.636-46-46-46h-80.08A45.733 45.733 0 0 0 337 49c0-25.364-20.636-46-46-46H46C20.636 3 0 23.636 0 49s20.636 46 46 46h80.08c-5.091 7.402-8.08 16.357-8.08 26s2.988 18.598 8.08 26H100c-25.364 0-46 20.636-46 46 0 14.567 6.814 27.566 17.415 36C60.814 237.434 54 250.433 54 265s6.814 27.566 17.415 36C60.814 309.434 54 322.433 54 337s6.814 27.566 17.415 36C60.814 381.434 54 394.433 54 409c0 25.364 20.636 46 46 46h117.85c31.046 33.207 75.212 54.001 124.151 54.001 93.738 0 170-76.262 170-170 0-78.017-52.83-143.918-124.592-163.833zM409 95c14.337 0 26 11.664 26 26s-11.663 26-26 26H164c-14.337 0-26-11.664-26-26s11.663-26 26-26h245zM46 75c-14.337 0-26-11.664-26-26s11.663-26 26-26h245c14.337 0 26 11.664 26 26s-11.663 26-26 26H46zm54 92h245c4.028 0 7.885.936 11.345 2.612-4.73-.397-9.512-.611-14.344-.611-46.945 0-89.505 19.129-120.299 49.999H100c-14.336 0-26-11.664-26-26s11.664-26 26-26zm0 72h104.615c-11.352 15.553-20.129 33.095-25.703 52H100c-14.337 0-26-11.663-26-26 0-14.336 11.663-26 26-26zm0 72h74.32a170.4 170.4 0 0 0-2.319 28.001c0 8.146.589 16.156 1.702 23.999H100c-14.337 0-26-11.663-26-26s11.663-26 26-26zm0 124c-14.337 0-26-11.663-26-26s11.663-26 26-26h77.786a169.33 169.33 0 0 0 23.993 52H100zm242.001 54.001c-82.71 0-150-67.29-150-150s67.29-150 150-150 150 67.29 150 150-67.29 150-150 150z" fill="#000000" opacity="1" data-original="#000000"></path></g></svg>
+        <p>Freezed Coin : {{userObj?.freezedfcoins?.freezfcoins}}</p>
+      </div>
       <p>Total User : {{userObj?.freezedfcoins?.total_max_user}}</p>
       <p>Scanned User : {{userObj?.freezedfcoins?.total_user_scanned}}</p>
-      <p>Remening User : {{userObj?.freezedfcoins?.total_user_scanned_remaining}}</p>
+      <div class="flex items-center space-x-4">
+        <p>Remening User : {{userObj?.freezedfcoins?.total_user_scanned_remaining}}</p>
+        <svg class="w-8 h-8 opacity-50" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="512" height="512" x="0" y="0" viewBox="0 0 512.001 512.001" style="enable-background:new 0 0 512 512" xml:space="preserve"><g><path d="M341.954 328.358c-12.131 0-22-8.542-22-19.041 0-10.5 9.869-19.042 22-19.042s22 8.542 22 19.042c0 5.522 4.478 10 10 10s10-4.478 10-10c0-18.325-13.654-33.733-32-37.915v-5.201c0-5.522-4.478-10-10-10s-10 4.478-10 10v5.201c-18.346 4.182-32 19.59-32 37.915 0 21.527 18.841 39.041 42 39.041 12.131 0 22 8.542 22 19.042s-9.869 19.042-22 19.042-22-8.542-22-19.042c0-5.522-4.478-10-10-10s-10 4.478-10 10c0 18.325 13.654 33.733 32 37.915v4.32c0 5.522 4.478 10 10 10s10-4.478 10-10v-4.32c18.346-4.182 32-19.59 32-37.915 0-21.528-18.841-39.042-42-39.042zM451.482 268.876a130.294 130.294 0 0 0-53.222-47.101c-4.979-2.394-10.954-.298-13.346 4.68-2.393 4.978-.298 10.952 4.68 13.345C427.505 258.024 452 296.963 452 339.001c0 17.988-4.434 35.827-12.821 51.591-2.594 4.875-.745 10.931 4.131 13.525a10 10 0 0 0 13.525-4.131C466.756 381.342 472 360.253 472 339.001c0-24.96-7.095-49.209-20.518-70.125zM357.673 209.002l-.673-.001c-5.522 0-10 4.477-10 10s4.478 10 10 10l.579.001h.048c5.501 0 9.973-4.446 9.999-9.953.025-5.523-4.431-10.021-9.953-10.047zM294.407 438.202c-37.91-18.225-62.405-57.164-62.405-99.201 0-17.988 4.434-35.827 12.821-51.591 2.594-4.875.745-10.931-4.131-13.525-4.874-2.594-10.932-.745-13.525 4.131-9.921 18.645-15.165 39.733-15.165 60.985 0 24.96 7.095 49.208 20.518 70.125a130.304 130.304 0 0 0 53.222 47.102 10.002 10.002 0 0 0 8.665-18.026zM327.002 449.001l-.579-.002c-5.548-.01-10.02 4.429-10.045 9.953-.026 5.523 4.432 10.021 9.954 10.047l.67.002c5.522 0 10-4.478 10-10s-4.478-10-10-10z" fill="#000000" opacity="1" data-original="#000000"></path><path d="M387.409 175.168a45.9 45.9 0 0 0-4.443-8.168H409c25.364 0 46-20.636 46-46s-20.636-46-46-46h-80.08A45.733 45.733 0 0 0 337 49c0-25.364-20.636-46-46-46H46C20.636 3 0 23.636 0 49s20.636 46 46 46h80.08c-5.091 7.402-8.08 16.357-8.08 26s2.988 18.598 8.08 26H100c-25.364 0-46 20.636-46 46 0 14.567 6.814 27.566 17.415 36C60.814 237.434 54 250.433 54 265s6.814 27.566 17.415 36C60.814 309.434 54 322.433 54 337s6.814 27.566 17.415 36C60.814 381.434 54 394.433 54 409c0 25.364 20.636 46 46 46h117.85c31.046 33.207 75.212 54.001 124.151 54.001 93.738 0 170-76.262 170-170 0-78.017-52.83-143.918-124.592-163.833zM409 95c14.337 0 26 11.664 26 26s-11.663 26-26 26H164c-14.337 0-26-11.664-26-26s11.663-26 26-26h245zM46 75c-14.337 0-26-11.664-26-26s11.663-26 26-26h245c14.337 0 26 11.664 26 26s-11.663 26-26 26H46zm54 92h245c4.028 0 7.885.936 11.345 2.612-4.73-.397-9.512-.611-14.344-.611-46.945 0-89.505 19.129-120.299 49.999H100c-14.336 0-26-11.664-26-26s11.664-26 26-26zm0 72h104.615c-11.352 15.553-20.129 33.095-25.703 52H100c-14.337 0-26-11.663-26-26 0-14.336 11.663-26 26-26zm0 72h74.32a170.4 170.4 0 0 0-2.319 28.001c0 8.146.589 16.156 1.702 23.999H100c-14.337 0-26-11.663-26-26s11.663-26 26-26zm0 124c-14.337 0-26-11.663-26-26s11.663-26 26-26h77.786a169.33 169.33 0 0 0 23.993 52H100zm242.001 54.001c-82.71 0-150-67.29-150-150s67.29-150 150-150 150 67.29 150 150-67.29 150-150 150z" fill="#000000" opacity="1" data-original="#000000"></path></g></svg>
+      </div>
     </div>
     <app-skel-screen [objectType]="'redeem'" *ngIf="isLoading"></app-skel-screen>
 
     <div class="teb-holder flex">
       <button [class]="Transaction ? 'active' : ''" (click)="onTabChange('Transaction')" type="button">{{'Transactions' | translate }}</button>
-      <button [class]="freezed_coin_transaction ? 'active' : ''" (click)="onTabChange('freezed_coin_transaction')" type="button">{{'Request Redeem List' | translate }}</button>
+      <button [class]="freezed_coin_transaction ? 'active' : ''" (click)="onTabChange('freezed_coin_transaction')" type="button">{{'Redeem Request List' | translate }}</button>
       <button [class]="Scaned_user ? 'active' : ''" (click)="onTabChange('Scaned_user')" type="button">{{'Scaned Users' | translate }}</button> 
-      <button [class]="Scaned_user ? 'active' : ''" type="button"><a [href]=exportData target="_blank" rel="noopener noreferrer">Excel Download</a></button> 
-      
     </div>
 
     <div class="space-y-5" [class]="(!freezed_coin_transaction && !Scaned_user) ? 'active' : ''" *ngIf="!freezed_coin_transaction && !Scaned_user && !isLoading">
@@ -49,7 +53,7 @@
         </div>
         <div class="flex items-center">
           <p class="pr-5 border-r-2 text-sm font-bold border-quicksilver">{{history?.createdAt | date:'MMM dd, yyyy'}}</p>
-          <h5 class="pl-5 pr-3 {{history?.transaction_type == 'refer' ? 'text-ufoGreen' : 'text-red-500'}}">{{history?.transaction_type == 'refer' ? '+' : '-'}}{{history?.f_coins}}</h5>
+          <h5 class="pl-5 pr-3 {{history?.transaction_type == 'refer' ? 'text-green-600' : 'text-red-500'}}">{{history?.transaction_type == 'refer' ? '+' : '-'}}{{history?.f_coins}}</h5>
         </div>
       </div>
       <!-- <div class="flex items-center justify-between p-2.5 bg-white rounded-md">
@@ -79,7 +83,7 @@
         </div>
         <div class="flex items-center">
           <p class="pr-5 border-r-2 text-sm font-bold border-quicksilver">Jan 18, 2021</p>
-          <h5 class="pl-5 pr-3 text-ufoGreen">+250</h5>
+          <h5 class="pl-5 pr-3 text-green-600">+250</h5>
         </div>
       </div>
       <div class="flex items-center justify-between p-2.5 bg-white rounded-md">
@@ -106,10 +110,20 @@
     </div>    
 
     <div class="space-y-5" [class]="(!Transaction && !Scaned_user) ? 'active' : ''" *ngIf="!Transaction && !Scaned_user && !isLoading">
-      <div class="flex items-center justify-between p-2.5 bg-white rounded-md" *ngFor="let history of requestCoinHistory">
+      <div class="flex items-center justify-between p-2.5 bg-white bg-gradient-to-r from-white rounded-md" *ngFor="let history of requestCoinHistory"[ngClass]="{'to-green-400/40': (history?.status == 'paid'), 'to-red-400/40': (history?.status == 'rejected'), 'to-blue-400/40': (history?.status == 'processing')}">
         <div class="flex items-center space-x-4">
-          <div class="rounded text-4xl w-14 h-14 flex items-center justify-center" [ngClass]="{'bg-[#D5DBFF]': (history?.transaction_type == 'redeem'), 'bg-[#FFF0C8]': (history?.transaction_type == 'refer'), 'bg-[#C8FFF2]': (history?.transaction_type == 'transaction')}">
-            <img [src]="!!(history?.transaction_icon) ? constants.baseImageURL + history?.transaction_icon : constants.defaultImage" [alt]="history?.transaction_type" />
+          <div class="rounded text-4xl w-14 h-14 bg-green-300/20 flex items-center justify-center" *ngIf="history?.status == 'paid'" >
+            <!-- <img [src]="!!(history?.transaction_icon) ? constants.baseImageURL + history?.transaction_icon : '../assets/images/coin.png'" [alt]="history?.transaction_type" /> -->
+            <span class="icon-paid text-green-600"></span>
+          </div>
+          <div class="rounded text-4xl w-14 h-14 bg-red-300/20 flex items-center justify-center" *ngIf="history?.status == 'rejected'">
+            <!-- <img [src]="!!(history?.transaction_icon) ? constants.baseImageURL + history?.transaction_icon : '../assets/images/coin.png'" [alt]="history?.transaction_type" /> -->
+            <!-- <span class="icon-rejected"></span> -->
+            <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0" viewBox="0 0 24 24" style="enable-background:new 0 0 512 512" xml:space="preserve" class="w-10 h-10"><g><path fill="#fa1228" d="M12.616 2.212a1 1 0 0 0-1.232 0L9.724 3.51 7.64 3.216a1 1 0 0 0-1.066.615l-.789 1.953-1.953.789a1 1 0 0 0-.615 1.066l.293 2.086-1.297 1.66a1 1 0 0 0 0 1.23l1.297 1.66-.293 2.086a1 1 0 0 0 .615 1.066l1.953.789.789 1.953a1 1 0 0 0 1.066.616l2.086-.294 1.66 1.297a1 1 0 0 0 1.23 0l1.66-1.297 2.086.294a1 1 0 0 0 1.066-.616l.789-1.953 1.953-.789a1 1 0 0 0 .616-1.066l-.294-2.086 1.297-1.66a1 1 0 0 0 0-1.23l-1.297-1.66.294-2.086a1 1 0 0 0-.616-1.066l-1.953-.789-.789-1.953a1 1 0 0 0-1.066-.615l-2.086.293z" opacity="1" data-original="#fa1228" class=""></path><path fill="#ebebed" fill-rule="evenodd" d="M10.586 9.172a1 1 0 0 0-1.414 1.414L10.586 12l-1.414 1.414a1 1 0 1 0 1.414 1.414L12 13.414l1.414 1.414a1 1 0 1 0 1.414-1.414L13.414 12l1.414-1.414a1 1 0 0 0-1.414-1.414L12 10.586z" clip-rule="evenodd" opacity="1" data-original="#ebebed" class=""></path></g></svg>
+          </div>
+          <div class="rounded text-4xl w-14 h-14 bg-blue-300/20 flex items-center justify-center " *ngIf="history?.status == 'processing'">
+            <!-- <img [src]="!!(history?.transaction_icon) ? constants.baseImageURL + history?.transaction_icon : '../assets/images/coin.png'" [alt]="history?.transaction_type" /> -->
+            <span class="icon-processing text-blue-600"></span>
           </div>
           <div *ngIf="history?.transaction_type == 'redeem'">
             <h3 class="text-base">Coin Redeem</h3>
@@ -121,13 +135,15 @@
           </div>
           <div>
             <h3 class="text-base">{{history?.status}}</h3>
-            <span class="input-titel">Refer by {{(history?.refer_data?.to_refer?._id != userObj?._id) ? history?.refer_data?.to_refer.name : history?.refer_data?.from_refer.name}}</span>
+            <span class="input-titel" *ngIf="history?.rejection_reason.length > 0">Rejection Reason : {{history?.rejection_reason}}</span>
+            <span class="input-titel" *ngIf="history?.transactionid.length > 0">Transaction Id : {{history?.transactionid}}</span>
+            <span class="input-titel" *ngIf="history?.remark.length > 0">Remark : {{history?.remark}}</span>
           </div>
         </div>
         <div class="flex items-center">
           <p class="pr-5 border-r-2 text-sm font-bold border-quicksilver">{{history?.createdAt | date:'MMM dd, yyyy'}}</p>
-          <h5 class="pl-5 border-r-2 pr-3 {{history?.fcoin ? 'text-green-600' : 'text-red-500'}}">{{history?.fcoin}}</h5>
-          <h5 class="pl-5 pr-3 {{history?.fcoin ? 'text-ufoGreen' : 'text-red-500'}}">{{history?.fcointoinr}}</h5>
+          <h5 class="pl-5 border-r-2 pr-3 {{history?.status == 'processing' ? 'text-blue-800' : history?.status == 'rejected' ? 'text-red-500' : 'text-green-600'}}">{{history?.fcoin}}</h5>
+          <h5 class="pl-5 pr-3 {{history?.status == 'processing' ? 'text-blue-800' : history?.status == 'rejected' ? 'text-red-500' : 'text-green-600'}}">{{history?.fcointoinr}}</h5>
         </div>
       </div>
       <div class="flex flex-wrap items-center justify-center " *ngIf="!isLoading && requestCoinHistory && requestCoinHistory?.length">
@@ -139,10 +155,13 @@
     </div>  
 
     <div class="space-y-5" [class]="(!Transaction && !freezed_coin_transaction) ? 'active' : ''" *ngIf="!Transaction && !freezed_coin_transaction && !isLoading">
+      <div class="flex justify-end items-center">
+        <a class="inline-block secondary text-base px-7 py-2 anim" [href]=exportData target="_blank" rel="noopener noreferrer">Excel Download</a>
+      </div>
       <div class="flex items-center justify-between p-2.5 bg-white rounded-md" *ngFor="let history of scannedCoinHistory">
         <div class="flex items-center space-x-4">
-          <div class="rounded text-4xl w-14 h-14 flex items-center justify-center">
-            <img [src]="!!(history?.userid?.profilepic) ? constants.baseImageURL + history?.userid?.profilepic : constants.defaultImage" [alt]="history?.userid?.name" />
+          <div class="rounded text-4xl w-14 h-14 overflow-hidden">
+            <img [src]="!!(history?.userid?.profilepic) ? constants.baseImageURL + history?.userid?.profilepic : constants.defaultImage" [alt]="history?.userid?.name" class="w-full h-full object-cover" />
           </div>
           <!-- <div *ngIf="history?.transaction_type == 'redeem'">
             <h3 class="text-base">Coin Redeem</h3>
@@ -159,7 +178,7 @@
         </div>
         <div class="flex items-center">
           <p class="pr-5 border-r-2 text-sm font-bold border-quicksilver">{{history?.createdAt | date:'MMM dd, yyyy'}}</p>
-          <h5 class="pl-5 pr-3 {{history?.fcoin  ? 'text-ufoGreen' : 'text-red-500'}}">{{history?.fcoin ? '+' : '-'}}{{history?.fcoin}}</h5>
+          <h5 class="pl-5 pr-3 {{history?.fcoin  ? 'text-green-600' : 'text-red-500'}}">{{history?.fcoin ? '+' : '-'}}{{history?.fcoin}}</h5>
         </div>
       </div>
       <div class="flex flex-wrap items-center justify-center " *ngIf="!isLoading && scannedCoinHistory && scannedCoinHistory?.length">

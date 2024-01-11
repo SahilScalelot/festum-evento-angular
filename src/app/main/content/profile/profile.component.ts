@@ -220,8 +220,8 @@ export class ProfileComponent implements OnInit {
         this._prepareKycForm(this.kycObj);
         this._prepareBusinessForm(this.profileObj?.businessProfile);
         this.phoneForm.patchValue({
-          p_phone: this.profileObj.country_wise_contact || undefined,
-          a_phone: this.profileObj.alt_country_wise_contact || undefined,
+          p_phone:  this.profileObj.mobile,
+          a_phone: this.profileObj.alt_mobile_no,
           
         });
         this.profile_pic = CONSTANTS.baseImageURL + this.profileObj?.profile_pic;
@@ -232,7 +232,7 @@ export class ProfileComponent implements OnInit {
           this.videoArr = this.businessObj?.videos || [];
           if (this.businessObj && this.businessObj.country_wise_contact && this.businessObj.country_wise_contact != '') { 
             this.phoneForm.patchValue({
-              phone: this.businessObj.country_wise_contact
+              phone: this.businessObj.mobile
             });
           }
           this._prepareBusinessForm(this.businessObj);
@@ -685,6 +685,7 @@ export class ProfileComponent implements OnInit {
   }
 
   updatePersonalProfile(): any {
+    debugger
     if (this.profileForm.invalid) {
       Object.keys(this.profileForm.controls).forEach((key) => {
         this.profileForm.controls[key].touched = true;
@@ -694,6 +695,7 @@ export class ProfileComponent implements OnInit {
     }
 
     if (this.profileForm.valid) {
+      debugger
       this.profileForm.value.dob = moment(this.profileForm.value.dob).format('DD-MM-YYYY');
       const preparedProfileObj: any = this.pprepareObj(this.profileForm.value);
       this.isLoading = true;
@@ -765,8 +767,8 @@ export class ProfileComponent implements OnInit {
     // preparedObj.photos = this.photoArr;
     // preparedObj.videos = this.videoArr;
     preparedObj.alt_country_wise_contact = this.phoneForm?.value?.a_phone || undefined;
-    preparedObj.alt_dial_code = preparedObj.country_wise_contact?.dialCode || '';
-    const contactNumber = preparedObj.country_wise_contact?.e164Number || '';
+    preparedObj.alt_dial_code = preparedObj.alt_country_wise_contact?.dialCode || '';
+    const contactNumber = preparedObj.alt_country_wise_contact?.e164Number || '';
     preparedObj.alt_mobile_no = contactNumber.replace(preparedObj.alt_dial_code, '') || '';
     return preparedObj;
   }
@@ -788,13 +790,13 @@ export class ProfileComponent implements OnInit {
   }
 
   updateBusinessProfile() {
-
+    debugger
     if (this.businessForm.invalid) {
       Object.keys(this.businessForm.controls).forEach((key) => {
         this.businessForm.controls[key].touched = true;
         this.businessForm.controls[key].markAsDirty();
       });
-      return;
+      return ;
     }
     if (this.businessForm.valid) {
       const preparedCompanyDetailsObj: any = this.prepareObj(this.businessForm.value);
@@ -847,7 +849,6 @@ export class ProfileComponent implements OnInit {
       this.businessForm.get('city').enable();
       this.businessForm.get('state').enable();
       this.businessForm.get('pincode').enable();
-      this.phoneForm.get('a_phone').enable();
     } else {
       this.isEditProfile = true;
       this.profileForm.get('name').enable();
@@ -861,7 +862,7 @@ export class ProfileComponent implements OnInit {
       this.profileForm.get('country').enable();
       this.profileForm.get('about').enable();
       this.phoneForm.get('phone').enable();
-
+      this.phoneForm.get('a_phone').enable();
     }
   }
 
@@ -908,8 +909,6 @@ export class ProfileComponent implements OnInit {
       }
     }
   }
-
-
   private _prepareProfileForm(personalProfileObj: any = {}): void {
     const preparedDOB: any = moment(personalProfileObj?.dob, 'DD-MM-YYYY');
 
@@ -925,20 +924,22 @@ export class ProfileComponent implements OnInit {
       pincode: [{ value: personalProfileObj?.pincode, disabled: true }, [Validators.required, Validators.maxLength(6), Validators.pattern('^[0-9]+(\.?[0-9]+)?$')]],
       state: [{ value: personalProfileObj?.state, disabled: true }, [Validators.required]],
       country: [{ value: personalProfileObj?.country, disabled: true }, [Validators.required]],
-      country_code: [{ value: personalProfileObj?.alt_dial_code, disabled: true }],
+      country_code: [{ value: personalProfileObj?.country_code, disabled: true }],
       about: [{ value: personalProfileObj?.about || '', disabled: true }],
-      alt_mobile_no: [{value: personalProfileObj?.alt_mobile_no, disabled: true }],           
-      alt_dial_code: [{ value: personalProfileObj?.alt_dial_code, disabled: true }],       
+      alt_mobile_no: [{value: personalProfileObj?.alt_mobile_no || '', disabled: true }, [Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],           
+      alt_dial_code: [{ value: personalProfileObj?.alt_dial_code || '', disabled: true }, [Validators.required]],       
     });
   }
 
   private _prepareBusinessForm(businessProfileObj: any = {}): void {
+    console.log("_prepareBusinessForm",businessProfileObj);
+    
     this.businessForm = this._formBuilder.group({
       name: [{ value: businessProfileObj?.name || '', disabled: true }, [Validators.minLength(2)]],
-      mobile: [{ value: businessProfileObj?.mobile || '', disabled: true }, [Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
+      mobile: [{ value: businessProfileObj?.mobile || '', disabled: true }],
       email: [{ value: businessProfileObj?.email || '', disabled: true }, [Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
       country: [{ value: businessProfileObj?.country || '', disabled: true }, [Validators.required]],
-      country_code: [{ value: businessProfileObj?.country_code || '', disabled: true }, [Validators.required]],
+      country_code: [{ value: businessProfileObj?.country_code || '', disabled: true }],
       flat_no: [{ value: businessProfileObj?.flat_no || '', disabled: true }],
       street: [{ value: businessProfileObj?.street || '', disabled: true }],
       area: [{ value: businessProfileObj?.area || '', disabled: true }],
@@ -954,7 +955,7 @@ export class ProfileComponent implements OnInit {
     this.panImage = CONSTANTS.baseImageURL + kycObj.pan_card_photo;
     this.passbookImage = CONSTANTS.baseImageURL+ kycObj.bank_passbook_photo;
     this.kycForm = this._formBuilder.group({
-      upi_id: [{ value: kycObj?.upi_id || '', disabled: true }, [Validators.required]],
+      upi_id: [{ value: kycObj?.upi_id || '', disabled: true }],
       pan_card_no: [{ value: kycObj?.pan_card_no || '', disabled: true }, [Validators.required]],
       bank_account_holder_name: [{ value: kycObj?.bank_account_holder_name || '', disabled: true }, [Validators.required]],
       bank_account_no: [{ value: kycObj?.bank_account_no || '', disabled: true }, [Validators.required]],
