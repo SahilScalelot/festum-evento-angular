@@ -685,7 +685,6 @@ export class ProfileComponent implements OnInit {
   }
 
   updatePersonalProfile(): any {
-    debugger
     if (this.profileForm.invalid) {
       Object.keys(this.profileForm.controls).forEach((key) => {
         this.profileForm.controls[key].touched = true;
@@ -695,7 +694,6 @@ export class ProfileComponent implements OnInit {
     }
 
     if (this.profileForm.valid) {
-      debugger
       this.profileForm.value.dob = moment(this.profileForm.value.dob).format('DD-MM-YYYY');
       const preparedProfileObj: any = this.pprepareObj(this.profileForm.value);
       this.isLoading = true;
@@ -790,7 +788,6 @@ export class ProfileComponent implements OnInit {
   }
 
   updateBusinessProfile() {
-    debugger
     if (this.businessForm.invalid) {
       Object.keys(this.businessForm.controls).forEach((key) => {
         this.businessForm.controls[key].touched = true;

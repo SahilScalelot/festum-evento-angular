@@ -97,7 +97,6 @@ export class RedeemCoinComponent implements OnInit {
     };
     this._redeemCoinService.getListRedeemRequest(filter).subscribe((result: any) => {
       if (result && result.IsSuccess) {
-        console.log(result);
         
         this.requestCoinHistory = this._globalFunctions.copyObject(result.Data.docs);
         this.requestPaging = result.Data;
@@ -137,7 +136,6 @@ export class RedeemCoinComponent implements OnInit {
     this._redeemCoinService.getExportScannedUser().subscribe((result: any) => {
       if (result && result.IsSuccess) {
         this.exportData = this._globalFunctions.copyObject(result.Data);
-        console.log("Export Xl File Url",this.exportData);
       } else {
         this._globalFunctions.successErrorHandling(result, this, true);
       }
