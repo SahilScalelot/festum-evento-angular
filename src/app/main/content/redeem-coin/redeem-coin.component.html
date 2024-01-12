@@ -56,51 +56,6 @@
           <h5 class="pl-5 pr-3 {{history?.transaction_type == 'refer' ? 'text-green-600' : 'text-red-500'}}">{{history?.transaction_type == 'refer' ? '+' : '-'}}{{history?.f_coins}}</h5>
         </div>
       </div>
-      <!-- <div class="flex items-center justify-between p-2.5 bg-white rounded-md">
-        <div class="flex items-center space-x-4">
-          <div class="rounded bg-[#D5DBFF] text-4xl w-14 h-14 flex items-center justify-center">
-            <img src="../assets/images/coin-redeem.png" alt="Coin Redeem" />
-          </div>
-          <div>
-            <h3 class="text-base">Coin Redeem</h3>
-            <span class="input-titel">Processing</span>
-          </div>
-        </div>
-        <div class="flex items-center">
-          <p class="pr-5 border-r-2 text-sm font-bold border-quicksilver">Jan 18, 2021</p>
-          <h5 class="pl-5 pr-3 text-red-500">-325</h5>
-        </div>
-      </div>
-      <div class="flex items-center justify-between p-2.5 bg-white rounded-md">
-        <div class="flex items-center space-x-4">
-          <div class="rounded bg-[#FFF0C8] text-3xl w-14 h-14 flex items-center justify-center">
-            <img src="../assets/images/login-refer.png" alt="Login Refer" />
-          </div>
-          <div>
-            <h3 class="text-base">Login Refer</h3>
-            <span class="input-titel">Refer by Mark jecno</span>
-          </div>
-        </div>
-        <div class="flex items-center">
-          <p class="pr-5 border-r-2 text-sm font-bold border-quicksilver">Jan 18, 2021</p>
-          <h5 class="pl-5 pr-3 text-green-600">+250</h5>
-        </div>
-      </div>
-      <div class="flex items-center justify-between p-2.5 bg-white rounded-md">
-        <div class="flex items-center space-x-4">
-          <div class="rounded bg-[#C8FFF2] text-4xl w-14 h-14 flex items-center justify-center">
-            <img src="../assets/images/coin-send.png" alt="Coin Send" />
-          </div>
-          <div>
-            <h3 class="text-base">Coin Send</h3>
-            <span class="input-titel">Refer by Mark jecno</span>
-          </div>
-        </div>
-        <div class="flex items-center">
-          <p class="pr-5 border-r-2 text-sm font-bold border-quicksilver">Jan 18, 2021</p>
-          <h5 class="pl-5 pr-3 text-red-500">-14</h5>
-        </div>
-      </div> -->
       <div class="flex flex-wrap items-center justify-center " *ngIf="!isLoading && redeemCoinHistory && redeemCoinHistory?.length">
         <p-paginator [rows]="paging?.limit" [totalRecords]="paging?.totalDocs" [rowsPerPageOptions]="[10, 20, 30, 40, 50]" (onPageChange)="getRedeemHistory($event)"></p-paginator>
       </div>
@@ -111,7 +66,7 @@
 
     <div class="space-y-5" [class]="(!Transaction && !Scaned_user) ? 'active' : ''" *ngIf="!Transaction && !Scaned_user && !isLoading">
       <div class="flex items-center justify-between p-2.5 bg-white bg-gradient-to-r from-white rounded-md" *ngFor="let history of requestCoinHistory"[ngClass]="{'to-green-400/40': (history?.status == 'paid'), 'to-red-400/40': (history?.status == 'rejected'), 'to-blue-400/40': (history?.status == 'processing')}">
-        <div class="flex items-center space-x-4">
+        <div class="w-full flex items-center space-x-4">
           <div class="rounded text-4xl w-14 h-14 bg-green-300/20 flex items-center justify-center" *ngIf="history?.status == 'paid'" >
             <!-- <img [src]="!!(history?.transaction_icon) ? constants.baseImageURL + history?.transaction_icon : '../assets/images/coin.png'" [alt]="history?.transaction_type" /> -->
             <span class="icon-paid text-green-600"></span>
@@ -133,15 +88,26 @@
             <h3 class="text-base">Login Refer</h3>
             <span class="input-titel">Refer by {{(history?.refer_data?.to_refer?._id != userObj?._id) ? history?.refer_data?.to_refer.name : history?.refer_data?.from_refer.name}}</span>
           </div>
-          <div>
-            <h3 class="text-base">{{history?.status}}</h3>
-            <span class="input-titel" *ngIf="history?.rejection_reason.length > 0">Rejection Reason : {{history?.rejection_reason}}</span>
-            <span class="input-titel" *ngIf="history?.transactionid.length > 0">Transaction Id : {{history?.transactionid}}</span>
-            <span class="input-titel" *ngIf="history?.remark.length > 0">Remark : {{history?.remark}}</span>
+          <div class="w-full">
+            <div class="flex items-center w-full">
+              <div class="w-full">
+                <h3 class="text-base">{{history?.status | titlecase}}</h3>
+                <div class="flex items-center">
+                  <span class="input-titel pr-2.5" *ngIf="history?.rejection_reason?.length > 0">Rejection Reason : {{history?.rejection_reason}}</span>
+                  <span class="input-titel pr-2.5" *ngIf="history?.transactionid?.length > 0">Transaction Id : {{history?.transactionid}}</span>
+                  <span class="input-titel pr-2.5" *ngIf="history?.payment_method?.length > 0">Payment Method : {{history?.payment_method}}</span>
+                </div>
+                <div class="w-full">
+                  <span class="input-titel pr-2.5" *ngIf="history?.remark?.length > 0">Remark : {{history?.remark}}</span>
+                </div>
+              </div>
+              <p-image *ngIf="history?.payment_document?.length > 0 && history?.status == 'paid' " [src]="!!(history?.payment_document) ? constants.baseImageURL + history?.payment_document : constants.defaultImage" [alt]="history?.payment_document" imageClass="w-10 h-10 ml-auto rounded-md object-cover" class="w-10 h-10 object-cover ml-auto rounded-md mr-5" [preview]="true"></p-image>
+              <!-- <a [href]="history?.payment_document" target="_blank" class="input-titel pr-2.5" *ngIf="history?.payment_document?.length > 0"> <span class=""></span> </a> -->
+            </div>
           </div>
         </div>
         <div class="flex items-center">
-          <p class="pr-5 border-r-2 text-sm font-bold border-quicksilver">{{history?.createdAt | date:'MMM dd, yyyy'}}</p>
+          <p class="pr-5 border-r-2 text-sm font-bold border-quicksilver whitespace-nowrap">{{history?.createdAt | date:'MMM dd, yyyy'}}</p>
           <h5 class="pl-5 border-r-2 pr-3 {{history?.status == 'processing' ? 'text-blue-800' : history?.status == 'rejected' ? 'text-red-500' : 'text-green-600'}}">{{history?.fcoin}}</h5>
           <h5 class="pl-5 pr-3 {{history?.status == 'processing' ? 'text-blue-800' : history?.status == 'rejected' ? 'text-red-500' : 'text-green-600'}}">{{history?.fcointoinr}}</h5>
         </div>
@@ -158,22 +124,16 @@
       <div class="flex justify-end items-center">
         <a class="inline-block secondary text-base px-7 py-2 anim" [href]=exportData target="_blank" rel="noopener noreferrer">Excel Download</a>
       </div>
-      <div class="flex items-center justify-between p-2.5 bg-white rounded-md" *ngFor="let history of scannedCoinHistory">
+      <div class="flex items-center justify-between p-2.5 bg-white bg-gradient-to-r from-white rounded-md to-green-400/40 " *ngFor="let history of scannedCoinHistory">
         <div class="flex items-center space-x-4">
           <div class="rounded text-4xl w-14 h-14 overflow-hidden">
             <img [src]="!!(history?.userid?.profilepic) ? constants.baseImageURL + history?.userid?.profilepic : constants.defaultImage" [alt]="history?.userid?.name" class="w-full h-full object-cover" />
           </div>
-          <!-- <div *ngIf="history?.transaction_type == 'redeem'">
-            <h3 class="text-base">Coin Redeem</h3>
-            <span class="input-titel">Processing</span>
-          </div> -->
-          <!-- <div *ngIf="history?.transaction_type == 'refer'">
-            <h3 class="text-base">Login Refer</h3>
-            <span class="input-titel">Refer by {{(history?.refer_data?.to_refer?._id != userObj?._id) ? history?.refer_data?.to_refer.name : history?.refer_data?.from_refer.name}}</span>
-          </div> -->
           <div>
-            <h3 class="text-base">Scanned User</h3>
-            <span class="input-titel">Scanned by : {{history?.userid?.name}}</span>
+            <!-- <h3 class="text-base">Scanned User</h3> -->
+            <h4 class="text-base">{{history?.userid?.name}}</h4>
+            <span class="input-titel">{{history?.userid?.mobile}}</span>
+            <span class="input-titel">{{history?.userid?.email}}</span>
           </div>
         </div>
         <div class="flex items-center">
