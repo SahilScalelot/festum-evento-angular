@@ -239,8 +239,6 @@ export class AddEditShopOfferDialogComponent implements OnInit {
   onContinueClick():any {
     this.isTAndC = false;
     this.con = true;
-    // this.isAddUserWiseOffers = true;
-    debugger
     this.addEditOfferForm.get('offer_on_all_products').setValue(this.offerOnAllProducts.value[0]);
     if (this.offerOnAllProducts.value == true || this.offerOnAllProducts.value == 'true'){
       this.abcd=true;

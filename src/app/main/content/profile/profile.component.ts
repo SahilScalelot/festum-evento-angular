@@ -280,7 +280,6 @@ export class ProfileComponent implements OnInit {
           videoFormData.append('file', video);
           this.isVideoLoading = true;
           responseObj.push(this._profileService.uploadVideos(videoFormData));
-          // console.log(videoFormData);
         }
       });
   
@@ -400,7 +399,6 @@ export class ProfileComponent implements OnInit {
           photoFormData.append('file', image);
           this.isPhotoLoading = true;
           responseObj.push(this._profileService.uploadImages(photoFormData));
-          // console.log(responseObj);
           
         }
       });
@@ -408,7 +406,6 @@ export class ProfileComponent implements OnInit {
       forkJoin(...responseObj)
         .pipe(
           switchMap((result: any) => {
-            // console.log("image",result);
             
             return result;
           })
@@ -697,7 +694,6 @@ export class ProfileComponent implements OnInit {
       this.profileForm.value.dob = moment(this.profileForm.value.dob).format('DD-MM-YYYY');
       const preparedProfileObj: any = this.pprepareObj(this.profileForm.value);
       this.isLoading = true;
-      // console.log(preparedProfileObj);
       
       this._profileService.updateProfile(preparedProfileObj).subscribe((result: any) => {
         if (result && result.IsSuccess) {
@@ -798,7 +794,6 @@ export class ProfileComponent implements OnInit {
     if (this.businessForm.valid) {
       const preparedCompanyDetailsObj: any = this.prepareObj(this.businessForm.value);
       // const preparedBusinessObj: any = this._globalFunctions.copyObject(this.businessForm.value);
-      // console.log(this.businessForm.value);
       
       this.isLoading = true;
       this._profileService.updateBusiness(preparedCompanyDetailsObj).subscribe((result: any) => {
@@ -929,7 +924,6 @@ export class ProfileComponent implements OnInit {
   }
 
   private _prepareBusinessForm(businessProfileObj: any = {}): void {
-    console.log("_prepareBusinessForm",businessProfileObj);
     
     this.businessForm = this._formBuilder.group({
       name: [{ value: businessProfileObj?.name || '', disabled: true }, [Validators.minLength(2)]],
