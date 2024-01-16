@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-faq',
@@ -6,33 +7,41 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./faq.component.scss']
 })
 export class FaqComponent implements OnInit {
-  
-  faqObj: any = [
-    {
-      title: 'What Is The Meaning Of Lorem Ipsum?',
-      description: 'You Can Create A New Account At The End Of The Order Process Or On The Following Page: Create New Account. You Can View All Of Your Orders And Subscriptions In Your Customer Account. You Can Also Change Your Addresses And Your Password.'
-    },
-    // {
-    //   title: 'Where On Your Website Can I Open A Customer Account?',
-    //   description: 'You Can Create A New Account At The End Of The Order Process Or On The Following Page: Create New Account. You Can View All Of Your Orders And Subscriptions In Your Customer Account. You Can Also Change Your Addresses And Your Password.'
-    // },
-    // {
-    //   title: 'Do I Need To Create An Account To Make An Order?',
-    //   description: 'You Can Create A New Account At The End Of The Order Process Or On The Following Page: Create New Account. You Can View All Of Your Orders And Subscriptions In Your Customer Account. You Can Also Change Your Addresses And Your Password.'
-    // },
-    // {
-    //   title: 'Why Do The Prices In The Shop Sometimes Change?',
-    //   description: 'You Can Create A New Account At The End Of The Order Process Or On The Following Page: Create New Account. You Can View All Of Your Orders And Subscriptions In Your Customer Account. You Can Also Change Your Addresses And Your Password.'
-    // },
-    // {
-    //   title: 'Do You Also Sell Magazines That Have Been Financed By Crowdfunding?',
-    //   description: 'You Can Create A New Account At The End Of The Order Process Or On The Following Page: Create New Account. You Can View All Of Your Orders And Subscriptions In Your Customer Account. You Can Also Change Your Addresses And Your Password.'
-    // },
-  ];
+  param: any;
+  login: boolean = false;
+  location: boolean = false;
+  app: boolean = false;
+  event: boolean = false;
+  offer: boolean = false;
+  referral: boolean = false;
+  ratings: boolean = false;
+  language: boolean = false;
+  currency: boolean = false;
+  customer: boolean = false;
+  redemption: boolean = false;
+  share: boolean = false;
+  invoice: boolean = false;
+  notification: boolean = false;
+  reminder: boolean = false;
+  promotion: boolean = false;
+  gift: boolean = false;
+  wishlist: boolean = false;
+  any: boolean = false;
 
-  constructor() { }
+  constructor(private _activatedRoute:ActivatedRoute) { }
 
   ngOnInit(): void {
-  }
+    this.param = this._activatedRoute.snapshot.paramMap.get('msg');
 
+    if (this.param == "login") {
+      this.login = true;
+    } else if (this.param == "promote my event") {
+      this.event = true;
+    } else if (this.param == "online Store") {
+      this.offer = true;
+    }else if (this.param == "shop") {
+      this.offer = true;
+    }
+  
+  }
 }

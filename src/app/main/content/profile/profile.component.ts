@@ -713,7 +713,6 @@ export class ProfileComponent implements OnInit {
     }
   }
   updateKycDetail(): any {
-    debugger
     if (this.kycForm.invalid) {
       Object.keys(this.kycForm.controls).forEach((key) => {
         this.kycForm.controls[key].touched = true;

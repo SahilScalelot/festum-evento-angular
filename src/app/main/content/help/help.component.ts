@@ -20,19 +20,27 @@ export class HelpComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (this.value != '') { 
     this._helpService.conversation.subscribe((val) => {
       this.messages = this.messages.concat(val);
       setTimeout(() => {
         this.scrollToBottom();
       }, 0);
     });
+  } else {
+
+  }
   }
   sendMessage() {
-    this._helpService.getBotAnswer(this.value);
-    this.value = '';
-    setTimeout(() => {
-      this.scrollToBottom();
-    }, 0);
+    if (this.value != '' && this.value && this.value.length > 0) {      
+      this._helpService.getBotAnswer(this.value);
+      this.value = '';
+      setTimeout(() => {
+        this.scrollToBottom();
+      }, 0);
+    } else {
+      this.value = '';
+    }
   }
 
   scrollToBottom(): void {

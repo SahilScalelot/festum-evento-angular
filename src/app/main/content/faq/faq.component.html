@@ -5,7 +5,7 @@
       <div class="py-5">
         <p-accordion expandIcon="icon-plus" collapseIcon="icon-minus text-[4px]">
 
-          <p-accordionTab header="LOGIN">
+          <p-accordionTab header="LOGIN" [selected]="login">
             <div class="space-y-1.5">
               <h5 class="text-ev-dark opacity-60 text-lg">i. What shall I do if I do not receive OTP?</h5>
               <p>If you did not receive OTP by email or mobile number, then please contact us and send your complaint via email on the email address <a class="text-magicPotion hover:opacity-75 anim" href="mailto:info@festumevento.com">info@festumevento.com</a></p>
@@ -28,14 +28,14 @@
             </div>
           </p-accordionTab>
 
-          <p-accordionTab header="LOCATION">
+          <p-accordionTab header="LOCATION" [selected]="location">
             <div class="space-y-1.5">
               <h5 class="text-ev-dark opacity-60 text-lg">i. How will I get events and offers?</h5>
               <p>If there are no events and offers within 2 kilometers of your location, the company will search default events and offers around your city/state.</p>
             </div>
           </p-accordionTab>
 
-          <p-accordionTab header="APP FUNCTIONING">
+          <p-accordionTab header="APP FUNCTIONING" [selected]="app">
             <div class="space-y-1.5">
               <h5 class="text-ev-dark opacity-95"> Home screen</h5>
               <div class="space-y-1 pl-5">
@@ -130,7 +130,7 @@
             </div>
           </p-accordionTab>
 
-          <p-accordionTab header="EVENTS">
+          <p-accordionTab header="EVENTS" [selected]="event">
             <div class="space-y-1.5">
               <h5 class="text-ev-dark opacity-60 text-lg">i. What are the features and functions available while searching events?
               </h5>
@@ -170,7 +170,7 @@
             </div>
           </p-accordionTab>
 
-          <p-accordionTab header="OFFER">
+          <p-accordionTab header="OFFER" [selected]="offer">
             <div class="space-y-1.5">
               <h5 class="text-ev-dark opacity-60 text-lg">i. What are the different options to add offers?</h5>
               <ul class="pl-3">
@@ -182,7 +182,7 @@
             </div>
           </p-accordionTab>
 
-          <p-accordionTab header="REFERRAL EARN AND READING EARN">
+          <p-accordionTab header="REFERRAL EARN AND READING EARN" [selected]="referral">
             <div class="space-y-1.5">
               <h5 class="text-ev-dark opacity-60 text-lg">i. Where can I share the links to refer to other people?</h5>
               <ul class="pl-3">
@@ -204,7 +204,7 @@
             </div>
           </p-accordionTab>
 
-          <p-accordionTab header="RATINGS AND REVIEWS">
+          <p-accordionTab header="RATINGS AND REVIEWS" [selected]="ratings">
             <div class="space-y-1.5">
               <h5 class="text-ev-dark opacity-60 text-lg">i. How does the rating and review feature works?</h5>
               <p>Users can give ratings and reviews to the shop, product, organizers and events. Organizers and users can see each other's ratings and reviews.</p>
@@ -218,7 +218,7 @@
             </div> -->
           </p-accordionTab>
 
-          <p-accordionTab header="LANGUAGE">
+          <p-accordionTab header="LANGUAGE" [selected]="language">
             <div class="space-y-1.5">
               <h5 class="text-ev-dark opacity-60 text-lg">i. Which languages are supported by the app?</h5>
               <p>The app supports multiple languages which can be translated as per needed. The organizers cannot translate the language though.</p>
@@ -229,21 +229,21 @@
             </div>
           </p-accordionTab>
 
-          <p-accordionTab header="CURRENCY">
+          <p-accordionTab header="CURRENCY" [selected]="currency">
             <div class="space-y-1.5">
               <h5 class="text-ev-dark opacity-60 text-lg">ii. The multiple currencies supported by the app are.</h5>
               <p>Indian rupees (INR), us dollar (USD), euro (EUR), Japanese yen (JPY), British pounds (GBP), Australian dollars (AUD), Canadian dollars (CAD), New Zealand dollars (NZD), Singapore dollars (SGD), Hong Kong dollars (HKD), Turkish lira (TRY), Russian ruble (RUB), Swiss francs (CHF).</p>
             </div>
           </p-accordionTab>
 
-          <p-accordionTab header="CUSTOMER SUPPORT">
+          <p-accordionTab header="CUSTOMER SUPPORT" [selected]="customer">
             <div class="space-y-1.5">
               <h5 class="text-ev-dark opacity-60 text-lg">i. What are the customer support options available?</h5>
               <p>Customers can email us on <a class="text-magicPotion hover:opacity-75 anim" href="mailto:info@festumevento.com">info@festumevento.com</a> anytime to solve their complaints. There is also a chatbot available to solve the doubts immediately. At last, customers can go through the FAQ section to know more. And also available call icon to support Team.</p>
             </div>
           </p-accordionTab>
 
-          <p-accordionTab header="REDEMPTION">
+          <p-accordionTab header="REDEMPTION" [selected]="redemption">
             <div class="space-y-1.5">
               <h5 class="text-ev-dark opacity-60 text-lg">i. When can the coin be redeemed?</h5>
               <ul class="pl-3">
@@ -261,7 +261,7 @@
             </div>
           </p-accordionTab>
 
-          <p-accordionTab header="SHARE LINK">
+          <p-accordionTab header="SHARE LINK" [selected]="share">
             <div class="space-y-1.5">
               <h5 class="text-ev-dark opacity-60 text-lg">i. What are the sharing options available?</h5>
               <p>You can share the event and product link with your friends and family through numerous social medias.</p>
@@ -276,14 +276,14 @@
             </div>
           </p-accordionTab>
 
-          <p-accordionTab header="INVOICE">
+          <p-accordionTab header="INVOICE" [selected]="invoice">
             <div class="space-y-1.5">
               <h5 class="text-ev-dark opacity-60 text-lg">i. What is the process of getting an invoice?</h5>
               <p>After the event ends, the invoice will be made in same days. Once the invoice is made, payment must be released in 2-3 working days. Bank charges must be collected from the customers. Also, it can take up to 3 business days for the transfer.</p>
             </div>
           </p-accordionTab>
 
-          <p-accordionTab header="NOTIFICATION">
+          <p-accordionTab header="NOTIFICATION" [selected]="notification">
             <div class="space-y-1.5">
               <h5 class="text-ev-dark opacity-60 text-lg">i. When are the notifications sent?</h5>
               <p>Company will send notification in the following cases:</p>
@@ -297,7 +297,7 @@
             </div>
           </p-accordionTab>
 
-          <p-accordionTab header="REMINDER">
+          <p-accordionTab header="REMINDER" [selected]="reminder">
             <div class="space-y-1.5">
               <h5 class="text-ev-dark opacity-60 text-lg">i. When are the reminders sent?</h5>
               <p>The app sends reminder in following cases:</p>
@@ -309,7 +309,7 @@
             </div>
           </p-accordionTab>
 
-          <p-accordionTab header="PROMOTION">
+          <p-accordionTab header="PROMOTION" [selected]="promotion">
             <div class="space-y-1.5">
               <h5 class="text-ev-dark opacity-60 text-lg">i. What can I do when Promotion tab is not working?</h5>
               <p>When you click on the promote button and it’s not working, please email the following things to us on <a class="text-magicPotion hover:opacity-75 anim" href="mailto:info@festumevento.com">info@festumevento.com</a></p>
@@ -321,7 +321,7 @@
             </div>
           </p-accordionTab>
 
-          <p-accordionTab header="GIFT">
+          <p-accordionTab header="GIFT" [selected]="gift">
             <div class="space-y-1.5">
               <h5 class="text-ev-dark opacity-60 text-lg">i. What is the use of the Gift screen?</h5>
               <p>The gift screen shows the brand company’s shopping offer voucher.</p>          
@@ -337,7 +337,7 @@
             </div>
           </p-accordionTab>
 
-          <p-accordionTab header="WISHLIST">
+          <p-accordionTab header="WISHLIST" [selected]="wishlist">
             <div class="space-y-1.5">
               <h5 class="text-ev-dark opacity-60 text-lg">i. What is the use of the Wishlist?</h5>
               <p>The Wishlist screen shows the Event and Offers you like. </p>
@@ -350,7 +350,7 @@
             </div>
           </p-accordionTab>
 
-          <p-accordionTab header="ANY OTHERS">
+          <p-accordionTab header="ANY OTHERS" [selected]="any">
             <div class="space-y-1.5">
               <h5 class="text-ev-dark opacity-60 text-lg">i. What shall I do if I have any other complaints?</h5>
               <p> please email the following things to us on <a class="text-magicPotion hover:opacity-75 anim" href="mailto:info@festumevento.com">info@festumevento.com</a></p>
