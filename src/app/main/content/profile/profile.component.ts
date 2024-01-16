@@ -713,6 +713,7 @@ export class ProfileComponent implements OnInit {
     }
   }
   updateKycDetail(): any {
+    debugger
     if (this.kycForm.invalid) {
       Object.keys(this.kycForm.controls).forEach((key) => {
         this.kycForm.controls[key].touched = true;
@@ -720,12 +721,12 @@ export class ProfileComponent implements OnInit {
       });
       return;
     }
-
+ 
     if (this.kycForm.valid) {
 
       const fileObj: any = new FormData();
       fileObj.append('upi_id', this.kycForm.value.upi_id || "");
-      fileObj.append('pan_card_no', this.kycForm.value.pan_card_no || "");
+      fileObj.append('pan_card_no', this.kycForm.value.pan_card_no);
       fileObj.append('bank_account_holder_name', this.kycForm.value.bank_account_holder_name);
       fileObj.append('bank_account_no', this.kycForm.value.bank_account_no);
       fileObj.append('bank_ifsc_code', this.kycForm.value.bank_ifsc_code);
@@ -734,7 +735,6 @@ export class ProfileComponent implements OnInit {
 
       // const preparedKycObj: any = this.kycForm.value;
       this.isLoading = true;
-      
       this._profileService.kycDetail(fileObj).subscribe((result: any) => {
         if (result && result.IsSuccess) {
           this._globalService.loginUser$.next(result.Data);
@@ -946,11 +946,11 @@ export class ProfileComponent implements OnInit {
     this.panImage = CONSTANTS.baseImageURL + kycObj.pan_card_photo;
     this.passbookImage = CONSTANTS.baseImageURL+ kycObj.bank_passbook_photo;
     this.kycForm = this._formBuilder.group({
-      upi_id: [{ value: kycObj?.upi_id || '', disabled: true }],
-      pan_card_no: [{ value: kycObj?.pan_card_no || '', disabled: true }, [Validators.required]],
+      upi_id: [{ value: kycObj?.upi_id || '', disabled: true }, [Validators.email]],
+      pan_card_no: [{ value: kycObj?.pan_card_no ||'', disabled: true }, [Validators.required,Validators.pattern('^[A-Za-z]{5}[0-9]{4}[A-Za-z]$')]],
       bank_account_holder_name: [{ value: kycObj?.bank_account_holder_name || '', disabled: true }, [Validators.required]],
-      bank_account_no: [{ value: kycObj?.bank_account_no || '', disabled: true }, [Validators.required]],
-      bank_ifsc_code: [{ value: kycObj?.bank_ifsc_code || '', disabled: true }, [Validators.required]],
+      bank_account_no: [{ value: kycObj?.bank_account_no || '', disabled: true }, [Validators.required,Validators.minLength(8),Validators.maxLength(14)]],
+      bank_ifsc_code: [{ value: kycObj?.bank_ifsc_code || '', disabled: true }, [Validators.required,Validators.pattern('^[A-Za-z]{4}[0]{1}[A-Za-z0-9]{6}$')]],
       pan_card_photo: [{ value: kycObj?.pan_card_photo || '', disabled: true }, [Validators.required]],
       bank_passbook_photo: [{ value: kycObj?.bank_passbook_photo || '', disabled: true }, [Validators.required]]
     });

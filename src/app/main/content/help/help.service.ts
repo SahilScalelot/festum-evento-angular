@@ -18,7 +18,8 @@ export class HelpService {
     "hi": "Hello",
     "who are you": "My name is Srivalli",
     "what is your role": "Just guide for the user",
-    "lorem": "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Delectus rerum dolorum iste eos aspernatur ducimus nisi quam commodi ipsam quo, perspiciatis, ratione est vitae voluptatem voluptates quos debitis tenetur vel.",
+    "login": "If you did not receive OTP by email or mobile number, then please contact us and send your complaint via email on the email address info@festumevento.com",
+    "promote my event": "After saving the details of your upcoming event, wait for your event to be verified. Once verified, click on the “Live” toggle at the right corner of your listing. Your event listing will now be visible to viewers and they can make bookings.",
     "defaultmsg": "I can't understand your text. Can you please repeat"
   }
   getBotAnswer(msg: any) {    
