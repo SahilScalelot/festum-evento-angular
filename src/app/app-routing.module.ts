@@ -120,6 +120,10 @@ const routes: Routes = [
         component: FaqComponent
       },
       {
+        path: 'faq/:msg',
+        component: FaqComponent
+      },
+      {
         path: 'ask-srivalli',
         component: HelpComponent
       },
