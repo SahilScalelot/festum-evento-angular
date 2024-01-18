@@ -24,8 +24,26 @@
               </div>
               <!-- chat-text  -->
               <div class="chat-holder bg-gray-100 py-12" #scrollMe>
+                <div class="text-massage left-massage">
+                    <div class="bg-white p-2.5" >
+                    <div>Welcome to Festum Evento! Kindly let me know what are you looking for.</div>
+                    <span class="arrow"></span>
+                    <div class="w-full flex items-center flex-wrap" >
+                      <div class="w-fit pl-0 p-2.5" *ngFor="let item of butten">
+                        <button type="button" [ngClass]="item.isSelected ? 'bg-magicPotion text-white' : 'bg-white text-magicPotion'" class="border-2 border-magicPotion text-[14px] leading-4 font-medium rounded-md shadow-3xl py-1.5 px-4" (click)="itemvalue(item)">{{item.btnName}}</button>
+                      </div>
+                    </div>
+                  </div>
+                  <p style="padding: 0;"><span class="whitespace-nowrap"> 3:18 PM </span></p>
+                </div>
                 <div class="text-massage {{message.author === 'bot' ? 'left-massage' : 'right-massage'}}" *ngFor="let message of messages">
-                  <p>{{ message.content }} <span>{{message.date | date : 'shortTime'}}</span></p>
+                  <!-- <div class="bg-white p-2.5" *ngIf="message.url && message.author === 'bot'">
+                    <div>{{ message.content }}</div>
+                    <span class="arrow"></span>
+                    <a [href]="message.content" target="_blank" class="inline-block secondary text-sm cursor-pointer px-4 py-1 mt-1.5">Click Hear</a>
+                  </div>
+                  <p *ngIf="message.url && message.author === 'bot'" style="padding: 0;"><span class="whitespace-nowrap">{{message.date | date : 'shortTime'}}</span></p> -->
+                  <p [innerHTML]="message.content"> <span>{{message.date | date : 'shortTime'}}</span></p>
                   <span class="arrow"></span>
                 </div>
               </div>

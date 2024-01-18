@@ -37,7 +37,7 @@ export class FaqComponent implements OnInit {
       this.login = true;
     } else if (this.param == "promote my event") {
       this.event = true;
-    } else if (this.param == "online Store") {
+    } else if (this.param == "online store") {
       this.offer = true;
     }else if (this.param == "shop") {
       this.offer = true;
