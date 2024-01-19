@@ -55,7 +55,7 @@ export class RedeemCoinComponent implements OnInit {
       }
     });
     this.redeemForm = this._formBuilder.group({
-      fcoin: ['', Validators.required]
+      fcoin: ['', [Validators.required,Validators.min(2500)]]
     });
     this.getLoginUser();
     this.getRedeemHistory();

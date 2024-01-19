@@ -169,6 +169,9 @@
           <span *ngIf="redeemForm.get('fcoin')?.errors?.['required']">
             F-Coin is required.
           </span>
+          <span *ngIf="redeemForm.get('fcoin')?.errors?.['min']">
+            Minimun 2500 F-Coin is required.
+          </span>
         </span>
       </div>
     </form>

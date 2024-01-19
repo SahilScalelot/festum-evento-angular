@@ -198,7 +198,7 @@
         <button type="submit" *ngIf="isKyc" class="secondary px-5 py-2" (click)="updateKycDetail()">{{'Submit' | translate }}</button>
       </div>
       <div class="py-3.5 mb-5 px-5 rounded-lg bg-white font-black flex items-center justify-between bg-gradient-to-r from-white to-blue-400/40" *ngIf="profileObj?.kyc_details?.status == 'pending'">
-        <p class=" text-blue-500">our KYC is in Progress, It will take 72 hours for verification. Thank you for your patience.</p>
+        <p class=" text-blue-500">Your KYC is in Progress, It will take 72 hours for verification. Thank you for your patience.</p>
       </div>
       <div class="py-3.5 mb-5 px-5 rounded-lg bg-white font-black flex items-center justify-between bg-gradient-to-r from-white to-green-400/40" *ngIf="profileObj?.kyc_details?.status == 'approved'">
         <p class="text-green-500">Your KYC Verified Successfully.</p>
