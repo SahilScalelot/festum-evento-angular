@@ -18,6 +18,7 @@
                         <div class="flex justify-between">
                             <h5>{{notification?.title}}</h5>
                             <a href="javascript:void(0);"><i class="icon-more font-bold text-base"></i></a>
+                            <h6 class="text-gray-400 mt-2">{{notification?.timestamp | date:'dd MMM, yyyy  hh:mm a'}}</h6>
                         </div>
                         <p class="text-gray-400 text-base pt-3 font-medium" [innerHTML]="notification?.message"></p>
                     </div>
