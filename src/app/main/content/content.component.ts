@@ -102,9 +102,9 @@ export class ContentComponent implements OnInit, OnDestroy {
                 this.chatNotificationLength.push(data.data);
               } else {
                 const notification = new Notification(data.data.title, {
-                  body: data.data.data.message,
-                  icon: this.constants.baseImageURL + data.data.data.banner,
-                  data: data.data.data
+                  body: data.data.message,
+                  icon: this.constants.baseImageURL + data.data.banner,
+                  data: data.data
                 });
                 notification.onclick = (event: any) => {
                   event.preventDefault();
