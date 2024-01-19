@@ -101,7 +101,7 @@ export class ContentComponent implements OnInit, OnDestroy {
                 this.getChatNotificationList();
                 this.chatNotificationLength.push(data.data);
               } else {
-                const notification = new Notification(data.data.data.title, {
+                const notification = new Notification(data.data.title, {
                   body: data.data.data.message,
                   icon: this.constants.baseImageURL + data.data.data.banner,
                   data: data.data.data
