@@ -11,16 +11,16 @@
         <div class="space-y-2.5">
             <div class="bg-white p-5 rounded-md" *ngFor="let notification of notificationObj">
                 <div class="flex justify-between items-start">
-                    <div class="relative w-full md:max-w-[68px]">
+                    <div class=" w-full absolute md:max-w-[68px]">
                         <img [src]="!!(notification?.banner) ? constants.baseImageURL + notification.banner : constants.defaultImage" alt="{{notification?.banner}}" class="h-16 w-16 rounded-full object-cover mx-1"/>
                     </div>
-                    <div class="pl-5 w-full md:max-w-[clac(100%-128px)]">
+                    <div class="pl-20  w-full md:max-w-[clac(100%-128px)]">
                         <div class="flex justify-between">
-                            <h5>{{notification?.title}}</h5>
+                            <h5 class="">{{notification?.title}}</h5>
                             <a href="javascript:void(0);"><i class="icon-more font-bold text-base"></i></a>
                             <h6 class="text-gray-400 mt-2">{{notification?.timestamp | date:'dd MMM, yyyy  hh:mm a'}}</h6>
                         </div>
-                        <p class="text-gray-400 text-base pt-3 font-medium" [innerHTML]="notification?.message"></p>
+                        <p class="text-gray-400  text-ellipsis truncate text-base pt-3 font-medium" [innerHTML]="notification?.message"></p>
                     </div>
                 </div>
             </div>
