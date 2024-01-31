@@ -5,8 +5,8 @@
     <h2>{{'Events' | translate }}</h2>
 
     <div class="flex whitespace-nowrap space-x-5 ml-auto">
-      <button class="bg-white px-5 py-3 text-japaneseIndigo font-bold rounded-md tracking-wider" (click)="multipleLiveEvent()">{{'MultipleLive' | translate }}</button>
-      <span class="secondary cursor-pointer px-7 py-3" (click)="openAddEventDialog()"><i class="icon-plus mr-3"></i>{{'Create New Event' | translate }}</span>
+      <button class="bg-white px-5 py-3 text-japaneseIndigo font-bold rounded-md tracking-wider" title="MultipleLive" (click)="multipleLiveEvent()">{{'MultipleLive' | translate }}</button>
+      <span class="secondary cursor-pointer px-7 py-3" title="Create New Event" (click)="openAddEventDialog()"><i class="icon-plus mr-3"></i>{{'Create New Event' | translate }}</span>
     </div>
   </div>
   <app-skel-screen [objectType]="'events'" *ngIf="isLoading"></app-skel-screen>
@@ -140,14 +140,14 @@
                     <span class="text-xs font-bold text-quicksilver">{{event?.total_available_seats || 0}} {{'Unsold' | translate }}</span>
                   </div>
                   <div class="flex space-x-2 pt-4">
-                    <a href="javascript:void(0)" (click)="editEvent($event, event?._id)" *ngIf="event?.iseditable" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-edit text-sm leading-0 text-japaneseIndigo"></i></a>
-                    <a href="javascript:void(0)" (click)="chatEvent($event, event?._id)" *ngIf="!event?.iseditable" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-massage text-sm leading-0 text-japaneseIndigo"></i></a>
-                    <a href="javascript:void(0)" (click)="gotoEventOverview($event, event)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-show text-xs leading-0 text-japaneseIndigo"></i></a>
-                    <a href="javascript:void(0)" (click)="gotoPromotion($event,event?._id)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-fill_megaphone text-sm leading-0 text-japaneseIndigo"></i></a>
+                    <a href="javascript:void(0)" title="Edit" (click)="editEvent($event, event?._id)" *ngIf="event?.iseditable" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-edit text-sm leading-0 text-japaneseIndigo"></i></a>
+                    <a href="javascript:void(0)" title="Massage" (click)="chatEvent($event, event?._id)" *ngIf="!event?.iseditable" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-massage text-sm leading-0 text-japaneseIndigo"></i></a>
+                    <a href="javascript:void(0)" title="Show" (click)="gotoEventOverview($event, event)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-show text-xs leading-0 text-japaneseIndigo"></i></a>
+                    <a href="javascript:void(0)" title="Promotion" (click)="gotoPromotion($event,event?._id)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-fill_megaphone text-sm leading-0 text-japaneseIndigo"></i></a>
 
-                    <a href="javascript:void(0)" (click)="gotoDiscount($event,event?._id)" *ngIf="event.event_financial_type == 'paid' && event.accept_booking == true" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-online_offer text-xl leading-0 text-japaneseIndigo"></i></a>
+                    <a href="javascript:void(0)" title="Discount" (click)="gotoDiscount($event,event?._id)" *ngIf="event.event_financial_type == 'paid' && event.accept_booking == true" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-online_offer text-xl leading-0 text-japaneseIndigo"></i></a>
 
-                    <a href="javascript:void(0)" (click)="openSocailMediaPopUp($event, event)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-share text-sm leading-0 text-japaneseIndigo"></i></a>
+                    <a href="javascript:void(0)" title="Share" (click)="openSocailMediaPopUp($event, event)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-share text-sm leading-0 text-japaneseIndigo"></i></a>
                   </div>
                 </div>
               </div>

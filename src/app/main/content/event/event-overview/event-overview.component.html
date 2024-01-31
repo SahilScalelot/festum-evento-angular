@@ -76,13 +76,13 @@
               <input type="checkbox" class="switch mr-1.5 lg:mx-3 order-2" (click)="liveEvent($event, event)" [checked]="event?.is_live" [disabled]="!event?.is_approved" />
               <span class="text-base font-bold anim order-3">{{'Live' | translate }}</span>
             </label>
-            <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" (click)="editEvent($event, event._id)" *ngIf="event?.iseditable" href="javascript:void(0);"><i class="icon-edit text-sm leading-0 text-japaneseIndigo"></i></a>
-            <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" (click)="gotoPromotion($event,event?._id)"><i class="icon-fill_megaphone text-sm leading-0 text-japaneseIndigo"></i></a>
-            <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" (click)="openSocialMediaDailog($event,event)"><i class="icon-share text-sm leading-0 text-japaneseIndigo"></i></a>
+            <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" title="Edit" (click)="editEvent($event, event._id)" *ngIf="event?.iseditable" href="javascript:void(0);"><i class="icon-edit text-sm leading-0 text-japaneseIndigo"></i></a>
+            <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" title="Promotion" (click)="gotoPromotion($event,event?._id)"><i class="icon-fill_megaphone text-sm leading-0 text-japaneseIndigo"></i></a>
+            <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" title="Share" (click)="openSocialMediaDailog($event,event)"><i class="icon-share text-sm leading-0 text-japaneseIndigo"></i></a>
           
           </div>
           <div class="flex items-center justify-end space-x-3">
-            <a class="flex items-center justify-center h-[30px] text-center rounded bg-red-500 text-white text-xs px-2 font-semibold active:bg-red-400" (click)="cancelEventPopup($event)" *ngIf="event?.iseditable" href="javascript:void(0);">Cancel Event</a>
+            <a class="flex items-center justify-center h-[30px] text-center rounded bg-red-500 text-white text-xs px-2 font-semibold active:bg-red-400" title="Cancel Event"(click)="cancelEventPopup($event)" *ngIf="event?.iseditable" href="javascript:void(0);">Cancel Event</a>
             <!-- <span class="px-3 py-1 rounded-sm text-xs text-white font-bold bg-japaneseIndigo">{{constants?.eventTypeArr[constants?.eventTypeObj[event?.event_type]]?.displayLabel}}</span> -->
           </div>
         </div>
@@ -117,7 +117,7 @@
                 <!-- media title  -->
                 <div class="flex justify-between items-center">
                   <h3 class="text-lg">{{'Photos' | translate }}</h3>
-                  <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(event?.photos, true, false)">{{'View all' | translate }}</a>
+                  <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" title="View all" href="javascript:void(0);" (click)="openImageAndVideoDialog(event?.photos, true, false)">{{'View all' | translate }}</a>
                 </div>
                 <!-- photo-holder -->
                 <div class="w-full">
@@ -138,7 +138,7 @@
                 <!-- media title  -->
                 <div class="flex justify-between items-center">
                   <h3 class="text-lg">{{'Videos' | translate }}</h3>
-                  <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(event?.videos, false, false)">{{'View all' | translate }}</a>
+                  <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" title="View all" href="javascript:void(0);" (click)="openImageAndVideoDialog(event?.videos, false, false)">{{'View all' | translate }}</a>
                 </div>
                 <!-- media-holder -->
                 <div class="w-full">
@@ -358,7 +358,7 @@
                         <!-- media title  -->
                         <div class="flex justify-between items-center">
                           <h3 class="text-lg">{{'Food Photos' | translate }}</h3>
-                          <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(seating?.food_details, true, false)">{{'View all' | translate }}</a>
+                          <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" title="View all" href="javascript:void(0);" (click)="openImageAndVideoDialog(seating?.food_details, true, false)">{{'View all' | translate }}</a>
                         </div>
                         <!-- photo-holder -->
                         <div class="w-full">
@@ -396,7 +396,7 @@
                         <!-- media title  -->
                         <div class="flex justify-between items-center">
                           <h3 class="text-lg">Equipment Photos</h3>
-                          <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(seating?.equipment_details, true, false)">{{'View all' | translate }}</a>
+                          <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" title="View all" href="javascript:void(0);" (click)="openImageAndVideoDialog(seating?.equipment_details, true, false)">{{'View all' | translate }}</a>
                         </div>
                         <!-- photo-holder -->
                         <div class="w-full">
@@ -435,7 +435,7 @@
                 <!-- media title  -->
                 <div class="flex justify-between items-center">
                   <h3 class="text-lg">Company Photos</h3>
-                  <a class="text-spiroDiscoBall text-sm font-bold opacity-60" href="javascript:void(0);" (click)="openImageAndVideoDialog(event?.companydetail?.photos, true, false, false)">{{'View all' | translate }}</a>
+                  <a class="text-spiroDiscoBall text-sm font-bold opacity-60" href="javascript:void(0);" title="View all" (click)="openImageAndVideoDialog(event?.companydetail?.photos, true, false, false)">{{'View all' | translate }}</a>
                 </div>
                 <!-- photo-holder -->
                 <div class="w-full">

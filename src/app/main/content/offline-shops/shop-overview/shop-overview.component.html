@@ -26,11 +26,11 @@
         </div>
       </div>
       <div class="space-y-5">
-        <button class="secondary px-3 lg:px-7 py-3" (click)="openAddEditOfferDialog($event)"><i class="icon-plus"></i><span class="pl-2 lg:pl-5 whitespace-nowrap">{{'Create Offer' | translate }}</span></button>
+        <button class="secondary px-3 lg:px-7 py-3" title="create Offer" (click)="openAddEditOfferDialog($event)"><i class="icon-plus"></i><span class="pl-2 lg:pl-5 whitespace-nowrap">{{'Create Offer' | translate }}</span></button>
         <div class="flex justify-end space-x-2">
-          <a href="javascript:void(0);" (click)="openAddEditShopDialog($event)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-edit text-sm leading-0 text-japaneseIndigo"></i></a>
-          <a href="javascript:void(0);" (click)="goShopPromotion($event,shopId)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-fill_megaphone text-sm leading-0 text-japaneseIndigo"></i></a>
-          <a href="javascript:void(0);" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" (click)="openSocialMediaDailog($event,shopId)"><i class="icon-share text-sm leading-0 text-japaneseIndigo"></i></a>
+          <a href="javascript:void(0);" title="Edit" (click)="openAddEditShopDialog($event)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-edit text-sm leading-0 text-japaneseIndigo"></i></a>
+          <a href="javascript:void(0);" title="Promotion" (click)="goShopPromotion($event,shopId)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-fill_megaphone text-sm leading-0 text-japaneseIndigo"></i></a>
+          <a href="javascript:void(0);" title="Share" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" (click)="openSocialMediaDailog($event,shopId)"><i class="icon-share text-sm leading-0 text-japaneseIndigo"></i></a>
         </div>
       </div>
     </div>
@@ -117,10 +117,10 @@
                             </svg>
                             <span class="inline-block w-0 invisible pl-1.5 group-hover:visible group-hover:w-auto text-xs font-bold text-black/70 whitespace-nowrap">{{'Unverified' | translate }}</span>
                           </div>
-                          <a href="javascript:void(0);" (click)="openAddEditOfferDialog($event, offer._id)"  class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" *ngIf="offer?.iseditable"><i class="icon-edit text-sm leading-0 text-japaneseIndigo"></i></a>
-                          <a href="javascript:void(0);" (click)="gotoShopOfferOverview($event, shopId, offer)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-show text-xs leading-0 text-japaneseIndigo"></i></a>
-                          <a href="javascript:void(0);" (click)="goShopOfferPromotion($event, offer._id)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" ><i class="icon-fill_megaphone text-sm leading-0 text-japaneseIndigo"></i></a>
-                          <a href="javascript:void(0)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" (click)="openSocialMediaDailog($event,shopId)"><i class="icon-share text-sm leading-0 text-japaneseIndigo"></i></a>
+                          <a href="javascript:void(0);" title="Edit" (click)="openAddEditOfferDialog($event, offer._id)"  class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" *ngIf="offer?.iseditable"><i class="icon-edit text-sm leading-0 text-japaneseIndigo"></i></a>
+                          <a href="javascript:void(0);" title="Show" (click)="gotoShopOfferOverview($event, shopId, offer)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-show text-xs leading-0 text-japaneseIndigo"></i></a>
+                          <a href="javascript:void(0);" title="Promotion" (click)="goShopOfferPromotion($event, offer._id)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" ><i class="icon-fill_megaphone text-sm leading-0 text-japaneseIndigo"></i></a>
+                          <a href="javascript:void(0)" title="Share" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" (click)="openSocialMediaDailog($event,shopId)"><i class="icon-share text-sm leading-0 text-japaneseIndigo"></i></a>
                           <!-- <a href="javascript:void(0);" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-share text-base text-black"></i></a> -->
                           <!-- <a href="javascript:void(0);" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-fill_megaphone text-base text-black"></i></a> -->
                           <!-- <a href="javascript:void(0);" (click)="openOfflineShopsOffer($event, offer)" *ngIf="offer?.iseditable" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-delete_fill text-base text-black"></i></a> -->

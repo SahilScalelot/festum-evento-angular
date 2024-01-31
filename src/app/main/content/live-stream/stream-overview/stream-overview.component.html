@@ -70,7 +70,7 @@
       <div class="w-full md:w-1/2 lg:w-1/3 xl:w-[20%] space-y-3">
         <!--<h3 class="text-right">{{liveStreamObj?.startingat}} INR</h3>-->
         <div class="flex space-x-2 justify-end">
-        <button class="bg-quicksilver text-white font-bold rounded-lg capitalize px-3 py-2"
+        <button title="Go Live" class="bg-quicksilver text-white font-bold rounded-lg capitalize px-3 py-2"
         [ngClass]="{'secondary': liveStreamObj?.is_approved}" *ngIf="liveStreamObj?.iseligibletogolive" (click)="goLive($event, liveStreamObj)">
         <i class="icon-live"></i><span class="pl-2.5 whitespace-nowrap">go live </span></button>
         </div>
@@ -79,13 +79,13 @@
             <!--<input type="checkbox" class="switch mr-1.5 lg:mx-3 order-2" (click)="liveEvent($event, liveStreamObj)" [checked]="liveStreamObj?.is_live" [disabled]="!liveStreamObj?.is_approved" />-->
             <!--<span class="text-base font-bold anim order-3">Live</span>-->
           <!--</label>-->
-          <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" (click)="editEvent($event, liveStreamObj._id)"  href="javascript:void(0);"><i class="icon-edit text-sm leading-0 text-japaneseIndigo"></i></a>
-          <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" (click)="gotoPromotion($event,liveStreamObj?._id)"><i class="icon-fill_megaphone text-sm leading-0 text-japaneseIndigo"></i></a>
-          <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" (click)="openSocailMediaDailog($event,liveStreamObj)"><i class="icon-share text-sm leading-0 text-japaneseIndigo"></i></a>
+          <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" title="Edit" (click)="editEvent($event, liveStreamObj._id)"  href="javascript:void(0);"><i class="icon-edit text-sm leading-0 text-japaneseIndigo"></i></a>
+          <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" title="Promotion" (click)="gotoPromotion($event,liveStreamObj?._id)"><i class="icon-fill_megaphone text-sm leading-0 text-japaneseIndigo"></i></a>
+          <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" title="Share" (click)="openSocailMediaDailog($event,liveStreamObj)"><i class="icon-share text-sm leading-0 text-japaneseIndigo"></i></a>
 
         </div>
         <div class="flex items-center justify-end space-x-3">
-          <a class="flex items-center justify-center h-[30px] text-center rounded bg-red-500 text-white text-xs px-2 font-semibold active:bg-red-400" (click)="cancelLiveStreamPopup($event)"  href="javascript:void(0);">Cancel LiveStream</a>
+          <a title="Cancel LiveStream" class="flex items-center justify-center h-[30px] text-center rounded bg-red-500 text-white text-xs px-2 font-semibold active:bg-red-400" (click)="cancelLiveStreamPopup($event)"  href="javascript:void(0);">Cancel LiveStream</a>
           <!-- <span class="px-3 py-1 rounded-sm text-xs text-white font-bold bg-japaneseIndigo">{{constants?.eventTypeArr[constants?.eventTypeObj[event?.event_type]]?.displayLabel}}</span> -->
         </div>
       </div>
@@ -145,7 +145,7 @@
                 <!-- media title  -->
                 <div class="flex justify-between items-center">
                   <h3 class="text-lg">{{'Photos' | translate }}</h3>
-                  <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(liveStreamObj.photos, true, false)">{{'View all' | translate }}</a>
+                  <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" title="View All" (click)="openImageAndVideoDialog(liveStreamObj.photos, true, false)">{{'View all' | translate }}</a>
                 </div>
                 <!-- photo-holder -->
                 <div class="w-full">
@@ -166,7 +166,7 @@
                 <!-- media title  -->
                 <div class="flex justify-between items-center">
                   <h3 class="text-lg">{{'Videos' | translate }}</h3>
-                  <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(liveStreamObj.videos, false, false)">{{'View all' | translate }}</a>
+                  <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" title="View All" (click)="openImageAndVideoDialog(liveStreamObj.videos, false, false)">{{'View all' | translate }}</a>
                 </div>
                 <!-- media-holder -->
                 <div class="w-full">
@@ -213,22 +213,22 @@
                     >
                 <span class="block text-base lg:text-xl font-bold">{{'socialMedia' | translate}}</span>
                 <div class="flex items-center space-x-5 rounded-lg">
-                  <a *ngIf="liveStreamObj?.tandc?.facebook != ''" [href]="liveStreamObj?.tandc?.facebook" target="_blank">
+                  <a title="FaceBook" *ngIf="liveStreamObj?.tandc?.facebook != ''" [href]="liveStreamObj?.tandc?.facebook" target="_blank">
                     <img class="w-10 h-10 object-cover" alt="facebook" src="../assets/images/facebook.png" />
                   </a>
-                  <a *ngIf="liveStreamObj?.tandc?.twitter != ''" [href]="liveStreamObj?.tandc?.twitter" target="_blank">
+                  <a title="Twitter" *ngIf="liveStreamObj?.tandc?.twitter != ''" [href]="liveStreamObj?.tandc?.twitter" target="_blank">
                     <img class="w-10 h-10 object-cover" alt="twiiter" src="../assets/images/twiiter.png" />
                   </a>
-                  <a *ngIf="liveStreamObj?.tandc?.youtube != ''" [href]="liveStreamObj?.tandc?.youtube" target="_blank">
+                  <a title="Youtube" *ngIf="liveStreamObj?.tandc?.youtube != ''" [href]="liveStreamObj?.tandc?.youtube" target="_blank">
                     <img class="w-10 h-10 object-cover" alt="youtube" src="../assets/images/youtube.png" />
                   </a>
-                  <a *ngIf="liveStreamObj?.tandc?.pinterest != ''" [href]="liveStreamObj?.tandc?.pinterest" target="_blank">
+                  <a title="pinterest" *ngIf="liveStreamObj?.tandc?.pinterest != ''" [href]="liveStreamObj?.tandc?.pinterest" target="_blank">
                     <img class="w-10 h-10 object-cover" alt="pinterest" src="../assets/images/pinterest.png" />
                   </a>
-                  <a *ngIf="liveStreamObj?.tandc?.instagram != ''" [href]="liveStreamObj?.tandc?.instagram" target="_blank">
+                  <a title="instagram" *ngIf="liveStreamObj?.tandc?.instagram != ''" [href]="liveStreamObj?.tandc?.instagram" target="_blank">
                     <img class="w-10 h-10 object-cover" alt="instagram" src="../assets/images/instagram.png" />
                   </a>
-                  <a *ngIf="liveStreamObj?.tandc?.linkedin != ''" [href]="liveStreamObj?.tandc?.linkedin" target="_blank">
+                  <a title="Linkedin" *ngIf="liveStreamObj?.tandc?.linkedin != ''" [href]="liveStreamObj?.tandc?.linkedin" target="_blank">
                     <img class="w-10 h-10 object-cover" alt="linkdin" src="../assets/images/linked.png" />
                   </a>
                 </div>

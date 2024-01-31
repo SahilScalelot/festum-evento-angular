@@ -11,8 +11,8 @@
             <h4>{{seating?.seating_item?.itemname}}</h4>
           </div>            
           <div class="flex items-center space-x-7 pr-2">
-            <a href="javascript:void(0);" (click)="deletePop(seating?.seating_item)"><i class="icon-delete text-lg text-quicksilver"></i></a>
-            <a href="javascript:void(0);" (click)="openArrangementPopup(seating)"><i class="icon-edit text-lg text-quicksilver"></i></a>
+            <a href="javascript:void(0);" title="Delete" (click)="deletePop(seating?.seating_item)"><i class="icon-delete text-lg text-quicksilver"></i></a>
+            <a href="javascript:void(0);" title="Edit" (click)="openArrangementPopup(seating)"><i class="icon-edit text-lg text-quicksilver"></i></a>
           </div>
         </mat-panel-title>
       </mat-expansion-panel-header>
@@ -118,7 +118,7 @@
           <!-- media title  -->
             <div class="flex justify-between items-center">
               <h3 class="text-lg">Food Photos</h3>
-              <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(seating?.food_details, true, false)" >View All</a>
+              <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" title="View All" (click)="openImageAndVideoDialog(seating?.food_details, true, false)" >View All</a>
             </div>
           <!-- photo-holder -->
             <div class="w-full">
@@ -155,7 +155,7 @@
         <!-- media title  -->
           <div class="flex justify-between items-center">
             <h3 class="text-lg">Equipment Photos</h3>
-            <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(seating?.equipment_details, true, false)">View All</a>
+            <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" title="View All" href="javascript:void(0);" (click)="openImageAndVideoDialog(seating?.equipment_details, true, false)">View All</a>
           </div>
         <!-- photo-holder -->
           <div class="w-full">
@@ -188,12 +188,12 @@
   </div>
   <!-- pre and next button -->
   <div class="prw-next-btn">
-    <button [routerLink]="'/events/create/about-event'" class="flex items-center active" type="button">
-      <i class="icon-left_arrow mr-3"></i>
+    <button [routerLink]="'/events/create/about-event'" title="Back" class="flex items-center active" type="button">
+      <i  class="icon-left_arrow mr-3"></i>
       <h5>{{'Back' | translate }}</h5>
     </button>
     <!-- [disabled]="!occasions || !occasions.length" -->
-    <button class="flex items-center active" type="button" (click)="onNextStep()">
+    <button title="Next" class="flex items-center active" type="button" (click)="onNextStep()">
       <h5>{{'Next' | translate }}</h5>
       <i class="icon-right_arrow ml-3"></i>
     </button>
@@ -210,9 +210,9 @@
       <p class="normal-case">Are you sure you want to delete <strong class="">{{tmpSeatingObj?.itemname}}</strong>.</p>
     </div>
     <div class="flex items-center justify-end space-x-5 w-full">
-      <button type="button" class="primary py-2 px-14 anim uppercase" (click)="close()">Cancel</button>    
+      <button type="button" title="Cancel" class="primary py-2 px-14 anim uppercase" (click)="close()">Cancel</button>    
       <div class="relative">
-        <button class="secondary py-2 px-14 anim uppercase" type="submit" (click)="deleteArrangement(tmpSeatingObj)">
+        <button title="Delet" class="secondary py-2 px-14 anim uppercase" type="submit" (click)="deleteArrangement(tmpSeatingObj)">
           <span [ngClass]="{'opacity-0': isDeleteLoading}">Delete</span>
         </button>
         <div class="absolute inset-0 text-white flex items-center" *ngIf="isDeleteLoading">

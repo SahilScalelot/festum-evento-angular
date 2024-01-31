@@ -17,9 +17,9 @@
     </div>
     <div class="space-y-5">
       <div class="flex justify-end space-x-2">
-        <a href="javascript:void(0);" (click)="openAddEditOfferDialog($event)" *ngIf="offerObj?.iseditable" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-edit text-base text-black"></i></a>
-        <a href="javascript:void(0);" class="bg-brightGray px-2 py-1 text-center rounded" (click)="openSocialMediaDailog($event,shopId,offerObj?._id )"><i class="icon-share text-base text-black"></i></a>
-        <a href="javascript:void(0);" class="bg-brightGray px-2 py-1 text-center rounded" (click)="gotoPromotion($event, offerObj?._id)"><i class="icon-fill_megaphone text-base text-black"></i></a>
+        <a href="javascript:void(0);" (click)="openAddEditOfferDialog($event)" title="Edit" *ngIf="offerObj?.iseditable" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-edit text-base text-black"></i></a>
+        <a href="javascript:void(0);" title="Share" class="bg-brightGray px-2 py-1 text-center rounded" (click)="openSocialMediaDailog($event,shopId,offerObj?._id )"><i class="icon-share text-base text-black"></i></a>
+        <a href="javascript:void(0);" title="Promotion" class="bg-brightGray px-2 py-1 text-center rounded" (click)="gotoPromotion($event, offerObj?._id)"><i class="icon-fill_megaphone text-base text-black"></i></a>
         <!-- <a href="javascript:void(0);" (click)="openOfflineShopsOffer($event)"  *ngIf="offerObj?.iseditable" class="bg-brightGray px-2 py-1 text-center rounded"><i class="icon-delete_fill text-base text-black"></i></a> -->
       </div>
     </div>

@@ -6,7 +6,7 @@
       <div class="w-40 lg:w-52">
         <p-dropdown styleClass="w-full border-0 font-bold" [(ngModel)]="platformsId" panelStyleClass="p-0" [options]="platformsArr" placeholder="All platforms" optionLabel="name" optionValue="_id" [showClear]="true" (onChange)="getOnlineShopOffers()"></p-dropdown>
       </div>
-      <button class="secondary anim px-4 lg:px-8 py-2" routerLink="/online-offers/create-offer"><i class="icon-plus mr-2 lg:mr-3"></i>{{'Create New' | translate }}</button>
+      <button class="secondary anim px-4 lg:px-8 py-2" title="Create New" routerLink="/online-offers/create-offer"><i class="icon-plus mr-2 lg:mr-3"></i>{{'Create New' | translate }}</button>
     </div>
   </div>
   <app-skel-screen [objectType]="'online-offers'" *ngIf="isLoading"></app-skel-screen>
@@ -81,10 +81,10 @@
                   </svg>
                   <span class="inline-block w-0 invisible pl-1.5 group-hover:visible group-hover:w-auto text-xs font-bold text-black/70 whitespace-nowrap">{{'Unverified' | translate }}</span>
                 </div>
-                <a href="javascript:void(0);" (click)="editOffer($event, shopOffer?._id)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-edit text-sm leading-0 text-japaneseIndigo"></i></a>
-                <a href="javascript:void(0)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-show text-xs leading-0 text-japaneseIndigo"></i></a>
-                <a href="javascript:void(0)" (click)="gotoPromotion($event, shopOffer?._id)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-fill_megaphone text-sm leading-0 text-japaneseIndigo"></i></a>
-                <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" (click)="openSocailMediaPopUp($event, shopOffer)" ><i class="icon-share text-sm leading-0 text-japaneseIndigo"></i></a>
+                <a href="javascript:void(0);" (click)="editOffer($event, shopOffer?._id)" title="Edit" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-edit text-sm leading-0 text-japaneseIndigo"></i></a>
+                <a href="javascript:void(0)" title="Show" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-show text-xs leading-0 text-japaneseIndigo"></i></a>
+                <a href="javascript:void(0)" title="Promotion" (click)="gotoPromotion($event, shopOffer?._id)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-fill_megaphone text-sm leading-0 text-japaneseIndigo"></i></a>
+                <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" title="Share" (click)="openSocailMediaPopUp($event, shopOffer)" ><i class="icon-share text-sm leading-0 text-japaneseIndigo"></i></a>
                 <!-- <a href="javascript:void(0);" class="bg-brightGray text-xl px-2 py-1 text-center rounded"><i class="icon-fill_megaphone text-base text-japaneseIndigo"></i></a> -->
                 <!-- <a href="javascript:void(0);" class="bg-brightGray text-xl px-2 py-1 text-center rounded"><i class="icon-share text-base text-japaneseIndigo"></i></a> -->
                 <!-- <a href="javascript:void(0);" (click)="openDeleteDialog($event, shopOffer?._id)" class="bg-brightGray text-xl px-2 py-1 text-center rounded"><i class="icon-delete_fill text-base text-japaneseIndigo"></i></a> -->

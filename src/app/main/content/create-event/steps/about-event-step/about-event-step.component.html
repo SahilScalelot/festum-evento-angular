@@ -76,11 +76,11 @@
   </div>
   <!-- pre and next button -->
   <div class="prw-next-btn">
-    <button type="button" class="flex items-center active" [routerLink]="'/events/create/add-event'">
+    <button type="button" class="flex items-center active" title="Back" [routerLink]="'/events/create/add-event'">
       <i class="icon-left_arrow mr-3"></i>
       <h5>{{'Back' | translate }}</h5>
     </button>
-    <button (click)="next()" type="button" class="flex items-center active">
+    <button (click)="next()" type="button" title="Next" class="flex items-center active">
       <h5>{{'Next' | translate }}</h5>
       <i class="icon-right_arrow ml-3"></i>
     </button>

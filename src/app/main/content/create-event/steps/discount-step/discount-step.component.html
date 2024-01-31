@@ -12,7 +12,7 @@
           <div class="text-[40px] text-black font-bold">{{discount.discount}}%</div>
         </div>
         <div>
-          <button class="flex items-center justify-center text-xs font-bold bg-white rounded-sm px-3 py-2 space-x-2 ml-auto" (click)="popupOpen('discountDialog', discount, i)">
+          <button title="Edit" class="flex items-center justify-center text-xs font-bold bg-white rounded-sm px-3 py-2 space-x-2 ml-auto" (click)="popupOpen('discountDialog', discount, i)">
             <span><svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.41016 2.01465L0.80759 8.6177C0.774373 8.65101 0.750388 8.69308 0.738966 8.73829L0.00713451 11.6757C-0.0147567 11.7641 0.0112272 11.8582 0.0757586 11.9227C0.124585 11.9715 0.191116 11.9986 0.259169 11.9986C0.280013 11.9986 0.301333 11.996 0.322082 11.9907L3.2595 11.2588C3.30528 11.2474 3.34687 11.2235 3.38009 11.1903L9.98323 4.58772L7.41016 2.01465Z" fill="#2E363F"/><path d="M11.6195 1.11493L10.8845 0.379955C10.3933 -0.111264 9.53718 -0.110789 9.04654 0.379955L8.14624 1.28025L10.7192 3.85323L11.6195 2.95293C11.8649 2.70765 12 2.38119 12 2.03398C12 1.68676 11.8649 1.3603 11.6195 1.11493Z" fill="#2E363F"/></svg></span>
             <span>Edit</span>
           </button>
@@ -30,11 +30,11 @@
   </div>
   <!-- pre and next button -->
   <div class="prw-next-btn">
-    <button type="button" class="flex items-center active" [routerLink]="'/events/create/permission'">
+    <button title="Back" type="button" class="flex items-center active" [routerLink]="'/events/create/permission'">
       <i class="icon-left_arrow mr-3"></i>
       <h5>{{'Back' | translate }}</h5>
     </button>
-    <button type="button" class="flex items-center active" (click)="next()">
+    <button title="Next" type="button" class="flex items-center active" (click)="next()">
       <h5>{{'Next' | translate }}</h5>
       <i class="icon-right_arrow ml-3"></i>
     </button>
@@ -62,8 +62,8 @@
       <div class="text-10 leading-5 font-medium text-japaneseIndigo pl-3" [innerHTML]="tmpDiscountObj.tandc"></div>
     </ul> -->
     <div class="flex items-center space-x-5">
-      <button class="secondary w-full py-2 anim" accesskey="alt+tab" (click)="closePop()">CANCEL</button>
-      <button type="submit" class="primary w-full py-2 anim" (click)="updateDiscount()">APPLY</button>
+      <button class="secondary w-full py-2 anim" title="Cancel" accesskey="alt+tab" (click)="closePop()">CANCEL</button>
+      <button type="submit" class="primary w-full py-2 anim" title="APPLY" (click)="updateDiscount()">APPLY</button>
     </div>
   </div>
 </modal>

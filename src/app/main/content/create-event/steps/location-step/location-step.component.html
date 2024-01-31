@@ -90,12 +90,12 @@
   </div>
   <!-- pre and next button -->
   <div class="prw-next-btn">
-    <button (click)="onBackButtonClick()" [routerLink]="'/events/create/arrangement'" class="flex items-center active" type="button">
+    <button (click)="onBackButtonClick()" title="Back" [routerLink]="'/events/create/arrangement'" class="flex items-center active" type="button">
       <i class="icon-left_arrow mr-3"></i>
       <h5>{{'Back' | translate }}</h5>
     </button>
     <!-- [disabled]="!locationForm.valid" -->
-    <button (click)="next()" class="flex items-center active" type="button">
+    <button (click)="next()" title="Next" class="flex items-center active" type="button">
       <h5>{{'Next' | translate }}</h5>
       <i class="icon-right_arrow ml-3"></i>
     </button>

@@ -12,7 +12,7 @@
     <div class="flex items-center justify-between">
       <span class="text-sm text-quicksilver font-semibold">{{'Add Photos' | translate }} <span class="font-normal">(15 Images - up to 7MB/Image & Resolution up to 1080PX x 1080PX)</span></span>
       <!-- view all -->
-      <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(posterImageAndVideoObj.photos, true, false)">{{'View all' | translate }}</a>
+      <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" title="View All" (click)="openImageAndVideoDialog(posterImageAndVideoObj.photos, true, false)">{{'View all' | translate }}</a>
     </div>
     <div class="flex flex-wrap h-full pt-2">
       <div *ngFor="let photo of posterImageAndVideoObj.photos; let i = index" class="upload-box mr-2.5 mb-2.5">
@@ -20,9 +20,9 @@
           <!-- <img [alt]="'add-photo-' + i" [src]="!!(photo?.url) ? constants.baseImageURL + photo.url : constants.defaultImage" *ngIf="photo.url" class="object-cover w-full h-full"/> -->
           <p-image [alt]="'add-photo-' + i" [src]="!!(photo?.url) ? constants.baseImageURL + photo.url : constants.defaultImage" *ngIf="photo.url" imageClass="w-full h-full object-cover rounded" styleClass="w-full h-full" [preview]="false"></p-image>
           <div class="opacity-0 bg-black bg-opacity-50 flex items-center justify-center group-hover:opacity-100 absolute inset-0 transition-all duration-300">
-            <button class="edit"  (click)="editImage(photo,i)">Edit</button>
+            <button class="edit" title="Edit" (click)="editImage(photo,i)">Edit</button>
             <span class="block" (click)="openImageAndVideoDialog([photo], true, false, false)"><i class="pi pi-eye text-2xl text-white cursor-pointer" ></i></span>
-            <button (click)="removeImage(i)" class="remove">Remove</button>
+            <button (click)="removeImage(i)" title="Remove" class="remove">Remove</button>
           </div>
           <!-- <div class="opacity-0 bg-black bg-opacity-50 flex items-center justify-center group-hover:opacity-100 absolute inset-0 transition-all duration-300">
           </div> -->
@@ -46,16 +46,16 @@
   <div class="media-upload-holder">
     <div class="flex items-center justify-between">
       <span class="text-sm text-quicksilver font-semibold">{{'Add Video' | translate }} <span class="font-normal">(10 videos - up to 128MB/Video)</span></span>
-      <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(posterImageAndVideoObj.videos, false, false)">{{'View all' | translate }}</a>
+      <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" title="View All" (click)="openImageAndVideoDialog(posterImageAndVideoObj.videos, false, false)">{{'View all' | translate }}</a>
     </div>
     <div class="flex space-x-2.5 h-full pt-2">
       <div *ngFor="let video of posterImageAndVideoObj.videos; let i = index" class="upload-box">
         <div class="rounded relative overflow-hidden h-full w-full group">
           <video [src]="!!(video?.url) ? constants.baseImageURL + video.url + '#t=0.5' : constants.defaultImage" *ngIf="video.url" class="object-cover w-full h-full"></video>
           <div class="opacity-0 bg-black bg-opacity-50 flex items-center justify-center group-hover:opacity-100 absolute inset-0 transition-all duration-300">
-            <button class="edit" (click)="editVideoModal(video, i)">Edit</button>
+            <button class="edit" title="Edit" (click)="editVideoModal(video, i)">Edit</button>
             <span class="block" (click)="openImageAndVideoDialog([video], false, false, true)"><i class="pi pi-eye text-2xl text-white cursor-pointer" ></i></span>
-            <button class="remove" (click)="removeVideo(i)" >Remove</button>
+            <button class="remove" title="Remove" (click)="removeVideo(i)" >Remove</button>
           </div>
         </div>
       </div>
@@ -81,11 +81,11 @@
     <img src="/assets/images/banner-ads.png" alt="ring-ad" class="w-full object-cover" />
   </div>
   <div class="prw-next-btn">
-    <button [routerLink]="'/events/create/location'" class="flex items-center active" type="button">
+    <button [routerLink]="'/events/create/location'" title="Back" class="flex items-center active" type="button">
       <i class="icon-left_arrow mr-3"></i>
       <h5>{{'Back' | translate }}</h5>
     </button>
-    <button (click)="nextStep()" class="flex items-center active" type="button">
+    <button (click)="nextStep()" title="Next" class="flex items-center active" type="button">
       <h5>{{'Next' | translate }}</h5>
       <i class="icon-right_arrow ml-3"></i>
     </button>
@@ -134,7 +134,7 @@
       <textarea #imageDescription class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md" cols="30" rows="5" formControlName="description" (keyup)="descriptionLimit = imageDescription.value.length"></textarea>
     </div>
   </form>
-  <button (click)="uploadImage()" class="secondary w-full uppercase py-2 anim" [disabled]="isPhotoLoading">{{ isPhotoLoading ? 'Please wait...' : 'Submit' }}</button>
+  <button (click)="uploadImage()" class="secondary w-full uppercase py-2 anim" title="Submit" [disabled]="isPhotoLoading">{{ isPhotoLoading ? 'Please wait...' : 'Submit' }}</button>
 </modal>
 
 <!-- Start Edit Photo Modal -->
@@ -153,7 +153,7 @@
       <textarea #imageDescription class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md" cols="30" rows="5" formControlName="description" (keyup)="descriptionLimit = imageDescription.value.length"></textarea>
     </div>
   </form>
-    <button (click)="editUploadImage()" class="secondary w-full uppercase py-2 anim" [disabled]="isPhotoLoading">{{ isPhotoLoading ? 'Please wait...' : 'Submit' }}</button>
+    <button (click)="editUploadImage()" class="secondary w-full uppercase py-2 anim" title="Submit" [disabled]="isPhotoLoading">{{ isPhotoLoading ? 'Please wait...' : 'Submit' }}</button>
 </modal>
 <!-- End Edit Photo Modal -->
 <!-- Video -->
@@ -184,7 +184,7 @@
       <textarea #videoDescription class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md" cols="30" rows="5" formControlName="description" (keyup)="descriptionLimit = videoDescription.value.length"></textarea>
     </div>
   </form>
-  <button (click)="uploadVideo()" class="secondary w-full uppercase py-2 anim" [disabled]="isVideoLoading">{{ isVideoLoading ? 'Please wait...' : 'Submit' }}</button>
+  <button (click)="uploadVideo()" class="secondary w-full uppercase py-2 anim" title="Submit" [disabled]="isVideoLoading">{{ isVideoLoading ? 'Please wait...' : 'Submit' }}</button>
 </modal>
 
 <!-- Start Edit Video Modal -->
@@ -203,7 +203,7 @@
             <textarea #videoDescription class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md" cols="30" rows="5" formControlName="description" (keyup)="descriptionLimit = videoDescription.value.length"></textarea>
         </div>
     </form>
-    <button (click)="editUploadVideo()" class="secondary w-full uppercase py-2 anim" [disabled]="isVideoLoading">{{ isVideoLoading ? 'Please wait...' : 'Submit' }}</button>
+    <button (click)="editUploadVideo()" class="secondary w-full uppercase py-2 anim" title="Submit" [disabled]="isVideoLoading">{{ isVideoLoading ? 'Please wait...' : 'Submit' }}</button>
 </modal>
 <!-- End Edit Video Modal -->
 
@@ -215,9 +215,9 @@
       <p class="normal-case">Are you sure you want to delete {{deleteItemObj.type}}</p>
     </div>
     <div class="flex items-center justify-end space-x-5 w-full">
-      <button type="button" class="primary py-2 px-14 anim uppercase" (click)="close()">Cancel</button>    
+      <button type="button" class="primary py-2 px-14 anim uppercase" title="Cancel" (click)="close()">Cancel</button>    
       <div class="relative">
-        <button class="secondary py-2 px-14 anim uppercase" type="submit" (click)="deleteEvent()">
+        <button class="secondary py-2 px-14 anim uppercase" title="Delete" type="submit" (click)="deleteEvent()">
           <span [ngClass]="{'opacity-0': isDeleteLoading}">Delete</span>
         </button>
         <div class="absolute inset-0 text-white flex items-center" *ngIf="isDeleteLoading">

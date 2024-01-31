@@ -95,7 +95,7 @@
       </div>
 
       <div class="flex justify-end pt-5">
-        <button class="secondary py-3 px-12 uppercase text-lg font-bold" [disabled]="isLoading || isUploadPosterLoading || isUploadVideoLoading || isUploadImageLoading" (click)="onContinueClick()">
+        <button class="secondary py-3 px-12 uppercase text-lg font-bold" title="Continue" [disabled]="isLoading || isUploadPosterLoading || isUploadVideoLoading || isUploadImageLoading" (click)="onContinueClick()">
           {{(isLoading || isUploadPosterLoading || isUploadVideoLoading || isUploadImageLoading) ? 'Please Wait..' : 'Continue'}}
           <!-- Continue -->
         </button>
@@ -149,7 +149,7 @@
         <div class="w-full pt-5" formArrayName="all_product_conditions">
           <div class="flex items-center justify-between pb-2">
             <span class="text-sm text-quicksilver">Note: For unlimited person fill zero</span>
-            <button (click)="addProductLimitation()" class="text-xs text-white font-bold px-3 rounded py-1 whitespace-nowrap bg-magicPotion flex items-center">
+            <button (click)="addProductLimitation()" title="Add Item" class="text-xs text-white font-bold px-3 rounded py-1 whitespace-nowrap bg-magicPotion flex items-center">
               <i class="icon-plus_round leading-0 mr-2"></i> Add Item
             </button>
           </div>
@@ -213,7 +213,7 @@
         </div>
       </div>
       <div class="flex justify-end pt-5">
-        <button class="secondary py-3 px-12 uppercase text-lg font-bold" [disabled]="isLoading || isUploadPosterLoading || isUploadVideoLoading || isUploadImageLoading" (click)="onContinueClick1()">
+        <button class="secondary py-3 px-12 uppercase text-lg font-bold" title="Continue" [disabled]="isLoading || isUploadPosterLoading || isUploadVideoLoading || isUploadImageLoading" (click)="onContinueClick1()">
           {{(isLoading || isUploadPosterLoading || isUploadVideoLoading || isUploadImageLoading) ? 'Please Wait..' : 'Continue'}}
           <!-- Continue -->
         </button>
@@ -230,7 +230,7 @@
       <div class="w-full pt-5">
         <div class="flex items-center justify-between pb-2">
           <span class="input-titel">Offer Products (Max File size 10MB & Resolution Must be 1080PX x 1080PX)</span>
-          <button (click)="addProductOffer({}, offerType.value)" class="text-xs text-white font-bold px-3 rounded py-1 whitespace-nowrap bg-magicPotion flex items-center">
+          <button (click)="addProductOffer({}, offerType.value)" title="Add Item" class="text-xs text-white font-bold px-3 rounded py-1 whitespace-nowrap bg-magicPotion flex items-center">
             <i class="icon-plus_round leading-0 mr-2"></i> Add Item
           </button>
         </div>
@@ -325,7 +325,7 @@
         <button class="flex items-center" type="button" (click)="closeEditOfferProductDialog();">
           <!-- <i class="icon-left_arrow mr-3"></i><h5>back</h5> -->
         </button>
-        <button (click)="onSaveAndContinueClick()" class="secondary py-3 px-5 uppercase text-lg font-bold">Save and Continue</button>
+        <button (click)="onSaveAndContinueClick()" title="Save And Continue" class="secondary py-3 px-5 uppercase text-lg font-bold">Save and Continue</button>
       </div>
     </div>
     <div *ngIf="isTAndC">
@@ -357,10 +357,10 @@
         </div>
       </div>
       <div class="flex justify-between pt-5">
-        <button class="flex items-center" type="button" (click)="closeTermsAndConditionDialog()">
+        <button class="flex items-center" type="button" title="Back" (click)="closeTermsAndConditionDialog()">
           <i class="icon-left_arrow mr-3"></i><h5>back</h5>
         </button>
-        <button (click)="addEditOffer()" class="secondary py-3 px-5 uppercase text-lg font-bold" [disabled]="isLoading || isUploadPosterLoading || isUploadImageLoading || isUploadVideoLoading || isSaveLoading || !addEditOfferForm.get('status').value">Save</button>
+        <button (click)="addEditOffer()" class="secondary py-3 px-5 uppercase text-lg font-bold" title="Save" [disabled]="isLoading || isUploadPosterLoading || isUploadImageLoading || isUploadVideoLoading || isSaveLoading || !addEditOfferForm.get('status').value">Save</button>
         <div class="absolute inset-0 text-white flex items-center" *ngIf="isSaveLoading">
           <mat-progress-spinner [diameter]="22" [mode]="'indeterminate'" class="mx-auto"></mat-progress-spinner>
         </div>
@@ -374,8 +374,8 @@
   <div class="space-y-5 lg:space-y-8">
     <app-terms-and-conditions></app-terms-and-conditions>
     <div class="flex items-center space-x-5">
-      <button class="secondary w-full py-2 anim" accesskey="alt+tab" (click)="closePop()">CANCEL</button>
-      <button class="primary w-full py-2 anim" (click)="applyTAndC()">APPLY</button>
+      <button class="secondary w-full py-2 anim" title="Cancel" accesskey="alt+tab" (click)="closePop()">CANCEL</button>
+      <button class="primary w-full py-2 anim" title="Apply" (click)="applyTAndC()">APPLY</button>
     </div>
   </div>
 </modal>

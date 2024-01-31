@@ -2,7 +2,7 @@
   <div class="space-y-7 h-full">
     <div class="flex justify-between items-center">
       <h2>{{'Refer To Earn' | translate }}</h2>
-      <button type="button" (click)="redeemCoin()" class="secondary text-base px-7 py-2 anim">{{'Redeem' | translate }}</button>
+      <button title="Reddem" type="button" (click)="redeemCoin()" class="secondary text-base px-7 py-2 anim">{{'Redeem' | translate }}</button>
     </div>
     <div class="py-3.5 px-5 rounded-lg bg-magicPotion flex items-center justify-between">
       <img src="../assets/images/coin.png" alt="Coin" />
@@ -122,7 +122,7 @@
 
     <div class="space-y-5" [class]="(!Transaction && !freezed_coin_transaction) ? 'active' : ''" *ngIf="!Transaction && !freezed_coin_transaction && !isLoading">
       <div class="flex justify-end items-center">
-        <a class="inline-block secondary text-base px-7 py-2 anim" [href]=exportData target="_blank" rel="noopener noreferrer">Excel Download</a>
+        <a class="inline-block secondary text-base px-7 py-2 anim" [href]=exportData target="_blank" title="Excel Download" rel="noopener noreferrer">Excel Download</a>
       </div>
       <div class="flex items-center justify-between p-2.5 bg-white bg-gradient-to-r from-white rounded-md to-green-400/40 " *ngFor="let history of scannedCoinHistory">
         <div class="flex items-center space-x-4">
@@ -197,9 +197,9 @@
     </div>
 
     <div class="flex items-center justify-end space-x-5 w-full">
-      <button type="button" class="primary py-2 px-14 anim uppercase" (click)="close()">Cancel</button>    
+      <button title="Cancel" type="button" class="primary py-2 px-14 anim uppercase" (click)="close()">Cancel</button>    
       <div class="relative">
-        <button class="secondary py-2 px-14 anim uppercase" type="submit" (click)="redeem()">
+        <button title="redeem" class="secondary py-2 px-14 anim uppercase" type="submit" (click)="redeem()">
           <span>Reddem</span>
         </button>
       </div>

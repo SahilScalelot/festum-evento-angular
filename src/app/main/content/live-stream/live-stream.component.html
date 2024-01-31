@@ -4,7 +4,7 @@
   <div class="flex flex-wrap items-center">
     <h2>{{'Live Stream' | translate }}</h2>
     <div class="flex whitespace-nowrap space-x-5 ml-auto">
-      <button class="secondary anim px-8 py-2" [routerLink]="'/live-stream/create/stream'"><i class="icon-plus mr-3"></i>{{'Create New' | translate }}</button>
+      <button class="secondary anim px-8 py-2" title="Create New" [routerLink]="'/live-stream/create/stream'"><i class="icon-plus mr-3"></i>{{'Create New' | translate }}</button>
     </div>
   </div>
   <app-skel-screen [objectType]="'liveStream'" *ngIf="isLoading"></app-skel-screen>
@@ -152,13 +152,13 @@
 <!--                    <span class="text-xs font-bold text-quicksilver">{{event?.total_available_seats || 0}} UnSold</span>-->
 <!--                  </div>-->
                   <div class="flex space-x-2 pt-4">
-                    <a href="javascript:void(0)" (click)="editLiveStream($event, liveStream?._id)"  class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-edit text-sm leading-0 text-japaneseIndigo"></i></a>
-                    <a href="javascript:void(0)" (click)="liveStreamOverview($event, liveStream?._id)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-show text-xs leading-0 text-japaneseIndigo"></i></a>
-                    <a href="javascript:void(0)" (click)="gotoPromotion($event,liveStream?._id)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-fill_megaphone text-sm leading-0 text-japaneseIndigo"></i></a>
+                    <a href="javascript:void(0)" title="Edit" (click)="editLiveStream($event, liveStream?._id)"  class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-edit text-sm leading-0 text-japaneseIndigo"></i></a>
+                    <a href="javascript:void(0)" title="Show" (click)="liveStreamOverview($event, liveStream?._id)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-show text-xs leading-0 text-japaneseIndigo"></i></a>
+                    <a href="javascript:void(0)" title="Promotion" (click)="gotoPromotion($event,liveStream?._id)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-fill_megaphone text-sm leading-0 text-japaneseIndigo"></i></a>
 
-                    <a href="javascript:void(0)" (click)="gotoDiscount($event,liveStream?._id)" *ngIf="liveStream.event_type == 'paid'" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-online_offer text-xl leading-0 text-japaneseIndigo"></i></a>
+                    <a href="javascript:void(0)" title="Discount" (click)="gotoDiscount($event,liveStream?._id)" *ngIf="liveStream.event_type == 'paid'" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-online_offer text-xl leading-0 text-japaneseIndigo"></i></a>
 
-                    <a href="javascript:void(0)" (click)="openSocailMediaPopUp($event, liveStream)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-share text-sm leading-0 text-japaneseIndigo"></i></a>
+                    <a href="javascript:void(0)" title="Share" (click)="openSocailMediaPopUp($event, liveStream)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-share text-sm leading-0 text-japaneseIndigo"></i></a>
 <!--                    <a href="javascript:void(0);" (click)="openDeleteDialog($event, liveStream)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-delete_fill text-base text-japaneseIndigo"></i></a>-->
                   </div>
                 </div>

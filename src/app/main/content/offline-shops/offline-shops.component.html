@@ -3,7 +3,7 @@
   <!-- title-holder  -->
   <div class="flex items-center justify-between pb-2.5">
     <h2>{{'Offline Shops' | translate }}</h2>
-    <button class="secondary px-7 py-3" (click)="openAddEditShopDialog($event)"><i class="icon-plus"></i><span class="pl-5">{{'Add Shop' | translate }}</span></button>
+    <button class="secondary px-7 py-3" title="Add Shop" (click)="openAddEditShopDialog($event)"><i class="icon-plus"></i><span class="pl-5">{{'Add Shop' | translate }}</span></button>
   </div>
   <!-- main-content -->
   <app-skel-screen [objectType]="'offline-shops'" *ngIf="isLoading"></app-skel-screen>
@@ -86,10 +86,10 @@
                   <span class="inline-block w-0 invisible pl-1.5 group-hover:visible group-hover:w-auto text-xs font-bold text-black/70 whitespace-nowrap">{{'Unverified' | translate }}</span>
                 </div>
       
-                <a href="javascript:void(0);" (click)="openAddEditShopDialog($event, shop._id)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-edit text-sm leading-0 text-japaneseIndigo"></i></a>
-                <a href="javascript:void(0)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-show text-xs leading-0 text-japaneseIndigo"></i></a>
-                <a href="javascript:void(0)" (click)="gotoPromotion($event,shop?._id)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-fill_megaphone text-sm leading-0 text-japaneseIndigo"></i></a>
-                <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" (click)="openSocailMediaPopUp($event, shop)"  ><i class="icon-share text-sm leading-0 text-japaneseIndigo"></i></a>
+                <a href="javascript:void(0);" (click)="openAddEditShopDialog($event, shop._id)" title="Edit" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-edit text-sm leading-0 text-japaneseIndigo"></i></a>
+                <a href="javascript:void(0)" title="Show" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-show text-xs leading-0 text-japaneseIndigo"></i></a>
+                <a href="javascript:void(0)" title="Promotion" (click)="gotoPromotion($event,shop?._id)" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded"><i class="icon-fill_megaphone text-sm leading-0 text-japaneseIndigo"></i></a>
+                <a title="Share" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" (click)="openSocailMediaPopUp($event, shop)"  ><i class="icon-share text-sm leading-0 text-japaneseIndigo"></i></a>
               </div>
             </div>
             <div class="w-full lg:w-9/12 flex flex-wrap space-y-2 xl:space-y-0">

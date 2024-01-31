@@ -107,8 +107,6 @@ export class OnlineOffersComponent implements OnInit {
     });
   }
   liveOfferCheck(event: any, eventObj: any, index: number): void {
-    console.log('click');
-    
     event.stopPropagation();
     this._sNotify.clear();
     if (!eventObj.is_approved) {

@@ -97,7 +97,7 @@
     </span>
   </div>
   <div class="relative pt-4">
-    <button class="secondary py-2.5 w-full uppercase anim relative" type="submit" (click)="saveFullEvent()">
+    <button title="Save" class="secondary py-2.5 w-full uppercase anim relative" type="submit" (click)="saveFullEvent()">
       <span [ngClass]="{'opacity-0': termsAndConditionsForm.disabled}">{{'Save' | translate }}</span>
     </button>
     <div class="absolute inset-0 text-white flex items-center" *ngIf="isLoading">
@@ -113,7 +113,7 @@
   </div>
   <!-- pre and next button -->
   <div class="prw-next-btn">
-    <button class="flex items-center active" type="button" (click)="onBackCLick()">
+    <button title="Back" class="flex items-center active" type="button" (click)="onBackCLick()">
       <i class="icon-left_arrow mr-3"></i>
       <h5>{{'Back' | translate }}</h5>
     </button>
@@ -124,8 +124,8 @@
   <div class="space-y-5 lg:space-y-8">
     <app-terms-and-conditions></app-terms-and-conditions>
     <div class="flex items-center space-x-5">
-      <button class="secondary w-full py-2 anim" accesskey="alt+tab" (click)="closePop()">CANCEL</button>
-      <button class="primary w-full py-2 anim" (click)="applyTAndC()">APPLY</button>
+      <button title="Cancel" class="secondary w-full py-2 anim" accesskey="alt+tab" (click)="closePop()">CANCEL</button>
+      <button title="APPLY" class="primary w-full py-2 anim" (click)="applyTAndC()">APPLY</button>
     </div>
   </div>
 </modal>

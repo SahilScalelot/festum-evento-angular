@@ -56,9 +56,9 @@
         </svg>
         <span class="inline-block w-0 invisible pl-1.5 group-hover:visible group-hover:w-auto text-xs font-bold text-black/70 whitespace-nowrap">{{'Unverified' | translate }}</span>
       </div>
-        <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" (click)="editOffer($event, offerObj._id)" href="javascript:void(0);"><i class="icon-edit text-sm leading-0 text-japaneseIndigo"></i></a>
-        <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" (click)="gotoPromotion($event, offerObj._id)"><i class="icon-fill_megaphone text-sm leading-0 text-japaneseIndigo"></i></a>
-        <a class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" (click)="openSocialMediaDailog($event,offerObj?._id)"><i class="icon-share text-sm leading-0 text-japaneseIndigo"></i></a>
+        <a title="Edit" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" (click)="editOffer($event, offerObj._id)" href="javascript:void(0);"><i class="icon-edit text-sm leading-0 text-japaneseIndigo"></i></a>
+        <a title="Promotion" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" (click)="gotoPromotion($event, offerObj._id)"><i class="icon-fill_megaphone text-sm leading-0 text-japaneseIndigo"></i></a>
+        <a title="Share" class="bg-brightGray flex items-center justify-center w-[30px] h-[30px] text-center rounded" (click)="openSocialMediaDailog($event,offerObj?._id)"><i class="icon-share text-sm leading-0 text-japaneseIndigo"></i></a>
     </div>
   </div>
       <!-- tab-holder  -->
@@ -163,22 +163,22 @@
                 offerObj?.tandc?.linkedin && offerObj?.tandc?.linkedin != ''">
             <span class="block text-base lg:text-xl font-bold">{{'socialMedia' | translate }}</span>
             <div class="flex items-center space-x-5 p-5 lg:p-7  rounded-lg">
-              <a *ngIf="offerObj?.tandc?.facebook != ''" [href]="offerObj?.tandc?.facebook" target="_blank">
+              <a title="FaceBook" *ngIf="offerObj?.tandc?.facebook != ''" [href]="offerObj?.tandc?.facebook" target="_blank">
                 <img class="w-10 h-10 object-cover" alt="facebook" src="../assets/images/facebook.png" />
               </a>
-              <a *ngIf="offerObj?.tandc?.twitter != ''" [href]="offerObj?.tandc?.twitter" target="_blank">
+              <a title="Twitter" *ngIf="offerObj?.tandc?.twitter != ''" [href]="offerObj?.tandc?.twitter" target="_blank">
                 <img class="w-10 h-10 object-cover" alt="twiiter" src="../assets/images/twiiter.png" />
               </a>
-              <a *ngIf="offerObj?.tandc?.youtube != ''" [href]="offerObj?.tandc?.youtube" target="_blank">
+              <a title="Youtube" *ngIf="offerObj?.tandc?.youtube != ''" [href]="offerObj?.tandc?.youtube" target="_blank">
                 <img class="w-10 h-10 object-cover" alt="youtube" src="../assets/images/youtube.png" />
               </a>
-              <a *ngIf="offerObj?.tandc?.pinterest != ''" [href]="offerObj?.tandc?.pinterest" target="_blank">
+              <a title="pinterest" *ngIf="offerObj?.tandc?.pinterest != ''" [href]="offerObj?.tandc?.pinterest" target="_blank">
                 <img class="w-10 h-10 object-cover" alt="pinterest" src="../assets/images/pinterest.png" />
               </a>
-              <a *ngIf="offerObj?.tandc?.instagram != ''" [href]="offerObj?.tandc?.instagram" target="_blank">
+              <a title="instagram" *ngIf="offerObj?.tandc?.instagram != ''" [href]="offerObj?.tandc?.instagram" target="_blank">
                 <img class="w-10 h-10 object-cover" alt="instagram" src="../assets/images/instagram.png" />
               </a>
-              <a *ngIf="offerObj?.tandc?.linkedin != ''" [href]="offerObj?.tandc?.linkedin" target="_blank">
+              <a title="linkdin" *ngIf="offerObj?.tandc?.linkedin != ''" [href]="offerObj?.tandc?.linkedin" target="_blank">
                 <img class="w-10 h-10 object-cover" alt="linkdin" src="../assets/images/linked.png" />
               </a>
             </div>

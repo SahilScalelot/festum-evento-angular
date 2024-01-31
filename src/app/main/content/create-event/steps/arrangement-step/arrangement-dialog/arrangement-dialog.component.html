@@ -46,7 +46,7 @@
                 <div *ngIf="seatingForm?.value?.seating_item || editArrangementObj?.seating_item" class="">
                   <div class="flex items-center justify-between pb-2">
                     <label class="input-titel">Arrangement</label>
-                    <button (click)="addArrangements()" class="text-xs text-white font-bold px-3 rounded py-1 whitespace-nowrap bg-magicPotion flex items-center">
+                    <button (click)="addArrangements()" title="Add Siting Arrangement" class="text-xs text-white font-bold px-3 rounded py-1 whitespace-nowrap bg-magicPotion flex items-center">
                       <i class="icon-plus_round leading-0 mr-2"></i> Add siting arrangement
                     </button>
                   </div>
@@ -312,7 +312,7 @@
                   <h5>Back</h5>
                 </button>-->
                 <!-- [disabled]="!selectedSeatingObj || !selectedSeatingObj._id" -->
-                <button (click)="selectItems()" class="flex items-center active" type="button">
+                <button (click)="selectItems()" title="Next" class="flex items-center active" type="button">
                   <h5>Next</h5>
                   <i class="icon-right_arrow ml-3"></i>
                 </button>
@@ -426,16 +426,16 @@
                 <div *ngIf="selectedTab == 1 && !isAddPhotos" class="media-upload-holder pt-5" id="stap-two">
                   <div class="flex items-center justify-between">
                     <span class="text-sm text-quicksilver font-semibold">Add Photos <span class="font-normal">(15 Images - up to 5MB/Image & Resolution up to 1080PX x 1080PX)</span></span>
-                    <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(tempImgArr, true, false)">View All</a>
+                    <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" title="View All" (click)="openImageAndVideoDialog(tempImgArr, true, false)">View All</a>
                   </div>
                   <div class="flex flex-wrap h-full pt-2">
                     <div *ngFor="let photo of tempImgArr; let i = index" class="upload-box mr-2.5 mb-2.5">
                       <div class="rounded relative overflow-hidden h-full w-full group">
                         <img [alt]="'add-photo-' + i" [src]="!!(photo?.url) ? constants.baseImageURL + photo.url : constants.defaultImage" *ngIf="photo.url" class="object-cover w-full h-full"/>
                         <div class="opacity-0 bg-black bg-opacity-50 flex items-center justify-center group-hover:opacity-100 absolute inset-0 transition-all duration-300">
-                          <button class="edit" (click)="editImageUpload( 'food', photo, i)">Edit</button>
+                          <button class="edit" title="edit" (click)="editImageUpload( 'food', photo, i)">Edit</button>
                           <span class="block" (click)="openImageAndVideoDialog([photo], true, false)"><i class="pi pi-eye text-2xl text-white cursor-pointer" ></i></span>
-                          <button (click)="removeImage('food', i)" class="remove">Remove</button>
+                          <button title="remove" (click)="removeImage('food', i)" class="remove">Remove</button>
                         </div>
                       </div>
                       <div class="absolute inset-0 flex items-center justify-center bg-black/70 cursor-pointer z-10" *ngIf="openImages" (click)="openImages = !openImages">
@@ -481,12 +481,12 @@
                   </div>
                 </div>
               </div>
-              <div class="prw-next-btn">
-                <button (click)="selectedTab = 0" class="flex items-center active" type="button">
+              <div class="prw-next-btn"> 
+                <button (click)="selectedTab = 0" title="Back" class="flex items-center active" type="button">
                   <i class="icon-left_arrow mr-3"></i>
                   <h5>Back</h5>
                 </button>
-                <button (click)="validateTextEditor()" class="flex items-center active" type="button">
+                <button (click)="validateTextEditor()" title="Next" class="flex items-center active" type="button">
                   <h5>Next</h5>
                   <i class="icon-right_arrow ml-3"></i>
                 </button>
@@ -535,16 +535,16 @@
                 <div *ngIf="selectedTab == 2" class="media-upload-holder pt-5" id="stap-two">
                   <div class="flex items-center justify-between">
                     <span class="text-sm text-quicksilver font-semibold">Add Photos <span class="font-normal">(15 Images - up to 5MB/Image & Resolution up to 1080PX x 1080PX)</span></span>
-                    <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(etempImgArr, true, false)">View All</a>
+                    <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" title="View All" (click)="openImageAndVideoDialog(etempImgArr, true, false)">View All</a>
                   </div>
                   <div class="flex flex-wrap h-full pt-2">
                     <div *ngFor="let photo of etempImgArr; let i = index" class="upload-box mr-2.5 mb-2.5">
                       <div class="rounded relative overflow-hidden h-full w-full group">
                         <img [alt]="'add-photo-' + i" [src]="!!(photo?.url) ? constants.baseImageURL + photo.url : constants.defaultImage" *ngIf="photo.url" class="object-cover w-full h-full"/>
                         <div class="opacity-0 bg-black bg-opacity-50 flex items-center justify-center group-hover:opacity-100 absolute inset-0 transition-all duration-300">
-                          <button class="edit" (click)="editImageUpload('equipment', photo, i)">Edit</button>
+                          <button class="edit" title="Edit" (click)="editImageUpload('equipment', photo, i)">Edit</button>
                           <span class="block" (click)="openImageAndVideoDialog([photo], true, false)"><i class="pi pi-eye text-2xl text-white cursor-pointer" ></i></span>
-                          <button (click)="removeImage('equipment', i)" class="remove">Remove</button>
+                          <button title="Remove" (click)="removeImage('equipment', i)" class="remove">Remove</button>
                         </div>
                       </div>
 
@@ -594,11 +594,11 @@
                 </div>
               </div>
               <div class="prw-next-btn">
-                <button (click)="selectedTab = 1" class="flex items-center active" type="button">
+                <button (click)="selectedTab = 1" title="Back" class="flex items-center active" type="button">
                   <i class="icon-left_arrow mr-3"></i>
                   <h5>Back</h5>
                 </button>
-                <button class="secondary py-3 px-8 uppercase" type="button" [disabled]="!seatingForm.valid" (click)="addFormData()">
+                <button class="secondary py-3 px-8 uppercase" [title]='editArrangementObj.seating_item ? "Update" : "Add New"' type="button" [disabled]="!seatingForm.valid" (click)="addFormData()">
                   {{(editArrangementObj && editArrangementObj.seating_item) ? 'Update' : 'Add New'}}
                 </button>
               </div>
@@ -663,7 +663,7 @@
       <input class="outline-none flex items-center w-full bg-white p-2 px-3.5 rounded-md" maxlength="4" placeholder="0" formControlName="price" type="number" fuseValidNumber pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==4) return false;"/>
     </div>
   </form>
-  <button (click)="editUploadImage()" class="secondary w-full uppercase py-2 anim" [disabled]="isPhotoLoading">{{ isPhotoLoading ? 'Please wait...' : 'Submit' }}</button>
+  <button (click)="editUploadImage()" class="secondary w-full uppercase py-2 anim" title="Sumbit" [disabled]="isPhotoLoading">{{ isPhotoLoading ? 'Please wait...' : 'Submit' }}</button>
 </modal>
 <!-- End Edit Photo Modal -->
 
@@ -675,9 +675,9 @@
       <p class="normal-case">Are you sure you want to delete {{deleteItemObj.type}}</p>
     </div>
     <div class="flex items-center justify-end space-x-5 w-full">
-      <button type="button" class="primary py-2 px-14 anim uppercase" (click)="close()">Cancel</button>    
+      <button type="button" class="primary py-2 px-14 anim uppercase" title="Cancel" (click)="close()">Cancel</button>    
       <div class="relative">
-        <button class="secondary py-2 px-14 anim uppercase" type="submit" (click)="deleteEvent()">
+        <button class="secondary py-2 px-14 anim uppercase" title="Delete" type="submit" (click)="deleteEvent()">
           <span [ngClass]="{'opacity-0': isDeleteLoading}">Delete</span>
         </button>
         <div class="absolute inset-0 text-white flex items-center" *ngIf="isDeleteLoading">

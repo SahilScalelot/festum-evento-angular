@@ -1,7 +1,7 @@
 <div class="popup table fixed w-full inset-0 z-40 h-screen">
     <div class="table-cell align-middle">
         <span (click)="closePopup()" class="absolute inset-0 bg-black bg-opacity-75"></span>
-        <div [ngClass]="popClass" class="popin max-w-[70%] w-full mx-auto max-h-[calc(100vh-55px)] lg:px-9 relative">
+        <div [ngClass]="popClass" class="popin max-w-[50%] w-full mx-auto max-h-[calc(150vh-55px)] lg:px-9 relative">
             <div class="bg-brightGray p-7 space-y-7">
                 <div class="flex justify-between items-center">
                     <h2>{{'QR Code Scanner' | translate }}</h2>
@@ -30,7 +30,7 @@
                             <!--<p>This may be caused by some security error.</p>-->
                         <!--</ng-container>-->
                         <ng-container *ngIf="hasDevices === false">
-                            <h4>No devices were found.</h4>
+                            <h4>No devices where found.</h4>
                             <p class="text-magicPotion text-sm">I believe your device has no media devices attached to.</p>
                         </ng-container>
                     </div>

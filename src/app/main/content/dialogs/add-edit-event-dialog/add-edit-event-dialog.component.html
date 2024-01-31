@@ -78,9 +78,9 @@
         </form>
         <div class="flex justify-end">
           <div class="relative">
-            <button class="secondary py-2 px-14 anim uppercase" type="submit" (click)="this.isForUpdateEvent ? updateEvent() : addEvent()">
+            <a class="secondary py-2 px-14 anim uppercase" [title]="this.isForUpdateEvent ? 'Update' : 'Submit'" (click)="this.isForUpdateEvent ? updateEvent() : addEvent()">
               <span [ngClass]="{'opacity-0': newEventForm.disabled}">{{this.isForUpdateEvent ? 'Update' : 'Submit'}}</span>
-            </button>
+            </a>
             <div class="absolute inset-0 text-white flex items-center" *ngIf="newEventForm.disabled">
               <mat-progress-spinner [diameter]="22" [mode]="'indeterminate'" class="mx-auto"></mat-progress-spinner>
             </div>
