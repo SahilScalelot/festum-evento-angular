@@ -109,7 +109,7 @@
             </div>
           </div>
           <div class="text-center" *ngIf="pageObj && pageObj.hasNextPage">
-            <button class="secondary px-5 py-2" (click)="getImportedUsersList()">Load more</button>
+            <button title="Load More" class="secondary px-5 py-2" (click)="getImportedUsersList()">Load more</button>
           </div>
         </div>
       </div>
@@ -119,7 +119,7 @@
         <div class="upload-holder w-full h-full pt-5">
           <div class="flex items-end justify-between pb-3">
             <h5>Upload Excel</h5>
-            <a class="secondary px-5 py-2" [href]="constants.baseImageURL + constants.importUsersDemoUrl" target="_self">Demo</a>
+            <a title="Demo" class="secondary px-5 py-2" [href]="constants.baseImageURL + constants.importUsersDemoUrl" target="_self">Demo</a>
           </div>
           <label for="upload-csv" class="upload py-14">
             <input type="file" accept="text/csv, text/xml, text/xls, text/xlsx" name="upload-csv" id="upload-csv" class="appearance-none hidden" (change)="uploadUserCSV($event)"/>
@@ -141,11 +141,11 @@
   </div>
   <!-- next preview button -->
   <div class="prw-next-btn mt-auto">
-    <button type="button" class="flex items-center active" (click)="onBackClick()">
+    <button title="Back" type="button" class="flex items-center active" (click)="onBackClick()">
       <i class="icon-left_arrow mr-3"></i>
       <h5>Back</h5>
     </button>
-    <button type="button" class="flex items-center active" (click)="onNextClick()">
+    <button title="Next" type="button" class="flex items-center active" (click)="onNextClick()">
       <h5>Next</h5>
       <i class="icon-right_arrow ml-3"></i>
     </button>

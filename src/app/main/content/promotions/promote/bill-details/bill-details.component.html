@@ -78,7 +78,7 @@
             <span class="text-sm text-gray-300 font-normal" [innerHTML]="coupon?.description || ''"></span>
           </div>
           <div class="flex items-center text-lg text-japaneseIndigo capitalize">
-            <button class="bg-japaneseIndigo text-white border border-japaneseIndigo hover:bg-transparent hover:text-japaneseIndigo px-3 py-2 rounded-md anim" (click)="onApplyCoupon(coupon)">
+            <button title="Apply Code" class="bg-japaneseIndigo text-white border border-japaneseIndigo hover:bg-transparent hover:text-japaneseIndigo px-3 py-2 rounded-md anim" (click)="onApplyCoupon(coupon)">
               Apply Code
             </button>
           </div>
@@ -87,7 +87,7 @@
     </div>
   </div>
   <!-- pay now button  -->
-  <button type="button" class="secondary w-full uppercase py-2.5 anim mt-5" (click)="payNow()">
+  <button title="Pay NOW" type="button" class="secondary w-full uppercase py-2.5 anim mt-5" (click)="payNow()">
     <h5>Pay NOW</h5>
   </button>
 </div>
@@ -99,11 +99,11 @@
   </div>
   <!-- next preview button -->
   <div class="prw-next-btn mt-auto">
-    <button type="button" class="flex items-center active" (click)="onBackClick()">
+    <button title="Back" type="button" class="flex items-center active" (click)="onBackClick()">
       <i class="icon-left_arrow mr-3"></i>
       <h5>Back</h5>
     </button>
-    <button type="button" class="flex items-center active">
+    <button title="Next" type="button" class="flex items-center active">
       <h5>Next</h5>
       <i class="icon-right_arrow ml-3"></i>
     </button>

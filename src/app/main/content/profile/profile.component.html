@@ -6,8 +6,8 @@
     <form [formGroup]="profileForm">
       <div class="flex justify-between items-center pt-4 pb-8">
         <h1>{{'Personal Profile' | translate }}</h1>
-        <button *ngIf="!isEditProfile" class="secondary px-5 py-2" (click)="enableFields()">{{'Edit Profile' | translate }}</button>
-        <button type="submit" *ngIf="isEditProfile" class="secondary px-5 py-2" (click)="updatePersonalProfile()">{{'Submit' | translate }}</button>
+        <button title="Edit Profile" *ngIf="!isEditProfile" class="secondary px-5 py-2" (click)="enableFields()">{{'Edit Profile' | translate }}</button>
+        <button title="Submit" type="submit" *ngIf="isEditProfile" class="secondary px-5 py-2" (click)="updatePersonalProfile()">{{'Submit' | translate }}</button>
       </div>
       <!-- profile image-->
       <div class="flex items-center">
@@ -194,8 +194,8 @@
     <form [formGroup]="kycForm" >
       <div class="flex justify-between items-center pt-4 pb-8">
         <h1>{{'KYC Detail' | translate}}</h1>
-        <button *ngIf="!isKyc && (profileObj?.kyc_details?.status !== 'pending' && profileObj?.kyc_details?.status !== 'approved')"  class="secondary px-5 py-2" [attr.disabled] = "profileObj?.kyc_details?.status === 'pending' ? 'disabled' : null" (click)="enablekycFields()">{{'Edit KYC Detail' | translate }}</button>
-        <button type="submit" *ngIf="isKyc" class="secondary px-5 py-2" (click)="updateKycDetail()">{{'Submit' | translate }}</button>
+        <button title="Edit Kyc Details" *ngIf="!isKyc && (profileObj?.kyc_details?.status !== 'pending' && profileObj?.kyc_details?.status !== 'approved')"  class="secondary px-5 py-2" [attr.disabled] = "profileObj?.kyc_details?.status === 'pending' ? 'disabled' : null" (click)="enablekycFields()">{{'Edit KYC Detail' | translate }}</button>
+        <button title="Submit" type="submit" *ngIf="isKyc" class="secondary px-5 py-2" (click)="updateKycDetail()">{{'Submit' | translate }}</button>
       </div>
       <div class="py-3.5 mb-5 px-5 rounded-lg bg-white font-black flex items-center justify-between bg-gradient-to-r from-white to-blue-400/40" *ngIf="profileObj?.kyc_details?.status == 'pending'">
         <p class=" text-blue-500">Your KYC is in Progress, It will take 72 hours for verification. Thank you for your patience.</p>
@@ -309,8 +309,8 @@
     <form [formGroup]="businessForm" *ngIf="true">
       <div class="flex justify-between items-center pt-4 pb-8">
         <h1>{{'Business Profile' | translate }} </h1>
-        <button *ngIf="!isEditBusinessProfile" class="secondary px-5 py-2" (click)="enableFields(true)">{{'Edit Business Profile' | translate }}</button>
-        <button type="submit" *ngIf="isEditBusinessProfile" class="secondary px-5 py-2" (click)="updateBusinessProfile()">{{'Submit' | translate }}</button>
+        <button title="Edit Business Profile" *ngIf="!isEditBusinessProfile" class="secondary px-5 py-2" (click)="enableFields(true)">{{'Edit Business Profile' | translate }}</button>
+        <button title="Submit" type="submit" *ngIf="isEditBusinessProfile" class="secondary px-5 py-2" (click)="updateBusinessProfile()">{{'Submit' | translate }}</button>
       </div>
       <!-- profile image-->
       <div class="flex items-center">
@@ -462,7 +462,7 @@
         <div class="media-upload-holder pt-5">
           <div class="flex items-center justify-between">
             <span class="text-quicksilver font-semibold">{{'Company Photos' | translate }} <span class="font-normal"> (Max {{photosUploadLimit}} Images - up to 7MB/Image & Resolution up to 1080PX x 1080PX)</span></span>
-            <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(photoArr, true, false)">{{'View all' | translate }}</a>
+            <a title="View All" class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(photoArr, true, false)">{{'View all' | translate }}</a>
           </div>
           <div class="flex flex-wrap h-full pt-2">
             <div *ngFor="let photo of photoArr; let i = index" class="upload-box mr-2.5 mb-2.5">
@@ -488,7 +488,7 @@
         <div class="media-upload-holder">
           <div class="flex items-center justify-between">
             <span class="text-quicksilver font-semibold">{{'Company Videos' | translate }} <span class="font-normal"> (Max {{videosUploadLimit}} Videos - up to 128MB/Video)</span></span>
-            <a class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(videoArr, false, false)">{{'View all' | translate }}</a>
+            <a title="View All" class="text-spiroDiscoBall text-sm font-bold opacity-60 hover:text-red-500" href="javascript:void(0);" (click)="openImageAndVideoDialog(videoArr, false, false)">{{'View all' | translate }}</a>
           </div>
           <div class="flex space-x-2.5 h-full pt-2">
             <div *ngFor="let video of videoArr; let i = index" class="upload-box">

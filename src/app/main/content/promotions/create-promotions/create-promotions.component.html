@@ -92,7 +92,7 @@
               <span class="normal-case">{{inputText ? inputText : 'Upload Image'}}</span>
             </span>
           </label>
-          <a *ngIf="inputText" class="absolute right-4 bottom-3 py-0.5 px-2 normal-case text-gray-400 anim hover:text-magicPotion text-sm font-semibold hidden border border-current group-hover:inline-block" [href]="constants.baseImageURL + image.value" target="_blank" title="View Image">View</a>
+          <a title="View" *ngIf="inputText" class="absolute right-4 bottom-3 py-0.5 px-2 normal-case text-gray-400 anim hover:text-magicPotion text-sm font-semibold hidden border border-current group-hover:inline-block" [href]="constants.baseImageURL + image.value" target="_blank" title="View Image">View</a>
           <span class="absolute top-full text-red-500 text-xs" *ngIf="image?.invalid && (image?.dirty && image?.touched)">
             <span *ngIf="image?.errors?.['required']">
               Photo is required.
