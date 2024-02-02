@@ -52,7 +52,7 @@
           </div>
         </div>
         <div class="flex items-center">
-          <p class="pr-5 border-r-2 text-sm font-bold border-quicksilver">{{history?.createdAt | date:'MMM dd, yyyy'}}</p>
+          <p class="pr-5 border-r-2 text-sm font-bold border-quicksilver">{{history?.createdAt | date:'MMM dd, yyyy hh:mm a'}}</p>
           <h5 class="pl-5 pr-3 {{history?.transaction_type == 'refer' ? 'text-green-600' : 'text-red-500'}}">{{history?.transaction_type == 'refer' ? '+' : '-'}}{{history?.f_coins}}</h5>
         </div>
       </div>
@@ -107,7 +107,7 @@
           </div>
         </div>
         <div class="flex items-center">
-          <p class="pr-5 border-r-2 text-sm font-bold border-quicksilver whitespace-nowrap">{{history?.createdAt | date:'MMM dd, yyyy'}}</p>
+          <p class="pr-5 border-r-2 text-sm font-bold border-quicksilver whitespace-nowrap">{{history?.createdAt | date:'MMM dd, yyyy hh:mm a'}}</p>
           <h5 class="pl-5 border-r-2 pr-3 {{history?.status == 'processing' ? 'text-blue-800' : history?.status == 'rejected' ? 'text-red-500' : 'text-green-600'}}">{{history?.fcoin}}</h5>
           <h5 class="pl-5 pr-3 {{history?.status == 'processing' ? 'text-blue-800' : history?.status == 'rejected' ? 'text-red-500' : 'text-green-600'}}">{{history?.fcointoinr}}</h5>
         </div>
@@ -137,7 +137,7 @@
           </div>
         </div>
         <div class="flex items-center">
-          <p class="pr-5 border-r-2 text-sm font-bold border-quicksilver">{{history?.createdAt | date:'MMM dd, yyyy'}}</p>
+          <p class="pr-5 border-r-2 text-sm font-bold border-quicksilver">{{history?.createdAt | date:'MMM dd, yyyy hh:mm a'}}</p>
           <h5 class="pl-5 pr-3 {{history?.fcoin  ? 'text-green-600' : 'text-red-500'}}">{{history?.fcoin ? '+' : '-'}}{{history?.fcoin}}</h5>
         </div>
       </div>
