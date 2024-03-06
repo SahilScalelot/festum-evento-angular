@@ -33,7 +33,7 @@ export class ProfileComponent implements OnInit {
   preferredCountries: CountryISO[] = [CountryISO.India];
   PhoneNumberFormat = PhoneNumberFormat;
   // phoneForm: any;
-  phoneForm = new FormGroup({
+  phoneForm:any = new FormGroup({
     p_phone: new FormControl(undefined, [Validators.required]),
     a_phone: new FormControl(undefined),
     phone: new FormControl(undefined),
@@ -681,11 +681,20 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  updatePersonalProfile(): any {
+  updatePersonalProfile(): any {  
     if (this.profileForm.invalid) {
       Object.keys(this.profileForm.controls).forEach((key) => {
         this.profileForm.controls[key].touched = true;
         this.profileForm.controls[key].markAsDirty();
+      });
+      return;
+    }
+    console.log(this.phoneForm.controls);
+    
+    if (this.phoneForm.invalid) {
+      Object.keys(this.phoneForm.controls).forEach((key) => {
+        this.phoneForm.controls[key].touched = true;
+        this.phoneForm.controls[key].markAsDirty();
       });
       return;
     }
