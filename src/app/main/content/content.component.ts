@@ -230,7 +230,6 @@ export class ContentComponent implements OnInit, OnDestroy {
     if (this.transferCoinForm.valid) {
       this.transferCoinForm.value.amount = Number(this.transferCoinForm.value.amount);
       this.isTransferLoading = true;
-      //console.log('Form submitted with value:', this.transferCoinForm.value);
       this._contentService.transferFCoin(this.transferCoinForm.value).subscribe((result: any) => {
         console.log(result);
         if (result && result.IsSuccess) {
