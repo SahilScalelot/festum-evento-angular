@@ -76,7 +76,6 @@ export class AuthGuard implements CanActivate {
   private _checkAgent(agentId: any): boolean {
     // this._location.back();
     this._authService.checkAgent(agentId).subscribe((result: any) => {
-      console.log(result.IsSuccess);
       if (result && result.IsSuccess && result.IsSuccess == true) {
         localStorage.clear();
         return true;
